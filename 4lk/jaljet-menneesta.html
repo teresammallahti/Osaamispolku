@@ -1,0 +1,711 @@
+<title>Jäljet menneestä</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+/* header */
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px; display:flex; gap:18px; align-items:flex-start}
+.badge{flex:0 0 auto; width:54px; height:54px; border-radius:9px; display:grid; place-items:center;
+  background:var(--core-soft); border:1px solid var(--core); color:var(--core)}
+.badge svg{width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:5px 0 0; color:var(--ink-2); font-size:15px}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:11px}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:2px 7px;
+  border-radius:4px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-3)}
+.tag.core{background:var(--core-soft); border-color:var(--core); color:var(--core)}
+
+/* teksti */
+article{margin-top:26px}
+article h2{font-size:21px; font-weight:600; margin:32px 0 10px; letter-spacing:-.01em}
+article p{margin:0 0 14px; max-width:64ch}
+.lead{font-size:17.5px; color:var(--ink); border-left:3px solid var(--core); padding-left:16px; margin:0 0 8px}
+
+.box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:18px 22px; box-shadow:var(--shadow); margin:22px 0}
+.box h3{margin:0 0 12px; font-size:16.5px; font-weight:600}
+.box.warn{border-left:3px solid var(--alert)}
+.box.note{border-left:3px solid var(--chal)}
+
+ol.steps{margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start}
+ol.steps li::before{content:counter(s); font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-size:14px;
+  width:26px; height:26px; border-radius:50%; background:var(--core); color:#fff; display:grid; place-items:center; margin-top:2px}
+
+ul.notes{margin:0; padding-left:19px}
+ul.notes li{margin-bottom:7px}
+ul.notes li:last-child{margin-bottom:0}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:460px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td b{color:var(--core); font-weight:600}
+td:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+
+/* lukusuora */
+.nl svg{width:100%; height:118px; display:block}
+.nl .rail{stroke:var(--line); stroke-width:2}
+.nl .tick{stroke:var(--line); stroke-width:1.5}
+.nl .stop{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:11px}
+.nl .stop.near{fill:var(--core); font-weight:600}
+.nl .dot{fill:var(--chal)}
+.nl .val{fill:var(--ink); font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:700}
+.nl .halfway{stroke:var(--chal); stroke-dasharray:3 3; stroke-width:1.5}
+.nl-controls{display:flex; align-items:center; gap:14px; margin-top:6px}
+.nl-controls input{flex:1; accent-color:var(--core)}
+.nl-out{font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600; min-width:12.5em; text-align:right}
+
+/* paikka-arvotaulu */
+.box .ohje{margin:0 0 14px; font-size:14.5px; color:var(--ink-2)}
+.nt-valinta{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px}
+.nt-valinta button{font:inherit; font-size:12.5px; font-family:"IBM Plex Mono",monospace; padding:5px 11px;
+  border-radius:6px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.nt-valinta button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.nt-valinta button:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.nt-taulu{display:flex; flex-direction:column; gap:4px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
+.nt-rivi{display:flex; gap:6px; align-items:center}
+.nt-rivi .otsa{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); width:52px; text-align:center}
+.nt-ruutu{width:52px; height:52px; display:grid; place-items:center; border:1.5px solid var(--line);
+  border-radius:7px; background:var(--surface-2); font-family:"IBM Plex Mono",monospace; font-size:24px}
+.nt-ruutu.kohta{border-color:var(--core); background:var(--core-soft); color:var(--core); font-weight:500}
+.nt-ruutu.ratkaiseva{border-color:var(--chal); background:var(--chal-soft); color:var(--chal); font-weight:500}
+.nt-ruutu.nolla{color:var(--ink-3)}
+.nt-rivi .nimi{font-size:12.5px; color:var(--ink-3); margin-left:12px; white-space:nowrap}
+.nt-nuoli{font-size:17px; color:var(--chal); margin-left:6px}
+.nt-selite{margin:14px 0 0; font-size:14.5px}
+.nt-selite b{color:var(--core)}
+
+/* vahvuusportaat */
+.vp-tasot{display:grid; gap:9px; margin-bottom:18px}
+.vp-taso{display:flex; gap:11px; align-items:flex-start; font-size:13.5px}
+.vp-taso .vp-pallo{width:13px; height:13px; border-radius:4px; margin-top:5px; flex:0 0 auto}
+.vp-taso[data-taso="sulkeet"] .vp-pallo{background:var(--core)}
+.vp-taso[data-taso="kertojako"] .vp-pallo{background:var(--strong)}
+.vp-taso[data-taso="yhteenvahennys"] .vp-pallo{background:var(--chal)}
+.vp-taso strong{display:block; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:14.5px}
+.vp-taso span{color:var(--ink-2)}
+.vp-lauseke{display:flex; flex-wrap:wrap; gap:7px; align-items:flex-end; font-family:"IBM Plex Mono",monospace;
+  font-size:25px; padding:10px 2px; min-height:64px}
+.vp-lauseke .t{padding:2px 3px}
+.vp-lauseke .op{position:relative; padding:2px 9px; border-radius:6px; font-weight:500}
+.vp-lauseke .op[data-taso="sulkeet"]{background:var(--core-soft); color:var(--core)}
+.vp-lauseke .op[data-taso="kertojako"]{background:var(--strong-soft); color:var(--strong)}
+.vp-lauseke .op[data-taso="yhteenvahennys"]{background:var(--chal-soft); color:var(--chal)}
+.vp-lauseke .op i{position:absolute; top:-9px; right:-6px; font-style:normal; font-family:"Familjen Grotesk",sans-serif;
+  font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:currentColor}
+.vp-lauseke .op i span{color:var(--surface)}
+.vp-rivi{display:flex; align-items:center; gap:16px; margin-top:8px}
+.vp-vastaus{font-family:"Familjen Grotesk",sans-serif; font-size:16px; font-weight:600; color:var(--strong)}
+
+/* laskujärjestys-widget */
+.lj-exp{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-family:"IBM Plex Mono",monospace;
+  font-size:23px; padding:14px 4px; min-height:62px}
+.lj-exp .tok{padding:2px 4px; color:var(--ink)}
+.lj-exp button.op{font-family:"IBM Plex Mono",monospace; font-size:23px; padding:3px 12px; border-radius:7px;
+  border:1.5px solid var(--line); background:var(--surface-2); color:var(--ink); line-height:1.2}
+.lj-exp button.op:hover{border-color:var(--core); color:var(--core)}
+.lj-exp button.op:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.lj-exp .valmis{font-family:"Familjen Grotesk",sans-serif; font-size:23px; font-weight:700; color:var(--strong)}
+.lj-fb{font-size:14.5px; min-height:1.5em; color:var(--ink-2)}
+.lj-fb.no{color:var(--alert)}
+.lj-fb.ok{color:var(--strong)}
+.lj-row{display:flex; align-items:center; gap:14px; margin-top:10px}
+.lj-step{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* harjoitukset */
+.progress{position:sticky; top:0; z-index:5; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 18px; box-shadow:var(--shadow); display:flex; align-items:center;
+  gap:14px; margin:34px 0 18px}
+.progress .lbl{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap}
+.progress .meter{flex:1; height:7px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+.progress .meter i{display:block; height:100%; background:var(--core); transition:width .25s ease}
+.progress .cnt{font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.grp{margin-top:26px}
+.grp-head{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--ink); padding-bottom:7px; margin-bottom:14px}
+.grp-head h3{margin:0; font-size:17px; font-weight:600}
+.grp-head span{font-size:12.5px; color:var(--ink-2)}
+
+.ex{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:10px}
+.ex[data-tila="oikein"]{border-color:var(--strong); box-shadow:inset 3px 0 0 var(--strong)}
+.ex[data-tila="vaarin"]{border-color:var(--alert); box-shadow:inset 3px 0 0 var(--alert)}
+.ex .q{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
+.ex .num{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3); min-width:2.4em}
+.ex .txt{flex:1; min-width:190px; font-size:15.5px}
+.ex .txt .aineisto{display:block; margin-bottom:9px; padding-left:12px;
+  border-left:2px solid var(--line); color:var(--ink-2); line-height:1.6;
+  /* Aineisto voi olla pieni taulukko, jonka rivit on erotettu rivinvaihdoilla.
+     Ilman pre-lineä ne valuisivat yhdeksi kappaleeksi ja taulukko katoaisi. */
+  white-space:pre-line}
+.ex .txt .kysymysrivi{display:block; font-weight:600}
+.ex .row{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.ex input[type=text]{font:inherit; font-family:"IBM Plex Mono",monospace; font-size:15px; width:8.5em;
+  padding:7px 11px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2);
+  color:var(--ink); text-align:right}
+.ex input:focus-visible{outline:2px solid var(--core); outline-offset:1px}
+button{font:inherit; cursor:pointer}
+.btn{font-size:13.5px; padding:7px 15px; border-radius:7px; border:1px solid var(--core);
+  background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.btn.mv-valinta{text-align:left}
+/* kuuntelutehtävä: selaimen puhesynteesi lukee englanninkielisen tekstin */
+.kuuntele{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:2px 0 10px}
+.kuuntele .btn{display:inline-flex; gap:7px; align-items:center}
+.kuuntele svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.kuuntele .varateksti{flex-basis:100%; font-size:14px; color:var(--ink-2); background:var(--surface-2);
+  border-radius:7px; padding:8px 12px; margin:0}
+.btn.mv-valinta:disabled{cursor:default; opacity:.65}
+.btn.mv-oikein{background:var(--strong-soft); border-color:var(--strong); color:var(--strong); opacity:1}
+.btn.mv-vaarin{background:var(--alert-soft); border-color:var(--alert); color:var(--alert); opacity:1}
+.row.mv{gap:8px 10px}
+.fb{margin-top:11px; font-size:14.5px; padding:10px 13px; border-radius:8px; line-height:1.5}
+.fb.ok{background:var(--strong-soft); color:var(--strong)}
+.fb.no{background:var(--alert-soft); color:var(--alert)}
+.fb.hint{background:var(--chal-soft); color:var(--chal)}
+
+.done{background:var(--strong-soft); border:1px solid var(--strong); color:var(--strong);
+  border-radius:var(--r); padding:16px 20px; margin-top:20px; font-size:15.5px}
+.done h3{margin:0 0 4px; font-size:17px; color:var(--strong)}
+
+details.teacher{margin-top:34px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--chal); border-radius:var(--r); padding:15px 20px; box-shadow:var(--shadow)}
+details.teacher summary{cursor:pointer; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:15px}
+details.teacher summary:focus-visible{outline:2px solid var(--core); outline-offset:3px}
+details.teacher ul{margin:12px 0 0; padding-left:19px; color:var(--ink-2); font-size:14.5px}
+details.teacher li{margin-bottom:8px}
+details.teacher p{margin:12px 0 0; color:var(--ink-2); font-size:14.5px}
+
+.back{display:inline-block; margin-top:30px; font-size:13.5px; color:var(--ink-2)}
+.back a{color:var(--core)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:560px){
+  .wrap{padding:16px 13px 70px}
+  header.top h1{font-size:25px}
+  .progress{flex-wrap:wrap}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" id="ikoni"></svg></span>
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="otsikko"></h1>
+      <p id="kuvaus"></p>
+      <div class="tags" id="tags"></div>
+    </div>
+  </header>
+
+  <article id="teksti"></article>
+
+  <div class="progress" aria-live="polite">
+    <span class="lbl">Harjoitukset</span>
+    <span class="meter"><i id="pbar" style="width:0%"></i></span>
+    <span class="cnt" id="pcnt">0 / 20</span>
+  </div>
+
+  <div id="harjoitukset"></div>
+  <div id="valmis"></div>
+
+  <p class="back" id="back"></p>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"HI4-LAH-01","oppiaine":"HI","vuosiluokka":4,"taso":"ydin","otsikko":"Jäljet menneestä","kuvaus":"Tunnistan, mikä on historiallinen lähde.","versio":"0.2","paivitetty":"2026-09-26","ops":{"T":["T2"],"S":["S1"]},"eyebrow":"Historia · 4. luokka · Lähteiden käyttö","ikoni":"tutkimus","teksti":[{"tyyppi":"johdanto","sisalto":"Mummolan vintiltä löytyy pahvilaatikko. Siinä on kellastunut kirje, mustavalkoinen valokuva pojasta polkupyörän vieressä ja puinen leikkihevonen, josta on maali kulunut. Kukaan ei ole kirjoittanut niistä kirjaa, mutta ne kertovat silti, millaista talossa oli joskus elää. Ne ovat jälkiä menneisyydestä. Historiassa tällaista jälkeä sanotaan lähteeksi. Kaikki, mitä menneisyydestä tiedetään, on päätelty lähteistä, koska menneisyyteen ei pääse katsomaan. Siksi historian ensimmäinen taito on tunnistaa, mikä on lähde."},{"tyyppi":"kappale","otsikko":"Lähde on jälki menneisyydestä","sisalto":"Historiallinen lähde on jotakin, minkä ihmiset ovat tehneet, rakentaneet, kirjoittaneet, kuvanneet tai kertoneet ja mikä on säilynyt meidän aikaamme. Lähes mikä tahansa ihmisen jälki voi olla lähde: tavallinen lusikka yhtä hyvin kuin kuninkaan kirje. Lähteen ei tarvitse olla arvokas eikä kaunis. Siksi hyödyllisin kysymys ei ole \"onko tämä lähde\", vaan \"kertooko tämä siitä ajasta, jota tutkin\". Sama valokuva voi olla hyvä lähde yhteen tutkimukseen ja täysin hyödytön toiseen."},{"tyyppi":"saanto","otsikko":"Onko tämä lähde tähän tutkimukseen","askeleet":["Sano ensin, mitä aikaa tai asiaa tutkit, esimerkiksi \"koulu 1960-luvulla\".","Kysy: tehtiinkö, kirjoitettiinko, kuvattiinko tai käytettiinkö tätä silloin? Jos kyllä, se on lähde. Vuonna 1930 rakennettu koulutalo on lähde myös 1960-luvun koulusta, jos siinä opiskeltiin 1960-luvulla.","Jos asia kerrotaan vasta myöhemmin, kysy: oliko kertoja itse mukana? Isoisän kertomus omasta koulustaan on lähde, koska hän oli siellä. Isoisän kertomus kivikaudesta ei ole, koska hän ei ollut siellä.","Jos asia on tehty myöhemmin eikä tekijä ollut itse mukana, se ei ole lähde siitä ajasta. Se on myöhemmin tehty kertomus, tutkimus tai kuvitelma."]},{"tyyppi":"taulukko","otsikko":"Viisi lähdetyyppiä","otsikkorivi":["Lähdetyyppi","Esimerkkejä","Mitä siitä voi päätellä"],"rivit":[["Esine","kivikirves, lusikka, lelu, työkalu, pulpetti","Millaisia välineitä ihmisillä oli ja miten he tekivät työnsä."],["Rakennus","vanha koulutalo, kirkko, aitta, navetta, sauna","Miten ihmiset asuivat, tekivät työtä ja kokoontuivat."],["Kuva","valokuva, maalaus, piirros, kalliomaalaus","Miltä ihmiset, vaatteet ja paikat näyttivät."],["Kirjoitettu lähde","kirje, päiväkirja, asiakirja, sanomalehti, koulutodistus","Mitä ihmiset ajattelivat, sopivat ja kirjasivat muistiin."],["Suullinen lähde","muistelu, haastattelu","Miten itse mukana ollut ihminen koki asian ja mitä ei kirjoitettu ylös."]]},{"tyyppi":"kappale","otsikko":"Tyyppi kertoo, missä tieto on","sisalto":"Lähdetyyppi päätetään sen mukaan, missä tieto on. Vanha koulutodistus on paperia, mutta tieto on kirjoituksessa: arvosanoissa, nimessä ja vuosiluvussa. Siksi todistus on kirjoitettu lähde eikä esine. Haastattelu on suullinen lähde silloinkin, kun se on nauhoitettu, koska tieto on puheessa. Rakennus on oma tyyppinsä, koska siitä voi päätellä asioita, joita esineestä ei näe: huoneiden määrästä ja koosta näkee, miten siinä elettiin. Joissakin lähteissä on kaksi tyyppiä yhtä aikaa. Postikortissa on sekä kuva että kirjoitus, ja sanomalehdessä on usein valokuvia tekstin lisäksi. Silloin kumpikin osa luetaan omalla tavallaan."},{"tyyppi":"kappale","otsikko":"Lähteestä tutkimukseksi ja oppikirjaksi","sisalto":"Historian oppikirja kertoo kivikaudesta, mutta sen kirjoittaja ei ole nähnyt kivikautta. Tieto on kulkenut monen käden kautta. Ensin arkeologit ovat kaivaneet maasta kivikirveitä ja saviastian paloja ja päätelleet niistä, miten ihmiset elivät. He ovat kirjoittaneet päätelmänsä tutkimuksiksi. Oppikirjan kirjoittaja on lukenut tutkimuksia ja kertonut niiden tiedon lyhyesti. Lähde on siis ketjun alussa: kivikirves. Tutkimus ja oppikirja ovat myöhemmin kirjoitettuja tekstejä lähteistä. Tiedonhaussa kirjaa, josta tieto on otettu, sanotaan myös lähteeksi. Historiassa historiallinen lähde tarkoittaa kuitenkin jälkeä itse menneisyydestä."},{"tyyppi":"ansa","otsikko":"Ansa 1: vain vanha on lähde","sisalto":"Moni ajattelee, että lähteen pitää olla satoja vuosia vanha. Mutta eilinenkin on jo menneisyyttä. Eilinen kauppakuitti kertoo, mitä ostettiin ja mitä se maksoi. Vuonna 2126 joku historiantutkija voi haluta tietää, mitä suomalaiset söivät vuonna 2026, ja silloin juuri tämän päivän kuitit, ruokalistat ja valokuvat ovat hänen lähteitään. Ratkaisevaa ei ole ikä vaan se, syntyikö asia sinä aikana, jota tutkitaan. Siksi myös vanha voi olla väärä lähde: vuonna 1965 otettu luokkakuva ei kerro mitään sinun luokastasi tänä syksynä."},{"tyyppi":"ansa","otsikko":"Ansa 2: kuvitelma näyttää lähteeltä","sisalto":"Vuonna 2019 tehdyssä piirretyssä elokuvassa kivikauden perhe asuu kodassa, pukeutuu nahkoihin ja kalastaa verkolla. Kaikki näyttää uskottavalta, ja tekijät ovat ehkä lukeneet tutkimuksia huolellisesti. Elokuva ei silti ole lähde kivikaudesta, koska sen tekijät eivät eläneet kivikaudella. He kuvittelivat sen. Sama koskee romaaneja, sarjakuvia, pelejä ja televisiosarjoja, jotka on tehty paljon myöhemmin kuin se aika, josta ne kertovat. Tarkka ulkonäkö ei tee kuvitelmasta lähdettä. Kuvitelma on kuitenkin lähde omasta tekoajastaan: vuonna 2021 kirjoitetusta romaanista 1700-luvun kylästä voi päätellä, miten vuonna 2021 kuviteltiin 1700-lukua. Samoin 1950-luvulla kirjoitettu satukirja on lähde 1950-luvusta, vaikka siinä puhuisivat eläimet, koska siitä näkee, mitä lapset silloin lukivat. Kysy siis tarinastakin: minkä ajan jälki tämä on?"},{"tyyppi":"ansa","otsikko":"Ansa 3: oppikirja on lähde siitä, mistä se kertoo","sisalto":"Nykyinen historian oppikirja ei ole lähde kivikaudesta eikä 1800-luvusta, vaikka siinä on niistä paljon oikeaa tietoa. Se on kirjoitettu nykyaikana lähteiden ja tutkimusten avulla. Vanha oppikirja on eri asia: vuonna 1955 koulussa käytetty lukukirja on lähde 1950-luvun koulusta, koska sitä käytettiin silloin. Siitä näkee, mitä lapset silloin lukivat. Kysy siis kirjastakin sama kuin kaikesta muusta: tehtiinkö tai käytettiinkö sitä sinä aikana, jota tutkit?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Lähde on jälki siitä ajasta, jota tutkit: tehty, kirjoitettu, kuvattu tai käytetty silloin.","Myöhemmin kerrottu muistelu on lähde, jos kertoja oli itse mukana.","Myöhemmin tehty oppikirja, tutkimus, elokuva tai romaani ei ole lähde siitä ajasta, josta se kertoo, jos tekijä ei ollut itse mukana.","Eilinenkin on menneisyyttä. Lähteen ei tarvitse olla vanha.","Viisi lähdetyyppiä: esine, rakennus, kuva, kirjoitettu ja suullinen.","Tyyppi päätetään sen mukaan, missä tieto on."]}],"harjoitusryhmat":[{"id":"jalki","nimi":"Jälki siltä ajalta","info":"Sano ensin, mitä aikaa tutkit. Tehtiinkö tai käytettiinkö asiaa silloin, tai oliko kertoja itse mukana?"},{"id":"tyypit","nimi":"Viisi lähdetyyppiä","info":"Esine, rakennus, kuva, kirjoitettu ja suullinen. Tyyppi kertoo, missä tieto on."},{"id":"myohemmin","nimi":"Lähde vai myöhemmin tehty","info":"Myöhemmin tehty oppikirja, tutkimus, elokuva tai romaani ei ole lähde siitä ajasta, josta se kertoo, jos tekijä ei ollut itse mukana."}],"harjoitukset":[{"id":"H01","ryhma":"jalki","kysymys":"Tutkit, millaista oli käydä koulua vuonna 1962.\n1. Luokan oppilasluettelo vuodelta 1962\n2. Luokasta syksyllä 1962 otettu valokuva\n3. Vuonna 2022 ilmestynyt tietokirja 1960-luvun kouluista, koottu tutkimuksista\n4. Pulpetti, jolla istuttiin koulussa vuonna 1962\n5. Vuonna 2023 piirretty sarjakuva 1960-luvun koulusta; piirtäjä syntyi vuonna 1998\n6. Kirje, jonka opettaja kirjoitti kodeille vuonna 1962\n\nMontako näistä voisi olla lähde tähän tutkimukseen?","vastaus":4,"vinkki":"Katso jokaisesta asiasta vuosiluku. Tehtiinkö tai käytettiinkö sitä vuonna 1962?","selitys":"Oppilasluettelo, valokuva, pulpetti ja kirje ovat vuodelta 1962 tai niitä käytettiin silloin. Tietokirja ja sarjakuva on tehty 2020-luvulla, eivätkä niiden tekijät olleet koulussa vuonna 1962. Lähteitä on 4."},{"id":"H02","ryhma":"jalki","kysymys":"Tutkit, millaista oli olla lapsena maatalossa 1950-luvulla.\n1. Vuonna 2024 tehty haastattelu, jossa Eino kertoo omasta lapsuudestaan maatalossa 1950-luvulla\n2. Vuonna 2024 tehty haastattelu, jossa Einon lapsenlapsi kertoo, mitä on lukenut 1950-luvun maataloista\n3. Maatalon navetta, jossa lypsettiin lehmiä 1950-luvulla\n4. Einon äidin päiväkirja vuodelta 1953\n5. Valokuva heinätöistä kesältä 1955\n\nMonesko asia ei ole lähde tähän tutkimukseen?","vastaus":2,"vinkki":"Kaksi haastattelua tehtiin samana vuonna. Kumpi kertoja oli itse mukana 1950-luvulla?","selitys":"Eino kertoo omasta lapsuudestaan, joten hänen haastattelunsa on lähde, vaikka se tehtiin vasta 2024. Lapsenlapsi kertoo, mitä on lukenut. Hän ei ollut mukana, joten asia 2 ei ole lähde."},{"id":"H03","ryhma":"jalki","kysymys":"Vuonna 2126 historiantutkija haluaa tietää, mitä suomalaiset söivät vuonna 2026.\n1. Kauppakuitti ruokaostoksista vuodelta 2026\n2. Koulun ruokalista syksyltä 2026\n3. Vuonna 2120 tehty elokuva 2020-luvun perheistä; sen tekijät syntyivät 2090-luvulla\n4. Valokuva perheen sunnuntailounaasta vuodelta 2026\n5. Vuonna 2125 kirjoitettu oppikirja 2000-luvun ruokatavoista\n\nMontako näistä voisi olla lähde tälle tutkijalle?","vastaus":3,"vinkki":"Tutkija elää sadan vuoden päästä. Mitkä asiat syntyivät vuonna 2026?","selitys":"Kuitti, ruokalista ja valokuva syntyivät vuonna 2026. Ne ovat tämän päivän tavallisia asioita, mutta sadan vuoden päästä ne ovat lähteitä. Elokuva ja oppikirja on tehty myöhemmin. Lähteitä on 3."},{"id":"H04","ryhma":"jalki","kysymys":"Tutkit, miten ihmiset elivät Suomessa kivikaudella.\n1. Kivikirves, joka löytyi kivikautiselta asuinpaikalta\n2. Vuonna 2019 tehty piirretty elokuva kivikauden ihmisistä\n3. Isoisän kertomus siitä, miten kivikaudella metsästettiin\n4. Saviastian palanen kivikautiselta asuinpaikalta\n5. Kivikaudella maalattu kalliomaalaus\n6. Museon opastaulu, joka kirjoitettiin vuonna 2015\n\nMontako näistä voisi olla lähde tähän tutkimukseen?","vastaus":3,"vinkki":"Kukaan nyt elävä ei ollut kivikaudella. Mitkä asiat ovat kivikaudelta itseltään?","selitys":"Kivikirves, saviastian palanen ja kalliomaalaus tehtiin kivikaudella. Isoisä ei ollut kivikaudella, joten hänen kertomuksensa ei ole lähde. Elokuva ja opastaulu on tehty nykyaikana. Lähteitä on 3."},{"id":"H05","ryhma":"jalki","kysymys":"Tutkit, millaista oli kylän kaupassa 1930-luvulla.\n1. Kauppiaan kirjanpitovihko vuodelta 1934\n2. Kaupan rakennus, jossa kauppaa pidettiin 1930-luvulla\n3. Kaupan ilmoitus sanomalehdessä vuodelta 1936\n4. Haastattelu, jossa 1930-luvulla lapsena kaupassa käynyt Helmi kertoo muistojaan\n5. Vaaka, jolla punnittiin jauhoja kaupassa 1930-luvulla\n\nMontako näistä voisi olla lähde tähän tutkimukseen?","vastaus":5,"vinkki":"Käy asiat läpi yksi kerrallaan. Onko joukossa yhtäkään myöhemmin tehtyä?","selitys":"Kaikki viisi ovat 1930-luvulta tai niitä käytettiin silloin, ja Helmi kävi kaupassa itse. Lähteitä on 5. Aina ei ole mukana väärää vaihtoehtoa, joten tarkista jokainen."},{"id":"H06","ryhma":"jalki","tyyppi":"monivalinta","kysymys":"Aili on syntynyt vuonna 1952. Vuonna 2025 hän kertoo haastattelussa, millaista oli käydä kyläkoulua 1960-luvulla.\n\nMiksi Ailin kertomus on lähde 1960-luvun koulusta, vaikka se kerrottiin vasta vuonna 2025?","vaihtoehdot":["Koska Aili kävi itse koulua 1960-luvulla.","Koska kaikki vanhojen ihmisten kertomukset ovat lähteitä.","Koska kertomus on puhuttu eikä kirjoitettu."],"vastaus":0,"vinkki":"Mieti, kenen kertomus kivikaudesta ei olisi lähde.","selitys":"Aili kävi itse koulua 1960-luvulla, joten hän kertoo omista kokemuksistaan. Kaikki vanhojen ihmisten kertomukset eivät ole lähteitä: kertomus kivikaudesta ei olisi. Se, että kertomus on puhuttu, kertoo lähdetyypin, ei sitä, onko se lähde."},{"id":"H07","ryhma":"jalki","kysymys":"Tutkit, millaista oli sinun luokallasi viime viikolla.\n1. Luokan lukujärjestys tältä syksyltä\n2. Viime viikon ruokalista\n3. Luokan retkellä viime viikolla otettu valokuva\n4. Vuonna 1965 otettu luokkakuva\n5. Luokkakaverin päiväkirja viime viikolta\n\nMonesko asia ei ole lähde tähän tutkimukseen?","vastaus":4,"vinkki":"Tuoreetkin asiat voivat olla lähteitä. Mikä asia ei ole viime viikolta?","selitys":"Lukujärjestys, ruokalista, retkikuva ja päiväkirja ovat tältä syksyltä. Vuonna 1965 otettu luokkakuva on vanha, mutta se ei kerro mitään sinun luokastasi viime viikolla. Vanha ei ole aina oikea lähde."},{"id":"H08","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä 1940-luvun kodista:\n1. Kirje, jonka äiti kirjoitti sisarelleen vuonna 1944\n2. Perheen valokuva vuodelta 1946\n3. Päiväkirja vuodelta 1945\n4. Puinen leikkihevonen, jolla lapset leikkivät 1940-luvulla\n5. Sanomalehti vuodelta 1947\n\nMontako eri lähdetyyppiä luettelossa on?","vastaus":3,"vinkki":"Merkitse jokaisen viereen tyyppi. Laske sitten, montako eri tyyppiä merkitsit.","selitys":"Kirje, päiväkirja ja sanomalehti ovat kirjoitettuja lähteitä, valokuva on kuva ja leikkihevonen esine. Eri tyyppejä on 3: kirjoitettu, kuva ja esine."},{"id":"H09","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä 1800-luvun kylästä:\n1. Vuonna 1850 rakennettu aitta\n2. Maalaus kylän kirkosta vuodelta 1870\n3. Kylän asukkaiden luettelo vuodelta 1860\n4. Sirppi, jolla leikattiin viljaa 1800-luvulla\n5. Vuonna 1820 rakennettu kirkko\n6. Piirros kylän raitista vuodelta 1880\n\nMontako eri lähdetyyppiä luettelossa on?","vastaus":4,"vinkki":"Sama tyyppi voi esiintyä luettelossa monta kertaa. Laske vain erilaiset.","selitys":"Aitta ja kirkko ovat rakennuksia, maalaus ja piirros kuvia, asukasluettelo kirjoitettu lähde ja sirppi esine. Eri tyyppejä on 4."},{"id":"H10","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä 1970-luvun koulusta:\n1. Koulutodistus vuodelta 1974\n2. Luokkakuva vuodelta 1975\n3. Opettajan kirjoittama tiedote kodeille vuodelta 1973\n4. Koulureppu, jota käytettiin 1970-luvulla\n5. Koululaisen vihko, johon hän kirjoitti aineen vuonna 1976\n6. Haastattelu, jossa 1970-luvulla koulua käynyt Pekka kertoo välitunneista\n\nMontako näistä on kirjoitettuja lähteitä?","vastaus":3,"vinkki":"Missä tieto on? Todistus ja vihko ovat paperia, mutta tieto on kirjoituksessa.","selitys":"Todistus, tiedote ja vihko ovat kirjoitettuja lähteitä. Luokkakuva on kuva, reppu esine ja haastattelu suullinen lähde. Kirjoitettuja on 3."},{"id":"H11","ryhma":"tyypit","tyyppi":"monivalinta","kysymys":"Tutkit 1920-luvun elämää. Löydät vanhan kauppakirjan, johon on kirjoitettu, kuka myi talon kenelle ja millä hinnalla vuonna 1925.\n\nMikä lähdetyyppi kauppakirja on?","vaihtoehdot":["esine","kirjoitettu lähde","kuva"],"vastaus":1,"vinkki":"Mieti, missä kauppakirjan tieto on: paperissa vai siinä, mitä paperiin on kirjoitettu?","selitys":"Kauppakirja on kirjoitettu lähde, koska sen tieto on kirjoituksessa: myyjä, ostaja ja hinta. Paperi itsessään ei kerro kaupasta mitään. Kuvaa siinä ei ole."},{"id":"H12","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä 1990-luvun lapsuudesta:\n1. Lelu, jolla leikittiin 1990-luvulla\n2. Valokuva syntymäpäiväjuhlista vuodelta 1994\n3. Lastenlehti vuodelta 1996\n4. Haastattelu, jossa äiti kertoo omasta lapsuudestaan 1990-luvulla\n5. Piirustus, jonka äiti piirsi lapsena vuonna 1993\n\nMonesko asia on suullinen lähde?","vastaus":4,"vinkki":"Suullisessa lähteessä tieto on puheessa.","selitys":"Haastattelussa äiti kertoo lapsuudestaan puhumalla, joten asia 4 on suullinen lähde. Piirustus on kuva, vaikka äiti teki sen itse."},{"id":"H13","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä 1910-luvun kaupungista:\n1. Vuonna 1912 rakennettu rautatieasema\n2. Valokuva torilta vuodelta 1914\n3. Vuonna 1908 rakennettu kauppahalli\n4. Vuonna 1910 rakennettu koulutalo\n5. Sanomalehti vuodelta 1917\n6. Vuonna 1911 rakennettu kirkko\n\nMontako näistä on rakennuksia?","vastaus":4,"vinkki":"Etsi sana rakennettu.","selitys":"Rautatieasema, kauppahalli, koulutalo ja kirkko ovat rakennuksia. Kauppahalli rakennettiin jo 1908, mutta sitä käytettiin 1910-luvulla, joten se on lähde siitäkin ajasta. Rakennuksia on 4."},{"id":"H14","ryhma":"tyypit","kysymys":"Nämä kaikki ovat lähteitä kivikaudelta:\n1. Keihäänkärki\n2. Kalliomaalaus hirvestä\n3. Kivikirves\n4. Saviastian palanen\n5. Kalliomaalaus veneestä\n\nMontako eri lähdetyyppiä luettelossa on?","vastaus":2,"vinkki":"Kalliomaalaus on kuva. Mitä muuta luettelossa on?","selitys":"Keihäänkärki, kivikirves ja saviastian palanen ovat esineitä, ja kalliomaalaukset ovat kuvia. Eri tyyppejä on 2. Kivikaudelta Suomesta ei ole kirjoitettuja lähteitä, koska täällä ei silloin osattu kirjoittaa."},{"id":"H15","ryhma":"myohemmin","kysymys":"Tutkit, millaista oli matkustaa höyrylaivalla 1890-luvulla.\n1. Höyrylaivan matkalippu vuodelta 1893\n2. Historian oppikirja vuodelta 2020, jossa kerrotaan höyrylaivoista\n3. Valokuva laivan kannelta vuodelta 1896\n4. Vuonna 2018 tehty televisiosarja 1890-luvun laivamatkasta\n5. Tutkijan kirja höyrylaivojen historiasta vuodelta 2005\n\nMontako näistä ei ole lähde tähän tutkimukseen?","vastaus":3,"vinkki":"Oppikirja, tutkimus ja televisiosarja kertovat 1890-luvusta. Milloin ne on tehty?","selitys":"Oppikirja, televisiosarja ja tutkijan kirja on tehty paljon myöhemmin kuin 1890-luvulla. Ne kertovat laivamatkoista, mutta eivät ole jälkiä siltä ajalta. Matkalippu ja valokuva ovat. Ei-lähteitä on 3."},{"id":"H16","ryhma":"myohemmin","kysymys":"Tutkit, miten 1880-luvulla pyykättiin.\n1. Pyykkilauta, jota käytettiin 1880-luvulla\n2. Valokuva pyykkirannalta vuodelta 1885\n3. Emännän kirje sisarelleen vuodelta 1883, jossa hän kertoo pyykkipäivästä\n4. Pesutupa, jossa pyykkiä pestiin 1880-luvulla\n5. Oppikirja vuodelta 2019, jossa on luku 1800-luvun kotitöistä\n\nMonesko asia ei ole lähde tähän tutkimukseen?","vastaus":5,"vinkki":"Oppikirjan tieto voi olla oikeaa. Onko se silti jälki 1880-luvulta?","selitys":"Oppikirja on kirjoitettu vuonna 2019 lähteiden ja tutkimusten avulla. Se ei ole lähde 1880-luvusta, vaikka se kertoo siitä. Pyykkilauta, valokuva, kirje ja pesutupa ovat 1880-luvulta."},{"id":"H17","ryhma":"myohemmin","tyyppi":"monivalinta","kysymys":"Vuonna 2019 tehtiin piirretty elokuva kivikauden perheestä. Elokuvassa on tarkkoja kuvia asumuksista, vaatteista ja työkaluista.\n\nMiksi elokuva ei ole lähde kivikaudesta?","vaihtoehdot":["Se on piirretty eikä kuvattu kameralla.","Sen tekijät eivät eläneet kivikaudella, vaan kuvittelivat sen tutkimusten avulla.","Se on liian uusi ollakseen lähde mistään."],"vastaus":1,"vinkki":"Piirros voi olla lähde, jos se on tehty tutkittavana aikana. Mikä tässä on ratkaisevaa?","selitys":"Elokuvan tekijät eivät eläneet kivikaudella, joten elokuva on kuvitelma, vaikka se olisi tehty huolellisesti. Piirtäminen ei ratkaise: kivikaudella maalattu kalliomaalaus on lähde. Uusikin asia voi olla lähde, mutta vain omasta ajastaan."},{"id":"H18","ryhma":"myohemmin","kysymys":"Tutkit, millaista oli elää kylässä 1700-luvulla.\n1. Vuonna 1760 rakennettu kirkko\n2. Vuonna 2021 kirjoitettu romaani 1700-luvun kylästä\n3. Vuonna 1750 maalattu muotokuva kylän papista\n4. Seurakunnan kirja, johon kylän asukkaat kirjattiin vuonna 1755\n5. Vuonna 2015 tehty televisiosarja 1700-luvun elämästä\n6. Puuarkku, jossa säilytettiin vaatteita 1700-luvulla\n\nMontako näistä voisi olla lähde tähän tutkimukseen?","vastaus":4,"vinkki":"Romaani ja televisiosarja kertovat 1700-luvusta. Milloin ne tehtiin?","selitys":"Kirkko, muotokuva, seurakunnan kirja ja puuarkku ovat 1700-luvulta. Romaani ja televisiosarja on tehty 2000-luvulla, joten ne ovat kuvitelmia 1700-luvusta. Lähteitä on 4."},{"id":"H19","ryhma":"myohemmin","kysymys":"Vuonna 2126 historiantutkija haluaa tietää, millaista oli käydä koulua vuonna 2026.\n1. Lukujärjestys vuodelta 2026\n2. Vuonna 2026 otettu luokkakuva\n3. Vuonna 2110 kirjoitettu oppikirja 2000-luvun kouluista\n4. Matematiikan kirja, jota käytettiin koulussa vuonna 2026\n5. Vuonna 2100 tehty elokuva 2020-luvun koulusta; sen tekijät syntyivät 2070-luvulla\n6. Koulurakennus, jossa opiskeltiin vuonna 2026\n\nMontako näistä ei ole lähde tälle tutkijalle?","vastaus":2,"vinkki":"Kaksi kirjaa: toista käytettiin vuonna 2026, toinen kirjoitettiin myöhemmin.","selitys":"Vuoden 2110 oppikirja ja vuoden 2100 elokuva on tehty myöhemmin, joten ne eivät ole lähteitä. Matematiikan kirja on lähde, koska sitä käytettiin koulussa vuonna 2026: siitä näkee, mitä silloin opiskeltiin. Ei-lähteitä on 2."},{"id":"H20","ryhma":"myohemmin","kysymys":"Tutkit, millaista oli käydä koulua 1960-luvulla. Neljä ihmistä kertoo siitä vuonna 2025:\n1. Mummo, joka kävi koulua 1960-luvulla, kertoo omista koulupäivistään.\n2. Opettaja, joka syntyi vuonna 1990, kertoo, mitä on lukenut 1960-luvun kouluista.\n3. Mummon serkku, joka kävi samaa koulua 1960-luvulla, kertoo välitunneista.\n4. Serkku, joka syntyi vuonna 2010, kertoo 1960-luvun koulusta kertovasta elokuvasta, jonka hän näki.\n\nMontako näistä kertomuksista on lähteitä 1960-luvun koulusta?","vastaus":2,"vinkki":"Kaikki kertovat vuonna 2025. Kuka heistä oli itse koulussa 1960-luvulla?","selitys":"Mummo ja hänen serkkunsa kävivät itse koulua 1960-luvulla, joten heidän kertomuksensa ovat lähteitä. Opettaja kertoo lukemastaan ja serkku elokuvasta. He eivät olleet mukana. Lähteitä on 2."}],"valmis_teksti":"Tunnistat historiallisen lähteen, erotat sen myöhemmin tehdystä oppikirjasta tai kuvitelmasta ja osaat nimetä erilaisia lähdetyyppejä. Tämä taito on nyt näytetty."};
+
+/* ---------- otsikko ---------- */
+const IKONIT={
+  pysakki:'<path d="M7 4h10v11H7z"/><path d="M9 15v4M15 15v4"/><path d="M4 20h16"/><path d="M9 7h6"/>',
+  jarjestys:'<path d="M4 7h6M4 12h10M4 17h4"/><path d="M17 5v14"/><path d="M14.5 16.5L17 19l2.5-2.5"/>',
+  /* allekkainkertolasku: kaksi riviä ja viiva, päällä muistinumero */
+  kerto:'<path d="M6 8h9M6 13h12M4 16.5h16"/><path d="M7.5 19.5h9"/><circle cx="18" cy="5.5" r="2"/>',
+  /* jakokulma */
+  jakokulma:'<path d="M5 8h13"/><path d="M8.5 8v10"/><path d="M8.5 18c-2.2 0-3.5-2.2-3.5-5s1.3-5 3.5-5"/><path d="M11 12h6"/>',
+  /* jakojäännös: ryhmät ja yksi yli jäävä */
+  jaannos:'<rect x="3.5" y="8" width="6" height="6" rx="1"/><rect x="11" y="8" width="6" height="6" rx="1"/><circle cx="20" cy="17.5" r="2"/>',
+  /* desimaalipilkku paikka-arvoruuduissa */
+  desimaali:'<rect x="3" y="7" width="6" height="9" rx="1"/><rect x="13" y="7" width="8" height="9" rx="1"/><path d="M10.8 15.5c.6.3.8 1.2.4 2"/>',
+  /* mitta: viivain */
+  mitta:'<rect x="2.5" y="8.5" width="19" height="7" rx="1"/><path d="M7 8.5v3M11 8.5v4.5M15 8.5v3M19 8.5v4.5"/>',
+  /* lukeminen: avoin kirja */
+  lukeminen:'<path d="M12 6.5C10 5 7 4.7 4 5.3v12c3-.6 6-.3 8 1.2 2-1.5 5-1.8 8-1.2v-12c-3-.6-6-.3-8 1.2z"/><path d="M12 6.5v12"/>',
+  /* lajituntemus: lehti */
+  kasvi:'<path d="M5 19c0-7 4.5-12 14-13 .5 8-3.5 13-10 13H5z"/><path d="M19 6c-5 2.5-8.5 6.5-10.5 12"/>',
+  /* joukkuepeli: pallo ja syöttökaari */
+  pallo:'<circle cx="8" cy="15" r="4.5"/><path d="M8 10.5c1.5-4 5-6.5 9.5-6.5"/><path d="M14.5 4h3v3"/>',
+  /* piirtimet: kynän kärki ja viiva */
+  kyna:'<path d="M4 19l2.5-6L15 4.5a2 2 0 013 3L9.5 16 4 19z"/><path d="M13.5 6.5l3.5 3.5"/>',
+  /* paikka-arvo: neljä numeropaikkaa, tuhansien paikka korostettuna */
+  paikkaarvo:'<rect x="2.5" y="8" width="4.5" height="8" rx="1"/><rect x="8" y="8" width="4.5" height="8" rx="1"/><rect x="13.5" y="8" width="4.5" height="8" rx="1"/><rect x="19" y="8" width="2.5" height="8" rx="1"/><path d="M4.75 10.5v3"/>',
+  /* allekkainlasku: kaksi lukua, viiva ja plus */
+  allekkain:'<path d="M8 7h10M8 12h10M4.5 15h15"/><path d="M4 9.5h3M5.5 8v3"/><path d="M9 18.5h9"/>',
+  /* murtoluku: ympyrä neljäsosiin, yksi väritetty */
+  murtoluku:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M12 12h8.5A8.5 8.5 0 0012 3.5z" fill="currentColor" stroke="none"/>',
+  /* vertailu: kaksi eripituista palkkia ja suurempi-kuin-merkki */
+  vertailu:'<rect x="2.5" y="6" width="8" height="4" rx="1"/><rect x="2.5" y="14" width="4.5" height="4" rx="1"/><path d="M15 6.5l4.5 5.5-4.5 5.5"/>',
+  /* samannimisten yhteenlasku: kaksi sektoria yhdistyy */
+  murtoyhteen:'<path d="M9 12A7 7 0 019 5v7z" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="7"/><path d="M18 8v8M14 12h8"/>',
+  /* käänteisyys: kaksi vastakkaista nuolta */
+  kaanteinen:'<path d="M4 9h13"/><path d="M14.5 6L17.5 9l-3 3"/><path d="M20 15H7"/><path d="M9.5 12L6.5 15l3 3"/>',
+
+  /* --- muiden oppiaineiden ikonit --- */
+  keskustelu:'<path d="M3 5h11v7H7l-4 3z"/><path d="M10 14h11v6h-4l-3 2v-2h-4z"/>',
+  esitys:'<rect x="3" y="4" width="18" height="10" rx="1"/><path d="M12 14v3"/><path d="M8.5 21l3.5-4 3.5 4"/>',
+  kirja:'<path d="M12 6c-2-1.5-5-2-8-1.5v12C7 16 10 16.5 12 18c2-1.5 5-2 8-1.5v-12C17 4 14 4.5 12 6z"/><path d="M12 6v12"/>',
+  teksti:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+  kuuntelu:'<path d="M8 10a4 4 0 118 0c0 3-2 3.5-2 6a2 2 0 11-4 0"/><path d="M17.5 5.5a8 8 0 010 13"/><path d="M20.5 3a12 12 0 010 18"/>',
+  puhe:'<path d="M4 5h16v10H9l-5 4z"/><circle cx="9" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="16" cy="10" r="1"/>',
+  maapallo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 2.5 14.4 0 17c-2.5-2.6-2.5-14.4 0-17z"/>',
+  nuotti:'<path d="M9 18V6l9-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="16" r="2.5"/>',
+  syke:'<path d="M3 12h4l2.5-6 4 12 2.5-6h5"/>',
+  soitin:'<rect x="3.5" y="9" width="17" height="7" rx="1"/><path d="M7 9v7M10.5 9v7M14 9v7M17.5 9v7"/>',
+  sivellin:'<path d="M14.5 3.5l6 6-7 7-6-6z"/><path d="M7.5 10.5l-3 3c-1.5 1.5-1 4 0 5s3.5 1.5 5 0l3-3"/>',
+  muotoilu:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  tyokalu:'<path d="M14.5 3.5a4.5 4.5 0 00-5.8 5.8L3 15v5h5l5.7-5.7a4.5 4.5 0 005.8-5.8L17 11h-3V8z"/>',
+  neula:'<path d="M20 4L9 15"/><path d="M7 17l-3 3"/><ellipse cx="19.5" cy="4.5" rx="1.5" ry="2.5" transform="rotate(45 19.5 4.5)"/><path d="M9 15c-2 0-3 1-3 2s1 2 2 2"/>',
+  kartta:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  aikajana:'<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="17" cy="12" r="2"/><path d="M7 7v2M12 15v2M17 7v2"/>',
+  puu:'<path d="M12 21v-6"/><path d="M12 15l-5-3 5-9 5 9z"/><path d="M12 15l-6-4"/><path d="M12 15l6-4"/>',
+  elain:'<ellipse cx="12" cy="16" rx="4" ry="3.5"/><circle cx="6.5" cy="11" r="2"/><circle cx="17.5" cy="11" r="2"/><circle cx="9.5" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/>',
+  turva:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  liike:'<circle cx="14" cy="5" r="2"/><path d="M13 9l-3 4 3 3 1 5"/><path d="M10 13l-4 1"/><path d="M13 9l4 2 2-1"/>',
+  tasapaino:'<path d="M12 4v16"/><path d="M5 8h14"/><path d="M5 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M19 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M8 20h8"/>',
+  vesi:'<path d="M3 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/>',
+  ajattelu:'<path d="M9 20v-2.5C6.5 16 5 13.7 5 11a7 7 0 1114 0c0 2.7-1.5 5-4 6.5V20z"/><path d="M9.5 20h5"/><path d="M12 14c0-2 2-2 2-3.5a2 2 0 10-4 0"/>',
+  pyha:'<path d="M12 3c1.5 2.5 2.5 3.5 2.5 5a2.5 2.5 0 11-5 0c0-1.5 1-2.5 2.5-5z"/><path d="M12 11v7"/><rect x="8" y="18" width="8" height="3" rx="1"/>',
+  kadet:'<path d="M8 21v-6l-2.5-2.5a2 2 0 012.8-2.8L10 11V4a1.5 1.5 0 013 0v7"/><path d="M13 11V5.5a1.5 1.5 0 013 0V13c0 4-2 8-2 8"/>',
+  tutkimus:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M10.5 7.5v6M7.5 10.5h6"/>',
+  mittari:'<path d="M12 3a2.5 2.5 0 012.5 2.5v8a4.5 4.5 0 11-5 0v-8A2.5 2.5 0 0112 3z"/><circle cx="12" cy="17.5" r="2"/><path d="M12 8v7.5"/>',
+};
+document.getElementById("ikoni").innerHTML = IKONIT[D.ikoni] || IKONIT.pysakki;
+document.getElementById("eyebrow").textContent = D.eyebrow || "Matematiikka · 4. luokka · Luvut ja laskutoimitukset";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("kuvaus").textContent = D.kuvaus;
+document.getElementById("tags").innerHTML =
+  `<span class="tag core">${D.taso || "ydintaito"}</span><span class="tag">${D.ops.T.join(" ")} ${D.ops.S.join(" ")}</span>`
+  + (Array.isArray(D.harjoitukset) && D.harjoitukset.length
+      ? `<span class="tag">${D.harjoitukset.length} harjoitusta</span>`
+      : "");
+
+/* ---------- teksti ---------- */
+const esc = s => s;
+const osat = D.teksti.map(o=>{
+  switch(o.tyyppi){
+    case "johdanto":
+      return `<p class="lead">${esc(o.sisalto)}</p>`;
+    case "kappale":
+      return `<h2>${esc(o.otsikko)}</h2><p>${esc(o.sisalto)}</p>`;
+    case "saanto":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><ol class="steps">${
+        o.askeleet.map(a=>`<li><span>${esc(a)}</span></li>`).join("")}</ol></div>`;
+    case "taulukko":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><div class="tablewrap"><table><thead><tr>${
+        o.otsikkorivi.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${
+        o.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    case "ansa":
+      return `<div class="box warn"><h3>${esc(o.otsikko)}</h3><p style="margin:0">${esc(o.sisalto)}</p></div>`;
+    case "muistilappu":
+      return `<div class="box note"><h3>${esc(o.otsikko)}</h3><ul class="notes">${
+        o.kohdat.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`;
+    case "numerotaulu":
+      return `<div class="box nt"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="nt-valinta" id="ntValinta"></div>
+        <div class="nt-taulu" id="ntTaulu"></div>
+        <p class="nt-selite" id="ntSelite"></p></div>`;
+    case "vahvuusportaat":
+      return `<div class="box vp"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="vp-tasot">${o.tasot.map(t=>
+          `<div class="vp-taso" data-taso="${t.id}"><span class="vp-pallo"></span>
+           <div><strong>${t.nimi}</strong><span>${t.selite}</span></div></div>`).join("")}</div>
+        <div class="vp-lauseke" id="vpLauseke"></div>
+        <div class="vp-rivi"><button type="button" class="btn ghost" id="vpSeuraava">Toinen lauseke</button>
+        <span class="vp-vastaus" id="vpVastaus"></span></div></div>`;
+    case "laskujarjestys":
+      return `<div class="box lj"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 12px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <div class="lj-exp" id="ljExp"></div>
+        <div class="lj-fb" id="ljFb"></div>
+        <div class="lj-row"><button type="button" class="btn ghost" id="ljSeuraava">Toinen lauseke</button>
+        <span class="lj-step" id="ljStep"></span></div></div>`;
+    case "lukusuora":
+      return `<div class="box nl"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 8px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <svg id="nlsvg" viewBox="0 0 640 118" role="img" aria-labelledby="nldesc"><desc id="nldesc">Lukusuora, jolla näkyy valittu luku ja lähin kymmenluku.</desc></svg>
+        <div class="nl-controls">
+          <label for="nlrange" style="font-size:13px;color:var(--ink-2)">Luku</label>
+          <input type="range" id="nlrange" min="0" max="100" value="47" aria-describedby="nlout">
+          <span class="nl-out" id="nlout"></span>
+        </div></div>`;
+    default: return "";
+  }
+}).join("");
+document.getElementById("teksti").innerHTML = osat;
+
+/* ---------- lukusuora ---------- */
+const svg=document.getElementById("nlsvg"), rng=document.getElementById("nlrange"), out=document.getElementById("nlout");
+const X0=34, X1=606, Y=62;
+function piirraNL(v){
+  const ala=Math.floor(v/10)*10, yla=ala+10, puoli=ala+5;
+  const pyor = (v%10)>=5 ? yla : ala;
+  const x = n => X0 + (n/100)*(X1-X0);
+  let s=`<line class="rail" x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}"/>`;
+  for(let n=0;n<=100;n+=10){
+    const near = (n===ala||n===yla);
+    s+=`<line class="tick" x1="${x(n)}" y1="${Y-7}" x2="${x(n)}" y2="${Y+7}"/>`;
+    s+=`<text class="stop${near?" near":""}" x="${x(n)}" y="${Y+24}" text-anchor="middle">${n}</text>`;
+  }
+  s+=`<line class="halfway" x1="${x(puoli)}" y1="${Y-16}" x2="${x(puoli)}" y2="${Y+12}"/>`;
+  s+=`<text class="stop" x="${x(puoli)}" y="${Y-22}" text-anchor="middle">puoliväli ${puoli}</text>`;
+  s+=`<circle class="dot" cx="${x(v)}" cy="${Y}" r="6"/>`;
+  s+=`<text class="val" x="${x(v)}" y="${Y-32}" text-anchor="middle">${v}</text>`;
+  s+=`<path d="M ${x(v)} ${Y+38} L ${x(pyor)} ${Y+38}" stroke="var(--core)" stroke-width="2" fill="none"/>`;
+  s+=`<path d="M ${x(pyor)} ${Y+38} l ${x(pyor)>x(v)?-7:7} -4 l 0 8 z" fill="var(--core)"/>`;
+  svg.innerHTML=s;
+  out.textContent = `${v} pyöristyy → ${pyor}`;
+}
+if(svg){ piirraNL(+rng.value); rng.addEventListener("input",e=>piirraNL(+e.target.value)); }
+
+/* ---------- paikka-arvotaulu ---------- */
+const ntTaulu=document.getElementById("ntTaulu");
+if(ntTaulu){
+  const O=D.teksti.find(x=>x.tyyppi==="numerotaulu");
+  const PAIKAT=["ykköset","kymmenet","sadat","tuhannet","kymmenettuhannet"];
+  const LYH=["Y","K","S","T","KT"];
+  const IDX={kymmenet:1, sadat:2, tuhannet:3};
+  let ntI=0;
+  document.getElementById("ntValinta").innerHTML=O.esimerkit.map((e,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${e.luku.toLocaleString("fi-FI",{maximumFractionDigits:10})} → ${e.tarkkuus}</button>`).join("");
+  function ntPiirra(){
+    const e=O.esimerkit[ntI], t=IDX[e.tarkkuus], kerroin=Math.pow(10,t);
+    const tulos=Math.floor((e.luku+kerroin/2)/kerroin)*kerroin;
+    const lev=Math.max(String(e.luku).length, String(tulos).length);
+    const num=String(e.luku).padStart(lev,"0").split("");
+    const res=String(tulos).padStart(lev,"0").split("");
+    const luokka=(i,arr,vain0)=>{
+      const p=arr.length-1-i;
+      if(vain0) return p<t ? "nt-ruutu nolla" : "nt-ruutu";
+      if(p===t) return "nt-ruutu kohta";
+      if(p===t-1) return "nt-ruutu ratkaiseva";
+      return "nt-ruutu";
+    };
+    const otsat=num.map((_,i)=>`<span class="otsa">${LYH[num.length-1-i]||""}</span>`).join("");
+    const rivi1=num.map((n,i)=>`<span class="${luokka(i,num,false)}">${n}</span>`).join("");
+    const rivi2=res.map((n,i)=>`<span class="${luokka(i,res,true)}">${n}</span>`).join("");
+    const ratk=+num[num.length-t];
+    const ylos=ratk>=5;
+    ntTaulu.innerHTML=
+      `<div class="nt-rivi">${otsat}</div>
+       <div class="nt-rivi">${rivi1}<span class="nimi">luku</span></div>
+       <div class="nt-rivi"><span class="nt-nuoli" style="margin-left:${(num.length-1-t)*58+18}px">${ylos?"▲ ylös":"▼ alas"}</span></div>
+       <div class="nt-rivi">${rivi2}<span class="nimi">pyöristettynä</span></div>`;
+    document.getElementById("ntSelite").innerHTML =
+      `Pyöristetään <b>${PAIKAT[t]}</b> (sininen ruutu). Ratkaiseva numero on <b>${ratk}</b> (keltainen ruutu). ` +
+      (ylos ? `Se on 5 tai suurempi, joten sininen ruutu kasvaa yhdellä.` : `Se on pienempi kuin 5, joten sininen ruutu pysyy ennallaan.`) +
+      ` Kaikki keltaisen oikealla puolella muuttuu nolliksi. Vastaus on <b>${tulos.toLocaleString("fi-FI",{maximumFractionDigits:10})}</b>.`;
+    document.querySelectorAll("#ntValinta button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===ntI)));
+  }
+  document.getElementById("ntValinta").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; ntI=+b.dataset.i; ntPiirra();
+  });
+  ntPiirra();
+}
+
+/* ---------- vahvuusportaat ---------- */
+const vpEl=document.getElementById("vpLauseke");
+if(vpEl){
+  const O=D.teksti.find(x=>x.tyyppi==="vahvuusportaat");
+  let vpI=0;
+  function vpPiirra(){
+    const e=O.esimerkit[vpI];
+    const tokens=e.lauseke.split(/\s+/);
+    const kartta=Object.fromEntries(e.jarjestys.map(j=>[j.i,j]));
+    vpEl.innerHTML=tokens.map((t,i)=>{
+      const j=kartta[i];
+      return j ? `<span class="op" data-taso="${j.taso}">${t}<i><span>${j.n}</span></i></span>`
+               : `<span class="t">${t}</span>`;
+    }).join("");
+    document.getElementById("vpVastaus").textContent = "= " + e.vastaus;
+  }
+  document.getElementById("vpSeuraava").addEventListener("click",()=>{
+    vpI=(vpI+1)%O.esimerkit.length; vpPiirra();
+  });
+  vpPiirra();
+}
+
+/* ---------- laskujärjestys-widget ---------- */
+const ljExp=document.getElementById("ljExp");
+if(ljExp && D.kokeilu){
+  let ljI=0, ljTokens=[], ljStep=0;
+  const laske=(a,op,b)=>{a=+a;b=+b;return op==="×"?a*b:op==="÷"?a/b:op==="+"?a+b:a-b;};
+  function ljAlku(){
+    const l=D.kokeilu[ljI];
+    ljTokens=l.lauseke.replace(/\(/g,"( ").replace(/\)/g," )").split(/\s+/).filter(Boolean);
+    ljStep=0; ljPiirra(); ljViesti("","");
+  }
+  function ljViesti(t,lk){const f=document.getElementById("ljFb"); f.textContent=t; f.className="lj-fb "+(lk||"");}
+  function ljPiirra(){
+    const l=D.kokeilu[ljI];
+    document.getElementById("ljStep").textContent =
+      ljStep>=l.askeleet.length ? "valmis" : `askel ${ljStep+1} / ${l.askeleet.length}`;
+    if(ljStep>=l.askeleet.length){
+      ljExp.innerHTML=`<span class="valmis">${l.lauseke} = ${l.vastaus}</span>`;
+      return;
+    }
+    ljExp.innerHTML=ljTokens.map((t,i)=>
+      "×÷+−".includes(t) ? `<button type="button" class="op" data-i="${i}">${t}</button>`
+                         : `<span class="tok">${t}</span>`).join("");
+    ljExp.querySelectorAll("button.op").forEach(b=>b.addEventListener("click",()=>ljKlikkaa(+b.dataset.i)));
+  }
+  function ljKlikkaa(i){
+    const l=D.kokeilu[ljI], odotettu=l.askeleet[ljStep];
+    const ehdotus=[ljTokens[i-1],ljTokens[i],ljTokens[i+1]].join(" ");
+    if(ehdotus!==odotettu){
+      ljViesti(ljStep===0
+        ? "Ei vielä. Sulkeet ovat vahvimmat, sitten kerto ja jako. Yhtä vahvat vasemmalta oikealle."
+        : "Ei vielä. Kumpi jäljellä olevista on vahvempi?", "no");
+      return;
+    }
+    const arvo=laske(ljTokens[i-1],ljTokens[i],ljTokens[i+1]);
+    let alku=i-1, loppu=i+1;
+    if(ljTokens[i-2]==="(" && ljTokens[i+2]===")"){ alku=i-2; loppu=i+2; }
+    ljTokens.splice(alku, loppu-alku+1, String(arvo));
+    ljStep++;
+    ljViesti(ljStep>=l.askeleet.length ? "Valmis. Vastaus on "+l.vastaus+"." : "Oikein. Jatka seuraavaan.", "ok");
+    ljPiirra();
+  }
+  document.getElementById("ljSeuraava").addEventListener("click",()=>{
+    ljI=(ljI+1)%D.kokeilu.length; ljAlku();
+  });
+  ljAlku();
+}
+
+/* ---------- harjoitukset ----------
+   Kaksi vastaustyyppiä: "numero" (oletus, tekstikenttä + Number()-vertailu) ja
+   "monivalinta" (valintapainikkeet, h.vaihtoehdot[] + h.vastaus = oikean vaihtoehdon indeksi).
+   Jos D.harjoitukset puuttuu tai on tyhjä, koko osio piilotetaan (näyttötaidot, ei kirjallista
+   harjoitusta: liikunta, kuvataide). */
+/* Kysymyksessä voi olla luettavaa aineistoa ja sen jälkeen varsinainen kysymys,
+   erotettuna tyhjällä rivillä. Viimeinen osa on kysymys, sitä edeltävät aineistoa. */
+const kysymysHtml = t => {
+  const osat = String(t).split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(osat.length < 2) return osat[0] || "";
+  const kysymys = osat.pop();
+  return osat.map(p=>`<span class="aineisto">${p}</span>`).join("")
+       + `<span class="kysymysrivi">${kysymys}</span>`;
+};
+
+const ONKO_HARJOITUKSIA = Array.isArray(D.harjoitukset) && D.harjoitukset.length > 0;
+const RYHMAT = ONKO_HARJOITUKSIA ? D.harjoitusryhmat : [];
+const tila={};
+if(ONKO_HARJOITUKSIA) D.harjoitukset.forEach(h=>tila[h.id]={ratkaistu:false, yritetty:false});
+const muotoile = n => (typeof n==="number") ? n.toLocaleString("fi-FI",{maximumFractionDigits:10}) : n;
+
+if(!ONKO_HARJOITUKSIA){
+  document.getElementById("harjoitukset").style.display = "none";
+  const prog = document.querySelector(".progress");
+  if(prog) prog.style.display = "none";
+} else {
+
+document.getElementById("harjoitukset").innerHTML = RYHMAT.map(r=>{
+  const items=D.harjoitukset.filter(h=>h.ryhma===r.id);
+  return `<section class="grp"><div class="grp-head"><h3>${r.nimi}</h3><span>${r.info}</span></div>${
+    items.map((h,i)=>{
+      const nro=D.harjoitukset.indexOf(h)+1;
+      const vastausUi = h.tyyppi==="monivalinta"
+        ? `<div class="row mv" role="group" aria-label="Vaihtoehdot tehtävään ${nro}">
+             ${h.vaihtoehdot.map((v,vi)=>`<button type="button" class="btn ghost mv-valinta" data-mv="${h.id}" data-i="${vi}">${v}</button>`).join("")}
+           </div>`
+        : `<div class="row">
+             <input type="text" inputmode="numeric" id="in-${h.id}" aria-label="Vastaus tehtävään ${nro}" placeholder="vastaus">
+             <button type="button" class="btn" data-tarkista="${h.id}">Tarkista</button>
+             <button type="button" class="btn ghost" data-vinkki="${h.id}">Vinkki</button>
+           </div>`;
+      return `<div class="ex" id="ex-${h.id}">
+        <div class="q"><span class="num">${nro}.</span><span class="txt">${kysymysHtml(h.kysymys)}</span></div>
+        ${h.kuuntele ? `<div class="kuuntele">
+          <button type="button" class="btn ghost" data-kuuntele="${h.id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7"/></svg>Kuuntele</button>
+          <button type="button" class="btn ghost" data-hitaasti="${h.id}">Kuuntele hitaasti</button>
+          <p class="varateksti" id="vara-${h.id}" hidden></p></div>` : ""}
+        ${vastausUi}
+        <div id="fb-${h.id}"></div>
+      </div>`;
+    }).join("")}</section>`;
+}).join("");
+
+function paivitaEdistyminen(){
+  const n=Object.values(tila).filter(t=>t.ratkaistu).length, kaikki=D.harjoitukset.length;
+  document.getElementById("pbar").style.width=Math.round(n/kaikki*100)+"%";
+  document.getElementById("pcnt").textContent=`${n} / ${kaikki}`;
+  document.getElementById("valmis").innerHTML = n===kaikki
+    ? `<div class="done"><h3>Kaikki ${kaikki} oikein.</h3>${D.valmis_teksti || "Tämä taito on nyt näytetty."}</div>`
+    : "";
+}
+
+function merkitseTulos(id, oikein, viesti){
+  const fb=document.getElementById("fb-"+id), kortti=document.getElementById("ex-"+id);
+  tila[id].yritetty=true;
+  if(oikein){
+    tila[id].ratkaistu=true;
+    kortti.dataset.tila="oikein";
+    fb.className="fb ok"; fb.textContent=viesti;
+  } else {
+    kortti.dataset.tila="vaarin";
+    fb.className="fb no"; fb.textContent=viesti;
+  }
+  paivitaEdistyminen();
+}
+
+/* Suomalainen lukumuoto: välilyönti on tuhaterotin, pilkku desimaalierotin.
+   Piste voi olla kumpi tahansa. Se tulkitaan tuhaterottimeksi VAIN silloin, kun
+   koko luku on aitoa tuhaterotinmuotoa: alkuosa 1–3 numeroa ilman etunollaa ja
+   jokainen jatko-osa täsmälleen 3 numeroa (1.500, 12.345.678). Kaikissa muissa
+   tapauksissa piste on desimaalipiste — myös 0.125, joka vanhalla säännöllä
+   ("3 numeroa pisteen jäljessä = tuhaterotin") luettiin virheellisesti luvuksi 125. */
+const TUHATEROTIN = /^[1-9]\d{0,2}(\.\d{3})+$/;
+function lueLuku(teksti){
+  // Murtoluku (3/4, -3/4) ja sekaluku (1 2/3, -1 2/3) hyväksytään sellaisinaan.
+  const raaka = String(teksti).replace(/\u00a0/g, " ").trim();
+  let m = raaka.match(/^(-?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[4]); if(nim === 0) return null;
+    const v = Number(m[2]) + Number(m[3]) / nim; return m[1] ? -v : v; }
+  m = raaka.match(/^(-?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[3]); if(nim === 0) return null;
+    const v = Number(m[2]) / nim; return m[1] ? -v : v; }
+  let s = String(teksti).replace(/[\s\u00a0]/g, "");
+  if(s === "") return null;
+  if(s.indexOf(",") >= 0){
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if(TUHATEROTIN.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function tarkista(id){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const kentta=document.getElementById("in-"+id);
+  const fb=document.getElementById("fb-"+id);
+  if(kentta.value.trim()===""){ fb.className="fb hint"; fb.textContent="Kirjoita vastaus ensin."; return; }
+  const luku=lueLuku(kentta.value);
+  if(luku===null){ fb.className="fb no"; fb.textContent="Vastauksen pitää olla luku tai murtoluku (esimerkiksi 3/4)."; return; }
+  const oikein = Math.abs(luku - h.vastaus) < 1e-9;
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei vielä. ${h.vinkki} Kokeile uudelleen.`);
+}
+
+function tarkistaMonivalinta(id, valittuIndeksi, painike){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const rivi=painike.closest(".row");
+  rivi.querySelectorAll(".mv-valinta").forEach(b=>b.disabled=true);
+  const oikein = valittuIndeksi===h.vastaus;
+  painike.classList.add(oikein?"mv-oikein":"mv-vaarin");
+  if(!oikein){
+    const oikeaBtn=rivi.querySelector(`[data-i="${h.vastaus}"]`);
+    if(oikeaBtn) oikeaBtn.classList.add("mv-oikein");
+  }
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei ihan. Oikea vastaus on korostettu. ${h.selitys||""}`);
+}
+
+/* Kuuntelu: selain lukee tekstin ääneen omalla puhesynteesillään (englanniksi, jos laitteessa on
+   englanninkielinen ääni). Ei äänitiedostoja eikä verkkoyhteyttä. Jos laite ei osaa puhua,
+   teksti näytetään luettavaksi — silloin tehtävä muuttuu luetun ymmärtämiseksi, mutta ei katkea. */
+function puhu(id, nopeus){
+  const h=D.harjoitukset.find(x=>x.id===id); if(!h || !h.kuuntele) return;
+  const vara=document.getElementById("vara-"+id);
+  const naytaTeksti=syy=>{ vara.hidden=false; vara.textContent=syy+" Teksti: "+h.kuuntele; };
+  if(!("speechSynthesis" in window)){ naytaTeksti("Tämä laite ei osaa lukea ääneen."); return; }
+  const s=window.speechSynthesis; s.cancel();
+  const u=new SpeechSynthesisUtterance(h.kuuntele);
+  u.lang=h.kieli||"en-GB"; u.rate=nopeus;
+  const aanet=s.getVoices(), kieli=u.lang.slice(0,2);
+  const aani=aanet.find(a=>a.lang===u.lang) || aanet.find(a=>a.lang && a.lang.startsWith(kieli));
+  if(aani) u.voice=aani;
+  else if(aanet.length) { naytaTeksti("Laitteessa ei ole englanninkielistä ääntä."); return; }
+  u.onerror=()=>naytaTeksti("Ääneen lukeminen ei onnistunut.");
+  s.speak(u);
+}
+
+document.getElementById("harjoitukset").addEventListener("click",e=>{
+  const k=e.target.closest("[data-kuuntele]"), hk=e.target.closest("[data-hitaasti]");
+  if(k) puhu(k.dataset.kuuntele, 0.9);
+  if(hk) puhu(hk.dataset.hitaasti, 0.6);
+  const t=e.target.closest("[data-tarkista]"), v=e.target.closest("[data-vinkki]"), mv=e.target.closest("[data-mv]");
+  if(t) tarkista(t.dataset.tarkista);
+  if(mv) tarkistaMonivalinta(mv.dataset.mv, Number(mv.dataset.i), mv);
+  if(v){
+    const h=D.harjoitukset.find(x=>x.id===v.dataset.vinkki);
+    const fb=document.getElementById("fb-"+h.id);
+    fb.className="fb hint"; fb.textContent=h.vinkki;
+  }
+});
+document.getElementById("harjoitukset").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.id.startsWith("in-")){ e.preventDefault(); tarkista(e.target.id.slice(3)); }
+});
+
+} // ONKO_HARJOITUKSIA
+
+if(ONKO_HARJOITUKSIA) paivitaEdistyminen();
+
+document.getElementById("back").innerHTML =
+  `Tämä sivu on yhden osaamistavoitteen sisältö <strong>Osaamispolku ${D.vuosiluokka||4}</strong> -mallissa. Taito: <span class="tag" style="display:inline-block">${D.tavoite_id}</span>`;
+</script>

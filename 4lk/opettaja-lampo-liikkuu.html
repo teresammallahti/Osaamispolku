@@ -1,0 +1,524 @@
+<title>Lämpö liikkuu · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"YMP4-AIN-05","oppiaine":"YMP","vuosiluokka":4,"taitoalue":"AIN","jakso":"J3","taso":"vahvistava","otsikko":"Lämpö liikkuu","kuvaus":"Ymmärrän, että lämpö siirtyy lämpimämmästä kylmempään, ja osaan mitata lämpötilaa.","versio":"0.2","paivitetty":"2026-09-26","ops":{"T":["T5","T17"],"S":["S5"]},"eyebrow":"Ympäristöoppi · 4. luokka · Aineet, energia ja ilmiöt","ikoni":"mittari","naytto":"Vertaan eri eristeitä mittaamalla, kuinka monta astetta lämmin vesi jäähtyy kussakin astiassa saman ajan kuluessa.","osaa_kun":"Erotan lämpötilan ja lämmön toisistaan ja luen lämpömittarin oikein myös pakkasen puolella.","teksti":[{"tyyppi":"johdanto","sisalto":"Talviaamuna pihan lämpömittarissa nesteen pää on kuusi viivaa nollan alapuolella, ja keittiössä kaakao höyryää mukissa. Puolen tunnin kuluttua kaakao on haaleaa, ja jääkaapista otettu mehu on lämmennyt pöydällä. Molemmissa tapahtui sama asia: lämpö siirtyi lämpimämmästä kylmempään, kaakaosta huoneilmaan ja huoneilmasta mehuun. Tässä taidossa opit lukemaan mittarin myös pakkasen puolella, erottamaan lämpötilan ja lämmön toisistaan ja selittämään, miksi villasukka pitää jalan lämpimänä, vaikka sukka itse ei lämmitä mitään."},{"tyyppi":"kappale","otsikko":"Lämpötila mitataan, lämpö liikkuu","sisalto":"Lämpötila kertoo, kuinka lämmintä tai kylmää jokin on. Se luetaan lämpömittarista ja ilmoitetaan celsiusasteina, esimerkiksi 21 astetta tai -6 astetta. Lämpö on eri asia: se on energiaa, joka siirtyy lämpimämmästä kappaleesta kylmempään. Lämpötilan voi mitata, mutta lämpöä ei voi katsoa mittarista. Sen liikkumisen huomaa siitä, että lämpötilat muuttuvat. Vertaa kuppia kuumaa vettä (80 astetta) ja uima-allasta (25 astetta): kupissa lämpötila on korkeampi, mutta allas voi luovuttaa paljon enemmän lämpöä, koska vettä on tuhansia litroja. Jäähtyessään kupillinen kuumaa vettä sulattaa muutaman jääpalan, uima-allas kokonaisen lumikasan."},{"tyyppi":"kappale","otsikko":"Itsestään lämpö siirtyy vain lämpimämmästä kylmempään","sisalto":"Kun kaksi eri lämpöistä asiaa koskettavat toisiaan, lämpö siirtyy lämpimämmästä kylmempään. Lämpimämpi jäähtyy ja kylmempi lämpenee, kunnes molemmat ovat saman lämpöiset. Sen jälkeen siirtyminen loppuu. Kuuma kaakao jäähtyy, koska lämpö siirtyy siitä mukiin ja huoneilmaan, ja jäähtyminen jatkuu, kunnes kaakao on huoneen lämpöinen. Kylmä mehu lämpenee samasta syystä mutta toiseen suuntaan: lämpö siirtyy huoneilmasta mehuun, kunnes mehu on huoneen lämpöinen. Toiseen suuntaan lämpö ei itsestään kulje: haalea kaakao ei ala pöydällä uudelleen kuumeta. Jääkaappi ja pakastin saavat lämmön liikkumaan kylmemmästä lämpimämpään, mutta se vaatii sähköä ja koneen, joka tekee työn. Siksi jääkaapin takaseinä on lämmin."},{"tyyppi":"saanto","otsikko":"Näin luet lämpömittarin","askeleet":["Etsi asteikosta nolla. Se on raja pakkasen ja lämpimän välillä: nollassa vesi jäätyy ja jää sulaa.","Katso, kummalla puolella nollaa nesteen pää on. Nollan yläpuolella lukema on lämpöastetta ja se kirjoitetaan ilman merkkiä, esimerkiksi 8. Nollan alapuolella lukema on pakkasastetta, ja sen eteen kirjoitetaan miinusmerkki, esimerkiksi -8.","Selvitä, mitä yksi viiva tarkoittaa. Useimmissa mittareissa yksi viiva on yksi aste, mutta joissakin yksi viiva on kaksi astetta. Laske viivat nollan jälkeen kymppiin asti niin, että kympin viiva lasketaan mukaan: kymmenen viivaa tarkoittaa, että viiva on yksi aste, viisi viivaa tarkoittaa, että viiva on kaksi astetta.","Laske viivat nollasta nesteen päähän ja kerro määrä yhden viivan arvolla. Neljä viivaa nollan alapuolella on -4 astetta, kun viiva on yksi aste, ja -8 astetta, kun viiva on kaksi astetta.","Digitaalinen mittari näyttää luvun valmiina. Katso silti, onko luvun edessä miinusmerkki. Lukemat 6 ja -6 näyttävät samalta, mutta niiden ero on 12 astetta."]},{"tyyppi":"kappale","otsikko":"Lämpötilan muutos ja lämpötilaero","sisalto":"Kun lämpötila nousee, luku kasvaa; kun se laskee, luku pienenee. Laskussa nolla on lukusuoran tavallinen kohta, joten muutos lasketaan askel kerrallaan myös nollan yli. Jos mittari näyttää -6 ja lämpötila nousee 8 astetta, kuusi askelta vie nollaan ja kaksi askelta sen yli: uusi lämpötila on 2. Jos mittari näyttää 3 ja lämpötila laskee 7 astetta, kolme askelta vie nollaan ja neljä sen alapuolelle: uusi lämpötila on -4. Lämpötilaero on kahden lämpötilan välimatka lukusuoralla, ja se ilmoitetaan ilman miinusmerkkiä. Ulkona on -5 ja sisällä 21: nollaan on viisi askelta ja nollasta 21:een on 21 askelta, joten ero on 26 astetta. Kun molemmat lämpötilat ovat pakkasen puolella, ero on lukujen välimatka: -17:n ja -4:n välissä on 13 astetta. Negatiivisia lukuja harjoitellaan tarkemmin matematiikan taidossa Nollan alapuolella."},{"tyyppi":"kappale","otsikko":"Eriste hidastaa lämmön siirtymistä","sisalto":"Eriste on aine, jonka läpi lämpö siirtyy hitaasti. Villa, untuva, huopa, styroksi, vaahtomuovi, korkki, puu ja muovi ovat eristeitä. Niiden salaisuus on usein ilma: villakuitujen, untuvan ja styroksin sisällä on pieniä ilmataskuja, ja paikallaan pysyvä ilma siirtää lämpöä hyvin huonosti. Myös lumi on eriste, koska siinä on paljon ilmaa. Hangen alla on lämpimämpää kuin hangen päällä, ja siksi myyrät ja muut pieneläimet elävät talven lumen alla. Metallit ovat päinvastaisia: rauta, teräs, kupari ja alumiini ovat hyviä lämmönjohtimia, joiden läpi lämpö siirtyy nopeasti. Siksi kattila on metallia, mutta sen kahva on puuta tai muovia. Eriste ei pysäytä lämmön siirtymistä, se vain hidastaa sitä. Termospullossa kaakao jäähtyy sekin, mutta tuntien eikä minuuttien kuluessa. Eriste toimii kumpaankin suuntaan: sama kylmälaukku pitää mehut kylminä kesällä ja lämpimän ruoan lämpimänä talvella. Vesi on huono eriste, ja märkä vaate johtaa lämpöä paljon paremmin kuin kuiva. Siksi märät vaatteet vaihdetaan talvella heti."},{"tyyppi":"taulukko","otsikko":"Eriste vai johdin","otsikkorivi":["Aine","Eriste vai johdin","Missä sen huomaat"],"rivit":[["Villa, untuva, huopa","Eriste","Villasukat, untuvatakki ja huopatossut pitävät kehon lämmön lähellä ihoa"],["Styroksi, vaahtomuovi","Eriste","Kylmälaukku ja jäätelöpakkaus"],["Puu, korkki","Eriste","Kattilan puinen kahva, korkkinen pannunalunen"],["Muovi","Eriste","Kattilan muovikahva; muovilusikan varsi pysyy viileänä kuumassa teessä"],["Paikallaan pysyvä ilma","Eriste","Ikkunan kaksi lasia ja niiden välissä oleva ilma; villan ja untuvan ilmataskut"],["Lumi","Eriste","Hangen alla on lämpimämpää kuin hangen päällä; pieneläinten talvipesät"],["Rauta, teräs","Johdin","Metallilusikka kuumenee kuumassa teessä; kattilan pohja"],["Kupari, alumiini","Johdin","Kattilan pohja; alumiinikattilan kylki kuumenee liedellä nopeasti reunaa myöten"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: villapaita ei lämmitä, se eristää","sisalto":"Moni sanoo, että villapaita lämmittää. Se ei kuitenkaan tuota lämpöä: kaapissa villapaita on täsmälleen huoneen lämpöinen, ja jos kiedot sen jääpalan ympärille, jääpala sulaa hitaammin, ei nopeammin. Lämmönlähde olet sinä itse. Kehosi on noin 37 astetta, ja lämpö siirtyy siitä koko ajan kylmempään ulkoilmaan. Villapaita hidastaa tätä siirtymistä, jolloin lämpö pysyy lähelläsi. Siksi paita tuntuu lämpimältä vasta, kun se on ollut hetken päälläsi."},{"tyyppi":"ansa","otsikko":"Ansa 2: kylmä ei tule sisään, lämpö karkaa ulos","sisalto":"Talvella sanotaan: sulje ovi, kylmä tulee sisään. Oikeasti liikkuu lämpö: se siirtyy lämpimästä huoneesta kylmään ulkoilmaan, ja huone jäähtyy, koska lämpöä katoaa. Ovesta voi toki virrata kylmää ilmaa, mutta ilma on ainetta, kylmä ei. Kylmä tarkoittaa vain sitä, että lämpötila on matala. Sama koskee pakastinta: kun sen ovi on auki, lämpö siirtyy huoneen ilmasta pakastimeen, ja kone joutuu tekemään töitä siirtääkseen sen takaisin ulos. Ohje on silti oikea, ovi kannattaa sulkea. Väärä on vain selitys, ja se haittaa, kun pitää miettiä, miten talo pidetään lämpimänä: eristettä ei laiteta pitämään kylmää ulkona vaan lämpöä sisällä."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Lämpötila luetaan mittarista. Lämpö on se, mikä siirtyy.","Itsestään lämpö siirtyy vain lämpimämmästä kylmempään, kunnes lämpötilat ovat samat.","Nollan alapuolella lukemaan kirjoitetaan miinusmerkki: -6 on kuusi astetta pakkasta.","Lämpötilaero on kahden lukeman välimatka. Laske askeleet nollan kautta, älä hyppää sen yli.","Eriste hidastaa lämmön siirtymistä, se ei tuota lämpöä. Metalli johtaa lämpöä hyvin.","Kylmä ei ole aine. Kun huone jäähtyy, lämpö karkaa ulos."]}],"harjoitusryhmat":[{"id":"mittari","nimi":"Lämpömittarin lukeminen","info":"Etsi nolla, katso puoli, laske viivat. Pakkaslukemaan kirjoitetaan miinusmerkki."},{"id":"siirtyy","nimi":"Lämpö liikkuu","info":"Lämpö siirtyy lämpimämmästä kylmempään, kunnes lämpötilat ovat samat."},{"id":"eristeet","nimi":"Eristeet ja johtimet","info":"Eriste hidastaa lämmön siirtymistä. Metallit johtavat sitä hyvin."}],"ryhmanimet":{"mittari":"Lämpömittarin lukeminen","siirtyy":"Lämpö liikkuu","eristeet":"Eristeet ja johtimet"},"harjoitukset":[{"id":"H01","ryhma":"mittari","tyyppi":"luku","kysymys":"Lämpömittarin nesteen pää on neljä viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-4,"vinkki":"Nesteen pää on nollan alapuolella, joten lukema on pakkasta. Laske viivat ja lisää miinusmerkki.","selitys":"Neljä viivaa nollan alapuolella on neljä astetta pakkasta eli -4. Ilman miinusmerkkiä 4 tarkoittaisi neljää lämpöastetta, ja ero olisi kahdeksan astetta."},{"id":"H02","ryhma":"mittari","tyyppi":"luku","kysymys":"Lämpömittarin nesteen pää on yhdeksän viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":9,"vinkki":"Nollan yläpuolella lukema kirjoitetaan ilman merkkiä.","selitys":"Yhdeksän viivaa nollan yläpuolella on 9 astetta lämmintä. Viiva on yksi aste, joten viivojen määrä on suoraan lukema."},{"id":"H03","ryhma":"mittari","tyyppi":"luku","kysymys":"Lämpömittarin nesteen pää on kolme viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-6,"vinkki":"Yksi viiva on tässä kaksi astetta. Kerro viivojen määrä kahdella ja katso puoli.","selitys":"Kolme viivaa, kukin kaksi astetta, on kuusi astetta. Nesteen pää on nollan alapuolella, joten lämpötila on -6. Yleisin väärä vastaus on -3, jolloin viivan arvo jäi tarkistamatta."},{"id":"H04","ryhma":"mittari","tyyppi":"luku","kysymys":"Mittari näyttää kuusi astetta pakkasta. Lämpötila nousee kahdeksan astetta. Mikä on uusi lämpötila?","vastaus":2,"vinkki":"Laske askeleet nollan kautta: kuusi askelta vie nollaan, loput jatkavat sen yli.","selitys":"Lähtö on -6. Nouseminen on liikettä kohti lämmintä. Kuusi askelta kuluu nollaan pääsemiseen ja kaksi askelta jää yli, joten uusi lämpötila on 2. Vastaus 14 syntyy, kun luvut lasketaan yhteen merkistä välittämättä."},{"id":"H05","ryhma":"mittari","tyyppi":"luku","kysymys":"Mittari näyttää kolme astetta lämmintä. Lämpötila laskee seitsemän astetta. Mikä on uusi lämpötila?","vastaus":-4,"vinkki":"Kolme askelta alaspäin vie nollaan. Montako askelta jää vielä jäljelle?","selitys":"Lähtö on 3. Kolme askelta alaspäin vie nollaan, ja neljä askelta jatkaa nollan alapuolelle: uusi lämpötila on -4."},{"id":"H06","ryhma":"mittari","tyyppi":"luku","kysymys":"Aamulla mittari näytti -9 astetta ja iltapäivällä -2 astetta. Montako astetta lämpötila nousi?","vastaus":7,"vinkki":"Molemmat lukemat ovat pakkasen puolella. Kysymys on, kuinka pitkä matka niiden välissä on.","selitys":"Luvusta -9 lukuun -2 on seitsemän askelta: -8, -7, -6, -5, -4, -3, -2. Lämpötila nousi 7 astetta. Ero ilmoitetaan ilman miinusmerkkiä."},{"id":"H07","ryhma":"mittari","tyyppi":"luku","kysymys":"Ulkona on -5 astetta ja sisällä 21 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":26,"vinkki":"Jaa matka kahteen osaan: pakkasesta nollaan ja nollasta sisälämpötilaan.","selitys":"Luvusta -5 nollaan on viisi askelta ja nollasta lukuun 21 on 21 askelta. Yhteensä 26 astetta. Vastaus 16 syntyy, kun nolla ohitetaan ja lasketaan 21 - 5."},{"id":"H08","ryhma":"mittari","tyyppi":"luku","kysymys":"Helsingissä on -4 astetta ja Rovaniemellä -17 astetta. Montako astetta kylmempää Rovaniemellä on?","vastaus":13,"vinkki":"Kumpikin lukema on nollan alapuolella. Laske välimatka luvusta -17 lukuun -4.","selitys":"Luvusta -17 lukuun -4 on 13 askelta, joten Rovaniemellä on 13 astetta kylmempää. Kova pakkanen on lukusuoralla kauempana nollasta, eli pienempi luku."},{"id":"H09","ryhma":"siirtyy","tyyppi":"monivalinta","kysymys":"Laitat kylmän metallilusikan kuumaan teehen. Kumpaan suuntaan lämpö siirtyy?","vaihtoehdot":["Teestä lusikkaan","Lusikasta teehen","Ei kumpaankaan suuntaan, kuuma ja kylmä pysyvät erillään"],"vastaus":0,"vinkki":"Lämpö siirtyy itsestään vain yhteen suuntaan. Kumpi on lämpimämpi, tee vai lusikka?","selitys":"Lämpö siirtyy teestä lusikkaan, koska tee on lämpimämpi. Lusikka lämpenee ja tee jäähtyy hieman. Kylmä ei siirry mihinkään, koska kylmä ei ole aine."},{"id":"H10","ryhma":"siirtyy","tyyppi":"luku","kysymys":"Kaakao on 62 astetta ja huoneen ilma 20 astetta. Kaakao jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta kaakao jäähtyy kaikkiaan?","vastaus":42,"vinkki":"Jäähtyminen loppuu, kun kaakao on huoneen lämpöinen. Laske lämpötilojen ero.","selitys":"Kaakao jäähtyy lämpötilasta 62 lämpötilaan 20, eli 42 astetta. Sen jälkeen lämpö ei enää siirry, koska lämpötilat ovat samat."},{"id":"H11","ryhma":"siirtyy","tyyppi":"luku","kysymys":"Jääkaapista otettu mehu on 5 astetta. Huoneen ilma on 22 astetta. Mehu jätetään pöydälle pitkäksi aikaa. Mikä on mehun lämpötila lopulta?","vastaus":22,"vinkki":"Lämpö siirtyy huoneilmasta mehuun, kunnes molemmat ovat saman lämpöiset.","selitys":"Mehu lämpenee, kunnes se on huoneen lämpöinen, eli 22 astetta. Se ei jää 5 asteeseen eikä lämpene huonetta lämpimämmäksi, koska siirtyminen loppuu, kun lämpötilat ovat samat."},{"id":"H12","ryhma":"siirtyy","tyyppi":"monivalinta","kysymys":"Puinen ja metallinen ovenkahva ovat samassa huoneessa, ja mittari näyttää kummastakin 20 astetta. Metallikahva tuntuu kädessä kylmemmältä. Miksi?","vaihtoehdot":["Metallikahva on oikeasti kylmempi kuin puukahva","Lämpö siirtyy kädestä metalliin nopeammin kuin puuhun","Puukahva tuottaa itse lämpöä"],"vastaus":1,"vinkki":"Mittari kertoo, että lämpötilat ovat samat. Tuntemus tulee siitä, mitä kädestäsi siirtyy kahvaan.","selitys":"Metalli johtaa lämpöä hyvin, joten lämpö siirtyy kädestäsi metalliin nopeammin kuin puuhun. Käsi tuntee oman lämpönsä katoamisen ja tulkitsee sen kylmyydeksi. Kahvojen lämpötila on silti sama."},{"id":"H13","ryhma":"siirtyy","tyyppi":"luku","kysymys":"Kuuma vesi on 70 astetta. Pöydällä se jäähtyy 49 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":21,"vinkki":"Jäähtyminen loppuu, kun vesi on huoneen lämpöinen. Vähennä jäähtyminen alkulämpötilasta.","selitys":"Vesi jäähtyi lämpötilasta 70 lämpötilaan 70 - 49 = 21. Koska lämpötila ei enää muutu, huone on 21 astetta."},{"id":"H14","ryhma":"siirtyy","tyyppi":"luku","kysymys":"Pakkasessa ollut kivi on -12 astetta. Se tuodaan sisälle, jossa on 20 astetta. Montako astetta kiven lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":32,"vinkki":"Kivi lämpenee nollan kautta huoneen lämpötilaan. Laske matka kahdessa osassa.","selitys":"Luvusta -12 nollaan on 12 astetta ja nollasta lukuun 20 on 20 astetta, yhteensä 32 astetta. Lämpö siirtyy huoneilmasta kiveen, kunnes kivi on 20 astetta."},{"id":"H15","ryhma":"eristeet","tyyppi":"luku","kysymys":"Aineet: villa, rauta, styroksi, kupari, untuva.\n\nMontako näistä on hyviä eristeitä?","vastaus":3,"vinkki":"Metallit johtavat lämpöä hyvin, ne eivät ole eristeitä. Laske muut.","selitys":"Villa, styroksi ja untuva ovat eristeitä: niiden sisällä on paikallaan pysyvää ilmaa. Rauta ja kupari ovat metalleja ja johtavat lämpöä hyvin. Eristeitä on 3."},{"id":"H16","ryhma":"eristeet","tyyppi":"luku","kysymys":"Aineet: alumiinifolio, huopa, teräslusikka, lumi, korkki, puu.\n\nMontako näistä on hyviä eristeitä?","vastaus":4,"vinkki":"Katso taulukosta, mihin ryhmään kukin aine kuuluu. Lumi on mukana tahallaan.","selitys":"Huopa, lumi, korkki ja puu ovat eristeitä, joten vastaus on 4. Alumiinifolio ja teräslusikka ovat metallia ja johtavat lämpöä hyvin. Lumi on eriste, koska siinä on paljon ilmaa."},{"id":"H17","ryhma":"eristeet","tyyppi":"monivalinta","kysymys":"Mitä villapaita tekee, kun puet sen kylmällä säällä?","vaihtoehdot":["Tuottaa lämpöä kehoosi","Hidastaa lämmön siirtymistä kehostasi ulkoilmaan","Estää kylmää tulemasta ihoon"],"vastaus":1,"vinkki":"Kaapissa villapaita on huoneen lämpöinen. Se ei siis tuota lämpöä. Mistä lämpö tulee?","selitys":"Villapaita hidastaa lämmön siirtymistä kehostasi ulkoilmaan. Lämmönlähde on kehosi, paita vain pitää lämmön lähelläsi. Kylmä ei ole aine, joten paita ei voi estää sitä tulemasta."},{"id":"H18","ryhma":"eristeet","tyyppi":"luku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 55, lopussa 38\nAstia 2, styroksimuki: alussa 55, lopussa 50\nAstia 3, lasipurkki: alussa 55, lopussa 44\nAstia 4, villasukkaan kääritty lasipurkki: alussa 55, lopussa 48\n\nMontako astetta vesi jäähtyi astiassa 3?","vastaus":11,"vinkki":"Etsi rivi Astia 3 ja vähennä loppulämpötila alkulämpötilasta.","selitys":"Astiassa 3 vesi oli alussa 55 astetta ja lopussa 44 astetta. Se jäähtyi 55 - 44 = 11 astetta. Vastaus ei ole 44: se on loppulämpötila, ei jäähtyminen."},{"id":"H19","ryhma":"eristeet","tyyppi":"luku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 53, lopussa 37\nAstia 2, styroksimuki: alussa 51, lopussa 46\nAstia 3, lasipurkki: alussa 54, lopussa 43\nAstia 4, villasukkaan kääritty lasipurkki: alussa 52, lopussa 44\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":5,"vinkki":"Alkulämpötilat ovat erilaiset, joten laske jokaisen astian jäähtyminen erikseen ennen kuin vertaat.","selitys":"Jäähtymiset ovat 16, 5, 11 ja 8 astetta. Vähiten jäähtyi styroksimukin vesi, 5 astetta. Styroksi on paras eriste näistä astioista. Pelkkien loppulämpötilojen vertailu antaisi väärän astian, koska alkulämpötilat eivät olleet samat."},{"id":"H20","ryhma":"eristeet","tyyppi":"luku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 52, lopussa 35\nAstia 2, styroksimuki: alussa 54, lopussa 49\nAstia 3, lasipurkki: alussa 50, lopussa 40\nAstia 4, villasukkaan kääritty lasipurkki: alussa 53, lopussa 46\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":12,"vinkki":"Laske ensin kummankin astian jäähtyminen ja vertaa sitten niitä.","selitys":"Metallikupissa vesi jäähtyi 52 - 35 = 17 astetta ja styroksimukissa 54 - 49 = 5 astetta. Ero on 17 - 5 = 12 astetta. Metalli johtaa lämpöä hyvin, styroksi hidastaa sen siirtymistä."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lämpö liikkuu","johdanto":"Lämpötilat ovat celsiusasteita. Kun lukema on pakkasen puolella, kirjoita vastaukseen miinusmerkki. Lämpötilaero ilmoitetaan ilman merkkiä.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on seitsemän viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-7},{"nro":2,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kaksitoista viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":12},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on viisi viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-10},{"nro":4,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää kolme astetta pakkasta. Lämpötila nousee yhdeksän astetta. Mikä on uusi lämpötila?","vastaus":6},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää viisi astetta lämmintä. Lämpötila laskee yhdeksän astetta. Mikä on uusi lämpötila?","vastaus":-4},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Aamulla mittari näytti -11 astetta ja iltapäivällä -3 astetta. Montako astetta lämpötila nousi?","vastaus":8},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Ulkona on -8 astetta ja sisällä 20 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":28},{"nro":8,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Helsingissä on -2 astetta ja Kuopiossa -19 astetta. Montako astetta kylmempää Kuopiossa on?","vastaus":17},{"nro":9,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kaakao on 58 astetta ja huoneen ilma 21 astetta. Kaakao jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta kaakao jäähtyy kaikkiaan?","vastaus":37},{"nro":10,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Jääkaapista otettu mehu on 6 astetta. Huoneen ilma on 20 astetta. Mehu jätetään pöydälle pitkäksi aikaa. Mikä on sen lämpötila lopulta?","vastaus":20},{"nro":11,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kuuma vesi on 65 astetta. Pöydällä se jäähtyy 43 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":22},{"nro":12,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Pakkasessa ollut kivi on -7 astetta. Se tuodaan sisälle, jossa on 22 astetta. Montako astetta sen lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":29},{"nro":13,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Laitat kylmän lusikan kuumaan teehen. Kumpaan suuntaan lämpö siirtyy? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Lämpö siirtyy teestä lusikkaan, koska tee on lämpimämpi."},{"nro":14,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Mikä ero on lämpötilalla ja lämmöllä? Kerro yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Lämpötila on lukema, joka luetaan mittarista ja kertoo kuinka lämmintä jokin on. Lämpö on se, mikä siirtyy lämpimämmästä kylmempään."},{"nro":15,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: villa, kupari, huopa, alumiini, korkki, teräs.\n\nMontako näistä on hyviä eristeitä?","vastaus":3},{"nro":16,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: styroksi, rauta, untuva, kupari, puu.\n\nMontako näistä johtaa lämpöä hyvin?","vastaus":2},{"nro":17,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 52, lopussa 36\nAstia 2, styroksimuki: alussa 50, lopussa 45\nAstia 3, lasipurkki: alussa 51, lopussa 39\nAstia 4, villasukkaan kääritty lasipurkki: alussa 53, lopussa 46\n\nMontako astetta vesi jäähtyi astiassa 3?","vastaus":12},{"nro":18,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 52, lopussa 36\nAstia 2, styroksimuki: alussa 50, lopussa 45\nAstia 3, lasipurkki: alussa 51, lopussa 39\nAstia 4, villasukkaan kääritty lasipurkki: alussa 53, lopussa 46\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":5},{"nro":19,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 52, lopussa 36\nAstia 2, styroksimuki: alussa 50, lopussa 45\nAstia 3, lasipurkki: alussa 51, lopussa 39\nAstia 4, villasukkaan kääritty lasipurkki: alussa 53, lopussa 46\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":11},{"nro":20,"ryhma":"eristeet","tyyppi":"sanallinen","kysymys":"Miksi villapaita tuntuu lämpimältä, vaikka se ei tuota lämpöä? Selitä yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Villapaita hidastaa lämmön siirtymistä kehosta ulkoilmaan, joten kehon oma lämpö pysyy lähellä ihoa. Lämmönlähde on keho, ei paita."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lämpö liikkuu","johdanto":"Lämpötilat ovat celsiusasteita. Kun lukema on pakkasen puolella, kirjoita vastaukseen miinusmerkki. Lämpötilaero ilmoitetaan ilman merkkiä.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on yhdeksän viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-9},{"nro":2,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kuusi viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":6},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on neljä viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-8},{"nro":4,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää neljä astetta pakkasta. Lämpötila nousee yhdeksän astetta. Mikä on uusi lämpötila?","vastaus":5},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää kaksi astetta lämmintä. Lämpötila laskee kahdeksan astetta. Mikä on uusi lämpötila?","vastaus":-6},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Aamulla mittari näytti -14 astetta ja iltapäivällä -5 astetta. Montako astetta lämpötila nousi?","vastaus":9},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Ulkona on -12 astetta ja sisällä 21 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":33},{"nro":8,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Tampereella on -6 astetta ja Ivalossa -24 astetta. Montako astetta kylmempää Ivalossa on?","vastaus":18},{"nro":9,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Tee on 63 astetta ja huoneen ilma 22 astetta. Tee jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta tee jäähtyy kaikkiaan?","vastaus":41},{"nro":10,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Jääkaapista otettu maito on 4 astetta. Huoneen ilma on 21 astetta. Maito jätetään pöydälle pitkäksi aikaa. Mikä on sen lämpötila lopulta?","vastaus":21},{"nro":11,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kuuma vesi on 68 astetta. Pöydällä se jäähtyy 49 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":19},{"nro":12,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Pakkasessa ollut kivi on -13 astetta. Se tuodaan sisälle, jossa on 17 astetta. Montako astetta sen lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":30},{"nro":13,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Laitat jääpalan lämpimään mehuun. Kumpaan suuntaan lämpö siirtyy? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Lämpö siirtyy mehusta jääpalaan, koska mehu on lämpimämpi; jääpala sulaa ja mehu jäähtyy."},{"nro":14,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Kuppi kuumaa vettä on 80 astetta ja uima-allas 25 astetta. Kummassa lämpötila on korkeampi, ja kumpi voi luovuttaa enemmän lämpöä jäähtyessään? Perustele lyhyesti.","vastaus":"Malliesimerkki: Lämpötila on korkeampi kupissa. Allas voi luovuttaa enemmän lämpöä, koska vettä on paljon enemmän, ja se sulattaisi paljon enemmän jäätä."},{"nro":15,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: untuva, rauta, styroksi, lumi, kupari, muovi.\n\nMontako näistä on hyviä eristeitä?","vastaus":4},{"nro":16,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: rauta, alumiini, huopa, kupari, puu, teräs.\n\nMontako näistä johtaa lämpöä hyvin?","vastaus":4},{"nro":17,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 54, lopussa 35\nAstia 2, styroksimuki: alussa 52, lopussa 46\nAstia 3, lasipurkki: alussa 50, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 55, lopussa 47\n\nMontako astetta vesi jäähtyi astiassa 4?","vastaus":8},{"nro":18,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 54, lopussa 35\nAstia 2, styroksimuki: alussa 52, lopussa 46\nAstia 3, lasipurkki: alussa 50, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 55, lopussa 47\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":6},{"nro":19,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 54, lopussa 35\nAstia 2, styroksimuki: alussa 52, lopussa 46\nAstia 3, lasipurkki: alussa 50, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 55, lopussa 47\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":13},{"nro":20,"ryhma":"eristeet","tyyppi":"sanallinen","kysymys":"Talvella sanotaan: sulje ovi, kylmä tulee sisään. Mikä oikeasti liikkuu ja mihin suuntaan? Selitä yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Oikeasti lämpö siirtyy lämpimästä huoneesta kylmään ulkoilmaan. Kylmä ei ole aine, joka liikkuisi; kylmä tarkoittaa matalaa lämpötilaa."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lämpö liikkuu","johdanto":"Lämpötilat ovat celsiusasteita. Kun lukema on pakkasen puolella, kirjoita vastaukseen miinusmerkki. Lämpötilaero ilmoitetaan ilman merkkiä.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kuusi viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-6},{"nro":2,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on neljätoista viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":14},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kuusi viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-12},{"nro":4,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää seitsemän astetta pakkasta. Lämpötila nousee kaksitoista astetta. Mikä on uusi lämpötila?","vastaus":5},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää neljä astetta lämmintä. Lämpötila laskee kymmenen astetta. Mikä on uusi lämpötila?","vastaus":-6},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Aamulla mittari näytti -7 astetta ja iltapäivällä -1 astetta. Montako astetta lämpötila nousi?","vastaus":6},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Ulkona on -3 astetta ja sisällä 22 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":25},{"nro":8,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Vaasassa on -5 astetta ja Sodankylässä -21 astetta. Montako astetta kylmempää Sodankylässä on?","vastaus":16},{"nro":9,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Keitto on 66 astetta ja huoneen ilma 20 astetta. Keitto jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta keitto jäähtyy kaikkiaan?","vastaus":46},{"nro":10,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Jääkaapista otettu jogurtti on 7 astetta. Huoneen ilma on 23 astetta. Jogurtti jätetään pöydälle pitkäksi aikaa. Mikä on sen lämpötila lopulta?","vastaus":23},{"nro":11,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kuuma vesi on 61 astetta. Pöydällä se jäähtyy 40 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":21},{"nro":12,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Pakkasessa ollut metallipala on -15 astetta. Se tuodaan sisälle, jossa on 20 astetta. Montako astetta sen lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":35},{"nro":13,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Pidät kylmiä käsiäsi lämpimän mukin ympärillä. Kumpaan suuntaan lämpö siirtyy? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Lämpö siirtyy mukista käsiin, koska muki on lämpimämpi kuin kädet."},{"nro":14,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Mitä lämpömittari mittaa: lämpöä vai lämpötilaa? Kerro, mikä ero näillä kahdella on.","vastaus":"Malliesimerkki: Mittari mittaa lämpötilaa eli sitä, kuinka lämmintä jokin on. Lämpö on energiaa, joka siirtyy lämpimämmästä kylmempään, eikä sitä lueta mittarista."},{"nro":15,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: huopa, teräs, korkki, alumiini, untuva, kupari, styroksi.\n\nMontako näistä on hyviä eristeitä?","vastaus":4},{"nro":16,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: puu, kupari, lumi, rauta, alumiini, muovi.\n\nMontako näistä johtaa lämpöä hyvin?","vastaus":3},{"nro":17,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 51, lopussa 33\nAstia 2, styroksimuki: alussa 53, lopussa 48\nAstia 3, lasipurkki: alussa 52, lopussa 42\nAstia 4, villasukkaan kääritty lasipurkki: alussa 50, lopussa 43\n\nMontako astetta vesi jäähtyi astiassa 1?","vastaus":18},{"nro":18,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 51, lopussa 33\nAstia 2, styroksimuki: alussa 53, lopussa 48\nAstia 3, lasipurkki: alussa 52, lopussa 42\nAstia 4, villasukkaan kääritty lasipurkki: alussa 50, lopussa 43\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":5},{"nro":19,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 51, lopussa 33\nAstia 2, styroksimuki: alussa 53, lopussa 48\nAstia 3, lasipurkki: alussa 52, lopussa 42\nAstia 4, villasukkaan kääritty lasipurkki: alussa 50, lopussa 43\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":13},{"nro":20,"ryhma":"eristeet","tyyppi":"sanallinen","kysymys":"Miksi kattilan kahva on puuta tai muovia, vaikka kattila itse on metallia? Selitä yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Metalli johtaa lämpöä hyvin, joten kattila kuumenee liedellä. Puu ja muovi ovat eristeitä, joiden läpi lämpö siirtyy hitaasti, joten kahvasta voi tarttua."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lämpö liikkuu","johdanto":"Lämpötilat ovat celsiusasteita. Kun lukema on pakkasen puolella, kirjoita vastaukseen miinusmerkki. Lämpötilaero ilmoitetaan ilman merkkiä.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kahdeksan viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-8},{"nro":2,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on yksitoista viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":11},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on seitsemän viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-14},{"nro":4,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää yhdeksän astetta pakkasta. Lämpötila nousee kolmetoista astetta. Mikä on uusi lämpötila?","vastaus":4},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää kuusi astetta lämmintä. Lämpötila laskee yksitoista astetta. Mikä on uusi lämpötila?","vastaus":-5},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Aamulla mittari näytti -16 astetta ja iltapäivällä -9 astetta. Montako astetta lämpötila nousi?","vastaus":7},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Ulkona on -9 astetta ja sisällä 19 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":28},{"nro":8,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lahdessa on -4 astetta ja Kittilässä -22 astetta. Montako astetta kylmempää Kittilässä on?","vastaus":18},{"nro":9,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kaakao on 59 astetta ja huoneen ilma 23 astetta. Kaakao jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta kaakao jäähtyy kaikkiaan?","vastaus":36},{"nro":10,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Jääkaapista otettu mehu on 3 astetta. Huoneen ilma on 21 astetta. Mehu jätetään pöydälle pitkäksi aikaa. Mikä on sen lämpötila lopulta?","vastaus":21},{"nro":11,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kuuma vesi on 74 astetta. Pöydällä se jäähtyy 52 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":22},{"nro":12,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Pakkasessa ollut kivi on -11 astetta. Se tuodaan sisälle, jossa on 22 astetta. Montako astetta sen lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":33},{"nro":13,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Pudotat auringossa lämmenneen kiven kylmään järviveteen. Kumpaan suuntaan lämpö siirtyy? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Lämpö siirtyy kivestä veteen, koska kivi on lämpimämpi kuin vesi."},{"nro":14,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Pieni kuppi teetä ja iso kattila keittoa ovat molemmat 60 astetta. Kumpi voi luovuttaa enemmän lämpöä jäähtyessään huoneen lämpöiseksi? Perustele lämmön ja lämpötilan erolla.","vastaus":"Malliesimerkki: Lämpötila on sama, mutta kattila voi luovuttaa enemmän lämpöä, koska keittoa on paljon enemmän kuin teetä. Lämpötila on mittarin lukema, lämpö on se, mikä siirtyy."},{"nro":15,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: lumi, rauta, villa, kupari, vaahtomuovi, teräs.\n\nMontako näistä on hyviä eristeitä?","vastaus":3},{"nro":16,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: alumiini, styroksi, kupari, untuva, rauta, huopa.\n\nMontako näistä johtaa lämpöä hyvin?","vastaus":3},{"nro":17,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 53, lopussa 36\nAstia 2, styroksimuki: alussa 51, lopussa 45\nAstia 3, lasipurkki: alussa 54, lopussa 43\nAstia 4, villasukkaan kääritty lasipurkki: alussa 52, lopussa 44\n\nMontako astetta vesi jäähtyi astiassa 4?","vastaus":8},{"nro":18,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 53, lopussa 36\nAstia 2, styroksimuki: alussa 51, lopussa 45\nAstia 3, lasipurkki: alussa 54, lopussa 43\nAstia 4, villasukkaan kääritty lasipurkki: alussa 52, lopussa 44\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":6},{"nro":19,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 53, lopussa 36\nAstia 2, styroksimuki: alussa 51, lopussa 45\nAstia 3, lasipurkki: alussa 54, lopussa 43\nAstia 4, villasukkaan kääritty lasipurkki: alussa 52, lopussa 44\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":11},{"nro":20,"ryhma":"eristeet","tyyppi":"sanallinen","kysymys":"Miksi myyrä pysyy talvella lämpimämpänä hangen alla kuin hangen päällä? Selitä yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Lumi on eriste, koska siinä on paljon ilmaa. Se hidastaa lämmön siirtymistä maasta ja myyrästä kylmään ulkoilmaan, joten hangen alla on lämpimämpää."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lämpö liikkuu","johdanto":"Lämpötilat ovat celsiusasteita. Kun lukema on pakkasen puolella, kirjoita vastaukseen miinusmerkki. Lämpötilaero ilmoitetaan ilman merkkiä.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kolme viivaa nollan alapuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-3},{"nro":2,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on seitsemäntoista viivaa nollan yläpuolella. Mittarissa yksi viiva on yksi aste. Mikä lämpötila on?","vastaus":17},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Lämpömittarin nesteen pää on kahdeksan viivaa nollan alapuolella. Tässä mittarissa yksi viiva on kaksi astetta. Mikä lämpötila on? Kirjoita miinusmerkki mukaan.","vastaus":-16},{"nro":4,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää kaksitoista astetta pakkasta. Lämpötila nousee viisitoista astetta. Mikä on uusi lämpötila?","vastaus":3},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittari näyttää yhden asteen lämmintä. Lämpötila laskee yhdeksän astetta. Mikä on uusi lämpötila?","vastaus":-8},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Aamulla mittari näytti -13 astetta ja iltapäivällä -4 astetta. Montako astetta lämpötila nousi?","vastaus":9},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Ulkona on -7 astetta ja sisällä 23 astetta. Montako astetta lämpimämpää sisällä on?","vastaus":30},{"nro":8,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Porissa on -1 astetta ja Rovaniemellä -18 astetta. Montako astetta kylmempää Rovaniemellä on?","vastaus":17},{"nro":9,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Tee on 61 astetta ja huoneen ilma 19 astetta. Tee jäähtyy, kunnes se on saman lämpöinen kuin huone. Montako astetta tee jäähtyy kaikkiaan?","vastaus":42},{"nro":10,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Jääkaapista otettu rahka on 6 astetta. Huoneen ilma on 24 astetta. Rahka jätetään pöydälle pitkäksi aikaa. Mikä on sen lämpötila lopulta?","vastaus":24},{"nro":11,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Kuuma vesi on 69 astetta. Pöydällä se jäähtyy 47 astetta, ja sitten sen lämpötila ei enää muutu. Mikä on huoneen lämpötila?","vastaus":22},{"nro":12,"ryhma":"siirtyy","tyyppi":"lasku","kysymys":"Pakkasessa ollut metallipala on -16 astetta. Se tuodaan sisälle, jossa on 21 astetta. Montako astetta sen lämpötila nousee, ennen kuin se on huoneen lämpöinen?","vastaus":37},{"nro":13,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Laitat kuuman kaakaon jääkaappiin. Kumpaan suuntaan lämpö siirtyy? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Lämpö siirtyy kaakaosta jääkaapin ilmaan, koska kaakao on lämpimämpi."},{"nro":14,"ryhma":"siirtyy","tyyppi":"sanallinen","kysymys":"Mikä ero on lämpötilalla ja lämmöllä? Anna yksi esimerkki.","vastaus":"Malliesimerkki: Lämpötila luetaan mittarista, esimerkiksi kaakao on 60 astetta. Lämpö on se, mikä siirtyy kaakaosta huoneilmaan, kun kaakao jäähtyy."},{"nro":15,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: korkki, alumiini, untuva, teräs, huopa, muovi, rauta.\n\nMontako näistä on hyviä eristeitä?","vastaus":4},{"nro":16,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Aineet: villa, teräs, lumi, kupari, korkki.\n\nMontako näistä johtaa lämpöä hyvin?","vastaus":2},{"nro":17,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 50, lopussa 34\nAstia 2, styroksimuki: alussa 55, lopussa 50\nAstia 3, lasipurkki: alussa 53, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 51, lopussa 44\n\nMontako astetta vesi jäähtyi astiassa 1?","vastaus":16},{"nro":18,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 50, lopussa 34\nAstia 2, styroksimuki: alussa 55, lopussa 50\nAstia 3, lasipurkki: alussa 53, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 51, lopussa 44\n\nMontako astetta vesi jäähtyi siinä astiassa, jossa se jäähtyi vähiten?","vastaus":5},{"nro":19,"ryhma":"eristeet","tyyppi":"lasku","kysymys":"Lämmintä vettä kaadettiin neljään astiaan, ja lämpötila mitattiin alussa ja 20 minuutin kuluttua.\nAstia 1, metallikuppi: alussa 50, lopussa 34\nAstia 2, styroksimuki: alussa 55, lopussa 50\nAstia 3, lasipurkki: alussa 53, lopussa 41\nAstia 4, villasukkaan kääritty lasipurkki: alussa 51, lopussa 44\n\nMontako astetta enemmän vesi jäähtyi metallikupissa kuin styroksimukissa?","vastaus":11},{"nro":20,"ryhma":"eristeet","tyyppi":"sanallinen","kysymys":"Miksi termospullossa kaakao pysyy kuumana paljon pidempään kuin tavallisessa mukissa, mutta jäähtyy lopulta sekin? Selitä yhdellä tai kahdella virkkeellä.","vastaus":"Malliesimerkki: Termospullon seinät eristävät eli hidastavat lämmön siirtymistä kaakaosta ulos. Eriste ei kuitenkaan pysäytä siirtymistä, joten kaakao jäähtyy lopulta huoneen lämpöiseksi."}]}],"tulostus":{"sivuja":3,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":2,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"Yksi oppitunti tekstiin ja harjoituksiin, toinen jäähtymiskokeeseen (näyttö) ja kolmas kokeeseen. Jäähtymiskokeen mittaukset mahtuvat yhteen oppituntiin.","huomiot":["Tehtävissä 1–3 ratkaisee merkki. Vastaus 7 tehtävään, jossa nesteen pää on seitsemän viivaa nollan alapuolella, tarkoittaa, että miinusmerkki jäi pois: viivat laskettiin oikein, mutta puolta ei katsottu. Tehtävässä 3 vastaus, joka on puolet oikeasta, kertoo että viivan arvoa (kaksi astetta) ei luettu.","Tehtävät 4–5 ylittävät nollan. Vastaus 12 tai -12 tehtävään 'kolme astetta pakkasta, nousee yhdeksän' kertoo, että luvut laskettiin yhteen merkistä välittämättä. Sama asia harjoitellaan matematiikan taidossa MAT4-LUK-11 (Nollan alapuolella), mutta se on vasta jaksossa J4 eli tämän taidon jälkeen. Kertaa siksi askeleet lukusuoralla ennen koetta.","Tehtävissä 6–8 kysytään lämpötilaeroa. Vastaus, jossa nolla ohitettiin (ulkona -8, sisällä 20, vastaus 12), on tämän osion yleisin virhe. Kysy: montako askelta on pakkaslukemasta nollaan, ja montako nollasta sisälämpötilaan.","Tehtävät 9–12 mittaavat tasaantumisen ymmärtämistä. Jos tehtävässä 10 vastaus on juoman alkulämpötila tai nolla, oppilas ei ole ymmärtänyt, että lämpö siirtyy huoneilmasta juomaan, kunnes lämpötilat ovat samat. Tehtävässä 11 vastaus, joka on annettu jäähtymisen määrä sellaisenaan, kertoo että kysymys luettiin loppuun asti lukematta.","Tehtävät 13, 14 ja 20 ovat sanallisia, ja niiden malliesimerkki on yksi hyväksyttävä muotoilu, ei ainoa. Tehtävässä 13 hyväksytään mikä tahansa vastaus, jossa lämpö siirtyy lämpimämmästä kylmempään ja suunta on nimetty oikein; hylätään vastaus, jossa kylmä siirtyy. Tehtävässä 14 riittää, että lämpötila on mittarista luettava lukema ja lämpö on se, mikä siirtyy tai liikkuu; sanaa energia ei vaadita, ja B- ja D-kokeissa riittää oikea päättely määrän perusteella. Tehtävässä 20 hyväksytään perustelu, jossa eriste hidastaa lämmön siirtymistä tai pitää lämmön lähellä; hylätään perustelu, jossa vaate, lumi tai termospullo tuottaa lämpöä tai estää kylmää.","Tehtävissä 15–16 aineet ovat vain sellaisia, jotka oppilaan sivun taulukko luokittelee: villa, untuva, huopa, styroksi, vaahtomuovi, puu, korkki, muovi, lumi ja paikallaan pysyvä ilma ovat eristeitä; rauta, teräs, kupari ja alumiini johtimia. Lasi, kivi ja vesi on jätetty tehtävistä pois, koska ne ovat siltä väliltä. Väärä lukumäärä paljastaa yleensä, että metallit laskettiin eristeiksi tai lumi johtimeksi. Tarkista kysymällä, mistä kattilan kahva on tehty ja miksi.","Tehtävissä 17–19 alkulämpötilat vaihtelevat tahallaan. Vastaus, joka on suoraan taulukon loppulämpötila, kertoo, että oppilas luki taulukosta luvun laskematta erotusta. Tehtävässä 18 pelkkien loppulämpötilojen vertailu tuottaa väärän astian, ja juuri tämä virhe toistuu oppilaiden omassa jäähtymiskokeessa.","Jäähtymiskoe (näyttö): kaada samaa lämmintä hanavettä (noin 45–50 astetta, ei kiehuvaa) neljään erilaiseen astiaan ja mittaa lämpötila alussa ja kaksi kertaa 15 minuutin välein. Havainto riittää: missä astiassa vesi jäähtyi vähiten ja mikä sen selittää. Astioita ei laiteta paremmuusjärjestykseen eristeinä muuten kuin tämän yhden havainnon perusteella, eikä oppilaan työskentelyn kestoa mitata; mitattava aika on veden jäähtymisen, ei oppilaan."]},"tuntirunko":{"kesto":"45 min (jäähtymiskoe erillisellä tunnilla)","sanottava_aaneen":"Lämpötila luetaan mittarista, lämpö on se, mikä liikkuu — ja itsestään se liikkuu vain lämpimämmästä kylmempään.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Anna kiertää metallilusikka ja puulusikka, jotka ovat olleet samassa huoneessa. Kysy, kumpi on kylmempi. Mittaa sitten molemmat: sama lukema. Kysymys, miksi metalli tuntuu kylmemmältä, jää auki ja ratkeaa eristeiden kohdalla."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Käy läpi lämpötilan ja lämmön ero yhdellä esimerkillä (kupissa on korkeampi lämpötila, mutta uima-allas voi luovuttaa enemmän lämpöä) ja siirtymisen suunta kaakaolla ja mehulla. Näytä pakkasmittarin lukeminen: nolla, puoli, viivat. Ota esiin mittari, jossa viiva on kaksi astetta, jos sellainen on — sen lukeminen menee useimmin väärin. Laske yksi nollan ylitys ääneen askel kerrallaan."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivu ryhmä kerrallaan. Ryhmässä Lämpömittarin lukeminen kierrä ja katso, kirjoittaako oppilas miinusmerkin ilman kehotusta. Ryhmässä Eristeet ja johtimet pyydä jokaista perustelemaan yksi vastaus taulukon avulla, ei muistista."},{"aika":"8 min","otsikko":"Lopetus","sisalto":"Palaa lusikoihin: metalli tuntuu kylmemmältä, koska lämpö siirtyy kädestä siihen nopeammin. Sovi jäähtymiskokeen astiat seuraavalle kerralle ja pyydä jokaista ennustamaan, missä astiassa vesi jäähtyy vähiten. Ennuste kirjoitetaan ylös ja tarkistetaan kokeen jälkeen."}],"tarvikkeet":"Metallilusikka ja puulusikka, kaksi lämpömittaria (mielellään yksi, jossa viiva on kaksi astetta, ja yksi digitaalinen), pakastimessa ollut mittari pakkaslukeman näyttämiseksi. Jäähtymiskokeeseen: lämmintä hanavettä, metallikuppi, styroksimuki, lasipurkki, villasukka purkin ympärille, mittari jokaiseen astiaan tai yksi mittari kiertoon, kello mittausvälien seuraamiseen."},"virhesanakirja":[{"virhe":"Vastaa 4, kun nesteen pää on neljä viivaa nollan alapuolella","tehtava":"lämpömittarin lukeminen (H01, H03; kokeen tehtävät 1 ja 3)","mita_kertoo":"Viivat on laskettu oikein, mutta puolta ei katsottu. Oppilas lukee mittaria kuin lukusuoraa, joka alkaa nollasta ja kasvaa molempiin suuntiin.","mita_tehda":"Pyydä osoittamaan nolla ja sanomaan ääneen, kummalla puolella nesteen pää on, ennen kuin yhtään viivaa lasketaan. Merkki kirjoitetaan ensin, luku vasta sitten."},{"virhe":"Vastaa 14 tai -14, kun mittari näyttää -6 ja lämpötila nousee 8 astetta","tehtava":"lämpötilan muutos nollan yli (H04–H05; kokeen tehtävät 4–5)","mita_kertoo":"Luvut lasketaan yhteen merkistä välittämättä. Nousu ymmärretään yhteenlaskuksi, ja miinusmerkki jää irralliseksi koristeeksi tai liimataan tulokseen jälkikäteen.","mita_tehda":"Laske askeleet ääneen nollan kautta: -6, -5, -4, -3, -2, -1, 0, 1, 2. Kuusi askelta kuluu nollaan pääsemiseen, kaksi jää yli. Piirrä lukusuora, jos ääneen laskeminen ei riitä."},{"virhe":"Vastaa 16, kun kysytään, montako astetta lämpimämpää sisällä (21) on kuin ulkona (-5)","tehtava":"lämpötilaero (H07–H08; kokeen tehtävät 6–8)","mita_kertoo":"Nolla ohitettiin: luvut vähennettiin toisistaan kuin molemmat olisivat lämpimän puolella. Ero on välimatka, ja nollan alapuolinen osa unohtui.","mita_tehda":"Jaa välimatka kahteen osaan: pakkasesta nollaan ja nollasta lämpimään. Kysy molemmat erikseen ja laske yhteen."},{"virhe":"Vastaa 5 tai 0 mehun lopulliseksi lämpötilaksi, kun mehu on 5 astetta ja huone 22 astetta","tehtava":"tasaantuminen (H11; kokeen tehtävä 10)","mita_kertoo":"Oppilas ei ole oivaltanut, että lämpö siirtyy huoneilmasta mehuun, kunnes lämpötilat ovat samat. Kylmyys ajatellaan juoman pysyväksi ominaisuudeksi.","mita_tehda":"Kysy, mitä jääkaapista otetulle maidolle tapahtuu, jos se unohtuu pöydälle koko päiväksi. Kysy sitten, mihin lämpötilaan se asettuu ja miksi juuri siihen eikä lämpimämmäksi."},{"virhe":"Vastaa 5, kun kysytään, montako aineista villa, rauta, styroksi, kupari ja untuva on hyviä eristeitä","tehtava":"eristeiden laskeminen (H15–H16; kokeen tehtävät 15–16)","mita_kertoo":"Kaikki lämpimältä kuulostava luokitellaan eristeeksi, tai eriste ja johdin sekoittuvat keskenään. Metallien lämmönjohtavuutta ei ole yhdistetty arkikokemukseen kuumasta lusikasta.","mita_tehda":"Palaa lusikkakokeeseen: metallilusikka kuumenee teessä, muovisen varsi pysyy viileänä. Pyydä jakamaan taulukon aineet kahteen pinoon ja perustelemaan jokainen yhdellä arkiesimerkillä."},{"virhe":"Kirjoittaa sanalliseen tehtävään, että villapaita lämmittää tai estää kylmää tulemasta","tehtava":"sanallinen perustelu (H17; kokeen tehtävä 20)","mita_kertoo":"Arkikielen sanonta on vielä vahvempi kuin opittu selitys. Lämmönlähde (keho) ja eriste (paita) eivät ole erottuneet toisistaan, tai kylmä ajatellaan aineeksi.","mita_tehda":"Kysy, minkä lämpöinen villapaita on kaapissa ja mistä lämpö tulee, kun paita on päällä. Jääpala villasukassa on helppo koe: se sulaa hitaammin kuin paljas jääpala, joten villa ei lämmitä."},{"virhe":"Vastaa 44, kun kysytään, montako astetta vesi jäähtyi astiassa, jossa alussa oli 55 ja lopussa 44","tehtava":"jäähtymiskokeen taulukko (H18–H20; kokeen tehtävät 17–19)","mita_kertoo":"Taulukosta luettiin luku laskematta erotusta. Kysymyksen sana jäähtyi ei ohjannut vähennyslaskuun.","mita_tehda":"Pyydä alleviivaamaan alkulämpötila ja loppulämpötila ja sanomaan, kumpi on suurempi. Jäähtyminen on niiden erotus. Sama korjaus pätee omaan jäähtymiskokeeseen, jossa oppilas vertaa loppulukemia eikä muutoksia."}],"huoltajalle":{"mista_on_kyse":"Lapsi opettelee lukemaan lämpömittaria myös pakkasen puolella ja ymmärtämään, että lämpö siirtyy itsestään vain lämpimämmästä kylmempään: kaakao jäähtyy ja mehu lämpenee, kunnes molemmat ovat huoneen lämpöisiä. Lisäksi hän oppii, että villa, untuva ja styroksi eivät tuota lämpöä vaan hidastavat sen siirtymistä.","kotona":["Lukekaa ulkomittari yhdessä joka aamu viikon ajan ja antakaa lapsen sanoa lukema ääneen miinusmerkin kanssa. Kysykää välillä, montako astetta lämpötila muuttui eilisestä.","Keittiössä on esimerkkejä joka päivä: kysykää, mihin suuntaan lämpö siirtyy, kun kuuma kattila laitetaan kylmälle liedelle tai kun jääpala pannaan mehuun. Oikea vastaus nimeää lämpimämmän ja kylmemmän ja sanoo, että lämpö siirtyy lämpimämmästä kylmempään.","Kääritään jääpala villasukkaan ja toinen jätetään lautaselle. Kumpi sulaa ensin, ja miksi? Tämä yksi koe kumoaa ajatuksen, että villa lämmittää.","Älä opeta näin: älä sano, että villapaita lämmittää tai että kylmä tulee sisään ovesta. Sano sen sijaan, että paita pitää lämmön lähellä ja että ovesta karkaa lämpöä. Sanonnat tuntuvat pieniltä, mutta juuri ne tuottavat kokeeseen väärän selityksen."],"milloin_huolestua":"Jos lapsi lukee mittarin oikein lämpimällä puolella mutta jättää miinusmerkin pois tai laskee lämpötilan muutokset väärin nollan yli, kyse on negatiivisista luvuista, ei lämmöstä. Kerro siitä opettajalle: sama asia harjoitellaan matematiikassa, ja yhdessä sovittu kertaus lukusuoralla korjaa sen varmemmin kuin lisäharjoittelu pelkällä lämpömittarilla."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Luet lämpömittarin oikein myös pakkasen puolella, erotat lämpötilan ja lämmön toisistaan ja osaat selittää, mihin suuntaan lämpö siirtyy ja miksi eriste hidastaa sitä. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,524 @@
+<title>Alkulukujen palapeli · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT7-LUK-04","oppiaine":"MAT","vuosiluokka":7,"taitoalue":"LUK","jakso":"J1","taso":"ydin","otsikko":"Alkulukujen palapeli","kuvaus":"Osaan tutkia lukujen jaollisuutta ja jakaa luvun alkutekijöihin.","versio":"0.2","paivitetty":"2026-10-04","ops":{"T":["T10","T11"],"S":["S2"]},"ikoni":"puu","eyebrow":"Matematiikka · 7. luokka · Luvut ja laskutoimitukset","naytto":"Päättelen jaollisuussääntöjen avulla, millä luvuilla annettu luku on jaollinen, jaan luvun alkutekijöihin ja etsin kahden luvun suurimman yhteisen tekijän.","osaa_kun":"Tunnistan alkuluvut ja tiedän, että 1 ei ole alkuluku ja 2 on ainoa parillinen alkuluku, kirjoitan alkutekijähajotelman oikein potenssimerkintää käyttäen ja tarkistan sen kertomalla tekijät yhteen.","teksti":[{"tyyppi":"johdanto","sisalto":"Liikuntatunnilla on 24 pelaajaa. Heidät saa jaettua tasan kahteen, kolmeen, neljään, kuuteen, kahdeksaan tai kahteentoista joukkueeseen, joten vaihtoehtoja on paljon. Seuraavalla viikolla paikalla on 23 pelaajaa, eikä mikään jako toimi: joko kaikki ovat samassa joukkueessa tai jokainen pelaa yksin. Luku 23 on alkuluku. Tässä taidossa opit päättelemään ilman laskinta, millä luvuilla jokin luku jakautuu tasan, ja purkamaan luvun pienimpiin rakennuspaloihinsa eli alkutekijöihin. Samoilla paloilla supistat murtolukuja, ja myöhemmin niillä jaetaan lausekkeita tekijöihin."},{"tyyppi":"kappale","otsikko":"Monikerta, tekijä ja jaollisuus","sisalto":"Kun luku kerrotaan luonnollisella luvulla, saadaan sen monikerta. Luvun 7 monikertoja ovat 0, 7, 14, 21, 28 ja niin edelleen. Myös 0 on jokaisen luvun monikerta, koska 0 · 7 = 0, mutta tavallisesti monikertoja luetellaan luvusta itsestään alkaen. Luku on jaollinen toisella luvulla, jos jakolasku menee tasan eli jakojäännös on 0. Esimerkiksi 42 : 7 = 6, joten 42 on jaollinen seitsemällä. Silloin 7 on luvun 42 tekijä ja 42 on luvun 7 monikerta: sama tieto kahdesta suunnasta. Jos jakolasku ei mene tasan, jää jakojäännös. Luku 47 ei ole jaollinen kuudella, koska 6 · 7 = 42 ja 47 − 42 = 5. Jakojäännös on 5, ja se on pienempi kuin jakaja 6; muuten kuutosia olisi mahtunut yksi lisää. Tässä taidossa tekijöillä tarkoitetaan positiivisia kokonaislukuja: luvun 12 tekijät ovat 1, 2, 3, 4, 6 ja 12."},{"tyyppi":"kappale","otsikko":"Miksi viimeinen numero riittää kahdelle, viidelle ja kymmenelle","sisalto":"Luku 3 745 on 3 tuhatta, 7 sataa, 4 kymmentä ja 5 ykköstä. Kymmenen on jaollinen kahdella, viidellä ja kymmenellä, ja siksi niin ovat myös sata, tuhat ja jokainen niiden monikerta. Kaikki muu paitsi ykköset jakautuu näillä luvuilla tasan, joten ratkaisu jää ykkösten numerolle. Luku on jaollinen kahdella, kun viimeinen numero on 0, 2, 4, 6 tai 8, viidellä, kun se on 0 tai 5, ja kymmenellä, kun se on 0. Neljällä sama temppu ei toimi yhdellä numerolla, koska 10 ei ole jaollinen neljällä: 14 ja 24 päättyvät molemmat neloseen, mutta vain 24 on jaollinen neljällä. Sata sen sijaan on jaollinen neljällä, sillä 100 = 4 · 25. Siksi jaollisuus neljällä ratkeaa kahdesta viimeisestä numerosta: 3 716 on jaollinen neljällä, koska 16 on, mutta 3 714 ei ole, koska 14 ei ole."},{"tyyppi":"kappale","otsikko":"Numeroiden summa: kolme, yhdeksän ja kuusi","sisalto":"Kolmosen ja ysin sääntö näyttää taikatempulta, mutta sen voi purkaa auki. Kirjoita 4 572 osiin: 4 · 1 000 + 5 · 100 + 7 · 10 + 2. Jokainen näistä kymmenen potensseista on yhden suurempi kuin ysien jono: 1 000 = 999 + 1, 100 = 99 + 1 ja 10 = 9 + 1. Siksi 4 572 = (4 · 999 + 5 · 99 + 7 · 9) + (4 + 5 + 7 + 2). Ensimmäinen sulkeissa oleva osa on jaollinen yhdeksällä ja myös kolmella, koska 999, 99 ja 9 ovat. Jäljelle jää numeroiden summa 4 + 5 + 7 + 2 = 18. Koska 18 on jaollinen yhdeksällä, myös 4 572 on. Luku on siis jaollinen kolmella, kun sen numeroiden summa on jaollinen kolmella, ja yhdeksällä, kun numeroiden summa on jaollinen yhdeksällä. Kuudella jaollisuus saadaan yhdistämällä kaksi sääntöä: luvun pitää olla jaollinen sekä kahdella että kolmella. Luku 4 572 on parillinen ja jaollinen kolmella, joten se on jaollinen kuudella. Yhdistäminen toimii tässä, koska luvuilla 2 ja 3 ei ole muuta yhteistä tekijää kuin 1. Se ei toimi minkä tahansa parin kanssa: 12 on jaollinen sekä kahdella että neljällä, mutta ei kahdeksalla."},{"tyyppi":"taulukko","otsikko":"Jaollisuussäännöt","otsikkorivi":["Jakaja","Luku on jaollinen, kun","Esimerkki","Miksi sääntö toimii"],"rivit":[["<b>2</b>","viimeinen numero on 0, 2, 4, 6 tai 8","3 718","10 on jaollinen kahdella"],["<b>3</b>","numeroiden summa on jaollinen kolmella","741: 7 + 4 + 1 = 12","9, 99 ja 999 ovat jaollisia kolmella"],["<b>4</b>","kahden viimeisen numeron muodostama luku on jaollinen neljällä","5 932: 32 = 4 · 8","100 on jaollinen neljällä"],["<b>5</b>","viimeinen numero on 0 tai 5","2 365","10 on jaollinen viidellä"],["<b>6</b>","luku on jaollinen sekä kahdella että kolmella","534: parillinen ja 5 + 3 + 4 = 12","6 = 2 · 3, eikä luvuilla 2 ja 3 ole muuta yhteistä tekijää kuin 1"],["<b>9</b>","numeroiden summa on jaollinen yhdeksällä","4 572: 4 + 5 + 7 + 2 = 18","9, 99 ja 999 ovat jaollisia yhdeksällä"],["<b>10</b>","viimeinen numero on 0","8 140","kymmenet, sadat ja tuhannet ovat jaollisia kymmenellä"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: kolmosen jaollisuus ei näy viimeisestä numerosta","sisalto":"Luku 23 päättyy kolmoseen, mutta 23 : 3 ei mene tasan. Luku 36 päättyy kuutoseen ja on jaollinen kolmella, mutta kuutoseen päättyy myös 16, joka ei ole. Viimeinen numero riittää vain niille jakajille, joilla 10 on jaollinen, eli luvuille 2, 5 ja 10 (ja ykköselle, jolla jokainen luku on jaollinen). Kymmenen ei ole jaollinen kolmella eikä yhdeksällä, joten silloin jokainen numero vaikuttaa ja lasketaan numeroiden summa. Jos huomaat katsovasi vain viimeistä numeroa, kysy itseltäsi: onko jakaja 2, 5 vai 10? Jos ei ole, sääntö on jokin muu."},{"tyyppi":"kappale","otsikko":"Alkuluku: täsmälleen kaksi tekijää","sisalto":"Alkuluku on lukua 1 suurempi luonnollinen luku, jonka ainoat tekijät ovat 1 ja luku itse. Alkuluvulla on siis täsmälleen kaksi tekijää. Esimerkiksi 13 on alkuluku, koska se ei jakaudu tasan millään muulla luvulla kuin 1:llä ja 13:lla. Luku 15 ei ole alkuluku, koska 15 = 3 · 5. Lukua 1 ei lasketa alkuluvuksi, koska sillä on vain yksi tekijä, se itse. Jos 1 olisi alkuluku, luvun voisi kirjoittaa alkulukujen tulona loputtoman monella tavalla: 6 = 2 · 3 = 1 · 2 · 3 = 1 · 1 · 2 · 3. Luku 2 on ainoa parillinen alkuluku. Jokainen muu parillinen luku on jaollinen kahdella, joten sillä on ainakin kolme tekijää: 1, 2 ja luku itse. Alkuluvut alle 50 ovat 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43 ja 47. Kun tutkit, onko luku alkuluku, kokeile jakaa sitä alkuluvuilla 2, 3, 5, 7, 11 ja niin edelleen. Voit lopettaa, kun kokeiltavan alkuluvun neliö on suurempi kuin tutkittava luku: jos luvulla olisi tekijäpari, parin pienempi luku olisi jo tullut vastaan. Luvulle 97 riittää kokeilla luvut 2, 3, 5 ja 7, koska 11 · 11 = 121 on jo suurempi kuin 97. Mikään niistä ei jaa lukua 97, joten 97 on alkuluku."},{"tyyppi":"ansa","otsikko":"Ansa 2: 1, 51 ja 91 eivät ole alkulukuja","sisalto":"Pariton luku näyttää helposti alkuluvulta, varsinkin jos se ei pääty viitoseen. Luku 51 on kuitenkin 3 · 17, ja numeroiden summa 5 + 1 = 6 paljastaa sen heti. Samaan joukkoon kuuluvat 57 = 3 · 19 ja 87 = 3 · 29. Luku 91 on hankalampi, koska kahden, kolmen ja viiden säännöt eivät tartu siihen, mutta 91 = 7 · 13. Pariton ei siis tarkoita alkulukua: myös 9, 15, 21 ja 25 ovat parittomia eivätkä ole alkulukuja. Luku 1 on ansoista yleisin, koska sekin on jaollinen vain ykkösellä ja itsellään. Ykkönen ja luku itse ovat silloin kuitenkin sama luku, joten tekijöitä on vain yksi. Alkuluvulla niitä on täsmälleen kaksi."},{"tyyppi":"saanto","otsikko":"Alkutekijöihin jako vaihe vaiheelta","askeleet":["Etsi pienin alkuluku, jolla luku on jaollinen. Kokeile järjestyksessä 2, 3, 5, 7 ja käytä jaollisuussääntöjä. Luku 1 260 on parillinen, joten aloita kahdesta: 1 260 = 2 · 630.","Jatka samoin osamäärällä, kunnes jäljellä on alkuluku: 630 = 2 · 315, 315 = 3 · 105, 105 = 3 · 35 ja 35 = 5 · 7. Tekijäpuussa jokainen oksa päättyy alkulukuun. Jos jaat allekkain, kirjoita luku vasemmalle, sen oikealle puolelle pystyviiva ja viivan oikealle puolelle alkuluku, jolla jaat. Osamäärä kirjoitetaan luvun alle, ja jakamista jatketaan, kunnes vasemmalle jää 1.","Kerää kaikki alkutekijät ja kirjoita samat tekijät potenssina, pienin alkuluku ensin: 1 260 = 2 · 2 · 3 · 3 · 5 · 7 = 2² · 3² · 5 · 7. Eksponenttia 1 ei merkitä.","Varmista, että jokainen tekijä on alkuluku. Jos hajotelmassa on 4, 6, 9 tai jokin muu luku, joka ei ole alkuluku, työ on kesken: 1 260 = 4 · 9 · 35 on oikea tulo, mutta ei alkutekijähajotelma.","Tarkista kertomalla: 2² · 3² · 5 · 7 = 4 · 9 · 5 · 7 = 36 · 35 = 1 260. Jos tulo ei ole alkuperäinen luku, jokin tekijä puuttuu tai eksponentti on väärä.","Aloitusjärjestyksellä ei ole väliä. Jos aloitat 1 260 = 10 · 126, päädyt samaan hajotelmaan, koska jokaisella lukua 1 suuremmalla luonnollisella luvulla on vain yksi alkutekijähajotelma, kun tekijöiden järjestystä ei lasketa."]},{"tyyppi":"kappale","otsikko":"Suurin yhteinen tekijä ja murtoluvun supistaminen","sisalto":"Kahden luvun yhteinen tekijä jakaa molemmat luvut tasan. Yhteisistä tekijöistä suurin on lukujen suurin yhteinen tekijä, lyhyesti syt. Pienillä luvuilla sen löytää luettelemalla: luvun 18 tekijät ovat 1, 2, 3, 6, 9 ja 18, ja luvun 24 tekijät ovat 1, 2, 3, 4, 6, 8, 12 ja 24. Yhteisiä ovat 1, 2, 3 ja 6, joten syt(18, 24) = 6. Isommilla luvuilla käytä alkutekijähajotelmia: 1 260 = 2² · 3² · 5 · 7 ja 1 050 = 2 · 3 · 5² · 7. Ota mukaan alkuluvut, jotka ovat molemmissa, ja kustakin pienempi eksponentti: syt = 2 · 3 · 5 · 7 = 210. Pienempi eksponentti siksi, että 2² ei jaa lukua 1 050, jossa on vain yksi kakkonen. Jos yhteisiä alkutekijöitä ei ole, syt on 1, sillä 1 jakaa jokaisen luvun: syt(8, 15) = 1. Syt:n avulla murtoluvun supistaa kerralla valmiiksi. Murtoluvussa 18/30 on syt(18, 30) = 6, joten jakamalla osoittajan ja nimittäjän kuudella saadaan 18/30 = 3/5. Murtoluvun arvo ei muutu, koska osoittaja ja nimittäjä jaetaan samalla luvulla. Supistetussa murtoluvussa osoittajalla ja nimittäjällä ei ole muuta yhteistä tekijää kuin 1."}],"harjoitukset":[{"id":"H01","ryhma":"jaollisuus","kysymys":"Mikä on luvun 13 pienin kolminumeroinen monikerta?","vastaus":104,"vinkki":"Laske 13 · 7 ja 13 · 8.","selitys":"13 · 7 = 91 on vielä kaksinumeroinen, ja 13 · 8 = 104 on kolminumeroinen."},{"id":"H02","ryhma":"jaollisuus","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 540?","vastaus":7,"vinkki":"Tutki jokaista jakajaa erikseen: viimeinen numero, kaksi viimeistä numeroa ja numeroiden summa.","selitys":"540 päättyy nollaan, joten se on jaollinen luvuilla 2, 5 ja 10. Kaksi viimeistä numeroa muodostavat luvun 40, joka on jaollinen neljällä. Numeroiden summa 5 + 4 + 0 = 9 on jaollinen kolmella ja yhdeksällä. Parillinen ja kolmella jaollinen luku on jaollinen kuudella. Kaikki seitsemän jakavat luvun 540."},{"id":"H03","ryhma":"jaollisuus","kysymys":"Luvun 2□4 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":3,"vinkki":"Laske tunnettujen numeroiden summa. Mikä on lähin yhdeksällä jaollinen summa?","selitys":"2 + 4 = 6. Numeroiden summan pitää olla 9 tai 18. Summa 6 + 3 = 9 toimii, ja luku on 234 = 9 · 26. Summaan 18 ei päästä, koska yksi numero on enintään 9."},{"id":"H04","ryhma":"jaollisuus","kysymys":"Luvut: 27, 37, 47, 57, 67, 77, 87\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":3,"vinkki":"Kaikki päättyvät seiskaan, joten viimeinen numero ei kerro mitään. Laske numeroiden summat.","selitys":"Numeroiden summat ovat 9, 10, 11, 12, 13, 14 ja 15. Kolmella jaollisia summia ovat 9, 12 ja 15, joten kolmella jaollisia ovat 27, 57 ja 87."},{"id":"H05","ryhma":"jaollisuus","kysymys":"Luvut: 118, 224, 330, 436, 542, 648\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":3,"vinkki":"Katso vain kahta viimeistä numeroa.","selitys":"Kaksi viimeistä numeroa muodostavat luvut 18, 24, 30, 36, 42 ja 48. Neljällä jaollisia ovat 24, 36 ja 48. Kaikki luvut ovat parillisia, mutta parillisuus kertoo vain jaollisuudesta kahdella."},{"id":"H06","ryhma":"jaollisuus","kysymys":"Mikä on jakojäännös, kun 58 jaetaan luvulla 9?","vastaus":4,"vinkki":"Mikä on suurin yhdeksän monikerta, joka on enintään 58?","selitys":"9 · 6 = 54 ja 58 − 54 = 4. Jakojäännös 4 on pienempi kuin 9, joten kuusi ysiä on oikea määrä."},{"id":"H07","ryhma":"jaollisuus","tyyppi":"monivalinta","kysymys":"Miksi jaollisuus neljällä voidaan päätellä luvun kahdesta viimeisestä numerosta?","vaihtoehdot":["Koska 4 on parillinen luku.","Koska 4 = 2 · 2, joten säännössä tarvitaan kaksi numeroa.","Koska 100 on jaollinen neljällä, joten satojen ja sitä suurempien osuus jakautuu neljällä tasan.","Koska jokainen parillinen luku on jaollinen neljällä."],"vastaus":2,"vinkki":"Kirjoita 3 716 muotoon 37 · 100 + 16.","selitys":"100 = 4 · 25, joten 37 · 100 on jaollinen neljällä. Ratkaisu jää luvulle 16. Kaksi ensimmäistä perustelua kuulostavat järkeviltä, mutta kumpikaan ei selitä, miksi juuri kaksi numeroa riittää. Viimeinen väite on väärä: 14 on parillinen, mutta ei jaollinen neljällä."},{"id":"H08","ryhma":"alkuluvut","kysymys":"Luvut: 1, 2, 3, 15, 27, 31, 51, 53\n\nMontako näistä luvuista on alkulukuja?","vastaus":4,"vinkki":"Tarkista jokaisesta, onko sillä täsmälleen kaksi tekijää. Muista numeroiden summa.","selitys":"Alkulukuja ovat 2, 3, 31 ja 53. Luku 1 ei ole alkuluku, koska sillä on vain yksi tekijä. 15 = 3 · 5, 27 = 3 · 9 ja 51 = 3 · 17."},{"id":"H09","ryhma":"alkuluvut","kysymys":"Montako parillista alkulukua on olemassa?","vastaus":1,"vinkki":"Mikä luku jakaa jokaisen parillisen luvun?","selitys":"Vain 2. Jokainen muu parillinen luku on jaollinen luvuilla 1, 2 ja itsellään, joten sillä on ainakin kolme tekijää."},{"id":"H10","ryhma":"alkuluvut","tyyppi":"monivalinta","kysymys":"Mikä seuraavista on luvun 180 alkutekijähajotelma?","vaihtoehdot":["4 · 9 · 5","2² · 3 · 5","2² · 3² · 5","2 · 3 · 5 · 6"],"vastaus":2,"vinkki":"Tarkista kaksi asiaa: onko jokainen tekijä alkuluku ja tuleeko tuloksi 180.","selitys":"180 = 2 · 90 = 2 · 2 · 45 = 2 · 2 · 3 · 15 = 2 · 2 · 3 · 3 · 5 = 2² · 3² · 5. Tarkistus: 4 · 9 · 5 = 180. Ensimmäinen ja viimeinen vaihtoehto ovat oikeita tuloja, mutta 4, 9 ja 6 eivät ole alkulukuja. Toisen vaihtoehdon tulo on 60."},{"id":"H11","ryhma":"alkuluvut","kysymys":"Jaa luku 252 alkutekijöihin. Mikä on alkutekijän 3 eksponentti hajotelmassa?","vastaus":2,"vinkki":"Aloita kahdesta ja jatka, kunnes osamäärä on alkuluku. Kirjoita hajotelma vihkoon.","selitys":"252 = 2 · 126 = 2 · 2 · 63 = 2 · 2 · 3 · 21 = 2 · 2 · 3 · 3 · 7 = 2² · 3² · 7. Tarkistus: 4 · 9 · 7 = 252."},{"id":"H12","ryhma":"alkuluvut","kysymys":"Laske, mikä luku on 2⁵ · 5.","vastaus":160,"vinkki":"2⁵ tarkoittaa viittä kakkosta kerrottuna keskenään, ei lukua 10.","selitys":"2⁵ = 2 · 2 · 2 · 2 · 2 = 32 ja 32 · 5 = 160."},{"id":"H13","ryhma":"alkuluvut","kysymys":"Mikä on luvun 286 suurin alkutekijä?","vastaus":13,"vinkki":"Jaa ensin kahdella. Kokeile sitten osamäärää alkuluvuilla 3, 5, 7 ja 11.","selitys":"286 = 2 · 143 ja 143 = 11 · 13, joten 286 = 2 · 11 · 13. Suurin alkutekijä on 13. Luvut 286 ja 143 ovat tekijöitä, mutta eivät alkulukuja."},{"id":"H14","ryhma":"alkuluvut","kysymys":"Montako eri alkutekijää on luvulla 540?","vastaus":3,"vinkki":"Kirjoita hajotelma potenssimerkinnällä ja laske kantaluvut.","selitys":"540 = 2² · 3³ · 5. Eri alkutekijöitä ovat 2, 3 ja 5. Auki kirjoitettuna tekijöitä on kuusi, mutta eri alkulukuja niistä on vain kolme."},{"id":"H15","ryhma":"syt","kysymys":"Mikä on lukujen 20 ja 32 suurin yhteinen tekijä?","vastaus":4,"vinkki":"Luettele kummankin luvun tekijät.","selitys":"Luvun 20 tekijät ovat 1, 2, 4, 5, 10 ja 20. Luvun 32 tekijät ovat 1, 2, 4, 8, 16 ja 32. Yhteisistä tekijöistä 1, 2 ja 4 suurin on 4."},{"id":"H16","ryhma":"syt","kysymys":"Kahden luvun alkutekijähajotelmat ovat 2³ · 3² · 5 ja 2² · 3³. Mikä on lukujen suurin yhteinen tekijä?","vastaus":36,"vinkki":"Ota mukaan alkuluvut, jotka ovat molemmissa, ja kustakin pienempi eksponentti.","selitys":"Yhteiset alkutekijät ovat 2 ja 3. Pienemmät eksponentit antavat 2² ja 3², joten syt = 2² · 3² = 4 · 9 = 36. Viitonen on vain ensimmäisessä luvussa, joten se ei kuulu mukaan."},{"id":"H17","ryhma":"syt","kysymys":"Mikä on lukujen 14 ja 45 suurin yhteinen tekijä?","vastaus":1,"vinkki":"Jaa molemmat alkutekijöihin. Onko niissä yhteisiä alkulukuja?","selitys":"14 = 2 · 7 ja 45 = 3² · 5. Yhteisiä alkutekijöitä ei ole, joten syt on 1. Vastaus ei ole 0, koska 1 jakaa jokaisen luvun."},{"id":"H18","ryhma":"syt","kysymys":"Supista murtoluku 16/24 kerralla jakamalla osoittaja ja nimittäjä niiden suurimmalla yhteisellä tekijällä. Anna vastaus supistettuna murtolukuna.","vastaus":0.6666666666666666,"vinkki":"Etsi ensin syt(16, 24).","selitys":"syt(16, 24) = 8. Koska 16 : 8 = 2 ja 24 : 8 = 3, saadaan 16/24 = 2/3."},{"id":"H19","ryhma":"syt","tyyppi":"sanallinen","kysymys":"Kuvataideluokassa on 24 sivellintä ja 40 värikynää. Ne jaetaan mahdollisimman moneen samanlaiseen pakkaukseen niin, että kaikki käytetään ja jokaisessa pakkauksessa on yhtä monta sivellintä ja yhtä monta värikynää. Montako värikynää yhteen pakkaukseen tulee?","vastaus":5,"vinkki":"Pakkausten määrän pitää jakaa sekä 24 että 40. Selvitä ensin, montako pakkausta tulee.","selitys":"Pakkauksia halutaan mahdollisimman monta, joten niiden määrä on syt(24, 40) = 8. Jokaiseen pakkaukseen tulee 40 : 8 = 5 värikynää ja 24 : 8 = 3 sivellintä."},{"id":"H20","ryhma":"syt","tyyppi":"sanallinen","kysymys":"Lattia on suorakulmio, jonka sivut ovat 120 cm ja 168 cm. Se peitetään samankokoisilla neliön muotoisilla laatoilla niin, ettei yhtään laattaa tarvitse leikata. Laatat halutaan mahdollisimman suuriksi. Kuinka monta senttimetriä on laatan sivu?","vastaus":24,"vinkki":"Laatan sivun pitää mennä tasan sekä 120 cm:iin että 168 cm:iin.","selitys":"Laatan sivu on lukujen 120 ja 168 yhteinen tekijä, ja suurin mahdollinen on syt. 120 = 2³ · 3 · 5 ja 168 = 2³ · 3 · 7, joten syt = 2³ · 3 = 24. Laattoja tulee 5 riviin ja 7 sarakkeeseen."}],"harjoitusryhmat":[{"id":"jaollisuus","nimi":"Monikerrat ja jaollisuussäännöt","info":"Päättele jaollisuus säännöillä. Jakolasku on tarkistusta varten, ei ensimmäinen keino."},{"id":"alkuluvut","nimi":"Alkuluvut ja alkutekijät","info":"Kirjoita hajotelma vihkoon potenssimerkinnällä ja tarkista se kertomalla, vaikka vastauskenttään kysytään yhtä lukua."},{"id":"syt","nimi":"Suurin yhteinen tekijä","info":"Luettele tekijät tai käytä alkutekijähajotelmia. Kahdessa viimeisessä tehtävässä mieti ensin, mitä syt tarkoittaa tilanteessa."}],"ryhmanimet":{"jaollisuus":"Jaollisuus","alkuluvut":"Alkuluvut ja alkutekijähajotelma","syt":"Suurin yhteinen tekijä"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita alkutekijähajotelma potenssimerkinnällä, pienin alkuluku ensin, esimerkiksi 2² · 3 · 7.\nKun tehtävä pyytää perustelemaan tai tarkistamaan, kirjoita näkyviin laskut, joihin vastauksesi perustuu.","tehtavat":[{"nro":1,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 630?","vastaus":6},{"nro":2,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvun 3□5 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":1},{"nro":3,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 13, 23, 33, 43, 53, 63, 73\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":2},{"nro":4,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 314, 516, 722, 1 028, 2 134\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":2},{"nro":5,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Mikä on jakojäännös, kun 100 jaetaan luvulla 7?","vastaus":2},{"nro":6,"ryhma":"jaollisuus","tyyppi":"sanallinen","kysymys":"Onko luku 5 232 jaollinen kuudella? Perustele jaollisuussääntöjen avulla.","vastaus":"Malliesimerkki: On. Luku 5 232 on parillinen, joten se on jaollinen kahdella. Numeroiden summa 5 + 2 + 3 + 2 = 12 on jaollinen kolmella, joten luku on jaollinen kolmella. Koska luku on jaollinen sekä kahdella että kolmella, se on jaollinen kuudella."},{"nro":7,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Luvut: 1, 2, 9, 17, 21, 29, 39, 51\n\nMitkä näistä luvuista ovat alkulukuja? Kirjoita ne kaikki näkyviin.","vastaus":"2, 17, 29"},{"nro":8,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 84 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2² · 3 · 7"},{"nro":9,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 360 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2³ · 3² · 5"},{"nro":10,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Laske, mikä luku on 2⁴ · 3 · 5.","vastaus":240},{"nro":11,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Mikä on luvun 156 suurin alkutekijä?","vastaus":13},{"nro":12,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Montako eri alkutekijää on luvulla 600?","vastaus":3},{"nro":13,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Aino kirjoittaa luvun 72 tekijöihin muodossa 72 = 2 · 4 · 9. Tulo on oikein, mutta se ei ole alkutekijähajotelma. Miksi? Kirjoita oikea alkutekijähajotelma potenssimerkinnällä.","vastaus":"Malliesimerkki: Tekijät 4 ja 9 eivät ole alkulukuja, koska 4 = 2 · 2 ja 9 = 3 · 3. Oikea hajotelma on 72 = 2³ · 3²."},{"nro":14,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onko luku 133 alkuluku? Perustele.","vastaus":"Malliesimerkki: Ei ole, koska 133 = 7 · 19. Luvulla on muitakin tekijöitä kuin 1 ja 133."},{"nro":15,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Joni väittää, että 168 = 2² · 3 · 7. Tarkista väite kertomalla tekijät yhteen. Jos väite on väärä, kirjoita oikea alkutekijähajotelma.","vastaus":"Malliesimerkki: 2² · 3 · 7 = 84, ei 168, joten väite on väärä. Oikea hajotelma on 168 = 2³ · 3 · 7."},{"nro":16,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 24 ja 36 suurin yhteinen tekijä?","vastaus":12},{"nro":17,"ryhma":"syt","tyyppi":"lasku","kysymys":"Lukujen alkutekijähajotelmat ovat 120 = 2³ · 3 · 5 ja 180 = 2² · 3² · 5. Mikä on lukujen 120 ja 180 suurin yhteinen tekijä?","vastaus":60},{"nro":18,"ryhma":"syt","tyyppi":"lasku","kysymys":"Etsi osoittajan ja nimittäjän suurin yhteinen tekijä ja supista sillä murtoluku 24/30. Anna vastaus supistettuna murtolukuna.","vastaus":"4/5"},{"nro":19,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 35 ja 48 suurin yhteinen tekijä?","vastaus":1},{"nro":20,"ryhma":"syt","tyyppi":"lasku","kysymys":"Sinulla on 48 punaista ja 60 sinistä helmeä. Teet niistä mahdollisimman monta samanlaista rannekorua niin, että kaikki helmet käytetään ja jokaisessa korussa on yhtä monta punaista ja yhtä monta sinistä helmeä. Montako rannekorua saat tehtyä?","vastaus":12}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita alkutekijähajotelma potenssimerkinnällä, pienin alkuluku ensin, esimerkiksi 2² · 3 · 7.\nKun tehtävä pyytää perustelemaan tai tarkistamaan, kirjoita näkyviin laskut, joihin vastauksesi perustuu.","tehtavat":[{"nro":1,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 252?","vastaus":5},{"nro":2,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvun 4□7 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":7},{"nro":3,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 16, 26, 36, 46, 56, 66, 76\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":2},{"nro":4,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 318, 524, 736, 1 044, 2 150\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":3},{"nro":5,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Mikä on jakojäännös, kun 100 jaetaan luvulla 8?","vastaus":4},{"nro":6,"ryhma":"jaollisuus","tyyppi":"sanallinen","kysymys":"Onko luku 3 465 jaollinen kuudella? Perustele jaollisuussääntöjen avulla.","vastaus":"Malliesimerkki: Ei ole. Numeroiden summa 3 + 4 + 6 + 5 = 18 on jaollinen kolmella, mutta luku 3 465 on pariton, joten se ei ole jaollinen kahdella eikä siksi kuudella."},{"nro":7,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Luvut: 1, 2, 11, 15, 23, 31, 49, 57\n\nMitkä näistä luvuista ovat alkulukuja? Kirjoita ne kaikki näkyviin.","vastaus":"2, 11, 23, 31"},{"nro":8,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 90 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2 · 3² · 5"},{"nro":9,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 280 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2³ · 5 · 7"},{"nro":10,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Laske, mikä luku on 2³ · 3².","vastaus":72},{"nro":11,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Mikä on luvun 228 suurin alkutekijä?","vastaus":19},{"nro":12,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Montako eri alkutekijää on luvulla 1 000?","vastaus":2},{"nro":13,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Leo kirjoittaa luvun 60 tekijöihin muodossa 60 = 4 · 3 · 5. Tulo on oikein, mutta se ei ole alkutekijähajotelma. Miksi? Kirjoita oikea alkutekijähajotelma potenssimerkinnällä.","vastaus":"Malliesimerkki: Tekijä 4 ei ole alkuluku, koska 4 = 2 · 2. Oikea hajotelma on 60 = 2² · 3 · 5."},{"nro":14,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onko luku 119 alkuluku? Perustele.","vastaus":"Malliesimerkki: Ei ole, koska 119 = 7 · 17. Luvulla on muitakin tekijöitä kuin 1 ja 119."},{"nro":15,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Emma väittää, että 180 = 2² · 3 · 5. Tarkista väite kertomalla tekijät yhteen. Jos väite on väärä, kirjoita oikea alkutekijähajotelma.","vastaus":"Malliesimerkki: 2² · 3 · 5 = 60, ei 180, joten väite on väärä. Oikea hajotelma on 180 = 2² · 3² · 5."},{"nro":16,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 18 ja 45 suurin yhteinen tekijä?","vastaus":9},{"nro":17,"ryhma":"syt","tyyppi":"lasku","kysymys":"Lukujen alkutekijähajotelmat ovat 126 = 2 · 3² · 7 ja 210 = 2 · 3 · 5 · 7. Mikä on lukujen 126 ja 210 suurin yhteinen tekijä?","vastaus":42},{"nro":18,"ryhma":"syt","tyyppi":"lasku","kysymys":"Etsi osoittajan ja nimittäjän suurin yhteinen tekijä ja supista sillä murtoluku 18/27. Anna vastaus supistettuna murtolukuna.","vastaus":"2/3"},{"nro":19,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 27 ja 40 suurin yhteinen tekijä?","vastaus":1},{"nro":20,"ryhma":"syt","tyyppi":"lasku","kysymys":"Retkelle on 36 omenaa ja 54 päärynää. Ne jaetaan mahdollisimman moneen samanlaiseen eväspussiin niin, että kaikki hedelmät käytetään ja jokaisessa pussissa on yhtä monta omenaa ja yhtä monta päärynää. Montako eväspussia saadaan?","vastaus":18}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita alkutekijähajotelma potenssimerkinnällä, pienin alkuluku ensin, esimerkiksi 2² · 3 · 7.\nKun tehtävä pyytää perustelemaan tai tarkistamaan, kirjoita näkyviin laskut, joihin vastauksesi perustuu.","tehtavat":[{"nro":1,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 315?","vastaus":3},{"nro":2,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvun 5□8 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":5},{"nro":3,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 19, 29, 39, 49, 59, 69, 79\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":2},{"nro":4,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 206, 412, 634, 1 056, 3 078\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":2},{"nro":5,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Mikä on jakojäännös, kun 75 jaetaan luvulla 9?","vastaus":3},{"nro":6,"ryhma":"jaollisuus","tyyppi":"sanallinen","kysymys":"Onko luku 5 136 jaollinen kuudella? Perustele jaollisuussääntöjen avulla.","vastaus":"Malliesimerkki: On. Luku 5 136 on parillinen, joten se on jaollinen kahdella. Numeroiden summa 5 + 1 + 3 + 6 = 15 on jaollinen kolmella, joten luku on jaollinen kolmella. Koska luku on jaollinen sekä kahdella että kolmella, se on jaollinen kuudella."},{"nro":7,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Luvut: 1, 2, 7, 25, 33, 43, 69, 91\n\nMitkä näistä luvuista ovat alkulukuja? Kirjoita ne kaikki näkyviin.","vastaus":"2, 7, 43"},{"nro":8,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 150 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2 · 3 · 5²"},{"nro":9,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 504 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2³ · 3² · 7"},{"nro":10,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Laske, mikä luku on 2² · 3 · 5².","vastaus":300},{"nro":11,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Mikä on luvun 170 suurin alkutekijä?","vastaus":17},{"nro":12,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Montako eri alkutekijää on luvulla 210?","vastaus":4},{"nro":13,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Sara kirjoittaa luvun 90 tekijöihin muodossa 90 = 2 · 5 · 9. Tulo on oikein, mutta se ei ole alkutekijähajotelma. Miksi? Kirjoita oikea alkutekijähajotelma potenssimerkinnällä.","vastaus":"Malliesimerkki: Tekijä 9 ei ole alkuluku, koska 9 = 3 · 3. Oikea hajotelma on 90 = 2 · 3² · 5."},{"nro":14,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onko luku 161 alkuluku? Perustele.","vastaus":"Malliesimerkki: Ei ole, koska 161 = 7 · 23. Luvulla on muitakin tekijöitä kuin 1 ja 161."},{"nro":15,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Veeti väittää, että 392 = 2² · 7². Tarkista väite kertomalla tekijät yhteen. Jos väite on väärä, kirjoita oikea alkutekijähajotelma.","vastaus":"Malliesimerkki: 2² · 7² = 196, ei 392, joten väite on väärä. Oikea hajotelma on 392 = 2³ · 7²."},{"nro":16,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 28 ja 42 suurin yhteinen tekijä?","vastaus":14},{"nro":17,"ryhma":"syt","tyyppi":"lasku","kysymys":"Lukujen alkutekijähajotelmat ovat 72 = 2³ · 3² ja 120 = 2³ · 3 · 5. Mikä on lukujen 72 ja 120 suurin yhteinen tekijä?","vastaus":24},{"nro":18,"ryhma":"syt","tyyppi":"lasku","kysymys":"Etsi osoittajan ja nimittäjän suurin yhteinen tekijä ja supista sillä murtoluku 20/28. Anna vastaus supistettuna murtolukuna.","vastaus":"5/7"},{"nro":19,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 16 ja 45 suurin yhteinen tekijä?","vastaus":1},{"nro":20,"ryhma":"syt","tyyppi":"lasku","kysymys":"Turnaukseen tulee 42 seitsemäsluokkalaista ja 70 kahdeksasluokkalaista. Heidät jaetaan mahdollisimman moneen joukkueeseen niin, että jokainen pelaa ja jokaisessa joukkueessa on yhtä monta seitsemäsluokkalaista ja yhtä monta kahdeksasluokkalaista. Montako joukkuetta saadaan?","vastaus":14}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita alkutekijähajotelma potenssimerkinnällä, pienin alkuluku ensin, esimerkiksi 2² · 3 · 7.\nKun tehtävä pyytää perustelemaan tai tarkistamaan, kirjoita näkyviin laskut, joihin vastauksesi perustuu.","tehtavat":[{"nro":1,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 460?","vastaus":4},{"nro":2,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvun 1□4 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":4},{"nro":3,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 103, 113, 123, 133, 143, 153, 163\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":2},{"nro":4,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 130, 248, 362, 1 072, 4 096\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":3},{"nro":5,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Mikä on jakojäännös, kun 90 jaetaan luvulla 7?","vastaus":6},{"nro":6,"ryhma":"jaollisuus","tyyppi":"sanallinen","kysymys":"Onko luku 2 571 jaollinen kuudella? Perustele jaollisuussääntöjen avulla.","vastaus":"Malliesimerkki: Ei ole. Numeroiden summa 2 + 5 + 7 + 1 = 15 on jaollinen kolmella, mutta luku 2 571 on pariton, joten se ei ole jaollinen kahdella eikä siksi kuudella."},{"nro":7,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Luvut: 1, 2, 5, 27, 39, 47, 53, 77\n\nMitkä näistä luvuista ovat alkulukuja? Kirjoita ne kaikki näkyviin.","vastaus":"2, 5, 47, 53"},{"nro":8,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 132 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2² · 3 · 11"},{"nro":9,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 450 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2 · 3² · 5²"},{"nro":10,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Laske, mikä luku on 2 · 3³ · 5.","vastaus":270},{"nro":11,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Mikä on luvun 138 suurin alkutekijä?","vastaus":23},{"nro":12,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Montako eri alkutekijää on luvulla 288?","vastaus":2},{"nro":13,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onni kirjoittaa luvun 100 tekijöihin muodossa 100 = 4 · 25. Tulo on oikein, mutta se ei ole alkutekijähajotelma. Miksi? Kirjoita oikea alkutekijähajotelma potenssimerkinnällä.","vastaus":"Malliesimerkki: Tekijät 4 ja 25 eivät ole alkulukuja, koska 4 = 2 · 2 ja 25 = 5 · 5. Oikea hajotelma on 100 = 2² · 5²."},{"nro":14,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onko luku 203 alkuluku? Perustele.","vastaus":"Malliesimerkki: Ei ole, koska 203 = 7 · 29. Luvulla on muitakin tekijöitä kuin 1 ja 203."},{"nro":15,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Aada väittää, että 504 = 2³ · 3 · 7. Tarkista väite kertomalla tekijät yhteen. Jos väite on väärä, kirjoita oikea alkutekijähajotelma.","vastaus":"Malliesimerkki: 2³ · 3 · 7 = 168, ei 504, joten väite on väärä. Oikea hajotelma on 504 = 2³ · 3² · 7."},{"nro":16,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 30 ja 75 suurin yhteinen tekijä?","vastaus":15},{"nro":17,"ryhma":"syt","tyyppi":"lasku","kysymys":"Lukujen alkutekijähajotelmat ovat 108 = 2² · 3³ ja 180 = 2² · 3² · 5. Mikä on lukujen 108 ja 180 suurin yhteinen tekijä?","vastaus":36},{"nro":18,"ryhma":"syt","tyyppi":"lasku","kysymys":"Etsi osoittajan ja nimittäjän suurin yhteinen tekijä ja supista sillä murtoluku 27/30. Anna vastaus supistettuna murtolukuna.","vastaus":"9/10"},{"nro":19,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 25 ja 36 suurin yhteinen tekijä?","vastaus":1},{"nro":20,"ryhma":"syt","tyyppi":"lasku","kysymys":"Sinulla on 45 tarraa ja 75 postikorttia. Teet niistä mahdollisimman monta samanlaista lahjapakettia niin, että kaikki käytetään ja jokaisessa paketissa on yhtä monta tarraa ja yhtä monta postikorttia. Montako lahjapakettia saat tehtyä?","vastaus":15}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita alkutekijähajotelma potenssimerkinnällä, pienin alkuluku ensin, esimerkiksi 2² · 3 · 7.\nKun tehtävä pyytää perustelemaan tai tarkistamaan, kirjoita näkyviin laskut, joihin vastauksesi perustuu.","tehtavat":[{"nro":1,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Montako luvuista 2, 3, 4, 5, 6, 9 ja 10 jakaa luvun 234?","vastaus":4},{"nro":2,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvun 6□6 kymmenten numero puuttuu. Mikä numero puuttuvan paikalle pitää kirjoittaa, jotta luku on jaollinen yhdeksällä?","vastaus":6},{"nro":3,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 136, 146, 156, 166, 176, 186, 196\n\nMontako näistä luvuista on jaollisia kolmella?","vastaus":2},{"nro":4,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Luvut: 154, 238, 340, 1 014, 5 026\n\nMontako näistä luvuista on jaollisia neljällä?","vastaus":1},{"nro":5,"ryhma":"jaollisuus","tyyppi":"lasku","kysymys":"Mikä on jakojäännös, kun 80 jaetaan luvulla 6?","vastaus":2},{"nro":6,"ryhma":"jaollisuus","tyyppi":"sanallinen","kysymys":"Onko luku 1 974 jaollinen kuudella? Perustele jaollisuussääntöjen avulla.","vastaus":"Malliesimerkki: On. Luku 1 974 on parillinen, joten se on jaollinen kahdella. Numeroiden summa 1 + 9 + 7 + 4 = 21 on jaollinen kolmella, joten luku on jaollinen kolmella. Koska luku on jaollinen sekä kahdella että kolmella, se on jaollinen kuudella."},{"nro":7,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Luvut: 1, 2, 19, 35, 45, 59, 63, 93\n\nMitkä näistä luvuista ovat alkulukuja? Kirjoita ne kaikki näkyviin.","vastaus":"2, 19, 59"},{"nro":8,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 126 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2 · 3² · 7"},{"nro":9,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Jaa luku 432 alkutekijöihin. Kirjoita vastaus potenssimerkinnällä.","vastaus":"2⁴ · 3³"},{"nro":10,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Laske, mikä luku on 2⁵ · 3.","vastaus":96},{"nro":11,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Mikä on luvun 174 suurin alkutekijä?","vastaus":29},{"nro":12,"ryhma":"alkuluvut","tyyppi":"lasku","kysymys":"Montako eri alkutekijää on luvulla 900?","vastaus":3},{"nro":13,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Iida kirjoittaa luvun 108 tekijöihin muodossa 108 = 4 · 27. Tulo on oikein, mutta se ei ole alkutekijähajotelma. Miksi? Kirjoita oikea alkutekijähajotelma potenssimerkinnällä.","vastaus":"Malliesimerkki: Tekijät 4 ja 27 eivät ole alkulukuja, koska 4 = 2 · 2 ja 27 = 3 · 3 · 3. Oikea hajotelma on 108 = 2² · 3³."},{"nro":14,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Onko luku 217 alkuluku? Perustele.","vastaus":"Malliesimerkki: Ei ole, koska 217 = 7 · 31. Luvulla on muitakin tekijöitä kuin 1 ja 217."},{"nro":15,"ryhma":"alkuluvut","tyyppi":"sanallinen","kysymys":"Niilo väittää, että 200 = 2² · 5². Tarkista väite kertomalla tekijät yhteen. Jos väite on väärä, kirjoita oikea alkutekijähajotelma.","vastaus":"Malliesimerkki: 2² · 5² = 100, ei 200, joten väite on väärä. Oikea hajotelma on 200 = 2³ · 5²."},{"nro":16,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 32 ja 48 suurin yhteinen tekijä?","vastaus":16},{"nro":17,"ryhma":"syt","tyyppi":"lasku","kysymys":"Lukujen alkutekijähajotelmat ovat 98 = 2 · 7² ja 140 = 2² · 5 · 7. Mikä on lukujen 98 ja 140 suurin yhteinen tekijä?","vastaus":14},{"nro":18,"ryhma":"syt","tyyppi":"lasku","kysymys":"Etsi osoittajan ja nimittäjän suurin yhteinen tekijä ja supista sillä murtoluku 12/30. Anna vastaus supistettuna murtolukuna.","vastaus":"2/5"},{"nro":19,"ryhma":"syt","tyyppi":"lasku","kysymys":"Mikä on lukujen 21 ja 32 suurin yhteinen tekijä?","vastaus":1},{"nro":20,"ryhma":"syt","tyyppi":"lasku","kysymys":"Koululla on 64 lyijykynää ja 80 vihkoa. Ne jaetaan mahdollisimman moneen samanlaiseen nippuun niin, että kaikki käytetään ja jokaisessa nipussa on yhtä monta lyijykynää ja yhtä monta vihkoa. Montako nippua saadaan?","vastaus":16}]}],"tulostus":{"sivuja":3,"sarakkeita":3,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen jaollisuussääntöihin ja alkulukuihin, toinen alkutekijähajotelmaan ja suurimpaan yhteiseen tekijään. Koe erikseen.","huomiot":["Mittaritehtävät: 7, 8 ja 15 — ne vastaavat suoraan osaa_kun-kriteerin kolmea osaa. Tehtävä 7 mittaa alkulukujen tunnistamista: jokaisessa luettelossa on 1, 2 ja vähintään yksi kolmella tai seitsemällä jaollinen pariton luku kuten 51 tai 91. Se on oikein vain, kun oppilas kirjoittaa täsmälleen luettelon alkuluvut; jos mukana on 1 tai jokin yhdistetty luku tai jos 2 puuttuu, tehtävä on väärin. Tehtävä 8 mittaa alkutekijähajotelman kirjoittamista potenssimerkinnällä (hyväksymisrajaus huomiossa tehtävistä 8 ja 9). Tehtävä 15 mittaa hajotelman tarkistamista kertomalla: oikein vain, kun väitetyn hajotelman tulo on laskettu näkyviin (esimerkiksi 2² · 3 · 7 = 84), siitä on päätelty, että väite on väärä, ja oikea hajotelma on kirjoitettu potenssimerkinnällä. Pelkkä oikea hajotelma ilman tarkistuslaskua on väärin, koska tehtävä pyytää tarkistamaan kertomalla.","Kokeiden tehtävässä 3 ja harjoituksessa H04 kaikki luvut päättyvät samaan numeroon. Jos oppilas vastaa 7 (kaikki) tai 0 (ei yksikään), hän päättelee jaollisuuden kolmella viimeisestä numerosta eikä numeroiden summasta.","Kokeiden tehtävässä 4 ja harjoituksessa H05 kaikki luvut ovat parillisia. Vastaus, joka on yhtä suuri kuin lukujen määrä, kertoo, että parillisuus on sekoittunut jaollisuuteen neljällä.","Kokeiden tehtävässä 7 luetteloon kirjoitettu 1 tai 51-tyyppinen pariton luku kertoo, että alkuluvuksi on hyväksytty luku, jolla on vain yksi tekijä tai jolla on muitakin tekijöitä kuin 1 ja luku itse. Puuttuva 2 kertoo yleensä, että 2 on jätetty pois, koska se on parillinen. Harjoituksessa H08 kysytään lukumäärää: yhtä tai kahta liian suuri vastaus syntyy lähes aina samoista syistä, ja yhtä liian pieni vastaus kertoo yleensä puuttuvasta kakkosesta.","Kokeiden tehtävissä 8 ja 9 hyväksytään hajotelma, jossa tekijät ovat eri järjestyksessä (esimerkiksi 3 · 2² · 7), mutta ei auki kirjoitettua muotoa 2 · 2 · 3 · 7, koska osaa_kun-kriteeri edellyttää potenssimerkintää. Ks. avoin asia tästä rajauksesta. Hajotelma, jossa on 4, 6 tai 9, on väärä, vaikka tulo olisi oikein.","Kokeiden tehtävä 10 ei ole mittaritehtävä. Siinä vastaus 120 (koe A) tai 36 (koe B) kertoo, että eksponentti on luettu kertojaksi: 2⁴ on laskettu 2 · 4 = 8, ja kokeessa B 2³ on laskettu 2 · 3 = 6 ja 3² on laskettu 3 · 2 = 6. Tämä on potenssimerkinnän virhe, ei tämän taidon virhe; palauta oppilas taitoon MAT7-POT-01.","Kokeiden tehtävässä 11 ja harjoituksessa H13 vastaus, joka ei ole alkuluku (esimerkiksi 78 luvulle 156), kertoo, että tekijä ja alkutekijä ovat sekoittuneet. Kokeiden tehtävässä 12 ja harjoituksessa H14 vastaus, joka on yhtä suuri kuin eksponenttien summa (esimerkiksi 6 luvulle 600), kertoo, että samat alkutekijät on laskettu moneen kertaan.","Kokeiden tehtävässä 17 vastaus 360 (koe A) syntyy, kun oppilas ottaa suuremmat eksponentit ja kaikki alkuluvut: se on lukujen pienin yhteinen monikerta, ei syt. Vastaus, joka on suurempi kuin pienempi annetuista luvuista, on aina väärä, koska syt jakaa molemmat luvut.","Kokeiden tehtävässä 19 ja harjoituksessa H17 vastaus 0 tai ”ei ole” kertoo, ettei oppilas tiedä 1:n olevan jokaisen luvun tekijä. Kokeiden tehtävässä 20 vastaus 4 tai 5 (koe A) on kunkin rannekorun helmimäärä eikä korujen määrä: oppilas on laskenut oikein mutta vastannut eri kysymykseen.","Sanalliset tehtävät 6, 13, 14 ja 15 tarkistetaan käsin, eikä mallivastauksen sanamuotoa vaadita. Tehtävä 6: hyväksytään, kun vastaus on oikea ja perustelusta näkyvät sekä kahden että kolmen ehto; pelkkä oikea jakolasku 6:lla ei riitä, koska tehtävä pyytää jaollisuussääntöjä. Tehtävä 13: hyväksytään mikä tahansa selitys, joka nimeää tekijän, joka ei ole alkuluku, kun oikea hajotelma on mukana. Tehtävä 14: hyväksytään mikä tahansa oikea tekijäpari tai toteamus, että luku on jaollinen seitsemällä; pelkkä ”ei ole” ilman perustelua ei riitä. Tehtävä 15: kertolaskun tulos pitää näkyä, koska osaa_kun-kriteeri on nimenomaan tarkistaminen kertomalla; ks. mittaritehtävien kohta.","Tehtävän 14 luvut (133, 119, 161, 203 ja 217) ovat kaikki muotoa 7 · alkuluku, joten kahden, kolmen ja viiden säännöt eivät paljasta niitä. Vastaus ”on alkuluku” kertoo, että oppilas lopettaa kokeilemisen liian aikaisin; neliösääntö (kokeillaan, kunnes alkuluvun neliö ylittää luvun) on opetettu tekstissä.","Oppikirjan luvussa 10 on kaksi virhettä, joita materiaali ei toista: kymmenen ensimmäisen alkuluvun luettelossa on 22, joka ei ole alkuluku, ja 29 puuttuu. Lisäksi esimerkissä luvun 18 tekijöistä puuttuu 18 itse. Kirjan luvut eivät käsittele jaollisuussääntöä neljälle eivätkä syt-merkintää; ne ovat mukana, koska taitokartan näyttö ja toimeksiannon sisältörajaus edellyttävät niitä.","Materiaalissa tekijällä tarkoitetaan positiivista kokonaislukua. Negatiivisia tekijöitä (esimerkiksi −3 luvun 12 tekijänä) ei käsitellä, vaikka negatiivisten lukujen kertolasku on edeltävä taito.","Sisällön pohjana Avoin Matematiikka 7 lk., osio 1, luvut 9 ja 10 (Marika Toivola ja Tiina Härkönen, CC BY 3.0)."]},"tuntirunko":{"kesto":"45 min (ensimmäinen kahdesta oppitunnista)","sanottava_aaneen":"Alkuluvulla on täsmälleen kaksi tekijää. Siksi 1 ei ole alkuluku, ja siksi 2 on ainoa parillinen alkuluku.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Kirjoita taululle luvut 24 ja 23 ja kysy, monellako tavalla kummankin määrän pelaajia saa jaettua tasakokoisiin joukkueisiin. Kerää jaot taululle. Luvulle 23 jää vain kaksi jakoa, ja siitä päästään alkulukuun."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Kirjoita 4 572 auki muotoon (4 · 999 + 5 · 99 + 7 · 9) + (4 + 5 + 7 + 2) ja näytä, miksi numeroiden summa ratkaisee jaollisuuden kolmella ja yhdeksällä. Vertaa kahden, viiden ja kymmenen sääntöön: 10 on jaollinen niillä, mutta ei kolmella. Määrittele sitten alkuluku tekijöiden lukumäärän kautta ja kysy, montako tekijää luvulla 1 on."},{"aika":"18 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset H01–H09: jaollisuus ja alkulukujen tunnistaminen. Kierrä ja katso erityisesti tehtäviä H04 ja H05, joissa viimeinen numero ei ratkaise, sekä H08, jossa 1 ja 51 houkuttelevat. Älä ota aikaa äläkä vertaile oppilaiden etenemistä keskenään."},{"aika":"10 min","otsikko":"Lopetus","sisalto":"Kirjoita taululle 51, 57, 91 ja 97 ja kysy, mitkä niistä ovat alkulukuja. Anna perustella parin kanssa ennen kuin kerrot vastauksen: vain 97 on alkuluku. Toinen oppitunti etenee samalla rakenteella: ydinasiana tekijäpuu luvulle 1 260, tarkistus kertomalla ja syt(1 260, 1 050) hajotelmien avulla, harjoittelussa H10–H20. Tehtävissä H10–H14 hajotelma kirjoitetaan vihkoon, vaikka vastauskenttään tulee yksi luku; katso kiertäessäsi, onko jokainen tekijä alkuluku ja onko tarkistus kertomalla tehty."}],"tarvikkeet":"Vihko ja kynä. Laskinta ei käytetä."},"virhesanakirja":[{"virhe":"Alkulukuja ovat 2, 17, 29 ja 51","tehtava":"kokeiden tehtävä 7, H08","mita_kertoo":"Oppilas pitää paritonta lukua, joka ei pääty viitoseen, alkulukuna. Hän ei käytä kolmosen sääntöä alkulukutestissä, vaikka osaa sen erikseen.","mita_tehda":"Liitä säännöt yhteen: jokaisesta alkulukuehdokkaasta tarkistetaan ensin 2, 3 ja 5 säännöillä ja sitten 7 jakamalla. Numeroiden summa 5 + 1 = 6 paljastaa luvun 51 heti."},{"virhe":"Alkulukuja ovat 1, 2, 17 ja 29","tehtava":"kokeiden tehtävä 7, H08","mita_kertoo":"Määritelmä on jäänyt muotoon ”jaollinen vain ykkösellä ja itsellään”, jolloin 1 näyttää täyttävän sen. Oppilas ei laske tekijöiden määrää.","mita_tehda":"Muotoile määritelmä uudelleen: täsmälleen kaksi eri tekijää. Kysy, montako tekijää luvulla 1 on, ja näytä, miten 6 = 1 · 2 · 3 = 1 · 1 · 2 · 3 rikkoisi hajotelman yksikäsitteisyyden."},{"virhe":"Alkulukuja ovat 17 ja 29","tehtava":"kokeiden tehtävä 7, H08","mita_kertoo":"Oppilas jättää luvun 2 pois, koska se on parillinen. Hän on yleistänyt, että alkuluvut ovat parittomia, eikä tarkista luvun 2 tekijöitä.","mita_tehda":"Kysy, mitkä ovat luvun 2 tekijät. Niitä on täsmälleen kaksi, 1 ja 2, joten 2 on alkuluku. Muut parilliset luvut eivät ole, koska niillä on ainakin tekijät 1, 2 ja luku itse."},{"virhe":"23 on jaollinen kolmella, koska se päättyy kolmoseen","tehtava":"kokeiden tehtävä 3, H04","mita_kertoo":"Kahden, viiden ja kymmenen viimeisen numeron sääntö on yleistetty kolmoseen. Oppilas muistaa säännöt erillisinä eikä tiedä, miksi ne toimivat.","mita_tehda":"Kysy, onko 10 jaollinen kolmella. Kirjoita 23 = 2 · 9 + (2 + 3) ja näytä, että ratkaisu on numeroiden summassa 5. Anna sitten pari 13 ja 33, jotka päättyvät samaan numeroon."},{"virhe":"72 = 2 · 4 · 9","tehtava":"kokeiden tehtävät 8, 9 ja 13, H10","mita_kertoo":"Tekijöihin jako on lopetettu liian aikaisin. Oppilas osaa kirjoittaa luvun tulona, mutta ei tarkista, ovatko tekijät alkulukuja.","mita_tehda":"Lisää jokaiseen hajotelmaan tarkistuskysymys: onko jokaisella tekijällä täsmälleen kaksi tekijää? Jatka puuta oksista 4 ja 9, kunnes kaikki oksat päättyvät alkulukuihin."},{"virhe":"2⁴ · 3 · 5 = 120","tehtava":"kokeiden tehtävä 10, H12","mita_kertoo":"Potenssi 2⁴ on laskettu kertolaskuna 2 · 4 = 8. Virhe on potenssimerkinnässä, ja sama oppilas kirjoittaa todennäköisesti myös hajotelman väärin, esimerkiksi 2 · 2 · 2 muotoon 2 · 3.","mita_tehda":"Kirjoituta potenssi ensin auki: 2⁴ = 2 · 2 · 2 · 2 = 16. Palaa tarvittaessa taitoon MAT7-POT-01 ennen kuin jatkat hajotelmia."},{"virhe":"168 = 2² · 3 · 7 on oikein","tehtava":"kokeiden tehtävä 15","mita_kertoo":"Oppilas hyväksyy hajotelman, koska kaikki tekijät ovat alkulukuja, mutta ei kerro niitä yhteen. Tarkistus kertomalla puuttuu, joten puuttuva tekijä 2 jää huomaamatta.","mita_tehda":"Pyydä laskemaan tulo vaiheittain: 2² · 3 · 7 = 4 · 21 = 84. Kysy, mikä tekijä puuttuu, kun 168 = 2 · 84."},{"virhe":"Luvulla 600 on 6 eri alkutekijää","tehtava":"kokeiden tehtävä 12, H14","mita_kertoo":"Oppilas laskee kaikki tekijät auki kirjoitetusta tulosta 2 · 2 · 2 · 3 · 5 · 5 eikä erota eri alkulukuja toistuvista.","mita_tehda":"Kirjoita hajotelma potenssimerkinnällä 2³ · 3 · 5² ja laske kantaluvut. Kysy erikseen: montako eri alkulukua, montako tekijää yhteensä."},{"virhe":"syt(24, 36) = 72","tehtava":"kokeiden tehtävät 16 ja 17, H16","mita_kertoo":"Oppilas on ottanut hajotelmista suuremmat eksponentit ja saanut lukujen pienimmän yhteisen monikerran. Hän ei ole tarkistanut, että syt jakaa molemmat luvut.","mita_tehda":"Kysy, voiko 72 jakaa luvun 24. Ohjaa tarkistamaan jokainen syt-vastaus jakamalla: tulos ei voi olla suurempi kuin pienempi luvuista."},{"virhe":"syt(35, 48) = 0","tehtava":"kokeiden tehtävä 19, H17","mita_kertoo":"Oppilas tulkitsee, että yhteisten alkutekijöiden puuttuessa yhteistä tekijää ei ole. Hän ei pidä lukua 1 tekijänä.","mita_tehda":"Luetteloi molempien lukujen tekijät ykkösestä alkaen. Yhteinen tekijä 1 on aina listan alussa, joten syt on vähintään 1."},{"virhe":"1 014 on jaollinen neljällä, koska se on parillinen","tehtava":"kokeiden tehtävä 4, H05","mita_kertoo":"Parillisuus on sekoittunut jaollisuuteen neljällä. Oppilas tietää, että 4 liittyy kakkoseen, mutta ei tiedä, miksi neljän sääntö katsoo kahta numeroa.","mita_tehda":"Kirjoita 1 014 = 10 · 100 + 14 ja kysy, onko 14 jaollinen neljällä. Anna pari 1 014 ja 1 016 vertailtavaksi."}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee päättelemään ilman laskinta, millä luvuilla luku on jaollinen, jakamaan luvun alkutekijöihin (esimerkiksi 50 = 2 · 5²) ja etsimään kahden luvun suurimman yhteisen tekijän. Taitoa tarvitaan heti murtolukujen supistamisessa ja myöhemmin, kun algebrassa lausekkeita jaetaan tekijöihin.","kotona":["Pyydä nuorta selittämään, miksi numeroiden summa kertoo, onko luku jaollinen kolmella. Jos hän osaa kirjoittaa esimerkiksi 345 = 3 · 99 + 4 · 9 + (3 + 4 + 5), sääntö on ymmärretty eikä vain muistettu.","Kysykää arjen lukuja: onko 51 alkuluku? Entä 91? Kumpikaan ei ole (51 = 3 · 17 ja 91 = 7 · 13), ja juuri tällaiset luvut menevät usein väärin.","Älä opeta, että kolmella jaollisuuden näkee viimeisestä numerosta tai että pariton luku on alkuluku. Kumpikin tuntuu toimivan pienillä luvuilla, mutta 23 ei ole jaollinen kolmella eikä 51 ole alkuluku. Koulussa käytetään numeroiden summaa ja kokeilua alkuluvuilla 2, 3, 5 ja 7.","Hajotelman voi aina tarkistaa kertomalla tekijät takaisin yhteen. Jos tulo ei ole alkuperäinen luku, jokin tekijä tai eksponentti on väärin."],"milloin_huolestua":"Jos nuori ei erota tekijää ja monikertaa toisistaan (esimerkiksi pitää lukua 24 luvun 6 tekijänä) tai kertotaulun laskut eivät tule muistista, jaollisuussäännöt ja hajotelmat jäävät irrallisiksi. Kerro siitä opettajalle, jotta perusta voidaan vahvistaa ennen murtolukuja."},"ulkoiset":{"edeltavat":[{"id":"MAT6-LUK-07","nimi":"Lukujen sukulaiset","vuosiluokka":6,"kuvaus":"Osaan etsiä luvun tekijät ja kerrannaiset, tunnistaa alkuluvun ja käyttää jaollisuussääntöjä 2:lle, 3:lle, 5:lle, 9:lle ja 10:lle."}],"seuraavat":[{"id":"MAT9-ALG-01","nimi":"Yhteinen tekijä eteen","vuosiluokka":9,"kuvaus":"Osaan jakaa polynomin tekijöihin ottamalla yhteisen tekijän sulkeiden eteen."}]},"valmis_teksti":"Osaat päätellä jaollisuussäännöillä, millä luvuilla luku on jaollinen, jakaa luvun alkutekijöihin potenssimerkintää käyttäen ja tarkistaa hajotelman kertomalla. Tunnistat alkuluvut: tiedät, että 1 ei ole alkuluku ja 2 on ainoa parillinen alkuluku. Löydät myös kahden luvun suurimman yhteisen tekijän. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

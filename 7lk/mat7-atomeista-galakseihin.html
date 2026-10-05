@@ -1,0 +1,711 @@
+<title>Atomeista galakseihin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+/* header */
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px; display:flex; gap:18px; align-items:flex-start}
+.badge{flex:0 0 auto; width:54px; height:54px; border-radius:9px; display:grid; place-items:center;
+  background:var(--core-soft); border:1px solid var(--core); color:var(--core)}
+.badge svg{width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:5px 0 0; color:var(--ink-2); font-size:15px}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:11px}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:2px 7px;
+  border-radius:4px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-3)}
+.tag.core{background:var(--core-soft); border-color:var(--core); color:var(--core)}
+
+/* teksti */
+article{margin-top:26px}
+article h2{font-size:21px; font-weight:600; margin:32px 0 10px; letter-spacing:-.01em}
+article p{margin:0 0 14px; max-width:64ch}
+.lead{font-size:17.5px; color:var(--ink); border-left:3px solid var(--core); padding-left:16px; margin:0 0 8px}
+
+.box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:18px 22px; box-shadow:var(--shadow); margin:22px 0}
+.box h3{margin:0 0 12px; font-size:16.5px; font-weight:600}
+.box.warn{border-left:3px solid var(--alert)}
+.box.note{border-left:3px solid var(--chal)}
+
+ol.steps{margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start}
+ol.steps li::before{content:counter(s); font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-size:14px;
+  width:26px; height:26px; border-radius:50%; background:var(--core); color:#fff; display:grid; place-items:center; margin-top:2px}
+
+ul.notes{margin:0; padding-left:19px}
+ul.notes li{margin-bottom:7px}
+ul.notes li:last-child{margin-bottom:0}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:460px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td b{color:var(--core); font-weight:600}
+td:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+
+/* lukusuora */
+.nl svg{width:100%; height:118px; display:block}
+.nl .rail{stroke:var(--line); stroke-width:2}
+.nl .tick{stroke:var(--line); stroke-width:1.5}
+.nl .stop{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:11px}
+.nl .stop.near{fill:var(--core); font-weight:600}
+.nl .dot{fill:var(--chal)}
+.nl .val{fill:var(--ink); font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:700}
+.nl .halfway{stroke:var(--chal); stroke-dasharray:3 3; stroke-width:1.5}
+.nl-controls{display:flex; align-items:center; gap:14px; margin-top:6px}
+.nl-controls input{flex:1; accent-color:var(--core)}
+.nl-out{font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600; min-width:12.5em; text-align:right}
+
+/* paikka-arvotaulu */
+.box .ohje{margin:0 0 14px; font-size:14.5px; color:var(--ink-2)}
+.nt-valinta{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px}
+.nt-valinta button{font:inherit; font-size:12.5px; font-family:"IBM Plex Mono",monospace; padding:5px 11px;
+  border-radius:6px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.nt-valinta button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.nt-valinta button:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.nt-taulu{display:flex; flex-direction:column; gap:4px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
+.nt-rivi{display:flex; gap:6px; align-items:center}
+.nt-rivi .otsa{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); width:52px; text-align:center}
+.nt-ruutu{width:52px; height:52px; display:grid; place-items:center; border:1.5px solid var(--line);
+  border-radius:7px; background:var(--surface-2); font-family:"IBM Plex Mono",monospace; font-size:24px}
+.nt-ruutu.kohta{border-color:var(--core); background:var(--core-soft); color:var(--core); font-weight:500}
+.nt-ruutu.ratkaiseva{border-color:var(--chal); background:var(--chal-soft); color:var(--chal); font-weight:500}
+.nt-ruutu.nolla{color:var(--ink-3)}
+.nt-rivi .nimi{font-size:12.5px; color:var(--ink-3); margin-left:12px; white-space:nowrap}
+.nt-nuoli{font-size:17px; color:var(--chal); margin-left:6px}
+.nt-selite{margin:14px 0 0; font-size:14.5px}
+.nt-selite b{color:var(--core)}
+
+/* vahvuusportaat */
+.vp-tasot{display:grid; gap:9px; margin-bottom:18px}
+.vp-taso{display:flex; gap:11px; align-items:flex-start; font-size:13.5px}
+.vp-taso .vp-pallo{width:13px; height:13px; border-radius:4px; margin-top:5px; flex:0 0 auto}
+.vp-taso[data-taso="sulkeet"] .vp-pallo{background:var(--core)}
+.vp-taso[data-taso="kertojako"] .vp-pallo{background:var(--strong)}
+.vp-taso[data-taso="yhteenvahennys"] .vp-pallo{background:var(--chal)}
+.vp-taso strong{display:block; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:14.5px}
+.vp-taso span{color:var(--ink-2)}
+.vp-lauseke{display:flex; flex-wrap:wrap; gap:7px; align-items:flex-end; font-family:"IBM Plex Mono",monospace;
+  font-size:25px; padding:10px 2px; min-height:64px}
+.vp-lauseke .t{padding:2px 3px}
+.vp-lauseke .op{position:relative; padding:2px 9px; border-radius:6px; font-weight:500}
+.vp-lauseke .op[data-taso="sulkeet"]{background:var(--core-soft); color:var(--core)}
+.vp-lauseke .op[data-taso="kertojako"]{background:var(--strong-soft); color:var(--strong)}
+.vp-lauseke .op[data-taso="yhteenvahennys"]{background:var(--chal-soft); color:var(--chal)}
+.vp-lauseke .op i{position:absolute; top:-9px; right:-6px; font-style:normal; font-family:"Familjen Grotesk",sans-serif;
+  font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:currentColor}
+.vp-lauseke .op i span{color:var(--surface)}
+.vp-rivi{display:flex; align-items:center; gap:16px; margin-top:8px}
+.vp-vastaus{font-family:"Familjen Grotesk",sans-serif; font-size:16px; font-weight:600; color:var(--strong)}
+
+/* laskujärjestys-widget */
+.lj-exp{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-family:"IBM Plex Mono",monospace;
+  font-size:23px; padding:14px 4px; min-height:62px}
+.lj-exp .tok{padding:2px 4px; color:var(--ink)}
+.lj-exp button.op{font-family:"IBM Plex Mono",monospace; font-size:23px; padding:3px 12px; border-radius:7px;
+  border:1.5px solid var(--line); background:var(--surface-2); color:var(--ink); line-height:1.2}
+.lj-exp button.op:hover{border-color:var(--core); color:var(--core)}
+.lj-exp button.op:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.lj-exp .valmis{font-family:"Familjen Grotesk",sans-serif; font-size:23px; font-weight:700; color:var(--strong)}
+.lj-fb{font-size:14.5px; min-height:1.5em; color:var(--ink-2)}
+.lj-fb.no{color:var(--alert)}
+.lj-fb.ok{color:var(--strong)}
+.lj-row{display:flex; align-items:center; gap:14px; margin-top:10px}
+.lj-step{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* harjoitukset */
+.progress{position:sticky; top:0; z-index:5; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 18px; box-shadow:var(--shadow); display:flex; align-items:center;
+  gap:14px; margin:34px 0 18px}
+.progress .lbl{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap}
+.progress .meter{flex:1; height:7px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+.progress .meter i{display:block; height:100%; background:var(--core); transition:width .25s ease}
+.progress .cnt{font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.grp{margin-top:26px}
+.grp-head{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--ink); padding-bottom:7px; margin-bottom:14px}
+.grp-head h3{margin:0; font-size:17px; font-weight:600}
+.grp-head span{font-size:12.5px; color:var(--ink-2)}
+
+.ex{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:10px}
+.ex[data-tila="oikein"]{border-color:var(--strong); box-shadow:inset 3px 0 0 var(--strong)}
+.ex[data-tila="vaarin"]{border-color:var(--alert); box-shadow:inset 3px 0 0 var(--alert)}
+.ex .q{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
+.ex .num{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3); min-width:2.4em}
+.ex .txt{flex:1; min-width:190px; font-size:15.5px}
+.ex .txt .aineisto{display:block; margin-bottom:9px; padding-left:12px;
+  border-left:2px solid var(--line); color:var(--ink-2); line-height:1.6;
+  /* Aineisto voi olla pieni taulukko, jonka rivit on erotettu rivinvaihdoilla.
+     Ilman pre-lineä ne valuisivat yhdeksi kappaleeksi ja taulukko katoaisi. */
+  white-space:pre-line}
+.ex .txt .kysymysrivi{display:block; font-weight:600}
+.ex .row{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.ex input[type=text]{font:inherit; font-family:"IBM Plex Mono",monospace; font-size:15px; width:8.5em;
+  padding:7px 11px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2);
+  color:var(--ink); text-align:right}
+.ex input:focus-visible{outline:2px solid var(--core); outline-offset:1px}
+button{font:inherit; cursor:pointer}
+.btn{font-size:13.5px; padding:7px 15px; border-radius:7px; border:1px solid var(--core);
+  background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.btn.mv-valinta{text-align:left}
+/* kuuntelutehtävä: selaimen puhesynteesi lukee englanninkielisen tekstin */
+.kuuntele{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:2px 0 10px}
+.kuuntele .btn{display:inline-flex; gap:7px; align-items:center}
+.kuuntele svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.kuuntele .varateksti{flex-basis:100%; font-size:14px; color:var(--ink-2); background:var(--surface-2);
+  border-radius:7px; padding:8px 12px; margin:0}
+.btn.mv-valinta:disabled{cursor:default; opacity:.65}
+.btn.mv-oikein{background:var(--strong-soft); border-color:var(--strong); color:var(--strong); opacity:1}
+.btn.mv-vaarin{background:var(--alert-soft); border-color:var(--alert); color:var(--alert); opacity:1}
+.row.mv{gap:8px 10px}
+.fb{margin-top:11px; font-size:14.5px; padding:10px 13px; border-radius:8px; line-height:1.5}
+.fb.ok{background:var(--strong-soft); color:var(--strong)}
+.fb.no{background:var(--alert-soft); color:var(--alert)}
+.fb.hint{background:var(--chal-soft); color:var(--chal)}
+
+.done{background:var(--strong-soft); border:1px solid var(--strong); color:var(--strong);
+  border-radius:var(--r); padding:16px 20px; margin-top:20px; font-size:15.5px}
+.done h3{margin:0 0 4px; font-size:17px; color:var(--strong)}
+
+details.teacher{margin-top:34px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--chal); border-radius:var(--r); padding:15px 20px; box-shadow:var(--shadow)}
+details.teacher summary{cursor:pointer; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:15px}
+details.teacher summary:focus-visible{outline:2px solid var(--core); outline-offset:3px}
+details.teacher ul{margin:12px 0 0; padding-left:19px; color:var(--ink-2); font-size:14.5px}
+details.teacher li{margin-bottom:8px}
+details.teacher p{margin:12px 0 0; color:var(--ink-2); font-size:14.5px}
+
+.back{display:inline-block; margin-top:30px; font-size:13.5px; color:var(--ink-2)}
+.back a{color:var(--core)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:560px){
+  .wrap{padding:16px 13px 70px}
+  header.top h1{font-size:25px}
+  .progress{flex-wrap:wrap}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" id="ikoni"></svg></span>
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="otsikko"></h1>
+      <p id="kuvaus"></p>
+      <div class="tags" id="tags"></div>
+    </div>
+  </header>
+
+  <article id="teksti"></article>
+
+  <div class="progress" aria-live="polite">
+    <span class="lbl">Harjoitukset</span>
+    <span class="meter"><i id="pbar" style="width:0%"></i></span>
+    <span class="cnt" id="pcnt">0 / 20</span>
+  </div>
+
+  <div id="harjoitukset"></div>
+  <div id="valmis"></div>
+
+  <p class="back" id="back"></p>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT7-POT-05","oppiaine":"MAT","vuosiluokka":7,"otsikko":"Atomeista galakseihin","kuvaus":"Osaan esittää hyvin suuria ja pieniä lukuja kymmenpotenssimuodossa ja etuliitteiden avulla.","versio":"0.2","paivitetty":"2026-10-04","ops":{"T":["T9","T11"],"S":["S2"]},"taso":"ydin","ikoni":"maapallo","eyebrow":"Matematiikka · 7. luokka · Potenssit","teksti":[{"tyyppi":"johdanto","sisalto":"Puhelimesi näytöllä yksi kuvapiste on noin 0,000 06 metriä leveä. Aurinko on noin 150 000 000 kilometrin päässä, ja vetyatomin halkaisija on noin 0,000 000 000 1 metriä. Tällaisissa luvuissa nollia on niin paljon, että niitä on vaikea laskea, ja yksikin pudonnut tai ylimääräinen nolla muuttaa luvun kymmenkertaiseksi tai kymmenesosaan. Siksi tiede, tekniikka ja laskimet kirjoittavat hyvin suuret ja hyvin pienet luvut toisin: 150 000 000 on 1,5 · 10⁸ ja 0,000 06 on 6 · 10⁻⁵. Kymmenen potenssista näkee heti, kuinka suuri luku on, eikä nollia tarvitse laskea. Arkikielessä samaa työtä tekevät yksiköiden etuliitteet: kilometri, megawatti, millimetri ja mikrometri."},{"tyyppi":"kappale","otsikko":"Kymmenen potenssit molempiin suuntiin","sisalto":"Kymmenen potenssissa eksponentti kertoo, montako kertaa luvulla 10 kerrotaan: 10³ = 10 · 10 · 10 = 1 000. Jokainen kertominen kymmenellä siirtää pilkkua yhden askeleen oikealle, ja siksi luvussa 10³ on kolme nollaa. Negatiivinen eksponentti tarkoittaa jakamista: 10⁻³ = 1/10³ = 1/1 000 = 0,001. Jokainen jakaminen kymmenellä siirtää pilkkua yhden askeleen vasemmalle. Jono jatkuu tasaisesti molempiin suuntiin: 10³ = 1 000, 10² = 100, 10¹ = 10, 10⁰ = 1, 10⁻¹ = 0,1, 10⁻² = 0,01 ja 10⁻³ = 0,001. Aina kun eksponentti pienenee yhdellä, luku jaetaan kymmenellä. Positiivisella eksponentilla kymmenen potenssi on siis vähintään 10. Negatiivisella eksponentilla se on pienempi kuin 1, mutta silti positiivinen. Kertominen luvulla 10ⁿ siirtää pilkkua n askelta oikealle, kun n on positiivinen, ja yhtä monta askelta vasemmalle, kun n on negatiivinen: 3,7 · 10² = 370 ja 3,7 · 10⁻² = 0,037."},{"tyyppi":"kappale","otsikko":"Kymmenpotenssimuoto","sisalto":"Luku on kymmenpotenssimuodossa, kun se on kirjoitettu muodossa a · 10ⁿ, jossa kertoimen a itseisarvo (etäisyys nollasta) on vähintään 1 ja alle 10 ja eksponentti n on kokonaisluku. Esimerkiksi 4 200 000 = 4,2 · 10⁶ ja 0,000 35 = 3,5 · 10⁻⁴. Kertoimessa on siis ennen pilkkua aina täsmälleen yksi numero, eikä se ole nolla. Sääntö tekee merkinnästä yksikäsitteisen. Lukua 4 200 000 voisi kirjoittaa myös 42 · 10⁵ tai 0,42 · 10⁷, mutta kymmenpotenssimuodossa vaihtoehtoja on vain yksi. Siksi positiivisia lukuja voi verrata yhdellä silmäyksellä: kun molemmat ovat kymmenpotenssimuodossa, se, jonka eksponentti on suurempi, on suurempi luku. Negatiivinen luku kirjoitetaan samoin, ja miinusmerkki tulee kertoimen eteen: -0,000 35 = -3,5 · 10⁻⁴. Takaisin tavalliseen muotoon pääset siirtämällä pilkkua. Luvussa 4,2 · 10⁶ pilkku siirtyy kuusi askelta oikealle, ja tyhjät paikat täytetään nollilla: 4 200 000. Luvussa 3,5 · 10⁻⁴ pilkku siirtyy neljä askelta vasemmalle: 0,000 35."},{"tyyppi":"saanto","otsikko":"Näin kirjoitat luvun kymmenpotenssimuodossa","askeleet":["Kirjoita kerroin: siirrä pilkku ensimmäisen nollasta eroavan numeron perään. Luvusta 52 000 tulee 5,2 ja luvusta 0,000 87 tulee 8,7.","Laske, montako askelta pilkku siirtyi. Luvussa 52 000 pilkku on lopussa (52 000,) ja siirtyy neljä askelta vasemmalle. Luvussa 0,000 87 se siirtyy neljä askelta oikealle. Askelten määrä on eksponentin itseisarvo.","Päätä etumerkki luvun suuruudesta. Jos luku on vähintään 10, kerroin on sitä pienempi ja se pitää kertoa suurella luvulla, joten eksponentti on positiivinen: 52 000 = 5,2 · 10⁴. Jos luku on pienempi kuin 1, kerroin on sitä suurempi ja se pitää kertoa luvulla, joka on pienempi kuin 1, joten eksponentti on negatiivinen: 0,000 87 = 8,7 · 10⁻⁴. Jos luku on vähintään 1 ja alle 10, eksponentti on 0. Negatiivisesta luvusta katsotaan itseisarvoa.","Tarkista kirjoittamalla tulos takaisin tavalliseen muotoon. Jos saat alkuperäisen luvun, muoto on oikein."]},{"tyyppi":"ansa","otsikko":"Ansa 1: pienen luvun eksponentti on negatiivinen","sisalto":"Luvussa 0,004 pilkku siirtyy kolme askelta, ja moni kirjoittaa 0,004 = 4 · 10³. Tarkista: 4 · 10³ = 4 000, joka on miljoona kertaa liian suuri. Askelten määrä kertoo eksponentin itseisarvon, mutta etumerkki tulee luvun koosta. Kerroin 4 on suurempi kuin 0,004, joten se pitää kertoa luvulla, joka on pienempi kuin 1. Sellainen kymmenen potenssi on 10⁻³, joten 0,004 = 4 · 10⁻³. Toinen yleinen virhe on laskea pelkät pilkun takana olevat nollat. Luvussa 0,000 87 niitä on kolme, mutta pilkku siirtyy neljä askelta, koska sen pitää ohittaa myös numero 8. Oikein on 8,7 · 10⁻⁴. Huomaa myös, että negatiivinen eksponentti tekee luvusta pienen, ei negatiivista: 4 · 10⁻³ on positiivinen luku."},{"tyyppi":"ansa","otsikko":"Ansa 2: 25 · 10³ ei ole vielä valmis","sisalto":"Merkintä 25 · 10³ on oikea luku (25 000), mutta se ei ole kymmenpotenssimuodossa, koska kerroin 25 on suurempi kuin 10. Korjaa kerroin ja siirrä ero eksponenttiin: 25 = 2,5 · 10, joten 25 · 10³ = 2,5 · 10 · 10³ = 2,5 · 10⁴. Samankantaisten potenssien tulossa eksponentit lasketaan yhteen (10¹ · 10³ = 10⁴), ja juuri se tapahtuu tässä. Kun kerroin pienenee kymmenesosaan, eksponentti kasvaa yhdellä, ja luvun arvo pysyy samana. Sama toimii toiseen suuntaan: 0,5 · 10³ = 5 · 10⁻¹ · 10³ = 5 · 10². Kun kerroin kasvaa kymmenkertaiseksi, eksponentti pienenee yhdellä. Negatiivinen eksponentti noudattaa samaa sääntöä: 0,7 · 10⁻² = 7 · 10⁻³, koska eksponentti pienenee yhdellä luvusta -2 lukuun -3. Tarkista aina: 0,7 · 10⁻² = 0,007 ja 7 · 10⁻³ = 0,007."},{"tyyppi":"kappale","otsikko":"Laskimen E-merkintä","sisalto":"Kun laskun tulos on liian suuri tai liian pieni näyttöön, laskin näyttää sen kymmenpotenssimuodossa. Moni laskin, puhelimen laskin ja taulukkolaskentaohjelma käyttää E-kirjainta: 3.2E-4 tarkoittaa lukua 3,2 · 10⁻⁴ eli 0,000 32. E tulee sanasta eksponentti, ja sen perässä oleva luku on kymmenen potenssin eksponentti. Monissa laskimissa desimaalierotin on piste, joten 3.2 on sama kuin 3,2. Suomenkielinen puhelin tai taulukkolaskentaohjelma voi näyttää pilkun: 3,2E-4. Jotkin laskimet näyttävät saman tuloksen muodossa 3.2×10⁻⁴ tai pienellä eksponentilla näytön reunassa. Merkintä E-4 ei tarkoita neljän vähentämistä: 3.2E-4 ei ole 3,2 - 4, vaan eksponentti on -4. Suuri tulos näkyy samalla tavalla. Jos lasket laskimella 30 000 · 60 000, näytössä voi lukea 1.8E9, eli tulos on 1,8 · 10⁹ = 1 800 000 000. Kun itse syötät kymmenpotenssin laskimeen, käytä EXP- tai ×10ˣ-näppäintä."},{"tyyppi":"taulukko","otsikko":"Etuliitteet","otsikkorivi":["Etuliite","Tunnus","Kymmenen potenssi","Lukuna","Esimerkki"],"rivit":[["giga","G","10⁹","1 000 000 000","gigawatti, GW"],["mega","M","10⁶","1 000 000","megawatti, MW"],["kilo","k","10³","1 000","kilometri, km"],["hehto","h","10²","100","hehtolitra, hl"],["deka","da","10¹","10","dekagramma, dag"],["desi","d","10⁻¹","0,1","desilitra, dl"],["sentti","c","10⁻²","0,01","senttimetri, cm"],["milli","m","10⁻³","0,001","milligramma, mg"],["mikro","μ","10⁻⁶","0,000 001","mikrometri, μm"],["nano","n","10⁻⁹","0,000 000 001","nanometri, nm"]]},{"tyyppi":"kappale","otsikko":"Etuliite korvaa kymmenen potenssin","sisalto":"Etuliite yksikön edessä on lyhenne kymmenen potenssille. 4,5 MW tarkoittaa 4,5 · 10⁶ W eli 4 500 000 wattia, ja 350 mg tarkoittaa 350 · 10⁻³ g eli 0,35 grammaa. Muunnos perusyksikköön tehdään siis korvaamalla etuliite sen kymmenen potenssilla ja siirtämällä pilkkua. Etuliitteiden kanssa kertoimen ei tarvitse olla alle 10: sanotaan 350 mg ja 17 km, koska ne on helpompi lukea kuin 3,5 · 10⁻¹ g ja 1,7 · 10⁴ m. Etuliitteestä toiseen muunnat vertaamalla eksponentteja. Milli on 10⁻³ ja mikro 10⁻⁶, joten eksponenttien ero on kolme ja 1 mm = 10³ μm = 1 000 μm. Silloin 0,04 mm = 40 μm. Muista suunta: kun yksikkö pienenee, lukuarvo kasvaa, koska pieniä yksiköitä tarvitaan enemmän. Tässä taidossa etuliitteitä käytetään pituuden, massan, tilavuuden (litra), tehon ja ajan yksiköissä. Neliö- ja kuutioyksiköissä (km², cm³) myös etuliitteen potenssi korotetaan, ja ne käsitellään erikseen."},{"tyyppi":"ansa","otsikko":"Ansa 3: mikro ei ole milli","sisalto":"Milli ja mikro alkavat samalla kirjaimella, ja moni muistaa mikron väärin tuhannesosaksi. Milli (m) on 10⁻³ eli tuhannesosa, ja mikro (μ) on 10⁻⁶ eli miljoonasosa. Mikrometri on siis tuhat kertaa pienempi kuin millimetri: millimetrin matkalle mahtuu 1 000 mikrometriä. Hius on noin 70 μm paksu eli alle kymmenesosa millimetristä. Toinen sekaannus syntyy tunnuksista: pieni m on milli, iso M on mega. 5 mW (milliwattia) ja 5 MW (megawattia) eroavat toisistaan miljardikertaisesti, koska eksponenttien -3 ja 6 ero on 9."}],"harjoitusryhmat":[{"id":"muoto","nimi":"Kymmenpotenssimuoto","info":"Siirrä pilkkua ja laske askeleet. Päätä etumerkki luvun suuruudesta."},{"id":"etuliitteet","nimi":"Etuliitteet","info":"Korvaa etuliite sen kymmenen potenssilla."},{"id":"laskin","nimi":"Laskimen näyttö ja korjaus","info":"Lue E-merkintä ja korjaa kerroin niin, että se on vähintään 1 ja alle 10."}],"harjoitukset":[{"id":"H01","ryhma":"muoto","kysymys":"Neptunuksen etäisyys Auringosta on noin 4 500 000 000 km. Kirjoita luku muodossa a · 10ⁿ, missä 1 ≤ a < 10. Mikä on n?","vastaus":9,"vinkki":"Siirrä pilkku numeron 4 perään ja laske askeleet.","selitys":"4 500 000 000 = 4,5 · 10⁹. Pilkku siirtyy yhdeksän askelta vasemmalle, ja luku on suurempi kuin 10, joten eksponentti on positiivinen 9."},{"id":"H02","ryhma":"muoto","kysymys":"Kirjoita luku 48 000 muodossa a · 10ⁿ, missä 1 ≤ a < 10. Mikä on a?","vastaus":4.8,"vinkki":"Kertoimen pitää olla vähintään 1 ja alle 10. Onko 48 sellainen?","selitys":"48 000 = 4,8 · 10⁴, joten kerroin on 4,8. Merkintä 48 · 10³ on sama luku, mutta sen kerroin 48 on liian suuri."},{"id":"H03","ryhma":"muoto","kysymys":"Kirjoita luku 0,007 muodossa a · 10ⁿ, missä 1 ≤ a < 10. Mikä on n?","vastaus":-3,"vinkki":"Luku on pienempi kuin 1. Mitä se kertoo eksponentin etumerkistä?","selitys":"0,007 = 7 · 10⁻³. Pilkku siirtyy kolme askelta oikealle numeron 7 perään. Koska 0,007 on pienempi kuin 1, eksponentti on negatiivinen. Tarkistus: 7 · 10³ olisi 7 000."},{"id":"H04","ryhma":"muoto","kysymys":"Kirjoita luku 0,000 52 muodossa a · 10ⁿ, missä 1 ≤ a < 10. Mikä on n?","vastaus":-4,"vinkki":"Laske askeleet, joilla pilkku pääsee numeron 5 perään. Älä laske pelkkiä nollia.","selitys":"0,000 52 = 5,2 · 10⁻⁴. Pilkku ohittaa kolme nollaa ja numeron 5 eli siirtyy neljä askelta oikealle."},{"id":"H05","ryhma":"muoto","kysymys":"Kirjoita luku 3,6 · 10⁵ ilman kymmenpotenssia.","vastaus":360000,"vinkki":"Siirrä pilkkua viisi askelta oikealle ja täytä tyhjät paikat nollilla.","selitys":"3,6 · 10⁵ = 360 000. Pilkun takana on jo yksi numero, joten nollia tulee vain neljä. Vastaus 3 600 000 tulee, jos luvun 36 perään lisätään viisi nollaa."},{"id":"H06","ryhma":"muoto","kysymys":"Kirjoita luku 7,08 · 10⁻⁵ desimaalilukuna.","vastaus":7.08e-05,"vinkki":"Negatiivinen eksponentti: pilkku siirtyy vasemmalle.","selitys":"Pilkku siirtyy viisi askelta vasemmalle: 7,08 · 10⁻⁵ = 0,000 070 8. Ensimmäinen nollasta eroava numero 7 on viidennellä desimaalilla."},{"id":"H07","ryhma":"muoto","kysymys":"Kirjoita luku -0,000 9 muodossa a · 10ⁿ, missä 1 ≤ |a| < 10. Mikä on a?","vastaus":-9,"vinkki":"Miinusmerkki jää kertoimeen. Itseisarvo ratkaisee vain kertoimen koon.","selitys":"-0,000 9 = -9 · 10⁻⁴. Kerroin on -9, ja sen itseisarvo 9 on vähintään 1 ja alle 10. Eksponentti on negatiivinen siksi, että luvun itseisarvo on pienempi kuin 1, ei siksi, että luku on negatiivinen."},{"id":"H08","ryhma":"muoto","kysymys":"450     0,45     4,5     0,004 5     45 000\n\nMontako näistä viidestä luvusta kirjoitetaan kymmenpotenssimuodossa niin, että eksponentti on negatiivinen?","vastaus":2,"vinkki":"Negatiivinen eksponentti tulee vain luvuille, joiden itseisarvo on pienempi kuin 1.","selitys":"Vain 0,45 = 4,5 · 10⁻¹ ja 0,004 5 = 4,5 · 10⁻³. Luvussa 4,5 = 4,5 · 10⁰ eksponentti on nolla, ja luvut 450 ja 45 000 saavat positiivisen eksponentin."},{"id":"H09","ryhma":"etuliitteet","kysymys":"Etuliite mikro (μ) tarkoittaa kerrointa 10ⁿ. Mikä on n?","vastaus":-6,"vinkki":"Mikro on miljoonasosa, ei tuhannesosa.","selitys":"Mikro on 10⁻⁶ = 0,000 001. Tuhannesosa 10⁻³ on milli."},{"id":"H10","ryhma":"etuliitteet","kysymys":"Etuliite giga (G) tarkoittaa kerrointa 10ⁿ. Mikä on n?","vastaus":9,"vinkki":"Kilo on 10³ ja mega 10⁶. Giga on seuraava.","selitys":"Giga on 10⁹ eli miljardi. Esimerkiksi 1 GW = 1 000 000 000 W."},{"id":"H11","ryhma":"etuliitteet","kysymys":"Montako litraa on 2,5 hl?","vastaus":250,"vinkki":"Hehto on 10² eli sata.","selitys":"2,5 hl = 2,5 · 10² l = 250 l."},{"id":"H12","ryhma":"etuliitteet","kysymys":"Muunna grammoiksi: 350 mg","vastaus":0.35,"vinkki":"Milli on 10⁻³. Grammoja on vähemmän kuin milligrammoja.","selitys":"350 mg = 350 · 10⁻³ g = 0,35 g. Pilkku siirtyy kolme askelta vasemmalle."},{"id":"H13","ryhma":"etuliitteet","kysymys":"Tuulivoimalan teho on 4,5 MW. Montako wattia se on?","vastaus":4500000,"vinkki":"Mega on 10⁶.","selitys":"4,5 MW = 4,5 · 10⁶ W = 4 500 000 W."},{"id":"H14","ryhma":"etuliitteet","kysymys":"Bakteerin pituus on noin 0,002 mm. Montako mikrometriä se on?","vastaus":2,"vinkki":"Millimetrissä on 1 000 mikrometriä.","selitys":"Milli on 10⁻³ ja mikro 10⁻⁶, joten 1 mm = 1 000 μm. 0,002 mm = 0,002 · 1 000 μm = 2 μm. Pienempää yksikköä tarvitaan enemmän, joten lukuarvo kasvaa."},{"id":"H15","ryhma":"etuliitteet","kysymys":"Vihreän valon aallonpituus on noin 0,000 000 53 m. Montako nanometriä se on?","vastaus":530,"vinkki":"Nano on 10⁻⁹, joten metrissä on miljardi nanometriä.","selitys":"0,000 000 53 m = 5,3 · 10⁻⁷ m. Koska 1 m = 10⁹ nm, saadaan 5,3 · 10⁻⁷ · 10⁹ nm = 5,3 · 10² nm = 530 nm."},{"id":"H16","ryhma":"laskin","kysymys":"Laskin näyttää 3.2E-4. Kirjoita luku desimaalilukuna.","vastaus":0.00032,"vinkki":"E-4 tarkoittaa kertomista luvulla 10⁻⁴, ei neljän vähentämistä.","selitys":"3.2E-4 = 3,2 · 10⁻⁴ = 0,000 32. Pilkku siirtyy neljä askelta vasemmalle."},{"id":"H17","ryhma":"laskin","kysymys":"Laskit laskimella 50 000 · 80 000, ja näytössä luki 4E9. Kirjoita tulos ilman kymmenpotenssia.","vastaus":4000000000,"vinkki":"4E9 on 4 · 10⁹. Montako nollaa luvun 4 perään tulee?","selitys":"4E9 = 4 · 10⁹ = 4 000 000 000. Tarkistus: 5 · 10⁴ · 8 · 10⁴ = 40 · 10⁸ = 4 · 10⁹."},{"id":"H18","ryhma":"laskin","kysymys":"Korjaa luku 36 · 10⁴ kymmenpotenssimuotoon a · 10ⁿ, missä 1 ≤ a < 10. Mikä on n?","vastaus":5,"vinkki":"36 = 3,6 · 10. Kerroin pienenee kymmenesosaan, joten eksponentti kasvaa yhdellä.","selitys":"36 · 10⁴ = 3,6 · 10 · 10⁴ = 3,6 · 10⁵. Arvo 360 000 ei muutu."},{"id":"H19","ryhma":"laskin","kysymys":"Korjaa luku 0,7 · 10⁻² kymmenpotenssimuotoon a · 10ⁿ, missä 1 ≤ a < 10. Mikä on n?","vastaus":-3,"vinkki":"0,7 = 7 · 10⁻¹. Laske eksponentit yhteen.","selitys":"0,7 · 10⁻² = 7 · 10⁻¹ · 10⁻² = 7 · 10⁻³. Kerroin kasvoi kymmenkertaiseksi, joten eksponentti pieneni yhdellä luvusta -2 lukuun -3. Arvo on edelleen 0,007."},{"id":"H20","ryhma":"laskin","kysymys":"Kumpi on suurempi, 9 · 10⁻⁵ vai 2 · 10⁻⁴? Kirjoita suurempi luku desimaalilukuna.","vastaus":0.0002,"vinkki":"Vertaa ensin eksponentteja. Luku -4 on suurempi kuin -5.","selitys":"9 · 10⁻⁵ = 0,000 09 ja 2 · 10⁻⁴ = 0,000 2. Suurempi on 0,000 2, vaikka sen kerroin on pienempi. Positiivisilla luvuilla kymmenpotenssimuodossa eksponentti ratkaisee ensin."}],"valmis_teksti":"Osaat kirjoittaa suuret ja pienet luvut kymmenpotenssimuodossa ja takaisin, päätellä eksponentin etumerkin luvun suuruudesta, korjata muodon kuten 25 · 10³ muotoon 2,5 · 10⁴, käyttää etuliitteitä ja lukea laskimen E-merkinnän. Tämä taito on nyt näytetty."};
+
+/* ---------- otsikko ---------- */
+const IKONIT={
+  pysakki:'<path d="M7 4h10v11H7z"/><path d="M9 15v4M15 15v4"/><path d="M4 20h16"/><path d="M9 7h6"/>',
+  jarjestys:'<path d="M4 7h6M4 12h10M4 17h4"/><path d="M17 5v14"/><path d="M14.5 16.5L17 19l2.5-2.5"/>',
+  /* allekkainkertolasku: kaksi riviä ja viiva, päällä muistinumero */
+  kerto:'<path d="M6 8h9M6 13h12M4 16.5h16"/><path d="M7.5 19.5h9"/><circle cx="18" cy="5.5" r="2"/>',
+  /* jakokulma */
+  jakokulma:'<path d="M5 8h13"/><path d="M8.5 8v10"/><path d="M8.5 18c-2.2 0-3.5-2.2-3.5-5s1.3-5 3.5-5"/><path d="M11 12h6"/>',
+  /* jakojäännös: ryhmät ja yksi yli jäävä */
+  jaannos:'<rect x="3.5" y="8" width="6" height="6" rx="1"/><rect x="11" y="8" width="6" height="6" rx="1"/><circle cx="20" cy="17.5" r="2"/>',
+  /* desimaalipilkku paikka-arvoruuduissa */
+  desimaali:'<rect x="3" y="7" width="6" height="9" rx="1"/><rect x="13" y="7" width="8" height="9" rx="1"/><path d="M10.8 15.5c.6.3.8 1.2.4 2"/>',
+  /* mitta: viivain */
+  mitta:'<rect x="2.5" y="8.5" width="19" height="7" rx="1"/><path d="M7 8.5v3M11 8.5v4.5M15 8.5v3M19 8.5v4.5"/>',
+  /* lukeminen: avoin kirja */
+  lukeminen:'<path d="M12 6.5C10 5 7 4.7 4 5.3v12c3-.6 6-.3 8 1.2 2-1.5 5-1.8 8-1.2v-12c-3-.6-6-.3-8 1.2z"/><path d="M12 6.5v12"/>',
+  /* lajituntemus: lehti */
+  kasvi:'<path d="M5 19c0-7 4.5-12 14-13 .5 8-3.5 13-10 13H5z"/><path d="M19 6c-5 2.5-8.5 6.5-10.5 12"/>',
+  /* joukkuepeli: pallo ja syöttökaari */
+  pallo:'<circle cx="8" cy="15" r="4.5"/><path d="M8 10.5c1.5-4 5-6.5 9.5-6.5"/><path d="M14.5 4h3v3"/>',
+  /* piirtimet: kynän kärki ja viiva */
+  kyna:'<path d="M4 19l2.5-6L15 4.5a2 2 0 013 3L9.5 16 4 19z"/><path d="M13.5 6.5l3.5 3.5"/>',
+  /* paikka-arvo: neljä numeropaikkaa, tuhansien paikka korostettuna */
+  paikkaarvo:'<rect x="2.5" y="8" width="4.5" height="8" rx="1"/><rect x="8" y="8" width="4.5" height="8" rx="1"/><rect x="13.5" y="8" width="4.5" height="8" rx="1"/><rect x="19" y="8" width="2.5" height="8" rx="1"/><path d="M4.75 10.5v3"/>',
+  /* allekkainlasku: kaksi lukua, viiva ja plus */
+  allekkain:'<path d="M8 7h10M8 12h10M4.5 15h15"/><path d="M4 9.5h3M5.5 8v3"/><path d="M9 18.5h9"/>',
+  /* murtoluku: ympyrä neljäsosiin, yksi väritetty */
+  murtoluku:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M12 12h8.5A8.5 8.5 0 0012 3.5z" fill="currentColor" stroke="none"/>',
+  /* vertailu: kaksi eripituista palkkia ja suurempi-kuin-merkki */
+  vertailu:'<rect x="2.5" y="6" width="8" height="4" rx="1"/><rect x="2.5" y="14" width="4.5" height="4" rx="1"/><path d="M15 6.5l4.5 5.5-4.5 5.5"/>',
+  /* samannimisten yhteenlasku: kaksi sektoria yhdistyy */
+  murtoyhteen:'<path d="M9 12A7 7 0 019 5v7z" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="7"/><path d="M18 8v8M14 12h8"/>',
+  /* käänteisyys: kaksi vastakkaista nuolta */
+  kaanteinen:'<path d="M4 9h13"/><path d="M14.5 6L17.5 9l-3 3"/><path d="M20 15H7"/><path d="M9.5 12L6.5 15l3 3"/>',
+
+  /* --- muiden oppiaineiden ikonit --- */
+  keskustelu:'<path d="M3 5h11v7H7l-4 3z"/><path d="M10 14h11v6h-4l-3 2v-2h-4z"/>',
+  esitys:'<rect x="3" y="4" width="18" height="10" rx="1"/><path d="M12 14v3"/><path d="M8.5 21l3.5-4 3.5 4"/>',
+  kirja:'<path d="M12 6c-2-1.5-5-2-8-1.5v12C7 16 10 16.5 12 18c2-1.5 5-2 8-1.5v-12C17 4 14 4.5 12 6z"/><path d="M12 6v12"/>',
+  teksti:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+  kuuntelu:'<path d="M8 10a4 4 0 118 0c0 3-2 3.5-2 6a2 2 0 11-4 0"/><path d="M17.5 5.5a8 8 0 010 13"/><path d="M20.5 3a12 12 0 010 18"/>',
+  puhe:'<path d="M4 5h16v10H9l-5 4z"/><circle cx="9" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="16" cy="10" r="1"/>',
+  maapallo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 2.5 14.4 0 17c-2.5-2.6-2.5-14.4 0-17z"/>',
+  nuotti:'<path d="M9 18V6l9-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="16" r="2.5"/>',
+  syke:'<path d="M3 12h4l2.5-6 4 12 2.5-6h5"/>',
+  soitin:'<rect x="3.5" y="9" width="17" height="7" rx="1"/><path d="M7 9v7M10.5 9v7M14 9v7M17.5 9v7"/>',
+  sivellin:'<path d="M14.5 3.5l6 6-7 7-6-6z"/><path d="M7.5 10.5l-3 3c-1.5 1.5-1 4 0 5s3.5 1.5 5 0l3-3"/>',
+  muotoilu:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  tyokalu:'<path d="M14.5 3.5a4.5 4.5 0 00-5.8 5.8L3 15v5h5l5.7-5.7a4.5 4.5 0 005.8-5.8L17 11h-3V8z"/>',
+  neula:'<path d="M20 4L9 15"/><path d="M7 17l-3 3"/><ellipse cx="19.5" cy="4.5" rx="1.5" ry="2.5" transform="rotate(45 19.5 4.5)"/><path d="M9 15c-2 0-3 1-3 2s1 2 2 2"/>',
+  kartta:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  aikajana:'<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="17" cy="12" r="2"/><path d="M7 7v2M12 15v2M17 7v2"/>',
+  puu:'<path d="M12 21v-6"/><path d="M12 15l-5-3 5-9 5 9z"/><path d="M12 15l-6-4"/><path d="M12 15l6-4"/>',
+  elain:'<ellipse cx="12" cy="16" rx="4" ry="3.5"/><circle cx="6.5" cy="11" r="2"/><circle cx="17.5" cy="11" r="2"/><circle cx="9.5" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/>',
+  turva:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  liike:'<circle cx="14" cy="5" r="2"/><path d="M13 9l-3 4 3 3 1 5"/><path d="M10 13l-4 1"/><path d="M13 9l4 2 2-1"/>',
+  tasapaino:'<path d="M12 4v16"/><path d="M5 8h14"/><path d="M5 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M19 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M8 20h8"/>',
+  vesi:'<path d="M3 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/>',
+  ajattelu:'<path d="M9 20v-2.5C6.5 16 5 13.7 5 11a7 7 0 1114 0c0 2.7-1.5 5-4 6.5V20z"/><path d="M9.5 20h5"/><path d="M12 14c0-2 2-2 2-3.5a2 2 0 10-4 0"/>',
+  pyha:'<path d="M12 3c1.5 2.5 2.5 3.5 2.5 5a2.5 2.5 0 11-5 0c0-1.5 1-2.5 2.5-5z"/><path d="M12 11v7"/><rect x="8" y="18" width="8" height="3" rx="1"/>',
+  kadet:'<path d="M8 21v-6l-2.5-2.5a2 2 0 012.8-2.8L10 11V4a1.5 1.5 0 013 0v7"/><path d="M13 11V5.5a1.5 1.5 0 013 0V13c0 4-2 8-2 8"/>',
+  tutkimus:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M10.5 7.5v6M7.5 10.5h6"/>',
+  mittari:'<path d="M12 3a2.5 2.5 0 012.5 2.5v8a4.5 4.5 0 11-5 0v-8A2.5 2.5 0 0112 3z"/><circle cx="12" cy="17.5" r="2"/><path d="M12 8v7.5"/>',
+};
+document.getElementById("ikoni").innerHTML = IKONIT[D.ikoni] || IKONIT.pysakki;
+document.getElementById("eyebrow").textContent = D.eyebrow || "Matematiikka · 4. luokka · Luvut ja laskutoimitukset";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("kuvaus").textContent = D.kuvaus;
+document.getElementById("tags").innerHTML =
+  `<span class="tag core">${D.taso || "ydintaito"}</span><span class="tag">${D.ops.T.join(" ")} ${D.ops.S.join(" ")}</span>`
+  + (Array.isArray(D.harjoitukset) && D.harjoitukset.length
+      ? `<span class="tag">${D.harjoitukset.length} harjoitusta</span>`
+      : "");
+
+/* ---------- teksti ---------- */
+const esc = s => s;
+const osat = D.teksti.map(o=>{
+  switch(o.tyyppi){
+    case "johdanto":
+      return `<p class="lead">${esc(o.sisalto)}</p>`;
+    case "kappale":
+      return `<h2>${esc(o.otsikko)}</h2><p>${esc(o.sisalto)}</p>`;
+    case "saanto":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><ol class="steps">${
+        o.askeleet.map(a=>`<li><span>${esc(a)}</span></li>`).join("")}</ol></div>`;
+    case "taulukko":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><div class="tablewrap"><table><thead><tr>${
+        o.otsikkorivi.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${
+        o.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    case "ansa":
+      return `<div class="box warn"><h3>${esc(o.otsikko)}</h3><p style="margin:0">${esc(o.sisalto)}</p></div>`;
+    case "muistilappu":
+      return `<div class="box note"><h3>${esc(o.otsikko)}</h3><ul class="notes">${
+        o.kohdat.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`;
+    case "numerotaulu":
+      return `<div class="box nt"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="nt-valinta" id="ntValinta"></div>
+        <div class="nt-taulu" id="ntTaulu"></div>
+        <p class="nt-selite" id="ntSelite"></p></div>`;
+    case "vahvuusportaat":
+      return `<div class="box vp"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="vp-tasot">${o.tasot.map(t=>
+          `<div class="vp-taso" data-taso="${t.id}"><span class="vp-pallo"></span>
+           <div><strong>${t.nimi}</strong><span>${t.selite}</span></div></div>`).join("")}</div>
+        <div class="vp-lauseke" id="vpLauseke"></div>
+        <div class="vp-rivi"><button type="button" class="btn ghost" id="vpSeuraava">Toinen lauseke</button>
+        <span class="vp-vastaus" id="vpVastaus"></span></div></div>`;
+    case "laskujarjestys":
+      return `<div class="box lj"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 12px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <div class="lj-exp" id="ljExp"></div>
+        <div class="lj-fb" id="ljFb"></div>
+        <div class="lj-row"><button type="button" class="btn ghost" id="ljSeuraava">Toinen lauseke</button>
+        <span class="lj-step" id="ljStep"></span></div></div>`;
+    case "lukusuora":
+      return `<div class="box nl"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 8px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <svg id="nlsvg" viewBox="0 0 640 118" role="img" aria-labelledby="nldesc"><desc id="nldesc">Lukusuora, jolla näkyy valittu luku ja lähin kymmenluku.</desc></svg>
+        <div class="nl-controls">
+          <label for="nlrange" style="font-size:13px;color:var(--ink-2)">Luku</label>
+          <input type="range" id="nlrange" min="0" max="100" value="47" aria-describedby="nlout">
+          <span class="nl-out" id="nlout"></span>
+        </div></div>`;
+    default: return "";
+  }
+}).join("");
+document.getElementById("teksti").innerHTML = osat;
+
+/* ---------- lukusuora ---------- */
+const svg=document.getElementById("nlsvg"), rng=document.getElementById("nlrange"), out=document.getElementById("nlout");
+const X0=34, X1=606, Y=62;
+function piirraNL(v){
+  const ala=Math.floor(v/10)*10, yla=ala+10, puoli=ala+5;
+  const pyor = (v%10)>=5 ? yla : ala;
+  const x = n => X0 + (n/100)*(X1-X0);
+  let s=`<line class="rail" x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}"/>`;
+  for(let n=0;n<=100;n+=10){
+    const near = (n===ala||n===yla);
+    s+=`<line class="tick" x1="${x(n)}" y1="${Y-7}" x2="${x(n)}" y2="${Y+7}"/>`;
+    s+=`<text class="stop${near?" near":""}" x="${x(n)}" y="${Y+24}" text-anchor="middle">${n}</text>`;
+  }
+  s+=`<line class="halfway" x1="${x(puoli)}" y1="${Y-16}" x2="${x(puoli)}" y2="${Y+12}"/>`;
+  s+=`<text class="stop" x="${x(puoli)}" y="${Y-22}" text-anchor="middle">puoliväli ${puoli}</text>`;
+  s+=`<circle class="dot" cx="${x(v)}" cy="${Y}" r="6"/>`;
+  s+=`<text class="val" x="${x(v)}" y="${Y-32}" text-anchor="middle">${v}</text>`;
+  s+=`<path d="M ${x(v)} ${Y+38} L ${x(pyor)} ${Y+38}" stroke="var(--core)" stroke-width="2" fill="none"/>`;
+  s+=`<path d="M ${x(pyor)} ${Y+38} l ${x(pyor)>x(v)?-7:7} -4 l 0 8 z" fill="var(--core)"/>`;
+  svg.innerHTML=s;
+  out.textContent = `${v} pyöristyy → ${pyor}`;
+}
+if(svg){ piirraNL(+rng.value); rng.addEventListener("input",e=>piirraNL(+e.target.value)); }
+
+/* ---------- paikka-arvotaulu ---------- */
+const ntTaulu=document.getElementById("ntTaulu");
+if(ntTaulu){
+  const O=D.teksti.find(x=>x.tyyppi==="numerotaulu");
+  const PAIKAT=["ykköset","kymmenet","sadat","tuhannet","kymmenettuhannet"];
+  const LYH=["Y","K","S","T","KT"];
+  const IDX={kymmenet:1, sadat:2, tuhannet:3};
+  let ntI=0;
+  document.getElementById("ntValinta").innerHTML=O.esimerkit.map((e,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${e.luku.toLocaleString("fi-FI",{maximumFractionDigits:10})} → ${e.tarkkuus}</button>`).join("");
+  function ntPiirra(){
+    const e=O.esimerkit[ntI], t=IDX[e.tarkkuus], kerroin=Math.pow(10,t);
+    const tulos=Math.floor((e.luku+kerroin/2)/kerroin)*kerroin;
+    const lev=Math.max(String(e.luku).length, String(tulos).length);
+    const num=String(e.luku).padStart(lev,"0").split("");
+    const res=String(tulos).padStart(lev,"0").split("");
+    const luokka=(i,arr,vain0)=>{
+      const p=arr.length-1-i;
+      if(vain0) return p<t ? "nt-ruutu nolla" : "nt-ruutu";
+      if(p===t) return "nt-ruutu kohta";
+      if(p===t-1) return "nt-ruutu ratkaiseva";
+      return "nt-ruutu";
+    };
+    const otsat=num.map((_,i)=>`<span class="otsa">${LYH[num.length-1-i]||""}</span>`).join("");
+    const rivi1=num.map((n,i)=>`<span class="${luokka(i,num,false)}">${n}</span>`).join("");
+    const rivi2=res.map((n,i)=>`<span class="${luokka(i,res,true)}">${n}</span>`).join("");
+    const ratk=+num[num.length-t];
+    const ylos=ratk>=5;
+    ntTaulu.innerHTML=
+      `<div class="nt-rivi">${otsat}</div>
+       <div class="nt-rivi">${rivi1}<span class="nimi">luku</span></div>
+       <div class="nt-rivi"><span class="nt-nuoli" style="margin-left:${(num.length-1-t)*58+18}px">${ylos?"▲ ylös":"▼ alas"}</span></div>
+       <div class="nt-rivi">${rivi2}<span class="nimi">pyöristettynä</span></div>`;
+    document.getElementById("ntSelite").innerHTML =
+      `Pyöristetään <b>${PAIKAT[t]}</b> (sininen ruutu). Ratkaiseva numero on <b>${ratk}</b> (keltainen ruutu). ` +
+      (ylos ? `Se on 5 tai suurempi, joten sininen ruutu kasvaa yhdellä.` : `Se on pienempi kuin 5, joten sininen ruutu pysyy ennallaan.`) +
+      ` Kaikki keltaisen oikealla puolella muuttuu nolliksi. Vastaus on <b>${tulos.toLocaleString("fi-FI",{maximumFractionDigits:10})}</b>.`;
+    document.querySelectorAll("#ntValinta button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===ntI)));
+  }
+  document.getElementById("ntValinta").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; ntI=+b.dataset.i; ntPiirra();
+  });
+  ntPiirra();
+}
+
+/* ---------- vahvuusportaat ---------- */
+const vpEl=document.getElementById("vpLauseke");
+if(vpEl){
+  const O=D.teksti.find(x=>x.tyyppi==="vahvuusportaat");
+  let vpI=0;
+  function vpPiirra(){
+    const e=O.esimerkit[vpI];
+    const tokens=e.lauseke.split(/\s+/);
+    const kartta=Object.fromEntries(e.jarjestys.map(j=>[j.i,j]));
+    vpEl.innerHTML=tokens.map((t,i)=>{
+      const j=kartta[i];
+      return j ? `<span class="op" data-taso="${j.taso}">${t}<i><span>${j.n}</span></i></span>`
+               : `<span class="t">${t}</span>`;
+    }).join("");
+    document.getElementById("vpVastaus").textContent = "= " + e.vastaus;
+  }
+  document.getElementById("vpSeuraava").addEventListener("click",()=>{
+    vpI=(vpI+1)%O.esimerkit.length; vpPiirra();
+  });
+  vpPiirra();
+}
+
+/* ---------- laskujärjestys-widget ---------- */
+const ljExp=document.getElementById("ljExp");
+if(ljExp && D.kokeilu){
+  let ljI=0, ljTokens=[], ljStep=0;
+  const laske=(a,op,b)=>{a=+a;b=+b;return op==="×"?a*b:op==="÷"?a/b:op==="+"?a+b:a-b;};
+  function ljAlku(){
+    const l=D.kokeilu[ljI];
+    ljTokens=l.lauseke.replace(/\(/g,"( ").replace(/\)/g," )").split(/\s+/).filter(Boolean);
+    ljStep=0; ljPiirra(); ljViesti("","");
+  }
+  function ljViesti(t,lk){const f=document.getElementById("ljFb"); f.textContent=t; f.className="lj-fb "+(lk||"");}
+  function ljPiirra(){
+    const l=D.kokeilu[ljI];
+    document.getElementById("ljStep").textContent =
+      ljStep>=l.askeleet.length ? "valmis" : `askel ${ljStep+1} / ${l.askeleet.length}`;
+    if(ljStep>=l.askeleet.length){
+      ljExp.innerHTML=`<span class="valmis">${l.lauseke} = ${l.vastaus}</span>`;
+      return;
+    }
+    ljExp.innerHTML=ljTokens.map((t,i)=>
+      "×÷+−".includes(t) ? `<button type="button" class="op" data-i="${i}">${t}</button>`
+                         : `<span class="tok">${t}</span>`).join("");
+    ljExp.querySelectorAll("button.op").forEach(b=>b.addEventListener("click",()=>ljKlikkaa(+b.dataset.i)));
+  }
+  function ljKlikkaa(i){
+    const l=D.kokeilu[ljI], odotettu=l.askeleet[ljStep];
+    const ehdotus=[ljTokens[i-1],ljTokens[i],ljTokens[i+1]].join(" ");
+    if(ehdotus!==odotettu){
+      ljViesti(ljStep===0
+        ? "Ei vielä. Sulkeet ovat vahvimmat, sitten kerto ja jako. Yhtä vahvat vasemmalta oikealle."
+        : "Ei vielä. Kumpi jäljellä olevista on vahvempi?", "no");
+      return;
+    }
+    const arvo=laske(ljTokens[i-1],ljTokens[i],ljTokens[i+1]);
+    let alku=i-1, loppu=i+1;
+    if(ljTokens[i-2]==="(" && ljTokens[i+2]===")"){ alku=i-2; loppu=i+2; }
+    ljTokens.splice(alku, loppu-alku+1, String(arvo));
+    ljStep++;
+    ljViesti(ljStep>=l.askeleet.length ? "Valmis. Vastaus on "+l.vastaus+"." : "Oikein. Jatka seuraavaan.", "ok");
+    ljPiirra();
+  }
+  document.getElementById("ljSeuraava").addEventListener("click",()=>{
+    ljI=(ljI+1)%D.kokeilu.length; ljAlku();
+  });
+  ljAlku();
+}
+
+/* ---------- harjoitukset ----------
+   Kaksi vastaustyyppiä: "numero" (oletus, tekstikenttä + Number()-vertailu) ja
+   "monivalinta" (valintapainikkeet, h.vaihtoehdot[] + h.vastaus = oikean vaihtoehdon indeksi).
+   Jos D.harjoitukset puuttuu tai on tyhjä, koko osio piilotetaan (näyttötaidot, ei kirjallista
+   harjoitusta: liikunta, kuvataide). */
+/* Kysymyksessä voi olla luettavaa aineistoa ja sen jälkeen varsinainen kysymys,
+   erotettuna tyhjällä rivillä. Viimeinen osa on kysymys, sitä edeltävät aineistoa. */
+const kysymysHtml = t => {
+  const osat = String(t).split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(osat.length < 2) return osat[0] || "";
+  const kysymys = osat.pop();
+  return osat.map(p=>`<span class="aineisto">${p}</span>`).join("")
+       + `<span class="kysymysrivi">${kysymys}</span>`;
+};
+
+const ONKO_HARJOITUKSIA = Array.isArray(D.harjoitukset) && D.harjoitukset.length > 0;
+const RYHMAT = ONKO_HARJOITUKSIA ? D.harjoitusryhmat : [];
+const tila={};
+if(ONKO_HARJOITUKSIA) D.harjoitukset.forEach(h=>tila[h.id]={ratkaistu:false, yritetty:false});
+const muotoile = n => (typeof n==="number") ? n.toLocaleString("fi-FI",{maximumFractionDigits:10}) : n;
+
+if(!ONKO_HARJOITUKSIA){
+  document.getElementById("harjoitukset").style.display = "none";
+  const prog = document.querySelector(".progress");
+  if(prog) prog.style.display = "none";
+} else {
+
+document.getElementById("harjoitukset").innerHTML = RYHMAT.map(r=>{
+  const items=D.harjoitukset.filter(h=>h.ryhma===r.id);
+  return `<section class="grp"><div class="grp-head"><h3>${r.nimi}</h3><span>${r.info}</span></div>${
+    items.map((h,i)=>{
+      const nro=D.harjoitukset.indexOf(h)+1;
+      const vastausUi = h.tyyppi==="monivalinta"
+        ? `<div class="row mv" role="group" aria-label="Vaihtoehdot tehtävään ${nro}">
+             ${h.vaihtoehdot.map((v,vi)=>`<button type="button" class="btn ghost mv-valinta" data-mv="${h.id}" data-i="${vi}">${v}</button>`).join("")}
+           </div>`
+        : `<div class="row">
+             <input type="text" inputmode="numeric" id="in-${h.id}" aria-label="Vastaus tehtävään ${nro}" placeholder="vastaus">
+             <button type="button" class="btn" data-tarkista="${h.id}">Tarkista</button>
+             <button type="button" class="btn ghost" data-vinkki="${h.id}">Vinkki</button>
+           </div>`;
+      return `<div class="ex" id="ex-${h.id}">
+        <div class="q"><span class="num">${nro}.</span><span class="txt">${kysymysHtml(h.kysymys)}</span></div>
+        ${h.kuuntele ? `<div class="kuuntele">
+          <button type="button" class="btn ghost" data-kuuntele="${h.id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7"/></svg>Kuuntele</button>
+          <button type="button" class="btn ghost" data-hitaasti="${h.id}">Kuuntele hitaasti</button>
+          <p class="varateksti" id="vara-${h.id}" hidden></p></div>` : ""}
+        ${vastausUi}
+        <div id="fb-${h.id}"></div>
+      </div>`;
+    }).join("")}</section>`;
+}).join("");
+
+function paivitaEdistyminen(){
+  const n=Object.values(tila).filter(t=>t.ratkaistu).length, kaikki=D.harjoitukset.length;
+  document.getElementById("pbar").style.width=Math.round(n/kaikki*100)+"%";
+  document.getElementById("pcnt").textContent=`${n} / ${kaikki}`;
+  document.getElementById("valmis").innerHTML = n===kaikki
+    ? `<div class="done"><h3>Kaikki ${kaikki} oikein.</h3>${D.valmis_teksti || "Tämä taito on nyt näytetty."}</div>`
+    : "";
+}
+
+function merkitseTulos(id, oikein, viesti){
+  const fb=document.getElementById("fb-"+id), kortti=document.getElementById("ex-"+id);
+  tila[id].yritetty=true;
+  if(oikein){
+    tila[id].ratkaistu=true;
+    kortti.dataset.tila="oikein";
+    fb.className="fb ok"; fb.textContent=viesti;
+  } else {
+    kortti.dataset.tila="vaarin";
+    fb.className="fb no"; fb.textContent=viesti;
+  }
+  paivitaEdistyminen();
+}
+
+/* Suomalainen lukumuoto: välilyönti on tuhaterotin, pilkku desimaalierotin.
+   Piste voi olla kumpi tahansa. Se tulkitaan tuhaterottimeksi VAIN silloin, kun
+   koko luku on aitoa tuhaterotinmuotoa: alkuosa 1–3 numeroa ilman etunollaa ja
+   jokainen jatko-osa täsmälleen 3 numeroa (1.500, 12.345.678). Kaikissa muissa
+   tapauksissa piste on desimaalipiste — myös 0.125, joka vanhalla säännöllä
+   ("3 numeroa pisteen jäljessä = tuhaterotin") luettiin virheellisesti luvuksi 125. */
+const TUHATEROTIN = /^[1-9]\d{0,2}(\.\d{3})+$/;
+function lueLuku(teksti){
+  // Murtoluku (3/4, -3/4) ja sekaluku (1 2/3, -1 2/3) hyväksytään sellaisinaan.
+  const raaka = String(teksti).replace(/\u00a0/g, " ").trim();
+  let m = raaka.match(/^(-?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[4]); if(nim === 0) return null;
+    const v = Number(m[2]) + Number(m[3]) / nim; return m[1] ? -v : v; }
+  m = raaka.match(/^(-?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[3]); if(nim === 0) return null;
+    const v = Number(m[2]) / nim; return m[1] ? -v : v; }
+  let s = String(teksti).replace(/[\s\u00a0]/g, "");
+  if(s === "") return null;
+  if(s.indexOf(",") >= 0){
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if(TUHATEROTIN.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function tarkista(id){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const kentta=document.getElementById("in-"+id);
+  const fb=document.getElementById("fb-"+id);
+  if(kentta.value.trim()===""){ fb.className="fb hint"; fb.textContent="Kirjoita vastaus ensin."; return; }
+  const luku=lueLuku(kentta.value);
+  if(luku===null){ fb.className="fb no"; fb.textContent="Vastauksen pitää olla luku tai murtoluku (esimerkiksi 3/4)."; return; }
+  const oikein = Math.abs(luku - h.vastaus) < 1e-9;
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei vielä. ${h.vinkki} Kokeile uudelleen.`);
+}
+
+function tarkistaMonivalinta(id, valittuIndeksi, painike){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const rivi=painike.closest(".row");
+  rivi.querySelectorAll(".mv-valinta").forEach(b=>b.disabled=true);
+  const oikein = valittuIndeksi===h.vastaus;
+  painike.classList.add(oikein?"mv-oikein":"mv-vaarin");
+  if(!oikein){
+    const oikeaBtn=rivi.querySelector(`[data-i="${h.vastaus}"]`);
+    if(oikeaBtn) oikeaBtn.classList.add("mv-oikein");
+  }
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei ihan. Oikea vastaus on korostettu. ${h.selitys||""}`);
+}
+
+/* Kuuntelu: selain lukee tekstin ääneen omalla puhesynteesillään (englanniksi, jos laitteessa on
+   englanninkielinen ääni). Ei äänitiedostoja eikä verkkoyhteyttä. Jos laite ei osaa puhua,
+   teksti näytetään luettavaksi — silloin tehtävä muuttuu luetun ymmärtämiseksi, mutta ei katkea. */
+function puhu(id, nopeus){
+  const h=D.harjoitukset.find(x=>x.id===id); if(!h || !h.kuuntele) return;
+  const vara=document.getElementById("vara-"+id);
+  const naytaTeksti=syy=>{ vara.hidden=false; vara.textContent=syy+" Teksti: "+h.kuuntele; };
+  if(!("speechSynthesis" in window)){ naytaTeksti("Tämä laite ei osaa lukea ääneen."); return; }
+  const s=window.speechSynthesis; s.cancel();
+  const u=new SpeechSynthesisUtterance(h.kuuntele);
+  u.lang=h.kieli||"en-GB"; u.rate=nopeus;
+  const aanet=s.getVoices(), kieli=u.lang.slice(0,2);
+  const aani=aanet.find(a=>a.lang===u.lang) || aanet.find(a=>a.lang && a.lang.startsWith(kieli));
+  if(aani) u.voice=aani;
+  else if(aanet.length) { naytaTeksti("Laitteessa ei ole englanninkielistä ääntä."); return; }
+  u.onerror=()=>naytaTeksti("Ääneen lukeminen ei onnistunut.");
+  s.speak(u);
+}
+
+document.getElementById("harjoitukset").addEventListener("click",e=>{
+  const k=e.target.closest("[data-kuuntele]"), hk=e.target.closest("[data-hitaasti]");
+  if(k) puhu(k.dataset.kuuntele, 0.9);
+  if(hk) puhu(hk.dataset.hitaasti, 0.6);
+  const t=e.target.closest("[data-tarkista]"), v=e.target.closest("[data-vinkki]"), mv=e.target.closest("[data-mv]");
+  if(t) tarkista(t.dataset.tarkista);
+  if(mv) tarkistaMonivalinta(mv.dataset.mv, Number(mv.dataset.i), mv);
+  if(v){
+    const h=D.harjoitukset.find(x=>x.id===v.dataset.vinkki);
+    const fb=document.getElementById("fb-"+h.id);
+    fb.className="fb hint"; fb.textContent=h.vinkki;
+  }
+});
+document.getElementById("harjoitukset").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.id.startsWith("in-")){ e.preventDefault(); tarkista(e.target.id.slice(3)); }
+});
+
+} // ONKO_HARJOITUKSIA
+
+if(ONKO_HARJOITUKSIA) paivitaEdistyminen();
+
+document.getElementById("back").innerHTML =
+  `Tämä sivu on yhden osaamistavoitteen sisältö <strong>Osaamispolku ${D.vuosiluokka||4}</strong> -mallissa. Taito: <span class="tag" style="display:inline-block">${D.tavoite_id}</span>`;
+</script>

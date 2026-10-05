@@ -1,0 +1,524 @@
+<title>Kello ja kalenteri · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT4-MIT-04","oppiaine":"MAT","vuosiluokka":4,"taitoalue":"MIT","jakso":"J2","taso":"ydin","otsikko":"Kello ja kalenteri","kuvaus":"Osaan laskea ajan kulumista tunneissa ja minuuteissa.","versio":"0.2","paivitetty":"2026-09-24","ops":{"T":["T12"],"S":["S4"]},"ikoni":"mitta","eyebrow":"Matematiikka · 4. luokka · Mittaaminen","naytto":"Lasken kuinka kauan matka kestää, kun tiedän lähtö- ja saapumisajan.","osaa_kun":"Muistan että tunnissa on 60 minuuttia enkä laske kymmenjärjestelmässä.","teksti":[{"tyyppi":"johdanto","sisalto":"Juna lähtee kello 9.45 ja saapuu perille kello 11.20. Kauanko matka kestää? Moni laskee mielessään 11.20 miinus 9.45 samalla tavalla kuin tavalliset luvut ja päätyy vastaukseen 1,75 tai 1 tunti 75 minuuttia. Kumpikaan ei ole oikein. Syy on yksinkertainen: kello ei toimi kymmenjärjestelmässä. Tässä taidossa opettelet laskemaan, kauanko jokin kestää ja mihin aikaan se päättyy, ja lisäksi lukemaan kalenteria niin että kuukausien eri pituudet eivät yllätä."},{"tyyppi":"kappale","otsikko":"Tunnissa on 60 minuuttia, ei 100","sisalto":"Tavallisissa luvuissa jokainen paikka kasvaa kymmenkertaiseksi: kymmenen ykköstä on yksi kymppi. Kellossa näin ei ole. Minuuttiluku kiertää nollasta viiteenkymmeneenyhdeksään, ja kun siihen lisätään vielä yksi, tuntiluku kasvaa yhdellä ja minuuttiluku palaa nollaan. Kellonajassa 9.45 pisteen jälkeen on 45 minuuttia, ei 45 sadasosaa tunnista. Siksi 9.45 ja 11.20 eivät ole desimaalilukuja, joita voisi vähentää suoraan toisistaan. Ne ovat kaksi lukemaa, joiden välistä matkaa lasketaan omilla säännöillään."},{"tyyppi":"saanto","otsikko":"Näin lasket ajan kulumista","askeleet":["Kesto: laske ensin alkuajasta seuraavaan täyteen tuntiin. Ajasta 9.45 täyteen tuntiin 10.00 on 15 minuuttia.","Etene täysiä tunteja niin pitkälle kuin pääset ylittämättä loppuaikaa. Ajasta 10.00 päästään aikaan 11.00, eli yksi täysi tunti.","Laske viimeisestä täydestä tunnista loppuaikaan. Ajasta 11.00 aikaan 11.20 on 20 minuuttia.","Laske palaset yhteen: 15 + 60 + 20 = 95 minuuttia, eli 1 tunti 35 minuuttia.","Päättymisaika: lisää alkuaikaan ensin täydet tunnit ja vasta sitten minuutit.","Jos minuuttiluku kasvaa kuuteenkymmeneen tai yli, ota siitä 60 minuuttia pois ja lisää tuntilukuun yksi."]},{"tyyppi":"taulukko","otsikko":"Matka 9.45–11.20 vaihe vaiheelta","otsikkorivi":["Vaihe","Mistä mihin","Kertyy","Yhteensä"],"rivit":[["1","9.45 → 10.00","15 min","15 min"],["2","10.00 → 11.00","60 min","75 min"],["3","11.00 → 11.20","20 min","<b>95 min</b>"],["Tulos","9.45 → 11.20","1 tunti 35 minuuttia","<b>95 minuuttia</b>"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: kellonaika luetaan desimaalilukuna","sisalto":"Tämä on taidon tavallisin virhe. Laskusta 11.20 − 9.45 saa laskimella 1,75, ja sarakkeittain vähentämällä tulokseksi tulee helposti 1 tunti 75 minuuttia. Kumpikaan ei ole aika. Luku 1,75 tarkoittaisi 1 tuntia ja 45 minuuttia, koska 0,75 tuntia on kolme neljäsosaa eli 45 minuuttia — ja sekään ei ole oikea vastaus. Merkintä 1 tunti 75 minuuttia taas on mahdoton, koska 75 minuuttia on enemmän kuin yksi täysi tunti. Oikea vastaus on 1 tunti 35 minuuttia eli 95 minuuttia. Kun kellonajat näyttävät laskulta, muista että pisteen jälkeen ovat minuutit ja niitä on kuusikymmentä, ei sataa."},{"tyyppi":"ansa","otsikko":"Ansa 2: minuuttiluku kasvaa yli kuudenkymmenen","sisalto":"Elokuva alkaa kello 18.50 ja kestää 105 minuuttia. Jos lisäät suoraan, saat 18.155, mikä ei ole kellonaika lainkaan. Jos jaat keston ensin oikein muotoon 1 tunti 45 minuuttia ja lisäät sen, saat 19.95 — sekään ei ole kellonaika, koska minuuttiluku voi olla korkeintaan 59. Tee näin: 18.50 + 1 tunti on 19.50, ja 50 + 45 = 95 minuuttia. Ota siitä 60 minuuttia pois ja lisää tuntilukuun yksi: 95 − 60 = 35, ja tuntiluvusta 19 tulee 20. Päättymisaika on 20.35. Tässä taidossa pysytään saman vuorokauden sisällä, eli laskun tulos ei koskaan mene yli ajan 24.00."},{"tyyppi":"kappale","otsikko":"Kalenterissa viikko toistuu seitsemän päivän jaksoissa","sisalto":"Viikossa on seitsemän päivää: maanantai, tiistai, keskiviikko, torstai, perjantai, lauantai ja sunnuntai. Tästä seuraa käytännöllinen sääntö: seitsemän päivän päästä on aina sama viikonpäivä, ja niin on myös 14, 21 ja 28 päivän päästä. Jos tänään on torstai, kahden viikon päästä eli 14 päivän päästä on jälleen torstai. Sama toimii takaperin. Kun lasket päivien määrää kalenterista, päätä ensin lasketaanko ensimmäinen päivä mukaan. Jos leiri alkaa 3. heinäkuuta ja päättyy 17. heinäkuuta, leiripäiviä on 17 − 3 + 1 = 15, koska sekä ensimmäinen että viimeinen päivä ovat leiripäiviä."},{"tyyppi":"taulukko","otsikko":"Kuukausien pituudet","otsikkorivi":["Kuukausi","Päiviä","Kuukausi","Päiviä"],"rivit":[["tammikuu","31","heinäkuu","31"],["helmikuu","28 tai 29","elokuu","31"],["maaliskuu","31","syyskuu","30"],["huhtikuu","30","lokakuu","31"],["toukokuu","31","marraskuu","30"],["kesäkuu","30","joulukuu","31"]]},{"tyyppi":"ansa","otsikko":"Ansa 3: kaikki kuukaudet oletetaan yhtä pitkiksi","sisalto":"Kuukausi ei ole kiinteä pituus. Neljässä kuukaudessa on 30 päivää (huhtikuu, kesäkuu, syyskuu, marraskuu), seitsemässä on 31 ja helmikuussa 28 — paitsi karkausvuonna, jolloin siinä on 29. Jos oletat jokaiseen kuukauteen 30 päivää, kolmen kuukauden jakso syyskuun alusta marraskuun loppuun antaa vastaukseksi 90. Oikea vastaus on 30 + 31 + 30 = 91. Virhe on pieni mutta se toistuu joka kerta. Laske kuukaudet aina erikseen äläkä kertolaskuna."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Tunnissa on 60 minuuttia. Kello ei ole kymmenjärjestelmässä.","Kestoa laskiessa etene täysiin tunteihin ja niistä eteenpäin.","Vastaus 1 tunti 75 minuuttia on aina väärin: 75 minuuttia on enemmän kuin yksi täysi tunti.","Päättymisaikaan lisätään ensin tunnit, sitten minuutit.","Minuuttiluku on korkeintaan 59. Kuudestakymmenestä tulee yksi tunti lisää.","Seitsemän päivän päästä on sama viikonpäivä. Sama pätee 14 ja 21 päivään.","Kuukaudessa on 30 tai 31 päivää, helmikuussa 28 tai karkausvuonna 29."]}],"harjoitukset":[{"id":"H01","ryhma":"kesto","kysymys":"Oppitunti alkaa kello 8.20 ja päättyy kello 9.05. Montako minuuttia se kestää?","vastaus":45,"vinkki":"Etene ensin täyteen tuntiin 9.00 ja siitä eteenpäin.","selitys":"Ajasta 8.20 aikaan 9.00 on 40 minuuttia. Ajasta 9.00 aikaan 9.05 on 5 minuuttia. Yhteensä 40 + 5 = 45 minuuttia."},{"id":"H02","ryhma":"kesto","kysymys":"Näytös alkaa kello 14.10 ja päättyy kello 15.40. Montako minuuttia se kestää?","vastaus":90,"vinkki":"Alku- ja loppuajan minuuttiluvut ovat eri suuret. Etene ensin tasatuntiin 15.00 ja siitä eteenpäin — tai lisää tasan tunti, jolloin olet ajassa 15.10, ja laske siitä loppuun.","selitys":"Ajasta 14.10 aikaan 15.10 on 60 minuuttia. Ajasta 15.10 aikaan 15.40 on 30 minuuttia. Yhteensä 60 + 30 = 90 minuuttia."},{"id":"H03","ryhma":"kesto","kysymys":"Juna lähtee kello 9.45 ja saapuu kello 11.20. Montako minuuttia matka kestää?","vastaus":95,"vinkki":"Älä vähennä kellonaikoja allekkain. Laske ensin täyteen tuntiin 10.00.","selitys":"Ajasta 9.45 aikaan 10.00 on 15 minuuttia. Ajasta 10.00 aikaan 11.00 on 60 minuuttia. Ajasta 11.00 aikaan 11.20 on 20 minuuttia. Yhteensä 15 + 60 + 20 = 95 minuuttia."},{"id":"H04","ryhma":"kesto","kysymys":"Bussi lähtee kello 12.50 ja saapuu kello 15.25. Montako täyttä tuntia matka kestää?","vastaus":2,"vinkki":"Kysytään vain täysiä tunteja. Ylimenevät minuutit jäävät seuraavaan tehtävään.","selitys":"Ajasta 12.50 aikaan 14.50 kuluu 2 täyttä tuntia, ja aikaan 15.25 on siitä vielä 35 minuuttia. Täysiä tunteja on 2."},{"id":"H05","ryhma":"kesto","kysymys":"Bussi lähtee kello 12.50 ja saapuu kello 15.25. Montako minuuttia matka kestää täysien tuntien lisäksi?","vastaus":35,"vinkki":"Kun kaksi täyttä tuntia on kulunut, kello on 14.50. Laske siitä loppuaikaan.","selitys":"Ajasta 12.50 kaksi täyttä tuntia eteenpäin on 14.50. Ajasta 14.50 aikaan 15.25 on 35 minuuttia. Koko matka on siis 2 tuntia 35 minuuttia eli 155 minuuttia."},{"id":"H06","ryhma":"kesto","kysymys":"Harjoitukset alkavat kello 17.40 ja päättyvät kello 19.25. Montako minuuttia ne kestävät?","vastaus":105,"vinkki":"Vastaus on enemmän kuin 60 minuuttia mutta vähemmän kuin kaksi tuntia.","selitys":"Ajasta 17.40 aikaan 18.00 on 20 minuuttia. Ajasta 18.00 aikaan 19.00 on 60 minuuttia. Ajasta 19.00 aikaan 19.25 on 25 minuuttia. Yhteensä 20 + 60 + 25 = 105 minuuttia eli 1 tunti 45 minuuttia."},{"id":"H07","ryhma":"kesto","kysymys":"Retki alkaa kello 8.50 ja päättyy kello 13.10. Montako minuuttia retki kestää?","vastaus":260,"vinkki":"Täysiä tunteja kertyy neljä. Muunna ne minuuteiksi ennen yhteenlaskua.","selitys":"Ajasta 8.50 aikaan 9.00 on 10 minuuttia. Ajasta 9.00 aikaan 13.00 on 4 täyttä tuntia eli 240 minuuttia. Ajasta 13.00 aikaan 13.10 on 10 minuuttia. Yhteensä 10 + 240 + 10 = 260 minuuttia eli 4 tuntia 20 minuuttia."},{"id":"H08","ryhma":"paattymisaika","kysymys":"Elokuva alkaa kello 18.50 ja kestää 105 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":20,"vinkki":"Kesto 105 minuuttia on 1 tunti 45 minuuttia. Lisää ensin tunti.","selitys":"Ajasta 18.50 yksi tunti eteenpäin on 19.50. Siihen lisätään 45 minuuttia: 50 + 45 = 95 minuuttia, josta otetaan 60 pois ja tuntilukuun yksi lisää. Päättymisaika on 20.35, joten tuntiluku on 20."},{"id":"H09","ryhma":"paattymisaika","kysymys":"Elokuva alkaa kello 18.50 ja kestää 105 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":35,"vinkki":"Minuuttiluku on korkeintaan 59. Jos saat 95, ota siitä 60 pois.","selitys":"Ajasta 19.50 lisätään 45 minuuttia: 50 + 45 = 95. Koska 95 on yli 60, otetaan 60 pois ja jäljelle jää 35. Päättymisaika on 20.35."},{"id":"H10","ryhma":"paattymisaika","kysymys":"Leivonnaiset menevät uuniin kello 15.40 ja paistuvat 50 minuuttia. Mikä on valmistumisajan tuntiluku?","vastaus":16,"vinkki":"Minuuttiluvut 40 ja 50 ovat yhteensä yli 60, joten tuntiluku kasvaa.","selitys":"40 + 50 = 90 minuuttia. Siitä otetaan 60 pois ja tuntilukuun lisätään yksi: 15 + 1 = 16. Valmistumisaika on 16.30."},{"id":"H11","ryhma":"paattymisaika","kysymys":"Leivonnaiset menevät uuniin kello 15.40 ja paistuvat 50 minuuttia. Mikä on valmistumisajan minuuttiluku?","vastaus":30,"vinkki":"Laske 40 + 50 ja ota tuloksesta 60 pois.","selitys":"40 + 50 = 90, ja 90 − 60 = 30. Valmistumisaika on 16.30."},{"id":"H12","ryhma":"paattymisaika","kysymys":"Työpaja alkaa kello 9.20 ja kestää 3 tuntia 50 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":13,"vinkki":"Lisää ensin kolme täyttä tuntia, vasta sitten minuutit.","selitys":"Ajasta 9.20 kolme tuntia eteenpäin on 12.20. Siihen lisätään 50 minuuttia: 20 + 50 = 70, josta otetaan 60 pois ja tuntilukuun yksi lisää. Päättymisaika on 13.10, joten tuntiluku on 13."},{"id":"H13","ryhma":"paattymisaika","kysymys":"Työpaja alkaa kello 9.20 ja kestää 3 tuntia 50 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":10,"vinkki":"Kun kolme tuntia on lisätty, kello on 12.20. Lisää siihen 50 minuuttia.","selitys":"20 + 50 = 70, ja 70 − 60 = 10. Päättymisaika on 13.10."},{"id":"H14","ryhma":"paattymisaika","kysymys":"Konsertti päättyi kello 21.15 ja kesti 95 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":19,"vinkki":"Nyt lasketaan taaksepäin. Kesto 95 minuuttia on 1 tunti 35 minuuttia.","selitys":"Ajasta 21.15 yksi tunti taaksepäin on 20.15. Siitä 35 minuuttia taaksepäin: 15 − 35 ei onnistu, joten otetaan tunnista 60 minuuttia lisää, jolloin lasketaan 75 − 35 = 40 ja tuntiluku pienenee yhdellä. Alkamisaika on 19.40, joten tuntiluku on 19."},{"id":"H15","ryhma":"kalenteri","kysymys":"Montako päivää on kahdessa viikossa?","vastaus":14,"vinkki":"Yhdessä viikossa on seitsemän päivää.","selitys":"Viikossa on 7 päivää, joten kahdessa viikossa on 2 · 7 = 14 päivää."},{"id":"H16","ryhma":"kalenteri","tyyppi":"monivalinta","kysymys":"Tänään on torstai. Mikä viikonpäivä on 14 päivän päästä?","vaihtoehdot":["Tiistai","Torstai","Lauantai","Sunnuntai"],"vastaus":1,"vinkki":"Luku 14 on tasan kaksi viikkoa.","selitys":"Seitsemän päivän päästä on aina sama viikonpäivä. Koska 14 = 2 · 7, myös 14 päivän päästä on torstai."},{"id":"H17","ryhma":"kalenteri","kysymys":"Montako päivää on huhtikuussa?","vastaus":30,"vinkki":"Huhtikuu on yksi niistä neljästä kuukaudesta, joissa on 30 päivää.","selitys":"Huhtikuussa on 30 päivää. Kolmekymmenpäiväisiä kuukausia ovat huhtikuu, kesäkuu, syyskuu ja marraskuu."},{"id":"H18","ryhma":"kalenteri","kysymys":"Montako päivää on helmikuussa, kun vuosi ei ole karkausvuosi?","vastaus":28,"vinkki":"Helmikuu on ainoa kuukausi, jossa on alle 30 päivää.","selitys":"Helmikuussa on 28 päivää. Karkausvuonna niitä on 29, mutta tässä vuosi ei ole karkausvuosi."},{"id":"H19","ryhma":"kalenteri","kysymys":"Leiri alkaa 3. heinäkuuta ja päättyy 17. heinäkuuta. Montako päivää leiri kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":15,"vinkki":"Vähennyslasku 17 − 3 kertoo välissä olevat päivät. Ensimmäinen päivä pitää lisätä erikseen.","selitys":"Erotus 17 − 3 = 14. Koska myös alkamispäivä lasketaan mukaan, päiviä on 14 + 1 = 15."},{"id":"H20","ryhma":"kalenteri","kysymys":"Kerhokausi alkaa syyskuun 1. päivänä ja päättyy marraskuun 30. päivänä. Montako päivää kerhokauteen kuuluu, kun sekä ensimmäinen että viimeinen päivä lasketaan mukaan?","vastaus":91,"vinkki":"Laske syyskuu, lokakuu ja marraskuu erikseen. Ne eivät ole yhtä pitkiä.","selitys":"Syyskuussa on 30 päivää, lokakuussa 31 ja marraskuussa 30. Yhteensä 30 + 31 + 30 = 91 päivää. Vastaus 90 syntyy siitä, että jokaiseen kuukauteen oletetaan 30 päivää."}],"harjoitusryhmat":[{"id":"kesto","nimi":"Kauanko kesti","info":"Etene täysiin tunteihin ja niistä eteenpäin."},{"id":"paattymisaika","nimi":"Mihin aikaan päättyy","info":"Lisää ensin täydet tunnit, sitten minuutit."},{"id":"kalenteri","nimi":"Päivät, viikot ja kuukaudet","info":"Viikko toistuu seitsemän päivän jaksoissa."}],"ryhmanimet":{"kesto":"Kestot minuutteina","paattymisaika":"Päättymis- ja alkamisajat","kalenteri":"Kalenteri"},"kokeet":[{"id":"A","nimi":"Koe A","tehtavat":[{"nro":1,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 8.15, päättyy 9.00. Montako minuuttia?","vastaus":45},{"nro":2,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 14.00, päättyy 15.30. Montako minuuttia?","vastaus":90},{"nro":3,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 10.25, päättyy 11.15. Montako minuuttia?","vastaus":50},{"nro":4,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 9.55, päättyy 11.30. Montako minuuttia?","vastaus":95},{"nro":5,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 13.50, päättyy 15.05. Montako minuuttia?","vastaus":75},{"nro":6,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 7.40, päättyy 9.25. Montako minuuttia?","vastaus":105},{"nro":7,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 8.55, päättyy 13.05. Montako minuuttia?","vastaus":250},{"nro":8,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 17.35, kestää 1 tunti 20 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":18},{"nro":9,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 17.35, kestää 1 tunti 20 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":55},{"nro":10,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 13.25, kestää 40 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":14},{"nro":11,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 13.25, kestää 40 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":5},{"nro":12,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 10.45, kestää 3 tuntia 35 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":14},{"nro":13,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 10.45, kestää 3 tuntia 35 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":20},{"nro":14,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Päättyy 20.40, kesti 1 tunti 10 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":19},{"nro":15,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on kesäkuussa?","vastaus":30},{"nro":16,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on elokuussa?","vastaus":31},{"nro":17,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on kolmessa viikossa?","vastaus":21},{"nro":18,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Leiri alkaa 4. kesäkuuta ja päättyy 15. kesäkuuta. Montako päivää leiri kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":12},{"nro":19,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on tammikuussa ja helmikuussa yhteensä, kun vuosi ei ole karkausvuosi?","vastaus":59},{"nro":20,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Maaliskuun 2. päivä on tiistai. Montako päivää myöhemmin on maaliskuun 16. päivä, joka on myös tiistai?","vastaus":14}]},{"id":"B","nimi":"Koe B","tehtavat":[{"nro":1,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 7.45, päättyy 8.40. Montako minuuttia?","vastaus":55},{"nro":2,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 12.00, päättyy 13.40. Montako minuuttia?","vastaus":100},{"nro":3,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 9.35, päättyy 10.30. Montako minuuttia?","vastaus":55},{"nro":4,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 10.50, päättyy 12.25. Montako minuuttia?","vastaus":95},{"nro":5,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 14.55, päättyy 16.15. Montako minuuttia?","vastaus":80},{"nro":6,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 6.35, päättyy 8.20. Montako minuuttia?","vastaus":105},{"nro":7,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 9.50, päättyy 14.10. Montako minuuttia?","vastaus":260},{"nro":8,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 16.55, kestää 1 tunti 35 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":18},{"nro":9,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 16.55, kestää 1 tunti 35 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":30},{"nro":10,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 11.15, kestää 55 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":12},{"nro":11,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 11.15, kestää 55 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":10},{"nro":12,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 8.30, kestää 4 tuntia 25 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":12},{"nro":13,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 8.30, kestää 4 tuntia 25 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":55},{"nro":14,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Päättyy 19.25, kesti 1 tunti 50 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":17},{"nro":15,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on syyskuussa?","vastaus":30},{"nro":16,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on lokakuussa?","vastaus":31},{"nro":17,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on neljässä viikossa?","vastaus":28},{"nro":18,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Kurssi alkaa 7. lokakuuta ja päättyy 20. lokakuuta. Montako päivää kurssi kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":14},{"nro":19,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on huhtikuussa ja toukokuussa yhteensä?","vastaus":61},{"nro":20,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Toukokuun 5. päivä on perjantai. Montako päivää myöhemmin on toukokuun 26. päivä, joka on myös perjantai?","vastaus":21}]},{"id":"C","nimi":"Koe C","tehtavat":[{"nro":1,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 8.05, päättyy 8.55. Montako minuuttia?","vastaus":50},{"nro":2,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 11.00, päättyy 12.15. Montako minuuttia?","vastaus":75},{"nro":3,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 13.35, päättyy 14.20. Montako minuuttia?","vastaus":45},{"nro":4,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 8.40, päättyy 10.15. Montako minuuttia?","vastaus":95},{"nro":5,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 15.45, päättyy 17.10. Montako minuuttia?","vastaus":85},{"nro":6,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 7.25, päättyy 9.15. Montako minuuttia?","vastaus":110},{"nro":7,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 10.45, päättyy 15.15. Montako minuuttia?","vastaus":270},{"nro":8,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 14.45, kestää 2 tuntia 10 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":16},{"nro":9,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 14.45, kestää 2 tuntia 10 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":55},{"nro":10,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 9.50, kestää 45 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":10},{"nro":11,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 9.50, kestää 45 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":35},{"nro":12,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 12.15, kestää 3 tuntia 25 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":15},{"nro":13,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 12.15, kestää 3 tuntia 25 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":40},{"nro":14,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Päättyy 18.05, kesti 1 tunti 25 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":16},{"nro":15,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on marraskuussa?","vastaus":30},{"nro":16,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on joulukuussa?","vastaus":31},{"nro":17,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on viidessä viikossa?","vastaus":35},{"nro":18,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Harjoitusjakso alkaa 9. maaliskuuta ja päättyy 25. maaliskuuta. Montako päivää jakso kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":17},{"nro":19,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on heinäkuussa ja elokuussa yhteensä?","vastaus":62},{"nro":20,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Syyskuun 3. päivä on keskiviikko. Montako päivää myöhemmin on syyskuun 24. päivä, joka on myös keskiviikko?","vastaus":21}]},{"id":"D","nimi":"Koe D","tehtavat":[{"nro":1,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 9.10, päättyy 9.50. Montako minuuttia?","vastaus":40},{"nro":2,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 13.00, päättyy 14.20. Montako minuuttia?","vastaus":80},{"nro":3,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 12.35, päättyy 13.30. Montako minuuttia?","vastaus":55},{"nro":4,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 11.40, päättyy 13.25. Montako minuuttia?","vastaus":105},{"nro":5,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 16.55, päättyy 18.05. Montako minuuttia?","vastaus":70},{"nro":6,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 8.20, päättyy 10.10. Montako minuuttia?","vastaus":110},{"nro":7,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 7.50, päättyy 12.20. Montako minuuttia?","vastaus":270},{"nro":8,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 13.40, kestää 1 tunti 55 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":15},{"nro":9,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 13.40, kestää 1 tunti 55 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":35},{"nro":10,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 16.20, kestää 55 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":17},{"nro":11,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 16.20, kestää 55 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":15},{"nro":12,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 7.55, kestää 4 tuntia 10 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":12},{"nro":13,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 7.55, kestää 4 tuntia 10 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":5},{"nro":14,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Päättyy 22.10, kesti 1 tunti 15 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":20},{"nro":15,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on helmikuussa, kun vuosi on karkausvuosi?","vastaus":29},{"nro":16,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on tammikuussa?","vastaus":31},{"nro":17,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on kuudessa viikossa?","vastaus":42},{"nro":18,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Kerho alkaa 12. tammikuuta ja päättyy 31. tammikuuta. Montako päivää kerhojakso kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":20},{"nro":19,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on syyskuussa ja lokakuussa yhteensä?","vastaus":61},{"nro":20,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Marraskuun 4. päivä on maanantai. Montako päivää myöhemmin on marraskuun 18. päivä, joka on myös maanantai?","vastaus":14}]},{"id":"E","nimi":"Koe E","tehtavat":[{"nro":1,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 10.05, päättyy 10.45. Montako minuuttia?","vastaus":40},{"nro":2,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 15.00, päättyy 16.25. Montako minuuttia?","vastaus":85},{"nro":3,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 14.45, päättyy 15.40. Montako minuuttia?","vastaus":55},{"nro":4,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 7.35, päättyy 9.10. Montako minuuttia?","vastaus":95},{"nro":5,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 12.50, päättyy 14.10. Montako minuuttia?","vastaus":80},{"nro":6,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 9.15, päättyy 11.05. Montako minuuttia?","vastaus":110},{"nro":7,"ryhma":"kesto","tyyppi":"lasku","kysymys":"Alkaa 11.55, päättyy 16.25. Montako minuuttia?","vastaus":270},{"nro":8,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 15.10, kestää 2 tuntia 20 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":17},{"nro":9,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 15.10, kestää 2 tuntia 20 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":30},{"nro":10,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 10.35, kestää 50 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":11},{"nro":11,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 10.35, kestää 50 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":25},{"nro":12,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 6.45, kestää 3 tuntia 55 minuuttia. Mikä on päättymisajan tuntiluku?","vastaus":10},{"nro":13,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Alkaa 6.45, kestää 3 tuntia 55 minuuttia. Mikä on päättymisajan minuuttiluku?","vastaus":40},{"nro":14,"ryhma":"paattymisaika","tyyppi":"lasku","kysymys":"Päättyy 17.50, kesti 1 tunti 5 minuuttia. Mikä on alkamisajan tuntiluku?","vastaus":16},{"nro":15,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on maaliskuussa?","vastaus":31},{"nro":16,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on toukokuussa?","vastaus":31},{"nro":17,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on seitsemässä viikossa?","vastaus":49},{"nro":18,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Projekti alkaa 6. toukokuuta ja päättyy 24. toukokuuta. Montako päivää projekti kestää, kun sekä alkamis- että päättymispäivä lasketaan mukaan?","vastaus":19},{"nro":19,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Montako päivää on kesäkuussa ja heinäkuussa yhteensä?","vastaus":61},{"nro":20,"ryhma":"kalenteri","tyyppi":"sanallinen","kysymys":"Tammikuun 7. päivä on lauantai. Montako päivää myöhemmin on tammikuun 28. päivä, joka on myös lauantai?","vastaus":21}]}],"tulostus":{"sivuja":2,"sarakkeita":3,"sanalliset_sarakkeita":2,"apuviivoja":2,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Kello ei ole kymmenjärjestelmässä. Tunnissa on 60 minuuttia, joten kellonaikoja ei vähennetä allekkain.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Kirjoita taululle kaksi kellonaikaa, 9.45 ja 11.20, ja kysy kauanko matka kestää. Kerää kaksi tai kolme vastausta kirjoittamatta mitään oikeaksi. Vastaukset 1,75 ja 1 tunti 75 minuuttia tulevat lähes varmasti esiin, ja niistä koko tunti lähtee liikkeelle."},{"aika":"10 min","otsikko":"Ydinasia","sisalto":"Näytä taululla kolmen palan menetelmä: 9.45 → 10.00 on 15 minuuttia, 10.00 → 11.00 on 60 minuuttia, 11.00 → 11.20 on 20 minuuttia, yhteensä 95 minuuttia. Kirjoita väärä vastaus 1 tunti 75 minuuttia viereen ja kysy, miksi se ei voi olla aika. Tee sitten päättymisaika 18.50 + 105 minuuttia ja korosta kohtaa, jossa 95 minuutista otetaan 60 pois."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Kierrä ja katso erityisesti tehtäviä H03, H06 ja H07: jos vastaus on tasan 40 liian suuri, kyse on siitä että tunti on laskettu sadaksi minuutiksi. Kalenteriosuudessa katso tehtävää H20. Anna aikaa rauhassa, tehtäviä ei tarvitse saada kaikkia valmiiksi eikä nopeutta arvioida."},{"aika":"10 min","otsikko":"Lopetus","sisalto":"Laskekaa yhdessä tehtävä H20 ja kirjoittakaa kolmen kuukauden pituudet näkyviin allekkain. Kysy lopuksi kahdelta oppilaalta, mitä tapahtuu minuuttiluvulle kun se saavuttaa kuusikymmentä."}],"tarvikkeet":"Seinäkalenteri tai tulostettu vuosikalenteri, josta kuukausien pituudet näkyvät. Taululle kaksi tussin väriä: toinen kellonajoille, toinen välivaiheiden minuuttimäärille."},"virhesanakirja":[{"virhe":"9.45 → 11.20 kestää 1 tunti 75 minuuttia","tehtava":"keston laskeminen","mita_kertoo":"Kellonajat on vähennetty allekkain kuin tavalliset luvut: 20 − 45 ei onnistu, joten on lainattu 100 eikä 60. Oppilas käsittelee minuuttilukua kymmenjärjestelmän sarakkeena. Merkintä on mahdoton, koska 75 minuuttia on enemmän kuin yksi täysi tunti.","mita_tehda":"Kysy suoraan, montako minuuttia on tunnissa, ja pyydä sitten sanomaan 75 minuuttia tunteina. Siirry tämän jälkeen kolmen palan menetelmään: alkuajasta täyteen tuntiin, täysiä tunteja eteenpäin, viimeisestä täydestä tunnista loppuaikaan."},{"virhe":"9.45 → 11.20 kestää 1,75 tuntia","tehtava":"keston laskeminen","mita_kertoo":"Kellonaika on luettu desimaaliluvuksi ja laskettu laskimella. Oppilas ei erota merkintöjä 1,75 tuntia ja 1 tunti 75 minuuttia toisistaan, eikä huomaa että 0,75 tuntia olisi 45 minuuttia. Virhe on tavallinen niillä, jotka hallitsevat desimaaliluvut hyvin.","mita_tehda":"Kirjoituta rinnakkain, mitä 0,5 tuntia, 0,25 tuntia ja 0,75 tuntia ovat minuutteina. Totea, että kellonäytössä pisteen jälkeen ovat minuutit, ei tunnin osia."},{"virhe":"18.50 + 105 minuuttia = 19.95","tehtava":"päättymisajan laskeminen","mita_kertoo":"Tunnit on lisätty oikein, mutta minuuttien ylivuoto on jäänyt käsittelemättä. Oppilas osaa menetelmän mutta ei tarkista, onko tulos ylipäätään kellonaika. Vastaus 18.155 kertoo samasta asiasta vielä aikaisemmassa vaiheessa: kestoa ei ole pilkottu tunneiksi ja minuuteiksi lainkaan.","mita_tehda":"Ota käyttöön tarkistuskysymys: onko minuuttiluku korkeintaan 59. Jos ei, siitä otetaan 60 pois ja tuntilukuun lisätään yksi. Laskettakaa sama lasku uudelleen niin, että tarkistus tehdään ääneen."},{"virhe":"21.15 − 95 minuuttia = 20.20","tehtava":"alkamisajan laskeminen taaksepäin","mita_kertoo":"Tunti on vähennetty oikein (20.15), mutta minuuteissa on laskettu 35 − 15 = 20 väärin päin eikä tuntilukua ole pienennetty lainauksen takia. Taaksepäin laskeminen paljastaa, onko menetelmä ymmärretty vai opeteltu vain yhteen suuntaan.","mita_tehda":"Tarkistuta vastaus eteenpäin: jos alkamisaika on 20.20, niin 20.20 ja 95 minuuttia antaa 21.55, ei 21.15. Sama tarkistus toimii jokaisessa taaksepäin lasketussa tehtävässä."},{"virhe":"1. syyskuuta – 30. marraskuuta on 90 päivää","tehtava":"kalenterijakson pituus","mita_kertoo":"Jokaiseen kuukauteen on oletettu 30 päivää. Oppilas laskee kuukaudet kertolaskuna eikä katso todellisia pituuksia. Virhe on aina pieni, joten se jää helposti huomaamatta.","mita_tehda":"Kirjoituta kuukaudet allekkain omine pituuksineen ja laskettakaa summa. Seinäkalenteri riittää lähteeksi, eikä pituuksia tarvitse osata ulkoa ensimmäisellä kerralla."},{"virhe":"3. heinäkuuta – 17. heinäkuuta on 14 päivää","tehtava":"päivien lukumäärä, kun molemmat päät lasketaan mukaan","mita_kertoo":"Vähennyslasku on oikein, mutta ensimmäinen päivä on jäänyt laskematta. Oppilas laskee päivien väliset välit eikä päiviä. Sama virhe toistuu leiri-, kurssi- ja lomapäivien laskennassa.","mita_tehda":"Piirrä seitsemän ruutua ja numeroi ne 3, 4, 5, 6, 7, 8, 9. Kysy, montako ruutua siinä on ja mitä 9 − 3 kertoo. Ero näkyy ruuduista heti."}],"opettajalle":{"kesto":"Yksi oppitunti opetteluun ja harjoituksiin, toinen kertaukseen ja kokeeseen.","huomiot":["Tehtävät H03, H06 ja H07 (9.45 → 11.20, 17.40 → 19.25 ja 8.50 → 13.10) ovat taidon ydin: kaikissa alkuajan minuuttiluku on suurempi kuin loppuajan tai lähellä sitä. Jos vastaus poikkeaa oikeasta tasan 40:llä, syy on lähes aina se, että tunti on laskettu sadaksi minuutiksi (lainaus 100:lla eikä 60:llä). Laskuvirhe näyttää satunnaiselta, tämä virhe toistuu samansuuruisena.","Tehtäväparit H04–H05 ja H08–H09 kysyvät samasta tilanteesta ensin tuntiluvun ja sitten minuuttiluvun. Jos oppilas saa ensimmäisen oikein mutta toisen väärin, hän on laskenut keston kokonaisuutena mutta ei osaa pilkkoa sitä tunteihin ja minuutteihin. Tämä on eri ongelma kuin koko menetelmän puuttuminen.","Tehtävä H14 on ainoa, jossa lasketaan taaksepäin. Se erottaa menetelmän ymmärtäneet niistä, jotka ovat opetelleet vain yhden suunnan. Jos H08–H13 menevät oikein mutta H14 ei, kertaa lainaus taaksepäin erikseen äläkä lisää eteenpäin laskettavia tehtäviä.","Tehtävä H20 (syyskuusta marraskuuhun) paljastaa kuukausien pituuksien oletuksen. Vastaus 90 tarkoittaa, että jokaiseen kuukauteen on laskettu 30 päivää. Vastaus 91 ilman välivaiheita kannattaa varmistaa kysymällä, mitkä kolme lukua laskettiin yhteen."]},"huoltajalle":{"mista_on_kyse":"Lapsi opettelee laskemaan, kauanko jokin kestää ja mihin aikaan se päättyy, sekä lukemaan kalenteria. Ydinasia on, että kello ei ole kymmenjärjestelmässä: tunnissa on 60 minuuttia, ei 100. Siksi kellonaikoja ei voi vähentää toisistaan kuten tavallisia lukuja. Esimerkiksi ajasta 9.45 aikaan 11.20 on 1 tunti 35 minuuttia eli 95 minuuttia, ei 1,75 tuntia.","kotona":["Arjessa: katsokaa yhdessä aikataulusta lähtö- ja saapumisaika ja laskekaa matkan kesto ennen kuin katsotte sen valmiina. Bussi- ja junaliikenteen aikataulut ovat tähän parhaita, koska luvut ovat todellisia.","Anna lapsen selittää välivaiheet ääneen: ensin täyteen tuntiin, sitten täydet tunnit, sitten loppuun. Jos hän osaa kertoa kolme palasta, taito kantaa. Jos vastaus tulee suoraan ilman perusteluja, pyydä toinen esimerkki.","Tarkistaa voi toiseen suuntaan: jos matka alkoi 9.45 ja kesti 95 minuuttia, niin 9.45 ja 95 minuuttia eteenpäin pitää olla 11.20. Tämä tarkistus toimii aina.","Älä opeta laskemaan kellonaikoja allekkain kuten tavallisia lukuja. Laskusta 11.20 − 9.45 tulee siten 1 tunti 75 minuuttia, mikä on mahdoton aika, koska 75 minuuttia on yli yhden tunnin. Oikea vastaus on 1 tunti 35 minuuttia.","Tämä taito ei ole nopeustaito. Kotona ei ole mitään syytä ottaa aikaa siitä, kuinka kauan laskemiseen menee — vain vastauksen oikeellisuus ja perustelu merkitsevät."],"milloin_huolestua":"Jos lapsi ei osaa lukea kellosta tasatunteja ja puolia tunteja, kyse ei ole tästä taidosta vaan sitä edeltävästä kellonluvusta. Silloin kannattaa palata siihen eikä harjoitella lisää kestoja. Kerro havainnosta opettajalle, koska sama asia näkyy myös aikataulujen lukemisessa ja koulupäivän rytmin hahmottamisessa."},"ulkoiset":{"edeltavat":[{"id":"MAT3-MIT-03","nimi":"Kello tasalleen ja puolittain","vuosiluokka":3,"kuvaus":"Osaan lukea analogisesta ja digitaalisesta kellosta tasatunnit, puolet tunnit ja vartit."},{"id":"MAT3-MIT-04","nimi":"Kalenterin käyttö","vuosiluokka":3,"kuvaus":"Osaan viikonpäivät ja kuukaudet järjestyksessä ja käytän kalenteria päivämäärien etsimiseen."},{"id":"MAT3-LUK-04","nimi":"Allekkain vähennetään","vuosiluokka":3,"kuvaus":"Osaan vähentää kaksi- ja kolminumeroisia lukuja allekkain, myös lainaamalla."}],"seuraavat":[{"id":"MAT5-MIT-03","nimi":"Yksiköstä toiseen laajemmin","vuosiluokka":5,"kuvaus":"Osaan muuntaa pinta-ala- ja tilavuusyksiköitä toisikseen."},{"id":"MAT5-AJA-01","nimi":"Monivaiheinen ratkaisu","vuosiluokka":5,"kuvaus":"Osaan ratkaista sanallisen tehtävän, joka vaatii useamman laskutoimituksen oikeassa järjestyksessä."}]},"valmis_teksti":"Osaat laskea, kauanko jokin kestää ja mihin aikaan se päättyy. Muistat että tunnissa on 60 minuuttia etkä laske kellonaikoja kymmenjärjestelmässä. Luet kalenterista päivät, viikot ja kuukaudet oikein. Tämä taito on nyt näytetty.","oppilas_url":"kello-ja-kalenteri.html"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
