@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taitopolku · 4. luokka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="puut.css">
+<style>
+body{background:#10140f;background-image:
+  linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:32px 32px}
+.alue{overflow-x:auto;padding:12px 0 80px}
+svg#polku{display:block;margin:0 auto}
+.ohjaimet{position:fixed;left:16px;bottom:16px;display:flex;gap:6px;z-index:15}
+.ohjaimet button{min-width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:rgba(24,32,44,.94);font-size:16px;cursor:pointer;color:var(--ink);padding:0 10px}
+.selite-rivi{padding:10px 16px;border-bottom:1px solid var(--line);background:rgba(16,20,15,.8)}
+/* lohkot */
+.lohko-tausta{fill:rgba(255,255,255,.025);stroke:rgba(255,255,255,.06)}
+.lohko-tausta.lk3,.lohko-tausta.lk5{fill:rgba(111,211,230,.03);stroke:rgba(111,211,230,.12);stroke-dasharray:6 6}
+.lohko-otsikko{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;fill:#c9b98a}
+.lohko-otsikko.lk3,.lohko-otsikko.lk5{fill:#8fb8c2}
+/* viivat */
+.yhteys{fill:none;stroke:#4b5643;stroke-width:2.2;stroke-linejoin:round}
+.yhteys.k-osattu{stroke:var(--osattu);stroke-width:3}
+.yhteys.k-seuraava{stroke:var(--avoin);stroke-width:2.6}
+.yhteys.k-lk{stroke-dasharray:5 5;stroke-width:1.6;opacity:.45}
+/* kortit */
+.kortti{cursor:pointer;transition:opacity .15s}
+.kortti .kehys{fill:#20281d;stroke:#6b7560;stroke-width:2}
+.kortti .ikoni{fill:none;stroke:#aeb79e;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.kortti .kilpi{fill:#2b3326;stroke:#56604b;stroke-width:1.5}
+.kortti .kilpi-teksti{font:500 12.5px var(--font);fill:#e6e2cf;text-anchor:middle}
+.kortti .jakso{font:600 10px var(--mono);fill:#b9b28f}
+.kortti .nauha{fill:var(--c)}
+.kortti.taso-ydin .kilpi{stroke:#c9a54e;stroke-width:2}
+.kortti .haaste{fill:#b48ae0;stroke:#1d1626;stroke-width:1.5}
+.kortti.t-avoin .kehys{stroke:var(--avoin);stroke-width:3}
+.kortti.t-avoin .ikoni{stroke:#e2f5e6}
+.kortti.t-osattu .kehys{fill:var(--c);stroke:var(--osattu);stroke-width:3}
+.kortti.t-osattu .ikoni{stroke:#161208}
+.kortti.t-osattu .kilpi{fill:#4a3f1f;stroke:var(--osattu)}
+.kortti.t-lukittu .kehys{fill:#1a2017}
+.kortti.t-lukittu .ikoni{stroke:#6f7864}
+.kortti.lk3 .kehys,.kortti.lk5 .kehys{fill:#151d22;stroke:#5f7d86;stroke-dasharray:4 3}
+.kortti.lk3 .kilpi,.kortti.lk5 .kilpi{fill:#18242a;stroke:#3f5a62}
+.kortti.lk3 .kilpi-teksti,.kortti.lk5 .kilpi-teksti{fill:#bcd3d9}
+.kortti.lk5.t-avoin .kehys{stroke:var(--avoin);stroke-dasharray:none}
+.kortti.valittu .kehys{stroke:#fff;stroke-width:3.5}
+.himmea .kortti:not(.korostus),.himmea .yhteys:not(.korostus){opacity:.14}
+.yhteys.korostus.ylos{stroke:var(--kulta);stroke-width:3.2;opacity:1!important}
+.yhteys.korostus.alas{stroke:var(--syaani);stroke-width:2.8;opacity:1!important}
+</style>
+</head>
+<body>
+<header class="pl-palkki" id="palkki">
+  <div class="pl-otsikko"><small>Osaamispolku · 4. luokka</small><b>Taitopolku</b></div>
+  <div class="pl-ryhma">
+    <select id="aine" aria-label="Oppiaine"></select>
+    <input type="search" id="haku" placeholder="Etsi taitoa…" aria-label="Etsi taitoa">
+    <label class="pl-kytkin" id="k3w"><input type="checkbox" id="k3" checked> 3. lk pohja</label>
+    <label class="pl-kytkin" id="k5w"><input type="checkbox" id="k5" checked> 5. lk jatko</label>
+  </div>
+  <div class="pl-ryhma"><button type="button" class="pl-pieni" id="zmiinus" aria-label="Loitonna">−</button><button type="button" class="pl-pieni" id="zsovita">Sovita</button><button type="button" class="pl-pieni" id="zplus" aria-label="Lähennä">+</button></div>
+  <div class="pl-ryhma"><span class="pl-tilasto" id="tilasto"></span><button type="button" class="pl-pieni" id="nollaa">Tyhjennä merkinnät</button></div>
+  <nav class="pl-nav"><a href="../index.html">Etusivu</a><a href="index.html">Taulu</a><a href="taitopuu.html">Taitopuu</a><a href="taitopolku.html" aria-current="page">Taitopolku</a></nav>
+</header>
+<p class="pl-ilmoitus" id="ilmoitus" hidden></p>
+<div class="selite-rivi"><div class="pl-selite">
+  <span><i class="osattu"></i>osattu</span><span><i class="avoin"></i>avoin: pohja koossa, voi aloittaa</span><span><i class="lukittu"></i>lukittu</span>
+  <span><i class="lk"></i>3. ja 5. luokka</span><span>kultareunainen kilpi = ydintaito · violetti salmiakki = haaste</span>
+  <span>Ylhäältä alas: ensin opittavat ylempänä. Klikkaa taitoa nähdäksesi tiedot.</span>
+</div></div>
+<div class="alue" id="alue"><svg id="polku" role="img" aria-label="Ylhäältä alas etenevä taitopolku"></svg></div>
+<aside class="pl-paneeli" id="paneeli" hidden aria-live="polite"></aside>
+
+<script src="puut-data.js"></script>
+<script src="puut-yhteinen.js"></script>
+<script>
+"use strict";
+const svg = document.getElementById("polku"), NS = "http://www.w3.org/2000/svg";
+const nayta = {3: true, 5: true};
+let mittakaava = 1, korttiEl = {}, viivaEl = [];
+PUU.rakennaValitsin(document.getElementById("aine"));
+PUU.kiinnitaPaneeli(document.getElementById("paneeli"));
+function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+
+function rivita(nimi, max) {
+  /* Kaksi riviä nimikilpeen; pidempi nimi lyhennetään, koko nimi näkyy paneelissa ja title-tekstissä. */
+  const sanat = nimi.split(" "), rivit = [""];
+  for (const s of sanat) {
+    const r = rivit[rivit.length - 1];
+    if ((r + " " + s).trim().length <= max) rivit[rivit.length - 1] = (r + " " + s).trim();
+    else if (rivit.length < 2) rivit.push(s);
+    else { rivit[1] = (rivit[1] + " " + s).trim(); }
+  }
+  if (rivit[1] && rivit[1].length > max) rivit[1] = rivit[1].slice(0, max - 1).trim() + "…";
+  return rivit;
+}
+function reitti(a, b, P) {
+  /* HOI-tyylinen kulmaviiva: alas omasta kortista, rivien väliin, vaakaan ja alas kohteeseen.
+     Jos väliin jää rivejä, pystyosuus kulkee korttisarakkeiden välisessä käytävässä. */
+  const KW = P.kw, KH = P.kh, GX = P.gx, GY = P.gy;
+  const ax = a.px + KW / 2, ay = a.py + KH, bx = b.px + KW / 2, by = b.py;
+  const v = ((a.id.length * 7 + b.id.charCodeAt(b.id.length - 1)) % 5 - 2) * 3; // pieni siirto, ettei viivat osu päällekkäin
+  const y1 = ay + GY / 2 + v * .6, y2 = by - GY / 2 + v * .6;
+  if (by - ay <= GY + KH * 0.2 || Math.abs(y2 - y1) < 6) {
+    const ym = (ay + by) / 2 + v * .5;
+    return `M${ax} ${ay}V${ym}H${bx}V${by}`;
+  }
+  // käytävä: sarakkeiden väli, joka on lähimpänä kohteen ja lähteen puoliväliä
+  const leveys = KW + GX, mid = (ax + bx) / 2;
+  let k = Math.round((mid - GX / 2) / leveys); k = Math.max(0, Math.min(P.W, k));
+  const cx = k * leveys + GX / 2 + v;
+  return `M${ax} ${ay}V${y1}H${cx}V${y2}H${bx}V${by}`;
+}
+
+function piirra() {
+  const A = PUU.aine, P = A.polku;
+  svg.innerHTML = ""; korttiEl = {}; viivaEl = [];
+  const on3 = A.solmut.some(s => s.lk === 3), on5 = A.solmut.some(s => s.lk === 5);
+  document.getElementById("k3w").style.display = on3 ? "" : "none";
+  document.getElementById("k5w").style.display = on5 ? "" : "none";
+  const ilm = document.getElementById("ilmoitus");
+  ilm.hidden = on3 || on5;
+  ilm.textContent = "Tässä oppiaineessa näkyvät 4. luokan sisäiset riippuvuudet. 3. ja 5. luokan kartat on toistaiseksi tehty vain matematiikkaan.";
+  svg.setAttribute("viewBox", `0 0 ${P.leveys} ${P.korkeus}`);
+  const root = el("g", {id: "juuri"}, svg);
+  // lohkot
+  P.lohkot.forEach((l, i) => {
+    const seur = P.lohkot[i + 1], y1 = seur ? seur.y - 12 : P.korkeus - 10;
+    const g = el("g", {"data-lk": l.lk}, root);
+    el("rect", {x: 8, y: l.y - 6, width: P.leveys - 16, height: y1 - l.y, rx: 12, class: "lohko-tausta lk" + l.lk}, g);
+    el("text", {x: 26, y: l.y + 22, class: "lohko-otsikko lk" + l.lk}, g).textContent = l.nimi;
+  });
+  const gv = el("g", {}, root);
+  A.kaaret.forEach(([a, b]) => {
+    const sa = PUU.solmu[a], sb = PUU.solmu[b];
+    const p = el("path", {d: reitti(sa, sb, P), class: "yhteys" + (sa.lk !== 4 || sb.lk !== 4 ? " k-lk" : "")}, gv);
+    viivaEl.push({a, b, el: p});
+  });
+  const gk = el("g", {}, root);
+  A.solmut.forEach(s => {
+    const a = PUU.alue(s.alue), KW = P.kw;
+    const g = el("g", {class: `kortti lk${s.lk} taso-${s.taso}`, transform: `translate(${s.px} ${s.py})`, tabindex: 0, role: "button",
+      "aria-label": `${s.nimi}, ${s.lk}. luokka, ${a.nimi}`, style: `--c:${a.vari}`}, gk);
+    el("title", {}, g).textContent = `${s.nimi} (${s.lk}. lk, ${a.nimi})`;
+    const ix = KW / 2 - 26;
+    el("rect", {x: ix, y: 0, width: 52, height: 52, rx: 9, class: "kehys"}, g);
+    el("rect", {x: ix + 6, y: 52, width: 40, height: 4, rx: 2, class: "nauha"}, g);
+    el("g", {class: "ikoni", transform: `translate(${ix + 12} 12) scale(1.15)`}, g).innerHTML = PUU.ikoni(s);
+    if (s.taso === "haaste") el("path", {d: `M${ix + 52} -6 l7 7 -7 7 -7 -7z`, class: "haaste"}, g);
+    el("rect", {x: 0, y: 58, width: KW, height: 34, rx: 5, class: "kilpi"}, g);
+    const r = rivita(s.nimi, 21);
+    r.forEach((t, i) => el("text", {x: KW / 2, y: (r.length === 1 ? 79 : 72) + i * 14, class: "kilpi-teksti"}, g).textContent = t);
+    el("text", {x: 4, y: 10, class: "jakso"}, g).textContent = s.lk === 4 ? s.jakso : s.lk + ". lk";
+    korttiEl[s.id] = g;
+    g.addEventListener("pointerenter", () => korosta(s.id));
+    g.addEventListener("pointerleave", () => korosta(PUU.valittu));
+    g.addEventListener("click", () => PUU.avaa(s.id));
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); PUU.avaa(s.id); } });
+  });
+  paivitaTila(); suodata(); sovita();
+}
+function paivitaTila() {
+  PUU.aine.solmut.forEach(s => {
+    const g = korttiEl[s.id]; g.classList.remove("t-osattu", "t-avoin", "t-lukittu"); g.classList.add("t-" + PUU.tila(s.id));
+    g.classList.toggle("valittu", PUU.valittu === s.id);
+  });
+  viivaEl.forEach(k => {
+    const ta = PUU.tila(k.a), tb = PUU.tila(k.b);
+    k.el.classList.toggle("k-osattu", ta === "osattu" && tb === "osattu");
+    k.el.classList.toggle("k-seuraava", ta === "osattu" && tb === "avoin");
+  });
+  const y = PUU.yhteenveto();
+  document.getElementById("tilasto").innerHTML = `osattu <b>${y.osattu}/${y.kaikki}</b> · ydin <b>${y.ydinOsattu}/${y.ydin}</b> · avoimia <b>${y.avoimia}</b>`;
+}
+function suodata() {
+  PUU.aine.solmut.forEach(s => { if (s.lk !== 4) korttiEl[s.id].style.display = nayta[s.lk] ? "" : "none"; });
+  viivaEl.forEach(k => { const a = PUU.solmu[k.a], b = PUU.solmu[k.b]; k.el.style.display = (a.lk === 4 || nayta[a.lk]) && (b.lk === 4 || nayta[b.lk]) ? "" : "none"; });
+  svg.querySelectorAll("[data-lk]").forEach(g => { const lk = +g.dataset.lk; g.style.display = lk === 4 || nayta[lk] ? "" : "none"; });
+}
+function korosta(id) {
+  svg.classList.toggle("himmea", !!id);
+  Object.values(korttiEl).forEach(g => g.classList.remove("korostus"));
+  viivaEl.forEach(k => k.el.classList.remove("korostus", "ylos", "alas"));
+  if (!id) return;
+  const ylos = PUU.ketju(id, "ylos"), alas = PUU.ketju(id, "alas");
+  [id, ...ylos, ...alas].forEach(i => korttiEl[i] && korttiEl[i].classList.add("korostus"));
+  viivaEl.forEach(k => {
+    if ((ylos.has(k.a) || k.a === id) && (ylos.has(k.b) || k.b === id)) k.el.classList.add("korostus", "ylos");
+    else if (alas.has(k.b) && (alas.has(k.a) || k.a === id)) k.el.classList.add("korostus", "alas");
+  });
+}
+function asetaMittakaava() { const P = PUU.aine.polku; svg.setAttribute("width", Math.round(P.leveys * mittakaava)); svg.setAttribute("height", Math.round(P.korkeus * mittakaava)); }
+function sovita() { const w = document.getElementById("alue").clientWidth - 16; mittakaava = Math.min(1.15, w / PUU.aine.polku.leveys); asetaMittakaava(); }
+document.getElementById("zplus").onclick = () => { mittakaava = Math.min(2, mittakaava * 1.2); asetaMittakaava(); };
+document.getElementById("zmiinus").onclick = () => { mittakaava = Math.max(0.3, mittakaava / 1.2); asetaMittakaava(); };
+document.getElementById("zsovita").onclick = sovita;
+window.addEventListener("resize", sovita);
+function keskita(id) {
+  const s = PUU.solmu[id], alue = document.getElementById("alue"), b = svg.getBoundingClientRect();
+  window.scrollTo({top: window.scrollY + b.top + s.py * mittakaava - window.innerHeight / 3, behavior: "smooth"});
+  alue.scrollTo({left: s.px * mittakaava - alue.clientWidth / 2, behavior: "smooth"});
+}
+document.getElementById("k3").onchange = e => { nayta[3] = e.target.checked; suodata(); };
+document.getElementById("k5").onchange = e => { nayta[5] = e.target.checked; suodata(); };
+document.getElementById("nollaa").onclick = () => PUU.nollaa();
+document.getElementById("haku").addEventListener("change", e => {
+  const q = e.target.value.trim().toLowerCase(); if (!q) return;
+  const s = PUU.aine.solmut.find(s => s.nimi.toLowerCase().includes(q) && (s.lk === 4 || nayta[s.lk]));
+  if (s) { keskita(s.id); PUU.avaa(s.id); }
+});
+svg.addEventListener("click", e => { if (!e.target.closest(".kortti")) PUU.sulje(); });
+PUU.kuuntele(syy => {
+  if (syy === "aine") { document.getElementById("aine").value = PUU.aine.koodi; PUU.sulje(); piirra(); }
+  if (syy === "tila") { paivitaTila(); PUU.piirraPaneeli(); }
+  if (syy === "valinta") { paivitaTila(); korosta(PUU.valittu); }
+  if (syy === "hyppy" && PUU.valittu) keskita(PUU.valittu);
+});
+piirra();
+</script>
+</body>
+</html>
