@@ -1,0 +1,711 @@
+<title>Monta kättä</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+/* header */
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px; display:flex; gap:18px; align-items:flex-start}
+.badge{flex:0 0 auto; width:54px; height:54px; border-radius:9px; display:grid; place-items:center;
+  background:var(--core-soft); border:1px solid var(--core); color:var(--core)}
+.badge svg{width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:5px 0 0; color:var(--ink-2); font-size:15px}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:11px}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:2px 7px;
+  border-radius:4px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-3)}
+.tag.core{background:var(--core-soft); border-color:var(--core); color:var(--core)}
+
+/* teksti */
+article{margin-top:26px}
+article h2{font-size:21px; font-weight:600; margin:32px 0 10px; letter-spacing:-.01em}
+article p{margin:0 0 14px; max-width:64ch}
+.lead{font-size:17.5px; color:var(--ink); border-left:3px solid var(--core); padding-left:16px; margin:0 0 8px}
+
+.box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:18px 22px; box-shadow:var(--shadow); margin:22px 0}
+.box h3{margin:0 0 12px; font-size:16.5px; font-weight:600}
+.box.warn{border-left:3px solid var(--alert)}
+.box.note{border-left:3px solid var(--chal)}
+
+ol.steps{margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start}
+ol.steps li::before{content:counter(s); font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-size:14px;
+  width:26px; height:26px; border-radius:50%; background:var(--core); color:#fff; display:grid; place-items:center; margin-top:2px}
+
+ul.notes{margin:0; padding-left:19px}
+ul.notes li{margin-bottom:7px}
+ul.notes li:last-child{margin-bottom:0}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:460px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td b{color:var(--core); font-weight:600}
+td:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+
+/* lukusuora */
+.nl svg{width:100%; height:118px; display:block}
+.nl .rail{stroke:var(--line); stroke-width:2}
+.nl .tick{stroke:var(--line); stroke-width:1.5}
+.nl .stop{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:11px}
+.nl .stop.near{fill:var(--core); font-weight:600}
+.nl .dot{fill:var(--chal)}
+.nl .val{fill:var(--ink); font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:700}
+.nl .halfway{stroke:var(--chal); stroke-dasharray:3 3; stroke-width:1.5}
+.nl-controls{display:flex; align-items:center; gap:14px; margin-top:6px}
+.nl-controls input{flex:1; accent-color:var(--core)}
+.nl-out{font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600; min-width:12.5em; text-align:right}
+
+/* paikka-arvotaulu */
+.box .ohje{margin:0 0 14px; font-size:14.5px; color:var(--ink-2)}
+.nt-valinta{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px}
+.nt-valinta button{font:inherit; font-size:12.5px; font-family:"IBM Plex Mono",monospace; padding:5px 11px;
+  border-radius:6px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.nt-valinta button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.nt-valinta button:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.nt-taulu{display:flex; flex-direction:column; gap:4px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
+.nt-rivi{display:flex; gap:6px; align-items:center}
+.nt-rivi .otsa{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); width:52px; text-align:center}
+.nt-ruutu{width:52px; height:52px; display:grid; place-items:center; border:1.5px solid var(--line);
+  border-radius:7px; background:var(--surface-2); font-family:"IBM Plex Mono",monospace; font-size:24px}
+.nt-ruutu.kohta{border-color:var(--core); background:var(--core-soft); color:var(--core); font-weight:500}
+.nt-ruutu.ratkaiseva{border-color:var(--chal); background:var(--chal-soft); color:var(--chal); font-weight:500}
+.nt-ruutu.nolla{color:var(--ink-3)}
+.nt-rivi .nimi{font-size:12.5px; color:var(--ink-3); margin-left:12px; white-space:nowrap}
+.nt-nuoli{font-size:17px; color:var(--chal); margin-left:6px}
+.nt-selite{margin:14px 0 0; font-size:14.5px}
+.nt-selite b{color:var(--core)}
+
+/* vahvuusportaat */
+.vp-tasot{display:grid; gap:9px; margin-bottom:18px}
+.vp-taso{display:flex; gap:11px; align-items:flex-start; font-size:13.5px}
+.vp-taso .vp-pallo{width:13px; height:13px; border-radius:4px; margin-top:5px; flex:0 0 auto}
+.vp-taso[data-taso="sulkeet"] .vp-pallo{background:var(--core)}
+.vp-taso[data-taso="kertojako"] .vp-pallo{background:var(--strong)}
+.vp-taso[data-taso="yhteenvahennys"] .vp-pallo{background:var(--chal)}
+.vp-taso strong{display:block; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:14.5px}
+.vp-taso span{color:var(--ink-2)}
+.vp-lauseke{display:flex; flex-wrap:wrap; gap:7px; align-items:flex-end; font-family:"IBM Plex Mono",monospace;
+  font-size:25px; padding:10px 2px; min-height:64px}
+.vp-lauseke .t{padding:2px 3px}
+.vp-lauseke .op{position:relative; padding:2px 9px; border-radius:6px; font-weight:500}
+.vp-lauseke .op[data-taso="sulkeet"]{background:var(--core-soft); color:var(--core)}
+.vp-lauseke .op[data-taso="kertojako"]{background:var(--strong-soft); color:var(--strong)}
+.vp-lauseke .op[data-taso="yhteenvahennys"]{background:var(--chal-soft); color:var(--chal)}
+.vp-lauseke .op i{position:absolute; top:-9px; right:-6px; font-style:normal; font-family:"Familjen Grotesk",sans-serif;
+  font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:currentColor}
+.vp-lauseke .op i span{color:var(--surface)}
+.vp-rivi{display:flex; align-items:center; gap:16px; margin-top:8px}
+.vp-vastaus{font-family:"Familjen Grotesk",sans-serif; font-size:16px; font-weight:600; color:var(--strong)}
+
+/* laskujärjestys-widget */
+.lj-exp{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-family:"IBM Plex Mono",monospace;
+  font-size:23px; padding:14px 4px; min-height:62px}
+.lj-exp .tok{padding:2px 4px; color:var(--ink)}
+.lj-exp button.op{font-family:"IBM Plex Mono",monospace; font-size:23px; padding:3px 12px; border-radius:7px;
+  border:1.5px solid var(--line); background:var(--surface-2); color:var(--ink); line-height:1.2}
+.lj-exp button.op:hover{border-color:var(--core); color:var(--core)}
+.lj-exp button.op:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.lj-exp .valmis{font-family:"Familjen Grotesk",sans-serif; font-size:23px; font-weight:700; color:var(--strong)}
+.lj-fb{font-size:14.5px; min-height:1.5em; color:var(--ink-2)}
+.lj-fb.no{color:var(--alert)}
+.lj-fb.ok{color:var(--strong)}
+.lj-row{display:flex; align-items:center; gap:14px; margin-top:10px}
+.lj-step{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* harjoitukset */
+.progress{position:sticky; top:0; z-index:5; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 18px; box-shadow:var(--shadow); display:flex; align-items:center;
+  gap:14px; margin:34px 0 18px}
+.progress .lbl{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap}
+.progress .meter{flex:1; height:7px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+.progress .meter i{display:block; height:100%; background:var(--core); transition:width .25s ease}
+.progress .cnt{font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.grp{margin-top:26px}
+.grp-head{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--ink); padding-bottom:7px; margin-bottom:14px}
+.grp-head h3{margin:0; font-size:17px; font-weight:600}
+.grp-head span{font-size:12.5px; color:var(--ink-2)}
+
+.ex{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:10px}
+.ex[data-tila="oikein"]{border-color:var(--strong); box-shadow:inset 3px 0 0 var(--strong)}
+.ex[data-tila="vaarin"]{border-color:var(--alert); box-shadow:inset 3px 0 0 var(--alert)}
+.ex .q{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
+.ex .num{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3); min-width:2.4em}
+.ex .txt{flex:1; min-width:190px; font-size:15.5px}
+.ex .txt .aineisto{display:block; margin-bottom:9px; padding-left:12px;
+  border-left:2px solid var(--line); color:var(--ink-2); line-height:1.6;
+  /* Aineisto voi olla pieni taulukko, jonka rivit on erotettu rivinvaihdoilla.
+     Ilman pre-lineä ne valuisivat yhdeksi kappaleeksi ja taulukko katoaisi. */
+  white-space:pre-line}
+.ex .txt .kysymysrivi{display:block; font-weight:600}
+.ex .row{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.ex input[type=text]{font:inherit; font-family:"IBM Plex Mono",monospace; font-size:15px; width:8.5em;
+  padding:7px 11px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2);
+  color:var(--ink); text-align:right}
+.ex input:focus-visible{outline:2px solid var(--core); outline-offset:1px}
+button{font:inherit; cursor:pointer}
+.btn{font-size:13.5px; padding:7px 15px; border-radius:7px; border:1px solid var(--core);
+  background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.btn.mv-valinta{text-align:left}
+/* kuuntelutehtävä: selaimen puhesynteesi lukee englanninkielisen tekstin */
+.kuuntele{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:2px 0 10px}
+.kuuntele .btn{display:inline-flex; gap:7px; align-items:center}
+.kuuntele svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.kuuntele .varateksti{flex-basis:100%; font-size:14px; color:var(--ink-2); background:var(--surface-2);
+  border-radius:7px; padding:8px 12px; margin:0}
+.btn.mv-valinta:disabled{cursor:default; opacity:.65}
+.btn.mv-oikein{background:var(--strong-soft); border-color:var(--strong); color:var(--strong); opacity:1}
+.btn.mv-vaarin{background:var(--alert-soft); border-color:var(--alert); color:var(--alert); opacity:1}
+.row.mv{gap:8px 10px}
+.fb{margin-top:11px; font-size:14.5px; padding:10px 13px; border-radius:8px; line-height:1.5}
+.fb.ok{background:var(--strong-soft); color:var(--strong)}
+.fb.no{background:var(--alert-soft); color:var(--alert)}
+.fb.hint{background:var(--chal-soft); color:var(--chal)}
+
+.done{background:var(--strong-soft); border:1px solid var(--strong); color:var(--strong);
+  border-radius:var(--r); padding:16px 20px; margin-top:20px; font-size:15.5px}
+.done h3{margin:0 0 4px; font-size:17px; color:var(--strong)}
+
+details.teacher{margin-top:34px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--chal); border-radius:var(--r); padding:15px 20px; box-shadow:var(--shadow)}
+details.teacher summary{cursor:pointer; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:15px}
+details.teacher summary:focus-visible{outline:2px solid var(--core); outline-offset:3px}
+details.teacher ul{margin:12px 0 0; padding-left:19px; color:var(--ink-2); font-size:14.5px}
+details.teacher li{margin-bottom:8px}
+details.teacher p{margin:12px 0 0; color:var(--ink-2); font-size:14.5px}
+
+.back{display:inline-block; margin-top:30px; font-size:13.5px; color:var(--ink-2)}
+.back a{color:var(--core)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:560px){
+  .wrap{padding:16px 13px 70px}
+  header.top h1{font-size:25px}
+  .progress{flex-wrap:wrap}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" id="ikoni"></svg></span>
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="otsikko"></h1>
+      <p id="kuvaus"></p>
+      <div class="tags" id="tags"></div>
+    </div>
+  </header>
+
+  <article id="teksti"></article>
+
+  <div class="progress" aria-live="polite">
+    <span class="lbl">Harjoitukset</span>
+    <span class="meter"><i id="pbar" style="width:0%"></i></span>
+    <span class="cnt" id="pcnt">0 / 20</span>
+  </div>
+
+  <div id="harjoitukset"></div>
+  <div id="valmis"></div>
+
+  <p class="back" id="back"></p>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT8-VER-04","oppiaine":"MAT","vuosiluokka":8,"otsikko":"Monta kättä","kuvaus":"Osaan tunnistaa kääntäen verrannolliset suureet ja ratkaista tehtäviä niiden avulla.","versio":"0.2","paivitetty":"2026-10-04","ops":{"T":["T5","T7","T15"],"S":["S3","S4"]},"taso":"ydin","ikoni":"kadet","eyebrow":"Matematiikka · 8. luokka · Suhde ja verrannollisuus","teksti":[{"tyyppi":"johdanto","sisalto":"Salibandyjoukkue tilaa bussin turnausmatkalle. Bussi maksaa 720 € riippumatta siitä, montako kyytiin lähtee. Jos lähtijöitä on 12, kukin maksaa 720 € : 12 = 60 €. Jos lähtijöitä onkin 18, kukin maksaa 720 € : 18 = 40 €. Lähtijöiden määrä kasvoi 1,5-kertaiseksi, ja maksu per henkilö pieneni samassa suhteessa: 60 € : 1,5 = 40 €. Lähtijöiden määrä ja maksu per henkilö ovat kääntäen verrannollisia suureita. Tässä taidossa opit tunnistamaan tällaiset suureet, erottamaan ne suoraan verrannollisista ja ratkaisemaan tehtäviä verrannolla tai suureiden tulon avulla. Laskin on sallittu."},{"tyyppi":"kappale","otsikko":"Tulo pysyy vakiona","sisalto":"Yksi ihminen haravoisi ison pihan 24 tunnissa. Kaksi yhtä nopeaa haravoijaa tekee saman työn 12 tunnissa, kolme 8 tunnissa, neljä 6 tunnissa ja kuusi 4 tunnissa. Kerro kunkin parin luvut keskenään: 1 · 24, 2 · 12, 3 · 8, 4 · 6 ja 6 · 4. Joka kerta tulo on 24. Tulo kertoo työn määrän henkilötyötunteina: piha vaatii 24 tunnin työn, jakautuipa se kuinka monelle tahansa. Suureet ovat kääntäen verrannollisia, kun niiden tulo pysyy vakiona. Tästä seuraa sääntö: kun toinen suure kerrotaan jollakin luvulla, toinen jaetaan samalla luvulla, jotta tulo ei muutu. Kaksinkertainen määrä haravoijia puolittaa ajan, ja kolminkertainen määrä lyhentää ajan kolmasosaan. Vakiota tuloa merkitään usein x · y = k. Malli olettaa, että kaikki tekevät työtä yhtä nopeasti eivätkä häiritse toisiaan. Sata haravoijaa ei oikeasti saisi pihaa valmiiksi alle vartissa, koska he olisivat toistensa tiellä. Siksi tehtävissä mainitaan oletus, esimerkiksi yhtä nopeat työntekijät."},{"tyyppi":"kappale","otsikko":"Tunnista tilanteesta: mikä pysyy samana?","sisalto":"Tilanteesta kääntäen verrannollisuuden tunnistaa kahdella kysymyksellä: mikä kokonaisuus pysyy samana, ja saadaanko se kertomalla kaksi suuretta keskenään? Tavallisimmat tapaukset ovat nämä. Työn määrä pysyy samana: työntekijöiden määrä · työaika = työ henkilötyötunteina tai henkilötyöpäivinä. Matka pysyy samana: nopeus · aika = matka, joten samalla matkalla nopeus ja matka-aika ovat kääntäen verrannollisia. Yhteinen meno pysyy samana: maksajien määrä · maksu per henkilö = kokonaishinta. Samaan joukkoon kuuluvat ruokavarasto (syöjien määrä · päivien määrä pysyy samana, kun jokainen syö päivässä yhtä paljon) ja lattian päällystäminen (lautojen leveys · lautojen yhteispituus = lattian pinta-ala). Vertaa suoraan verrannollisuuteen: jos nopeus pysyy samana, ajettu matka ja ajoaika ovat suoraan verrannollisia, koska nopeus on niiden suhde. Samat suureet voivat siis olla eri tilanteessa eri tavalla verrannollisia. Jos taas kokonaisuus saadaan yhteenlaskulla, kuten koko matka = kuljettu matka + jäljellä oleva matka, suureet eivät ole kääntäen verrannollisia (ansa 3)."},{"tyyppi":"taulukko","otsikko":"Suoraan ja kääntäen verrannollinen rinnakkain","otsikkorivi":["Ominaisuus","Suoraan verrannollinen","Kääntäen verrannollinen"],"rivit":[["Mikä pysyy vakiona","suhde y : x","tulo x · y"],["Kun x kaksinkertaistuu","y kaksinkertaistuu","y puolittuu"],["Kun x kolminkertaistuu","y kolminkertaistuu","y pienenee kolmasosaan"],["Verranto arvopareille (x₁, y₁) ja (x₂, y₂)","y₂/y₁ = x₂/x₁","y₂/y₁ = x₁/x₂"],["Esimerkki","samanhintaisten tuotteiden määrä ja yhteishinta","yhtä nopeiden työntekijöiden määrä ja saman työn kesto"]]},{"tyyppi":"kappale","otsikko":"Ratkaise tulon avulla tai verrannolla","sisalto":"Esimerkki: Viisi työntekijää rakentaa aidan 12 päivässä. Kuinka monessa päivässä kuusi yhtä nopeaa työntekijää rakentaa sen? Tulon avulla: työn määrä on 5 · 12 = 60 henkilötyöpäivää. Kun työ jaetaan kuudelle, aikaa kuluu 60 : 6 = 10 päivää. Verrannolla: merkitään kysyttyä aikaa x:llä. Koska tulo pysyy vakiona, 6 · x = 5 · 12. Jaa yhtälön molemmat puolet tulolla 6 · 12, niin saat verrannon x/12 = 5/6. Aikojen suhde on siis työntekijöiden määrien suhde käännettynä. Ristiin kertomalla 6x = 60 ja x = 10. Vastaus: kuusi työntekijää rakentaa aidan 10 päivässä. Tarkista kahdella tavalla. Työntekijöitä tuli lisää, joten ajan piti lyhentyä, ja 10 päivää on vähemmän kuin 12 päivää. Lisäksi tulo 6 · 10 = 60 on sama kuin alussa. Suoraan verrannollisessa verrannossa suhteet ovat samassa järjestyksessä, kääntäen verrannollisessa toinen suhde käännetään."},{"tyyppi":"saanto","otsikko":"Näin ratkaiset kääntäen verrannollisen tehtävän","askeleet":["Päättele ensin suunta: kasvaako vai pieneneekö kysytty suure? Esimerkki: matka kestää 2 h nopeudella 90 km/h. Kuinka kauan se kestää nopeudella 120 km/h? Nopeus kasvaa, joten sama matka kestää vähemmän aikaa. Vastauksen pitää olla alle 2 h.","Varmista, että suureet ovat kääntäen verrannollisia: mikä pysyy vakiona? Matka pysyy samana, ja matka = nopeus · aika. Nopeuden ja ajan tulo pysyy siis vakiona.","Muodosta verranto niin, että toinen suhde on käännetty. Kun aika on tunteina, x/2 = 90/120. Toinen tapa on laskea tulo: 90 km/h · 2 h = 180 km.","Ratkaise. Ristiin kertomalla 120x = 180, joten x = 1,5. Tulon kautta 180 km : 120 km/h = 1,5 h.","Tarkista suunta ja tulo. Vastaus 1,5 h on alle 2 h, kuten päättelit, ja 120 · 1,5 = 180 on sama tulo kuin alussa. Kirjoita vastaus yksikön kanssa: 1,5 h."]},{"tyyppi":"ansa","otsikko":"Ansa 1: laskit suoraan verrannollisena","sisalto":"Aidan esimerkissä houkuttelee verranto x/12 = 6/5, jossa suhteet ovat samassa järjestyksessä kuin suoraan verrannollisuudessa. Siitä tulee x = 14,4 päivää. Kuusi työntekijää tarvitsisi siis enemmän aikaa kuin viisi, mikä ei ole mahdollista, kun kaikki tekevät työtä yhtä nopeasti. Tulo paljastaa virheen: 6 · 14,4 = 86,4, ei 60. Virhe syntyy, kun verranto kirjoitetaan tottumuksesta ennen kuin on päätelty, onko tilanne suoraan vai kääntäen verrannollinen. Päättele siksi ensin, mikä pysyy vakiona: suhde vai tulo."},{"tyyppi":"ansa","otsikko":"Ansa 2: verrannon jäsenet väärin päin","sisalto":"Vaikka tiedät, että toinen suhde pitää kääntää, virhe voi tulla jäsenten paikoista. Jos käännät molemmat suhteet, kirjoitat 12/x = 5/6 ja saat taas suoraan verrannollisen tuloksen 14,4, koska kahden suhteen kääntäminen kumoaa toisensa. Jos sekoitat suureet, voit kirjoittaa esimerkiksi x/5 = 6/12, jolloin x = 2,5 päivää. Siinä x on parina väärän luvun kanssa. Varmin tapa on kirjoittaa ensin tulojen yhtäsuuruus 6 · x = 5 · 12: kumpikin tulo on saman tilanteen työntekijät kertaa aika. Jokainen verranto, josta ristiin kertomalla tulee tämä yhtälö, on oikein, esimerkiksi x/12 = 5/6 ja 12/x = 6/5."},{"tyyppi":"ansa","otsikko":"Ansa 3: toinen kasvaa, toinen pienenee ei riitä","sisalto":"Taulukossa x saa arvot 2, 4 ja 5 ja y arvot 8, 6 ja 5. Kun x kasvaa, y pienenee, mutta suureet eivät ole kääntäen verrannollisia. Kun x kaksinkertaistuu luvusta 2 lukuun 4, y ei puolitu vaan pienenee luvusta 8 lukuun 6. Tulot 2 · 8 = 16, 4 · 6 = 24 ja 5 · 5 = 25 ovat eri suuret. Vakiona pysyy summa: x + y = 10 eli y = 10 − x. Sama koskee 12 kilometrin kävelyreittiä. Kun olet kulkenut 3 km, jäljellä on 9 km, ja kun olet kulkenut 6 km, jäljellä on 6 km. Kuljettu matka kaksinkertaistui, mutta jäljellä oleva matka ei puolittunut. Kääntäen verrannollisuuden perustelu on se, että suureiden tulo pysyy samana. Pelkkä muutoksen suunta ei riitä perusteluksi."},{"tyyppi":"ansa","otsikko":"Ansa 4: vastaus muuttui väärään suuntaan","sisalto":"Seitsemän kaveria jakaa 84 euron lahjan tasan, ja kukin maksaa 12 €. Mukaan tulee kaksi kaveria lisää. Laskimeen on helppo näppäillä 12 · 9 : 7, jolloin tulos on noin 15,43 €. Maksajia tuli lisää, mutta jokainen maksaisi enemmän kuin ennen, joten vastaus ei voi olla oikein. Oikein: 84 € : 9 ≈ 9,33 €. Kun päättelet suunnan ennen laskemista, huomaat virheen heti: useampi maksaja tarkoittaa pienempää osuutta, useampi työntekijä lyhyempää työaikaa ja suurempi nopeus lyhyempää matka-aikaa. Kun laskin antaa tuloksen, vertaa sitä lähtöarvoon. Muuttuiko vastaus siihen suuntaan, johon sen piti?"}],"harjoitusryhmat":[{"id":"tunnistus","nimi":"Tunnista tulon avulla","info":"Laskin on sallittu. Laske arvoparien tulot. Jos tulo pysyy samana, suureet ovat kääntäen verrannollisia."},{"id":"ratkaisu","nimi":"Ratkaise verrannolla tai tulolla","info":"Laskin on sallittu. Päättele ensin, kasvaako vai pieneneekö kysytty suure. Muodosta sitten verranto tai laske tulo. Anna vastaus ilman yksikköä."},{"id":"suunta","nimi":"Suunta, verranto ja virheet","info":"Laskin on sallittu. Tarkista, muuttuiko vastaus järkevään suuntaan ja antaako verranto saman yhtälön kuin tulojen yhtäsuuruus."}],"harjoitukset":[{"id":"H01","ryhma":"tunnistus","kysymys":"Taulukossa on kääntäen verrannollisten suureiden x ja y arvopareja.\nx | 2 | 3 | 5 | 6\ny | 30 | 20 | 12 | 10\n\nMikä on suureiden tulo?","vastaus":60,"vinkki":"Kerro jokaisen sarakkeen x ja y keskenään.","selitys":"2 · 30 = 60, 3 · 20 = 60, 5 · 12 = 60 ja 6 · 10 = 60. Tulo pysyy samana, ja se on 60."},{"id":"H02","ryhma":"tunnistus","kysymys":"Suureet x ja y ovat kääntäen verrannollisia. Kun x = 4, y = 15. Mikä on y, kun x = 12?","vastaus":5,"vinkki":"x kolminkertaistuu, joten y jaetaan kolmella. Voit myös laskea ensin tulon 4 · 15.","selitys":"Tulo on 4 · 15 = 60. Kun x = 12, y = 60 : 12 = 5. Tarkistus: x kolminkertaistui, ja y pieneni kolmasosaan. Vastaus 45 syntyy, jos y kerrotaan kolmella kuten suoraan verrannollisessa."},{"id":"H03","ryhma":"tunnistus","kysymys":"Taulukko 1\nx | 1 | 2 | 3\ny | 18 | 9 | 6\nTaulukko 2\nx | 2 | 4 | 6\ny | 8 | 6 | 4\nTaulukko 3\nx | 4 | 8 | 12\ny | 5 | 10 | 15\nTaulukko 4\nx | 5 | 10 | 20\ny | 4 | 2 | 1\n\nMontako näistä neljästä taulukosta esittää kääntäen verrannollisia suureita?","vastaus":2,"vinkki":"Laske jokaisesta taulukosta kaikkien arvoparien tulot. Pelkkä y:n pieneneminen ei riitä.","selitys":"Taulukossa 1 tulot ovat 18, 18 ja 18, taulukossa 4 tulot ovat 20, 20 ja 20. Ne ovat kääntäen verrannollisia. Taulukossa 2 y pienenee, mutta tulot 16, 24 ja 24 eivät ole kaikki samat: siinä summa pysyy samana. Taulukossa 3 pysyy samana suhde, joten se on suoraan verrannollinen."},{"id":"H04","ryhma":"tunnistus","kysymys":"Suureet x ja y ovat kääntäen verrannollisia. x kasvaa 6-kertaiseksi. Millä luvulla y kerrotaan? Anna vastaus murtolukuna.","vastaus":0.16666666666666666,"vinkki":"Tulon pitää pysyä samana. Jos x kerrotaan kuudella, mitä y:lle pitää tehdä?","selitys":"Jos x kerrotaan kuudella, y on jaettava kuudella, jotta tulo ei muutu. Jakaminen kuudella on sama kuin kertominen luvulla 1/6."},{"id":"H05","ryhma":"tunnistus","kysymys":"1. Samanlaisten maalarien määrä ja aika, jossa he maalaavat saman seinän, kun jokainen maalaa tunnissa yhtä suuren alan.\n2. Ostettujen samanhintaisten bussilippujen määrä ja lippujen yhteishinta.\n3. Auton keskinopeus ja aika, joka kuluu 150 km:n matkaan.\n4. Syötyjen karkkien määrä ja jäljellä olevien karkkien määrä 50 karkin pussissa.\n5. Henkilöiden määrä ja kunkin maksu, kun 600 euron mökkivuokra jaetaan tasan.\n\nMontako näistä viidestä tilanteesta on kääntäen verrannollisia?","vastaus":3,"vinkki":"Kysy jokaisesta tilanteesta, mikä pysyy samana ja saadaanko se kertomalla kaksi suuretta keskenään.","selitys":"Tilanteissa 1, 3 ja 5 tulo pysyy samana: työ, matka ja mökkivuokra. Tilanteessa 2 pysyy samana suhde eli lipun hinta, joten se on suoraan verrannollinen. Tilanteessa 4 pysyy samana summa 50, joten se ei ole kääntäen verrannollinen, vaikka toinen pienenee toisen kasvaessa."},{"id":"H06","ryhma":"tunnistus","tyyppi":"monivalinta","vaihtoehdot":["Ovat, koska y pienenee, kun x kasvaa.","Eivät, koska tulot 20, 32 ja 36 ovat eri suuret.","Ovat, koska y pienenee joka kerta yhtä paljon.","Eivät, koska x ja y ovat suoraan verrannollisia."],"kysymys":"x | 2 | 4 | 6\ny | 10 | 8 | 6\n\nOvatko x ja y kääntäen verrannollisia?","vastaus":1,"vinkki":"Laske arvoparien tulot.","selitys":"Tulot ovat 2 · 10 = 20, 4 · 8 = 32 ja 6 · 6 = 36. Ne ovat eri suuret, joten suureet eivät ole kääntäen verrannollisia. Vakiona pysyy summa 12. Suoraan verrannollisiakaan ne eivät ole, koska y pienenee."},{"id":"H07","ryhma":"tunnistus","kysymys":"Suureet x ja y ovat kääntäen verrannollisia.\nx | 3 | 6 | ?\ny | 16 | 8 | 6\n\nMikä luku taulukosta puuttuu?","vastaus":8,"vinkki":"Laske tulo täydestä sarakkeesta ja jaa se luvulla 6.","selitys":"Tulo on 3 · 16 = 48. Puuttuva x on 48 : 6 = 8. Tarkistus: 8 · 6 = 48."},{"id":"H08","ryhma":"tunnistus","tyyppi":"monivalinta","vaihtoehdot":["Ne ovat suoraan verrannollisia.","Ne ovat kääntäen verrannollisia.","Ne eivät ole suoraan eivätkä kääntäen verrannollisia."],"kysymys":"Auto ajaa tasaisella nopeudella 80 km/h. Miten ajoaika ja ajettu matka riippuvat toisistaan?","vastaus":0,"vinkki":"Mikä tilanteessa pysyy samana: matka, aika vai nopeus?","selitys":"Nopeus pysyy samana, ja nopeus on matkan ja ajan suhde. Suhde pysyy vakiona, joten ajettu matka ja ajoaika ovat suoraan verrannollisia: kaksinkertaisessa ajassa ajat kaksinkertaisen matkan. Nopeus ja aika ovat kääntäen verrannollisia vasta silloin, kun matka pysyy samana."},{"id":"H09","ryhma":"ratkaisu","kysymys":"6 siivoojaa siivoaa koulun 5 tunnissa. Kuinka monessa tunnissa 10 yhtä nopeaa siivoojaa siivoaa sen? Anna vastaus tunteina ilman yksikköä.","vastaus":3,"vinkki":"Siivoojia tulee lisää, joten aika lyhenee. Laske työn määrä 6 · 5.","selitys":"Työn määrä on 6 · 5 = 30 henkilötyötuntia. Kymmeneltä siivoojalta aikaa kuluu 30 : 10 = 3 tuntia. Verrannolla x/5 = 6/10, josta 10x = 30 ja x = 3."},{"id":"H10","ryhma":"ratkaisu","kysymys":"Mökin vuokra jaetaan tasan. Kun lähtijöitä on 8, kukin maksaa 45 €. Paljonko kukin maksaa, jos lähtijöitä on 6? Anna vastaus euroina ilman yksikköä.","vastaus":60,"vinkki":"Lähtijöitä on vähemmän, joten kunkin osuus kasvaa. Laske ensin koko vuokra.","selitys":"Vuokra on 8 · 45 € = 360 €. Kuudelle jaettuna kukin maksaa 360 € : 6 = 60 €. Osuus kasvoi, koska maksajia on vähemmän."},{"id":"H11","ryhma":"ratkaisu","kysymys":"Pyöräilet koulumatkan keskinopeudella 18 km/h, ja siihen kuluu 40 min. Kuinka monta minuuttia sama matka kestää keskinopeudella 24 km/h? Anna vastaus ilman yksikköä.","vastaus":30,"vinkki":"Nopeus kasvaa, joten aika lyhenee. Verranto: x/40 = 18/24.","selitys":"Matka pysyy samana, joten nopeus ja aika ovat kääntäen verrannollisia. x/40 = 18/24, josta 24x = 720 ja x = 30. Tarkistus: 30 min on vähemmän kuin 40 min."},{"id":"H12","ryhma":"ratkaisu","kysymys":"Leirin ruokavarasto riittää 30 hengelle 8 päiväksi. Montako päivää se riittää 40 hengelle, kun jokainen syö päivässä yhtä paljon? Anna vastaus ilman yksikköä.","vastaus":6,"vinkki":"Syöjiä on enemmän, joten ruoka loppuu aiemmin. Laske varasto päiväannoksina: 30 · 8.","selitys":"Varasto on 30 · 8 = 240 päiväannosta. 40 hengelle se riittää 240 : 40 = 6 päiväksi."},{"id":"H13","ryhma":"ratkaisu","kysymys":"Terassi päällystetään 9 cm leveillä laudoilla, joita tarvitaan 200 m. Montako metriä tarvitaan 12 cm leveitä lautoja saman terassin päällystämiseen? Lautojen väliin ei jää rakoja, eikä hukkaa lasketa. Anna vastaus ilman yksikköä.","vastaus":150,"vinkki":"Terassin pinta-ala pysyy samana, ja se on leveys kertaa yhteispituus. Leveämpiä lautoja tarvitaan vähemmän.","selitys":"Pinta-ala pysyy samana, joten leveys ja yhteispituus ovat kääntäen verrannollisia. x/200 = 9/12, josta 12x = 1 800 ja x = 150 m."},{"id":"H14","ryhma":"ratkaisu","kysymys":"5 työntekijää tekee työn 7 päivässä. Kuinka monessa päivässä 3 yhtä nopeaa työntekijää tekee sen? Anna vastaus kymmenesosan tarkkuudella ilman yksikköä.","vastaus":11.7,"vinkki":"Työntekijöitä on vähemmän, joten aika pitenee. Laske 5 · 7 ja jaa kolmella.","selitys":"Työn määrä on 5 · 7 = 35 henkilötyöpäivää. Kolmelta työntekijältä aikaa kuluu 35 : 3 = 11,666… ≈ 11,7 päivää. Kymmenesosan tarkkuudella pyöristetään ylöspäin, koska seuraava numero on 6."},{"id":"H15","ryhma":"ratkaisu","kysymys":"4 työntekijää tekee työn 12 päivässä. Montako yhtä nopeaa työntekijää tarvitaan, jotta työ valmistuu 8 päivässä?","vastaus":6,"vinkki":"Työn pitää valmistua nopeammin, joten tekijöitä tarvitaan enemmän. Laske työn määrä 4 · 12.","selitys":"Työn määrä on 4 · 12 = 48 henkilötyöpäivää. Kahdeksassa päivässä se vaatii 48 : 8 = 6 työntekijää. Vastaus 2,7 syntyy, jos tehtävä lasketaan suoraan verrannollisena (4 · 8 : 12)."},{"id":"H16","ryhma":"suunta","kysymys":"1. 2 työntekijää tekee työn 8 tunnissa, joten 3 yhtä nopeaa työntekijää tekee sen 12 tunnissa.\n2. Matka kestää 4 h nopeudella 60 km/h, joten nopeudella 80 km/h se kestää 3 h.\n3. Kun 12 henkeä jakaa laskun tasan, kukin maksaa 20 €, joten 15 hengen kesken kukin maksaa 25 €.\n4. Ruoka riittää 6 hengelle 10 päiväksi, joten 4 hengelle se riittää 15 päiväksi.\n\nMontako näistä neljästä vastauksesta on muuttunut väärään suuntaan?","vastaus":2,"vinkki":"Kysy jokaisesta: piti vastauksen kasvaa vai pienentyä? Älä laske, ennen kuin olet päätellyt suunnan.","selitys":"Ratkaisussa 1 työntekijöitä tuli lisää, mutta aika piteni: väärä suunta. Ratkaisussa 3 maksajia tuli lisää, mutta osuus kasvoi: väärä suunta. Ratkaisuissa 2 ja 4 suunta on oikea, ja ne ovat myös oikein laskettuja (4 · 60 = 3 · 80 ja 6 · 10 = 4 · 15)."},{"id":"H17","ryhma":"suunta","kysymys":"Aino laski: kun 2 maalaria maalaa talon 12 päivässä, 3 yhtä nopeaa maalaria maalaa sen 18 päivässä. Mikä on oikea vastaus päivinä? Anna vastaus ilman yksikköä.","vastaus":8,"vinkki":"Ainon vastauksessa useampi maalari tarvitsee enemmän aikaa. Laske työn määrä 2 · 12.","selitys":"Aino laski suoraan verrannollisena (12 · 3 : 2 = 18). Työn määrä on 2 · 12 = 24 henkilötyöpäivää, joten kolmelta maalarilta aikaa kuluu 24 : 3 = 8 päivää."},{"id":"H18","ryhma":"suunta","kysymys":"6 työntekijää tekee työn 10 päivässä. Merkitään x:llä aikaa päivinä, jonka sama työ kestää 5 yhtä nopealta työntekijältä.\nVerranto 1: x/10 = 6/5\nVerranto 2: x/10 = 5/6\nVerranto 3: 10/x = 5/6\nVerranto 4: x/6 = 5/10\n\nMontako näistä neljästä verrannosta antaa oikean vastauksen?","vastaus":2,"vinkki":"Kirjoita ensin tulojen yhtäsuuruus 5 · x = 6 · 10. Kerro jokainen verranto ristiin ja katso, tuleeko sama yhtälö.","selitys":"Oikea yhtälö on 5x = 60, joten x = 12. Verranto 1 antaa 5x = 60 ja verranto 3 antaa 5x = 60: oikein. Verranto 2 on suoraan verrannollinen (6x = 50), ja verrannossa 4 x on parina väärän luvun kanssa (10x = 30)."},{"id":"H19","ryhma":"suunta","kysymys":"x | 1 | 2 | 3 | 4\ny | 9 | 8 | 7 | 6\n\nTaulukossa y pienenee, kun x kasvaa. Jos suureet olisivat kääntäen verrannollisia ja arvopari x = 1, y = 9 pysyisi samana, mikä y olisi, kun x = 3?","vastaus":3,"vinkki":"Kääntäen verrannollisilla suureilla tulo pysyy samana. Mikä tulo on, kun x = 1 ja y = 9?","selitys":"Tulo olisi 1 · 9 = 9, joten kun x = 3, y = 9 : 3 = 3. Taulukossa y on kuitenkin 7. Taulukon suureet eivät siis ole kääntäen verrannollisia: niissä summa x + y = 10 pysyy samana."},{"id":"H20","ryhma":"suunta","kysymys":"Lahjan hinta jaetaan tasan. Kun maksajia on 8, kukin maksaa 21 €. Paljonko kukin maksaa, jos maksajia on 9? Anna vastaus euroina senttien tarkkuudella ilman yksikköä.","vastaus":18.67,"vinkki":"Maksajia tulee lisää, joten osuus pienenee. Laske ensin lahjan hinta.","selitys":"Lahja maksaa 8 · 21 € = 168 €. Yhdeksälle jaettuna 168 € : 9 = 18,666… € ≈ 18,67 €. Vastaus on pienempi kuin 21 €, kuten pitääkin."}],"valmis_teksti":"Osaat tunnistaa kääntäen verrannolliset suureet siitä, että niiden tulo pysyy samana, ja erotat ne suoraan verrannollisista suureista ja tilanteista, joissa toinen vain pienenee toisen kasvaessa. Ratkaiset työ-, nopeus- ja jakotehtäviä oikein päin muodostetulla verrannolla tai tulon avulla ja tarkistat, että vastaus muuttui järkevään suuntaan. Tämä taito on nyt näytetty."};
+
+/* ---------- otsikko ---------- */
+const IKONIT={
+  pysakki:'<path d="M7 4h10v11H7z"/><path d="M9 15v4M15 15v4"/><path d="M4 20h16"/><path d="M9 7h6"/>',
+  jarjestys:'<path d="M4 7h6M4 12h10M4 17h4"/><path d="M17 5v14"/><path d="M14.5 16.5L17 19l2.5-2.5"/>',
+  /* allekkainkertolasku: kaksi riviä ja viiva, päällä muistinumero */
+  kerto:'<path d="M6 8h9M6 13h12M4 16.5h16"/><path d="M7.5 19.5h9"/><circle cx="18" cy="5.5" r="2"/>',
+  /* jakokulma */
+  jakokulma:'<path d="M5 8h13"/><path d="M8.5 8v10"/><path d="M8.5 18c-2.2 0-3.5-2.2-3.5-5s1.3-5 3.5-5"/><path d="M11 12h6"/>',
+  /* jakojäännös: ryhmät ja yksi yli jäävä */
+  jaannos:'<rect x="3.5" y="8" width="6" height="6" rx="1"/><rect x="11" y="8" width="6" height="6" rx="1"/><circle cx="20" cy="17.5" r="2"/>',
+  /* desimaalipilkku paikka-arvoruuduissa */
+  desimaali:'<rect x="3" y="7" width="6" height="9" rx="1"/><rect x="13" y="7" width="8" height="9" rx="1"/><path d="M10.8 15.5c.6.3.8 1.2.4 2"/>',
+  /* mitta: viivain */
+  mitta:'<rect x="2.5" y="8.5" width="19" height="7" rx="1"/><path d="M7 8.5v3M11 8.5v4.5M15 8.5v3M19 8.5v4.5"/>',
+  /* lukeminen: avoin kirja */
+  lukeminen:'<path d="M12 6.5C10 5 7 4.7 4 5.3v12c3-.6 6-.3 8 1.2 2-1.5 5-1.8 8-1.2v-12c-3-.6-6-.3-8 1.2z"/><path d="M12 6.5v12"/>',
+  /* lajituntemus: lehti */
+  kasvi:'<path d="M5 19c0-7 4.5-12 14-13 .5 8-3.5 13-10 13H5z"/><path d="M19 6c-5 2.5-8.5 6.5-10.5 12"/>',
+  /* joukkuepeli: pallo ja syöttökaari */
+  pallo:'<circle cx="8" cy="15" r="4.5"/><path d="M8 10.5c1.5-4 5-6.5 9.5-6.5"/><path d="M14.5 4h3v3"/>',
+  /* piirtimet: kynän kärki ja viiva */
+  kyna:'<path d="M4 19l2.5-6L15 4.5a2 2 0 013 3L9.5 16 4 19z"/><path d="M13.5 6.5l3.5 3.5"/>',
+  /* paikka-arvo: neljä numeropaikkaa, tuhansien paikka korostettuna */
+  paikkaarvo:'<rect x="2.5" y="8" width="4.5" height="8" rx="1"/><rect x="8" y="8" width="4.5" height="8" rx="1"/><rect x="13.5" y="8" width="4.5" height="8" rx="1"/><rect x="19" y="8" width="2.5" height="8" rx="1"/><path d="M4.75 10.5v3"/>',
+  /* allekkainlasku: kaksi lukua, viiva ja plus */
+  allekkain:'<path d="M8 7h10M8 12h10M4.5 15h15"/><path d="M4 9.5h3M5.5 8v3"/><path d="M9 18.5h9"/>',
+  /* murtoluku: ympyrä neljäsosiin, yksi väritetty */
+  murtoluku:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M12 12h8.5A8.5 8.5 0 0012 3.5z" fill="currentColor" stroke="none"/>',
+  /* vertailu: kaksi eripituista palkkia ja suurempi-kuin-merkki */
+  vertailu:'<rect x="2.5" y="6" width="8" height="4" rx="1"/><rect x="2.5" y="14" width="4.5" height="4" rx="1"/><path d="M15 6.5l4.5 5.5-4.5 5.5"/>',
+  /* samannimisten yhteenlasku: kaksi sektoria yhdistyy */
+  murtoyhteen:'<path d="M9 12A7 7 0 019 5v7z" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="7"/><path d="M18 8v8M14 12h8"/>',
+  /* käänteisyys: kaksi vastakkaista nuolta */
+  kaanteinen:'<path d="M4 9h13"/><path d="M14.5 6L17.5 9l-3 3"/><path d="M20 15H7"/><path d="M9.5 12L6.5 15l3 3"/>',
+
+  /* --- muiden oppiaineiden ikonit --- */
+  keskustelu:'<path d="M3 5h11v7H7l-4 3z"/><path d="M10 14h11v6h-4l-3 2v-2h-4z"/>',
+  esitys:'<rect x="3" y="4" width="18" height="10" rx="1"/><path d="M12 14v3"/><path d="M8.5 21l3.5-4 3.5 4"/>',
+  kirja:'<path d="M12 6c-2-1.5-5-2-8-1.5v12C7 16 10 16.5 12 18c2-1.5 5-2 8-1.5v-12C17 4 14 4.5 12 6z"/><path d="M12 6v12"/>',
+  teksti:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+  kuuntelu:'<path d="M8 10a4 4 0 118 0c0 3-2 3.5-2 6a2 2 0 11-4 0"/><path d="M17.5 5.5a8 8 0 010 13"/><path d="M20.5 3a12 12 0 010 18"/>',
+  puhe:'<path d="M4 5h16v10H9l-5 4z"/><circle cx="9" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="16" cy="10" r="1"/>',
+  maapallo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 2.5 14.4 0 17c-2.5-2.6-2.5-14.4 0-17z"/>',
+  nuotti:'<path d="M9 18V6l9-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="16" r="2.5"/>',
+  syke:'<path d="M3 12h4l2.5-6 4 12 2.5-6h5"/>',
+  soitin:'<rect x="3.5" y="9" width="17" height="7" rx="1"/><path d="M7 9v7M10.5 9v7M14 9v7M17.5 9v7"/>',
+  sivellin:'<path d="M14.5 3.5l6 6-7 7-6-6z"/><path d="M7.5 10.5l-3 3c-1.5 1.5-1 4 0 5s3.5 1.5 5 0l3-3"/>',
+  muotoilu:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  tyokalu:'<path d="M14.5 3.5a4.5 4.5 0 00-5.8 5.8L3 15v5h5l5.7-5.7a4.5 4.5 0 005.8-5.8L17 11h-3V8z"/>',
+  neula:'<path d="M20 4L9 15"/><path d="M7 17l-3 3"/><ellipse cx="19.5" cy="4.5" rx="1.5" ry="2.5" transform="rotate(45 19.5 4.5)"/><path d="M9 15c-2 0-3 1-3 2s1 2 2 2"/>',
+  kartta:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  aikajana:'<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="17" cy="12" r="2"/><path d="M7 7v2M12 15v2M17 7v2"/>',
+  puu:'<path d="M12 21v-6"/><path d="M12 15l-5-3 5-9 5 9z"/><path d="M12 15l-6-4"/><path d="M12 15l6-4"/>',
+  elain:'<ellipse cx="12" cy="16" rx="4" ry="3.5"/><circle cx="6.5" cy="11" r="2"/><circle cx="17.5" cy="11" r="2"/><circle cx="9.5" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/>',
+  turva:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  liike:'<circle cx="14" cy="5" r="2"/><path d="M13 9l-3 4 3 3 1 5"/><path d="M10 13l-4 1"/><path d="M13 9l4 2 2-1"/>',
+  tasapaino:'<path d="M12 4v16"/><path d="M5 8h14"/><path d="M5 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M19 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M8 20h8"/>',
+  vesi:'<path d="M3 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/>',
+  ajattelu:'<path d="M9 20v-2.5C6.5 16 5 13.7 5 11a7 7 0 1114 0c0 2.7-1.5 5-4 6.5V20z"/><path d="M9.5 20h5"/><path d="M12 14c0-2 2-2 2-3.5a2 2 0 10-4 0"/>',
+  pyha:'<path d="M12 3c1.5 2.5 2.5 3.5 2.5 5a2.5 2.5 0 11-5 0c0-1.5 1-2.5 2.5-5z"/><path d="M12 11v7"/><rect x="8" y="18" width="8" height="3" rx="1"/>',
+  kadet:'<path d="M8 21v-6l-2.5-2.5a2 2 0 012.8-2.8L10 11V4a1.5 1.5 0 013 0v7"/><path d="M13 11V5.5a1.5 1.5 0 013 0V13c0 4-2 8-2 8"/>',
+  tutkimus:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M10.5 7.5v6M7.5 10.5h6"/>',
+  mittari:'<path d="M12 3a2.5 2.5 0 012.5 2.5v8a4.5 4.5 0 11-5 0v-8A2.5 2.5 0 0112 3z"/><circle cx="12" cy="17.5" r="2"/><path d="M12 8v7.5"/>',
+};
+document.getElementById("ikoni").innerHTML = IKONIT[D.ikoni] || IKONIT.pysakki;
+document.getElementById("eyebrow").textContent = D.eyebrow || "Matematiikka · 4. luokka · Luvut ja laskutoimitukset";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("kuvaus").textContent = D.kuvaus;
+document.getElementById("tags").innerHTML =
+  `<span class="tag core">${D.taso || "ydintaito"}</span><span class="tag">${D.ops.T.join(" ")} ${D.ops.S.join(" ")}</span>`
+  + (Array.isArray(D.harjoitukset) && D.harjoitukset.length
+      ? `<span class="tag">${D.harjoitukset.length} harjoitusta</span>`
+      : "");
+
+/* ---------- teksti ---------- */
+const esc = s => s;
+const osat = D.teksti.map(o=>{
+  switch(o.tyyppi){
+    case "johdanto":
+      return `<p class="lead">${esc(o.sisalto)}</p>`;
+    case "kappale":
+      return `<h2>${esc(o.otsikko)}</h2><p>${esc(o.sisalto)}</p>`;
+    case "saanto":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><ol class="steps">${
+        o.askeleet.map(a=>`<li><span>${esc(a)}</span></li>`).join("")}</ol></div>`;
+    case "taulukko":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><div class="tablewrap"><table><thead><tr>${
+        o.otsikkorivi.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${
+        o.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    case "ansa":
+      return `<div class="box warn"><h3>${esc(o.otsikko)}</h3><p style="margin:0">${esc(o.sisalto)}</p></div>`;
+    case "muistilappu":
+      return `<div class="box note"><h3>${esc(o.otsikko)}</h3><ul class="notes">${
+        o.kohdat.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`;
+    case "numerotaulu":
+      return `<div class="box nt"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="nt-valinta" id="ntValinta"></div>
+        <div class="nt-taulu" id="ntTaulu"></div>
+        <p class="nt-selite" id="ntSelite"></p></div>`;
+    case "vahvuusportaat":
+      return `<div class="box vp"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="vp-tasot">${o.tasot.map(t=>
+          `<div class="vp-taso" data-taso="${t.id}"><span class="vp-pallo"></span>
+           <div><strong>${t.nimi}</strong><span>${t.selite}</span></div></div>`).join("")}</div>
+        <div class="vp-lauseke" id="vpLauseke"></div>
+        <div class="vp-rivi"><button type="button" class="btn ghost" id="vpSeuraava">Toinen lauseke</button>
+        <span class="vp-vastaus" id="vpVastaus"></span></div></div>`;
+    case "laskujarjestys":
+      return `<div class="box lj"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 12px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <div class="lj-exp" id="ljExp"></div>
+        <div class="lj-fb" id="ljFb"></div>
+        <div class="lj-row"><button type="button" class="btn ghost" id="ljSeuraava">Toinen lauseke</button>
+        <span class="lj-step" id="ljStep"></span></div></div>`;
+    case "lukusuora":
+      return `<div class="box nl"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 8px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <svg id="nlsvg" viewBox="0 0 640 118" role="img" aria-labelledby="nldesc"><desc id="nldesc">Lukusuora, jolla näkyy valittu luku ja lähin kymmenluku.</desc></svg>
+        <div class="nl-controls">
+          <label for="nlrange" style="font-size:13px;color:var(--ink-2)">Luku</label>
+          <input type="range" id="nlrange" min="0" max="100" value="47" aria-describedby="nlout">
+          <span class="nl-out" id="nlout"></span>
+        </div></div>`;
+    default: return "";
+  }
+}).join("");
+document.getElementById("teksti").innerHTML = osat;
+
+/* ---------- lukusuora ---------- */
+const svg=document.getElementById("nlsvg"), rng=document.getElementById("nlrange"), out=document.getElementById("nlout");
+const X0=34, X1=606, Y=62;
+function piirraNL(v){
+  const ala=Math.floor(v/10)*10, yla=ala+10, puoli=ala+5;
+  const pyor = (v%10)>=5 ? yla : ala;
+  const x = n => X0 + (n/100)*(X1-X0);
+  let s=`<line class="rail" x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}"/>`;
+  for(let n=0;n<=100;n+=10){
+    const near = (n===ala||n===yla);
+    s+=`<line class="tick" x1="${x(n)}" y1="${Y-7}" x2="${x(n)}" y2="${Y+7}"/>`;
+    s+=`<text class="stop${near?" near":""}" x="${x(n)}" y="${Y+24}" text-anchor="middle">${n}</text>`;
+  }
+  s+=`<line class="halfway" x1="${x(puoli)}" y1="${Y-16}" x2="${x(puoli)}" y2="${Y+12}"/>`;
+  s+=`<text class="stop" x="${x(puoli)}" y="${Y-22}" text-anchor="middle">puoliväli ${puoli}</text>`;
+  s+=`<circle class="dot" cx="${x(v)}" cy="${Y}" r="6"/>`;
+  s+=`<text class="val" x="${x(v)}" y="${Y-32}" text-anchor="middle">${v}</text>`;
+  s+=`<path d="M ${x(v)} ${Y+38} L ${x(pyor)} ${Y+38}" stroke="var(--core)" stroke-width="2" fill="none"/>`;
+  s+=`<path d="M ${x(pyor)} ${Y+38} l ${x(pyor)>x(v)?-7:7} -4 l 0 8 z" fill="var(--core)"/>`;
+  svg.innerHTML=s;
+  out.textContent = `${v} pyöristyy → ${pyor}`;
+}
+if(svg){ piirraNL(+rng.value); rng.addEventListener("input",e=>piirraNL(+e.target.value)); }
+
+/* ---------- paikka-arvotaulu ---------- */
+const ntTaulu=document.getElementById("ntTaulu");
+if(ntTaulu){
+  const O=D.teksti.find(x=>x.tyyppi==="numerotaulu");
+  const PAIKAT=["ykköset","kymmenet","sadat","tuhannet","kymmenettuhannet"];
+  const LYH=["Y","K","S","T","KT"];
+  const IDX={kymmenet:1, sadat:2, tuhannet:3};
+  let ntI=0;
+  document.getElementById("ntValinta").innerHTML=O.esimerkit.map((e,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${e.luku.toLocaleString("fi-FI",{maximumFractionDigits:10})} → ${e.tarkkuus}</button>`).join("");
+  function ntPiirra(){
+    const e=O.esimerkit[ntI], t=IDX[e.tarkkuus], kerroin=Math.pow(10,t);
+    const tulos=Math.floor((e.luku+kerroin/2)/kerroin)*kerroin;
+    const lev=Math.max(String(e.luku).length, String(tulos).length);
+    const num=String(e.luku).padStart(lev,"0").split("");
+    const res=String(tulos).padStart(lev,"0").split("");
+    const luokka=(i,arr,vain0)=>{
+      const p=arr.length-1-i;
+      if(vain0) return p<t ? "nt-ruutu nolla" : "nt-ruutu";
+      if(p===t) return "nt-ruutu kohta";
+      if(p===t-1) return "nt-ruutu ratkaiseva";
+      return "nt-ruutu";
+    };
+    const otsat=num.map((_,i)=>`<span class="otsa">${LYH[num.length-1-i]||""}</span>`).join("");
+    const rivi1=num.map((n,i)=>`<span class="${luokka(i,num,false)}">${n}</span>`).join("");
+    const rivi2=res.map((n,i)=>`<span class="${luokka(i,res,true)}">${n}</span>`).join("");
+    const ratk=+num[num.length-t];
+    const ylos=ratk>=5;
+    ntTaulu.innerHTML=
+      `<div class="nt-rivi">${otsat}</div>
+       <div class="nt-rivi">${rivi1}<span class="nimi">luku</span></div>
+       <div class="nt-rivi"><span class="nt-nuoli" style="margin-left:${(num.length-1-t)*58+18}px">${ylos?"▲ ylös":"▼ alas"}</span></div>
+       <div class="nt-rivi">${rivi2}<span class="nimi">pyöristettynä</span></div>`;
+    document.getElementById("ntSelite").innerHTML =
+      `Pyöristetään <b>${PAIKAT[t]}</b> (sininen ruutu). Ratkaiseva numero on <b>${ratk}</b> (keltainen ruutu). ` +
+      (ylos ? `Se on 5 tai suurempi, joten sininen ruutu kasvaa yhdellä.` : `Se on pienempi kuin 5, joten sininen ruutu pysyy ennallaan.`) +
+      ` Kaikki keltaisen oikealla puolella muuttuu nolliksi. Vastaus on <b>${tulos.toLocaleString("fi-FI",{maximumFractionDigits:10})}</b>.`;
+    document.querySelectorAll("#ntValinta button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===ntI)));
+  }
+  document.getElementById("ntValinta").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; ntI=+b.dataset.i; ntPiirra();
+  });
+  ntPiirra();
+}
+
+/* ---------- vahvuusportaat ---------- */
+const vpEl=document.getElementById("vpLauseke");
+if(vpEl){
+  const O=D.teksti.find(x=>x.tyyppi==="vahvuusportaat");
+  let vpI=0;
+  function vpPiirra(){
+    const e=O.esimerkit[vpI];
+    const tokens=e.lauseke.split(/\s+/);
+    const kartta=Object.fromEntries(e.jarjestys.map(j=>[j.i,j]));
+    vpEl.innerHTML=tokens.map((t,i)=>{
+      const j=kartta[i];
+      return j ? `<span class="op" data-taso="${j.taso}">${t}<i><span>${j.n}</span></i></span>`
+               : `<span class="t">${t}</span>`;
+    }).join("");
+    document.getElementById("vpVastaus").textContent = "= " + e.vastaus;
+  }
+  document.getElementById("vpSeuraava").addEventListener("click",()=>{
+    vpI=(vpI+1)%O.esimerkit.length; vpPiirra();
+  });
+  vpPiirra();
+}
+
+/* ---------- laskujärjestys-widget ---------- */
+const ljExp=document.getElementById("ljExp");
+if(ljExp && D.kokeilu){
+  let ljI=0, ljTokens=[], ljStep=0;
+  const laske=(a,op,b)=>{a=+a;b=+b;return op==="×"?a*b:op==="÷"?a/b:op==="+"?a+b:a-b;};
+  function ljAlku(){
+    const l=D.kokeilu[ljI];
+    ljTokens=l.lauseke.replace(/\(/g,"( ").replace(/\)/g," )").split(/\s+/).filter(Boolean);
+    ljStep=0; ljPiirra(); ljViesti("","");
+  }
+  function ljViesti(t,lk){const f=document.getElementById("ljFb"); f.textContent=t; f.className="lj-fb "+(lk||"");}
+  function ljPiirra(){
+    const l=D.kokeilu[ljI];
+    document.getElementById("ljStep").textContent =
+      ljStep>=l.askeleet.length ? "valmis" : `askel ${ljStep+1} / ${l.askeleet.length}`;
+    if(ljStep>=l.askeleet.length){
+      ljExp.innerHTML=`<span class="valmis">${l.lauseke} = ${l.vastaus}</span>`;
+      return;
+    }
+    ljExp.innerHTML=ljTokens.map((t,i)=>
+      "×÷+−".includes(t) ? `<button type="button" class="op" data-i="${i}">${t}</button>`
+                         : `<span class="tok">${t}</span>`).join("");
+    ljExp.querySelectorAll("button.op").forEach(b=>b.addEventListener("click",()=>ljKlikkaa(+b.dataset.i)));
+  }
+  function ljKlikkaa(i){
+    const l=D.kokeilu[ljI], odotettu=l.askeleet[ljStep];
+    const ehdotus=[ljTokens[i-1],ljTokens[i],ljTokens[i+1]].join(" ");
+    if(ehdotus!==odotettu){
+      ljViesti(ljStep===0
+        ? "Ei vielä. Sulkeet ovat vahvimmat, sitten kerto ja jako. Yhtä vahvat vasemmalta oikealle."
+        : "Ei vielä. Kumpi jäljellä olevista on vahvempi?", "no");
+      return;
+    }
+    const arvo=laske(ljTokens[i-1],ljTokens[i],ljTokens[i+1]);
+    let alku=i-1, loppu=i+1;
+    if(ljTokens[i-2]==="(" && ljTokens[i+2]===")"){ alku=i-2; loppu=i+2; }
+    ljTokens.splice(alku, loppu-alku+1, String(arvo));
+    ljStep++;
+    ljViesti(ljStep>=l.askeleet.length ? "Valmis. Vastaus on "+l.vastaus+"." : "Oikein. Jatka seuraavaan.", "ok");
+    ljPiirra();
+  }
+  document.getElementById("ljSeuraava").addEventListener("click",()=>{
+    ljI=(ljI+1)%D.kokeilu.length; ljAlku();
+  });
+  ljAlku();
+}
+
+/* ---------- harjoitukset ----------
+   Kaksi vastaustyyppiä: "numero" (oletus, tekstikenttä + Number()-vertailu) ja
+   "monivalinta" (valintapainikkeet, h.vaihtoehdot[] + h.vastaus = oikean vaihtoehdon indeksi).
+   Jos D.harjoitukset puuttuu tai on tyhjä, koko osio piilotetaan (näyttötaidot, ei kirjallista
+   harjoitusta: liikunta, kuvataide). */
+/* Kysymyksessä voi olla luettavaa aineistoa ja sen jälkeen varsinainen kysymys,
+   erotettuna tyhjällä rivillä. Viimeinen osa on kysymys, sitä edeltävät aineistoa. */
+const kysymysHtml = t => {
+  const osat = String(t).split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(osat.length < 2) return osat[0] || "";
+  const kysymys = osat.pop();
+  return osat.map(p=>`<span class="aineisto">${p}</span>`).join("")
+       + `<span class="kysymysrivi">${kysymys}</span>`;
+};
+
+const ONKO_HARJOITUKSIA = Array.isArray(D.harjoitukset) && D.harjoitukset.length > 0;
+const RYHMAT = ONKO_HARJOITUKSIA ? D.harjoitusryhmat : [];
+const tila={};
+if(ONKO_HARJOITUKSIA) D.harjoitukset.forEach(h=>tila[h.id]={ratkaistu:false, yritetty:false});
+const muotoile = n => (typeof n==="number") ? n.toLocaleString("fi-FI",{maximumFractionDigits:10}) : n;
+
+if(!ONKO_HARJOITUKSIA){
+  document.getElementById("harjoitukset").style.display = "none";
+  const prog = document.querySelector(".progress");
+  if(prog) prog.style.display = "none";
+} else {
+
+document.getElementById("harjoitukset").innerHTML = RYHMAT.map(r=>{
+  const items=D.harjoitukset.filter(h=>h.ryhma===r.id);
+  return `<section class="grp"><div class="grp-head"><h3>${r.nimi}</h3><span>${r.info}</span></div>${
+    items.map((h,i)=>{
+      const nro=D.harjoitukset.indexOf(h)+1;
+      const vastausUi = h.tyyppi==="monivalinta"
+        ? `<div class="row mv" role="group" aria-label="Vaihtoehdot tehtävään ${nro}">
+             ${h.vaihtoehdot.map((v,vi)=>`<button type="button" class="btn ghost mv-valinta" data-mv="${h.id}" data-i="${vi}">${v}</button>`).join("")}
+           </div>`
+        : `<div class="row">
+             <input type="text" inputmode="numeric" id="in-${h.id}" aria-label="Vastaus tehtävään ${nro}" placeholder="vastaus">
+             <button type="button" class="btn" data-tarkista="${h.id}">Tarkista</button>
+             <button type="button" class="btn ghost" data-vinkki="${h.id}">Vinkki</button>
+           </div>`;
+      return `<div class="ex" id="ex-${h.id}">
+        <div class="q"><span class="num">${nro}.</span><span class="txt">${kysymysHtml(h.kysymys)}</span></div>
+        ${h.kuuntele ? `<div class="kuuntele">
+          <button type="button" class="btn ghost" data-kuuntele="${h.id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7"/></svg>Kuuntele</button>
+          <button type="button" class="btn ghost" data-hitaasti="${h.id}">Kuuntele hitaasti</button>
+          <p class="varateksti" id="vara-${h.id}" hidden></p></div>` : ""}
+        ${vastausUi}
+        <div id="fb-${h.id}"></div>
+      </div>`;
+    }).join("")}</section>`;
+}).join("");
+
+function paivitaEdistyminen(){
+  const n=Object.values(tila).filter(t=>t.ratkaistu).length, kaikki=D.harjoitukset.length;
+  document.getElementById("pbar").style.width=Math.round(n/kaikki*100)+"%";
+  document.getElementById("pcnt").textContent=`${n} / ${kaikki}`;
+  document.getElementById("valmis").innerHTML = n===kaikki
+    ? `<div class="done"><h3>Kaikki ${kaikki} oikein.</h3>${D.valmis_teksti || "Tämä taito on nyt näytetty."}</div>`
+    : "";
+}
+
+function merkitseTulos(id, oikein, viesti){
+  const fb=document.getElementById("fb-"+id), kortti=document.getElementById("ex-"+id);
+  tila[id].yritetty=true;
+  if(oikein){
+    tila[id].ratkaistu=true;
+    kortti.dataset.tila="oikein";
+    fb.className="fb ok"; fb.textContent=viesti;
+  } else {
+    kortti.dataset.tila="vaarin";
+    fb.className="fb no"; fb.textContent=viesti;
+  }
+  paivitaEdistyminen();
+}
+
+/* Suomalainen lukumuoto: välilyönti on tuhaterotin, pilkku desimaalierotin.
+   Piste voi olla kumpi tahansa. Se tulkitaan tuhaterottimeksi VAIN silloin, kun
+   koko luku on aitoa tuhaterotinmuotoa: alkuosa 1–3 numeroa ilman etunollaa ja
+   jokainen jatko-osa täsmälleen 3 numeroa (1.500, 12.345.678). Kaikissa muissa
+   tapauksissa piste on desimaalipiste — myös 0.125, joka vanhalla säännöllä
+   ("3 numeroa pisteen jäljessä = tuhaterotin") luettiin virheellisesti luvuksi 125. */
+const TUHATEROTIN = /^[1-9]\d{0,2}(\.\d{3})+$/;
+function lueLuku(teksti){
+  // Murtoluku (3/4, -3/4) ja sekaluku (1 2/3, -1 2/3) hyväksytään sellaisinaan.
+  const raaka = String(teksti).replace(/\u00a0/g, " ").trim();
+  let m = raaka.match(/^(-?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[4]); if(nim === 0) return null;
+    const v = Number(m[2]) + Number(m[3]) / nim; return m[1] ? -v : v; }
+  m = raaka.match(/^(-?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[3]); if(nim === 0) return null;
+    const v = Number(m[2]) / nim; return m[1] ? -v : v; }
+  let s = String(teksti).replace(/[\s\u00a0]/g, "");
+  if(s === "") return null;
+  if(s.indexOf(",") >= 0){
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if(TUHATEROTIN.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function tarkista(id){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const kentta=document.getElementById("in-"+id);
+  const fb=document.getElementById("fb-"+id);
+  if(kentta.value.trim()===""){ fb.className="fb hint"; fb.textContent="Kirjoita vastaus ensin."; return; }
+  const luku=lueLuku(kentta.value);
+  if(luku===null){ fb.className="fb no"; fb.textContent="Vastauksen pitää olla luku tai murtoluku (esimerkiksi 3/4)."; return; }
+  const oikein = Math.abs(luku - h.vastaus) < 1e-9;
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei vielä. ${h.vinkki} Kokeile uudelleen.`);
+}
+
+function tarkistaMonivalinta(id, valittuIndeksi, painike){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const rivi=painike.closest(".row");
+  rivi.querySelectorAll(".mv-valinta").forEach(b=>b.disabled=true);
+  const oikein = valittuIndeksi===h.vastaus;
+  painike.classList.add(oikein?"mv-oikein":"mv-vaarin");
+  if(!oikein){
+    const oikeaBtn=rivi.querySelector(`[data-i="${h.vastaus}"]`);
+    if(oikeaBtn) oikeaBtn.classList.add("mv-oikein");
+  }
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei ihan. Oikea vastaus on korostettu. ${h.selitys||""}`);
+}
+
+/* Kuuntelu: selain lukee tekstin ääneen omalla puhesynteesillään (englanniksi, jos laitteessa on
+   englanninkielinen ääni). Ei äänitiedostoja eikä verkkoyhteyttä. Jos laite ei osaa puhua,
+   teksti näytetään luettavaksi — silloin tehtävä muuttuu luetun ymmärtämiseksi, mutta ei katkea. */
+function puhu(id, nopeus){
+  const h=D.harjoitukset.find(x=>x.id===id); if(!h || !h.kuuntele) return;
+  const vara=document.getElementById("vara-"+id);
+  const naytaTeksti=syy=>{ vara.hidden=false; vara.textContent=syy+" Teksti: "+h.kuuntele; };
+  if(!("speechSynthesis" in window)){ naytaTeksti("Tämä laite ei osaa lukea ääneen."); return; }
+  const s=window.speechSynthesis; s.cancel();
+  const u=new SpeechSynthesisUtterance(h.kuuntele);
+  u.lang=h.kieli||"en-GB"; u.rate=nopeus;
+  const aanet=s.getVoices(), kieli=u.lang.slice(0,2);
+  const aani=aanet.find(a=>a.lang===u.lang) || aanet.find(a=>a.lang && a.lang.startsWith(kieli));
+  if(aani) u.voice=aani;
+  else if(aanet.length) { naytaTeksti("Laitteessa ei ole englanninkielistä ääntä."); return; }
+  u.onerror=()=>naytaTeksti("Ääneen lukeminen ei onnistunut.");
+  s.speak(u);
+}
+
+document.getElementById("harjoitukset").addEventListener("click",e=>{
+  const k=e.target.closest("[data-kuuntele]"), hk=e.target.closest("[data-hitaasti]");
+  if(k) puhu(k.dataset.kuuntele, 0.9);
+  if(hk) puhu(hk.dataset.hitaasti, 0.6);
+  const t=e.target.closest("[data-tarkista]"), v=e.target.closest("[data-vinkki]"), mv=e.target.closest("[data-mv]");
+  if(t) tarkista(t.dataset.tarkista);
+  if(mv) tarkistaMonivalinta(mv.dataset.mv, Number(mv.dataset.i), mv);
+  if(v){
+    const h=D.harjoitukset.find(x=>x.id===v.dataset.vinkki);
+    const fb=document.getElementById("fb-"+h.id);
+    fb.className="fb hint"; fb.textContent=h.vinkki;
+  }
+});
+document.getElementById("harjoitukset").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.id.startsWith("in-")){ e.preventDefault(); tarkista(e.target.id.slice(3)); }
+});
+
+} // ONKO_HARJOITUKSIA
+
+if(ONKO_HARJOITUKSIA) paivitaEdistyminen();
+
+document.getElementById("back").innerHTML =
+  `Tämä sivu on yhden osaamistavoitteen sisältö <strong>Osaamispolku ${D.vuosiluokka||4}</strong> -mallissa. Taito: <span class="tag" style="display:inline-block">${D.tavoite_id}</span>`;
+</script>

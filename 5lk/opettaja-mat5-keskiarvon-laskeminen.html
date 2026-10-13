@@ -1,0 +1,524 @@
+<title>Keskiarvon laskeminen · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT5-TIL-01","oppiaine":"MAT","vuosiluokka":5,"taitoalue":"TIL","jakso":"J5","taso":"ydin","otsikko":"Keskiarvon laskeminen","kuvaus":"Osaan laskea aineiston keskiarvon ja verrata sitä aineiston muihin tunnuslukuihin.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T13"],"S":["S5"]},"ikoni":"tasapaino","eyebrow":"Matematiikka · 5. luokka · Tieto ja todennäköisyys","naytto":"Lasken kahden aineiston keskiarvot (myös tilanteessa, jossa summa ei jakaudu tasan ja keskiarvo on desimaaliluku, esim. 27 : 4 = 6,75), vertaan niitä ja kerron, kumpi kuvaa aineistoa paremmin, keskiarvo vai tyyppiarvo.","osaa_kun":"Otan mukaan kaikki arvot nollat mukaan lukien, tarkistan, että keskiarvo on pienimmän ja suurimman arvon välissä, ja huomaan, kun yksi poikkeava arvo vetää keskiarvoa.","teksti":[{"tyyppi":"johdanto","sisalto":"Sääennuste kertoo kuukauden keskilämpötilan, peli näyttää kierrosten pisteiden keskiarvon ja kirjasto ilmoittaa, montako kirjaa lainataan keskimäärin päivässä. Neljännellä luokalla laskit keskiarvoja, jotka menivät useimmiten tasan. Nyt jatkat jakoa jakokulmassa desimaaleihin, joten keskiarvo voi olla esimerkiksi 6,25. Opit myös, miksi nollapäivä kuuluu laskuun ja miten yksi poikkeuksellinen päivä voi vetää keskiarvoa niin, ettei se enää kuvaa tavallista päivää. Silloin tyyppiarvo eli aineiston yleisin arvo voi kertoa enemmän."},{"tyyppi":"kappale","otsikko":"Keskiarvo on tasajako","sisalto":"Neljässä tornissa on 5, 2, 7 ja 4 palikkaa. Keskiarvo kertoo, kuinka korkeita tornit olisivat, jos ne tasattaisiin yhtä korkeiksi. Palikoita on yhteensä 18, ja 18 : 4 = 4, jolloin 2 palikkaa jää yli. Palikkaa ei voi halkaista, mutta pisteet, metrit ja eurot voi jakaa pienempiin osiin. Siksi keskiarvon laskussa jako jatkuu desimaaleihin: 18 : 4 = 4,5. Tasatessa korkeimmasta tornista otetaan ja matalimpaan lisätään, joten keskiarvo ei ole koskaan pienintä arvoa pienempi eikä suurinta suurempi. Sen ei tarvitse olla mikään aineiston arvoista: yhdessäkään tornissa ei ollut 4,5 palikkaa."},{"tyyppi":"saanto","otsikko":"Näin lasket keskiarvon","askeleet":["Laske, montako arvoa aineistossa on. Laske mukaan myös nollat ja toistuvat arvot. Tämä luku on jakaja.","Laske arvot yhteen. Desimaaliluvut lasket allekkain pilkut kohdakkain.","Jaa summa arvojen määrällä jakokulmassa. Jos jotain jää, kirjoita jaettavaan pilkku ja nollia ja jatka jakoa. Tämän taidon tehtävissä jako menee tasan viimeistään kolmannessa desimaalissa.","Tarkista, että keskiarvo ei ole pienintä arvoa pienempi eikä suurinta arvoa suurempi.","Katso, poikkeaako jokin arvo selvästi muista. Jos poikkeaa, mieti, kuvaako keskiarvo tavallista tapausta vai kertooko tyyppiarvo enemmän."]},{"tyyppi":"taulukko","otsikko":"Keskiarvo ja tyyppiarvo samasta aineistosta","otsikkorivi":["Aineisto","Summa","Arvoja","Keskiarvo","Tyyppiarvo"],"rivit":[["4, 6, 4, 9, 4, 9","36","6","6","4"],["2,5; 3,0; 2,5; 3,6","11,6","4","2,9","2,5"],["10, 11, 10, 12, 10, 49","102","6","17","10"],["4, 4, 6, 8, 9, 11","42","6","7","4"]]},{"tyyppi":"kappale","otsikko":"Keskiarvo vai tyyppiarvo","sisalto":"Tyyppiarvo on aineiston yleisin arvo, ei sen lukumäärä. Aineistossa 10, 11, 10, 12, 10, 49 tyyppiarvo on 10 eikä 3: luku 10 esiintyy kolme kertaa, mutta tyyppiarvoksi ilmoitetaan arvo itse. Tässä aineistossa viisi arvoa kuudesta on 10–12, mutta yksi arvo 49 nostaa keskiarvon 17:ään. Keskiarvo on suurempi kuin yksikään viidestä tavallisesta arvosta, joten tyyppiarvo 10 kuvaa tavallista tapausta paremmin. Taulukon viimeisessä aineistossa käy toisin: tyyppiarvo 4 on aineiston pienin arvo, ja neljä muuta arvoa ovat 6–11. Keskiarvo 7 osuu näiden neljän arvon väliin, joten siellä keskiarvo kuvaa aineistoa paremmin. Valitse siis se luku, joka osuu sinne, missä suurin osa aineiston arvoista on, ja perustele valinta aineiston luvuilla. Tämän taidon aineistoissa on yksi tyyppiarvo, mutta joskus aineistossa voi olla useampi."},{"tyyppi":"ansa","otsikko":"Ansa 1: nollat jätetään pois jakajasta","sisalto":"Leo kirjasi, montako kirjaa hän lainasi viitenä päivänä: 4, 0, 6, 0, 2. Summa on 12. Jos nollapäivät jätetään pois, jaetaan kolmella ja vastaukseksi tulee 4. Päiviä oli kuitenkin viisi, ja kahtena niistä lainoja oli nolla. Nolla on mittaustulos siinä missä muutkin, joten se kasvattaa jakajaa, vaikka ei kasvata summaa. Oikea keskiarvo on 12 : 5 = 2,4."},{"tyyppi":"ansa","otsikko":"Ansa 2: jakojäännös jätetään","sisalto":"Neljän kierroksen pisteiden summa on 29. Jakokulmassa 29 : 4 = 7, ja 1 jää. Jos vastaukseksi kirjoittaa 7, jäännös unohtuu kokonaan. Jos kirjoittaa 7,1, jäännös on mennyt pilkun perään, vaikka jäljelle jäi yksi kokonainen piste eikä yksi kymmenesosa. Kirjoita jaettava muotoon 29,00 ja jatka jakoa: oikea keskiarvo on 7,25. Tarkistus paljastaa virheen: 7,1 + 7,1 + 7,1 + 7,1 = 28,4 eikä 29."},{"tyyppi":"ansa","otsikko":"Ansa 3: pienimmän ja suurimman puoliväli","sisalto":"Noor sai neljällä kierroksella 7, 5, 9 ja 8 pistettä. Pienin arvo on 5 ja suurin 9, ja niiden puoliväli on (5 + 9) : 2 = 7. Se ei ole keskiarvo, koska arvot 7 ja 8 eivät vaikuta siihen lainkaan. Keskiarvossa jokainen arvo on mukana: summa on 29 ja 29 : 4 = 7,25. Jakaja on arvojen määrä eli 4 eikä 2."},{"tyyppi":"ansa","otsikko":"Ansa 4: poikkeavaa arvoa ei huomata","sisalto":"Kävijöitä oli viitenä päivänä 12, 14, 13, 11 ja 60. Keskiarvo on 110 : 5 = 22, ja se on laskettu oikein. Silti 22 ei kuvaa tavallista päivää, sillä neljänä päivänä viidestä kävijöitä oli 11–14. Yksi 60 kävijän päivä vetää keskiarvoa ylöspäin. Ilman sitä keskiarvo on 50 : 4 = 12,5. Kun kerrot tavallisesta päivästä, kerro myös poikkeava arvo tai käytä tyyppiarvoa, jos aineistossa on selvä yleisin arvo."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Keskiarvo = arvojen summa : arvojen määrä.","Nolla on arvo. Se ei kasvata summaa, mutta se kasvattaa jakajaa.","Älä jätä jakojäännöstä. Jatka jakoa desimaaleihin.","Keskiarvo ei ole koskaan pienintä arvoa pienempi eikä suurinta suurempi. Sen ei tarvitse olla mikään aineiston arvoista.","Yksi poikkeava arvo vetää keskiarvoa. Silloin tyyppiarvo voi kuvata tavallista tapausta paremmin."]}],"harjoitukset":[{"id":"H01","ryhma":"laske","kysymys":"Noor heitti tikkaa neljä kierrosta.\nPisteet: 6, 9, 8, 8\n\nMikä on pisteiden keskiarvo?","vastaus":7.75,"vinkki":"Summa ei jakaudu tasan neljällä. Jatka jakoa desimaaleihin.","selitys":"6 + 9 + 8 + 8 = 31 ja 31 : 4 = 7,75. Jakojäännöstä ei jätetä, vaan jako jatkuu kymmenes- ja sadasosiin."},{"id":"H02","ryhma":"laske","kysymys":"Pihakirpputorilla myytiin kirjoja viitenä päivänä.\nMyydyt kirjat: 18, 24, 15, 22, 19\n\nMikä on myytyjen kirjojen keskiarvo päivää kohti?","vastaus":19.6,"vinkki":"Arvoja on viisi. Jatka jakoa, kun jotain jää.","selitys":"Summa on 98, ja 98 : 5 = 19,6. Keskiarvo on pienimmän arvon 15 ja suurimman arvon 24 välissä."},{"id":"H03","ryhma":"laske","kysymys":"Salibandyjoukkue pelasi kahdeksan ottelua.\nTehdyt maalit: 2, 4, 1, 3, 5, 2, 0, 4\n\nMikä on maalien keskiarvo ottelua kohti?","vastaus":2.625,"vinkki":"Otteluita on kahdeksan, myös se, jossa maaleja ei tullut.","selitys":"Summa on 21, ja 21 : 8 = 2,625. Jako menee tasan vasta kolmannessa desimaalissa."},{"id":"H04","ryhma":"laske","kysymys":"Leo hyppäsi pituutta neljä kertaa.\nHypyt metreinä: 3,1; 2,8; 3,4; 2,9\n\nMikä on hyppyjen keskiarvo metreinä?","vastaus":3.05,"vinkki":"Laske hypyt yhteen allekkain pilkut kohdakkain.","selitys":"3,1 + 2,8 + 3,4 + 2,9 = 12,2 ja 12,2 : 4 = 3,05. Keskiarvo on lyhimmän ja pisimmän hypyn välissä."},{"id":"H05","ryhma":"laske","kysymys":"Sama jäätelö maksaa kolmessa kioskissa eri verran.\nHinnat euroina: 2,50; 3,25; 2,95\n\nMikä on hintojen keskiarvo euroina?","vastaus":2.9,"vinkki":"Laske hinnat yhteen ja jaa kolmella.","selitys":"2,50 + 3,25 + 2,95 = 8,70 ja 8,70 : 3 = 2,90. Hintojen keskiarvo on 2,90 €."},{"id":"H06","ryhma":"laske","kysymys":"Sademäärä mitattiin viitenä päivänä.\nSademäärät millimetreinä: 6, 0, 0, 9, 4\n\nMikä on sademäärien keskiarvo päivää kohti?","vastaus":3.8,"vinkki":"Montako päivää mitattiin? Kuivat päivät ovat mittaustuloksia.","selitys":"Summa on 19, ja päiviä on viisi, joten 19 : 5 = 3,8. Jos nollat jätettäisiin pois, jakaja olisi väärin 3."},{"id":"H07","ryhma":"laske","kysymys":"Onni kävi kalassa kuutena päivänä.\nSaadut kalat: 3, 0, 5, 2, 0, 5\n\nMikä on kalojen keskiarvo päivää kohti?","vastaus":2.5,"vinkki":"Päiviä on kuusi, myös ne kaksi, joina kalaa ei tullut.","selitys":"Summa on 15, ja 15 : 6 = 2,5. Keskiarvo on pienimmän arvon 0 ja suurimman arvon 5 välissä."},{"id":"H08","ryhma":"vertaa","kysymys":"Kirjaston lainat laskettiin kuutena päivänä. Yhtenä päivänä kirjastossa oli kirjailijavierailu.\nLainat: 21, 23, 21, 22, 21, 87\n\nMikä on lainojen keskiarvo päivää kohti?","vastaus":32.5,"vinkki":"Ota mukaan kaikki kuusi päivää, myös vierailupäivä.","selitys":"Summa on 195, ja 195 : 6 = 32,5. Keskiarvo on suurempi kuin yksikään viidestä tavallisesta päivästä."},{"id":"H09","ryhma":"vertaa","kysymys":"Sama aineisto kuin edellisessä tehtävässä.\nLainat: 21, 23, 21, 22, 21, 87\n\nMikä on keskiarvo ilman lukua 87?","vastaus":21.6,"vinkki":"Jätä pois vierailupäivä. Jäljelle jää viisi arvoa.","selitys":"21 + 23 + 21 + 22 + 21 = 108 ja 108 : 5 = 21,6. Yksi poikkeava päivä nosti keskiarvoa lähes 11 lainalla."},{"id":"H10","ryhma":"vertaa","kysymys":"Sama aineisto kuin edellisessä tehtävässä.\nLainat: 21, 23, 21, 22, 21, 87\n\nMikä on aineiston tyyppiarvo?","vastaus":21,"vinkki":"Tyyppiarvo on se lainamäärä, joka esiintyy useimmin, ei sen lukumäärä.","selitys":"Lainamäärä 21 esiintyy kolme kertaa, joten tyyppiarvo on 21. Vastaus 3 kertoisi vain, montako kertaa se esiintyy."},{"id":"H11","ryhma":"vertaa","kysymys":"Sara pelasi kuusi kierrosta.\nPisteet: 2, 2, 4, 6, 7, 9\n\nPisteiden keskiarvo on 5 ja tyyppiarvo 2. Kumpi kuvaa Saran tavallista kierrosta paremmin?","vastaus":0,"vinkki":"Katso, missä kohtaa aineistoa tyyppiarvo on ja osuuko keskiarvo muiden arvojen väliin.","selitys":"Tyyppiarvo 2 on aineiston pienin arvo, ja neljä muuta kierrosta olivat 4–9. Keskiarvo 5 osuu näiden kierrosten väliin, joten se kuvaa tavallista kierrosta paremmin, vaikka se ei ole mikään aineiston arvoista.","tyyppi":"monivalinta","vaihtoehdot":["Keskiarvo, koska tyyppiarvo 2 on pienin arvo ja keskiarvo 5 osuu neljän muun kierroksen 4–9 väliin","Tyyppiarvo, koska yleisin arvo kuvaa aina aineistoa parhaiten","Kumpikin yhtä hyvin, koska molemmat on laskettu samasta aineistosta"]},{"id":"H12","ryhma":"vertaa","kysymys":"Lumen syvyys mitattiin kahdessa paikassa: metsässä (A) ja pellolla (B).\nPaikka A senttimetreinä: 32,4; 35,1; 33,8; 34,5\nPaikka B senttimetreinä: 28,6; 30,2; 27,9; 29,5; 30,9\n\nMikä on paikan A keskiarvo senttimetreinä?","vastaus":33.95,"vinkki":"Paikassa A on neljä mittausta.","selitys":"32,4 + 35,1 + 33,8 + 34,5 = 135,8 ja 135,8 : 4 = 33,95."},{"id":"H13","ryhma":"vertaa","kysymys":"Sama aineisto kuin edellisessä tehtävässä.\nPaikka A senttimetreinä: 32,4; 35,1; 33,8; 34,5\nPaikka B senttimetreinä: 28,6; 30,2; 27,9; 29,5; 30,9\n\nKuinka monta senttimetriä suurempi on paikan A keskiarvo kuin paikan B keskiarvo?","vastaus":4.53,"vinkki":"Laske ensin paikan B keskiarvo. Paikassa B on viisi mittausta.","selitys":"Paikan B summa on 147,1 ja keskiarvo 147,1 : 5 = 29,42. Erotus on 33,95 − 29,42 = 4,53."},{"id":"H14","ryhma":"vertaa","kysymys":"Lintulaudalla laskettiin sinitiaiset kuutena aamuna.\nSinitiaiset: 4, 6, 4, 5, 4, 10\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":1.5,"vinkki":"Laske keskiarvo ja etsi yleisin arvo. Vähennä sitten.","selitys":"Keskiarvo on 33 : 6 = 5,5 ja tyyppiarvo 4. Erotus on 5,5 − 4 = 1,5. Aamu, jona tiaisia oli 10, vetää keskiarvoa ylöspäin."},{"id":"H15","ryhma":"tarkista","kysymys":"Kävijät laskettiin viitenä päivänä.\nKävijät: 5, 8, 6, 7, 35\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1,"vinkki":"Laske ensin keskiarvo ja vertaa sitten jokaista arvoa siihen.","selitys":"Keskiarvo on 61 : 5 = 12,2. Vain arvo 35 on sitä suurempi. Neljä arvoa viidestä jää keskiarvon alle, koska yksi poikkeava arvo vetää sitä ylöspäin."},{"id":"H16","ryhma":"tarkista","kysymys":"Aineisto: 6, 9, 4, 10, 8\n\nEetu sai aineiston keskiarvoksi 18,5. Miten tiedät heti, että tulos on väärin?","vastaus":0,"vinkki":"Vertaa Eetun tulosta aineiston suurimpaan arvoon.","selitys":"Keskiarvo ei voi olla suurempi kuin suurin arvo 10. Oikea keskiarvo on 37 : 5 = 7,4. Eetu jakoi summan kahdella.","tyyppi":"monivalinta","vaihtoehdot":["Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo 10","Keskiarvo ei voi olla desimaaliluku","Keskiarvon pitää olla jokin aineiston arvoista"]},{"id":"H17","ryhma":"tarkista","kysymys":"Maalit: 9, 0, 3, 0, 6\n\nAino laski maalien keskiarvoksi 6. Mikä on oikea keskiarvo?","vastaus":3.6,"vinkki":"Laske, montako arvoa aineistossa on. Millä luvulla Aino jakoi?","selitys":"Summa on 18, ja arvoja on viisi, joten 18 : 5 = 3,6. Aino jätti nollat pois ja jakoi kolmella."},{"id":"H18","ryhma":"tarkista","kysymys":"Pisteet: 5, 3, 7, 4\n\nOnni sai jakolaskussa 4, jakojäännös 3, ja kirjoitti keskiarvoksi 4,3. Mikä on oikea keskiarvo?","vastaus":4.75,"vinkki":"Älä kirjoita jakojäännöstä pilkun perään. Jatka jakoa.","selitys":"Summa on 19, ja 19 : 4 = 4,75. Jäljelle jääneet kolme kokonaista jaetaan neljälle: 3,00 : 4 = 0,75."},{"id":"H19","ryhma":"tarkista","kysymys":"Pisteet: 3, 8, 5, 5\n\nSara otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 5,5. Mikä on oikea keskiarvo?","vastaus":5.25,"vinkki":"Keskiarvossa kaikki neljä arvoa ovat mukana.","selitys":"Summa on 21, ja 21 : 4 = 5,25. Puoliväli 5,5 ei ota huomioon kahta keskimmäistä arvoa."},{"id":"H20","ryhma":"tarkista","kysymys":"Lainat neljänä päivänä: 5, 6, 4, 5\n\nNeljän päivän keskiarvo on 5. Viidentenä päivänä lainoja oli 23. Mikä on viiden päivän keskiarvo?","vastaus":8.6,"vinkki":"Laske kaikkien viiden päivän summa ja jaa viidellä.","selitys":"5 + 6 + 4 + 5 + 23 = 43 ja 43 : 5 = 8,6. Yksi poikkeava päivä nosti keskiarvoa 3,6 lainalla."}],"harjoitusryhmat":[{"id":"laske","nimi":"Laske keskiarvo","info":"Laske arvojen määrä, myös nollat. Jaa summa arvojen määrällä ja jatka jakoa desimaaleihin, kunnes se menee tasan."},{"id":"vertaa","nimi":"Keskiarvo, tyyppiarvo ja vertailu","info":"Laske keskiarvo ja tyyppiarvo ja vertaa niitä aineiston arvoihin. Tyyppiarvo on yleisin arvo, ei sen lukumäärä."},{"id":"tarkista","nimi":"Tarkista ja korjaa","info":"Tarkista, onko keskiarvo pienimmän ja suurimman arvon välissä, ja etsi, mihin laskija on erehtynyt."}],"ryhmanimet":{"laske":"Laske keskiarvo","vertaa":"Poikkeava arvo, tyyppiarvo ja vertailu","tarkista":"Tarkista ja korjaa"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita summa ja jakolasku näkyviin.\nAnna keskiarvo tarkkana lukuna, tarvittaessa desimaalilukuna.\nAnna rahasumma euroina, esimerkiksi 3,45.\nTehtävissä 11 ja 16 perustele vastaus luvuilla.","tehtavat":[{"nro":1,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aya pelasi lautapeliä neljä kierrosta.\nPisteet: 9, 6, 11, 7\n\nMikä on pisteiden keskiarvo?","vastaus":8.25},{"nro":2,"ryhma":"laske","tyyppi":"lasku","kysymys":"Elias luki kirjaa viitenä iltana.\nLuetut sivut: 14, 9, 12, 17, 11\n\nMikä on luettujen sivujen keskiarvo iltaa kohti?","vastaus":12.6},{"nro":3,"ryhma":"laske","tyyppi":"lasku","kysymys":"Salibandyjoukkue pelasi kahdeksan ottelua.\nTehdyt maalit: 4, 7, 5, 6, 8, 3, 6, 4\n\nMikä on maalien keskiarvo ottelua kohti?","vastaus":5.375},{"nro":4,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aya hyppäsi pituutta neljä kertaa.\nHypyt metreinä: 3,2; 3,5; 2,9; 3,4\n\nMikä on hyppyjen keskiarvo metreinä?","vastaus":3.25},{"nro":5,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sama mehupullo maksaa kolmessa kaupassa eri verran.\nHinnat euroina: 2,35; 3,10; 1,90\n\nMikä on hintojen keskiarvo euroina?","vastaus":2.45},{"nro":6,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sadetta mitattiin viitenä päivänä.\nSademäärät millimetreinä: 7, 0, 5, 0, 6\n\nMikä on sademäärien keskiarvo päivää kohti?","vastaus":3.6},{"nro":7,"ryhma":"laske","tyyppi":"lasku","kysymys":"Joukkue pelasi kuusi ottelua.\nTehdyt maalit: 4, 7, 0, 10, 5, 1\n\nMikä on maalien keskiarvo ottelua kohti?","vastaus":4.5},{"nro":8,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kioski myi jäätelöitä kuutena päivänä. Yhtenä päivänä rannalla oli kesäjuhla.\nMyydyt jäätelöt: 15, 17, 15, 16, 15, 69\n\nMikä on myytyjen jäätelöiden keskiarvo päivää kohti?","vastaus":24.5},{"nro":9,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nMyydyt jäätelöt: 15, 17, 15, 16, 15, 69\n\nMikä on keskiarvo ilman lukua 69?","vastaus":15.6},{"nro":10,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nMyydyt jäätelöt: 15, 17, 15, 16, 15, 69\n\nMikä on aineiston tyyppiarvo?","vastaus":15},{"nro":11,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pyöräkorjaamossa kävi asiakkaita kuutena päivänä.\nAsiakkaat: 7, 8, 7, 9, 7, 34\n\nLaske asiakasmäärien keskiarvo ja tyyppiarvo. Kumpi kuvaa tavallista päivää paremmin, keskiarvo vai tyyppiarvo? Perustele luvuilla.","vastaus":"Malliesimerkki: Keskiarvo on 72 : 6 = 12 ja tyyppiarvo 7. Tyyppiarvo kuvaa tavallista päivää paremmin, koska viitenä päivänä kuudesta asiakkaita oli 7–9, ja yksi 34 asiakkaan päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä."},{"nro":12,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Herneen taimia kasvatettiin kahdessa ryhmässä: ryhmä A ikkunalaudalla ja ryhmä B varjossa.\nRyhmä A senttimetreinä: 8,4; 9,1; 7,8; 8,9\nRyhmä B senttimetreinä: 6,2; 5,8; 6,5; 7,1; 6,7\n\nMikä on ryhmän A keskiarvo senttimetreinä?","vastaus":8.55},{"nro":13,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 12.\nRyhmä A senttimetreinä: 8,4; 9,1; 7,8; 8,9\nRyhmä B senttimetreinä: 6,2; 5,8; 6,5; 7,1; 6,7\n\nKuinka monta senttimetriä suurempi on ryhmän A keskiarvo kuin ryhmän B keskiarvo?","vastaus":2.09},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Lintulaudalla laskettiin punatulkut kuutena aamuna.\nPunatulkut: 3, 5, 3, 4, 3, 15\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":2.5},{"nro":15,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Retkelle osallistui väkeä viitenä päivänä.\nOsallistujat: 4, 7, 5, 6, 29\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1},{"nro":16,"ryhma":"tarkista","tyyppi":"sanallinen","kysymys":"Aineisto: 4, 8, 12, 6, 5\n\nEetu sai aineiston keskiarvoksi 17,5. Miten tiedät laskematta, että tulos on väärin? Laske myös oikea keskiarvo.","vastaus":"Malliesimerkki: Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo, ja 17,5 on suurempi kuin 12. Oikea keskiarvo on 35 : 5 = 7."},{"nro":17,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Maalit: 8, 0, 9, 0, 4\n\nAino laski maalien keskiarvoksi 7. Mikä on oikea keskiarvo?","vastaus":4.2},{"nro":18,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 2, 5, 4, 3, 6, 1, 5, 4\n\nOnni sai jakolaskussa 3, jakojäännös 6, ja kirjoitti keskiarvoksi 3,6. Mikä on oikea keskiarvo?","vastaus":3.75},{"nro":19,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 4, 9, 6, 6\n\nSara otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 6,5. Mikä on oikea keskiarvo?","vastaus":6.25},{"nro":20,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Lainat neljänä päivänä: 6, 7, 5, 6\n\nNeljän päivän keskiarvo on 6. Viidentenä päivänä lainoja oli 22. Mikä on viiden päivän keskiarvo?","vastaus":9.2}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita summa ja jakolasku näkyviin.\nAnna keskiarvo tarkkana lukuna, tarvittaessa desimaalilukuna.\nAnna rahasumma euroina, esimerkiksi 3,45.\nTehtävissä 11 ja 16 perustele vastaus luvuilla.","tehtavat":[{"nro":1,"ryhma":"laske","tyyppi":"lasku","kysymys":"Onni heitti tikkaa neljä kierrosta.\nPisteet: 7, 4, 9, 3\n\nMikä on pisteiden keskiarvo?","vastaus":5.75},{"nro":2,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aya luki sarjakuvakirjaa viitenä iltana.\nLuetut sivut: 23, 18, 21, 26, 19\n\nMikä on luettujen sivujen keskiarvo iltaa kohti?","vastaus":21.4},{"nro":3,"ryhma":"laske","tyyppi":"lasku","kysymys":"Pihalla laskettiin linnut kahdeksana aamuna.\nLinnut: 9, 6, 8, 7, 10, 5, 8, 8\n\nMikä on lintujen keskiarvo aamua kohti?","vastaus":7.625},{"nro":4,"ryhma":"laske","tyyppi":"lasku","kysymys":"Leo mittasi neljän auringonkukan taimen pituudet.\nPituudet desimetreinä: 1,4; 1,9; 1,6; 1,3\n\nMikä on pituuksien keskiarvo desimetreinä?","vastaus":1.55},{"nro":5,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sama sarjakuvalehti maksaa kolmessa kaupassa eri verran.\nHinnat euroina: 4,20; 3,65; 5,50\n\nMikä on hintojen keskiarvo euroina?","vastaus":4.45},{"nro":6,"ryhma":"laske","tyyppi":"lasku","kysymys":"Noor laski lintulaudalla käyneet talitiaiset viitenä aamuna.\nTalitiaiset: 3, 0, 8, 10, 0\n\nMikä on talitiaisten keskiarvo aamua kohti?","vastaus":4.2},{"nro":7,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sadetta mitattiin kuutena päivänä.\nSademäärät millimetreinä: 8, 3, 6, 0, 10, 6\n\nMikä on sademäärien keskiarvo päivää kohti?","vastaus":5.5},{"nro":8,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kirjaston kävijät laskettiin kuutena päivänä. Yhtenä päivänä kirjastossa oli satutunti.\nKävijät: 22, 21, 24, 21, 21, 86\n\nMikä on kävijöiden keskiarvo päivää kohti?","vastaus":32.5},{"nro":9,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKävijät: 22, 21, 24, 21, 21, 86\n\nMikä on keskiarvo ilman lukua 86?","vastaus":21.8},{"nro":10,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKävijät: 22, 21, 24, 21, 21, 86\n\nMikä on aineiston tyyppiarvo?","vastaus":21},{"nro":11,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Eläinlääkärin vastaanotolla kävi koiria kuutena päivänä.\nKoirat: 5, 6, 5, 5, 7, 32\n\nLaske koirien määrän keskiarvo ja tyyppiarvo. Kumpi kuvaa tavallista päivää paremmin, keskiarvo vai tyyppiarvo? Perustele luvuilla.","vastaus":"Malliesimerkki: Keskiarvo on 60 : 6 = 10 ja tyyppiarvo 5. Tyyppiarvo kuvaa tavallista päivää paremmin, koska viitenä päivänä kuudesta koiria oli 5–7, ja yksi 32 koiran päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä."},{"nro":12,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Auringonkukkia kasvatettiin kahdessa ryhmässä: ryhmä A aurinkoisella paikalla ja ryhmä B puolivarjossa.\nRyhmä A desimetreinä: 12,3; 11,8; 13,1; 12,6\nRyhmä B desimetreinä: 10,2; 9,7; 10,9; 9,8; 10,8\n\nMikä on ryhmän A keskiarvo desimetreinä?","vastaus":12.45},{"nro":13,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 12.\nRyhmä A desimetreinä: 12,3; 11,8; 13,1; 12,6\nRyhmä B desimetreinä: 10,2; 9,7; 10,9; 9,8; 10,8\n\nKuinka monta desimetriä suurempi on ryhmän A keskiarvo kuin ryhmän B keskiarvo?","vastaus":2.17},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pihalla pelasi lapsia kuutena iltana.\nLapset: 6, 7, 6, 8, 6, 18\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":2.5},{"nro":15,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Leirille osallistui väkeä viitenä päivänä.\nOsallistujat: 14, 16, 13, 15, 48\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1},{"nro":16,"ryhma":"tarkista","tyyppi":"sanallinen","kysymys":"Aineisto: 3, 9, 12, 6, 10\n\nAya sai aineiston keskiarvoksi 20. Miten tiedät laskematta, että tulos on väärin? Laske myös oikea keskiarvo.","vastaus":"Malliesimerkki: Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo, ja 20 on suurempi kuin 12. Oikea keskiarvo on 40 : 5 = 8."},{"nro":17,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Maalit: 0, 9, 6, 0, 9\n\nElias laski maalien keskiarvoksi 8. Mikä on oikea keskiarvo?","vastaus":4.8},{"nro":18,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 7, 4, 6, 9, 5, 8, 9, 10\n\nLeo sai jakolaskussa 7, jakojäännös 2, ja kirjoitti keskiarvoksi 7,2. Mikä on oikea keskiarvo?","vastaus":7.25},{"nro":19,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 3, 11, 5, 4\n\nNoor otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 7. Mikä on oikea keskiarvo?","vastaus":5.75},{"nro":20,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Lainat neljänä päivänä: 9, 8, 10, 9\n\nNeljän päivän keskiarvo on 9. Viidentenä päivänä lainoja oli 35. Mikä on viiden päivän keskiarvo?","vastaus":14.2}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita summa ja jakolasku näkyviin.\nAnna keskiarvo tarkkana lukuna, tarvittaessa desimaalilukuna.\nAnna rahasumma euroina, esimerkiksi 3,45.\nTehtävissä 11 ja 16 perustele vastaus luvuilla.","tehtavat":[{"nro":1,"ryhma":"laske","tyyppi":"lasku","kysymys":"Elias pelasi korttipeliä neljä kierrosta.\nPisteet: 12, 9, 14, 10\n\nMikä on pisteiden keskiarvo?","vastaus":11.25},{"nro":2,"ryhma":"laske","tyyppi":"lasku","kysymys":"Leo harjoitteli koripallon heittoja viitenä päivänä.\nOsumat: 8, 13, 10, 7, 15\n\nMikä on osumien keskiarvo päivää kohti?","vastaus":10.6},{"nro":3,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sara kävi kalassa kahdeksan kertaa.\nSaadut kalat: 3, 5, 2, 6, 4, 5, 7, 3\n\nMikä on kalojen keskiarvo kertaa kohti?","vastaus":4.375},{"nro":4,"ryhma":"laske","tyyppi":"lasku","kysymys":"Lumen syvyys mitattiin neljässä paikassa.\nSyvyydet desimetreinä: 2,9; 3,3; 3,1; 2,5\n\nMikä on syvyyksien keskiarvo desimetreinä?","vastaus":2.95},{"nro":5,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sama muistivihko maksaa kolmessa kaupassa eri verran.\nHinnat euroina: 2,40; 1,85; 2,20\n\nMikä on hintojen keskiarvo euroina?","vastaus":2.15},{"nro":6,"ryhma":"laske","tyyppi":"lasku","kysymys":"Onni kirjasi saamansa kalat viitenä päivänä.\nKalat: 0, 9, 4, 0, 11\n\nMikä on kalojen keskiarvo päivää kohti?","vastaus":4.8},{"nro":7,"ryhma":"laske","tyyppi":"lasku","kysymys":"Lunta satoi kuutena päivänä.\nLumisade senttimetreinä: 0, 12, 7, 9, 5, 6\n\nMikä on lumisateen keskiarvo päivää kohti?","vastaus":6.5},{"nro":8,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pyörävuokraamo vuokrasi pyöriä kuutena päivänä. Yhtenä päivänä kaupungissa oli pyöräilytapahtuma.\nVuokratut pyörät: 8, 9, 8, 10, 8, 44\n\nMikä on vuokrattujen pyörien keskiarvo päivää kohti?","vastaus":14.5},{"nro":9,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nVuokratut pyörät: 8, 9, 8, 10, 8, 44\n\nMikä on keskiarvo ilman lukua 44?","vastaus":8.6},{"nro":10,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nVuokratut pyörät: 8, 9, 8, 10, 8, 44\n\nMikä on aineiston tyyppiarvo?","vastaus":8},{"nro":11,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Leipomo sai kakkutilauksia kuutena päivänä.\nTilaukset: 11, 12, 11, 13, 11, 50\n\nLaske tilausten keskiarvo ja tyyppiarvo. Kumpi kuvaa tavallista päivää paremmin, keskiarvo vai tyyppiarvo? Perustele luvuilla.","vastaus":"Malliesimerkki: Keskiarvo on 108 : 6 = 18 ja tyyppiarvo 11. Tyyppiarvo kuvaa tavallista päivää paremmin, koska viitenä päivänä kuudesta tilauksia oli 11–13, ja yksi 50 tilauksen päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä."},{"nro":12,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Tomaatin taimia kasvatettiin kahdessa ryhmässä: ryhmä A kasvihuoneessa ja ryhmä B ulkona.\nRyhmä A senttimetreinä: 5,6; 6,3; 5,9; 6,4\nRyhmä B senttimetreinä: 4,8; 5,1; 4,6; 5,3; 4,9\n\nMikä on ryhmän A keskiarvo senttimetreinä?","vastaus":6.05},{"nro":13,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 12.\nRyhmä A senttimetreinä: 5,6; 6,3; 5,9; 6,4\nRyhmä B senttimetreinä: 4,8; 5,1; 4,6; 5,3; 4,9\n\nKuinka monta senttimetriä suurempi on ryhmän A keskiarvo kuin ryhmän B keskiarvo?","vastaus":1.11},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kirjastosta lainattiin äänikirjoja kuutena päivänä.\nÄänikirjat: 10, 11, 10, 12, 10, 16\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":1.5},{"nro":15,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Kirjastosta lainattiin kirjoja viitenä päivänä.\nLainat: 8, 10, 9, 11, 38\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1},{"nro":16,"ryhma":"tarkista","tyyppi":"sanallinen","kysymys":"Aineisto: 14, 6, 9, 11, 5\n\nLeo sai aineiston keskiarvoksi 22,5. Miten tiedät laskematta, että tulos on väärin? Laske myös oikea keskiarvo.","vastaus":"Malliesimerkki: Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo, ja 22,5 on suurempi kuin 14. Oikea keskiarvo on 45 : 5 = 9."},{"nro":17,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Maalit: 12, 0, 5, 0, 4\n\nSara laski maalien keskiarvoksi 7. Mikä on oikea keskiarvo?","vastaus":4.2},{"nro":18,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 3, 6, 2, 5, 4, 7, 3, 4\n\nAino sai jakolaskussa 4, jakojäännös 2, ja kirjoitti keskiarvoksi 4,2. Mikä on oikea keskiarvo?","vastaus":4.25},{"nro":19,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 8, 15, 10, 10\n\nOnni otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 11,5. Mikä on oikea keskiarvo?","vastaus":10.75},{"nro":20,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Lainat neljänä päivänä: 4, 5, 3, 4\n\nNeljän päivän keskiarvo on 4. Viidentenä päivänä lainoja oli 18. Mikä on viiden päivän keskiarvo?","vastaus":6.8}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita summa ja jakolasku näkyviin.\nAnna keskiarvo tarkkana lukuna, tarvittaessa desimaalilukuna.\nAnna rahasumma euroina, esimerkiksi 3,45.\nTehtävissä 11 ja 16 perustele vastaus luvuilla.","tehtavat":[{"nro":1,"ryhma":"laske","tyyppi":"lasku","kysymys":"Leo pelasi tietovisaa neljä kierrosta.\nOikeat vastaukset: 11, 7, 6, 13\n\nMikä on oikeiden vastausten keskiarvo?","vastaus":9.25},{"nro":2,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sara keräsi palautuspulloja viitenä viikkona.\nPullot: 31, 27, 35, 30, 28\n\nMikä on pullojen keskiarvo viikkoa kohti?","vastaus":30.2},{"nro":3,"ryhma":"laske","tyyppi":"lasku","kysymys":"Kirjaston lehtihyllystä lainattiin lehtiä kahdeksana päivänä.\nLainatut lehdet: 12, 9, 11, 10, 14, 8, 11, 10\n\nMikä on lainattujen lehtien keskiarvo päivää kohti?","vastaus":10.625},{"nro":4,"ryhma":"laske","tyyppi":"lasku","kysymys":"Onni työnsi kuulaa neljä kertaa.\nTyönnöt metreinä: 4,1; 3,6; 3,9; 4,2\n\nMikä on työntöjen keskiarvo metreinä?","vastaus":3.95},{"nro":5,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sama jäätelötuutti maksaa kolmessa kioskissa eri verran.\nHinnat euroina: 3,45; 2,90; 4,30\n\nMikä on hintojen keskiarvo euroina?","vastaus":3.55},{"nro":6,"ryhma":"laske","tyyppi":"lasku","kysymys":"Kioski myi sateenvarjoja viitenä päivänä.\nMyydyt sateenvarjot: 6, 0, 0, 9, 12\n\nMikä on myytyjen sateenvarjojen keskiarvo päivää kohti?","vastaus":5.4},{"nro":7,"ryhma":"laske","tyyppi":"lasku","kysymys":"Koulun arpajaisiin myytiin arpoja kuutena päivänä.\nMyydyt arvat: 9, 6, 12, 0, 8, 10\n\nMikä on myytyjen arpojen keskiarvo päivää kohti?","vastaus":7.5},{"nro":8,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Museon kävijät laskettiin kuutena päivänä. Yhtenä päivänä sisäänpääsy oli ilmainen.\nKävijät: 31, 34, 30, 34, 34, 98\n\nMikä on kävijöiden keskiarvo päivää kohti?","vastaus":43.5},{"nro":9,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKävijät: 31, 34, 30, 34, 34, 98\n\nMikä on keskiarvo ilman lukua 98?","vastaus":32.6},{"nro":10,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKävijät: 31, 34, 30, 34, 34, 98\n\nMikä on aineiston tyyppiarvo?","vastaus":34},{"nro":11,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kirjastosta lainattiin lautapelejä kuutena päivänä.\nLautapelit: 4, 4, 5, 6, 4, 25\n\nLaske lainattujen pelien keskiarvo ja tyyppiarvo. Kumpi kuvaa tavallista päivää paremmin, keskiarvo vai tyyppiarvo? Perustele luvuilla.","vastaus":"Malliesimerkki: Keskiarvo on 48 : 6 = 8 ja tyyppiarvo 4. Tyyppiarvo kuvaa tavallista päivää paremmin, koska viitenä päivänä kuudesta pelejä lainattiin 4–6, ja yksi 25 pelin päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä."},{"nro":12,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Maissin taimia kasvatettiin kahdessa ryhmässä: ryhmä A lannoitetussa ja ryhmä B lannoittamattomassa mullassa.\nRyhmä A senttimetreinä: 15,2; 14,7; 16,1; 15,4\nRyhmä B senttimetreinä: 13,6; 14,1; 12,9; 13,8; 14,3\n\nMikä on ryhmän A keskiarvo senttimetreinä?","vastaus":15.35},{"nro":13,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 12.\nRyhmä A senttimetreinä: 15,2; 14,7; 16,1; 15,4\nRyhmä B senttimetreinä: 13,6; 14,1; 12,9; 13,8; 14,3\n\nKuinka monta senttimetriä suurempi on ryhmän A keskiarvo kuin ryhmän B keskiarvo?","vastaus":1.61},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Noor säästi taskurahastaan kuutena viikkona.\nSäästetyt eurot: 5, 5, 7, 5, 6, 11\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":1.5},{"nro":15,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Uimahallissa kävi väkeä viitenä iltana.\nKävijät: 21, 23, 20, 22, 55\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1},{"nro":16,"ryhma":"tarkista","tyyppi":"sanallinen","kysymys":"Aineisto: 3, 10, 7, 4, 6\n\nNoor sai aineiston keskiarvoksi 15. Miten tiedät laskematta, että tulos on väärin? Laske myös oikea keskiarvo.","vastaus":"Malliesimerkki: Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo, ja 15 on suurempi kuin 10. Oikea keskiarvo on 30 : 5 = 6."},{"nro":17,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Maalit: 5, 0, 0, 13, 15\n\nOnni laski maalien keskiarvoksi 11. Mikä on oikea keskiarvo?","vastaus":6.6},{"nro":18,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 9, 12, 10, 8, 11, 13, 9, 10\n\nSara sai jakolaskussa 10, jakojäännös 2, ja kirjoitti keskiarvoksi 10,2. Mikä on oikea keskiarvo?","vastaus":10.25},{"nro":19,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 12, 20, 13, 14\n\nElias otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 16. Mikä on oikea keskiarvo?","vastaus":14.75},{"nro":20,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Lainat neljänä päivänä: 12, 11, 13, 12\n\nNeljän päivän keskiarvo on 12. Viidentenä päivänä lainoja oli 40. Mikä on viiden päivän keskiarvo?","vastaus":17.6}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita summa ja jakolasku näkyviin.\nAnna keskiarvo tarkkana lukuna, tarvittaessa desimaalilukuna.\nAnna rahasumma euroina, esimerkiksi 3,45.\nTehtävissä 11 ja 16 perustele vastaus luvuilla.","tehtavat":[{"nro":1,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aino pelasi noppapeliä neljä kierrosta.\nPisteet: 8, 13, 9, 9\n\nMikä on pisteiden keskiarvo?","vastaus":9.75},{"nro":2,"ryhma":"laske","tyyppi":"lasku","kysymys":"Onni teki punnerruksia viitenä päivänä.\nPunnerrukset: 16, 21, 19, 14, 22\n\nMikä on punnerrusten keskiarvo päivää kohti?","vastaus":18.4},{"nro":3,"ryhma":"laske","tyyppi":"lasku","kysymys":"Lintulaudalla laskettiin linnut kahdeksana aamuna.\nLinnut: 6, 8, 5, 9, 7, 4, 8, 6\n\nMikä on lintujen keskiarvo aamua kohti?","vastaus":6.625},{"nro":4,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aino punnitsi neljä kurpitsaa.\nMassat kilogrammoina: 1,7; 2,2; 2,5; 1,8\n\nMikä on massojen keskiarvo kilogrammoina?","vastaus":2.05},{"nro":5,"ryhma":"laske","tyyppi":"lasku","kysymys":"Sama kynäpakkaus maksaa kolmessa kaupassa eri verran.\nHinnat euroina: 5,25; 4,35; 3,75\n\nMikä on hintojen keskiarvo euroina?","vastaus":4.45},{"nro":6,"ryhma":"laske","tyyppi":"lasku","kysymys":"Aino löysi sieniä viidellä metsäretkellä.\nSienet: 4, 0, 11, 0, 18\n\nMikä on sienten keskiarvo retkeä kohti?","vastaus":6.6},{"nro":7,"ryhma":"laske","tyyppi":"lasku","kysymys":"Elias kävi kalassa kuutena päivänä.\nSaadut kalat: 3, 0, 5, 8, 4, 1\n\nMikä on kalojen keskiarvo päivää kohti?","vastaus":3.5},{"nro":8,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kahvila myi korvapuusteja kuutena päivänä. Yhtenä päivänä koululla oli myyjäiset.\nKorvapuustit: 18, 16, 18, 19, 18, 76\n\nMikä on myytyjen korvapuustien keskiarvo päivää kohti?","vastaus":27.5},{"nro":9,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKorvapuustit: 18, 16, 18, 19, 18, 76\n\nMikä on keskiarvo ilman lukua 76?","vastaus":17.8},{"nro":10,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 8.\nKorvapuustit: 18, 16, 18, 19, 18, 76\n\nMikä on aineiston tyyppiarvo?","vastaus":18},{"nro":11,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Ratsastustallilla kävi ratsastajia kuutena päivänä.\nRatsastajat: 9, 10, 9, 9, 8, 39\n\nLaske ratsastajien määrän keskiarvo ja tyyppiarvo. Kumpi kuvaa tavallista päivää paremmin, keskiarvo vai tyyppiarvo? Perustele luvuilla.","vastaus":"Malliesimerkki: Keskiarvo on 84 : 6 = 14 ja tyyppiarvo 9. Tyyppiarvo kuvaa tavallista päivää paremmin, koska viitenä päivänä kuudesta ratsastajia oli 8–10, ja yksi 39 ratsastajan päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä."},{"nro":12,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Papujen taimia kasvatettiin kahdessa ryhmässä: ryhmä A kastettiin joka päivä ja ryhmä B joka toinen päivä.\nRyhmä A senttimetreinä: 9,3; 10,1; 9,8; 10,6\nRyhmä B senttimetreinä: 8,2; 7,9; 8,6; 8,4; 7,7\n\nMikä on ryhmän A keskiarvo senttimetreinä?","vastaus":9.95},{"nro":13,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Sama aineisto kuin tehtävässä 12.\nRyhmä A senttimetreinä: 9,3; 10,1; 9,8; 10,6\nRyhmä B senttimetreinä: 8,2; 7,9; 8,6; 8,4; 7,7\n\nKuinka monta senttimetriä suurempi on ryhmän A keskiarvo kuin ryhmän B keskiarvo?","vastaus":1.79},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Postilaatikkoon tuli kirjeitä kuutena päivänä.\nKirjeet: 8, 9, 8, 8, 10, 20\n\nKuinka paljon suurempi aineiston keskiarvo on kuin sen tyyppiarvo?","vastaus":2.5},{"nro":15,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Elias löysi sieniä viidellä retkellä.\nSienet: 3, 5, 4, 6, 23\n\nMontako aineiston arvoista on keskiarvoa suurempia?","vastaus":1},{"nro":16,"ryhma":"tarkista","tyyppi":"sanallinen","kysymys":"Aineisto: 9, 4, 12, 8, 17\n\nElias sai aineiston keskiarvoksi 25. Miten tiedät laskematta, että tulos on väärin? Laske myös oikea keskiarvo.","vastaus":"Malliesimerkki: Keskiarvo ei voi olla suurempi kuin aineiston suurin arvo, ja 25 on suurempi kuin 17. Oikea keskiarvo on 50 : 5 = 10."},{"nro":17,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Maalit: 0, 13, 8, 0, 15\n\nLeo laski maalien keskiarvoksi 12. Mikä on oikea keskiarvo?","vastaus":7.2},{"nro":18,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 5, 8, 6, 4, 7, 9, 5, 6\n\nNoor sai jakolaskussa 6, jakojäännös 2, ja kirjoitti keskiarvoksi 6,2. Mikä on oikea keskiarvo?","vastaus":6.25},{"nro":19,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Pisteet: 2, 10, 3, 4\n\nAya otti keskiarvoksi pienimmän ja suurimman arvon puolivälin, 6. Mikä on oikea keskiarvo?","vastaus":4.75},{"nro":20,"ryhma":"tarkista","tyyppi":"lasku","kysymys":"Lainat neljänä päivänä: 7, 8, 6, 7\n\nNeljän päivän keskiarvo on 7. Viidentenä päivänä lainoja oli 29. Mikä on viiden päivän keskiarvo?","vastaus":11.4}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Keskiarvo on tasajako: summa jaetaan arvojen määrällä, ja nolla on yksi arvoista. Jakoa jatketaan desimaaleihin. Keskiarvo ei ole koskaan pienintä arvoa pienempi eikä suurinta suurempi, ja yksi poikkeava arvo voi vetää sitä.","vaiheet":[{"aika":"8 min","otsikko":"Tunti 1: Aloitus","sisalto":"Rakenna pöydälle neljä palikkatornia, joissa on 5, 2, 7 ja 4 palikkaa. Pyydä paria tasaamaan tornit yhtä korkeiksi. Kaksi palikkaa jää yli. Kysy, mitä tehtäisiin, jos palikoiden sijaan jaettaisiin pisteitä tai metrejä. Kirjoita taululle 18 : 4 = 4,5 vasta keskustelun jälkeen."},{"aika":"12 min","otsikko":"Tunti 1: Jako jatkuu ja nollat","sisalto":"Laske taululle ansan 2 esimerkki 29 : 4 jakokulmassa ja näytä, miksi 7,1 on väärin: 7,1 + 7,1 + 7,1 + 7,1 = 28,4. Kirjoita sitten ansan 1 aineisto 4, 0, 6, 0, 2 ja kysy, monenako päivänä kirjattiin. Laske lopuksi ansan 3 pisteet 7, 5, 9, 8 ja vertaa keskiarvoa 7,25 pienimmän ja suurimman puoliväliin 7."},{"aika":"20 min","otsikko":"Tunti 1: Harjoittelu","sisalto":"Harjoitusryhmä Laske keskiarvo (H01–H07). Vastaus 6,33 tai muu päättymätön desimaaliluku harjoituksessa H06 kertoo, että nollat jäivät pois jakajasta (19 : 3). Vastaus 7,3 harjoituksessa H01 kertoo, että jakojäännös kirjoitettiin pilkun perään. Kysy jokaiselta, onko keskiarvo pienimmän ja suurimman arvon välissä."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Kirjoita taululle kolme väitettyä keskiarvoa aineistolle 3, 8, 6, 9: 13, 6,5 ja 2. Parit päättelevät laskematta, mitkä eivät voi olla oikein, ja laskevat sitten oikean keskiarvon (6,5)."},{"aika":"10 min","otsikko":"Tunti 2: Poikkeava arvo","sisalto":"Kirjoita taululle ansan 4 kävijät 12, 14, 13, 11, 60. Laske keskiarvo 22 ja kysy, monenako päivänä kävijöitä oli lähellä 22:ta. Laske keskiarvo ilman lukua 60 (12,5) ja keskustele siitä, kumpi luku kertoo tavallisesta päivästä."},{"aika":"8 min","otsikko":"Tunti 2: Keskiarvo vai tyyppiarvo","sisalto":"Käy läpi tekstin taulukon kaksi viimeistä riviä. Kolmannessa rivissä keskiarvo 17 on suurempi kuin yksikään viidestä tavallisesta arvosta 10–12, joten tyyppiarvo 10 kuvaa tavallista tapausta paremmin. Neljännessä rivissä tyyppiarvo 4 on pienin arvo ja keskiarvo 7 osuu muiden arvojen 6–11 väliin, joten keskiarvo kuvaa aineistoa paremmin. Korosta, että tyyppiarvo on arvo eikä sen lukumäärä ja että valitaan se luku, joka osuu sinne, missä suurin osa arvoista on."},{"aika":"20 min","otsikko":"Tunti 2: Harjoittelu","sisalto":"Harjoitusryhmät Keskiarvo, tyyppiarvo ja vertailu sekä Tarkista ja korjaa (H08–H20). Vastaus 3 harjoituksessa H10 kertoo, että tyyppiarvoksi annettiin lukumäärä. Harjoituksessa H13 tarkista, että paikan B keskiarvo lasketaan eikä summia verrata suoraan, koska paikoissa on eri määrä mittauksia. Pysähdy harjoitukseen H11: tyyppiarvo ei ole aina parempi."},{"aika":"7 min","otsikko":"Tunti 2: Lopetus","sisalto":"Parit keksivät kuuden luvun aineiston, jossa keskiarvo kuvaa tavallista tapausta huonosti, ja vaihtavat sen toisen parin kanssa. Toinen pari laskee keskiarvon ja tyyppiarvon ja perustelee luvuilla, kumpi kuvaa aineistoa paremmin."}],"tarvikkeet":"Rakennuspalikoita tai kuutioita tornien tasaamiseen (noin 20 paria kohti), ruutupaperia jakokulmaan ja allekkain laskemiseen. Oppilaan sivu laitteelta tai tulostettuna."},"virhesanakirja":[{"virhe":"4, 0, 6, 0, 2 → 12 : 3 = 4","tehtava":"aineisto, jossa on nollia (kokeen tehtävät 6, 7 ja 17)","mita_kertoo":"Oppilas jättää nollat pois jakajasta, koska ne eivät kasvata summaa. Hän ei pidä nollaa mittaustuloksena.","mita_tehda":"Kysy, montako päivää kirjattiin, ja pyydä osoittamaan jokainen arvo sormella, myös nollat. Tasaa 12 palikkaa viiteen paikkaan, joista kaksi on aluksi tyhjiä."},{"virhe":"29 : 4 = 7,1","tehtava":"summa ei jakaudu tasan (tehtävät 1–3 ja 18)","mita_kertoo":"Jakojäännös 1 on kirjoitettu pilkun perään. Oppilas ei vielä jatka jakoa desimaaleihin (MAT5-MUR-07).","mita_tehda":"Kirjoita jaettava muotoon 29,00 ja jatka jakokulmaa. Tarkista yhteenlaskulla: 7,1 + 7,1 + 7,1 + 7,1 = 28,4 eikä 29."},{"virhe":"7, 5, 9, 8 → (5 + 9) : 2 = 7","tehtava":"keskiarvon laskeminen (tehtävät 1 ja 19)","mita_kertoo":"Keskiarvo on sekoitettu pienimmän ja suurimman arvon puoliväliin. Arvot 7 ja 8 eivät vaikuta tulokseen lainkaan.","mita_tehda":"Vaihda arvo 8 arvoksi 9 ja kysy, muuttuuko keskiarvo. Puoliväli pysyy 7:ssä, mutta summa kasvaa, joten tasajako muuttuu."},{"virhe":"12, 14, 13, 11, 60 → \"tavallisena päivänä kävijöitä on 22\"","tehtava":"poikkeava arvo (tehtävät 8, 9, 11 ja 15)","mita_kertoo":"Keskiarvo on laskettu oikein, mutta oppilas ei vertaa sitä aineiston arvoihin eikä huomaa, että yksi arvo vetää sitä.","mita_tehda":"Kysy, monenako päivänä kävijöitä oli lähellä 22:ta. Laske keskiarvo ilman lukua 60 (12,5) ja vertaa."},{"virhe":"21, 23, 21, 22, 21, 87 → tyyppiarvo 3","tehtava":"tyyppiarvo (tehtävät 10, 11 ja 14)","mita_kertoo":"Oppilas ilmoittaa yleisimmän arvon lukumäärän eikä itse arvoa (MAT5-TIL-05).","mita_tehda":"Kysy, mikä lainamäärä esiintyi useimmin. Vastaus on 21; luku 3 kertoo vain, montako kertaa se esiintyi."},{"virhe":"2,4; 2,7; 3,0; 2,5 → keskiarvo 26,5","tehtava":"desimaaliaineisto (tehtävät 4, 5, 12 ja 13)","mita_kertoo":"Pilkku on unohtunut summasta tai osamäärästä. Oppilas ei tarkista, onko keskiarvo pienimmän ja suurimman arvon välissä.","mita_tehda":"Kysy, voiko neljän hypyn keskiarvo olla 26,5 metriä, kun pisin hyppy on 3,0 metriä. Laske summa allekkain pilkut kohdakkain ja jaa uudelleen: 10,6 : 4 = 2,65."},{"virhe":"8,55 − 6,46 = 2,11","tehtava":"kahden keskiarvon erotus (tehtävä 13)","mita_kertoo":"Sadasosissa on vähennetty pienempi numero suuremmasta (6 − 5) lainaamisen sijaan. Keskiarvot voivat olla oikein, mutta vertailu kaatuu vähennyslaskuun.","mita_tehda":"Kirjoita luvut allekkain pilkut kohdakkain ja lainaa kymmenesosista. Tarkista yhteenlaskulla: 6,46 + 2,09 = 8,55."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen desimaalikeskiarvoon ja nolliin, toinen poikkeavaan arvoon, tyyppiarvoon ja kahden aineiston vertailuun. Koe pidetään erikseen.","huomiot":["Laskinta ei käytetä. Luvut pysyvät alle 10 000:n, koska MAT5-LUK-01 ei ole tämän taidon ketjussa. Aineistoissa on 3–8 arvoa, joten jakaja on aina yksinumeroinen (MAT5-LUK-03, MAT5-MUR-07). Summat on valittu niin, että jako päättyy viimeistään kolmanteen desimaaliin; jakajilla 3 ja 6 summa on jaollinen kolmella. Pyöristystä ei tarvita missään, koska MAT5-LUK-04 ei ole ketjussa. Desimaaliaineistoissa on enintään kaksi desimaalia, koska yhteen- ja vähennyslasku sadasosiin on 4. luokan ydintä (MAT4-MUR-07). Siksi myös vertailutehtävän 13 keskiarvoissa on enintään kaksi desimaalia.","Mittaritehtävät: 1, 6, 11 ja 16 — ne mittaavat naytto- ja osaa_kun-kriteerin osia. Tehtävässä 1 summa ei jakaudu tasan (koe A: 33 : 4 = 8,25), ja tehtävän 6 aineistossa on kaksi nollaa (koe A: 18 : 5 = 3,6). Kummassakin paperilla pitää näkyä summa, jakolasku arvojen määrällä ja oikea keskiarvo. Arvaamalla ei pääse läpi: jakojäännöksen jättäminen (koe A, tehtävä 1: 8 tai 8,1), pienimmän ja suurimman puoliväli (8,5) ja nollien pois jättäminen (tehtävä 6: 18 : 3 = 6) antavat kukin eri luvun. Tehtävässä 11 paperilla pitää näkyä keskiarvo (koe A: 72 : 6 = 12), tyyppiarvo (7), valinta (tyyppiarvo) ja perustelu luvuilla: viisi päivää kuudesta on 7–9, ja yksi 34 asiakkaan päivä nostaa keskiarvon suuremmaksi kuin yksikään tavallinen päivä. Tehtävässä 16 paperilla pitää näkyä, että väitetty keskiarvo on suurempi kuin aineiston suurin arvo (koe A: 17,5 on suurempi kuin 12) eikä siksi voi olla oikein, sekä oikea keskiarvo summasta ja jakolaskusta (35 : 5 = 7). Jos jokin vaadituista osista puuttuu tai on väärin, tehtävä on väärin.","Tehtävissä 11 ja 16 hyväksytään mikä tahansa sanamuoto, kun vaaditut luvut ja päätelmä näkyvät; malliesimerkki on yksi tapa sanoa asia. Tehtävässä 11 valinta \"keskiarvo\" on väärin, koska keskiarvo on suurempi kuin viisi kuudesta arvosta. Pelkkä \"tyyppiarvo, koska se on yleisin\" ilman keskiarvoa ja tyyppiarvoa lukuina on väärin. Tehtävässä 16 perusteluksi kelpaa myös laskettu oikea keskiarvo ja toteamus, että väitetty tulos on suurinta arvoa suurempi; pelkkä \"Eetu laski väärin\" ei kelpaa.","Desimaalinollat lopussa eivät muuta vastausta (2,90 ja 2,9 ovat molemmat oikein). Pyöristetty vastaus on väärin, koska johdanto pyytää tarkkaa lukua (koe A, tehtävä 3: 5,38 tai 5,4 on väärin, oikea on 5,375). Jakojäännösmuoto (8, jakojäännös 1) on väärin. Tehtävässä 5 hyväksytään 2,45 € ja 2,45; vastaus sentteinä (245) on väärin, koska tehtävä pyytää euroja. Tehtävissä 4, 12 ja 13 yksikön saa kirjoittaa tai jättää pois, koska kysymys kertoo yksikön; luku väärässä yksikössä on väärin.","Ansa 1 (nollat pois jakajasta) näkyy tehtävissä 6, 7 ja 17. Koe A: tehtävä 6: 6, tehtävä 7: 27 : 5 = 5,4, ja tehtävässä 17 juuri Ainon vastaus 7 (21 : 3). Ansa 2 (jakojäännös jätetään) näkyy tehtävissä 1–3 ja 18. Koe A: tehtävä 1: 8 tai 8,1, tehtävä 2: 12 tai 12,3, tehtävä 3: 5 tai 5,3, ja tehtävässä 18 juuri Onnin vastaus 3,6. Ansa 3 (pienimmän ja suurimman puoliväli) näkyy tehtävissä 1 ja 19 (koe A: 8,5 ja Saran 6,5). Ansa 4 (poikkeavaa arvoa ei huomata) näkyy tehtävissä 8–11, 14, 15 ja 20.","Tehtävässä 10 vastaus 3 kertoo, että oppilas ilmoittaa yleisimmän arvon lukumäärän eikä itse arvoa (MAT5-TIL-05). Tehtävien 10, 11 ja 14 aineistoissa on täsmälleen yksi tyyppiarvo. Tehtävässä 15 vastaus 4 (koe A) kertoo, että oppilas laski keskiarvoa pienemmät arvot. Tehtävässä 13 vastaus 1,9 (koe A) kertoo, että oppilas vähensi ryhmien summat toisistaan, vaikka ryhmissä on eri määrä taimia; vastaus 2,11 kertoo, että sadasosissa on vähennetty pienempi numero suuremmasta lainaamisen sijaan.","Taidosta on rajattu pois puuttuvan arvon päättely keskiarvosta, pyöristetty keskiarvo ja keskiarvo pylväsdiagrammista tai taulukosta, jossa arvot toistuvat (MAT6-TIL-02), mediaani ja vaihteluväli sekä 4. luokan tehtävätyypit (kokonaislukukeskiarvo pelkkänä laskuna, summa keskiarvosta, puuttuva neljäs luku). Tehtävässä 20 annettu neljän päivän keskiarvo on vain tieto: viiden päivän summan saa laskemalla arvot yhteen. Kartan näytön esimerkki 27 : 4 ja toimeksiannon esimerkkiaineistot ovat vain opetustekstissä, eivät kokeissa.","Versiot A–E ovat tehtävä tehtävältä samaa tyyppiä: sama arvojen määrä, sama nollien määrä, sama desimaalien määrä aineistossa ja vastauksessa sekä sama ansa. Kokeessa ei ole kuvia; aineistot ovat lukuluetteloita."]},"huoltajalle":{"mista_on_kyse":"Lapsi laskee keskiarvon niin, että arvojen summa jaetaan arvojen määrällä ja jako jatkuu tarvittaessa desimaaleihin (esimerkiksi 29 : 4 = 7,25). Hän ottaa mukaan nollat, tarkistaa, että keskiarvo on pienimmän ja suurimman arvon välissä, ja huomaa, kun yksi poikkeava arvo vetää keskiarvoa. Silloin hän vertaa keskiarvoa tyyppiarvoon eli aineiston yleisimpään arvoon ja perustelee luvuilla, kumpi kuvaa aineistoa paremmin.","kotona":["Kirjatkaa viiden päivän ajan jokin arkinen määrä, esimerkiksi luetut sivut tai lintulaudalla käyneet linnut. Kirjatkaa myös nollapäivät. Laskekaa keskiarvo yhdessä ja tarkistakaa, että se on pienimmän ja suurimman arvon välissä.","Rakentakaa palikoista, kolikoista tai nappuloista torneja ja tasatkaa ne yhtä korkeiksi. Jos jotain jää yli, puhukaa siitä, miksi palikkaa ei voi jakaa mutta pisteet, metrit ja eurot voi jakaa desimaaleihin.","Kun uutisissa tai pelissä kerrotaan keskiarvo, kysykää, voisiko yksi poikkeuksellinen arvo vetää sitä ylös tai alas.","Älä opeta näin: älä neuvo jättämään nollia pois sillä perusteella, että ne eivät vaikuta summaan. Ne vaikuttavat jakajaan. Älä myöskään neuvo ottamaan keskiarvoksi pienimmän ja suurimman arvon puoliväliä."],"milloin_huolestua":"Jos lapsi jakaa toistuvasti väärällä luvulla tai kirjoittaa jakojäännöksen pilkun perään (29 : 4 = 7,1), kyse on jakajan merkityksestä tai desimaaleihin jatkuvasta jakokulmasta. Kerro siitä opettajalle. Jos lapsi pitää keskiarvoa aina parhaana kuvauksena, vaikka yksi arvo on moninkertainen muihin verrattuna, kertaa hänen kanssaan tilanne, jossa yksi päivä poikkeaa muista."},"ulkoiset":{"edeltavat":[{"id":"MAT4-TIL-03","nimi":"Keskimäärin","vuosiluokka":4,"kuvaus":"Osaan laskea keskiarvon ja kertoa mitä se kuvaa."}],"seuraavat":[{"id":"MAT6-TIL-02","nimi":"Tyypillinen tulos","vuosiluokka":6,"kuvaus":"Osaan määrittää aineiston suurimman ja pienimmän arvon, keskiarvon ja tyyppiarvon ja kertoa, mitä ne kuvaavat."}]},"valmis_teksti":"Osaat laskea aineiston keskiarvon myös silloin, kun summa ei jakaudu tasan ja keskiarvo on desimaaliluku. Otat mukaan nollat, tarkistat, että keskiarvo on pienimmän ja suurimman arvon välissä, ja huomaat, kun yksi poikkeava arvo vetää keskiarvoa. Osaat verrata kahden aineiston keskiarvoja ja kertoa luvuilla, kuvaako keskiarvo vai tyyppiarvo aineistoa paremmin. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,524 @@
+<title>Leikkaa ja siirrä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT5-MIT-01","oppiaine":"MAT","vuosiluokka":5,"taitoalue":"MIT","jakso":"J4","taso":"ydin","otsikko":"Leikkaa ja siirrä","kuvaus":"Osaan laskea kolmion ja suunnikkaan pinta-alan.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T12"],"S":["S4"]},"ikoni":"muotoilu","eyebrow":"Matematiikka · 5. luokka · Mittaaminen","naytto":"Muutan suunnikkaan suorakulmioksi leikkaamalla ja siirtämällä palan, näytän että kolmio on puolet suunnikkaasta, mittaan kuvioista kannan ja korkeuden ja lasken pinta-alat oikeine yksikköineen.","osaa_kun":"Käytän korkeutta, joka on kohtisuorassa kantaa vastaan, enkä vinoa sivua, muistan kolmiossa jakaa kahdella ja erotan pinta-alan (cm²) piiristä (cm).","teksti":[{"tyyppi":"johdanto","sisalto":"Aya ja Onni tekevät koulun juhlaan lippuja värikartongista. Ayan liput ovat suunnikkaita ja Onnin liput kolmioita. Kumpikin haluaa tietää, montako neliösenttimetriä kartonkia yksi lippu vie. Suorakulmion pinta-alan osaat jo laskea kertomalla sivut keskenään. Suunnikkaan ja kolmion kulmat ovat vinoja, joten neliöt eivät asetu niiden sisään siisteiksi riveiksi. Siksi leikkaat ja siirrät paloja niin, että vino kuvio muuttuu suorakulmioksi tai sen puolikkaaksi."},{"tyyppi":"kappale","otsikko":"Kanta ja korkeus","sisalto":"Pinta-alaa varten kuviosta tarvitaan kaksi mittaa: kanta ja korkeus. Kanta on se sivu, jonka valitset pohjaksi. Korkeus on jana, joka on kohtisuorassa kantaa vastaan. Suunnikkaassa korkeus ulottuu kannalta vastakkaiselle sivulle, kolmiossa kannalta vastakkaiseen kärkeen. Piirrä korkeus geokolmiolla: aseta geokolmion suoran kulman toinen reuna kannan päälle, niin toinen reuna näyttää korkeuden suunnan. Vino sivu ei ole korkeus. Kun suunnikkaan kulmat eivät ole suoria, vino sivu on pidempi kuin korkeus, koska korkeus kulkee lyhintä reittiä ja vino sivu vinottain. Mikä tahansa sivu voi olla kanta, kunhan korkeus mitataan juuri sitä kantaa vastaan."},{"tyyppi":"kappale","otsikko":"Leikkaa ja siirrä","sisalto":"Piirrä paperille suunnikas, jonka kanta on 10 cm, korkeus 3 cm ja vino sivu 6 cm, ja leikkaa se irti. Piirrä suunnikkaan toiseen päähän korkeus ja leikkaa sitä pitkin. Irti tulee kolmion muotoinen pala. Siirrä pala suunnikkaan toiseen päähän niin, että sen vino sivu asettuu vastakkaisen vinon sivun viereen. Syntyy suorakulmio, joka on 10 cm leveä ja 3 cm korkea, joten sen pinta-ala on 10 · 3 = 30 cm². Pala vain siirtyi: paperia ei hävinnyt eikä tullut lisää. Siksi suunnikkaankin pinta-ala on 30 cm², ja se lasketaan kertomalla kanta ja korkeus. Vino sivu jäi suorakulmion sisään saumaksi, joten sitä ei tarvita laskussa."},{"tyyppi":"kappale","otsikko":"Kolmio on puolet suunnikkaasta","sisalto":"Leikkaa kaksi samanlaista kolmiota, joiden kanta on 8 cm ja korkeus 5 cm. Pyöräytä toinen kolmio pöydällä puoli kierrosta niin, että sen kärki osoittaa alaspäin, mutta älä käännä sitä nurin. Aseta se ensimmäisen viereen niin, että yhtä pitkät sivut ovat vastakkain. Kolmiot muodostavat suunnikkaan, jonka kanta on 8 cm ja korkeus 5 cm. Suunnikkaan pinta-ala on 8 · 5 = 40 cm², joten yhden kolmion pinta-ala on puolet siitä eli 20 cm². Sama toimii toisin päin: lävistäjä jakaa suunnikkaan kahdeksi samanlaiseksi kolmioksi. Siksi kolmion pinta-ala lasketaan kertomalla kanta ja korkeus ja jakamalla tulo kahdella."},{"tyyppi":"kappale","otsikko":"Suorakulmainen kolmio ja vaihtuva kanta","sisalto":"Suorakulmaisessa kolmiossa suoran kulman viereiset sivut ovat kohtisuorassa toisiaan vastaan. Kun toinen niistä on kanta, toinen on valmiiksi korkeus. Kolmion sivut ovat 6 cm, 8 cm ja 10 cm, ja suora kulma on 6 cm:n ja 8 cm:n sivujen välissä. Sen pinta-ala on 6 · 8 : 2 = 24 cm². Pisin sivu on suoraa kulmaa vastapäätä, eikä se kuulu laskuun. Muissakin kolmioissa mikä tahansa sivu käy kannaksi. Jos kolmion 8 cm:n sivua vastaan korkeus on 14 cm, pinta-ala on 8 · 14 : 2 = 56 cm². Saman kolmion 16 cm:n sivua vastaan korkeus on 7 cm, ja 16 · 7 : 2 = 56 cm² eli tulos on sama."},{"tyyppi":"saanto","otsikko":"Näin lasket pinta-alan","askeleet":["Valitse kanta ja etsi sitä vastaan kohtisuora korkeus. Jätä vino sivu pois laskusta.","Suunnikas: kerro kanta ja korkeus. Tulo on pinta-ala.","Kolmio: kerro kanta ja korkeus ja jaa tulo kahdella, koska kolmio on puolet suunnikkaasta.","Suorakulmainen kolmio: kerro suoran kulman viereiset sivut ja jaa tulo kahdella.","Kirjoita yksikkö: senttimetreistä tulee cm² ja metreistä m².","Tarkista lopuksi, kysyttiinkö pinta-alaa vai piiriä. Piiri on sivujen pituuksien summa, ja sen yksikkö on cm tai m."]},{"tyyppi":"ansa","otsikko":"Ansa 1: väärä sivu korkeudeksi","sisalto":"Suunnikkaan kanta on 11 cm, korkeus 5 cm ja vino sivu 7 cm. Lasku 11 · 7 = 77 on väärin, koska vino sivu ei ole kohtisuorassa kantaa vastaan. Oikea pinta-ala on 11 · 5 = 55 cm². Sama virhe syntyy suorakulmaisessa kolmiossa, jos pisin sivu otetaan laskuun. Kolmiossa, jonka sivut ovat 6 cm, 8 cm ja 10 cm, lasku 8 · 10 : 2 = 40 on väärin. Tarkista jokaisessa laskussa, että kanta ja korkeus ovat kohtisuorassa toisiaan vastaan."},{"tyyppi":"ansa","otsikko":"Ansa 2: kahdella jakaminen väärässä paikassa","sisalto":"Kun kanta on 9 cm ja korkeus 8 cm, suunnikkaan pinta-ala on 9 · 8 = 72 cm². Kolmion pinta-ala on 9 · 8 : 2 = 36 cm². Jos kolmiossa unohtaa jakaa kahdella, vastaukseksi tulee 72, joka on kokonaisen suunnikkaan pinta-ala. Jos suunnikkaassakin jakaa kahdella, vastaukseksi tulee 36, joka on vain puolet suunnikkaasta. Muista, mistä jakaminen tulee: kaksi samanlaista kolmiota muodostaa yhden suunnikkaan. Suunnikkaassa ei ole mitään, mikä pitäisi puolittaa."},{"tyyppi":"ansa","otsikko":"Ansa 3: piiri tai väärä yksikkö","sisalto":"Suunnikkaan kanta on 12 cm, vino sivu 5 cm ja korkeus 3 cm. Piiri on 12 + 5 + 12 + 5 = 34 cm eli matka kuvion ympäri. Pinta-ala on 12 · 3 = 36 cm² eli kuvion sisään mahtuvien neliösenttimetrien määrä. Jos pinta-alaksi kirjoittaa 34, on laskenut piirin. Jos kirjoittaa 36 cm, vastaus väittää pinta-alaa matkaksi, ja se on väärin, vaikka luku on oikea. Pinta-alan yksikössä on pieni kakkonen: cm² tai m²."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Korkeus on kohtisuorassa kantaa vastaan. Vino sivu ei ole korkeus.","Suunnikas leikataan ja siirretään suorakulmioksi, joten sen pinta-ala on kanta · korkeus.","Kolmio on puolet suunnikkaasta, joten sen pinta-ala on kanta · korkeus : 2.","Suorakulmaisessa kolmiossa kantana ja korkeutena ovat suoran kulman viereiset sivut.","Pinta-alan yksikkö on cm² tai m², piirin yksikkö cm tai m."]}],"harjoitukset":[{"id":"H01","ryhma":"suunnikas","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 12 cm, korkeus 2 cm ja vino sivu 3 cm. Kuinka monta senttimetriä leveä suorakulmio on?","vastaus":12,"vinkki":"Pala siirtyy kannan suuntaisesti päästä toiseen.","selitys":"Pala siirtyy kannan päästä toiseen, joten suorakulmion leveys on suunnikkaan kanta eli 12 cm. Vino sivu jää suorakulmion sisään saumaksi."},{"id":"H02","ryhma":"suunnikas","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 11 cm, korkeus 4 cm ja vino sivu 6 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":4,"vinkki":"Leikkaus tehtiin korkeutta pitkin.","selitys":"Suorakulmion korkeus on suunnikkaan korkeus eli 4 cm. Vino sivu ei ole kohtisuorassa kantaa vastaan, joten siitä ei tule suorakulmion sivua."},{"id":"H03","ryhma":"suunnikas","kysymys":"Suunnikkaan kanta on 7 cm, korkeus 5 cm ja vino sivu 6 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":35,"vinkki":"Kerro kanta ja korkeus. Vino sivu ei kuulu laskuun.","selitys":"Pinta-ala on 7 · 5 = 35 eli 35 cm². Vino sivu ei ole kohtisuorassa kantaa vastaan, joten se jää laskun ulkopuolelle."},{"id":"H04","ryhma":"suunnikas","kysymys":"Suunnikkaan sivut ovat 12 cm ja 9 cm. Korkeus, joka on mitattu kohtisuoraan 12 cm:n sivua vastaan, on 4 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":48,"vinkki":"Kun kanta on 12 cm:n sivu, korkeus on 4 cm.","selitys":"Kanta on 12 cm ja sitä vastaan mitattu korkeus 4 cm, joten pinta-ala on 12 · 4 = 48 eli 48 cm². Toinen sivu on vino sivu, eikä sitä tarvita."},{"id":"H05","ryhma":"suunnikas","kysymys":"Suunnikkaan kanta on 13 cm, korkeus 6 cm ja vino sivu 7 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":78,"vinkki":"Laske 13 · 6 osissa: ensin 10 · 6 ja sitten 3 · 6.","selitys":"Pinta-ala on 13 · 6 = 78 eli 78 cm², koska 10 · 6 = 60 ja 3 · 6 = 18. Vino sivu ei kuulu laskuun."},{"id":"H06","ryhma":"suunnikas","kysymys":"Suunnikkaan pinta-ala on 40 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 6 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":40,"vinkki":"Pala vain siirtyy. Häviääkö paperia tai tuleeko sitä lisää?","selitys":"Pala siirtyy paikasta toiseen, joten paperia ei häviä eikä tule lisää. Suorakulmion pinta-ala on sama kuin suunnikkaan eli 40 cm²."},{"id":"H07","ryhma":"suunnikas","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 10 m, korkeus 6 m ja vino sivu 7 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":60,"vinkki":"Lasku on sama kuin senttimetreillä, mutta yksikkö on m².","selitys":"Pinta-ala on 10 · 6 = 60 eli 60 m². Vino sivu ei kuulu laskuun."},{"id":"H08","ryhma":"kolmio","kysymys":"Kolmion kanta on 13 cm ja korkeus 8 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":52,"vinkki":"Kerro kanta ja korkeus ja jaa tulo kahdella.","selitys":"Kaksi samanlaista kolmiota muodostaa suunnikkaan, jonka pinta-ala on 13 · 8 = 104 cm². Yksi kolmio on puolet siitä eli 52 cm²."},{"id":"H09","ryhma":"kolmio","kysymys":"Kolmion kanta on 10 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":25,"vinkki":"Laske ensin 10 · 5 ja puolita tulos.","selitys":"Tulo on 10 · 5 = 50, ja puolet siitä on 25. Kolmion pinta-ala on 25 cm²."},{"id":"H10","ryhma":"kolmio","kysymys":"Kolmion kanta on 16 cm, korkeus 6 cm ja yksi vino sivu 7 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":48,"vinkki":"Korkeus on kohtisuorassa kantaa vastaan. Vino sivu ei kuulu laskuun.","selitys":"Pinta-ala on 16 · 6 : 2 = 48 eli 48 cm². Vino sivu ei ole kohtisuorassa kantaa vastaan."},{"id":"H11","ryhma":"kolmio","kysymys":"Kolmion sivut ovat 3 cm, 4 cm ja 5 cm, ja suora kulma on 3 cm:n ja 4 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":6,"vinkki":"Suoran kulman viereiset sivut ovat kanta ja korkeus.","selitys":"Sivut 3 cm ja 4 cm ovat kohtisuorassa toisiaan vastaan, joten pinta-ala on 3 · 4 : 2 = 6 eli 6 cm². Pisin sivu ei kuulu laskuun."},{"id":"H12","ryhma":"kolmio","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 64 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":32,"vinkki":"Kaksi samanlaista kolmiota täyttää koko suunnikkaan.","selitys":"Kolmiot ovat samanlaiset ja täyttävät suunnikkaan yhdessä, joten yksi kolmio on puolet: 64 : 2 = 32. Pinta-ala on 32 cm²."},{"id":"H13","ryhma":"kolmio","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 11 cm, korkeus 8 cm ja vino sivu 9 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":44,"vinkki":"Laske ensin suunnikkaan pinta-ala.","selitys":"Suunnikkaan pinta-ala on 11 · 8 = 88 cm². Yksi kolmio on puolet siitä eli 44 cm²."},{"id":"H14","ryhma":"kolmio","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 11 m ja korkeus 4 m. Kuinka monta neliömetriä kukkapenkin pinta-ala on?","vastaus":22,"vinkki":"Kolmiossa jaetaan kahdella myös metreillä.","selitys":"Pinta-ala on 11 · 4 : 2 = 22 eli 22 m²."},{"id":"H15","ryhma":"erottele","tyyppi":"monivalinta","kysymys":"Suunnikkaan kanta on 19 cm, korkeus 2 cm ja vino sivu 4 cm. Mikä laskuista antaa suunnikkaan pinta-alan?","vaihtoehdot":["19 · 4","19 · 2","19 · 2 : 2","19 + 4 + 19 + 4"],"vastaus":1,"vinkki":"Pinta-alaan tarvitaan kanta ja sitä vastaan kohtisuora korkeus.","selitys":"Pinta-ala on 19 · 2 = 38 eli 38 cm². Lasku 19 · 4 käyttää vinoa sivua, ja 19 · 2 : 2 antaa kolmion pinta-alan. Summa 19 + 4 + 19 + 4 on piiri."},{"id":"H16","ryhma":"erottele","tyyppi":"monivalinta","kysymys":"Suunnikkaan kanta on 7 cm ja vino sivu 4 cm. Mitä lasku 7 + 4 + 7 + 4 = 22 kertoo suunnikkaasta?","vaihtoehdot":["pinta-alan neliösenttimetreinä","piirin senttimetreinä","piirin neliösenttimetreinä"],"vastaus":1,"vinkki":"Lasku käy kaikki sivut läpi yksi kerrallaan.","selitys":"Sivujen pituuksien summa on matka kuvion ympäri eli piiri. Matka mitataan senttimetreinä, joten piiri on 22 cm."},{"id":"H17","ryhma":"erottele","tyyppi":"monivalinta","kysymys":"Kolmion sivut ovat 9 cm, 12 cm ja 15 cm, ja suora kulma on 9 cm:n ja 12 cm:n sivujen välissä. Mikä laskuista antaa kolmion pinta-alan?","vaihtoehdot":["9 · 12 : 2","12 · 15 : 2","9 · 15 : 2","9 · 12"],"vastaus":0,"vinkki":"Etsi sivut, jotka ovat kohtisuorassa toisiaan vastaan.","selitys":"Sivut 9 cm ja 12 cm ovat suoran kulman vieressä, joten ne ovat kanta ja korkeus. Pinta-ala on 9 · 12 : 2 = 54 eli 54 cm²."},{"id":"H18","ryhma":"erottele","kysymys":"Suunnikkaan kanta on 10 cm, vino sivu 6 cm ja korkeus 5 cm. Kuinka monta senttimetriä suunnikkaan piiri on?","vastaus":32,"vinkki":"Piiri on matka kuvion ympäri. Korkeus ei ole kuvion reunalla.","selitys":"Piiri on 10 + 6 + 10 + 6 = 32 eli 32 cm. Korkeus ei kuulu piiriin, koska se kulkee kuvion sisällä."},{"id":"H19","ryhma":"erottele","kysymys":"Suunnikkaan kanta on 10 cm, vino sivu 6 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":50,"vinkki":"Pinta-alaan tarvitaan kanta ja korkeus, ei vinoa sivua.","selitys":"Pinta-ala on 10 · 5 = 50 eli 50 cm². Saman suunnikkaan piiri on 32 cm, joten luvut ja yksiköt ovat eri."},{"id":"H20","ryhma":"erottele","kysymys":"Sara laski kolmion pinta-alaksi 66. Kolmion kanta on 11 cm ja korkeus 6 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala oikeasti on?","vastaus":33,"vinkki":"Minkä laskun tulos 66 on?","selitys":"Sara laski 11 · 6 = 66 eli kokonaisen suunnikkaan pinta-alan. Kolmio on puolet siitä: 66 : 2 = 33, joten pinta-ala on 33 cm²."}],"harjoitusryhmat":[{"id":"suunnikas","nimi":"Suunnikas suorakulmioksi","info":"Leikkaa korkeutta pitkin ja siirrä pala toiseen päähän. Pinta-ala on kanta kertaa korkeus, ja vino sivu jää laskun ulkopuolelle."},{"id":"kolmio","nimi":"Kolmio on puolet","info":"Kaksi samanlaista kolmiota muodostaa suunnikkaan. Kerro kanta ja korkeus ja jaa tulo kahdella."},{"id":"erottele","nimi":"Korkeus, piiri ja yksikkö","info":"Päätä ensin, kysytäänkö pinta-alaa vai piiriä ja mikä jana on korkeus."}],"ryhmanimet":{"suunnikas":"Suunnikkaan pinta-ala","kolmio":"Kolmion pinta-ala","erottele":"Piiri, pinta-ala ja perustelut"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita lasku näkyviin.\nKun tehtävä pyytää yksikköä, kirjoita vastaukseen luku ja yksikkö, esimerkiksi cm tai cm².\nMuissa laskutehtävissä riittää luku.\nPiirrä piirrostehtävä ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 15 cm, korkeus 6 cm ja vino sivu 7 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":6},{"nro":2,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan pinta-ala on 63 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 12 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":63},{"nro":3,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 7 cm, korkeus 8 cm ja vino sivu 9 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":56},{"nro":4,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 14 cm, korkeus 5 cm ja vino sivu 6 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":70},{"nro":5,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan vino sivu on 6 cm, kanta 5 cm ja korkeus 4 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":20},{"nro":6,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 12 m, korkeus 8 m ja vino sivu 9 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":96},{"nro":7,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan sivut ovat 12 cm ja 7 cm. Korkeus, joka on mitattu kohtisuoraan 12 cm:n sivua vastaan, on 6 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":72},{"nro":8,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 5 cm ja korkeus 6 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":15},{"nro":9,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 8 cm, korkeus 8 cm ja yksi vino sivu 9 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":32},{"nro":10,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion sivut ovat 5 cm, 12 cm ja 13 cm, ja suora kulma on 5 cm:n ja 12 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":30},{"nro":11,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 66 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":33},{"nro":12,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 18 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":45},{"nro":13,"ryhma":"kolmio","tyyppi":"sanallinen","kysymys":"Aino valitsi kolmion kannaksi 10 cm:n sivun ja mittasi sitä vastaan korkeudeksi 12 cm. Eetu valitsi saman kolmion kannaksi 15 cm:n sivun ja mittasi sitä vastaan korkeudeksi 8 cm. Saavatko he saman pinta-alan? Perustele laskemalla.","vastaus":"Malliesimerkki: Saavat. Aino: 10 · 12 : 2 = 60 cm². Eetu: 15 · 8 : 2 = 60 cm². Mikä tahansa sivu voi olla kanta, kun korkeus mitataan kohtisuoraan juuri sitä kantaa vastaan."},{"nro":14,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 14 cm, korkeus 3 cm ja vino sivu 4 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":21},{"nro":15,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 16 cm, vino sivu 6 cm ja korkeus 5 cm. Laske suunnikkaan piiri. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 44 cm"},{"nro":16,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 16 cm, vino sivu 6 cm ja korkeus 5 cm. Laske suunnikkaan pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 80 cm²"},{"nro":17,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 16 m ja korkeus 3 m. Laske kukkapenkin pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 24 m²"},{"nro":18,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille suunnikas, jonka kanta on 5 ruutua ja korkeus 3 ruutua ja jonka kulmat eivät ole suoria. Merkitse korkeus katkoviivalla. Kirjoita kuvion viereen sen pinta-ala ruutuina.","vastaus":"Malliesimerkki: Kanta on 5 ruudun pituinen jana ruutujen viivaa pitkin. Vastakkainen sivu on yhtä pitkä, kannan suuntainen ja 3 ruudun päässä siitä, ja se on siirretty sivuun, joten kulmat eivät ole suoria. Katkoviivalla merkitty korkeus on kohtisuorassa kantaa vastaan ja 3 ruudun pituinen. Pinta-ala on 15 ruutua."},{"nro":19,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Noor laski suunnikkaan pinta-alan laskulla 13 · 5 = 65. Suunnikkaan kanta on 13 cm, korkeus 3 cm ja vino sivu 5 cm. Mitä Noor teki väärin? Kuinka monta neliösenttimetriä pinta-ala oikeasti on?","vastaus":"Malliesimerkki: Noor käytti korkeuden sijasta vinoa sivua. Korkeus on kohtisuorassa kantaa vastaan, mutta vino sivu ei ole. Oikea pinta-ala on 13 · 3 = 39 eli 39 cm²."},{"nro":20,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 15 cm, korkeus 7 cm ja vino sivu 8 cm. Selitä leikkaamisen ja siirtämisen avulla, miksi suunnikkaan pinta-ala on sama kuin suorakulmion, jonka sivut ovat 15 cm ja 7 cm.","vastaus":"Malliesimerkki: Suunnikkaan toisesta päästä leikataan korkeutta pitkin kolmion muotoinen pala ja siirretään toiseen päähän. Syntyy suorakulmio, joka on 15 cm leveä ja 7 cm korkea. Vino sivu jää suorakulmion sisään saumaksi. Pala vain siirtyy, joten paperia ei häviä eikä tule lisää, ja pinta-ala pysyy samana."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita lasku näkyviin.\nKun tehtävä pyytää yksikköä, kirjoita vastaukseen luku ja yksikkö, esimerkiksi cm tai cm².\nMuissa laskutehtävissä riittää luku.\nPiirrä piirrostehtävä ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 14 cm, korkeus 3 cm ja vino sivu 5 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":3},{"nro":2,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan pinta-ala on 72 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 9 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":72},{"nro":3,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 6 cm, korkeus 7 cm ja vino sivu 8 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":42},{"nro":4,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 12 cm, korkeus 6 cm ja vino sivu 8 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":72},{"nro":5,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan vino sivu on 10 cm, kanta 5 cm ja korkeus 9 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":45},{"nro":6,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 12 m, korkeus 5 m ja vino sivu 6 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":60},{"nro":7,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan sivut ovat 14 cm ja 9 cm. Korkeus, joka on mitattu kohtisuoraan 14 cm:n sivua vastaan, on 4 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":56},{"nro":8,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 4 cm ja korkeus 9 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":18},{"nro":9,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 6 cm, korkeus 5 cm ja yksi vino sivu 7 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":15},{"nro":10,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion sivut ovat 8 cm, 15 cm ja 17 cm, ja suora kulma on 8 cm:n ja 15 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":60},{"nro":11,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 84 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":42},{"nro":12,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 14 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":35},{"nro":13,"ryhma":"kolmio","tyyppi":"sanallinen","kysymys":"Noor valitsi kolmion kannaksi 9 cm:n sivun ja mittasi sitä vastaan korkeudeksi 16 cm. Leo valitsi saman kolmion kannaksi 18 cm:n sivun ja mittasi sitä vastaan korkeudeksi 8 cm. Saavatko he saman pinta-alan? Perustele laskemalla.","vastaus":"Malliesimerkki: Saavat. Noor: 9 · 16 : 2 = 72 cm². Leo: 18 · 8 : 2 = 72 cm². Mikä tahansa sivu voi olla kanta, kun korkeus mitataan kohtisuoraan juuri sitä kantaa vastaan."},{"nro":14,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 16 cm, korkeus 5 cm ja vino sivu 6 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":40},{"nro":15,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 13 cm, vino sivu 5 cm ja korkeus 4 cm. Laske suunnikkaan piiri. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 36 cm"},{"nro":16,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 13 cm, vino sivu 5 cm ja korkeus 4 cm. Laske suunnikkaan pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 52 cm²"},{"nro":17,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 18 m ja korkeus 5 m. Laske kukkapenkin pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 45 m²"},{"nro":18,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille suunnikas, jonka kanta on 7 ruutua ja korkeus 2 ruutua ja jonka kulmat eivät ole suoria. Merkitse korkeus katkoviivalla. Kirjoita kuvion viereen sen pinta-ala ruutuina.","vastaus":"Malliesimerkki: Kanta on 7 ruudun pituinen jana ruutujen viivaa pitkin. Vastakkainen sivu on yhtä pitkä, kannan suuntainen ja 2 ruudun päässä siitä, ja se on siirretty sivuun, joten kulmat eivät ole suoria. Katkoviivalla merkitty korkeus on kohtisuorassa kantaa vastaan ja 2 ruudun pituinen. Pinta-ala on 14 ruutua."},{"nro":19,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Elias laski suunnikkaan pinta-alan laskulla 15 · 4 = 60. Suunnikkaan kanta on 15 cm, korkeus 3 cm ja vino sivu 4 cm. Mitä Elias teki väärin? Kuinka monta neliösenttimetriä pinta-ala oikeasti on?","vastaus":"Malliesimerkki: Elias käytti korkeuden sijasta vinoa sivua. Korkeus on kohtisuorassa kantaa vastaan, mutta vino sivu ei ole. Oikea pinta-ala on 15 · 3 = 45 eli 45 cm²."},{"nro":20,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 13 cm, korkeus 8 cm ja vino sivu 9 cm. Selitä leikkaamisen ja siirtämisen avulla, miksi suunnikkaan pinta-ala on sama kuin suorakulmion, jonka sivut ovat 13 cm ja 8 cm.","vastaus":"Malliesimerkki: Suunnikkaan toisesta päästä leikataan korkeutta pitkin kolmion muotoinen pala ja siirretään toiseen päähän. Syntyy suorakulmio, joka on 13 cm leveä ja 8 cm korkea. Vino sivu jää suorakulmion sisään saumaksi. Pala vain siirtyy, joten paperia ei häviä eikä tule lisää, ja pinta-ala pysyy samana."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita lasku näkyviin.\nKun tehtävä pyytää yksikköä, kirjoita vastaukseen luku ja yksikkö, esimerkiksi cm tai cm².\nMuissa laskutehtävissä riittää luku.\nPiirrä piirrostehtävä ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 12 cm, korkeus 4 cm ja vino sivu 6 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":4},{"nro":2,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan pinta-ala on 45 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 10 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":45},{"nro":3,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 6 cm, korkeus 5 cm ja vino sivu 7 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":30},{"nro":4,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 15 cm, korkeus 4 cm ja vino sivu 5 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":60},{"nro":5,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan vino sivu on 8 cm, kanta 6 cm ja korkeus 6 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":36},{"nro":6,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 13 m, korkeus 4 m ja vino sivu 5 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":52},{"nro":7,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan sivut ovat 13 cm ja 6 cm. Korkeus, joka on mitattu kohtisuoraan 13 cm:n sivua vastaan, on 5 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":65},{"nro":8,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 3 cm ja korkeus 8 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":12},{"nro":9,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 4 cm, korkeus 5 cm ja yksi vino sivu 6 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":10},{"nro":10,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion sivut ovat 7 cm, 24 cm ja 25 cm, ja suora kulma on 7 cm:n ja 24 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":84},{"nro":11,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 90 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":45},{"nro":12,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 16 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":40},{"nro":13,"ryhma":"kolmio","tyyppi":"sanallinen","kysymys":"Sara valitsi kolmion kannaksi 12 cm:n sivun ja mittasi sitä vastaan korkeudeksi 10 cm. Elias valitsi saman kolmion kannaksi 15 cm:n sivun ja mittasi sitä vastaan korkeudeksi 8 cm. Saavatko he saman pinta-alan? Perustele laskemalla.","vastaus":"Malliesimerkki: Saavat. Sara: 12 · 10 : 2 = 60 cm². Elias: 15 · 8 : 2 = 60 cm². Mikä tahansa sivu voi olla kanta, kun korkeus mitataan kohtisuoraan juuri sitä kantaa vastaan."},{"nro":14,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 12 cm, korkeus 5 cm ja vino sivu 7 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":30},{"nro":15,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 14 cm, vino sivu 5 cm ja korkeus 4 cm. Laske suunnikkaan piiri. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 38 cm"},{"nro":16,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 14 cm, vino sivu 5 cm ja korkeus 4 cm. Laske suunnikkaan pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 56 cm²"},{"nro":17,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 20 m ja korkeus 3 m. Laske kukkapenkin pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 30 m²"},{"nro":18,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille suunnikas, jonka kanta on 4 ruutua ja korkeus 4 ruutua ja jonka kulmat eivät ole suoria. Merkitse korkeus katkoviivalla. Kirjoita kuvion viereen sen pinta-ala ruutuina.","vastaus":"Malliesimerkki: Kanta on 4 ruudun pituinen jana ruutujen viivaa pitkin. Vastakkainen sivu on yhtä pitkä, kannan suuntainen ja 4 ruudun päässä siitä, ja se on siirretty sivuun, joten kulmat eivät ole suoria. Katkoviivalla merkitty korkeus on kohtisuorassa kantaa vastaan ja 4 ruudun pituinen. Pinta-ala on 16 ruutua."},{"nro":19,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Aya laski suunnikkaan pinta-alan laskulla 17 · 5 = 85. Suunnikkaan kanta on 17 cm, korkeus 3 cm ja vino sivu 5 cm. Mitä Aya teki väärin? Kuinka monta neliösenttimetriä pinta-ala oikeasti on?","vastaus":"Malliesimerkki: Aya käytti korkeuden sijasta vinoa sivua. Korkeus on kohtisuorassa kantaa vastaan, mutta vino sivu ei ole. Oikea pinta-ala on 17 · 3 = 51 eli 51 cm²."},{"nro":20,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 11 cm, korkeus 9 cm ja vino sivu 10 cm. Selitä leikkaamisen ja siirtämisen avulla, miksi suunnikkaan pinta-ala on sama kuin suorakulmion, jonka sivut ovat 11 cm ja 9 cm.","vastaus":"Malliesimerkki: Suunnikkaan toisesta päästä leikataan korkeutta pitkin kolmion muotoinen pala ja siirretään toiseen päähän. Syntyy suorakulmio, joka on 11 cm leveä ja 9 cm korkea. Vino sivu jää suorakulmion sisään saumaksi. Pala vain siirtyy, joten paperia ei häviä eikä tule lisää, ja pinta-ala pysyy samana."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita lasku näkyviin.\nKun tehtävä pyytää yksikköä, kirjoita vastaukseen luku ja yksikkö, esimerkiksi cm tai cm².\nMuissa laskutehtävissä riittää luku.\nPiirrä piirrostehtävä ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 10 cm, korkeus 7 cm ja vino sivu 8 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":7},{"nro":2,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan pinta-ala on 84 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 14 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":84},{"nro":3,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 9 cm, korkeus 3 cm ja vino sivu 5 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":27},{"nro":4,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 16 cm, korkeus 3 cm ja vino sivu 5 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":48},{"nro":5,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan vino sivu on 9 cm, kanta 8 cm ja korkeus 8 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":64},{"nro":6,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 14 m, korkeus 6 m ja vino sivu 8 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":84},{"nro":7,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan sivut ovat 16 cm ja 9 cm. Korkeus, joka on mitattu kohtisuoraan 16 cm:n sivua vastaan, on 4 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":64},{"nro":8,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 4 cm ja korkeus 5 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":10},{"nro":9,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 6 cm, korkeus 6 cm ja yksi vino sivu 7 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":18},{"nro":10,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion sivut ovat 10 cm, 24 cm ja 26 cm, ja suora kulma on 10 cm:n ja 24 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":120},{"nro":11,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 76 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":38},{"nro":12,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 18 cm ja korkeus 3 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":27},{"nro":13,"ryhma":"kolmio","tyyppi":"sanallinen","kysymys":"Aya valitsi kolmion kannaksi 16 cm:n sivun ja mittasi sitä vastaan korkeudeksi 9 cm. Onni valitsi saman kolmion kannaksi 18 cm:n sivun ja mittasi sitä vastaan korkeudeksi 8 cm. Saavatko he saman pinta-alan? Perustele laskemalla.","vastaus":"Malliesimerkki: Saavat. Aya: 16 · 9 : 2 = 72 cm². Onni: 18 · 8 : 2 = 72 cm². Mikä tahansa sivu voi olla kanta, kun korkeus mitataan kohtisuoraan juuri sitä kantaa vastaan."},{"nro":14,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 14 cm, korkeus 4 cm ja vino sivu 5 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":28},{"nro":15,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 15 cm, vino sivu 5 cm ja korkeus 3 cm. Laske suunnikkaan piiri. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 40 cm"},{"nro":16,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 15 cm, vino sivu 5 cm ja korkeus 3 cm. Laske suunnikkaan pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 45 cm²"},{"nro":17,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 14 m ja korkeus 5 m. Laske kukkapenkin pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 35 m²"},{"nro":18,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille suunnikas, jonka kanta on 6 ruutua ja korkeus 2 ruutua ja jonka kulmat eivät ole suoria. Merkitse korkeus katkoviivalla. Kirjoita kuvion viereen sen pinta-ala ruutuina.","vastaus":"Malliesimerkki: Kanta on 6 ruudun pituinen jana ruutujen viivaa pitkin. Vastakkainen sivu on yhtä pitkä, kannan suuntainen ja 2 ruudun päässä siitä, ja se on siirretty sivuun, joten kulmat eivät ole suoria. Katkoviivalla merkitty korkeus on kohtisuorassa kantaa vastaan ja 2 ruudun pituinen. Pinta-ala on 12 ruutua."},{"nro":19,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Leo laski suunnikkaan pinta-alan laskulla 19 · 4 = 76. Suunnikkaan kanta on 19 cm, korkeus 3 cm ja vino sivu 4 cm. Mitä Leo teki väärin? Kuinka monta neliösenttimetriä pinta-ala oikeasti on?","vastaus":"Malliesimerkki: Leo käytti korkeuden sijasta vinoa sivua. Korkeus on kohtisuorassa kantaa vastaan, mutta vino sivu ei ole. Oikea pinta-ala on 19 · 3 = 57 eli 57 cm²."},{"nro":20,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 17 cm, korkeus 4 cm ja vino sivu 6 cm. Selitä leikkaamisen ja siirtämisen avulla, miksi suunnikkaan pinta-ala on sama kuin suorakulmion, jonka sivut ovat 17 cm ja 4 cm.","vastaus":"Malliesimerkki: Suunnikkaan toisesta päästä leikataan korkeutta pitkin kolmion muotoinen pala ja siirretään toiseen päähän. Syntyy suorakulmio, joka on 17 cm leveä ja 4 cm korkea. Vino sivu jää suorakulmion sisään saumaksi. Pala vain siirtyy, joten paperia ei häviä eikä tule lisää, ja pinta-ala pysyy samana."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita lasku näkyviin.\nKun tehtävä pyytää yksikköä, kirjoita vastaukseen luku ja yksikkö, esimerkiksi cm tai cm².\nMuissa laskutehtävissä riittää luku.\nPiirrä piirrostehtävä ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaasta leikataan korkeutta pitkin kolmion muotoinen pala, ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Suunnikkaan kanta on 11 cm, korkeus 3 cm ja vino sivu 5 cm. Kuinka monta senttimetriä korkea suorakulmio on?","vastaus":3},{"nro":2,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan pinta-ala on 60 cm². Siitä leikataan kolmion muotoinen pala, jonka pinta-ala on 15 cm², ja pala siirretään suunnikkaan toiseen päähän. Syntyy suorakulmio. Kuinka monta neliösenttimetriä suorakulmion pinta-ala on?","vastaus":60},{"nro":3,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 5 cm, korkeus 4 cm ja vino sivu 6 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":20},{"nro":4,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan kanta on 13 cm, korkeus 7 cm ja vino sivu 9 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":91},{"nro":5,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan vino sivu on 8 cm, kanta 7 cm ja korkeus 7 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":49},{"nro":6,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Pihalle kivetään suunnikkaan muotoinen alue. Alueen kanta on 15 m, korkeus 6 m ja vino sivu 9 m. Kuinka monta neliömetriä alueen pinta-ala on?","vastaus":90},{"nro":7,"ryhma":"suunnikas","tyyppi":"lasku","kysymys":"Suunnikkaan sivut ovat 12 cm ja 9 cm. Korkeus, joka on mitattu kohtisuoraan 12 cm:n sivua vastaan, on 8 cm. Kuinka monta neliösenttimetriä suunnikkaan pinta-ala on?","vastaus":96},{"nro":8,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 8 cm ja korkeus 8 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":32},{"nro":9,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 4 cm, korkeus 7 cm ja yksi vino sivu 8 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":14},{"nro":10,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion sivut ovat 9 cm, 40 cm ja 41 cm, ja suora kulma on 9 cm:n ja 40 cm:n sivujen välissä. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":180},{"nro":11,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Suunnikas jaetaan lävistäjällä kahdeksi samanlaiseksi kolmioksi. Suunnikkaan pinta-ala on 98 cm². Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":49},{"nro":12,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kolmion kanta on 13 cm ja korkeus 4 cm. Kuinka monta neliösenttimetriä kolmion pinta-ala on?","vastaus":26},{"nro":13,"ryhma":"kolmio","tyyppi":"sanallinen","kysymys":"Leo valitsi kolmion kannaksi 10 cm:n sivun ja mittasi sitä vastaan korkeudeksi 18 cm. Sara valitsi saman kolmion kannaksi 20 cm:n sivun ja mittasi sitä vastaan korkeudeksi 9 cm. Saavatko he saman pinta-alan? Perustele laskemalla.","vastaus":"Malliesimerkki: Saavat. Leo: 10 · 18 : 2 = 90 cm². Sara: 20 · 9 : 2 = 90 cm². Mikä tahansa sivu voi olla kanta, kun korkeus mitataan kohtisuoraan juuri sitä kantaa vastaan."},{"nro":14,"ryhma":"kolmio","tyyppi":"lasku","kysymys":"Kaksi samanlaista kolmiota asetetaan vierekkäin niin, että ne muodostavat suunnikkaan. Suunnikkaan kanta on 18 cm, korkeus 4 cm ja vino sivu 6 cm. Kuinka monta neliösenttimetriä on yhden kolmion pinta-ala?","vastaus":36},{"nro":15,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 17 cm, vino sivu 6 cm ja korkeus 4 cm. Laske suunnikkaan piiri. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 46 cm"},{"nro":16,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 17 cm, vino sivu 6 cm ja korkeus 4 cm. Laske suunnikkaan pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 68 cm²"},{"nro":17,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Pihalle tehdään kolmion muotoinen kukkapenkki. Sen kanta on 14 m ja korkeus 3 m. Laske kukkapenkin pinta-ala. Kirjoita vastaukseen yksikkö.","vastaus":"Malliesimerkki: 21 m²"},{"nro":18,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille suunnikas, jonka kanta on 8 ruutua ja korkeus 2 ruutua ja jonka kulmat eivät ole suoria. Merkitse korkeus katkoviivalla. Kirjoita kuvion viereen sen pinta-ala ruutuina.","vastaus":"Malliesimerkki: Kanta on 8 ruudun pituinen jana ruutujen viivaa pitkin. Vastakkainen sivu on yhtä pitkä, kannan suuntainen ja 2 ruudun päässä siitä, ja se on siirretty sivuun, joten kulmat eivät ole suoria. Katkoviivalla merkitty korkeus on kohtisuorassa kantaa vastaan ja 2 ruudun pituinen. Pinta-ala on 16 ruutua."},{"nro":19,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Onni laski suunnikkaan pinta-alan laskulla 18 · 5 = 90. Suunnikkaan kanta on 18 cm, korkeus 3 cm ja vino sivu 5 cm. Mitä Onni teki väärin? Kuinka monta neliösenttimetriä pinta-ala oikeasti on?","vastaus":"Malliesimerkki: Onni käytti korkeuden sijasta vinoa sivua. Korkeus on kohtisuorassa kantaa vastaan, mutta vino sivu ei ole. Oikea pinta-ala on 18 · 3 = 54 eli 54 cm²."},{"nro":20,"ryhma":"erottele","tyyppi":"sanallinen","kysymys":"Suunnikkaan kanta on 19 cm, korkeus 5 cm ja vino sivu 7 cm. Selitä leikkaamisen ja siirtämisen avulla, miksi suunnikkaan pinta-ala on sama kuin suorakulmion, jonka sivut ovat 19 cm ja 5 cm.","vastaus":"Malliesimerkki: Suunnikkaan toisesta päästä leikataan korkeutta pitkin kolmion muotoinen pala ja siirretään toiseen päähän. Syntyy suorakulmio, joka on 19 cm leveä ja 5 cm korkea. Vino sivu jää suorakulmion sisään saumaksi. Pala vain siirtyy, joten paperia ei häviä eikä tule lisää, ja pinta-ala pysyy samana."}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Pala vain siirtyy: paperia ei häviä eikä tule lisää. Korkeus on kohtisuorassa kantaa vastaan, ja kaksi samanlaista kolmiota tekee yhden suunnikkaan.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: aloitus","sisalto":"Näytä paperinen suunnikas ja paperinen suorakulmio, joilla on sama kanta ja korkeus. Kysy, kumpi vie enemmän paperia. Kirjaa arvaukset taululle ja jätä kysymys auki."},{"aika":"12 min","otsikko":"Leikkaa ja siirrä","sisalto":"Jokainen saa paperisuunnikkaan. Oppilaat piirtävät geokolmiolla korkeuden suunnikkaan toiseen päähän, leikkaavat sitä pitkin ja siirtävät palan toiseen päähän. Sitten he mittaavat syntyneen suorakulmion sivut viivaimella. Havainnoi kolmea asiaa: onko korkeus piirretty geokolmion suoran kulman avulla, asettuuko pala vastakkaisen vinon sivun viereen ja mitataanko suorakulmion korkeudeksi korkeus eikä vino sivu."},{"aika":"8 min","otsikko":"Miksi pinta-ala säilyy","sisalto":"Palatkaa aloituksen kysymykseen. Muotoilkaa yhdessä, että pala vain siirtyi, joten paperia ei hävinnyt eikä tullut lisää. Kirjaa taululle: suunnikkaan pinta-ala on kanta · korkeus. Mittaa lopuksi vino sivu ja näytä, että se on pidempi kuin korkeus ja jäi suorakulmion sisään saumaksi (ansa 1)."},{"aika":"15 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivun ryhmä Suunnikas suorakulmioksi (H01–H07). Seuraa tehtäviä H02 ja H03: vastaus 6 tehtävässä H02 ja vastaus 42 tehtävässä H03 kertovat, että vino sivu on otettu korkeudeksi."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Jokainen mittaa oman, leikkaamattoman paperisuunnikkaan kannan ja korkeuden ja laskee pinta-alan. Pari tarkistaa geokolmiolla, että korkeus on kohtisuorassa kantaa vastaan. Havainnoi, kuka mittaa vinon sivun."},{"aika":"10 min","otsikko":"Tunti 2: Kaksi kolmiota","sisalto":"Parit saavat kaksi samanlaista paperikolmiota ja kokoavat niistä suunnikkaan: toista kolmiota pyöräytetään pöydällä puoli kierrosta, mutta sitä ei käännetä nurin, ja yhtä pitkät sivut asetetaan vastakkain. Sitten jokainen leikkaa paperisuunnikkaan lävistäjää pitkin ja asettaa kolmiot päällekkäin. Kysy, monesko osa suunnikkaasta yksi kolmio on, ja kirjaa taululle: kolmion pinta-ala on kanta · korkeus : 2. Havainnoi, näyttääkö pari kolmioiden olevan samanlaiset asettamalla ne päällekkäin."},{"aika":"8 min","otsikko":"Suorakulmainen kolmio","sisalto":"Parit saavat suorakulmaisen paperikolmion, jonka sivut ovat 6 cm, 8 cm ja 10 cm. He etsivät suoran kulman geokolmiolla, mittaavat sen viereiset sivut ja laskevat pinta-alan. Kysy, miksi 10 cm:n sivua ei käytetä. Näytä lopuksi opetustekstin esimerkki kolmiosta, jonka pinta-ala saadaan kahdesta eri kannasta."},{"aika":"7 min","otsikko":"Piiri vai pinta-ala","sisalto":"Piirrä taululle suunnikas, jonka kanta on 12 cm, vino sivu 5 cm ja korkeus 3 cm. Kysy ensin piiri ja sitten pinta-ala yksiköineen. Kulje sormella reunaa pitkin piirin kohdalla ja peitä pinta-alan kohdalla kuviota kädellä."},{"aika":"15 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivun tehtävät H08–H20. Seuraa tehtäviä H10, H11 ja H18: vastaus 96 tehtävässä H10 kertoo kahdella jakamisen unohtumisesta, vastaus 10 tehtävässä H11 pisimmän sivun käytöstä ja vastaus 50 tehtävässä H18 siitä, että piirin sijaan on laskettu pinta-ala."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Jokainen kirjoittaa vihkoon yhden virkkeen: miksi kolmion pinta-ala jaetaan kahdella mutta suunnikkaan ei. Parit lukevat toistensa virkkeet."}],"tarvikkeet":"Opettajalle aloituksen näyttöpari: paperinen suunnikas ja paperinen suorakulmio, joilla on sama kanta ja korkeus. Oppilaille valmiiksi leikatut paperisuunnikkaat, kaksi jokaiselle (kanta ja korkeus kokonaisia senttimetrejä, kulmat vinot), kaksi samanlaista paperikolmiota ja yksi suorakulmainen paperikolmio (6 cm, 8 cm ja 10 cm) jokaiselle parille, sakset, viivain, geokolmio ja ruutupaperia. Kokeeseen ruutupaperi ja viivain; laskinta ei käytetä."},"virhesanakirja":[{"virhe":"7 · 9 = 63, kun suunnikkaan kanta on 7 cm, korkeus 8 cm ja vino sivu 9 cm","tehtava":"kokeen tehtävät 3–6 ja 19 sekä H03–H05","mita_kertoo":"Vino sivu on otettu korkeudeksi. Korkeuden kohtisuoruutta kantaa vastaan ei ole tarkistettu.","mita_tehda":"Anna oppilaalle paperisuunnikas ja geokolmio. Pyydä mittaamaan sekä vino sivu että korkeus ja leikkaamaan pala korkeutta pitkin: suorakulmion korkeudeksi tulee korkeus, ei vino sivu."},{"virhe":"8 · 8 = 64, kun kolmion kanta on 8 cm ja korkeus 8 cm","tehtava":"kokeen tehtävät 8, 9, 12 ja 14 sekä H08–H10 ja H20","mita_kertoo":"Kolmion pinta-ala on laskettu kuin suunnikkaan. Kahdella jakamisen syy ei ole hallussa.","mita_tehda":"Anna kaksi samanlaista paperikolmiota ja pyydä kokoamaan niistä suunnikas. Kysy, monesko osa suunnikkaasta yksi kolmio on."},{"virhe":"7 · 8 : 2 = 28, kun suunnikkaan kanta on 7 cm ja korkeus 8 cm","tehtava":"kokeen tehtävät 3–7 sekä H03–H05","mita_kertoo":"Kahdella jakaminen on opittu kolmiosta ja siirretty suunnikkaaseen. Laskutapa on muistissa, mutta sen alkuperä ei.","mita_tehda":"Leikkaa paperisuunnikas ja siirrä pala suorakulmioksi oppilaan edessä. Kysy, mitä tässä pitäisi puolittaa."},{"virhe":"Pinta-ala 44 tai 80 cm, kun suunnikkaan kanta on 16 cm, vino sivu 6 cm ja korkeus 5 cm","tehtava":"kokeen tehtävät 15–17 sekä H16, H18 ja H19","mita_kertoo":"Piiri ja pinta-ala tai niiden yksiköt ovat sekaisin. Luku 44 on piiri, ja yksikkö cm tarkoittaa matkaa.","mita_tehda":"Kulje sormella kuvion ympäri ja kysy, mitä matka mittaa. Peitä sitten kuvio neliösenttimetrin paloilla ja kysy, mitä palojen määrä mittaa."},{"virhe":"12 · 13 : 2 = 78, kun kolmion sivut ovat 5 cm, 12 cm ja 13 cm ja suora kulma on 5 cm:n ja 12 cm:n sivujen välissä","tehtava":"kokeen tehtävä 10 sekä H11 ja H17","mita_kertoo":"Pisin sivu on otettu laskuun. Kohtisuoria sivuja ei ole etsitty.","mita_tehda":"Anna suorakulmainen paperikolmio ja geokolmio. Pyydä etsimään suora kulma ja nimeämään sen viereiset sivut kannaksi ja korkeudeksi."},{"virhe":"Suorakulmion korkeus on 7 cm, kun suunnikkaan korkeus on 6 cm ja vino sivu 7 cm","tehtava":"kokeen tehtävä 1 ja H02","mita_kertoo":"Suorakulmion sivuksi on otettu vino sivu. Leikkaamista ja siirtämistä ei ole kuviteltu loppuun asti.","mita_tehda":"Toista leikkaus paperilla ja mittauta syntyneen suorakulmion korkeus viivaimella."},{"virhe":"63 − 12 = 51, kun suunnikkaan pinta-ala on 63 cm² ja siirretyn palan 12 cm²","tehtava":"kokeen tehtävä 2 ja H06","mita_kertoo":"Siirretty pala on vähennetty, ikään kuin se olisi heitetty pois. Pinta-alan säilymistä ei ole ymmärretty.","mita_tehda":"Leikkaa pala, siirrä se ja kysy, onko pöydällä nyt vähemmän paperia kuin äsken."},{"virhe":"8 · 9 : 2 = 36, kun kolmion kanta on 8 cm, korkeus 8 cm ja vino sivu 9 cm","tehtava":"kokeen tehtävä 9 ja H10","mita_kertoo":"Kahdella jakaminen on muistettu, mutta kolmion vino sivu on otettu korkeudeksi.","mita_tehda":"Piirrä kolmion korkeus geokolmiolla ja vertaa sen pituutta vinoon sivuun viivaimella: vino sivu on pidempi."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen suunnikkaan leikkaamiseen ja siirtämiseen, toinen kolmioon, suorakulmaiseen kolmioon sekä piirin ja pinta-alan erottamiseen. Koe pidetään erikseen.","huomiot":["Taito olettaa suorakulmion pinta-alan ja yksikön cm² (MAT4-MIT-06), piirin (MAT4-MIT-05), kohtisuoran janan ja geokolmion käytön (MAT5-GEO-05) sekä nelikulmioiden tunnistamisen (MAT5-GEO-06). Uutta on suunnikkaan muuttaminen suorakulmioksi leikkaamalla ja siirtämällä, korkeus kohtisuorana janana ja kolmio puolena suunnikkaasta. Taito on koeperustainen rajatapaus: leikkaaminen, siirtäminen sekä kannan ja korkeuden mittaaminen havainnoidaan tunnilla (tuntirungon vaiheet Leikkaa ja siirrä, Lopetus ja Kaksi kolmiota), ja koe mittaa laskemisen ja perustelun. Kokeessa ja oppilaan sivulla kuviot kuvataan sanoin, ja kanta, korkeus ja vino sivu nimetään.","Mittaritehtävät: 3, 9, 15 ja 16 — ne mittaavat suoraan kartan kriteeriä: korkeus eikä vino sivu, kolmiossa jakaminen kahdella sekä pinta-alan ja piirin erottaminen yksiköineen. Tehtävä 3 on suunnikas, jossa vino sivu on häiriönä (koe A: oikein 56; vastaus 63 kertoo, että vino sivu on otettu korkeudeksi, vastaus 28 kahdella jakamisesta ja vastaus 32 piiristä). Tehtävä 9 on kolmio, jossa on myös vino sivu (koe A: oikein 32; vastaus 64 kertoo, että kahdella jakaminen on unohtunut, vastaus 36 että vino sivu on otettu korkeudeksi ja vastaus 72 molemmista). Tehtävät 15 ja 16 kysyvät samasta suunnikkaasta piirin ja pinta-alan yksikön kanssa (koe A: 44 cm ja 80 cm²). Tehtävässä 15 vastaus 80 kertoo, että on laskettu pinta-ala, ja tehtävässä 16 vastaus 44 piiristä ja vastaus 96 vinosta sivusta. Oikea luku ilman yksikköä tai väärällä yksiköllä on väärin, esimerkiksi 44 cm² tehtävässä 15 tai 80 cm tehtävässä 16. Arvaamalla tehtävät eivät mene läpi, koska jokainen ansa tuottaa oman väärän luvun.","Tehtävissä 15, 16 ja 17 vastaukseen vaaditaan yksikkö; vaatimus lukee tehtävässä itsessään, ja kokeen johdanto kertoo yleissäännön. Muissa laskutehtävissä riittää luku. Jos oppilas kirjoittaa laskutehtävään yksikön, sen pitää olla oikea: pinta-alan vastaus yksiköllä cm on väärin, koska kysymys pyytää neliösenttimetrejä.","Muut ansat koe A:ssa: tehtävässä 1 vastaus 7 kertoo, että suorakulmion korkeudeksi on otettu vino sivu (oikein 6); tehtävässä 2 vastaus 51 tai 75 kertoo, että siirretty pala on vähennetty tai lisätty eikä pinta-alan säilymistä ole ymmärretty (oikein 63); tehtävässä 4 vastaus 84 kertoo vinosta sivusta (oikein 70); tehtävässä 5 vastaus 30 kertoo, että ensimmäisenä mainittu vino sivu on otettu laskuun (oikein 20); tehtävässä 6 vastaus 108 kertoo vinosta sivusta (oikein 96); tehtävässä 7 vastaus 84 kertoo, että sivut on kerrottu keskenään, ja vastaus 42, että korkeus on yhdistetty väärään sivuun (oikein 72); tehtävässä 8 vastaus 30 ja tehtävässä 12 vastaus 90 kertovat, että kahdella jakaminen on unohtunut (oikein 15 ja 45); tehtävässä 10 vastaus 78 kertoo, että pisin sivu on otettu laskuun, ja vastaus 60, että kahdella jakaminen on unohtunut (oikein 30); tehtävässä 11 vastaus 66 tai 132 kertoo, ettei kolmiota ole nähty puolena suunnikkaasta (oikein 33); tehtävässä 14 vastaus 42 kertoo, että vastaukseksi on jäänyt koko suunnikas (oikein 21); tehtävässä 17 vastaus 48 m² kertoo, että kahdella jakaminen on unohtunut, ja 24 m on väärä yksikkö (oikein 24 m²).","Tehtävä 13: vastauksessa pitää näkyä molemmat laskut ja johtopäätös, että pinta-ala on sama. Pelkkä kyllä on väärin. Laskut saa kirjoittaa myös kahdessa vaiheessa (esimerkiksi ensin tulo ja sitten puolittaminen), ja yksikön puuttuminen ei tässä tehtävässä tee vastauksesta väärää. Lause siitä, että mikä tahansa sivu voi olla kanta, on hyvä lisä mutta ei vaatimus.","Tehtävä 18 on piirrostehtävä, ja se tarkistetaan viivaimella ja ruuduista. Se on oikein, kun kanta ja vastakkainen sivu ovat yhtä pitkät ja yhdensuuntaiset, kanta ja korkeus ovat pyydetyn pituiset (koe A: 5 ja 3 ruutua), kulmat eivät ole suoria, korkeus on merkitty katkoviivalla kohtisuoraan kantaa vastaan ja pinta-ala on 15 ruutua. Suorakulmio on väärin, samoin kuvio, jossa katkoviivaksi on merkitty vino sivu. Korkeuden saa piirtää mihin kohtaan tahansa kannan ja vastakkaisen sivun välille.","Tehtävä 19: vastauksen pitää nimetä virhe (vino sivu on otettu korkeudeksi, tai korkeus ei ole vino sivu vaan kohtisuora jana) ja antaa oikea pinta-ala (koe A: 39). Luku kelpaa yksikön cm² kanssa tai ilman. Pelkkä oikea luku ilman virheen nimeämistä on väärin. Tehtävä 20: perustelussa pitää näkyä kolme asiaa: pala leikataan korkeutta pitkin, se siirretään toiseen päähän ja syntyy suorakulmio, jonka sivut ovat kanta ja korkeus, ja pinta-ala säilyy, koska paperia ei häviä eikä tule lisää. Mikä tahansa oikea muotoilu hyväksytään, myös perustelua tukeva piirros. Pelkkä kaava ilman leikkaamista ja siirtämistä on väärin.","Kaikki mitat ovat kokonaislukuja, ja jokaisessa kertolaskussa toinen tekijä on yksinumeroinen tai 10. Kolmiotehtävissä kannan ja korkeuden tulo on parillinen, joten puolittaminen ei tuota desimaalilukua. Tunnilla mitattavat paperikuviot kannattaa valmistaa niin, että kanta ja korkeus ovat kokonaisia senttimetrejä.","Rajaus: desimaalimitat, millimetrin tarkkuudella mittaaminen ja puuttuvan sivun ratkaiseminen kuuluvat taitoon MAT6-MIT-02. Taitoon eivät kuulu yhdistetyt kuviot (MAT4-MIT-07, MAT6-MIT-04), puolisuunnikas, pinta-alayksiköiden muunnokset (MAT5-MIT-03) eikä ympyrä. Materiaalin kolmioissa kanta on valittu niin, että korkeuden kantapiste osuu aina kannalle (kantaa vastapäätä oleva kulma saa olla tylppä, kuten H10:ssä) tai korkeus on suorakulmaisen kolmion sivu; tylppäkulmaisen kolmion ulkopuolista korkeutta ei käsitellä. Suunnikkaissa korkeuden kantapiste osuu kannalle, joten yksi leikkaus riittää muuttamaan suunnikkaan suorakulmioksi."]},"huoltajalle":{"mista_on_kyse":"Lapsi opettelee laskemaan suunnikkaan ja kolmion pinta-alan. Suunnikas muuttuu suorakulmioksi, kun sen toisesta päästä leikataan pala ja siirretään toiseen päähän, joten sen pinta-ala on kanta kertaa korkeus. Kolmio on puolet suunnikkaasta, joten sen pinta-ala on kanta kertaa korkeus jaettuna kahdella. Korkeus mitataan kohtisuoraan kantaa vastaan, ei vinoa sivua pitkin.","kotona":["Leikatkaa vanhasta kirjekuoresta tai muropaketin kyljestä suunnikas. Piirtäkää kirjan kulman avulla korkeus, leikatkaa sitä pitkin ja siirtäkää pala toiseen päähän. Kysykää, miksi syntyneen suorakulmion pinta-ala on sama kuin suunnikkaan.","Leikatkaa paperista suorakulmio ja leikatkaa se lävistäjää pitkin kahdeksi kolmioksi. Asettakaa kolmiot päällekkäin ja kysykää, mikä osa suorakulmiosta yksi kolmio on.","Älä opeta näin: älä sano, että pinta-ala saadaan aina kertomalla kaksi sivua keskenään. Suunnikkaassa ja kolmiossa vino sivu ei ole korkeus, ja sivujen kertominen antaa väärän luvun."],"milloin_huolestua":"Jos lapsi kertoo harjoittelun jälkeenkin suunnikkaan kannan ja vinon sivun keskenään tai unohtaa kolmiossa jakaa kahdella, korkeuden käsite on jäänyt epäselväksi. Kertokaa siitä opettajalle, koska 6. luokalla samoja pinta-aloja lasketaan desimaalimitoilla ja mitataan itse piirretyistä kuvioista."},"ulkoiset":{"edeltavat":[{"id":"MAT4-MIT-06","nimi":"Ruudut lasketaan","vuosiluokka":4,"kuvaus":"Osaan laskea suorakulmion pinta-alan."}],"seuraavat":[{"id":"MAT6-MIT-02","nimi":"Aitaa ja nurmikkoa","vuosiluokka":6,"kuvaus":"Osaan mitata ja laskea suorakulmion, neliön, kolmion ja suunnikkaan piirin ja pinta-alan."}]},"valmis_teksti":"Osaat muuttaa suunnikkaan suorakulmioksi leikkaamalla ja siirtämällä ja tiedät, että kolmio on puolet suunnikkaasta. Lasket suunnikkaan ja kolmion pinta-alan kannasta ja kohtisuorasta korkeudesta ja erotat pinta-alan (cm²) piiristä (cm). Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,711 @@
+<title>Monta samaa palaa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+/* header */
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px; display:flex; gap:18px; align-items:flex-start}
+.badge{flex:0 0 auto; width:54px; height:54px; border-radius:9px; display:grid; place-items:center;
+  background:var(--core-soft); border:1px solid var(--core); color:var(--core)}
+.badge svg{width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:5px 0 0; color:var(--ink-2); font-size:15px}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:11px}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:2px 7px;
+  border-radius:4px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-3)}
+.tag.core{background:var(--core-soft); border-color:var(--core); color:var(--core)}
+
+/* teksti */
+article{margin-top:26px}
+article h2{font-size:21px; font-weight:600; margin:32px 0 10px; letter-spacing:-.01em}
+article p{margin:0 0 14px; max-width:64ch}
+.lead{font-size:17.5px; color:var(--ink); border-left:3px solid var(--core); padding-left:16px; margin:0 0 8px}
+
+.box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:18px 22px; box-shadow:var(--shadow); margin:22px 0}
+.box h3{margin:0 0 12px; font-size:16.5px; font-weight:600}
+.box.warn{border-left:3px solid var(--alert)}
+.box.note{border-left:3px solid var(--chal)}
+
+ol.steps{margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start}
+ol.steps li::before{content:counter(s); font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-size:14px;
+  width:26px; height:26px; border-radius:50%; background:var(--core); color:#fff; display:grid; place-items:center; margin-top:2px}
+
+ul.notes{margin:0; padding-left:19px}
+ul.notes li{margin-bottom:7px}
+ul.notes li:last-child{margin-bottom:0}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:460px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td b{color:var(--core); font-weight:600}
+td:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+
+/* lukusuora */
+.nl svg{width:100%; height:118px; display:block}
+.nl .rail{stroke:var(--line); stroke-width:2}
+.nl .tick{stroke:var(--line); stroke-width:1.5}
+.nl .stop{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:11px}
+.nl .stop.near{fill:var(--core); font-weight:600}
+.nl .dot{fill:var(--chal)}
+.nl .val{fill:var(--ink); font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:700}
+.nl .halfway{stroke:var(--chal); stroke-dasharray:3 3; stroke-width:1.5}
+.nl-controls{display:flex; align-items:center; gap:14px; margin-top:6px}
+.nl-controls input{flex:1; accent-color:var(--core)}
+.nl-out{font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600; min-width:12.5em; text-align:right}
+
+/* paikka-arvotaulu */
+.box .ohje{margin:0 0 14px; font-size:14.5px; color:var(--ink-2)}
+.nt-valinta{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px}
+.nt-valinta button{font:inherit; font-size:12.5px; font-family:"IBM Plex Mono",monospace; padding:5px 11px;
+  border-radius:6px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.nt-valinta button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.nt-valinta button:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.nt-taulu{display:flex; flex-direction:column; gap:4px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
+.nt-rivi{display:flex; gap:6px; align-items:center}
+.nt-rivi .otsa{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); width:52px; text-align:center}
+.nt-ruutu{width:52px; height:52px; display:grid; place-items:center; border:1.5px solid var(--line);
+  border-radius:7px; background:var(--surface-2); font-family:"IBM Plex Mono",monospace; font-size:24px}
+.nt-ruutu.kohta{border-color:var(--core); background:var(--core-soft); color:var(--core); font-weight:500}
+.nt-ruutu.ratkaiseva{border-color:var(--chal); background:var(--chal-soft); color:var(--chal); font-weight:500}
+.nt-ruutu.nolla{color:var(--ink-3)}
+.nt-rivi .nimi{font-size:12.5px; color:var(--ink-3); margin-left:12px; white-space:nowrap}
+.nt-nuoli{font-size:17px; color:var(--chal); margin-left:6px}
+.nt-selite{margin:14px 0 0; font-size:14.5px}
+.nt-selite b{color:var(--core)}
+
+/* vahvuusportaat */
+.vp-tasot{display:grid; gap:9px; margin-bottom:18px}
+.vp-taso{display:flex; gap:11px; align-items:flex-start; font-size:13.5px}
+.vp-taso .vp-pallo{width:13px; height:13px; border-radius:4px; margin-top:5px; flex:0 0 auto}
+.vp-taso[data-taso="sulkeet"] .vp-pallo{background:var(--core)}
+.vp-taso[data-taso="kertojako"] .vp-pallo{background:var(--strong)}
+.vp-taso[data-taso="yhteenvahennys"] .vp-pallo{background:var(--chal)}
+.vp-taso strong{display:block; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:14.5px}
+.vp-taso span{color:var(--ink-2)}
+.vp-lauseke{display:flex; flex-wrap:wrap; gap:7px; align-items:flex-end; font-family:"IBM Plex Mono",monospace;
+  font-size:25px; padding:10px 2px; min-height:64px}
+.vp-lauseke .t{padding:2px 3px}
+.vp-lauseke .op{position:relative; padding:2px 9px; border-radius:6px; font-weight:500}
+.vp-lauseke .op[data-taso="sulkeet"]{background:var(--core-soft); color:var(--core)}
+.vp-lauseke .op[data-taso="kertojako"]{background:var(--strong-soft); color:var(--strong)}
+.vp-lauseke .op[data-taso="yhteenvahennys"]{background:var(--chal-soft); color:var(--chal)}
+.vp-lauseke .op i{position:absolute; top:-9px; right:-6px; font-style:normal; font-family:"Familjen Grotesk",sans-serif;
+  font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:currentColor}
+.vp-lauseke .op i span{color:var(--surface)}
+.vp-rivi{display:flex; align-items:center; gap:16px; margin-top:8px}
+.vp-vastaus{font-family:"Familjen Grotesk",sans-serif; font-size:16px; font-weight:600; color:var(--strong)}
+
+/* laskujärjestys-widget */
+.lj-exp{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-family:"IBM Plex Mono",monospace;
+  font-size:23px; padding:14px 4px; min-height:62px}
+.lj-exp .tok{padding:2px 4px; color:var(--ink)}
+.lj-exp button.op{font-family:"IBM Plex Mono",monospace; font-size:23px; padding:3px 12px; border-radius:7px;
+  border:1.5px solid var(--line); background:var(--surface-2); color:var(--ink); line-height:1.2}
+.lj-exp button.op:hover{border-color:var(--core); color:var(--core)}
+.lj-exp button.op:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.lj-exp .valmis{font-family:"Familjen Grotesk",sans-serif; font-size:23px; font-weight:700; color:var(--strong)}
+.lj-fb{font-size:14.5px; min-height:1.5em; color:var(--ink-2)}
+.lj-fb.no{color:var(--alert)}
+.lj-fb.ok{color:var(--strong)}
+.lj-row{display:flex; align-items:center; gap:14px; margin-top:10px}
+.lj-step{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* harjoitukset */
+.progress{position:sticky; top:0; z-index:5; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 18px; box-shadow:var(--shadow); display:flex; align-items:center;
+  gap:14px; margin:34px 0 18px}
+.progress .lbl{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap}
+.progress .meter{flex:1; height:7px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+.progress .meter i{display:block; height:100%; background:var(--core); transition:width .25s ease}
+.progress .cnt{font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.grp{margin-top:26px}
+.grp-head{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--ink); padding-bottom:7px; margin-bottom:14px}
+.grp-head h3{margin:0; font-size:17px; font-weight:600}
+.grp-head span{font-size:12.5px; color:var(--ink-2)}
+
+.ex{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:10px}
+.ex[data-tila="oikein"]{border-color:var(--strong); box-shadow:inset 3px 0 0 var(--strong)}
+.ex[data-tila="vaarin"]{border-color:var(--alert); box-shadow:inset 3px 0 0 var(--alert)}
+.ex .q{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
+.ex .num{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3); min-width:2.4em}
+.ex .txt{flex:1; min-width:190px; font-size:15.5px}
+.ex .txt .aineisto{display:block; margin-bottom:9px; padding-left:12px;
+  border-left:2px solid var(--line); color:var(--ink-2); line-height:1.6;
+  /* Aineisto voi olla pieni taulukko, jonka rivit on erotettu rivinvaihdoilla.
+     Ilman pre-lineä ne valuisivat yhdeksi kappaleeksi ja taulukko katoaisi. */
+  white-space:pre-line}
+.ex .txt .kysymysrivi{display:block; font-weight:600}
+.ex .row{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.ex input[type=text]{font:inherit; font-family:"IBM Plex Mono",monospace; font-size:15px; width:8.5em;
+  padding:7px 11px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2);
+  color:var(--ink); text-align:right}
+.ex input:focus-visible{outline:2px solid var(--core); outline-offset:1px}
+button{font:inherit; cursor:pointer}
+.btn{font-size:13.5px; padding:7px 15px; border-radius:7px; border:1px solid var(--core);
+  background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.btn.mv-valinta{text-align:left}
+/* kuuntelutehtävä: selaimen puhesynteesi lukee englanninkielisen tekstin */
+.kuuntele{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:2px 0 10px}
+.kuuntele .btn{display:inline-flex; gap:7px; align-items:center}
+.kuuntele svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.kuuntele .varateksti{flex-basis:100%; font-size:14px; color:var(--ink-2); background:var(--surface-2);
+  border-radius:7px; padding:8px 12px; margin:0}
+.btn.mv-valinta:disabled{cursor:default; opacity:.65}
+.btn.mv-oikein{background:var(--strong-soft); border-color:var(--strong); color:var(--strong); opacity:1}
+.btn.mv-vaarin{background:var(--alert-soft); border-color:var(--alert); color:var(--alert); opacity:1}
+.row.mv{gap:8px 10px}
+.fb{margin-top:11px; font-size:14.5px; padding:10px 13px; border-radius:8px; line-height:1.5}
+.fb.ok{background:var(--strong-soft); color:var(--strong)}
+.fb.no{background:var(--alert-soft); color:var(--alert)}
+.fb.hint{background:var(--chal-soft); color:var(--chal)}
+
+.done{background:var(--strong-soft); border:1px solid var(--strong); color:var(--strong);
+  border-radius:var(--r); padding:16px 20px; margin-top:20px; font-size:15.5px}
+.done h3{margin:0 0 4px; font-size:17px; color:var(--strong)}
+
+details.teacher{margin-top:34px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--chal); border-radius:var(--r); padding:15px 20px; box-shadow:var(--shadow)}
+details.teacher summary{cursor:pointer; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:15px}
+details.teacher summary:focus-visible{outline:2px solid var(--core); outline-offset:3px}
+details.teacher ul{margin:12px 0 0; padding-left:19px; color:var(--ink-2); font-size:14.5px}
+details.teacher li{margin-bottom:8px}
+details.teacher p{margin:12px 0 0; color:var(--ink-2); font-size:14.5px}
+
+.back{display:inline-block; margin-top:30px; font-size:13.5px; color:var(--ink-2)}
+.back a{color:var(--core)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:560px){
+  .wrap{padding:16px 13px 70px}
+  header.top h1{font-size:25px}
+  .progress{flex-wrap:wrap}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" id="ikoni"></svg></span>
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="otsikko"></h1>
+      <p id="kuvaus"></p>
+      <div class="tags" id="tags"></div>
+    </div>
+  </header>
+
+  <article id="teksti"></article>
+
+  <div class="progress" aria-live="polite">
+    <span class="lbl">Harjoitukset</span>
+    <span class="meter"><i id="pbar" style="width:0%"></i></span>
+    <span class="cnt" id="pcnt">0 / 20</span>
+  </div>
+
+  <div id="harjoitukset"></div>
+  <div id="valmis"></div>
+
+  <p class="back" id="back"></p>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT5-MUR-09","oppiaine":"MAT","vuosiluokka":5,"taso":"ydin","otsikko":"Monta samaa palaa","kuvaus":"Osaan kertoa murtoluvun luonnollisella luvulla.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T9","T10"],"S":["S2"]},"ikoni":"murtoyhteen","eyebrow":"Matematiikka · 5. luokka · Murtoluvut ja desimaaliluvut","teksti":[{"tyyppi":"johdanto","sisalto":"Leivot luokan myyjäisiin pullia. Yhteen taikinaan tarvitaan 3/4 dl sokeria, ja aiot tehdä kolme taikinaa. Sokeria tarvitaan siis kolme kertaa 3/4 dl eli 3 · 3/4 dl. Moni kirjoittaa vastaukseksi 9/12 dl, mutta 9/12 on sama kuin 3/4, eli sokeria riittäisi vain yhteen taikinaan. Oikea vastaus on 9/4 dl. Tässä taidossa opit, miksi nimittäjä ei muutu, kun murtoluku kerrotaan luonnollisella luvulla."},{"tyyppi":"kappale","otsikko":"Kertolasku on toistuvaa yhteenlaskua","sisalto":"Kertolasku 3 · 2/5 tarkoittaa, että murtoluku 2/5 lasketaan yhteen kolme kertaa: 2/5 + 2/5 + 2/5. Kaikki yhteenlaskettavat ovat viidesosia, joten palan koko pysyy samana koko laskun ajan. Viidesosia on yhteensä 3 · 2 = 6, joten tulo on 6/5. Nimittäjä kertoo palan koon, ja osoittaja kertoo, montako palaa on. Siksi kertolaskussa kerrotaan vain osoittaja, ja nimittäjä kirjoitetaan tuloon sellaisenaan."},{"tyyppi":"kappale","otsikko":"Hypyt lukusuoralla","sisalto":"Saman laskun voi näyttää lukusuoralla. Piirrä lukusuora 0:sta 2:een ja jaa jokainen ykkösen väli viiteen yhtä pitkään osaan. Jokainen hyppy on 2/5 eli kahden osan mittainen. Kolme hyppyä nollasta päättyy kohtaan 6/5, joka on luvun 1 jälkeen ensimmäinen viidesosaviiva. Huomaa, että tulo 6/5 on paljon pienempi kuin 3. Kertolasku ei siis aina suurenna: kun luku kerrotaan murtoluvulla, joka on pienempi kuin yksi, tulo on pienempi kuin luku itse."},{"tyyppi":"saanto","otsikko":"Näin kerrot murtoluvun luonnollisella luvulla","askeleet":["Kerro osoittaja luonnollisella luvulla: laskussa 3 · 2/5 lasket 3 · 2 = 6.","Kirjoita nimittäjä tuloon sellaisenaan, koska palan koko ei muutu: 6/5.","Supista tulo, jos osoittajalla ja nimittäjällä on yhteinen tekijä. Tarkista supistettu murtoluku vielä kerran.","Jos osoittaja jakautuu nimittäjällä tasan, tulo on kokonaisluku: 8/4 = 2.","Tarkista koko: kun murtoluku on pienempi kuin yksi, tulon pitää olla pienempi kuin luku, jolla kerroit."]},{"tyyppi":"taulukko","otsikko":"Sama lasku kertolaskuna ja yhteenlaskuna","otsikkorivi":["Kertolasku","Toistuvana yhteenlaskuna","Tulo","Supistettuna"],"rivit":[["2 · 3/5","3/5 + 3/5","6/5","6/5 (ei supistu)"],["5 · 1/6","1/6 + 1/6 + 1/6 + 1/6 + 1/6","5/6","5/6 (ei supistu)"],["4 · 3/10","3/10 + 3/10 + 3/10 + 3/10","12/10","6/5"],["3 · 2/6","2/6 + 2/6 + 2/6","6/6","1"],["8 · 1/2","kahdeksan kertaa 1/2","8/2","4"]]},{"tyyppi":"kappale","otsikko":"Milloin tulo on kokonaisluku","sisalto":"Laske 8 · 1/4. Neljäsosia on 8 · 1 = 8, joten tulo on 8/4. Neljä neljäsosaa on yksi kokonainen, joten kahdeksan neljäsosaa on kaksi kokonaista: 8/4 = 2. Tulo on kokonaisluku silloin, kun osoittaja jakautuu nimittäjällä tasan. Sen huomaat supistamalla: jaa osoittaja ja nimittäjä samalla luvulla niin kauan kuin niillä on yhteinen tekijä. Jos nimittäjäksi jää 1, tulo on kokonaisluku. Esimerkiksi 3 · 4/12 = 12/12 = 1 ja 6 · 5/6 = 30/6 = 5. Kokonaisluvun voi myös kirjoittaa murtolukuna. Kahdessa kokonaisessa on kuusi kolmasosaa, joten 2 = 6/3. Tätä tarvitset, kun vähennät tulon kokonaisluvusta. Jos kannussa on 2 litraa mehua ja siitä kaadetaan kaksi lasia, joihin kuhunkin menee 2/3 litraa, laseihin menee 2 · 2/3 = 4/3 litraa. Kannuun jää 6/3 − 4/3 = 2/3 litraa."},{"tyyppi":"ansa","otsikko":"Ansa 1: myös nimittäjä kerrotaan","sisalto":"Tavallisin virhe on kertoa myös nimittäjä: 5 · 2/7 = 10/35. Supista 10/35, niin saat 2/7 eli saman luvun, josta lähdit. Viisi kappaletta lukua 2/7 ei kuitenkaan voi olla yhtä paljon kuin yksi 2/7. Kun nimittäjäkin kerrotaan, palat muuttuvat viisi kertaa pienemmiksi, vaikka kokonaista ei jaettu uudelleen. Oikea tulo on 10/7."},{"tyyppi":"ansa","otsikko":"Ansa 2: luku lisätään osoittajaan","sisalto":"Laskussa 3 · 3/10 joku laskee 3 + 3 = 6 ja kirjoittaa 6/10. Kertolasku 3 · 3/10 tarkoittaa kuitenkin kolmea kappaletta kolmea kymmenesosaa: 3/10 + 3/10 + 3/10 = 9/10. Osoittaja kerrotaan luvulla, sitä ei lasketa yhteen luvun kanssa. Oikea tulo on 9/10."},{"tyyppi":"ansa","otsikko":"Ansa 3 ja 4: supistus jää tekemättä tai kesken","sisalto":"Lasku 9 · 2/3 = 18/3 on laskettu oikein, mutta se on kesken. 18 jakautuu 3:lla tasan, joten 18/3 = 6. Kun tehtävä pyytää supistamaan, vastaus 18/3 on väärin, vaikka se on yhtä suuri kuin 6. Tarkista siksi aina lopuksi, jakautuuko osoittaja nimittäjällä. Toinen supistamisen virhe on lopettaa liian aikaisin. Laske 4 · 5/12 = 20/12. Moni jakaa osoittajan ja nimittäjän 2:lla ja saa 10/6. Luvuilla 10 ja 6 on kuitenkin vielä yhteinen tekijä 2, joten supista uudelleen: 10/6 = 5/3. Voit myös supistaa heti 4:llä, koska sekä 20 että 12 jakautuvat 4:llä. Murtoluku on supistettu loppuun, kun osoittajalla ja nimittäjällä ei ole enää yhteistä tekijää."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["3 · 2/5 tarkoittaa 2/5 + 2/5 + 2/5.","Kerro vain osoittaja. Nimittäjä pysyy, koska palan koko ei muutu.","5 · 2/7 = 10/7, ei 10/35.","Supista tulo loppuun asti. Jos osoittaja jakautuu nimittäjällä tasan, tulo on kokonaisluku.","Kun murtoluku on pienempi kuin yksi, tulo on pienempi kuin luku, jolla kerroit."]}],"harjoitukset":[{"id":"H01","ryhma":"toistuva","kysymys":"Kirjoita 5 · 1/8 yhteenlaskuna. Montako yhteenlaskettavaa siinä on?","vastaus":5,"vinkki":"Luku ennen murtolukua kertoo, montako kertaa murtoluku lasketaan yhteen.","selitys":"5 · 1/8 = 1/8 + 1/8 + 1/8 + 1/8 + 1/8. Yhteenlaskettavia on viisi, ja jokainen niistä on 1/8."},{"id":"H02","ryhma":"toistuva","kysymys":"Laske 3/8 + 3/8 + 3/8. Anna vastaus murtolukuna.","vastaus":1.125,"vinkki":"Kaikki palat ovat kahdeksasosia. Laske, montako kahdeksasosaa on yhteensä.","selitys":"3 + 3 + 3 = 9, joten summa on 9/8. Sama lasku kertolaskuna on 3 · 3/8 = 9/8. Nimittäjä pysyy kahdeksana."},{"id":"H03","ryhma":"toistuva","kysymys":"Kirjoita 3 · 2/7 yhteenlaskuna ja laske summa. Anna vastaus murtolukuna.","vastaus":0.8571428571428571,"vinkki":"Kirjoita 2/7 kolme kertaa ja laske seitsemäsosat yhteen.","selitys":"3 · 2/7 = 2/7 + 2/7 + 2/7 = 6/7. Seitsemäsosia on 2 + 2 + 2 = 6, ja ne ovat edelleen seitsemäsosia."},{"id":"H04","ryhma":"toistuva","kysymys":"Kirjoita summa 5/12 + 5/12 + 5/12 kertolaskuna. Millä luvulla murtoluku 5/12 kerrotaan?","vastaus":3,"vinkki":"Laske, montako kertaa sama murtoluku on summassa.","selitys":"Summassa on kolme samaa murtolukua, joten se on 3 · 5/12. Tulo on 15/12, joka supistuu muotoon 5/4."},{"id":"H05","ryhma":"toistuva","kysymys":"Lukusuoralla jokainen ykkösen väli on jaettu kolmeen yhtä pitkään osaan. Lähdet nollasta ja hyppäät oikealle kaksi hyppyä. Jokainen hyppy on kahden osan mittainen eli 2/3. Mihin lukuun pysähdyt? Anna vastaus murtolukuna.","vastaus":1.3333333333333333,"vinkki":"Kaksi hyppyä, joista kumpikin on kaksi kolmasosaa. Laske kolmasosat yhteen.","selitys":"2 · 2/3 = 2/3 + 2/3 = 4/3. Pysähdyt luvun 1 jälkeen ensimmäiseen kolmasosaviivaan eli kohtaan 4/3."},{"id":"H06","ryhma":"toistuva","tyyppi":"monivalinta","kysymys":"Laskussa 6 · 2/5 tulo on 12/5. Miksi nimittäjä pysyy viitenä?","vaihtoehdot":["Koska kaikki kuusi yhteenlaskettavaa ovat viidesosia, eikä palan koko muutu","Koska 6 on suurempi kuin 5","Koska nimittäjä kerrotaan vain silloin, kun tulo on kokonaisluku"],"vastaus":0,"vinkki":"Mieti, mitä nimittäjä kertoo: palan koon vai palojen määrän.","selitys":"6 · 2/5 on kuusi kappaletta lukua 2/5. Jokainen yhteenlaskettava on viidesosia, joten palan koko ei muutu. Viidesosia on 6 · 2 = 12. Kaksi muuta perustelua eivät pidä: luvut 6 ja 5 eivät liity toisiinsa, eikä nimittäjää kerrota koskaan, kun murtoluku kerrotaan luonnollisella luvulla."},{"id":"H07","ryhma":"toistuva","kysymys":"Kirjoita summa 2/5 + 2/5 + 2/5 + 2/5 + 2/5 kertolaskuna ja laske tulo.","vastaus":2,"vinkki":"Summassa on viisi yhteenlaskettavaa. Viisi viidesosaa on yksi kokonainen.","selitys":"5 · 2/5 = 10/5. Luku 10 jakautuu 5:llä tasan, joten 10/5 = 2. Tulo on kokonaisluku."},{"id":"H08","ryhma":"tulo","kysymys":"Laske 2 · 4/9. Anna vastaus murtolukuna.","vastaus":0.8888888888888888,"vinkki":"Kerro vain osoittaja: 2 · 4.","selitys":"2 · 4/9 = 8/9. Yhdeksäsosia on 4 + 4 = 8, ja nimittäjä pysyy yhdeksänä."},{"id":"H09","ryhma":"tulo","kysymys":"Laske 7 · 2/11. Anna vastaus murtolukuna.","vastaus":1.2727272727272727,"vinkki":"Kerro osoittaja 2 luvulla 7. Nimittäjä pysyy.","selitys":"7 · 2/11 = 14/11. Tulo on suurempi kuin yksi, koska 14 yhdestoistaosaa on enemmän kuin 11 yhdestoistaosaa. Vastaus 14/77 syntyy, jos myös nimittäjä kerrotaan."},{"id":"H10","ryhma":"tulo","kysymys":"Laske 6 · 3/4 ja supista. Mikä on nimittäjä?","vastaus":2,"vinkki":"Laske ensin tulo 18/4. Mikä luku jakaa sekä luvun 18 että luvun 4?","selitys":"6 · 3/4 = 18/4. Kumpikin luku jakautuu 2:lla, joten 18/4 = 9/2. Luvuilla 9 ja 2 ei ole yhteistä tekijää, joten nimittäjä on 2."},{"id":"H11","ryhma":"tulo","kysymys":"Laske 10 · 3/5 ja supista. Mikä on nimittäjä?","vastaus":1,"vinkki":"Laske tulo 30/5 ja supista niin pitkälle kuin voit. Jakautuuko 30 luvulla 5 tasan?","selitys":"10 · 3/5 = 30/5. Kun osoittaja ja nimittäjä jaetaan 5:llä, saadaan 6/1. Nimittäjäksi jää 1, joten tulo on kokonaisluku 6."},{"id":"H12","ryhma":"tulo","kysymys":"Laske 12 · 2/3. Montako kokonaista tulo on?","vastaus":8,"vinkki":"Laske montako kolmasosaa on, ja muuta ne kokonaisiksi: kolme kolmasosaa on yksi kokonainen.","selitys":"12 · 2/3 = 24/3. Kolme kolmasosaa on yksi kokonainen, joten 24 kolmasosaa on 24 : 3 = 8 kokonaista. Tulo on kokonaisluku 8."},{"id":"H13","ryhma":"tulo","tyyppi":"monivalinta","kysymys":"Aino laski 2 · 5/9 = 10/18. Mikä on oikea tulo?","vaihtoehdot":["10/9","10/18","7/9"],"vastaus":0,"vinkki":"Kirjoita lasku yhteenlaskuna 5/9 + 5/9.","selitys":"2 · 5/9 = 5/9 + 5/9 = 10/9. Aino kertoi myös nimittäjän. Vastaus 7/9 syntyy, jos luku 2 lisätään osoittajaan."},{"id":"H14","ryhma":"tulo","kysymys":"Laske 8 · 5/12 ja supista. Mikä on nimittäjä?","vastaus":3,"vinkki":"Tulo on 40/12. Supista, ja tarkista supistettu murtoluku vielä kerran.","selitys":"8 · 5/12 = 40/12. Jos jaat 2:lla, saat 20/6, ja luvuilla 20 ja 6 on vielä yhteinen tekijä 2: 20/6 = 10/3. Voit myös jakaa heti 4:llä. Nimittäjä on 3."},{"id":"H15","ryhma":"sanalliset","kysymys":"Leo juo joka päivä 3/8 litraa maitoa. Montako litraa maitoa hän juo kuutena päivänä? Anna vastaus murtolukuna.","vastaus":2.25,"vinkki":"Kirjoita kertolasku 6 · 3/8 ja supista tulo.","selitys":"6 · 3/8 = 18/8 = 9/4. Leo juo 9/4 litraa eli kaksi kokonaista litraa ja vielä 1/4 litraa."},{"id":"H16","ryhma":"sanalliset","kysymys":"Elias leipoo kuusi sämpylätaikinaa. Jokaiseen tarvitaan 2/3 dl öljyä. Montako desilitraa öljyä hän tarvitsee?","vastaus":4,"vinkki":"Kuusi taikinaa, joista jokaiseen menee 2/3 dl. Kirjoita kertolasku.","selitys":"6 · 2/3 = 12/3 = 4. Elias tarvitsee 4 dl öljyä."},{"id":"H17","ryhma":"sanalliset","kysymys":"Saran koulumatka on 5/8 kilometriä. Hän kulkee sen aamulla kouluun ja iltapäivällä kotiin viitenä päivänä. Montako kilometriä hän kulkee yhteensä? Anna vastaus murtolukuna.","vastaus":6.25,"vinkki":"Laske ensin, montako kertaa Sara kulkee matkan: kaksi kertaa päivässä viitenä päivänä.","selitys":"Sara kulkee matkan 2 · 5 = 10 kertaa. 10 · 5/8 = 50/8 = 25/4 kilometriä."},{"id":"H18","ryhma":"sanalliset","kysymys":"Kaksitoista lasta syö kukin 1/3 patukasta. Montako patukkaa he syövät yhteensä?","vastaus":4,"vinkki":"Kolme kolmasosaa on yksi kokonainen patukka.","selitys":"12 · 1/3 = 12/3 = 4. He syövät neljä patukkaa."},{"id":"H19","ryhma":"sanalliset","kysymys":"Pullossa on 2 litraa vettä. Kaadat siitä kolme lasillista, joihin kuhunkin menee 3/8 litraa. Montako litraa vettä pulloon jää? Anna vastaus murtolukuna.","vastaus":0.875,"vinkki":"Laske ensin, montako litraa laseihin menee: 3 · 3/8. Kirjoita sitten 2 litraa kahdeksasosina.","selitys":"3 · 3/8 = 9/8, joten laseihin menee 9/8 litraa. Kaksi litraa on 16/8 litraa, joten pulloon jää 16/8 − 9/8 = 7/8 litraa."},{"id":"H20","ryhma":"sanalliset","kysymys":"Eetu sanoo, että 4 · 4/5 on suurempi kuin 4, koska kertolasku suurentaa. Laske tulo. Anna vastaus murtolukuna.","vastaus":3.2,"vinkki":"Laske tulo ja vertaa sitä lukuun 4. Luku 4 on viidesosina 20/5.","selitys":"4 · 4/5 = 16/5. Luku 4 on 20/5, joten tulo on pienempi kuin 4. Eetu on väärässä: 4/5 on pienempi kuin yksi, joten neljä kappaletta sitä on vähemmän kuin neljä kokonaista."}],"harjoitusryhmat":[{"id":"toistuva","nimi":"Toistuva yhteenlasku","info":"Kertolasku on saman murtoluvun yhteenlaskua. Palan koko pysyy samana, joten nimittäjä ei muutu."},{"id":"tulo","nimi":"Laske tulo","info":"Kerro osoittaja ja pidä nimittäjä. Supista lopuksi, ja katso, tuliko tuloksi kokonaisluku."},{"id":"sanalliset","nimi":"Sanalliset tehtävät","info":"Etsi, montako samaa murto-osaa tehtävässä on, ja kirjoita kertolasku ennen kuin lasket. Jos tehtävä kysyy, paljonko jää, kirjoita kokonaisluku samannimisenä murtolukuna ennen kuin vähennät."}],"valmis_teksti":"Osaat kertoa murtoluvun luonnollisella luvulla: kerrot vain osoittajan, perustelet sen toistuvalla yhteenlaskulla ja supistat tulon, myös kokonaisluvuksi. Tämä taito on nyt näytetty."};
+
+/* ---------- otsikko ---------- */
+const IKONIT={
+  pysakki:'<path d="M7 4h10v11H7z"/><path d="M9 15v4M15 15v4"/><path d="M4 20h16"/><path d="M9 7h6"/>',
+  jarjestys:'<path d="M4 7h6M4 12h10M4 17h4"/><path d="M17 5v14"/><path d="M14.5 16.5L17 19l2.5-2.5"/>',
+  /* allekkainkertolasku: kaksi riviä ja viiva, päällä muistinumero */
+  kerto:'<path d="M6 8h9M6 13h12M4 16.5h16"/><path d="M7.5 19.5h9"/><circle cx="18" cy="5.5" r="2"/>',
+  /* jakokulma */
+  jakokulma:'<path d="M5 8h13"/><path d="M8.5 8v10"/><path d="M8.5 18c-2.2 0-3.5-2.2-3.5-5s1.3-5 3.5-5"/><path d="M11 12h6"/>',
+  /* jakojäännös: ryhmät ja yksi yli jäävä */
+  jaannos:'<rect x="3.5" y="8" width="6" height="6" rx="1"/><rect x="11" y="8" width="6" height="6" rx="1"/><circle cx="20" cy="17.5" r="2"/>',
+  /* desimaalipilkku paikka-arvoruuduissa */
+  desimaali:'<rect x="3" y="7" width="6" height="9" rx="1"/><rect x="13" y="7" width="8" height="9" rx="1"/><path d="M10.8 15.5c.6.3.8 1.2.4 2"/>',
+  /* mitta: viivain */
+  mitta:'<rect x="2.5" y="8.5" width="19" height="7" rx="1"/><path d="M7 8.5v3M11 8.5v4.5M15 8.5v3M19 8.5v4.5"/>',
+  /* lukeminen: avoin kirja */
+  lukeminen:'<path d="M12 6.5C10 5 7 4.7 4 5.3v12c3-.6 6-.3 8 1.2 2-1.5 5-1.8 8-1.2v-12c-3-.6-6-.3-8 1.2z"/><path d="M12 6.5v12"/>',
+  /* lajituntemus: lehti */
+  kasvi:'<path d="M5 19c0-7 4.5-12 14-13 .5 8-3.5 13-10 13H5z"/><path d="M19 6c-5 2.5-8.5 6.5-10.5 12"/>',
+  /* joukkuepeli: pallo ja syöttökaari */
+  pallo:'<circle cx="8" cy="15" r="4.5"/><path d="M8 10.5c1.5-4 5-6.5 9.5-6.5"/><path d="M14.5 4h3v3"/>',
+  /* piirtimet: kynän kärki ja viiva */
+  kyna:'<path d="M4 19l2.5-6L15 4.5a2 2 0 013 3L9.5 16 4 19z"/><path d="M13.5 6.5l3.5 3.5"/>',
+  /* paikka-arvo: neljä numeropaikkaa, tuhansien paikka korostettuna */
+  paikkaarvo:'<rect x="2.5" y="8" width="4.5" height="8" rx="1"/><rect x="8" y="8" width="4.5" height="8" rx="1"/><rect x="13.5" y="8" width="4.5" height="8" rx="1"/><rect x="19" y="8" width="2.5" height="8" rx="1"/><path d="M4.75 10.5v3"/>',
+  /* allekkainlasku: kaksi lukua, viiva ja plus */
+  allekkain:'<path d="M8 7h10M8 12h10M4.5 15h15"/><path d="M4 9.5h3M5.5 8v3"/><path d="M9 18.5h9"/>',
+  /* murtoluku: ympyrä neljäsosiin, yksi väritetty */
+  murtoluku:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M12 12h8.5A8.5 8.5 0 0012 3.5z" fill="currentColor" stroke="none"/>',
+  /* vertailu: kaksi eripituista palkkia ja suurempi-kuin-merkki */
+  vertailu:'<rect x="2.5" y="6" width="8" height="4" rx="1"/><rect x="2.5" y="14" width="4.5" height="4" rx="1"/><path d="M15 6.5l4.5 5.5-4.5 5.5"/>',
+  /* samannimisten yhteenlasku: kaksi sektoria yhdistyy */
+  murtoyhteen:'<path d="M9 12A7 7 0 019 5v7z" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="7"/><path d="M18 8v8M14 12h8"/>',
+  /* käänteisyys: kaksi vastakkaista nuolta */
+  kaanteinen:'<path d="M4 9h13"/><path d="M14.5 6L17.5 9l-3 3"/><path d="M20 15H7"/><path d="M9.5 12L6.5 15l3 3"/>',
+
+  /* --- muiden oppiaineiden ikonit --- */
+  keskustelu:'<path d="M3 5h11v7H7l-4 3z"/><path d="M10 14h11v6h-4l-3 2v-2h-4z"/>',
+  esitys:'<rect x="3" y="4" width="18" height="10" rx="1"/><path d="M12 14v3"/><path d="M8.5 21l3.5-4 3.5 4"/>',
+  kirja:'<path d="M12 6c-2-1.5-5-2-8-1.5v12C7 16 10 16.5 12 18c2-1.5 5-2 8-1.5v-12C17 4 14 4.5 12 6z"/><path d="M12 6v12"/>',
+  teksti:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+  kuuntelu:'<path d="M8 10a4 4 0 118 0c0 3-2 3.5-2 6a2 2 0 11-4 0"/><path d="M17.5 5.5a8 8 0 010 13"/><path d="M20.5 3a12 12 0 010 18"/>',
+  puhe:'<path d="M4 5h16v10H9l-5 4z"/><circle cx="9" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="16" cy="10" r="1"/>',
+  maapallo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 2.5 14.4 0 17c-2.5-2.6-2.5-14.4 0-17z"/>',
+  nuotti:'<path d="M9 18V6l9-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="16" r="2.5"/>',
+  syke:'<path d="M3 12h4l2.5-6 4 12 2.5-6h5"/>',
+  soitin:'<rect x="3.5" y="9" width="17" height="7" rx="1"/><path d="M7 9v7M10.5 9v7M14 9v7M17.5 9v7"/>',
+  sivellin:'<path d="M14.5 3.5l6 6-7 7-6-6z"/><path d="M7.5 10.5l-3 3c-1.5 1.5-1 4 0 5s3.5 1.5 5 0l3-3"/>',
+  muotoilu:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  tyokalu:'<path d="M14.5 3.5a4.5 4.5 0 00-5.8 5.8L3 15v5h5l5.7-5.7a4.5 4.5 0 005.8-5.8L17 11h-3V8z"/>',
+  neula:'<path d="M20 4L9 15"/><path d="M7 17l-3 3"/><ellipse cx="19.5" cy="4.5" rx="1.5" ry="2.5" transform="rotate(45 19.5 4.5)"/><path d="M9 15c-2 0-3 1-3 2s1 2 2 2"/>',
+  kartta:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  aikajana:'<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="17" cy="12" r="2"/><path d="M7 7v2M12 15v2M17 7v2"/>',
+  puu:'<path d="M12 21v-6"/><path d="M12 15l-5-3 5-9 5 9z"/><path d="M12 15l-6-4"/><path d="M12 15l6-4"/>',
+  elain:'<ellipse cx="12" cy="16" rx="4" ry="3.5"/><circle cx="6.5" cy="11" r="2"/><circle cx="17.5" cy="11" r="2"/><circle cx="9.5" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/>',
+  turva:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  liike:'<circle cx="14" cy="5" r="2"/><path d="M13 9l-3 4 3 3 1 5"/><path d="M10 13l-4 1"/><path d="M13 9l4 2 2-1"/>',
+  tasapaino:'<path d="M12 4v16"/><path d="M5 8h14"/><path d="M5 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M19 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M8 20h8"/>',
+  vesi:'<path d="M3 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/>',
+  ajattelu:'<path d="M9 20v-2.5C6.5 16 5 13.7 5 11a7 7 0 1114 0c0 2.7-1.5 5-4 6.5V20z"/><path d="M9.5 20h5"/><path d="M12 14c0-2 2-2 2-3.5a2 2 0 10-4 0"/>',
+  pyha:'<path d="M12 3c1.5 2.5 2.5 3.5 2.5 5a2.5 2.5 0 11-5 0c0-1.5 1-2.5 2.5-5z"/><path d="M12 11v7"/><rect x="8" y="18" width="8" height="3" rx="1"/>',
+  kadet:'<path d="M8 21v-6l-2.5-2.5a2 2 0 012.8-2.8L10 11V4a1.5 1.5 0 013 0v7"/><path d="M13 11V5.5a1.5 1.5 0 013 0V13c0 4-2 8-2 8"/>',
+  tutkimus:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M10.5 7.5v6M7.5 10.5h6"/>',
+  mittari:'<path d="M12 3a2.5 2.5 0 012.5 2.5v8a4.5 4.5 0 11-5 0v-8A2.5 2.5 0 0112 3z"/><circle cx="12" cy="17.5" r="2"/><path d="M12 8v7.5"/>',
+};
+document.getElementById("ikoni").innerHTML = IKONIT[D.ikoni] || IKONIT.pysakki;
+document.getElementById("eyebrow").textContent = D.eyebrow || "Matematiikka · 4. luokka · Luvut ja laskutoimitukset";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("kuvaus").textContent = D.kuvaus;
+document.getElementById("tags").innerHTML =
+  `<span class="tag core">${D.taso || "ydintaito"}</span><span class="tag">${D.ops.T.join(" ")} ${D.ops.S.join(" ")}</span>`
+  + (Array.isArray(D.harjoitukset) && D.harjoitukset.length
+      ? `<span class="tag">${D.harjoitukset.length} harjoitusta</span>`
+      : "");
+
+/* ---------- teksti ---------- */
+const esc = s => s;
+const osat = D.teksti.map(o=>{
+  switch(o.tyyppi){
+    case "johdanto":
+      return `<p class="lead">${esc(o.sisalto)}</p>`;
+    case "kappale":
+      return `<h2>${esc(o.otsikko)}</h2><p>${esc(o.sisalto)}</p>`;
+    case "saanto":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><ol class="steps">${
+        o.askeleet.map(a=>`<li><span>${esc(a)}</span></li>`).join("")}</ol></div>`;
+    case "taulukko":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><div class="tablewrap"><table><thead><tr>${
+        o.otsikkorivi.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${
+        o.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    case "ansa":
+      return `<div class="box warn"><h3>${esc(o.otsikko)}</h3><p style="margin:0">${esc(o.sisalto)}</p></div>`;
+    case "muistilappu":
+      return `<div class="box note"><h3>${esc(o.otsikko)}</h3><ul class="notes">${
+        o.kohdat.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`;
+    case "numerotaulu":
+      return `<div class="box nt"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="nt-valinta" id="ntValinta"></div>
+        <div class="nt-taulu" id="ntTaulu"></div>
+        <p class="nt-selite" id="ntSelite"></p></div>`;
+    case "vahvuusportaat":
+      return `<div class="box vp"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="vp-tasot">${o.tasot.map(t=>
+          `<div class="vp-taso" data-taso="${t.id}"><span class="vp-pallo"></span>
+           <div><strong>${t.nimi}</strong><span>${t.selite}</span></div></div>`).join("")}</div>
+        <div class="vp-lauseke" id="vpLauseke"></div>
+        <div class="vp-rivi"><button type="button" class="btn ghost" id="vpSeuraava">Toinen lauseke</button>
+        <span class="vp-vastaus" id="vpVastaus"></span></div></div>`;
+    case "laskujarjestys":
+      return `<div class="box lj"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 12px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <div class="lj-exp" id="ljExp"></div>
+        <div class="lj-fb" id="ljFb"></div>
+        <div class="lj-row"><button type="button" class="btn ghost" id="ljSeuraava">Toinen lauseke</button>
+        <span class="lj-step" id="ljStep"></span></div></div>`;
+    case "lukusuora":
+      return `<div class="box nl"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 8px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <svg id="nlsvg" viewBox="0 0 640 118" role="img" aria-labelledby="nldesc"><desc id="nldesc">Lukusuora, jolla näkyy valittu luku ja lähin kymmenluku.</desc></svg>
+        <div class="nl-controls">
+          <label for="nlrange" style="font-size:13px;color:var(--ink-2)">Luku</label>
+          <input type="range" id="nlrange" min="0" max="100" value="47" aria-describedby="nlout">
+          <span class="nl-out" id="nlout"></span>
+        </div></div>`;
+    default: return "";
+  }
+}).join("");
+document.getElementById("teksti").innerHTML = osat;
+
+/* ---------- lukusuora ---------- */
+const svg=document.getElementById("nlsvg"), rng=document.getElementById("nlrange"), out=document.getElementById("nlout");
+const X0=34, X1=606, Y=62;
+function piirraNL(v){
+  const ala=Math.floor(v/10)*10, yla=ala+10, puoli=ala+5;
+  const pyor = (v%10)>=5 ? yla : ala;
+  const x = n => X0 + (n/100)*(X1-X0);
+  let s=`<line class="rail" x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}"/>`;
+  for(let n=0;n<=100;n+=10){
+    const near = (n===ala||n===yla);
+    s+=`<line class="tick" x1="${x(n)}" y1="${Y-7}" x2="${x(n)}" y2="${Y+7}"/>`;
+    s+=`<text class="stop${near?" near":""}" x="${x(n)}" y="${Y+24}" text-anchor="middle">${n}</text>`;
+  }
+  s+=`<line class="halfway" x1="${x(puoli)}" y1="${Y-16}" x2="${x(puoli)}" y2="${Y+12}"/>`;
+  s+=`<text class="stop" x="${x(puoli)}" y="${Y-22}" text-anchor="middle">puoliväli ${puoli}</text>`;
+  s+=`<circle class="dot" cx="${x(v)}" cy="${Y}" r="6"/>`;
+  s+=`<text class="val" x="${x(v)}" y="${Y-32}" text-anchor="middle">${v}</text>`;
+  s+=`<path d="M ${x(v)} ${Y+38} L ${x(pyor)} ${Y+38}" stroke="var(--core)" stroke-width="2" fill="none"/>`;
+  s+=`<path d="M ${x(pyor)} ${Y+38} l ${x(pyor)>x(v)?-7:7} -4 l 0 8 z" fill="var(--core)"/>`;
+  svg.innerHTML=s;
+  out.textContent = `${v} pyöristyy → ${pyor}`;
+}
+if(svg){ piirraNL(+rng.value); rng.addEventListener("input",e=>piirraNL(+e.target.value)); }
+
+/* ---------- paikka-arvotaulu ---------- */
+const ntTaulu=document.getElementById("ntTaulu");
+if(ntTaulu){
+  const O=D.teksti.find(x=>x.tyyppi==="numerotaulu");
+  const PAIKAT=["ykköset","kymmenet","sadat","tuhannet","kymmenettuhannet"];
+  const LYH=["Y","K","S","T","KT"];
+  const IDX={kymmenet:1, sadat:2, tuhannet:3};
+  let ntI=0;
+  document.getElementById("ntValinta").innerHTML=O.esimerkit.map((e,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${e.luku.toLocaleString("fi-FI",{maximumFractionDigits:10})} → ${e.tarkkuus}</button>`).join("");
+  function ntPiirra(){
+    const e=O.esimerkit[ntI], t=IDX[e.tarkkuus], kerroin=Math.pow(10,t);
+    const tulos=Math.floor((e.luku+kerroin/2)/kerroin)*kerroin;
+    const lev=Math.max(String(e.luku).length, String(tulos).length);
+    const num=String(e.luku).padStart(lev,"0").split("");
+    const res=String(tulos).padStart(lev,"0").split("");
+    const luokka=(i,arr,vain0)=>{
+      const p=arr.length-1-i;
+      if(vain0) return p<t ? "nt-ruutu nolla" : "nt-ruutu";
+      if(p===t) return "nt-ruutu kohta";
+      if(p===t-1) return "nt-ruutu ratkaiseva";
+      return "nt-ruutu";
+    };
+    const otsat=num.map((_,i)=>`<span class="otsa">${LYH[num.length-1-i]||""}</span>`).join("");
+    const rivi1=num.map((n,i)=>`<span class="${luokka(i,num,false)}">${n}</span>`).join("");
+    const rivi2=res.map((n,i)=>`<span class="${luokka(i,res,true)}">${n}</span>`).join("");
+    const ratk=+num[num.length-t];
+    const ylos=ratk>=5;
+    ntTaulu.innerHTML=
+      `<div class="nt-rivi">${otsat}</div>
+       <div class="nt-rivi">${rivi1}<span class="nimi">luku</span></div>
+       <div class="nt-rivi"><span class="nt-nuoli" style="margin-left:${(num.length-1-t)*58+18}px">${ylos?"▲ ylös":"▼ alas"}</span></div>
+       <div class="nt-rivi">${rivi2}<span class="nimi">pyöristettynä</span></div>`;
+    document.getElementById("ntSelite").innerHTML =
+      `Pyöristetään <b>${PAIKAT[t]}</b> (sininen ruutu). Ratkaiseva numero on <b>${ratk}</b> (keltainen ruutu). ` +
+      (ylos ? `Se on 5 tai suurempi, joten sininen ruutu kasvaa yhdellä.` : `Se on pienempi kuin 5, joten sininen ruutu pysyy ennallaan.`) +
+      ` Kaikki keltaisen oikealla puolella muuttuu nolliksi. Vastaus on <b>${tulos.toLocaleString("fi-FI",{maximumFractionDigits:10})}</b>.`;
+    document.querySelectorAll("#ntValinta button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===ntI)));
+  }
+  document.getElementById("ntValinta").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; ntI=+b.dataset.i; ntPiirra();
+  });
+  ntPiirra();
+}
+
+/* ---------- vahvuusportaat ---------- */
+const vpEl=document.getElementById("vpLauseke");
+if(vpEl){
+  const O=D.teksti.find(x=>x.tyyppi==="vahvuusportaat");
+  let vpI=0;
+  function vpPiirra(){
+    const e=O.esimerkit[vpI];
+    const tokens=e.lauseke.split(/\s+/);
+    const kartta=Object.fromEntries(e.jarjestys.map(j=>[j.i,j]));
+    vpEl.innerHTML=tokens.map((t,i)=>{
+      const j=kartta[i];
+      return j ? `<span class="op" data-taso="${j.taso}">${t}<i><span>${j.n}</span></i></span>`
+               : `<span class="t">${t}</span>`;
+    }).join("");
+    document.getElementById("vpVastaus").textContent = "= " + e.vastaus;
+  }
+  document.getElementById("vpSeuraava").addEventListener("click",()=>{
+    vpI=(vpI+1)%O.esimerkit.length; vpPiirra();
+  });
+  vpPiirra();
+}
+
+/* ---------- laskujärjestys-widget ---------- */
+const ljExp=document.getElementById("ljExp");
+if(ljExp && D.kokeilu){
+  let ljI=0, ljTokens=[], ljStep=0;
+  const laske=(a,op,b)=>{a=+a;b=+b;return op==="×"?a*b:op==="÷"?a/b:op==="+"?a+b:a-b;};
+  function ljAlku(){
+    const l=D.kokeilu[ljI];
+    ljTokens=l.lauseke.replace(/\(/g,"( ").replace(/\)/g," )").split(/\s+/).filter(Boolean);
+    ljStep=0; ljPiirra(); ljViesti("","");
+  }
+  function ljViesti(t,lk){const f=document.getElementById("ljFb"); f.textContent=t; f.className="lj-fb "+(lk||"");}
+  function ljPiirra(){
+    const l=D.kokeilu[ljI];
+    document.getElementById("ljStep").textContent =
+      ljStep>=l.askeleet.length ? "valmis" : `askel ${ljStep+1} / ${l.askeleet.length}`;
+    if(ljStep>=l.askeleet.length){
+      ljExp.innerHTML=`<span class="valmis">${l.lauseke} = ${l.vastaus}</span>`;
+      return;
+    }
+    ljExp.innerHTML=ljTokens.map((t,i)=>
+      "×÷+−".includes(t) ? `<button type="button" class="op" data-i="${i}">${t}</button>`
+                         : `<span class="tok">${t}</span>`).join("");
+    ljExp.querySelectorAll("button.op").forEach(b=>b.addEventListener("click",()=>ljKlikkaa(+b.dataset.i)));
+  }
+  function ljKlikkaa(i){
+    const l=D.kokeilu[ljI], odotettu=l.askeleet[ljStep];
+    const ehdotus=[ljTokens[i-1],ljTokens[i],ljTokens[i+1]].join(" ");
+    if(ehdotus!==odotettu){
+      ljViesti(ljStep===0
+        ? "Ei vielä. Sulkeet ovat vahvimmat, sitten kerto ja jako. Yhtä vahvat vasemmalta oikealle."
+        : "Ei vielä. Kumpi jäljellä olevista on vahvempi?", "no");
+      return;
+    }
+    const arvo=laske(ljTokens[i-1],ljTokens[i],ljTokens[i+1]);
+    let alku=i-1, loppu=i+1;
+    if(ljTokens[i-2]==="(" && ljTokens[i+2]===")"){ alku=i-2; loppu=i+2; }
+    ljTokens.splice(alku, loppu-alku+1, String(arvo));
+    ljStep++;
+    ljViesti(ljStep>=l.askeleet.length ? "Valmis. Vastaus on "+l.vastaus+"." : "Oikein. Jatka seuraavaan.", "ok");
+    ljPiirra();
+  }
+  document.getElementById("ljSeuraava").addEventListener("click",()=>{
+    ljI=(ljI+1)%D.kokeilu.length; ljAlku();
+  });
+  ljAlku();
+}
+
+/* ---------- harjoitukset ----------
+   Kaksi vastaustyyppiä: "numero" (oletus, tekstikenttä + Number()-vertailu) ja
+   "monivalinta" (valintapainikkeet, h.vaihtoehdot[] + h.vastaus = oikean vaihtoehdon indeksi).
+   Jos D.harjoitukset puuttuu tai on tyhjä, koko osio piilotetaan (näyttötaidot, ei kirjallista
+   harjoitusta: liikunta, kuvataide). */
+/* Kysymyksessä voi olla luettavaa aineistoa ja sen jälkeen varsinainen kysymys,
+   erotettuna tyhjällä rivillä. Viimeinen osa on kysymys, sitä edeltävät aineistoa. */
+const kysymysHtml = t => {
+  const osat = String(t).split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(osat.length < 2) return osat[0] || "";
+  const kysymys = osat.pop();
+  return osat.map(p=>`<span class="aineisto">${p}</span>`).join("")
+       + `<span class="kysymysrivi">${kysymys}</span>`;
+};
+
+const ONKO_HARJOITUKSIA = Array.isArray(D.harjoitukset) && D.harjoitukset.length > 0;
+const RYHMAT = ONKO_HARJOITUKSIA ? D.harjoitusryhmat : [];
+const tila={};
+if(ONKO_HARJOITUKSIA) D.harjoitukset.forEach(h=>tila[h.id]={ratkaistu:false, yritetty:false});
+const muotoile = n => (typeof n==="number") ? n.toLocaleString("fi-FI",{maximumFractionDigits:10}) : n;
+
+if(!ONKO_HARJOITUKSIA){
+  document.getElementById("harjoitukset").style.display = "none";
+  const prog = document.querySelector(".progress");
+  if(prog) prog.style.display = "none";
+} else {
+
+document.getElementById("harjoitukset").innerHTML = RYHMAT.map(r=>{
+  const items=D.harjoitukset.filter(h=>h.ryhma===r.id);
+  return `<section class="grp"><div class="grp-head"><h3>${r.nimi}</h3><span>${r.info}</span></div>${
+    items.map((h,i)=>{
+      const nro=D.harjoitukset.indexOf(h)+1;
+      const vastausUi = h.tyyppi==="monivalinta"
+        ? `<div class="row mv" role="group" aria-label="Vaihtoehdot tehtävään ${nro}">
+             ${h.vaihtoehdot.map((v,vi)=>`<button type="button" class="btn ghost mv-valinta" data-mv="${h.id}" data-i="${vi}">${v}</button>`).join("")}
+           </div>`
+        : `<div class="row">
+             <input type="text" inputmode="numeric" id="in-${h.id}" aria-label="Vastaus tehtävään ${nro}" placeholder="vastaus">
+             <button type="button" class="btn" data-tarkista="${h.id}">Tarkista</button>
+             <button type="button" class="btn ghost" data-vinkki="${h.id}">Vinkki</button>
+           </div>`;
+      return `<div class="ex" id="ex-${h.id}">
+        <div class="q"><span class="num">${nro}.</span><span class="txt">${kysymysHtml(h.kysymys)}</span></div>
+        ${h.kuuntele ? `<div class="kuuntele">
+          <button type="button" class="btn ghost" data-kuuntele="${h.id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7"/></svg>Kuuntele</button>
+          <button type="button" class="btn ghost" data-hitaasti="${h.id}">Kuuntele hitaasti</button>
+          <p class="varateksti" id="vara-${h.id}" hidden></p></div>` : ""}
+        ${vastausUi}
+        <div id="fb-${h.id}"></div>
+      </div>`;
+    }).join("")}</section>`;
+}).join("");
+
+function paivitaEdistyminen(){
+  const n=Object.values(tila).filter(t=>t.ratkaistu).length, kaikki=D.harjoitukset.length;
+  document.getElementById("pbar").style.width=Math.round(n/kaikki*100)+"%";
+  document.getElementById("pcnt").textContent=`${n} / ${kaikki}`;
+  document.getElementById("valmis").innerHTML = n===kaikki
+    ? `<div class="done"><h3>Kaikki ${kaikki} oikein.</h3>${D.valmis_teksti || "Tämä taito on nyt näytetty."}</div>`
+    : "";
+}
+
+function merkitseTulos(id, oikein, viesti){
+  const fb=document.getElementById("fb-"+id), kortti=document.getElementById("ex-"+id);
+  tila[id].yritetty=true;
+  if(oikein){
+    tila[id].ratkaistu=true;
+    kortti.dataset.tila="oikein";
+    fb.className="fb ok"; fb.textContent=viesti;
+  } else {
+    kortti.dataset.tila="vaarin";
+    fb.className="fb no"; fb.textContent=viesti;
+  }
+  paivitaEdistyminen();
+}
+
+/* Suomalainen lukumuoto: välilyönti on tuhaterotin, pilkku desimaalierotin.
+   Piste voi olla kumpi tahansa. Se tulkitaan tuhaterottimeksi VAIN silloin, kun
+   koko luku on aitoa tuhaterotinmuotoa: alkuosa 1–3 numeroa ilman etunollaa ja
+   jokainen jatko-osa täsmälleen 3 numeroa (1.500, 12.345.678). Kaikissa muissa
+   tapauksissa piste on desimaalipiste — myös 0.125, joka vanhalla säännöllä
+   ("3 numeroa pisteen jäljessä = tuhaterotin") luettiin virheellisesti luvuksi 125. */
+const TUHATEROTIN = /^[1-9]\d{0,2}(\.\d{3})+$/;
+function lueLuku(teksti){
+  // Murtoluku (3/4, -3/4) ja sekaluku (1 2/3, -1 2/3) hyväksytään sellaisinaan.
+  const raaka = String(teksti).replace(/\u00a0/g, " ").trim();
+  let m = raaka.match(/^(-?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[4]); if(nim === 0) return null;
+    const v = Number(m[2]) + Number(m[3]) / nim; return m[1] ? -v : v; }
+  m = raaka.match(/^(-?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[3]); if(nim === 0) return null;
+    const v = Number(m[2]) / nim; return m[1] ? -v : v; }
+  let s = String(teksti).replace(/[\s\u00a0]/g, "");
+  if(s === "") return null;
+  if(s.indexOf(",") >= 0){
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if(TUHATEROTIN.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function tarkista(id){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const kentta=document.getElementById("in-"+id);
+  const fb=document.getElementById("fb-"+id);
+  if(kentta.value.trim()===""){ fb.className="fb hint"; fb.textContent="Kirjoita vastaus ensin."; return; }
+  const luku=lueLuku(kentta.value);
+  if(luku===null){ fb.className="fb no"; fb.textContent="Vastauksen pitää olla luku tai murtoluku (esimerkiksi 3/4)."; return; }
+  const oikein = Math.abs(luku - h.vastaus) < 1e-9;
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei vielä. ${h.vinkki} Kokeile uudelleen.`);
+}
+
+function tarkistaMonivalinta(id, valittuIndeksi, painike){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const rivi=painike.closest(".row");
+  rivi.querySelectorAll(".mv-valinta").forEach(b=>b.disabled=true);
+  const oikein = valittuIndeksi===h.vastaus;
+  painike.classList.add(oikein?"mv-oikein":"mv-vaarin");
+  if(!oikein){
+    const oikeaBtn=rivi.querySelector(`[data-i="${h.vastaus}"]`);
+    if(oikeaBtn) oikeaBtn.classList.add("mv-oikein");
+  }
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei ihan. Oikea vastaus on korostettu. ${h.selitys||""}`);
+}
+
+/* Kuuntelu: selain lukee tekstin ääneen omalla puhesynteesillään (englanniksi, jos laitteessa on
+   englanninkielinen ääni). Ei äänitiedostoja eikä verkkoyhteyttä. Jos laite ei osaa puhua,
+   teksti näytetään luettavaksi — silloin tehtävä muuttuu luetun ymmärtämiseksi, mutta ei katkea. */
+function puhu(id, nopeus){
+  const h=D.harjoitukset.find(x=>x.id===id); if(!h || !h.kuuntele) return;
+  const vara=document.getElementById("vara-"+id);
+  const naytaTeksti=syy=>{ vara.hidden=false; vara.textContent=syy+" Teksti: "+h.kuuntele; };
+  if(!("speechSynthesis" in window)){ naytaTeksti("Tämä laite ei osaa lukea ääneen."); return; }
+  const s=window.speechSynthesis; s.cancel();
+  const u=new SpeechSynthesisUtterance(h.kuuntele);
+  u.lang=h.kieli||"en-GB"; u.rate=nopeus;
+  const aanet=s.getVoices(), kieli=u.lang.slice(0,2);
+  const aani=aanet.find(a=>a.lang===u.lang) || aanet.find(a=>a.lang && a.lang.startsWith(kieli));
+  if(aani) u.voice=aani;
+  else if(aanet.length) { naytaTeksti("Laitteessa ei ole englanninkielistä ääntä."); return; }
+  u.onerror=()=>naytaTeksti("Ääneen lukeminen ei onnistunut.");
+  s.speak(u);
+}
+
+document.getElementById("harjoitukset").addEventListener("click",e=>{
+  const k=e.target.closest("[data-kuuntele]"), hk=e.target.closest("[data-hitaasti]");
+  if(k) puhu(k.dataset.kuuntele, 0.9);
+  if(hk) puhu(hk.dataset.hitaasti, 0.6);
+  const t=e.target.closest("[data-tarkista]"), v=e.target.closest("[data-vinkki]"), mv=e.target.closest("[data-mv]");
+  if(t) tarkista(t.dataset.tarkista);
+  if(mv) tarkistaMonivalinta(mv.dataset.mv, Number(mv.dataset.i), mv);
+  if(v){
+    const h=D.harjoitukset.find(x=>x.id===v.dataset.vinkki);
+    const fb=document.getElementById("fb-"+h.id);
+    fb.className="fb hint"; fb.textContent=h.vinkki;
+  }
+});
+document.getElementById("harjoitukset").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.id.startsWith("in-")){ e.preventDefault(); tarkista(e.target.id.slice(3)); }
+});
+
+} // ONKO_HARJOITUKSIA
+
+if(ONKO_HARJOITUKSIA) paivitaEdistyminen();
+
+document.getElementById("back").innerHTML =
+  `Tämä sivu on yhden osaamistavoitteen sisältö <strong>Osaamispolku ${D.vuosiluokka||4}</strong> -mallissa. Taito: <span class="tag" style="display:inline-block">${D.tavoite_id}</span>`;
+</script>

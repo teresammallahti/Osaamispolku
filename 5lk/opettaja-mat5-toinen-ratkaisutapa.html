@@ -1,0 +1,524 @@
+<title>Toinen ratkaisutapa · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT5-AJA-02","oppiaine":"MAT","vuosiluokka":5,"taitoalue":"AJA","jakso":"J2","taso":"ydin","otsikko":"Toinen ratkaisutapa","kuvaus":"Osaan ratkaista saman tehtävän kahdella eri tavalla ja vertailla tapoja.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T2","T4"],"S":["S1"]},"eyebrow":"Matematiikka · 5. luokka · Ajattelun taidot","ikoni":"puhe","naytto":"Ratkaisen tehtävän kahdella menetelmällä (esim. piirroksella ja laskulla tai kahdella eri laskulla), selitän molemmat parille ja perustelen, kumpi tapa sopii tähän tehtävään paremmin.","osaa_kun":"Molemmat tavat ovat oikein ja johtavat samaan vastaukseen, ja perustelen valintani välivaiheiden määrällä tai sillä, kummassa on vähemmän virheen paikkoja, enkä pelkällä tottumuksella.","teksti":[{"tyyppi":"johdanto","sisalto":"Eetu ja Noor laskevat saman konserttilippujen hinnan. Eetu laskee aikuisten ja lasten liput erikseen, Noor laskee ensin, montako lippua on yhteensä. Molemmat saavat 80 €, mutta heidän paperinsa näyttävät aivan erilaisilta. Kun samaan vastaukseen pääsee kahta reittiä, reittejä voi verrata ja valita niistä paremman. Toinen reitti on myös hyvä tarkistus: jos vastaukset eroavat, jossakin on virhe. Tässä taidossa ratkaiset saman tehtävän kahdella tavalla ja perustelet, kumpi sopii tehtävään paremmin."},{"tyyppi":"kappale","otsikko":"Mikä tekee tavasta eri tavan","sisalto":"Konserttiin ostetaan 6 aikuisen ja 4 lapsen lippua, ja jokainen lippu maksaa 8 €. Tapa A laskee 6 · 8 = 48, sitten 4 · 8 = 32 ja lopuksi 48 + 32 = 80. Tapa B laskee 6 + 4 = 10 ja sitten 10 · 8 = 80. Välitulos on luku, jonka saat välivaiheessa ennen vastausta. Tavassa A välitulokset ovat 48 ja 32, tavassa B välitulos on 10. Tavat ovat eri tapoja, koska niiden välitulokset ovat erilaiset. Välivaihe on yksi laskutoimitus, myös silloin kun teet sen päässä. Tavassa A on siis kolme välivaihetta ja tavassa B kaksi."},{"tyyppi":"kappale","otsikko":"Kokonaisuus ensin vai osa kerrallaan","sisalto":"Tapa A laskee osa kerrallaan: ensin aikuisten liput, sitten lasten liput. Tapa B laskee kokonaisuuden ensin: montako lippua on yhteensä. Miksi 6 · 8 + 4 · 8 on yhtä suuri kuin 10 · 8? Koska kumpikin lasku laskee kymmenen kahdeksan euron lippua. Tavassa A liput vain lasketaan kahdessa kasassa, kuusi ja neljä. Kokonaisuus ensin toimii, kun jokainen osa maksaa yhtä paljon. Jos aikuisen lippu maksaisi 8 € ja lapsen lippu 5 €, lippuja ei voisi laskea yhteen ennen kertomista. Sama toimii erotuksessa. Aya säästää 8 € ja Leo 6 € joka viikko. Montako euroa enemmän Ayalla on 7 viikon kuluttua? Osa kerrallaan: 7 · 8 = 56, 7 · 6 = 42 ja 56 − 42 = 14. Erotus ensin: 8 − 6 = 2, eli Aya säästää joka viikko 2 € enemmän, ja 7 · 2 = 14. Kummallakin tavalla Ayalla on 14 € enemmän."},{"tyyppi":"kappale","otsikko":"Piirros on oma tapansa: janamalli ja ryhmäkuva","sisalto":"Sara ja Onni säästävät yhteensä 56 €. Saralla on kolme kertaa niin paljon kuin Onnilla. Piirrä vihkoon Onnille jana, joka on yksi osa. Piirrä sen alle Saralle jana, jossa on kolme yhtä pitkää osaa. Nyt näet, että osia on yhteensä 3 + 1 = 4 ja että ne ovat kaikki yhtä suuria. Yksi osa on 56 : 4 = 14 €, joten Onnilla on 14 € ja Saralla 3 · 14 = 42 €. Ryhmäkuva on toinen piirros: piirrät esineet riveihin. Jos jokaisessa rivissä on 2 punaista ja 3 sinistä helmeä, kuvasta näkee, että yhden rivin helmet voi laskea ensin yhteen."},{"tyyppi":"taulukko","otsikko":"Sama tehtävä kokeilemalla: Saran ja Onnin säästöt","otsikkorivi":["Arvaus Onnille","Saran osuus","Yhteensä","Verrattuna 56 euroon"],"rivit":[["10 €","3 · 10 = 30 €","30 + 10 = 40 €","liian vähän"],["12 €","3 · 12 = 36 €","36 + 12 = 48 €","liian vähän"],["14 €","3 · 14 = 42 €","42 + 14 = 56 €","<b>oikein</b>"]]},{"tyyppi":"kappale","otsikko":"Kumpi tapa sopii paremmin","sisalto":"Kun molemmat tavat ovat oikein, vertaa niitä kahdella mittarilla. Ensimmäinen on välivaiheiden määrä: janamallissa niitä on kolme, kokeilutaulukossa kuusi, koska jokaisella rivillä on kaksi laskua. Kokeilussa välivaiheiden määrä riippuu siitä, montako arvausta tarvitset; tässä niitä tarvittiin kolme, joten laskuja tuli kuusi. Toinen mittari on virheen paikat. Jokainen välivaihe on kohta, jossa voi laskea väärin, ja jotkin kohdat ovat erityisen alttiita, kuten osien määrä janamallissa. Saran ja Onnin tehtävään janamalli sopii paremmin, koska siinä on kolme välivaihetta kuuden sijaan. Perustelu \"tapa A, koska teen aina näin\" ei kerro tehtävästä mitään, eikä myöskään pelkkä \"tämä on helpompi\". Hyvässä perustelussa on luku tai nimetty virheen paikka."},{"tyyppi":"saanto","otsikko":"Näin ratkaiset ja vertaat kahdella tavalla","askeleet":["Ratkaise tehtävä ensin yhdellä tavalla ja kirjoita jokainen välivaihe omalle rivilleen.","Valitse toinen tapa, jossa välitulokset ovat erilaiset: kokonaisuus ensin tai osa kerrallaan, piirros tai lasku, kokeilu taulukolla.","Ratkaise tehtävä myös toisella tavalla välivaihe kerrallaan.","Vertaa vastauksia. Jos ne eroavat, ainakin toinen tapa on väärin. Etsi virhe ennen kuin vertaat muuta.","Kun vastaukset ovat samat, laske kummankin tavan välivaiheet ja katso virheen paikat. Perustele valintasi luvulla tai nimeämällä virheen paikka."]},{"tyyppi":"ansa","otsikko":"Ansa 1: sama lasku eri järjestyksessä","sisalto":"Eetu ratkaisi lipputehtävän laskulla 6 · 8 + 4 · 8 ja kirjoitti toiseksi tavaksi 4 · 8 + 6 · 8. Se ei ole toinen tapa. Välitulokset ovat samat, 32 ja 48, vain eri järjestyksessä. Sama koskee tekijöiden vaihtamista: 8 · 6 antaa saman välituloksen kuin 6 · 8. Tapa on toinen vasta, kun sen välitulokset ovat erilaiset, esimerkiksi 6 + 4 = 10 ja 10 · 8 = 80."},{"tyyppi":"ansa","otsikko":"Ansa 2: eri vastaukset jäävät huomaamatta","sisalto":"Noor laski lipputehtävän tavalla A näin: 6 · 8 = 48 ja 48 + 4 = 52. Tavalla B hän sai 10 · 8 = 80. Hän kirjoitti vastaukseksi 52 eikä verrannut tuloksia. Kun kaksi tapaa antaa eri vastauksen, ainakin toinen on väärin. Tässä virhe on tavan A toisessa välivaiheessa: lasten liput lisättiin kappalemääränä, vaikka 4 lippua maksaa 4 · 8 = 32 €. Oikein on 48 + 32 = 80, sama kuin tavassa B."},{"tyyppi":"ansa","otsikko":"Ansa 3: janamallista puuttuu osa","sisalto":"Kun luet \"Saralla on kolme kertaa niin paljon kuin Onnilla\", on helppo piirtää kolme osaa ja laskea 56 : 3 = 18 j. 2. Onnin osuus unohtui, vaikka hänelläkin on oma osansa. Osia on siis 3 + 1 = 4, ja yksi osa on 56 : 4 = 14 €. Tässä jakojäännös oli vihje virheestä, mutta väärä osien määrä voi antaa myös tasajaon. Tarkista siksi janamallista aina, että jokaisella henkilöllä on oma janansa."}],"harjoitusryhmat":[{"id":"tavat","nimi":"Kaksi tapaa, samat luvut","info":"Seuraa kahta annettua tapaa ja laske niiden välitulokset. Välivaihe on yksi laskutoimitus."},{"id":"piirros","nimi":"Janamalli, kokeilu ja ryhmäkuva","info":"Piirrä vihkoon janamalli tai ryhmäkuva ja laske sen avulla."},{"id":"vertaa","nimi":"Vertaile ja korjaa","info":"Etsi virhe, laske välivaiheet ja perustele valinta luvulla."}],"harjoitukset":[{"id":"H01","ryhma":"tavat","kysymys":"Tiedekeskukseen ostetaan 9 aikuisten lippua ja 11 lasten lippua. Jokainen lippu maksaa 6 €. Tapa A laskee ensin aikuisten liput, sitten lasten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":20,"vinkki":"Tavan B ensimmäinen välivaihe kertoo, montako lippua ostetaan yhteensä.","selitys":"9 + 11 = 20. Lippuja on 20, joten tapa B kertoo seuraavaksi 20 · 6."},{"id":"H02","ryhma":"tavat","kysymys":"Tiedekeskukseen ostetaan 9 aikuisten lippua ja 11 lasten lippua. Jokainen lippu maksaa 6 €. Tapa A laskee ensin aikuisten liput, sitten lasten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":66,"vinkki":"Tapa A laskee ensin aikuisten liput. Toinen välivaihe on lasten liput.","selitys":"Ensimmäinen välitulos on 9 · 6 = 54 ja toinen 11 · 6 = 66. Lasten liput maksavat 66 €."},{"id":"H03","ryhma":"tavat","kysymys":"Noor säästää 8 € joka viikko ja Eetu 3 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Tapa A laskee kummankin säästöt 4 viikon ajalta ja vähentää ne toisistaan. Tapa B laskee ensin, montako euroa enemmän Noor säästää joka viikko.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":5,"vinkki":"Tavan B ensimmäinen välivaihe on viikkosäästöjen erotus.","selitys":"8 − 3 = 5. Noor säästää joka viikko 5 € enemmän, joten tapa B kertoo seuraavaksi 4 · 5."},{"id":"H04","ryhma":"tavat","kysymys":"Noor säästää 8 € joka viikko ja Eetu 3 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Noorilla on kuin Eetulla 4 viikon kuluttua? Ratkaise vihkoon kahdella eri tavalla ja vertaa vastauksia.","vastaus":20,"vinkki":"Voit laskea kummankin säästöt erikseen tai aloittaa siitä, montako euroa enemmän Noor säästää viikossa.","selitys":"Osa kerrallaan: 4 · 8 = 32, 4 · 3 = 12 ja 32 − 12 = 20. Erotus ensin: 8 − 3 = 5 ja 4 · 5 = 20. Kummallakin tavalla Noorilla on 20 € enemmän."},{"id":"H05","ryhma":"tavat","kysymys":"Eliaksella on 40 €. Hän ostaa 3 sarjakuvalehteä, jotka maksavat 7 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":26,"vinkki":"Tapa A vähentää ensin yhden lehden hinnan ja sitten toisen.","selitys":"40 − 7 = 33 ja 33 − 7 = 26. Toinen välitulos on 26."},{"id":"H06","ryhma":"tavat","kysymys":"Eliaksella on 40 €. Hän ostaa 3 sarjakuvalehteä, jotka maksavat 7 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta tavassa A on?","vastaus":3,"vinkki":"Jokainen lehti vähennetään omalla laskullaan.","selitys":"40 − 7 = 33, 33 − 7 = 26 ja 26 − 7 = 19. Kolme vähennyslaskua. Tavassa B on kaksi: 3 · 7 = 21 ja 40 − 21 = 19."},{"id":"H07","ryhma":"tavat","tyyppi":"monivalinta","kysymys":"Laskun 8 · 7 + 2 · 7 tapa A on: 8 · 7 = 56, 2 · 7 = 14, 56 + 14 = 70.\n\nMikä vaihtoehdoista on aidosti toinen tapa?","vaihtoehdot":["2 · 7 = 14, 8 · 7 = 56, 14 + 56 = 70","7 · 8 = 56, 7 · 2 = 14, 56 + 14 = 70","8 + 2 = 10, 10 · 7 = 70","7 · 2 = 14, 7 · 8 = 56, 14 + 56 = 70"],"vastaus":2,"vinkki":"Katso välituloksia. Ovatko ne samat kuin tavassa A?","selitys":"Vain tavassa 8 + 2 = 10, 10 · 7 = 70 on eri välitulos, 10. Muissa välitulokset ovat 56 ja 14, vain eri järjestyksessä."},{"id":"H08","ryhma":"piirros","kysymys":"Aino ja Leo säästävät yhteensä 75 €. Ainolla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":5,"vinkki":"Ainon janassa on neljä osaa. Muista myös Leon jana.","selitys":"Ainolla on 4 osaa ja Leolla 1 osa, joten 4 + 1 = 5."},{"id":"H09","ryhma":"piirros","kysymys":"Aino ja Leo säästävät yhteensä 75 €. Ainolla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":15,"vinkki":"Jaa koko summa osien määrällä.","selitys":"Osia on 5, joten yksi osa on 75 : 5 = 15 €."},{"id":"H10","ryhma":"piirros","kysymys":"Aino ja Leo säästävät yhteensä 75 €. Ainolla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako euroa Ainolla on?","vastaus":60,"vinkki":"Ainolla on neljä osaa.","selitys":"4 · 15 = 60. Ainolla on 60 € ja Leolla 15 €. Tarkistus: 60 + 15 = 75."},{"id":"H11","ryhma":"piirros","kysymys":"Aino ja Leo säästävät yhteensä 75 €. Ainolla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa. Toinen tapa on kokeileminen taulukolla. Sara arvaa ensin, että Leolla on 9 €.\n\nMontako euroa Ainolla ja Leolla olisi silloin yhteensä?","vastaus":45,"vinkki":"Laske ensin Ainon osuus arvauksesta ja lisää siihen Leon osuus.","selitys":"Ainolla olisi 4 · 9 = 36 € ja yhteensä 36 + 9 = 45 €. Se on liian vähän, joten arvausta pitää kasvattaa."},{"id":"H12","ryhma":"piirros","kysymys":"Aino ja Leo säästävät yhteensä 75 €. Ainolla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa. Toinen tapa on kokeileminen taulukolla. Sara arvaa Leon osuudeksi ensin 9 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMontako euroa on kolmannen arvauksen yhteissumma?","vastaus":65,"vinkki":"Kolmas arvaus on 9 + 2 + 2.","selitys":"Kolmas arvaus on 13 €. Ainolla olisi 4 · 13 = 52 € ja yhteensä 52 + 13 = 65 €. Se on vielä liian vähän."},{"id":"H13","ryhma":"piirros","kysymys":"Leivinpellillä on leivoksia 6 rivissä. Jokaisessa rivissä on 4 mansikkaleivosta ja 3 suklaaleivosta. Tapa A laskee mansikka- ja suklaaleivokset erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin leivokset.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":7,"vinkki":"Yhdessä rivissä on mansikka- ja suklaaleivoksia.","selitys":"4 + 3 = 7. Yhdessä rivissä on 7 leivosta."},{"id":"H14","ryhma":"piirros","kysymys":"Leivinpellillä on leivoksia 6 rivissä. Jokaisessa rivissä on 4 mansikkaleivosta ja 3 suklaaleivosta. Tapa A laskee mansikka- ja suklaaleivokset erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin leivokset.\n\nMontako leivosta pellillä on yhteensä?","vastaus":42,"vinkki":"Rivejä on 6. Laske kummalla tavalla tahansa ja tarkista toisella.","selitys":"Tapa B: 6 · 7 = 42. Tapa A: 6 · 4 = 24, 6 · 3 = 18 ja 24 + 18 = 42."},{"id":"H15","ryhma":"vertaa","kysymys":"Kerhoon ostetaan 4 pakettia palloja ja 5 pakettia kartioita. Jokainen paketti maksaa 7 €.\nTapa A: 4 · 7 = 28, 28 + 5 = 33\nTapa B: 4 + 5 = 9, 9 · 7 = 63\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":63,"vinkki":"Mitä tarkoittaa luku 5 tavan A toisessa välivaiheessa?","selitys":"Paketteja on 4 + 5 = 9 ja ne maksavat 9 · 7 = 63 €. Tavassa A kartiopakettien hinta jäi laskematta: 28 + 35 = 63."},{"id":"H16","ryhma":"vertaa","tyyppi":"monivalinta","kysymys":"Kerhoon ostetaan 4 pakettia palloja ja 5 pakettia kartioita. Jokainen paketti maksaa 7 €.\nTapa A: 4 · 7 = 28, 28 + 5 = 33\nTapa B: 4 + 5 = 9, 9 · 7 = 63\n\nMissä välivaiheessa virhe on?","vaihtoehdot":["Tavan A ensimmäisessä: 4 · 7 ei ole 28.","Tavan A toisessa: kartiopaketit lisättiin kappalemääränä eikä euroina.","Tavan B ensimmäisessä: eri paketteja ei saa laskea yhteen.","Kummassakaan tavassa ei ole virhettä."],"vastaus":1,"vinkki":"Lue jokaisesta välituloksesta, mitä se tarkoittaa: kappaleita vai euroja?","selitys":"28 on palloihin kuluneet eurot, mutta 5 on kartiopakettien määrä. Euroihin pitää lisätä euroja: 5 · 7 = 35 ja 28 + 35 = 63."},{"id":"H17","ryhma":"vertaa","kysymys":"Kerho ostaa 6 sinistä ja 3 punaista hyppynarua. Jokainen naru maksaa 9 €.\nTapa A:\n1. rivi: 6 · 9 = 54\n2. rivi: 3 · 9 = 24\n3. rivi: 54 + 24 = 78\nTapa B: 6 + 3 = 9, 9 · 9 = 81\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":2,"vinkki":"Laske jokainen rivi itse. Kolmas rivi voi olla oikein laskettu, vaikka luku on väärä.","selitys":"3 · 9 = 27 eikä 24. Kolmas rivi laskee 54 + 24 oikein, mutta väärällä luvulla. Oikein: 54 + 27 = 81."},{"id":"H18","ryhma":"vertaa","tyyppi":"monivalinta","kysymys":"Noor piirsi ryhmäkuvan napeista. Siinä on 3 riviä, ja jokaisessa rivissä on 8 punaista ja 2 sinistä nappia.\nTapa A: 3 · 8 = 24, 3 · 2 = 6, 24 + 6 = 30\nTapa B: 8 + 2 = 10, 3 · 10 = 30\n\nKuka perustelee valintansa oikein?","vaihtoehdot":["Leo: Tapa A, koska teen aina näin.","Noor: Tapa B, koska siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän.","Sara: Tapa B, koska se näyttää helpommalta.","Onni: Tapa A, koska siinä on enemmän laskuja ja se on siksi varmempi."],"vastaus":1,"vinkki":"Hyvässä perustelussa on luku tai nimetty virheen paikka.","selitys":"Noor laskee välivaiheet ja kertoo luvut. Tottumus ja \"näyttää helpommalta\" eivät kerro tehtävästä mitään, ja jokainen ylimääräinen lasku on uusi virheen paikka."},{"id":"H19","ryhma":"vertaa","kysymys":"Ainolla on kolme kertaa niin monta tarraa kuin Leolla. Heillä on yhteensä 52 tarraa. Leo piirsi janamalliin vain kolme osaa ja laski 52 : 3 = 17 j. 1.\n\nKorjaa janamalli. Montako tarraa Leolla on?","vastaus":13,"vinkki":"Leollakin on oma osansa janamallissa.","selitys":"Osia on 3 + 1 = 4. Yksi osa on 52 : 4 = 13, ja se on Leon osuus. Ainolla on 3 · 13 = 39 tarraa."},{"id":"H20","ryhma":"vertaa","kysymys":"Noorilla ja Eliaksella on yhteensä 60 €. Noorilla on kaksi kertaa niin paljon kuin Eliaksella.\nJanamalli:\n2 + 1 = 3\n60 : 3 = 20\n2 · 20 = 40\nKokeilu taulukolla:\nElias 14 €: 2 · 14 = 28, 28 + 14 = 42\nElias 16 €: 2 · 16 = 32, 32 + 16 = 48\nElias 18 €: 2 · 18 = 36, 36 + 18 = 54\nElias 20 €: 2 · 20 = 40, 40 + 20 = 60\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":5,"vinkki":"Laske kummankin tavan laskutoimitukset. Kokeilussa jokaisella rivillä on kaksi.","selitys":"Kokeilussa on 4 · 2 = 8 välivaihetta ja janamallissa 3. Erotus on 8 − 3 = 5."}],"ryhmanimet":{"tavat":"Kaksi tapaa","piirros":"Piirros ja kokeilu","vertaa":"Vertailu ja virheet"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita kummankin tavan välivaiheet näkyviin.\nVälivaihe on yksi laskutoimitus.\nKirjoita lukutehtäviin vastaukseksi yksi luku.\nKun tehtävä pyytää perustelua, kirjoita siihen luku tai nimeä virheen paikka.","tehtavat":[{"nro":1,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Uimahalliin ostetaan 13 lasten lippua ja 7 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":20},{"nro":2,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Uimahalliin ostetaan 13 lasten lippua ja 7 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":28},{"nro":3,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Uimahalliin ostetaan 13 lasten lippua ja 7 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako euroa liput maksavat yhteensä?","vastaus":80},{"nro":4,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Uimahalliin ostetaan 13 lasten lippua ja 7 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako välivaihetta tavassa A on?","vastaus":3},{"nro":5,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Ayalla on 50 €. Hän ostaa 4 kirjaa, jotka maksavat 7 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":36},{"nro":6,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Ayalla on 50 €. Hän ostaa 4 kirjaa, jotka maksavat 7 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta vähemmän tavassa B on kuin tavassa A?","vastaus":2},{"nro":7,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Laskun 5 · 7 + 3 · 7 neljä ratkaisutapaa:\nTapa A: 5 · 7 = 35, 3 · 7 = 21, 35 + 21 = 56\nTapa B: 3 · 7 = 21, 5 · 7 = 35, 21 + 35 = 56\nTapa C: 5 + 3 = 8, 8 · 7 = 56\nTapa D: 7 · 5 = 35, 7 · 3 = 21, 35 + 21 = 56\n\nMontako tavoista B, C ja D on aidosti eri tapa kuin tapa A?","vastaus":1},{"nro":8,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Noor ja Elias säästävät yhteensä 72 €. Noorilla on kolme kertaa niin paljon kuin Eliaksella. Janamallissa Eliaksen osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":4},{"nro":9,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Noor ja Elias säästävät yhteensä 72 €. Noorilla on kolme kertaa niin paljon kuin Eliaksella. Janamallissa Eliaksen osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":18},{"nro":10,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Noor ja Elias säästävät yhteensä 72 €. Noorilla on kolme kertaa niin paljon kuin Eliaksella. Janamallissa Eliaksen osuus on yksi osa.\n\nMontako euroa Noorilla on?","vastaus":54},{"nro":11,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Noor ja Elias säästävät yhteensä 72 €. Noorilla on kolme kertaa niin paljon kuin Eliaksella. Toinen tapa on kokeileminen taulukolla. Aino arvaa ensin, että Eliaksella on 14 €.\n\nMontako euroa Noorilla ja Eliaksella olisi silloin yhteensä?","vastaus":56},{"nro":12,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Noor ja Elias säästävät yhteensä 72 €. Noorilla on kolme kertaa niin paljon kuin Eliaksella. Toinen tapa on kokeileminen taulukolla. Aino arvaa Eliaksen osuudeksi ensin 14 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMonennella arvauksella yhteissumma on täsmälleen 72 €?","vastaus":3},{"nro":13,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo piirtää ryhmäkuvan helmistä. Leon kuvassa on 6 riviä. Jokaisessa rivissä on 5 punaista ja 4 sinistä helmeä. Tapa A laskee punaiset ja siniset helmet erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin helmet.\n\nMontako helmeä Leon kuvassa on yhteensä? Laske tavalla B.","vastaus":54},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Juhliin ostetaan 7 pakettia mehua ja 3 pakettia vettä. Jokainen paketti maksaa 6 €.\nTapa A: 7 · 6 = 42, 42 + 3 = 45\nTapa B: 7 + 3 = 10, 10 · 6 = 60\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":60},{"nro":15,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Juhliin ostetaan 7 pakettia mehua ja 3 pakettia vettä. Jokainen paketti maksaa 6 €.\nTapa A: 7 · 6 = 42, 42 + 3 = 45\nTapa B: 7 + 3 = 10, 10 · 6 = 60\n\nKahdesta tavasta toinen on väärin. Missä välivaiheessa virhe on? Selitä, mitä siinä tehtiin väärin.","vastaus":"Malliesimerkki: Virhe on tavan A toisessa välivaiheessa (42 + 3 = 45). Siinä lisättiin vesipakettien määrä 3, vaikka pitäisi lisätä niiden hinta 3 · 6 = 18 €. Oikein: 42 + 18 = 60, sama kuin toisessa tavassa."},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Ayalla ja Onnilla on yhteensä 36 €. Ayalla on kaksi kertaa niin paljon kuin Onnilla.\nJanamalli:\n2 + 1 = 3\n36 : 3 = 12\n2 · 12 = 24\nKokeilu taulukolla:\nOnni 8 €: 2 · 8 = 16, 16 + 8 = 24\nOnni 10 €: 2 · 10 = 20, 20 + 10 = 30\nOnni 12 €: 2 · 12 = 24, 24 + 12 = 36\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":3},{"nro":17,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Aino säästää 8 € joka viikko ja Eetu 5 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Ainolla on kuin Eetulla 6 viikon kuluttua? Ratkaise tehtävä kahdella eri tavalla. Kirjoita kummankin tavan välivaiheet näkyviin ja vastaus.","vastaus":"Malliesimerkki: Tapa 1: 6 · 8 = 48, 6 · 5 = 30, 48 − 30 = 18. Tapa 2: 8 − 5 = 3, 6 · 3 = 18. Molemmilla tavoilla vastaus on 18 €."},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kerho ostaa 8 jalkapalloa ja 2 koripalloa. Jokainen pallo maksaa 9 €.\nTapa A: 8 · 9 = 72, 2 · 9 = 18, 72 + 18 = 90\nTapa B: 8 + 2 = 10, 10 · 9 = 90\n\nMolemmat tavat ovat oikein. Eetu valitsee tavan A, koska hän tekee aina niin. Kumpi tapa sopii tähän tehtävään paremmin? Perustele valintasi välivaiheiden määrällä tai virheen paikoilla.","vastaus":"Malliesimerkki: Tapa B. Siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän. Tavassa B on vain yksi kertolasku, 10 · 9, kun tavassa A niitä on kaksi. Eetun perustelu ei kelpaa, koska tottumus ei kerro tehtävästä mitään."},{"nro":19,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kerho ostaa 6 sinistä ja 4 vihreää lippistä. Jokainen lippis maksaa 7 €.\nTapa A:\n1. rivi: 6 · 7 = 42\n2. rivi: 4 · 7 = 24\n3. rivi: 42 + 24 = 66\nTapa B: 6 + 4 = 10, 10 · 7 = 70\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":2},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Leo ja Noor keräävät yhteensä 60 pulloa. Noor kerää neljä kertaa niin monta kuin Leo.\nTapa A (janamalli): Osia on 4. 60 : 4 = 15, joten Noor kerää 4 · 15 = 60 pulloa.\nTapa B (kokeilu taulukolla):\nLeo 10: Noor 4 · 10 = 40, yhteensä 40 + 10 = 50\nLeo 12: Noor 4 · 12 = 48, yhteensä 48 + 12 = 60\nNoor kerää 48 pulloa.\n\nTavat antavat eri vastauksen, joten toinen on väärin. Kumpi tapa on väärin, missä kohdassa virhe on ja montako pulloa Noor kerää?","vastaus":"Malliesimerkki: Tapa A eli janamalli on väärin. Virhe on osien määrässä: Leon osa puuttuu. Osia pitää olla 4 + 1 = 5. Yksi osa on 60 : 5 = 12, joten Noor kerää 4 · 12 = 48 pulloa."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita kummankin tavan välivaiheet näkyviin.\nVälivaihe on yksi laskutoimitus.\nKirjoita lukutehtäviin vastaukseksi yksi luku.\nKun tehtävä pyytää perustelua, kirjoita siihen luku tai nimeä virheen paikka.","tehtavat":[{"nro":1,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Museoon ostetaan 12 lasten lippua ja 6 aikuisten lippua. Jokainen lippu maksaa 5 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":18},{"nro":2,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Museoon ostetaan 12 lasten lippua ja 6 aikuisten lippua. Jokainen lippu maksaa 5 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":30},{"nro":3,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Museoon ostetaan 12 lasten lippua ja 6 aikuisten lippua. Jokainen lippu maksaa 5 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako euroa liput maksavat yhteensä?","vastaus":90},{"nro":4,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Museoon ostetaan 12 lasten lippua ja 6 aikuisten lippua. Jokainen lippu maksaa 5 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako välivaihetta tavassa A on?","vastaus":3},{"nro":5,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Leolla on 60 €. Hän ostaa 4 lautapelin lisäosaa, jotka maksavat 9 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":42},{"nro":6,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Leolla on 60 €. Hän ostaa 4 lautapelin lisäosaa, jotka maksavat 9 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta vähemmän tavassa B on kuin tavassa A?","vastaus":2},{"nro":7,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Laskun 6 · 9 + 2 · 9 neljä ratkaisutapaa:\nTapa A: 6 · 9 = 54, 2 · 9 = 18, 54 + 18 = 72\nTapa B: 6 + 2 = 8, 8 · 9 = 72\nTapa C: 2 · 9 = 18, 6 · 9 = 54, 18 + 54 = 72\nTapa D: 9 · 6 = 54, 9 · 2 = 18, 54 + 18 = 72\n\nMontako tavoista B, C ja D on aidosti eri tapa kuin tapa A?","vastaus":1},{"nro":8,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aya ja Leo säästävät yhteensä 60 €. Ayalla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":5},{"nro":9,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aya ja Leo säästävät yhteensä 60 €. Ayalla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":12},{"nro":10,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aya ja Leo säästävät yhteensä 60 €. Ayalla on neljä kertaa niin paljon kuin Leolla. Janamallissa Leon osuus on yksi osa.\n\nMontako euroa Ayalla on?","vastaus":48},{"nro":11,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aya ja Leo säästävät yhteensä 60 €. Ayalla on neljä kertaa niin paljon kuin Leolla. Toinen tapa on kokeileminen taulukolla. Eetu arvaa ensin, että Leolla on 8 €.\n\nMontako euroa Ayalla ja Leolla olisi silloin yhteensä?","vastaus":40},{"nro":12,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aya ja Leo säästävät yhteensä 60 €. Ayalla on neljä kertaa niin paljon kuin Leolla. Toinen tapa on kokeileminen taulukolla. Eetu arvaa Leon osuudeksi ensin 8 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMonennella arvauksella yhteissumma on täsmälleen 60 €?","vastaus":3},{"nro":13,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo piirtää ryhmäkuvan helmistä. Leon kuvassa on 7 riviä. Jokaisessa rivissä on 6 punaista ja 2 sinistä helmeä. Tapa A laskee punaiset ja siniset helmet erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin helmet.\n\nMontako helmeä Leon kuvassa on yhteensä? Laske tavalla B.","vastaus":56},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Juhliin ostetaan 5 pakettia mehua ja 4 pakettia vettä. Jokainen paketti maksaa 8 €.\nTapa A: 5 + 4 = 9, 9 · 8 = 72\nTapa B: 5 · 8 = 40, 40 + 4 = 44\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":72},{"nro":15,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Juhliin ostetaan 5 pakettia mehua ja 4 pakettia vettä. Jokainen paketti maksaa 8 €.\nTapa A: 5 + 4 = 9, 9 · 8 = 72\nTapa B: 5 · 8 = 40, 40 + 4 = 44\n\nKahdesta tavasta toinen on väärin. Missä välivaiheessa virhe on? Selitä, mitä siinä tehtiin väärin.","vastaus":"Malliesimerkki: Virhe on tavan B toisessa välivaiheessa (40 + 4 = 44). Siinä lisättiin vesipakettien määrä 4, vaikka pitäisi lisätä niiden hinta 4 · 8 = 32 €. Oikein: 40 + 32 = 72, sama kuin toisessa tavassa."},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Saralla ja Eliaksella on yhteensä 50 €. Saralla on neljä kertaa niin paljon kuin Eliaksella.\nJanamalli:\n4 + 1 = 5\n50 : 5 = 10\n4 · 10 = 40\nKokeilu taulukolla:\nElias 4 €: 4 · 4 = 16, 16 + 4 = 20\nElias 6 €: 4 · 6 = 24, 24 + 6 = 30\nElias 8 €: 4 · 8 = 32, 32 + 8 = 40\nElias 10 €: 4 · 10 = 40, 40 + 10 = 50\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":5},{"nro":17,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Noor säästää 9 € joka viikko ja Leo 4 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Noorilla on kuin Leolla 7 viikon kuluttua? Ratkaise tehtävä kahdella eri tavalla. Kirjoita kummankin tavan välivaiheet näkyviin ja vastaus.","vastaus":"Malliesimerkki: Tapa 1: 7 · 9 = 63, 7 · 4 = 28, 63 − 28 = 35. Tapa 2: 9 − 4 = 5, 7 · 5 = 35. Molemmilla tavoilla vastaus on 35 €."},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kerho ostaa 3 sulkapallomailaa ja 7 pingismailaa. Jokainen maila maksaa 6 €.\nTapa A: 3 · 6 = 18, 7 · 6 = 42, 18 + 42 = 60\nTapa B: 3 + 7 = 10, 10 · 6 = 60\n\nMolemmat tavat ovat oikein. Eetu valitsee tavan A, koska hän tekee aina niin. Kumpi tapa sopii tähän tehtävään paremmin? Perustele valintasi välivaiheiden määrällä tai virheen paikoilla.","vastaus":"Malliesimerkki: Tapa B. Siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän. Tavassa B on vain yksi kertolasku, 10 · 6, kun tavassa A niitä on kaksi. Eetun perustelu ei kelpaa, koska tottumus ei kerro tehtävästä mitään."},{"nro":19,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kerho ostaa 5 keltaista ja 4 mustaa kypärää. Jokainen kypärä maksaa 8 €.\nTapa A:\n1. rivi: 5 · 8 = 45\n2. rivi: 4 · 8 = 32\n3. rivi: 45 + 32 = 77\nTapa B: 5 + 4 = 9, 9 · 8 = 72\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":1},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Aya ja Eetu keräävät yhteensä 48 pulloa. Eetu kerää kolme kertaa niin monta kuin Aya.\nTapa A (kokeilu taulukolla):\nAya 10: Eetu 3 · 10 = 30, yhteensä 30 + 10 = 40\nAya 12: Eetu 3 · 12 = 36, yhteensä 36 + 12 = 48\nEetu kerää 36 pulloa.\nTapa B (janamalli): Osia on 3. 48 : 3 = 16, joten Eetu kerää 3 · 16 = 48 pulloa.\n\nTavat antavat eri vastauksen, joten toinen on väärin. Kumpi tapa on väärin, missä kohdassa virhe on ja montako pulloa Eetu kerää?","vastaus":"Malliesimerkki: Tapa B eli janamalli on väärin. Virhe on osien määrässä: Ayan osa puuttuu. Osia pitää olla 3 + 1 = 4. Yksi osa on 48 : 4 = 12, joten Eetu kerää 3 · 12 = 36 pulloa."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita kummankin tavan välivaiheet näkyviin.\nVälivaihe on yksi laskutoimitus.\nKirjoita lukutehtäviin vastaukseksi yksi luku.\nKun tehtävä pyytää perustelua, kirjoita siihen luku tai nimeä virheen paikka.","tehtavat":[{"nro":1,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Koulun teatteriesitykseen ostetaan 15 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 3 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":24},{"nro":2,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Koulun teatteriesitykseen ostetaan 15 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 3 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":27},{"nro":3,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Koulun teatteriesitykseen ostetaan 15 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 3 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako euroa liput maksavat yhteensä?","vastaus":72},{"nro":4,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Koulun teatteriesitykseen ostetaan 15 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 3 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako välivaihetta tavassa A on?","vastaus":3},{"nro":5,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Saralla on 40 €. Hän ostaa 4 pelikorttipakkaa, jotka maksavat 6 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":28},{"nro":6,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Saralla on 40 €. Hän ostaa 4 pelikorttipakkaa, jotka maksavat 6 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta vähemmän tavassa B on kuin tavassa A?","vastaus":2},{"nro":7,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Laskun 4 · 8 + 5 · 8 neljä ratkaisutapaa:\nTapa A: 4 · 8 = 32, 5 · 8 = 40, 32 + 40 = 72\nTapa B: 8 · 4 = 32, 8 · 5 = 40, 32 + 40 = 72\nTapa C: 5 · 8 = 40, 4 · 8 = 32, 40 + 32 = 72\nTapa D: 4 + 5 = 9, 9 · 8 = 72\n\nMontako tavoista B, C ja D on aidosti eri tapa kuin tapa A?","vastaus":1},{"nro":8,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aino ja Eetu säästävät yhteensä 84 €. Ainolla on kolme kertaa niin paljon kuin Eetulla. Janamallissa Eetun osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":4},{"nro":9,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aino ja Eetu säästävät yhteensä 84 €. Ainolla on kolme kertaa niin paljon kuin Eetulla. Janamallissa Eetun osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":21},{"nro":10,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aino ja Eetu säästävät yhteensä 84 €. Ainolla on kolme kertaa niin paljon kuin Eetulla. Janamallissa Eetun osuus on yksi osa.\n\nMontako euroa Ainolla on?","vastaus":63},{"nro":11,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aino ja Eetu säästävät yhteensä 84 €. Ainolla on kolme kertaa niin paljon kuin Eetulla. Toinen tapa on kokeileminen taulukolla. Sara arvaa ensin, että Eetulla on 17 €.\n\nMontako euroa Ainolla ja Eetulla olisi silloin yhteensä?","vastaus":68},{"nro":12,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Aino ja Eetu säästävät yhteensä 84 €. Ainolla on kolme kertaa niin paljon kuin Eetulla. Toinen tapa on kokeileminen taulukolla. Sara arvaa Eetun osuudeksi ensin 17 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMonennella arvauksella yhteissumma on täsmälleen 84 €?","vastaus":3},{"nro":13,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo piirtää ryhmäkuvan helmistä. Leon kuvassa on 8 riviä. Jokaisessa rivissä on 4 punaista ja 5 sinistä helmeä. Tapa A laskee punaiset ja siniset helmet erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin helmet.\n\nMontako helmeä Leon kuvassa on yhteensä? Laske tavalla B.","vastaus":72},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Juhliin ostetaan 6 pakettia mehua ja 2 pakettia vettä. Jokainen paketti maksaa 9 €.\nTapa A: 6 · 9 = 54, 54 + 2 = 56\nTapa B: 6 + 2 = 8, 8 · 9 = 72\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":72},{"nro":15,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Juhliin ostetaan 6 pakettia mehua ja 2 pakettia vettä. Jokainen paketti maksaa 9 €.\nTapa A: 6 · 9 = 54, 54 + 2 = 56\nTapa B: 6 + 2 = 8, 8 · 9 = 72\n\nKahdesta tavasta toinen on väärin. Missä välivaiheessa virhe on? Selitä, mitä siinä tehtiin väärin.","vastaus":"Malliesimerkki: Virhe on tavan A toisessa välivaiheessa (54 + 2 = 56). Siinä lisättiin vesipakettien määrä 2, vaikka pitäisi lisätä niiden hinta 2 · 9 = 18 €. Oikein: 54 + 18 = 72, sama kuin toisessa tavassa."},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Leolla ja Ainolla on yhteensä 45 €. Leolla on kaksi kertaa niin paljon kuin Ainolla.\nJanamalli:\n2 + 1 = 3\n45 : 3 = 15\n2 · 15 = 30\nKokeilu taulukolla:\nAino 9 €: 2 · 9 = 18, 18 + 9 = 27\nAino 12 €: 2 · 12 = 24, 24 + 12 = 36\nAino 15 €: 2 · 15 = 30, 30 + 15 = 45\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":3},{"nro":17,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Sara säästää 7 € joka viikko ja Onni 3 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Saralla on kuin Onnilla 8 viikon kuluttua? Ratkaise tehtävä kahdella eri tavalla. Kirjoita kummankin tavan välivaiheet näkyviin ja vastaus.","vastaus":"Malliesimerkki: Tapa 1: 8 · 7 = 56, 8 · 3 = 24, 56 − 24 = 32. Tapa 2: 7 − 3 = 4, 8 · 4 = 32. Molemmilla tavoilla vastaus on 32 €."},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kerho ostaa 4 lautapeliä ja 6 korttipeliä. Jokainen peli maksaa 9 €.\nTapa A: 4 · 9 = 36, 6 · 9 = 54, 36 + 54 = 90\nTapa B: 4 + 6 = 10, 10 · 9 = 90\n\nMolemmat tavat ovat oikein. Eetu valitsee tavan A, koska hän tekee aina niin. Kumpi tapa sopii tähän tehtävään paremmin? Perustele valintasi välivaiheiden määrällä tai virheen paikoilla.","vastaus":"Malliesimerkki: Tapa B. Siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän. Tavassa B on vain yksi kertolasku, 10 · 9, kun tavassa A niitä on kaksi. Eetun perustelu ei kelpaa, koska tottumus ei kerro tehtävästä mitään."},{"nro":19,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kerho ostaa 7 isoa ja 5 pientä pussia. Jokainen pussi maksaa 6 €.\nTapa A:\n1. rivi: 7 · 6 = 42\n2. rivi: 5 · 6 = 35\n3. rivi: 42 + 35 = 77\nTapa B: 7 + 5 = 12, 12 · 6 = 72\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":2},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Sara ja Elias keräävät yhteensä 80 pulloa. Elias kerää neljä kertaa niin monta kuin Sara.\nTapa A (janamalli): Osia on 4. 80 : 4 = 20, joten Elias kerää 4 · 20 = 80 pulloa.\nTapa B (kokeilu taulukolla):\nSara 14: Elias 4 · 14 = 56, yhteensä 56 + 14 = 70\nSara 16: Elias 4 · 16 = 64, yhteensä 64 + 16 = 80\nElias kerää 64 pulloa.\n\nTavat antavat eri vastauksen, joten toinen on väärin. Kumpi tapa on väärin, missä kohdassa virhe on ja montako pulloa Elias kerää?","vastaus":"Malliesimerkki: Tapa A eli janamalli on väärin. Virhe on osien määrässä: Saran osa puuttuu. Osia pitää olla 4 + 1 = 5. Yksi osa on 80 : 5 = 16, joten Elias kerää 4 · 16 = 64 pulloa."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita kummankin tavan välivaiheet näkyviin.\nVälivaihe on yksi laskutoimitus.\nKirjoita lukutehtäviin vastaukseksi yksi luku.\nKun tehtävä pyytää perustelua, kirjoita siihen luku tai nimeä virheen paikka.","tehtavat":[{"nro":1,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Keilahalliin ostetaan 11 lasten lippua ja 5 aikuisten lippua. Jokainen lippu maksaa 7 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":16},{"nro":2,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Keilahalliin ostetaan 11 lasten lippua ja 5 aikuisten lippua. Jokainen lippu maksaa 7 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":35},{"nro":3,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Keilahalliin ostetaan 11 lasten lippua ja 5 aikuisten lippua. Jokainen lippu maksaa 7 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako euroa liput maksavat yhteensä?","vastaus":112},{"nro":4,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Keilahalliin ostetaan 11 lasten lippua ja 5 aikuisten lippua. Jokainen lippu maksaa 7 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako välivaihetta tavassa A on?","vastaus":3},{"nro":5,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onnilla on 70 €. Hän ostaa 4 kirjaa, jotka maksavat 8 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":54},{"nro":6,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onnilla on 70 €. Hän ostaa 4 kirjaa, jotka maksavat 8 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta vähemmän tavassa B on kuin tavassa A?","vastaus":2},{"nro":7,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Laskun 7 · 6 + 2 · 6 neljä ratkaisutapaa:\nTapa A: 7 · 6 = 42, 2 · 6 = 12, 42 + 12 = 54\nTapa B: 2 · 6 = 12, 7 · 6 = 42, 12 + 42 = 54\nTapa C: 7 + 2 = 9, 9 · 6 = 54\nTapa D: 6 · 7 = 42, 6 · 2 = 12, 42 + 12 = 54\n\nMontako tavoista B, C ja D on aidosti eri tapa kuin tapa A?","vastaus":1},{"nro":8,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo ja Aino säästävät yhteensä 65 €. Leolla on neljä kertaa niin paljon kuin Ainolla. Janamallissa Ainon osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":5},{"nro":9,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo ja Aino säästävät yhteensä 65 €. Leolla on neljä kertaa niin paljon kuin Ainolla. Janamallissa Ainon osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":13},{"nro":10,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo ja Aino säästävät yhteensä 65 €. Leolla on neljä kertaa niin paljon kuin Ainolla. Janamallissa Ainon osuus on yksi osa.\n\nMontako euroa Leolla on?","vastaus":52},{"nro":11,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo ja Aino säästävät yhteensä 65 €. Leolla on neljä kertaa niin paljon kuin Ainolla. Toinen tapa on kokeileminen taulukolla. Noor arvaa ensin, että Ainolla on 9 €.\n\nMontako euroa Leolla ja Ainolla olisi silloin yhteensä?","vastaus":45},{"nro":12,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo ja Aino säästävät yhteensä 65 €. Leolla on neljä kertaa niin paljon kuin Ainolla. Toinen tapa on kokeileminen taulukolla. Noor arvaa Ainon osuudeksi ensin 9 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMonennella arvauksella yhteissumma on täsmälleen 65 €?","vastaus":3},{"nro":13,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo piirtää ryhmäkuvan helmistä. Leon kuvassa on 9 riviä. Jokaisessa rivissä on 3 punaista ja 4 sinistä helmeä. Tapa A laskee punaiset ja siniset helmet erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin helmet.\n\nMontako helmeä Leon kuvassa on yhteensä? Laske tavalla B.","vastaus":63},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Juhliin ostetaan 8 pakettia mehua ja 4 pakettia vettä. Jokainen paketti maksaa 5 €.\nTapa A: 8 + 4 = 12, 12 · 5 = 60\nTapa B: 8 · 5 = 40, 40 + 4 = 44\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":60},{"nro":15,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Juhliin ostetaan 8 pakettia mehua ja 4 pakettia vettä. Jokainen paketti maksaa 5 €.\nTapa A: 8 + 4 = 12, 12 · 5 = 60\nTapa B: 8 · 5 = 40, 40 + 4 = 44\n\nKahdesta tavasta toinen on väärin. Missä välivaiheessa virhe on? Selitä, mitä siinä tehtiin väärin.","vastaus":"Malliesimerkki: Virhe on tavan B toisessa välivaiheessa (40 + 4 = 44). Siinä lisättiin vesipakettien määrä 4, vaikka pitäisi lisätä niiden hinta 4 · 5 = 20 €. Oikein: 40 + 20 = 60, sama kuin toisessa tavassa."},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Eetulla ja Saralla on yhteensä 44 €. Eetulla on kolme kertaa niin paljon kuin Saralla.\nJanamalli:\n3 + 1 = 4\n44 : 4 = 11\n3 · 11 = 33\nKokeilu taulukolla:\nSara 5 €: 3 · 5 = 15, 15 + 5 = 20\nSara 7 €: 3 · 7 = 21, 21 + 7 = 28\nSara 9 €: 3 · 9 = 27, 27 + 9 = 36\nSara 11 €: 3 · 11 = 33, 33 + 11 = 44\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":5},{"nro":17,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Elias säästää 9 € joka viikko ja Aya 6 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Eliaksella on kuin Ayalla 5 viikon kuluttua? Ratkaise tehtävä kahdella eri tavalla. Kirjoita kummankin tavan välivaiheet näkyviin ja vastaus.","vastaus":"Malliesimerkki: Tapa 1: 5 · 9 = 45, 5 · 6 = 30, 45 − 30 = 15. Tapa 2: 9 − 6 = 3, 5 · 3 = 15. Molemmilla tavoilla vastaus on 15 €."},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kerho ostaa 7 kangaskassia ja 3 pipoa. Jokainen tuote maksaa 8 €.\nTapa A: 7 · 8 = 56, 3 · 8 = 24, 56 + 24 = 80\nTapa B: 7 + 3 = 10, 10 · 8 = 80\n\nMolemmat tavat ovat oikein. Eetu valitsee tavan A, koska hän tekee aina niin. Kumpi tapa sopii tähän tehtävään paremmin? Perustele valintasi välivaiheiden määrällä tai virheen paikoilla.","vastaus":"Malliesimerkki: Tapa B. Siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän. Tavassa B on vain yksi kertolasku, 10 · 8, kun tavassa A niitä on kaksi. Eetun perustelu ei kelpaa, koska tottumus ei kerro tehtävästä mitään."},{"nro":19,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kerho ostaa 8 valkoista ja 4 harmaata pyyhettä. Jokainen pyyhe maksaa 7 €.\nTapa A:\n1. rivi: 8 · 7 = 56\n2. rivi: 4 · 7 = 27\n3. rivi: 56 + 27 = 83\nTapa B: 8 + 4 = 12, 12 · 7 = 84\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":2},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Onni ja Aino keräävät yhteensä 96 pulloa. Aino kerää kolme kertaa niin monta kuin Onni.\nTapa A (kokeilu taulukolla):\nOnni 20: Aino 3 · 20 = 60, yhteensä 60 + 20 = 80\nOnni 24: Aino 3 · 24 = 72, yhteensä 72 + 24 = 96\nAino kerää 72 pulloa.\nTapa B (janamalli): Osia on 3. 96 : 3 = 32, joten Aino kerää 3 · 32 = 96 pulloa.\n\nTavat antavat eri vastauksen, joten toinen on väärin. Kumpi tapa on väärin, missä kohdassa virhe on ja montako pulloa Aino kerää?","vastaus":"Malliesimerkki: Tapa B eli janamalli on väärin. Virhe on osien määrässä: Onnin osa puuttuu. Osia pitää olla 3 + 1 = 4. Yksi osa on 96 : 4 = 24, joten Aino kerää 3 · 24 = 72 pulloa."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita kummankin tavan välivaiheet näkyviin.\nVälivaihe on yksi laskutoimitus.\nKirjoita lukutehtäviin vastaukseksi yksi luku.\nKun tehtävä pyytää perustelua, kirjoita siihen luku tai nimeä virheen paikka.","tehtavat":[{"nro":1,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tiedekeskuksen planetaarioon ostetaan 21 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan B ensimmäinen välitulos?","vastaus":30},{"nro":2,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tiedekeskuksen planetaarioon ostetaan 21 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMikä on tavan A toinen välitulos?","vastaus":36},{"nro":3,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tiedekeskuksen planetaarioon ostetaan 21 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako euroa liput maksavat yhteensä?","vastaus":120},{"nro":4,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tiedekeskuksen planetaarioon ostetaan 21 lasten lippua ja 9 aikuisten lippua. Jokainen lippu maksaa 4 €. Tapa A laskee ensin lasten liput, sitten aikuisten liput ja lisää ne yhteen. Tapa B laskee ensin liput yhteen ja kertoo sitten hinnalla.\n\nMontako välivaihetta tavassa A on?","vastaus":3},{"nro":5,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Ainolla on 45 €. Hän ostaa 4 sarjakuvalehteä, jotka maksavat 6 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMikä on tavan A toinen välitulos?","vastaus":33},{"nro":6,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Ainolla on 45 €. Hän ostaa 4 sarjakuvalehteä, jotka maksavat 6 € kappaleelta. Tapa A vähentää hinnat rahoista yksi kerrallaan. Tapa B laskee ensin yhteishinnan kertolaskulla ja vähentää sen rahoista.\n\nMontako välivaihetta vähemmän tavassa B on kuin tavassa A?","vastaus":2},{"nro":7,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Laskun 3 · 9 + 5 · 9 neljä ratkaisutapaa:\nTapa A: 3 · 9 = 27, 5 · 9 = 45, 27 + 45 = 72\nTapa B: 3 + 5 = 8, 8 · 9 = 72\nTapa C: 5 · 9 = 45, 3 · 9 = 27, 45 + 27 = 72\nTapa D: 9 · 3 = 27, 9 · 5 = 45, 27 + 45 = 72\n\nMontako tavoista B, C ja D on aidosti eri tapa kuin tapa A?","vastaus":1},{"nro":8,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Eetu ja Noor säästävät yhteensä 88 €. Eetulla on kolme kertaa niin paljon kuin Noorilla. Janamallissa Noorin osuus on yksi osa.\n\nMontako yhtä suurta osaa janamallissa on yhteensä?","vastaus":4},{"nro":9,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Eetu ja Noor säästävät yhteensä 88 €. Eetulla on kolme kertaa niin paljon kuin Noorilla. Janamallissa Noorin osuus on yksi osa.\n\nMontako euroa on yksi osa?","vastaus":22},{"nro":10,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Eetu ja Noor säästävät yhteensä 88 €. Eetulla on kolme kertaa niin paljon kuin Noorilla. Janamallissa Noorin osuus on yksi osa.\n\nMontako euroa Eetulla on?","vastaus":66},{"nro":11,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Eetu ja Noor säästävät yhteensä 88 €. Eetulla on kolme kertaa niin paljon kuin Noorilla. Toinen tapa on kokeileminen taulukolla. Elias arvaa ensin, että Noorilla on 18 €.\n\nMontako euroa Eetulla ja Noorilla olisi silloin yhteensä?","vastaus":72},{"nro":12,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Eetu ja Noor säästävät yhteensä 88 €. Eetulla on kolme kertaa niin paljon kuin Noorilla. Toinen tapa on kokeileminen taulukolla. Elias arvaa Noorin osuudeksi ensin 18 € ja kasvattaa arvausta joka kerta 2 eurolla.\n\nMonennella arvauksella yhteissumma on täsmälleen 88 €?","vastaus":3},{"nro":13,"ryhma":"piirros","tyyppi":"lasku","kysymys":"Leo piirtää ryhmäkuvan helmistä. Leon kuvassa on 4 riviä. Jokaisessa rivissä on 7 punaista ja 2 sinistä helmeä. Tapa A laskee punaiset ja siniset helmet erikseen ja lisää ne yhteen. Tapa B laskee ensin yhden rivin helmet.\n\nMontako helmeä Leon kuvassa on yhteensä? Laske tavalla B.","vastaus":36},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Juhliin ostetaan 3 pakettia mehua ja 6 pakettia vettä. Jokainen paketti maksaa 7 €.\nTapa A: 3 · 7 = 21, 21 + 6 = 27\nTapa B: 3 + 6 = 9, 9 · 7 = 63\n\nKahdesta tavasta toinen antaa eri vastauksen. Montako euroa paketit oikeasti maksavat?","vastaus":63},{"nro":15,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Juhliin ostetaan 3 pakettia mehua ja 6 pakettia vettä. Jokainen paketti maksaa 7 €.\nTapa A: 3 · 7 = 21, 21 + 6 = 27\nTapa B: 3 + 6 = 9, 9 · 7 = 63\n\nKahdesta tavasta toinen on väärin. Missä välivaiheessa virhe on? Selitä, mitä siinä tehtiin väärin.","vastaus":"Malliesimerkki: Virhe on tavan A toisessa välivaiheessa (21 + 6 = 27). Siinä lisättiin vesipakettien määrä 6, vaikka pitäisi lisätä niiden hinta 6 · 7 = 42 €. Oikein: 21 + 42 = 63, sama kuin toisessa tavassa."},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Onnilla ja Ayalla on yhteensä 42 €. Onnilla on viisi kertaa niin paljon kuin Ayalla.\nJanamalli:\n5 + 1 = 6\n42 : 6 = 7\n5 · 7 = 35\nKokeilu taulukolla:\nAya 4 €: 5 · 4 = 20, 20 + 4 = 24\nAya 5 €: 5 · 5 = 25, 25 + 5 = 30\nAya 6 €: 5 · 6 = 30, 30 + 6 = 36\nAya 7 €: 5 · 7 = 35, 35 + 7 = 42\n\nMontako välivaihetta enemmän on kokeilussa kuin janamallissa?","vastaus":5},{"nro":17,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Leo säästää 6 € joka viikko ja Sara 2 € joka viikko. Kummallakaan ei ole aluksi säästöjä. Montako euroa enemmän Leolla on kuin Saralla 9 viikon kuluttua? Ratkaise tehtävä kahdella eri tavalla. Kirjoita kummankin tavan välivaiheet näkyviin ja vastaus.","vastaus":"Malliesimerkki: Tapa 1: 9 · 6 = 54, 9 · 2 = 18, 54 − 18 = 36. Tapa 2: 6 − 2 = 4, 9 · 4 = 36. Molemmilla tavoilla vastaus on 36 €."},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Kerho ostaa 2 kirjaa ja 8 vihkoa. Jokainen tuote maksaa 6 €.\nTapa A: 2 · 6 = 12, 8 · 6 = 48, 12 + 48 = 60\nTapa B: 2 + 8 = 10, 10 · 6 = 60\n\nMolemmat tavat ovat oikein. Eetu valitsee tavan A, koska hän tekee aina niin. Kumpi tapa sopii tähän tehtävään paremmin? Perustele valintasi välivaiheiden määrällä tai virheen paikoilla.","vastaus":"Malliesimerkki: Tapa B. Siinä on 2 välivaihetta ja tavassa A 3, joten virheen paikkoja on vähemmän. Tavassa B on vain yksi kertolasku, 10 · 6, kun tavassa A niitä on kaksi. Eetun perustelu ei kelpaa, koska tottumus ei kerro tehtävästä mitään."},{"nro":19,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Kerho ostaa 4 punaista ja 5 sinistä pipoa. Jokainen pipo maksaa 9 €.\nTapa A:\n1. rivi: 4 · 9 = 32\n2. rivi: 5 · 9 = 45\n3. rivi: 32 + 45 = 77\nTapa B: 4 + 5 = 9, 9 · 9 = 81\n\nTapa A antaa eri vastauksen kuin tapa B. Monennellako tavan A rivillä on laskuvirhe?","vastaus":1},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Aino ja Leo keräävät yhteensä 40 pulloa. Leo kerää neljä kertaa niin monta kuin Aino.\nTapa A (janamalli): Osia on 4. 40 : 4 = 10, joten Leo kerää 4 · 10 = 40 pulloa.\nTapa B (kokeilu taulukolla):\nAino 6: Leo 4 · 6 = 24, yhteensä 24 + 6 = 30\nAino 8: Leo 4 · 8 = 32, yhteensä 32 + 8 = 40\nLeo kerää 32 pulloa.\n\nTavat antavat eri vastauksen, joten toinen on väärin. Kumpi tapa on väärin, missä kohdassa virhe on ja montako pulloa Leo kerää?","vastaus":"Malliesimerkki: Tapa A eli janamalli on väärin. Virhe on osien määrässä: Ainon osa puuttuu. Osia pitää olla 4 + 1 = 5. Yksi osa on 40 : 5 = 8, joten Leo kerää 4 · 8 = 32 pulloa."}]}],"tulostus":{"sivuja":6,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":5,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Kaksi tapaa ovat eri tapoja, kun niiden välitulokset ovat erilaiset. Jos vastaukset eroavat, ainakin toinen tapa on väärin.","vaiheet":[{"aika":"10 min","otsikko":"1. tunti: kaksi paperia, sama vastaus","sisalto":"Kirjoita taululle johdannon tehtävä: 6 aikuisen ja 4 lapsen liput, jokainen 8 €. Puolet luokasta laskee aikuiset ja lapset erikseen, puolet laskee ensin liput yhteen. Kirjoita molemmat ratkaisut rinnakkain ja kysy, miksi 6 · 8 + 4 · 8 on yhtä suuri kuin 10 · 8. Hae vastaus \"kymmenen kahdeksan euron lippua\". Kysy myös, toimisiko tapa B, jos lapsen lippu maksaisi 5 €."},{"aika":"10 min","otsikko":"1. tunti: mikä on eri tapa","sisalto":"Kirjoita taululle neljä riviä: 6 · 8 + 4 · 8, 4 · 8 + 6 · 8, 8 · 6 + 8 · 4 ja 6 + 4 = 10, 10 · 8. Oppilaat näyttävät peukulla, mitkä ovat eri tapoja kuin ensimmäinen. Kirjoittakaa jokaisen rivin välitulokset näkyviin ja sopikaa sääntö: eri tapa, kun välitulokset ovat erilaiset. Käy samalla läpi ansa 2: 48 + 4 = 52."},{"aika":"25 min","otsikko":"1. tunti: harjoittelu pareittain","sisalto":"Harjoitusryhmä Kaksi tapaa, samat luvut (H01–H07). Parit jakavat tavat: toinen laskee tavan A ja toinen tavan B, ja kumpikin selittää oman tapansa parille välivaihe kerrallaan ennen kuin vastauksia verrataan. Kierrä ja kuuntele selityksiä. Tämä on ensimmäinen havainnointitilanne."},{"aika":"15 min","otsikko":"2. tunti: janamalli ja kokeilu","sisalto":"Kirjoita taululle Saran ja Onnin tehtävä (56 €, kolme kertaa niin paljon). Anna jokaisen piirtää vihkoon janamalli ennen keskustelua ja kerää osien määrät. Yleensä esiin tulevat 3 ja 4. Näytä, että kolmella osalla jako 56 : 3 ei mene tasan ja että Onnin jana puuttuu. Ratkaiskaa tehtävä sitten kokeilemalla taulukolla ja laskekaa kummankin tavan välivaiheet."},{"aika":"20 min","otsikko":"2. tunti: selitä parille","sisalto":"Harjoitusryhmät Janamalli, kokeilu ja ryhmäkuva (H08–H14) sekä Vertaile ja korjaa (H15–H20). Jokainen valitsee yhden tehtävän, ratkaisee sen kahdella tavalla vihkoon ja selittää molemmat tavat parille. Pari kertoo, kummassa tavassa on vähemmän välivaiheita. Havainnoi, selittääkö oppilas molemmat tavat ja perusteleeko hän valinnan luvulla."},{"aika":"10 min","otsikko":"2. tunti: kumpi sopii paremmin","sisalto":"Jokainen kirjoittaa lapulle perustelun yhteen tehtävään: kumpi tapa sopii paremmin ja miksi. Lajitelkaa laput taululle kahteen ryhmään: perustelut, joissa on luku tai nimetty virheen paikka, ja perustelut, joissa on tottumus tai pelkkä \"helpompi\". Korjatkaa jälkimmäiset yhdessä."}],"tarvikkeet":"Ruutuvihko ja viivain janamallia varten. Pieniä lappuja perusteluja varten. Taululle tilaa kahdelle ratkaisulle rinnakkain. Halutessa helmiä tai nappeja ryhmäkuvan rakentamiseen pöydälle."},"virhesanakirja":[{"virhe":"Toinen tapa: 4 · 8 + 6 · 8, kun ensimmäinen oli 6 · 8 + 4 · 8","tehtava":"toinen ratkaisutapa","mita_kertoo":"Oppilas pitää samaa laskua eri järjestyksessä uutena tapana. Välitulokset 48 ja 32 ovat samat, joten vertailtavaa ei ole.","mita_tehda":"Kirjoituta kummankin tavan välitulokset rinnakkain ja kysy, mikä luku on uusi. Pyydä sitten tapaa, jossa ensimmäinen välitulos on lippujen määrä."},{"virhe":"6 · 8 = 48, 48 + 4 = 52, vaikka toinen tapa antoi 10 · 8 = 80","tehtava":"kaksi tapaa, eri vastaukset","mita_kertoo":"Kappaleiden määrä on lisätty euroihin, eikä oppilas vertaa tapojen vastauksia. Hän ei vielä käytä toista tapaa tarkistuksena.","mita_tehda":"Pyydä nimeämään jokainen välitulos sanalla (\"48 € aikuisten liput\", \"4 lasten lippua\"). Kun yksiköt eivät täsmää, virhe löytyy. Sovi, että vastaus kirjoitetaan vasta, kun tavat antavat saman luvun."},{"virhe":"\"Tapa A, koska teen aina näin.\"","tehtava":"valinnan perustelu","mita_kertoo":"Perustelu kertoo oppilaasta eikä tehtävästä. Oppilas ei ole vielä laskenut välivaiheita eikä etsinyt virheen paikkoja.","mita_tehda":"Pyydä laskemaan kummankin tavan välivaiheet ja kirjoittamaan luvut perusteluun: \"Tavassa B on 2 välivaihetta ja tavassa A 3.\""},{"virhe":"\"Kolme kertaa niin paljon\" → 3 osaa → 56 : 3 = 18 j. 2","tehtava":"janamalli","mita_kertoo":"Pienemmän osuus puuttuu janamallista. Oppilas piirtää vain sen, jonka nimen kohdalla luku \"kolme\" on.","mita_tehda":"Pyydä piirtämään jana jokaiselle henkilölle ja laskemaan osat sormella. Kysy, kumpi janoista on yksi osa."},{"virhe":"Tavassa B on 1 välivaihe, koska 6 + 4 = 10 tehtiin päässä","tehtava":"välivaiheiden laskeminen","mita_kertoo":"Päässä tehtyä laskua ei lasketa välivaiheeksi, jolloin tapa näyttää lyhyemmältä kuin se on.","mita_tehda":"Palauta sopimus: välivaihe on yksi laskutoimitus. Kirjoituta jokainen lasku omalle rivilleen ja laskekaa rivit."},{"virhe":"Saran osuudeksi 14 €, kun yksi osa on 14 €","tehtava":"janamalli, kysytään suuremman osuutta","mita_kertoo":"Oppilas pysähtyy välitulokseen. Hän ei tarkista, mihin kysymys vastaa (MAT5-AJA-01).","mita_tehda":"Pyydä osoittamaan janamallista Saran jana ja laskemaan, montako osaa siinä on. Tarkistakaa lopuksi, että osuudet yhteensä ovat 56 €."},{"virhe":"Kokeilu: Onnille 10 € → yhteensä 30 €","tehtava":"kokeileminen taulukolla","mita_kertoo":"Oppilas laskee vain Saran osuuden 3 · 10 eikä lisää siihen Onnin omaa osuutta.","mita_tehda":"Lisää taulukkoon sarakkeet \"Onni\", \"Sara\" ja \"yhteensä\" ja pyydä täyttämään jokainen sarake ennen vertaamista."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen kahteen laskutapaan (osa kerrallaan ja kokonaisuus ensin) ja siihen, mikä tekee tavasta eri tavan; toinen janamalliin, kokeiluun taulukolla ja tapojen vertailuun. Koe pidetään erikseen.","huomiot":["Taito opetetaan alusta. 4. luokan Monta tietä perille (MAT4-AJA-04) on vahvistava eikä kuulu taidon ketjuun, joten sitä ei oleteta, eikä sen laskuja toisteta. Ketjussa ovat Monivaiheinen ratkaisu (MAT5-AJA-01), Yhtäsuuruus pitää (MAT5-ALG-05) ja 4. luokan suunnitelma, laskujärjestys ja kertotaulut. Siksi luvut ovat alle 10 000, jokaisessa kertolaskussa toinen tekijä on yksinumeroinen tai 10, jakolaskut menevät tasan ja desimaalilukuja ei käytetä.","Kartan näytön osa \"selitän molemmat parille\" havainnoidaan tunnilla, ei kokeessa. Tilanteet ovat tuntirungon vaiheet \"1. tunti: harjoittelu pareittain\" ja \"2. tunti: selitä parille\". Katso, selittääkö oppilas molemmat tavat välivaihe kerrallaan ja sanooko hän, kummassa tavassa on vähemmän välivaiheita tai virheen paikkoja. Kirjaa havainto. Sen suhde kokeen tulokseen on avoin asia.","Mittaritehtävät: 17, 18 ja 20 — ne mittaavat suoraan kartan osaa_kun-kriteeriä: kaksi oikeaa tapaa samaan vastaukseen (17), valinnan perustelu välivaiheiden määrällä tai virheen paikoilla (18) ja virheellisen tavan löytäminen ja korjaaminen (20). Pelkkä luku ei riitä yhdessäkään. Paperilla pitää näkyä tehtävässä 17 kaksi eri välitulosten sarjaa, jotka päätyvät samaan vastaukseen, ja tehtävässä 18 perustelu, jossa on luku (välivaiheiden määrä) tai nimetty virheen paikka. \"Helpompi\", \"lyhyempi\" ilman lukua tai \"teen aina näin\" on väärin.","Tehtävä 17 (koe A: Aino 8 € ja Eetu 5 € viikossa, 6 viikkoa): oikein, kun paperilla on kaksi tapaa, joiden välitulokset ovat erilaiset, ja molemmat antavat 18 €. Esimerkiksi osa kerrallaan 6 · 8 = 48, 6 · 5 = 30, 48 − 30 = 18 ja erotus ensin 8 − 5 = 3, 6 · 3 = 18. Kelpaa myös viikkotaulukko, jossa ero kasvaa 3 € kerrallaan (3, 6, 9, 12, 15, 18), tai säästöjen lisääminen viikko kerrallaan. Väärin ovat sama lasku eri järjestyksessä (ensin 6 · 5, sitten 6 · 8), yksi tapa, kaksi tapaa eri vastauksin ja pelkkä vastaus. Vastaus euroina €-merkin kanssa tai ilman.","Tehtävä 18 (koe A: 8 jalkapalloa ja 2 koripalloa à 9 €): oikein on tapa B, ja perustelussa on välivaiheiden määrä (2 ja 3, tai \"yksi välivaihe vähemmän\") tai nimetty virheen paikka (tavassa A on kaksi kertolaskua, tavassa B yksi). Jokaisessa versiossa tapa B on parempi kummallakin mittarilla, joten avain on yksiselitteinen. Väärin ovat tapa A, tapa B ilman perustelua ja tapa B perusteluilla \"helpompi\" tai \"näyttää selvemmältä\". Eetun tottumusperustelua ei tarvitse kommentoida, mutta kommentti ei tee vastauksesta väärää.","Tehtävä 20 (koe A: Leo ja Noor, 60 pulloa, neljä kertaa niin monta): oikein, kun vastauksessa on kolme asiaa: (1) väärä tapa on janamalli (koe A: tapa A); (2) virheen paikka on osien määrä, eli Leon osa puuttuu ja osia pitää olla 5; (3) oikea luku 48 pulloa. Pelkkä \"tapa A on väärin\" tai pelkkä 48 on väärin. Versioissa B ja D janamalli on tapa B.","Tehtävä 15 (koe A: virhe tavan A toisessa välivaiheessa 42 + 3 = 45): oikein, kun vastaus nimeää välivaiheen ja kertoo, että siihen lisättiin vesipakettien määrä eikä niiden hinta. Myös \"3 olisi pitänyt kertoa kuudella\" kelpaa. Pelkkä \"tapa A on väärin\" on väärin. Versioissa B ja D väärä tapa on tapa B.","Tehtävä 7: aidosti eri tapa on tapa, jonka välitulokset ovat erilaiset. Joka versiossa yksi kolmesta on sama lasku eri järjestyksessä (ansa 1) ja yksi sama lasku tekijät vaihdettuina (8 · 6 ja 6 · 8 antavat saman välituloksen). Vastaus 3 kertoo, että oppilas pitää jokaista eri näköistä riviä eri tapana. Vastaus 2 kertoo, että oppilas hyväksyy joko laskujen järjestyksen vaihdon tai tekijöiden vaihdon; katso paperista, kumman tavan hän on merkinnyt.","Mitä väärä vastaus kertoo (koe A): tehtävässä 2 vastaus 52 on tavan A ensimmäinen välitulos; tehtävässä 5 vastaus 43 on ensimmäinen välitulos, 22 lopullinen vastaus ja 28 tavan B välitulos; tehtävässä 8 vastaus 3 ja tehtävässä 9 vastaus 24 (72 : 3) kertovat, että pienemmän osuus puuttuu janamallista (ansa 3); tehtävässä 10 vastaus 18 on yksi osa eikä Noorin osuus; tehtävässä 11 vastaus 42 on pelkkä Noorin osuus ilman Eliaksen osuutta; tehtävässä 13 vastaus 9 on tavan B ensimmäinen välitulos ja 30 tai 24 tavan A välitulos; tehtävässä 14 vastaus 45 on väärän tavan tulos (ansa 2); tehtävässä 16 vastaus 6 on pelkän kokeilun välivaiheiden määrä.","Tehtävien 4, 6, 7, 12 ja 16 vastaus on joissakin tai kaikissa versioissa sama luku, koska tavan rakenne on sama. Ne mittaavat, osaako oppilas lukea tavan välivaiheet, eivätkä ne ole mittaritehtäviä. Tehtävässä 16 kokeilutaulukossa on versiosta riippuen kolme tai neljä riviä.","Tehtävässä 12 arvaukset kasvavat kahdella eurolla, ja oikea arvaus on joka versiossa kolmas. Hyväksy vain luku 3, ei arvausta euroina.","Rahatehtävissä hyväksytään luku euroina €-merkin kanssa tai ilman. Muissa lukutehtävissä arvostellaan vain luku, ja jokainen tehtävä on oikein tai väärin. Sanallisissa tehtävissä hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Rajaus: ei kirjaimella merkittyä tuntematonta eikä yhtälön ratkaisua (haaste MAT5-ALG-03, 6. luokan MAT6-ALG-01), ei arviota ennen laskemista (MAT5-LUK-06) eikä desimaalilukujen kertomista ja jakamista. Janamalli ratkaistaan osien avulla, ei yhtälönä. Jos oppilas kirjoittaa janamallin rinnalle yhtälön, se ei ole virhe, mutta sitä ei opeteta.","Opetusteksti ja tuntirunko käyttävät samoja esimerkkejä (konserttiliput, Saran ja Onnin säästöt), jotta tapoja voi verrata. Harjoitukset ja kokeet käyttävät omia lukujaan."]},"huoltajalle":{"mista_on_kyse":"Lapsi oppii ratkaisemaan saman tehtävän kahdella eri tavalla ja vertaamaan tapoja. Esimerkiksi 6 aikuisen ja 4 lapsen liput, kun jokainen maksaa 8 €, voi laskea osa kerrallaan (6 · 8 + 4 · 8) tai kokonaisuus ensin (6 + 4 = 10 ja 10 · 8). Lapsi oppii myös janamallin, piirroksen, jossa summa jaetaan yhtä suuriin osiin. Tärkeintä on perustelu: parempi tapa on se, jossa on vähemmän välivaiheita tai virheen paikkoja.","kotona":["Kun lasket kaupassa hintoja, kysy lapselta, voisiko saman laskea toisella tavalla. Esimerkiksi kolme ja kaksi samanhintaista tuotetta: hinnat erikseen tai ensin tuotteet yhteen.","Tehkää pöydälle kaksi kasaa nappeja tai legopaloja: toisessa kasassa on kolme kertaa niin monta kuin toisessa, ja yhteensä niitä on 24. Lapsi piirtää janamallin ja kertoo, montako yhtä suurta osaa siinä on.","Älä opeta, että toinen tapa on sama lasku toisin päin (4 · 8 + 6 · 8). Älä myöskään hyväksy perustelua \"koska teen aina näin\". Kysy mieluummin, montako välivaihetta kummassakin tavassa on."],"milloin_huolestua":"Jos lapsi saa kahdella tavalla eri vastaukset eikä huomaa ristiriitaa, tai jos hän ei harjoittelun jälkeen löydä tehtävään yhtään toista tapaa, kerro asiasta opettajalle."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Osaat ratkaista saman tehtävän kahdella eri tavalla, esimerkiksi laskemalla osa kerrallaan ja kokonaisuus ensin tai piirtämällä janamallin. Tarkistat, että tavat antavat saman vastauksen, ja perustelet valintasi välivaiheiden määrällä tai virheen paikoilla. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

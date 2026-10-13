@@ -1,0 +1,711 @@
+<title>Mihin verrataan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+/* header */
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px; display:flex; gap:18px; align-items:flex-start}
+.badge{flex:0 0 auto; width:54px; height:54px; border-radius:9px; display:grid; place-items:center;
+  background:var(--core-soft); border:1px solid var(--core); color:var(--core)}
+.badge svg{width:28px; height:28px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:30px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:5px 0 0; color:var(--ink-2); font-size:15px}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:11px}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.05em; padding:2px 7px;
+  border-radius:4px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-3)}
+.tag.core{background:var(--core-soft); border-color:var(--core); color:var(--core)}
+
+/* teksti */
+article{margin-top:26px}
+article h2{font-size:21px; font-weight:600; margin:32px 0 10px; letter-spacing:-.01em}
+article p{margin:0 0 14px; max-width:64ch}
+.lead{font-size:17.5px; color:var(--ink); border-left:3px solid var(--core); padding-left:16px; margin:0 0 8px}
+
+.box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:18px 22px; box-shadow:var(--shadow); margin:22px 0}
+.box h3{margin:0 0 12px; font-size:16.5px; font-weight:600}
+.box.warn{border-left:3px solid var(--alert)}
+.box.note{border-left:3px solid var(--chal)}
+
+ol.steps{margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start}
+ol.steps li::before{content:counter(s); font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-size:14px;
+  width:26px; height:26px; border-radius:50%; background:var(--core); color:#fff; display:grid; place-items:center; margin-top:2px}
+
+ul.notes{margin:0; padding-left:19px}
+ul.notes li{margin-bottom:7px}
+ul.notes li:last-child{margin-bottom:0}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:460px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td b{color:var(--core); font-weight:600}
+td:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+
+/* lukusuora */
+.nl svg{width:100%; height:118px; display:block}
+.nl .rail{stroke:var(--line); stroke-width:2}
+.nl .tick{stroke:var(--line); stroke-width:1.5}
+.nl .stop{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:11px}
+.nl .stop.near{fill:var(--core); font-weight:600}
+.nl .dot{fill:var(--chal)}
+.nl .val{fill:var(--ink); font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:700}
+.nl .halfway{stroke:var(--chal); stroke-dasharray:3 3; stroke-width:1.5}
+.nl-controls{display:flex; align-items:center; gap:14px; margin-top:6px}
+.nl-controls input{flex:1; accent-color:var(--core)}
+.nl-out{font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600; min-width:12.5em; text-align:right}
+
+/* paikka-arvotaulu */
+.box .ohje{margin:0 0 14px; font-size:14.5px; color:var(--ink-2)}
+.nt-valinta{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px}
+.nt-valinta button{font:inherit; font-size:12.5px; font-family:"IBM Plex Mono",monospace; padding:5px 11px;
+  border-radius:6px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.nt-valinta button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.nt-valinta button:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.nt-taulu{display:flex; flex-direction:column; gap:4px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
+.nt-rivi{display:flex; gap:6px; align-items:center}
+.nt-rivi .otsa{font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); width:52px; text-align:center}
+.nt-ruutu{width:52px; height:52px; display:grid; place-items:center; border:1.5px solid var(--line);
+  border-radius:7px; background:var(--surface-2); font-family:"IBM Plex Mono",monospace; font-size:24px}
+.nt-ruutu.kohta{border-color:var(--core); background:var(--core-soft); color:var(--core); font-weight:500}
+.nt-ruutu.ratkaiseva{border-color:var(--chal); background:var(--chal-soft); color:var(--chal); font-weight:500}
+.nt-ruutu.nolla{color:var(--ink-3)}
+.nt-rivi .nimi{font-size:12.5px; color:var(--ink-3); margin-left:12px; white-space:nowrap}
+.nt-nuoli{font-size:17px; color:var(--chal); margin-left:6px}
+.nt-selite{margin:14px 0 0; font-size:14.5px}
+.nt-selite b{color:var(--core)}
+
+/* vahvuusportaat */
+.vp-tasot{display:grid; gap:9px; margin-bottom:18px}
+.vp-taso{display:flex; gap:11px; align-items:flex-start; font-size:13.5px}
+.vp-taso .vp-pallo{width:13px; height:13px; border-radius:4px; margin-top:5px; flex:0 0 auto}
+.vp-taso[data-taso="sulkeet"] .vp-pallo{background:var(--core)}
+.vp-taso[data-taso="kertojako"] .vp-pallo{background:var(--strong)}
+.vp-taso[data-taso="yhteenvahennys"] .vp-pallo{background:var(--chal)}
+.vp-taso strong{display:block; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:14.5px}
+.vp-taso span{color:var(--ink-2)}
+.vp-lauseke{display:flex; flex-wrap:wrap; gap:7px; align-items:flex-end; font-family:"IBM Plex Mono",monospace;
+  font-size:25px; padding:10px 2px; min-height:64px}
+.vp-lauseke .t{padding:2px 3px}
+.vp-lauseke .op{position:relative; padding:2px 9px; border-radius:6px; font-weight:500}
+.vp-lauseke .op[data-taso="sulkeet"]{background:var(--core-soft); color:var(--core)}
+.vp-lauseke .op[data-taso="kertojako"]{background:var(--strong-soft); color:var(--strong)}
+.vp-lauseke .op[data-taso="yhteenvahennys"]{background:var(--chal-soft); color:var(--chal)}
+.vp-lauseke .op i{position:absolute; top:-9px; right:-6px; font-style:normal; font-family:"Familjen Grotesk",sans-serif;
+  font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:grid; place-items:center;
+  background:currentColor}
+.vp-lauseke .op i span{color:var(--surface)}
+.vp-rivi{display:flex; align-items:center; gap:16px; margin-top:8px}
+.vp-vastaus{font-family:"Familjen Grotesk",sans-serif; font-size:16px; font-weight:600; color:var(--strong)}
+
+/* laskujärjestys-widget */
+.lj-exp{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-family:"IBM Plex Mono",monospace;
+  font-size:23px; padding:14px 4px; min-height:62px}
+.lj-exp .tok{padding:2px 4px; color:var(--ink)}
+.lj-exp button.op{font-family:"IBM Plex Mono",monospace; font-size:23px; padding:3px 12px; border-radius:7px;
+  border:1.5px solid var(--line); background:var(--surface-2); color:var(--ink); line-height:1.2}
+.lj-exp button.op:hover{border-color:var(--core); color:var(--core)}
+.lj-exp button.op:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.lj-exp .valmis{font-family:"Familjen Grotesk",sans-serif; font-size:23px; font-weight:700; color:var(--strong)}
+.lj-fb{font-size:14.5px; min-height:1.5em; color:var(--ink-2)}
+.lj-fb.no{color:var(--alert)}
+.lj-fb.ok{color:var(--strong)}
+.lj-row{display:flex; align-items:center; gap:14px; margin-top:10px}
+.lj-step{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+
+/* harjoitukset */
+.progress{position:sticky; top:0; z-index:5; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 18px; box-shadow:var(--shadow); display:flex; align-items:center;
+  gap:14px; margin:34px 0 18px}
+.progress .lbl{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap}
+.progress .meter{flex:1; height:7px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+.progress .meter i{display:block; height:100%; background:var(--core); transition:width .25s ease}
+.progress .cnt{font-family:"Familjen Grotesk",sans-serif; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap}
+
+.grp{margin-top:26px}
+.grp-head{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--ink); padding-bottom:7px; margin-bottom:14px}
+.grp-head h3{margin:0; font-size:17px; font-weight:600}
+.grp-head span{font-size:12.5px; color:var(--ink-2)}
+
+.ex{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:10px}
+.ex[data-tila="oikein"]{border-color:var(--strong); box-shadow:inset 3px 0 0 var(--strong)}
+.ex[data-tila="vaarin"]{border-color:var(--alert); box-shadow:inset 3px 0 0 var(--alert)}
+.ex .q{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
+.ex .num{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3); min-width:2.4em}
+.ex .txt{flex:1; min-width:190px; font-size:15.5px}
+.ex .txt .aineisto{display:block; margin-bottom:9px; padding-left:12px;
+  border-left:2px solid var(--line); color:var(--ink-2); line-height:1.6;
+  /* Aineisto voi olla pieni taulukko, jonka rivit on erotettu rivinvaihdoilla.
+     Ilman pre-lineä ne valuisivat yhdeksi kappaleeksi ja taulukko katoaisi. */
+  white-space:pre-line}
+.ex .txt .kysymysrivi{display:block; font-weight:600}
+.ex .row{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.ex input[type=text]{font:inherit; font-family:"IBM Plex Mono",monospace; font-size:15px; width:8.5em;
+  padding:7px 11px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2);
+  color:var(--ink); text-align:right}
+.ex input:focus-visible{outline:2px solid var(--core); outline-offset:1px}
+button{font:inherit; cursor:pointer}
+.btn{font-size:13.5px; padding:7px 15px; border-radius:7px; border:1px solid var(--core);
+  background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+.btn.mv-valinta{text-align:left}
+/* kuuntelutehtävä: selaimen puhesynteesi lukee englanninkielisen tekstin */
+.kuuntele{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:2px 0 10px}
+.kuuntele .btn{display:inline-flex; gap:7px; align-items:center}
+.kuuntele svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.kuuntele .varateksti{flex-basis:100%; font-size:14px; color:var(--ink-2); background:var(--surface-2);
+  border-radius:7px; padding:8px 12px; margin:0}
+.btn.mv-valinta:disabled{cursor:default; opacity:.65}
+.btn.mv-oikein{background:var(--strong-soft); border-color:var(--strong); color:var(--strong); opacity:1}
+.btn.mv-vaarin{background:var(--alert-soft); border-color:var(--alert); color:var(--alert); opacity:1}
+.row.mv{gap:8px 10px}
+.fb{margin-top:11px; font-size:14.5px; padding:10px 13px; border-radius:8px; line-height:1.5}
+.fb.ok{background:var(--strong-soft); color:var(--strong)}
+.fb.no{background:var(--alert-soft); color:var(--alert)}
+.fb.hint{background:var(--chal-soft); color:var(--chal)}
+
+.done{background:var(--strong-soft); border:1px solid var(--strong); color:var(--strong);
+  border-radius:var(--r); padding:16px 20px; margin-top:20px; font-size:15.5px}
+.done h3{margin:0 0 4px; font-size:17px; color:var(--strong)}
+
+details.teacher{margin-top:34px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--chal); border-radius:var(--r); padding:15px 20px; box-shadow:var(--shadow)}
+details.teacher summary{cursor:pointer; font-family:"Familjen Grotesk",sans-serif; font-weight:600; font-size:15px}
+details.teacher summary:focus-visible{outline:2px solid var(--core); outline-offset:3px}
+details.teacher ul{margin:12px 0 0; padding-left:19px; color:var(--ink-2); font-size:14.5px}
+details.teacher li{margin-bottom:8px}
+details.teacher p{margin:12px 0 0; color:var(--ink-2); font-size:14.5px}
+
+.back{display:inline-block; margin-top:30px; font-size:13.5px; color:var(--ink-2)}
+.back a{color:var(--core)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:560px){
+  .wrap{padding:16px 13px 70px}
+  header.top h1{font-size:25px}
+  .progress{flex-wrap:wrap}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" id="ikoni"></svg></span>
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="otsikko"></h1>
+      <p id="kuvaus"></p>
+      <div class="tags" id="tags"></div>
+    </div>
+  </header>
+
+  <article id="teksti"></article>
+
+  <div class="progress" aria-live="polite">
+    <span class="lbl">Harjoitukset</span>
+    <span class="meter"><i id="pbar" style="width:0%"></i></span>
+    <span class="cnt" id="pcnt">0 / 20</span>
+  </div>
+
+  <div id="harjoitukset"></div>
+  <div id="valmis"></div>
+
+  <p class="back" id="back"></p>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT8-PRO-04","oppiaine":"MAT","vuosiluokka":8,"taso":"ydin","otsikko":"Mihin verrataan","kuvaus":"Osaan laskea muutosprosentin ja vertailuprosentin.","versio":"0.2","paivitetty":"2026-10-04","ops":{"T":["T6","T13"],"S":["S2"]},"ikoni":"vertailu","eyebrow":"Matematiikka · 8. luokka · Prosentit","teksti":[{"tyyppi":"johdanto","sisalto":"Suoratoistopalvelu nostaa kuukausimaksun 8 eurosta 10 euroon. Kaverisi sanoo, että hinta nousi 25 %. Toinen kaveri on eri mieltä: hänen mukaansa nousu on 20 %. Kumpikin laski saman 2 euron nousun, mutta he jakoivat sen eri luvulla, toinen 8 eurolla ja toinen 10 eurolla. Vain toinen vastaus kertoo, montako prosenttia hinta nousi. Toinen luku ei silti ole keksitty: se kertoo, montako prosenttia vanha hinta oli uutta halvempi. Prosentti on aina prosentti jostakin. Tässä taidossa opit päättämään, mihin lukuun muutosta tai eroa verrataan, ja selittämään, miksi sama ero antaa kaksi eri prosenttia."},{"tyyppi":"kappale","otsikko":"Muutosta verrataan alkuperäiseen","sisalto":"Konserttilipun hinta nousi 45 eurosta 54 euroon. Nousu euroina on 54 € − 45 € = 9 €. Kysymys \"montako prosenttia hinta nousi?\" tarkoittaa samaa kuin \"montako prosenttia nousu on alkuperäisestä hinnasta?\". Tämän osaat jo: kun halutaan tietää, montako prosenttia luku on toisesta luvusta, jaetaan. 9 : 45 = 0,20 = 20 %. Alkuperäinen arvo on se, joka oli ajallisesti ensin, koska muutos tehdään siihen. Sama pätee laskuun. Jos hinta laski 60 eurosta 51 euroon, lasku on 9 € ja jakaja on 60 €: 9 : 60 = 0,15 = 15 %. Sama 9 euroa on siis 20 % yhdestä hinnasta ja 15 % toisesta. Prosentti riippuu siitä, mihin verrataan. Muutosta, joka lasketaan prosentteina alkuperäisestä arvosta, sanotaan muutosprosentiksi. Muutos voi olla myös 100 % tai enemmän: jos hinta kaksinkertaistuu, nousu on yhtä suuri kuin alkuperäinen hinta eli 100 %, ja jos hinta kolminkertaistuu, nousu on 200 %."},{"tyyppi":"saanto","otsikko":"Näin lasket muutosprosentin","askeleet":["Etsi alkuperäinen arvo eli se, joka oli ensin. Se on jakaja, nousipa arvo tai laski.","Laske muutos vähentämällä pienempi arvo suuremmasta. Suunta kerrotaan sanalla: hinta nousi tai hinta laski.","Arvioi ennen laskinta. Jos muutos on alle puolet alkuperäisestä arvosta, tulos on alle 50 %. Jos muutos on yhtä suuri kuin alkuperäinen arvo, tulos on 100 %.","Jaa muutos alkuperäisellä arvolla ja muunna tulos prosenteiksi: 0,15 = 15/100 = 15 %.","Pyöristä vasta lopuksi siihen tarkkuuteen, jota tehtävä pyytää.","Tarkista toista reittiä. Jaa uusi arvo alkuperäisellä: 54 : 45 = 1,2 = 120 %, joten uusi hinta on 20 % suurempi. 51 : 60 = 0,85 = 85 %, joten uusi hinta on 15 % pienempi. Huomaa, että 85 % on uuden hinnan osuus, ei muutos."]},{"tyyppi":"kappale","otsikko":"Vertailu: mihin verrataan","sisalto":"Kaksi lumilautaa maksaa 360 € ja 480 €. Hintaero on 120 €. Kun kysytään, montako prosenttia 480 euron lauta on kalliimpi kuin 360 euron lauta, vertailukohta on 360 euron lauta. Jaetaan sen hinnalla: 120 : 360 = 0,333... ≈ 33 %. Kun kysytään, montako prosenttia 360 euron lauta on halvempi kuin 480 euron lauta, vertailukohta on 480 euron lauta: 120 : 480 = 0,25 = 25 %. Tällaista prosenttia sanotaan vertailuprosentiksi. Jakaja on se arvo, johon verrataan. Kysymyksessä se on kuin-sanan jälkeen (\"kalliimpi kuin 360 euron lauta\") tai partitiivissa vertailusanan edessä (\"Eetun matkaa lyhyempi\"). Muutosprosentti on oikeastaan vertailuprosentti, jossa vertailukohta on aina ajallisesti ensimmäinen arvo. Kaksi vertailuprosenttia eroavat, koska sama ero jaetaan eri luvuilla. Suuremmalla luvulla jaettaessa osuus jää pienemmäksi. Siksi kun kaksi positiivista suuretta eroaa toisistaan, \"pienempi kuin\" -prosentti on aina pienempi luku kuin \"suurempi kuin\" -prosentti."},{"tyyppi":"taulukko","otsikko":"Sama ero, eri perusarvo","otsikkorivi":["Kysymys","Jakaja","Lasku","Tulos"],"rivit":[["Hinta nousi 45 €:sta 54 €:oon. Montako prosenttia?","45 € (alkuperäinen)","9 : 45 = 0,20","20 %"],["Hinta laski 60 €:sta 51 €:oon. Montako prosenttia?","60 € (alkuperäinen)","9 : 60 = 0,15","15 %"],["480 € on montako prosenttia suurempi kuin 360 €?","360 €","120 : 360 ≈ 0,333","noin 33 %"],["360 € on montako prosenttia pienempi kuin 480 €?","480 €","120 : 480 = 0,25","25 %"],["Määrä kasvoi 15:stä 30:een (kaksinkertaistui).","15","15 : 15 = 1","100 %"],["Määrä kasvoi 15:stä 45:een (kolminkertaistui).","15","30 : 15 = 2","200 %"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: jakajana uusi arvo","sisalto":"Hinta nousi 40 eurosta 46 euroon. Houkutteleva lasku on 6 : 46 ≈ 0,13 = 13 %. Se on väärin, koska nousu tehtiin 40 euron hintaan, ei 46 euron hintaan. Oikein: 6 : 40 = 0,15 = 15 %. Toinen reitti vahvistaa tuloksen: 46 : 40 = 1,15 = 115 %, eli uusi hinta on 15 % suurempi. Sama ansa toimii myös laskussa. Jos hinta laskee, uusi arvo on pienempi, ja sillä jakaminen antaa liian suuren prosentin."},{"tyyppi":"ansa","otsikko":"Ansa 2: vastaus euroina","sisalto":"Bussikortin hinta nousi 30 eurosta 33 euroon. Kysymykseen \"montako prosenttia hinta nousi?\" vastaus 3 on väärin, koska 3 on nousu euroina. Prosentit saat vasta jakamalla: 3 : 30 = 0,10 = 10 %. Jos hinta muuttuu, euromäärä ja prosenttiluku ovat sama luku vain silloin, kun alkuperäinen hinta on tasan 100 euroa. Lue siksi, kysytäänkö euroja vai prosentteja, ja kirjoita yksikkö vastaukseen."},{"tyyppi":"ansa","otsikko":"Ansa 3: sama perusarvo molempiin suuntiin","sisalto":"Eemeli on 150 cm ja hänen isänsä 180 cm pitkä. Isä on 30 : 150 = 0,20 = 20 % pidempi kuin Eemeli. Houkutteleva päätelmä on, että Eemeli on siis 20 % lyhyempi kuin isä. Se on väärin. Kun Eemeliä verrataan isään, jakaja on isän pituus: 30 : 180 = 0,1666... ≈ 17 %. Asian näkee myös murtolukuna: 20 % on viidesosa, ja viidesosa 180 senttimetristä on 36 cm, ei 30 cm. Sama 30 cm on suurempi osa pienemmästä luvusta kuin suuremmasta."},{"tyyppi":"ansa","otsikko":"Ansa 4: kaksinkertaistuminen ei ole 200 %:n kasvu","sisalto":"Pelillä oli 3 000 pelaajaa, ja kuukaudessa pelaajia oli 6 000. Uusi määrä on 6 000 : 3 000 = 2 = 200 % alkuperäisestä, mutta kysymys \"montako prosenttia pelaajamäärä kasvoi?\" koskee kasvua. Kasvu on 3 000 pelaajaa, ja 3 000 : 3 000 = 1 = 100 %. Jos pelaajia olisi 9 000, uusi määrä olisi 300 % alkuperäisestä ja kasvu 200 %. Kasvuprosentin saat siis vähentämällä uuden määrän osuudesta 100 %: 200 % − 100 % = 100 %. Laskussa on oma tarkistuksensa: määrä, joka ei voi mennä negatiiviseksi, kuten hinta tai pelaajien määrä, voi laskea enintään 100 %, jolloin jäljellä on nolla. Jos saat hinnan laskuksi yli 100 %, olet jakanut uudella arvolla: 60 €:sta 20 €:oon laskettaessa 40 : 20 = 200 % on väärin, oikein 40 : 60 ≈ 67 %."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Muutosprosentti = muutos : alkuperäinen arvo. Alkuperäinen arvo on se, joka oli ensin.","Vertailuprosentti = ero : arvo, johon verrataan (kuin-sanan jälkeinen tai partitiivimuoto, esimerkiksi \"Eetun matkaa\").","Sama ero, eri jakaja, eri prosentti. Kun kaksi positiivista suuretta eroaa toisistaan, \"pienempi kuin\" -prosentti on pienempi luku kuin \"suurempi kuin\" -prosentti.","Kysytäänkö prosentteja vai euroja? 0,15 = 15 %.","Kaksinkertaistuminen on 100 %:n kasvu ja kolminkertaistuminen 200 %:n kasvu. Kun määrä tulee n-kertaiseksi, kasvu on (n − 1) · 100 %. Hinta voi laskea enintään 100 %."]}],"harjoitusryhmat":[{"id":"muutos","nimi":"Muutosprosentti","info":"Laskin on sallittu. Jaa muutos alkuperäisellä arvolla eli sillä, joka oli ensin. Arvioi tulos ennen laskinta."},{"id":"vertailu","nimi":"Vertailuprosentti","info":"Laskin on sallittu. Jaa ero sillä arvolla, johon verrataan. Se on kuin-sanan jälkeen tai partitiivissa vertailusanan edessä."},{"id":"yli","nimi":"Yli 100 % ja oikea jakaja","info":"Laskin on sallittu. Kysytäänkö kasvua vai uuden määrän osuutta? Kaksinkertaistuminen on 100 %:n kasvu."}],"harjoitukset":[{"id":"H01","ryhma":"muutos","kysymys":"Farkkujen hinta nousi 50 €:sta 58 €:oon. Montako euroa hinta nousi?","vastaus":8,"vinkki":"Vähennä alkuperäinen hinta uudesta hinnasta.","selitys":"Nousu euroina on 58 € − 50 € = 8 €. Tämä on muutoksen määrä, ei vielä muutosprosentti."},{"id":"H02","ryhma":"muutos","kysymys":"Farkkujen hinta nousi 50 €:sta 58 €:oon. Montako prosenttia hinta nousi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":16,"vinkki":"Nousu on 8 €. Jaa se alkuperäisellä hinnalla.","selitys":"Nousu on 8 €, ja alkuperäinen hinta on 50 €. 8 : 50 = 0,16 = 16 %. Vastaus 8 olisi nousu euroina, ja 8 : 58 ≈ 14 % syntyy, jos jakajana on uusi hinta."},{"id":"H03","ryhma":"muutos","kysymys":"Kuulokkeiden hinta laski 120 €:sta 90 €:oon. Montako prosenttia hinta laski? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":25,"vinkki":"Myös laskussa jakaja on alkuperäinen hinta, eli se, joka oli ensin.","selitys":"Lasku on 120 € − 90 € = 30 €. Alkuperäinen hinta on 120 €, joten 30 : 120 = 0,25 = 25 %. Jos jaat uudella hinnalla, saat 30 : 90 ≈ 33 %, mikä on liikaa."},{"id":"H04","ryhma":"muutos","kysymys":"Kuntosalin kuukausimaksu nousi 36 €:sta 39 €:oon. Montako prosenttia maksu nousi? Anna vastaus prosentteina yhden desimaalin tarkkuudella ilman %-merkkiä.","vastaus":8.3,"vinkki":"Laske nousu, jaa se 36 eurolla ja pyöristä vasta lopuksi.","selitys":"Nousu on 3 €. 3 : 36 = 0,08333... = 8,333... % ≈ 8,3 %. Arvio: 3 euroa on paljon alle puolet 36 eurosta, joten tulos on pieni prosentti."},{"id":"H05","ryhma":"muutos","kysymys":"Koulussa oli viime syksynä 420 oppilasta ja tänä syksynä 441 oppilasta. Montako prosenttia oppilasmäärä kasvoi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":5,"vinkki":"Alkuperäinen määrä on viime syksyn määrä.","selitys":"Kasvu on 441 − 420 = 21 oppilasta. 21 : 420 = 0,05 = 5 %."},{"id":"H06","ryhma":"muutos","kysymys":"Pelin hinta laski 70 €:sta 45,50 €:oon. Montako prosenttia hinta laski? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":35,"vinkki":"Laske ensin, montako euroa hinta laski.","selitys":"Lasku on 70,00 € − 45,50 € = 24,50 €. 24,50 : 70 = 0,35 = 35 %. Tarkistus toista reittiä: 45,50 : 70 = 0,65 = 65 %, eli uusi hinta on 35 % pienempi."},{"id":"H07","ryhma":"muutos","kysymys":"Jalkapallojoukkueen kotiotteluissa oli viime kaudella keskimäärin 2 400 katsojaa ja tällä kaudella 1 950 katsojaa. Montako prosenttia katsojamäärä laski? Anna vastaus kokonaisina prosentteina ilman %-merkkiä.","vastaus":19,"vinkki":"Lasku on viime kauden ja tämän kauden erotus. Jaa se viime kauden määrällä.","selitys":"Lasku on 2 400 − 1 950 = 450 katsojaa. 450 : 2 400 = 0,1875 = 18,75 % ≈ 19 %. Vastaus 23 % syntyy, jos jakajana on tämän kauden 1 950."},{"id":"H08","ryhma":"muutos","kysymys":"Sähköpotkulaudan vuokra nousi 2,50 €:sta 3,00 €:oon. Montako prosenttia uusi hinta on vanhasta hinnasta? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":120,"vinkki":"Nyt ei kysytä muutosta vaan uuden hinnan osuutta vanhasta. Jaa uusi hinta vanhalla.","selitys":"3,00 : 2,50 = 1,2 = 120 %. Uusi hinta on 120 % vanhasta, joten hinta nousi 20 %. Tämä on muutosprosentin toinen reitti, jolla voit tarkistaa laskusi."},{"id":"H09","ryhma":"vertailu","kysymys":"Iidan puhelinliittymä maksaa 20 € kuukaudessa ja Oskarin 26 €. Montako prosenttia Oskarin liittymä on kalliimpi kuin Iidan liittymä? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":30,"vinkki":"Verrataan Iidan liittymään, koska se on kuin-sanan jälkeen.","selitys":"Ero on 26 € − 20 € = 6 €. Verrataan Iidan liittymään: 6 : 20 = 0,30 = 30 %."},{"id":"H10","ryhma":"vertailu","kysymys":"Iidan puhelinliittymä maksaa 20 € kuukaudessa ja Oskarin 26 €. Montako prosenttia Iidan liittymä on halvempi kuin Oskarin liittymä? Anna vastaus kokonaisina prosentteina ilman %-merkkiä.","vastaus":23,"vinkki":"Ero on sama kuin edellisessä tehtävässä, mutta nyt verrataan Oskarin liittymään.","selitys":"Ero on 6 €, ja nyt verrataan Oskarin liittymään: 6 : 26 = 0,2307... ≈ 23 %. Vastaus 30 % syntyy, jos jakajana on edelleen Iidan hinta. Sama ero on pienempi osa suuremmasta luvusta."},{"id":"H11","ryhma":"vertailu","kysymys":"Kissa painaa 4 kg ja koira 10 kg. Montako prosenttia koira on painavampi kuin kissa? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":150,"vinkki":"Ero voi olla suurempi kuin luku, johon verrataan. Silloin tulos on yli 100 %.","selitys":"Ero on 10 kg − 4 kg = 6 kg. Verrataan kissaan: 6 : 4 = 1,5 = 150 %. Vastaus 250 % on koiran massan osuus kissan massasta (10 : 4), ei ero."},{"id":"H12","ryhma":"vertailu","kysymys":"Kissa painaa 4 kg ja koira 10 kg. Montako prosenttia kissa on kevyempi kuin koira? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":60,"vinkki":"Nyt verrataan koiraan.","selitys":"Ero on 6 kg, ja verrataan koiraan: 6 : 10 = 0,6 = 60 %. Koira on 150 % kissaa painavampi, mutta kissa on vain 60 % koiraa kevyempi, koska jakajat ovat eri."},{"id":"H13","ryhma":"vertailu","kysymys":"Aino juoksi 2,8 km ja Eetu 4 km. Montako prosenttia Ainon matka on Eetun matkaa lyhyempi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":30,"vinkki":"Sanat \"Eetun matkaa lyhyempi\" tarkoittavat samaa kuin \"lyhyempi kuin Eetun matka\".","selitys":"Ero on 4 km − 2,8 km = 1,2 km. Verrataan Eetun matkaan: 1,2 : 4 = 0,30 = 30 %. Vastaus 43 % syntyy, jos jakajana on Ainon matka."},{"id":"H14","ryhma":"vertailu","tyyppi":"monivalinta","kysymys":"Millä luvulla jaat, kun lasket, montako prosenttia Siirin 1 200 € kesätienesti on vähemmän kuin Joelin 1 500 € kesätienesti?","vaihtoehdot":["1 200","1 500","300"],"vastaus":1,"vinkki":"Etsi kuin-sanan jälkeinen arvo.","selitys":"Siirin tienestiä verrataan Joelin tienestiin, joten jakaja on 1 500 €. Ero 300 € on jaettava, ei jakaja: 300 : 1 500 = 0,20 = 20 %."},{"id":"H15","ryhma":"yli","kysymys":"Junan pituus on seitsenkertainen bussin pituuteen verrattuna. Montako prosenttia pidempi juna on kuin bussi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":600,"vinkki":"Juna on 7 bussin mittainen. Montako bussin mittaa se on bussia pidempi?","selitys":"Junan pituus on 7 kertaa bussin pituus, joten ero on 7 − 1 = 6 bussin pituutta. Verrataan bussiin: ero on 6 kertaa bussin pituus eli 600 %. Lasku kertoimesta: (7 − 1) · 100 % = 600 %. Vastaus 700 % on junan pituuden osuus bussin pituudesta, ei ero."},{"id":"H16","ryhma":"yli","kysymys":"Taimen pituus oli keväällä 12 cm ja syksyllä 36 cm. Montako prosenttia pituus kasvoi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":200,"vinkki":"Kasvu on 24 cm. Kuinka moninkertainen se on alkuperäiseen pituuteen verrattuna?","selitys":"Kasvu on 36 cm − 12 cm = 24 cm. 24 : 12 = 2 = 200 %. Pituus kolminkertaistui, joten kasvu on 200 %. Vastaus 300 % on uuden pituuden osuus alkuperäisestä."},{"id":"H17","ryhma":"yli","kysymys":"Videolla oli maanantaina 4 500 katselukertaa ja sunnuntaina 9 000 katselukertaa. Montako prosenttia katselukertojen määrä kasvoi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":100,"vinkki":"Kasvu on yhtä suuri kuin alkuperäinen määrä.","selitys":"Kasvu on 9 000 − 4 500 = 4 500. 4 500 : 4 500 = 1 = 100 %. Määrä kaksinkertaistui, joten kasvu on 100 %, ei 200 %."},{"id":"H18","ryhma":"yli","tyyppi":"monivalinta","kysymys":"Kahvila myi viime viikolla 800 annosta ja tällä viikolla 600 annosta. Leo laski 200 : 600 ≈ 33 % ja Mira 200 : 800 = 25 %. Kumpi laski oikein, montako prosenttia myynti laski?","vaihtoehdot":["Mira, koska muutos jaetaan alkuperäisellä määrällä 800.","Leo, koska laskussa muutos jaetaan uudella määrällä 600.","Kumpikin, koska jakajan saa valita vapaasti."],"vastaus":0,"vinkki":"Mikä määrä oli ensin?","selitys":"Viime viikon 800 annosta oli ensin, joten se on jakaja: 200 : 800 = 0,25 = 25 %. Mira on oikeassa. Leo jakoi uudella määrällä. Suunta ei muuta sääntöä: myös laskussa jakaja on alkuperäinen arvo."},{"id":"H19","ryhma":"yli","tyyppi":"monivalinta","kysymys":"Talo A on 30 m ja talo B 40 m korkea. Talo B on noin 33 % korkeampi kuin talo A, mutta talo A on 25 % matalampi kuin talo B. Miksi prosentit eivät ole yhtä suuret?","vaihtoehdot":["Sama 10 metrin ero jaetaan eri luvuilla: ensin talon A korkeudella 30 m, sitten talon B korkeudella 40 m.","Toinen laskuista on väärin, koska saman eron pitää antaa sama prosentti.","Korkeamman talon ero on suurempi kuin matalamman talon ero."],"vastaus":0,"vinkki":"Katso, millä luvulla kummassakin vertailussa jaetaan.","selitys":"Ero on kummassakin 10 m. Ensin verrataan taloon A: 10 : 30 ≈ 33 %. Sitten verrataan taloon B: 10 : 40 = 25 %. Sama ero on pienempi osa suuremmasta luvusta. Kumpikin luku on oikein."},{"id":"H20","ryhma":"yli","kysymys":"Kuorossa oli syksyllä 14 laulajaa ja keväällä 49 laulajaa. Montako prosenttia laulajien määrä kasvoi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":250,"vinkki":"Kasvu on 35 laulajaa. Jaa se syksyn määrällä.","selitys":"Kasvu on 49 − 14 = 35. 35 : 14 = 2,5 = 250 %. Uusi määrä on 49 : 14 = 3,5 = 350 % alkuperäisestä, joten kasvu on 350 % − 100 % = 250 %."}],"valmis_teksti":"Osaat laskea, montako prosenttia hinta tai määrä nousi tai laski, ja jaat muutoksen alkuperäisellä arvolla. Lasket vertailuprosentin molempiin suuntiin, jaat eron sillä arvolla, johon verrataan, ja osaat selittää, miksi kaksi vertailuprosenttia eivät ole yhtä suuret. Tiedät, että kaksinkertaistuminen on 100 %:n kasvu. Tämä taito on nyt näytetty."};
+
+/* ---------- otsikko ---------- */
+const IKONIT={
+  pysakki:'<path d="M7 4h10v11H7z"/><path d="M9 15v4M15 15v4"/><path d="M4 20h16"/><path d="M9 7h6"/>',
+  jarjestys:'<path d="M4 7h6M4 12h10M4 17h4"/><path d="M17 5v14"/><path d="M14.5 16.5L17 19l2.5-2.5"/>',
+  /* allekkainkertolasku: kaksi riviä ja viiva, päällä muistinumero */
+  kerto:'<path d="M6 8h9M6 13h12M4 16.5h16"/><path d="M7.5 19.5h9"/><circle cx="18" cy="5.5" r="2"/>',
+  /* jakokulma */
+  jakokulma:'<path d="M5 8h13"/><path d="M8.5 8v10"/><path d="M8.5 18c-2.2 0-3.5-2.2-3.5-5s1.3-5 3.5-5"/><path d="M11 12h6"/>',
+  /* jakojäännös: ryhmät ja yksi yli jäävä */
+  jaannos:'<rect x="3.5" y="8" width="6" height="6" rx="1"/><rect x="11" y="8" width="6" height="6" rx="1"/><circle cx="20" cy="17.5" r="2"/>',
+  /* desimaalipilkku paikka-arvoruuduissa */
+  desimaali:'<rect x="3" y="7" width="6" height="9" rx="1"/><rect x="13" y="7" width="8" height="9" rx="1"/><path d="M10.8 15.5c.6.3.8 1.2.4 2"/>',
+  /* mitta: viivain */
+  mitta:'<rect x="2.5" y="8.5" width="19" height="7" rx="1"/><path d="M7 8.5v3M11 8.5v4.5M15 8.5v3M19 8.5v4.5"/>',
+  /* lukeminen: avoin kirja */
+  lukeminen:'<path d="M12 6.5C10 5 7 4.7 4 5.3v12c3-.6 6-.3 8 1.2 2-1.5 5-1.8 8-1.2v-12c-3-.6-6-.3-8 1.2z"/><path d="M12 6.5v12"/>',
+  /* lajituntemus: lehti */
+  kasvi:'<path d="M5 19c0-7 4.5-12 14-13 .5 8-3.5 13-10 13H5z"/><path d="M19 6c-5 2.5-8.5 6.5-10.5 12"/>',
+  /* joukkuepeli: pallo ja syöttökaari */
+  pallo:'<circle cx="8" cy="15" r="4.5"/><path d="M8 10.5c1.5-4 5-6.5 9.5-6.5"/><path d="M14.5 4h3v3"/>',
+  /* piirtimet: kynän kärki ja viiva */
+  kyna:'<path d="M4 19l2.5-6L15 4.5a2 2 0 013 3L9.5 16 4 19z"/><path d="M13.5 6.5l3.5 3.5"/>',
+  /* paikka-arvo: neljä numeropaikkaa, tuhansien paikka korostettuna */
+  paikkaarvo:'<rect x="2.5" y="8" width="4.5" height="8" rx="1"/><rect x="8" y="8" width="4.5" height="8" rx="1"/><rect x="13.5" y="8" width="4.5" height="8" rx="1"/><rect x="19" y="8" width="2.5" height="8" rx="1"/><path d="M4.75 10.5v3"/>',
+  /* allekkainlasku: kaksi lukua, viiva ja plus */
+  allekkain:'<path d="M8 7h10M8 12h10M4.5 15h15"/><path d="M4 9.5h3M5.5 8v3"/><path d="M9 18.5h9"/>',
+  /* murtoluku: ympyrä neljäsosiin, yksi väritetty */
+  murtoluku:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M12 12h8.5A8.5 8.5 0 0012 3.5z" fill="currentColor" stroke="none"/>',
+  /* vertailu: kaksi eripituista palkkia ja suurempi-kuin-merkki */
+  vertailu:'<rect x="2.5" y="6" width="8" height="4" rx="1"/><rect x="2.5" y="14" width="4.5" height="4" rx="1"/><path d="M15 6.5l4.5 5.5-4.5 5.5"/>',
+  /* samannimisten yhteenlasku: kaksi sektoria yhdistyy */
+  murtoyhteen:'<path d="M9 12A7 7 0 019 5v7z" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="7"/><path d="M18 8v8M14 12h8"/>',
+  /* käänteisyys: kaksi vastakkaista nuolta */
+  kaanteinen:'<path d="M4 9h13"/><path d="M14.5 6L17.5 9l-3 3"/><path d="M20 15H7"/><path d="M9.5 12L6.5 15l3 3"/>',
+
+  /* --- muiden oppiaineiden ikonit --- */
+  keskustelu:'<path d="M3 5h11v7H7l-4 3z"/><path d="M10 14h11v6h-4l-3 2v-2h-4z"/>',
+  esitys:'<rect x="3" y="4" width="18" height="10" rx="1"/><path d="M12 14v3"/><path d="M8.5 21l3.5-4 3.5 4"/>',
+  kirja:'<path d="M12 6c-2-1.5-5-2-8-1.5v12C7 16 10 16.5 12 18c2-1.5 5-2 8-1.5v-12C17 4 14 4.5 12 6z"/><path d="M12 6v12"/>',
+  teksti:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+  kuuntelu:'<path d="M8 10a4 4 0 118 0c0 3-2 3.5-2 6a2 2 0 11-4 0"/><path d="M17.5 5.5a8 8 0 010 13"/><path d="M20.5 3a12 12 0 010 18"/>',
+  puhe:'<path d="M4 5h16v10H9l-5 4z"/><circle cx="9" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="16" cy="10" r="1"/>',
+  maapallo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 2.5 14.4 0 17c-2.5-2.6-2.5-14.4 0-17z"/>',
+  nuotti:'<path d="M9 18V6l9-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="16" r="2.5"/>',
+  syke:'<path d="M3 12h4l2.5-6 4 12 2.5-6h5"/>',
+  soitin:'<rect x="3.5" y="9" width="17" height="7" rx="1"/><path d="M7 9v7M10.5 9v7M14 9v7M17.5 9v7"/>',
+  sivellin:'<path d="M14.5 3.5l6 6-7 7-6-6z"/><path d="M7.5 10.5l-3 3c-1.5 1.5-1 4 0 5s3.5 1.5 5 0l3-3"/>',
+  muotoilu:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+  tyokalu:'<path d="M14.5 3.5a4.5 4.5 0 00-5.8 5.8L3 15v5h5l5.7-5.7a4.5 4.5 0 005.8-5.8L17 11h-3V8z"/>',
+  neula:'<path d="M20 4L9 15"/><path d="M7 17l-3 3"/><ellipse cx="19.5" cy="4.5" rx="1.5" ry="2.5" transform="rotate(45 19.5 4.5)"/><path d="M9 15c-2 0-3 1-3 2s1 2 2 2"/>',
+  kartta:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  aikajana:'<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="17" cy="12" r="2"/><path d="M7 7v2M12 15v2M17 7v2"/>',
+  puu:'<path d="M12 21v-6"/><path d="M12 15l-5-3 5-9 5 9z"/><path d="M12 15l-6-4"/><path d="M12 15l6-4"/>',
+  elain:'<ellipse cx="12" cy="16" rx="4" ry="3.5"/><circle cx="6.5" cy="11" r="2"/><circle cx="17.5" cy="11" r="2"/><circle cx="9.5" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/>',
+  turva:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  liike:'<circle cx="14" cy="5" r="2"/><path d="M13 9l-3 4 3 3 1 5"/><path d="M10 13l-4 1"/><path d="M13 9l4 2 2-1"/>',
+  tasapaino:'<path d="M12 4v16"/><path d="M5 8h14"/><path d="M5 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M19 8l-2.5 5a2.5 2.5 0 005 0z"/><path d="M8 20h8"/>',
+  vesi:'<path d="M3 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/>',
+  ajattelu:'<path d="M9 20v-2.5C6.5 16 5 13.7 5 11a7 7 0 1114 0c0 2.7-1.5 5-4 6.5V20z"/><path d="M9.5 20h5"/><path d="M12 14c0-2 2-2 2-3.5a2 2 0 10-4 0"/>',
+  pyha:'<path d="M12 3c1.5 2.5 2.5 3.5 2.5 5a2.5 2.5 0 11-5 0c0-1.5 1-2.5 2.5-5z"/><path d="M12 11v7"/><rect x="8" y="18" width="8" height="3" rx="1"/>',
+  kadet:'<path d="M8 21v-6l-2.5-2.5a2 2 0 012.8-2.8L10 11V4a1.5 1.5 0 013 0v7"/><path d="M13 11V5.5a1.5 1.5 0 013 0V13c0 4-2 8-2 8"/>',
+  tutkimus:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M10.5 7.5v6M7.5 10.5h6"/>',
+  mittari:'<path d="M12 3a2.5 2.5 0 012.5 2.5v8a4.5 4.5 0 11-5 0v-8A2.5 2.5 0 0112 3z"/><circle cx="12" cy="17.5" r="2"/><path d="M12 8v7.5"/>',
+};
+document.getElementById("ikoni").innerHTML = IKONIT[D.ikoni] || IKONIT.pysakki;
+document.getElementById("eyebrow").textContent = D.eyebrow || "Matematiikka · 4. luokka · Luvut ja laskutoimitukset";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("kuvaus").textContent = D.kuvaus;
+document.getElementById("tags").innerHTML =
+  `<span class="tag core">${D.taso || "ydintaito"}</span><span class="tag">${D.ops.T.join(" ")} ${D.ops.S.join(" ")}</span>`
+  + (Array.isArray(D.harjoitukset) && D.harjoitukset.length
+      ? `<span class="tag">${D.harjoitukset.length} harjoitusta</span>`
+      : "");
+
+/* ---------- teksti ---------- */
+const esc = s => s;
+const osat = D.teksti.map(o=>{
+  switch(o.tyyppi){
+    case "johdanto":
+      return `<p class="lead">${esc(o.sisalto)}</p>`;
+    case "kappale":
+      return `<h2>${esc(o.otsikko)}</h2><p>${esc(o.sisalto)}</p>`;
+    case "saanto":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><ol class="steps">${
+        o.askeleet.map(a=>`<li><span>${esc(a)}</span></li>`).join("")}</ol></div>`;
+    case "taulukko":
+      return `<div class="box"><h3>${esc(o.otsikko)}</h3><div class="tablewrap"><table><thead><tr>${
+        o.otsikkorivi.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${
+        o.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    case "ansa":
+      return `<div class="box warn"><h3>${esc(o.otsikko)}</h3><p style="margin:0">${esc(o.sisalto)}</p></div>`;
+    case "muistilappu":
+      return `<div class="box note"><h3>${esc(o.otsikko)}</h3><ul class="notes">${
+        o.kohdat.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`;
+    case "numerotaulu":
+      return `<div class="box nt"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="nt-valinta" id="ntValinta"></div>
+        <div class="nt-taulu" id="ntTaulu"></div>
+        <p class="nt-selite" id="ntSelite"></p></div>`;
+    case "vahvuusportaat":
+      return `<div class="box vp"><h3>${esc(o.otsikko)}</h3><p class="ohje">${esc(o.sisalto)}</p>
+        <div class="vp-tasot">${o.tasot.map(t=>
+          `<div class="vp-taso" data-taso="${t.id}"><span class="vp-pallo"></span>
+           <div><strong>${t.nimi}</strong><span>${t.selite}</span></div></div>`).join("")}</div>
+        <div class="vp-lauseke" id="vpLauseke"></div>
+        <div class="vp-rivi"><button type="button" class="btn ghost" id="vpSeuraava">Toinen lauseke</button>
+        <span class="vp-vastaus" id="vpVastaus"></span></div></div>`;
+    case "laskujarjestys":
+      return `<div class="box lj"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 12px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <div class="lj-exp" id="ljExp"></div>
+        <div class="lj-fb" id="ljFb"></div>
+        <div class="lj-row"><button type="button" class="btn ghost" id="ljSeuraava">Toinen lauseke</button>
+        <span class="lj-step" id="ljStep"></span></div></div>`;
+    case "lukusuora":
+      return `<div class="box nl"><h3>${esc(o.otsikko)}</h3><p style="margin:0 0 8px;font-size:14.5px;color:var(--ink-2)">${esc(o.sisalto)}</p>
+        <svg id="nlsvg" viewBox="0 0 640 118" role="img" aria-labelledby="nldesc"><desc id="nldesc">Lukusuora, jolla näkyy valittu luku ja lähin kymmenluku.</desc></svg>
+        <div class="nl-controls">
+          <label for="nlrange" style="font-size:13px;color:var(--ink-2)">Luku</label>
+          <input type="range" id="nlrange" min="0" max="100" value="47" aria-describedby="nlout">
+          <span class="nl-out" id="nlout"></span>
+        </div></div>`;
+    default: return "";
+  }
+}).join("");
+document.getElementById("teksti").innerHTML = osat;
+
+/* ---------- lukusuora ---------- */
+const svg=document.getElementById("nlsvg"), rng=document.getElementById("nlrange"), out=document.getElementById("nlout");
+const X0=34, X1=606, Y=62;
+function piirraNL(v){
+  const ala=Math.floor(v/10)*10, yla=ala+10, puoli=ala+5;
+  const pyor = (v%10)>=5 ? yla : ala;
+  const x = n => X0 + (n/100)*(X1-X0);
+  let s=`<line class="rail" x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}"/>`;
+  for(let n=0;n<=100;n+=10){
+    const near = (n===ala||n===yla);
+    s+=`<line class="tick" x1="${x(n)}" y1="${Y-7}" x2="${x(n)}" y2="${Y+7}"/>`;
+    s+=`<text class="stop${near?" near":""}" x="${x(n)}" y="${Y+24}" text-anchor="middle">${n}</text>`;
+  }
+  s+=`<line class="halfway" x1="${x(puoli)}" y1="${Y-16}" x2="${x(puoli)}" y2="${Y+12}"/>`;
+  s+=`<text class="stop" x="${x(puoli)}" y="${Y-22}" text-anchor="middle">puoliväli ${puoli}</text>`;
+  s+=`<circle class="dot" cx="${x(v)}" cy="${Y}" r="6"/>`;
+  s+=`<text class="val" x="${x(v)}" y="${Y-32}" text-anchor="middle">${v}</text>`;
+  s+=`<path d="M ${x(v)} ${Y+38} L ${x(pyor)} ${Y+38}" stroke="var(--core)" stroke-width="2" fill="none"/>`;
+  s+=`<path d="M ${x(pyor)} ${Y+38} l ${x(pyor)>x(v)?-7:7} -4 l 0 8 z" fill="var(--core)"/>`;
+  svg.innerHTML=s;
+  out.textContent = `${v} pyöristyy → ${pyor}`;
+}
+if(svg){ piirraNL(+rng.value); rng.addEventListener("input",e=>piirraNL(+e.target.value)); }
+
+/* ---------- paikka-arvotaulu ---------- */
+const ntTaulu=document.getElementById("ntTaulu");
+if(ntTaulu){
+  const O=D.teksti.find(x=>x.tyyppi==="numerotaulu");
+  const PAIKAT=["ykköset","kymmenet","sadat","tuhannet","kymmenettuhannet"];
+  const LYH=["Y","K","S","T","KT"];
+  const IDX={kymmenet:1, sadat:2, tuhannet:3};
+  let ntI=0;
+  document.getElementById("ntValinta").innerHTML=O.esimerkit.map((e,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${e.luku.toLocaleString("fi-FI",{maximumFractionDigits:10})} → ${e.tarkkuus}</button>`).join("");
+  function ntPiirra(){
+    const e=O.esimerkit[ntI], t=IDX[e.tarkkuus], kerroin=Math.pow(10,t);
+    const tulos=Math.floor((e.luku+kerroin/2)/kerroin)*kerroin;
+    const lev=Math.max(String(e.luku).length, String(tulos).length);
+    const num=String(e.luku).padStart(lev,"0").split("");
+    const res=String(tulos).padStart(lev,"0").split("");
+    const luokka=(i,arr,vain0)=>{
+      const p=arr.length-1-i;
+      if(vain0) return p<t ? "nt-ruutu nolla" : "nt-ruutu";
+      if(p===t) return "nt-ruutu kohta";
+      if(p===t-1) return "nt-ruutu ratkaiseva";
+      return "nt-ruutu";
+    };
+    const otsat=num.map((_,i)=>`<span class="otsa">${LYH[num.length-1-i]||""}</span>`).join("");
+    const rivi1=num.map((n,i)=>`<span class="${luokka(i,num,false)}">${n}</span>`).join("");
+    const rivi2=res.map((n,i)=>`<span class="${luokka(i,res,true)}">${n}</span>`).join("");
+    const ratk=+num[num.length-t];
+    const ylos=ratk>=5;
+    ntTaulu.innerHTML=
+      `<div class="nt-rivi">${otsat}</div>
+       <div class="nt-rivi">${rivi1}<span class="nimi">luku</span></div>
+       <div class="nt-rivi"><span class="nt-nuoli" style="margin-left:${(num.length-1-t)*58+18}px">${ylos?"▲ ylös":"▼ alas"}</span></div>
+       <div class="nt-rivi">${rivi2}<span class="nimi">pyöristettynä</span></div>`;
+    document.getElementById("ntSelite").innerHTML =
+      `Pyöristetään <b>${PAIKAT[t]}</b> (sininen ruutu). Ratkaiseva numero on <b>${ratk}</b> (keltainen ruutu). ` +
+      (ylos ? `Se on 5 tai suurempi, joten sininen ruutu kasvaa yhdellä.` : `Se on pienempi kuin 5, joten sininen ruutu pysyy ennallaan.`) +
+      ` Kaikki keltaisen oikealla puolella muuttuu nolliksi. Vastaus on <b>${tulos.toLocaleString("fi-FI",{maximumFractionDigits:10})}</b>.`;
+    document.querySelectorAll("#ntValinta button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===ntI)));
+  }
+  document.getElementById("ntValinta").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; ntI=+b.dataset.i; ntPiirra();
+  });
+  ntPiirra();
+}
+
+/* ---------- vahvuusportaat ---------- */
+const vpEl=document.getElementById("vpLauseke");
+if(vpEl){
+  const O=D.teksti.find(x=>x.tyyppi==="vahvuusportaat");
+  let vpI=0;
+  function vpPiirra(){
+    const e=O.esimerkit[vpI];
+    const tokens=e.lauseke.split(/\s+/);
+    const kartta=Object.fromEntries(e.jarjestys.map(j=>[j.i,j]));
+    vpEl.innerHTML=tokens.map((t,i)=>{
+      const j=kartta[i];
+      return j ? `<span class="op" data-taso="${j.taso}">${t}<i><span>${j.n}</span></i></span>`
+               : `<span class="t">${t}</span>`;
+    }).join("");
+    document.getElementById("vpVastaus").textContent = "= " + e.vastaus;
+  }
+  document.getElementById("vpSeuraava").addEventListener("click",()=>{
+    vpI=(vpI+1)%O.esimerkit.length; vpPiirra();
+  });
+  vpPiirra();
+}
+
+/* ---------- laskujärjestys-widget ---------- */
+const ljExp=document.getElementById("ljExp");
+if(ljExp && D.kokeilu){
+  let ljI=0, ljTokens=[], ljStep=0;
+  const laske=(a,op,b)=>{a=+a;b=+b;return op==="×"?a*b:op==="÷"?a/b:op==="+"?a+b:a-b;};
+  function ljAlku(){
+    const l=D.kokeilu[ljI];
+    ljTokens=l.lauseke.replace(/\(/g,"( ").replace(/\)/g," )").split(/\s+/).filter(Boolean);
+    ljStep=0; ljPiirra(); ljViesti("","");
+  }
+  function ljViesti(t,lk){const f=document.getElementById("ljFb"); f.textContent=t; f.className="lj-fb "+(lk||"");}
+  function ljPiirra(){
+    const l=D.kokeilu[ljI];
+    document.getElementById("ljStep").textContent =
+      ljStep>=l.askeleet.length ? "valmis" : `askel ${ljStep+1} / ${l.askeleet.length}`;
+    if(ljStep>=l.askeleet.length){
+      ljExp.innerHTML=`<span class="valmis">${l.lauseke} = ${l.vastaus}</span>`;
+      return;
+    }
+    ljExp.innerHTML=ljTokens.map((t,i)=>
+      "×÷+−".includes(t) ? `<button type="button" class="op" data-i="${i}">${t}</button>`
+                         : `<span class="tok">${t}</span>`).join("");
+    ljExp.querySelectorAll("button.op").forEach(b=>b.addEventListener("click",()=>ljKlikkaa(+b.dataset.i)));
+  }
+  function ljKlikkaa(i){
+    const l=D.kokeilu[ljI], odotettu=l.askeleet[ljStep];
+    const ehdotus=[ljTokens[i-1],ljTokens[i],ljTokens[i+1]].join(" ");
+    if(ehdotus!==odotettu){
+      ljViesti(ljStep===0
+        ? "Ei vielä. Sulkeet ovat vahvimmat, sitten kerto ja jako. Yhtä vahvat vasemmalta oikealle."
+        : "Ei vielä. Kumpi jäljellä olevista on vahvempi?", "no");
+      return;
+    }
+    const arvo=laske(ljTokens[i-1],ljTokens[i],ljTokens[i+1]);
+    let alku=i-1, loppu=i+1;
+    if(ljTokens[i-2]==="(" && ljTokens[i+2]===")"){ alku=i-2; loppu=i+2; }
+    ljTokens.splice(alku, loppu-alku+1, String(arvo));
+    ljStep++;
+    ljViesti(ljStep>=l.askeleet.length ? "Valmis. Vastaus on "+l.vastaus+"." : "Oikein. Jatka seuraavaan.", "ok");
+    ljPiirra();
+  }
+  document.getElementById("ljSeuraava").addEventListener("click",()=>{
+    ljI=(ljI+1)%D.kokeilu.length; ljAlku();
+  });
+  ljAlku();
+}
+
+/* ---------- harjoitukset ----------
+   Kaksi vastaustyyppiä: "numero" (oletus, tekstikenttä + Number()-vertailu) ja
+   "monivalinta" (valintapainikkeet, h.vaihtoehdot[] + h.vastaus = oikean vaihtoehdon indeksi).
+   Jos D.harjoitukset puuttuu tai on tyhjä, koko osio piilotetaan (näyttötaidot, ei kirjallista
+   harjoitusta: liikunta, kuvataide). */
+/* Kysymyksessä voi olla luettavaa aineistoa ja sen jälkeen varsinainen kysymys,
+   erotettuna tyhjällä rivillä. Viimeinen osa on kysymys, sitä edeltävät aineistoa. */
+const kysymysHtml = t => {
+  const osat = String(t).split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(osat.length < 2) return osat[0] || "";
+  const kysymys = osat.pop();
+  return osat.map(p=>`<span class="aineisto">${p}</span>`).join("")
+       + `<span class="kysymysrivi">${kysymys}</span>`;
+};
+
+const ONKO_HARJOITUKSIA = Array.isArray(D.harjoitukset) && D.harjoitukset.length > 0;
+const RYHMAT = ONKO_HARJOITUKSIA ? D.harjoitusryhmat : [];
+const tila={};
+if(ONKO_HARJOITUKSIA) D.harjoitukset.forEach(h=>tila[h.id]={ratkaistu:false, yritetty:false});
+const muotoile = n => (typeof n==="number") ? n.toLocaleString("fi-FI",{maximumFractionDigits:10}) : n;
+
+if(!ONKO_HARJOITUKSIA){
+  document.getElementById("harjoitukset").style.display = "none";
+  const prog = document.querySelector(".progress");
+  if(prog) prog.style.display = "none";
+} else {
+
+document.getElementById("harjoitukset").innerHTML = RYHMAT.map(r=>{
+  const items=D.harjoitukset.filter(h=>h.ryhma===r.id);
+  return `<section class="grp"><div class="grp-head"><h3>${r.nimi}</h3><span>${r.info}</span></div>${
+    items.map((h,i)=>{
+      const nro=D.harjoitukset.indexOf(h)+1;
+      const vastausUi = h.tyyppi==="monivalinta"
+        ? `<div class="row mv" role="group" aria-label="Vaihtoehdot tehtävään ${nro}">
+             ${h.vaihtoehdot.map((v,vi)=>`<button type="button" class="btn ghost mv-valinta" data-mv="${h.id}" data-i="${vi}">${v}</button>`).join("")}
+           </div>`
+        : `<div class="row">
+             <input type="text" inputmode="numeric" id="in-${h.id}" aria-label="Vastaus tehtävään ${nro}" placeholder="vastaus">
+             <button type="button" class="btn" data-tarkista="${h.id}">Tarkista</button>
+             <button type="button" class="btn ghost" data-vinkki="${h.id}">Vinkki</button>
+           </div>`;
+      return `<div class="ex" id="ex-${h.id}">
+        <div class="q"><span class="num">${nro}.</span><span class="txt">${kysymysHtml(h.kysymys)}</span></div>
+        ${h.kuuntele ? `<div class="kuuntele">
+          <button type="button" class="btn ghost" data-kuuntele="${h.id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7"/></svg>Kuuntele</button>
+          <button type="button" class="btn ghost" data-hitaasti="${h.id}">Kuuntele hitaasti</button>
+          <p class="varateksti" id="vara-${h.id}" hidden></p></div>` : ""}
+        ${vastausUi}
+        <div id="fb-${h.id}"></div>
+      </div>`;
+    }).join("")}</section>`;
+}).join("");
+
+function paivitaEdistyminen(){
+  const n=Object.values(tila).filter(t=>t.ratkaistu).length, kaikki=D.harjoitukset.length;
+  document.getElementById("pbar").style.width=Math.round(n/kaikki*100)+"%";
+  document.getElementById("pcnt").textContent=`${n} / ${kaikki}`;
+  document.getElementById("valmis").innerHTML = n===kaikki
+    ? `<div class="done"><h3>Kaikki ${kaikki} oikein.</h3>${D.valmis_teksti || "Tämä taito on nyt näytetty."}</div>`
+    : "";
+}
+
+function merkitseTulos(id, oikein, viesti){
+  const fb=document.getElementById("fb-"+id), kortti=document.getElementById("ex-"+id);
+  tila[id].yritetty=true;
+  if(oikein){
+    tila[id].ratkaistu=true;
+    kortti.dataset.tila="oikein";
+    fb.className="fb ok"; fb.textContent=viesti;
+  } else {
+    kortti.dataset.tila="vaarin";
+    fb.className="fb no"; fb.textContent=viesti;
+  }
+  paivitaEdistyminen();
+}
+
+/* Suomalainen lukumuoto: välilyönti on tuhaterotin, pilkku desimaalierotin.
+   Piste voi olla kumpi tahansa. Se tulkitaan tuhaterottimeksi VAIN silloin, kun
+   koko luku on aitoa tuhaterotinmuotoa: alkuosa 1–3 numeroa ilman etunollaa ja
+   jokainen jatko-osa täsmälleen 3 numeroa (1.500, 12.345.678). Kaikissa muissa
+   tapauksissa piste on desimaalipiste — myös 0.125, joka vanhalla säännöllä
+   ("3 numeroa pisteen jäljessä = tuhaterotin") luettiin virheellisesti luvuksi 125. */
+const TUHATEROTIN = /^[1-9]\d{0,2}(\.\d{3})+$/;
+function lueLuku(teksti){
+  // Murtoluku (3/4, -3/4) ja sekaluku (1 2/3, -1 2/3) hyväksytään sellaisinaan.
+  const raaka = String(teksti).replace(/\u00a0/g, " ").trim();
+  let m = raaka.match(/^(-?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[4]); if(nim === 0) return null;
+    const v = Number(m[2]) + Number(m[3]) / nim; return m[1] ? -v : v; }
+  m = raaka.match(/^(-?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if(m){ const nim = Number(m[3]); if(nim === 0) return null;
+    const v = Number(m[2]) / nim; return m[1] ? -v : v; }
+  let s = String(teksti).replace(/[\s\u00a0]/g, "");
+  if(s === "") return null;
+  if(s.indexOf(",") >= 0){
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if(TUHATEROTIN.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function tarkista(id){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const kentta=document.getElementById("in-"+id);
+  const fb=document.getElementById("fb-"+id);
+  if(kentta.value.trim()===""){ fb.className="fb hint"; fb.textContent="Kirjoita vastaus ensin."; return; }
+  const luku=lueLuku(kentta.value);
+  if(luku===null){ fb.className="fb no"; fb.textContent="Vastauksen pitää olla luku tai murtoluku (esimerkiksi 3/4)."; return; }
+  const oikein = Math.abs(luku - h.vastaus) < 1e-9;
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei vielä. ${h.vinkki} Kokeile uudelleen.`);
+}
+
+function tarkistaMonivalinta(id, valittuIndeksi, painike){
+  const h=D.harjoitukset.find(x=>x.id===id);
+  const rivi=painike.closest(".row");
+  rivi.querySelectorAll(".mv-valinta").forEach(b=>b.disabled=true);
+  const oikein = valittuIndeksi===h.vastaus;
+  painike.classList.add(oikein?"mv-oikein":"mv-vaarin");
+  if(!oikein){
+    const oikeaBtn=rivi.querySelector(`[data-i="${h.vastaus}"]`);
+    if(oikeaBtn) oikeaBtn.classList.add("mv-oikein");
+  }
+  merkitseTulos(id, oikein, oikein ? "Oikein. "+h.selitys : `Ei ihan. Oikea vastaus on korostettu. ${h.selitys||""}`);
+}
+
+/* Kuuntelu: selain lukee tekstin ääneen omalla puhesynteesillään (englanniksi, jos laitteessa on
+   englanninkielinen ääni). Ei äänitiedostoja eikä verkkoyhteyttä. Jos laite ei osaa puhua,
+   teksti näytetään luettavaksi — silloin tehtävä muuttuu luetun ymmärtämiseksi, mutta ei katkea. */
+function puhu(id, nopeus){
+  const h=D.harjoitukset.find(x=>x.id===id); if(!h || !h.kuuntele) return;
+  const vara=document.getElementById("vara-"+id);
+  const naytaTeksti=syy=>{ vara.hidden=false; vara.textContent=syy+" Teksti: "+h.kuuntele; };
+  if(!("speechSynthesis" in window)){ naytaTeksti("Tämä laite ei osaa lukea ääneen."); return; }
+  const s=window.speechSynthesis; s.cancel();
+  const u=new SpeechSynthesisUtterance(h.kuuntele);
+  u.lang=h.kieli||"en-GB"; u.rate=nopeus;
+  const aanet=s.getVoices(), kieli=u.lang.slice(0,2);
+  const aani=aanet.find(a=>a.lang===u.lang) || aanet.find(a=>a.lang && a.lang.startsWith(kieli));
+  if(aani) u.voice=aani;
+  else if(aanet.length) { naytaTeksti("Laitteessa ei ole englanninkielistä ääntä."); return; }
+  u.onerror=()=>naytaTeksti("Ääneen lukeminen ei onnistunut.");
+  s.speak(u);
+}
+
+document.getElementById("harjoitukset").addEventListener("click",e=>{
+  const k=e.target.closest("[data-kuuntele]"), hk=e.target.closest("[data-hitaasti]");
+  if(k) puhu(k.dataset.kuuntele, 0.9);
+  if(hk) puhu(hk.dataset.hitaasti, 0.6);
+  const t=e.target.closest("[data-tarkista]"), v=e.target.closest("[data-vinkki]"), mv=e.target.closest("[data-mv]");
+  if(t) tarkista(t.dataset.tarkista);
+  if(mv) tarkistaMonivalinta(mv.dataset.mv, Number(mv.dataset.i), mv);
+  if(v){
+    const h=D.harjoitukset.find(x=>x.id===v.dataset.vinkki);
+    const fb=document.getElementById("fb-"+h.id);
+    fb.className="fb hint"; fb.textContent=h.vinkki;
+  }
+});
+document.getElementById("harjoitukset").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.id.startsWith("in-")){ e.preventDefault(); tarkista(e.target.id.slice(3)); }
+});
+
+} // ONKO_HARJOITUKSIA
+
+if(ONKO_HARJOITUKSIA) paivitaEdistyminen();
+
+document.getElementById("back").innerHTML =
+  `Tämä sivu on yhden osaamistavoitteen sisältö <strong>Osaamispolku ${D.vuosiluokka||4}</strong> -mallissa. Taito: <span class="tag" style="display:inline-block">${D.tavoite_id}</span>`;
+</script>

@@ -1,0 +1,524 @@
+<title>Pääsykokeen yhtälöt · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT8-YHT-07","oppiaine":"MAT","vuosiluokka":8,"otsikko":"Pääsykokeen yhtälöt","kuvaus":"Osaan ratkaista ylikurssitason yhtälö- ja epäyhtälötehtäviä, joissa on myös kirjainvakioita.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T5","T14"],"S":["S1","S3"]},"taso":"haaste","jakso":"J2","taitoalue":"YHT","ikoni":"ajattelu","eyebrow":"Matematiikka · 8. luokka · Yhtälöt ja epäyhtälöt","naytto":"Ratkaisen vanhoja ylioppilas- ja pääsykoetehtäviä, esimerkiksi millä vakion arvolla yhtälöllä ei ole ratkaisua, yhteistyötehtävän (kaksi ovea tyhjentää salin) tai monta nimittäjää sisältävän yhtälön.","osaa_kun":"Suunnittelen ratkaisun itse, käsittelen vakiota kuten tunnettua lukua ja tarkistan, että vastaus toteuttaa tehtävän ehdot.","teksti":[{"tyyppi":"johdanto","sisalto":"Vanhoissa ylioppilas- ja pääsykokeissa on tehtäviä, joissa pelkkä yhtälön ratkaiseminen ei riitä: ensin pitää keksiä, mistä yhtälö syntyy. Tässä tyypillinen esimerkki. Aino haravoisi pihan yksin 3 tunnissa ja Eetu 6 tunnissa. Kauanko haravointi kestää, kun he haravoivat yhdessä? Ensimmäinen ajatus on usein aikojen keskiarvo 4,5 tuntia tai jopa summa 9 tuntia. Kumpikaan ei voi olla oikein, koska yhdessä työ valmistuu nopeammin kuin Ainolta yksin eli alle 3 tunnissa. Oikea ajatus on laskea, kuinka suuren osan pihasta kumpikin haravoi. Aino haravoi tunnissa 1/3 pihasta, joten x tunnissa hän haravoi x/3 pihasta. Eetu haravoi samassa ajassa x/6 pihasta. Yhdessä he haravoivat koko pihan, ja koko piha on luku 1: x/3 + x/6 = 1. Kun yhtälö kerrotaan puolittain luvulla 6, saadaan 2x + x = 6, joten x = 2. Haravointi kestää 2 tuntia. Tarkistus: 2 tunnissa Aino haravoi 2/3 ja Eetu 2/6 = 1/3 pihasta, yhteensä koko pihan. Tässä taidossa ratkaiset tällaisia ylikurssitason tehtäviä: yhteistyötehtäviä, yhtälöitä, joissa on kirjainvakio tai monta nimittäjää, epäyhtälöitä ja monivaiheisia sanallisia ongelmia. Suunnittelet ratkaisun itse ja tarkistat, että vastaus sopii tehtävän ehtoihin."},{"tyyppi":"saanto","otsikko":"Näin ratkaiset ylikurssitason tehtävän","askeleet":["Lue tehtävä loppuun. Kirjoita ylös, mitä kysytään ja mitä ehtoja vastauksen pitää täyttää. Esimerkiksi ihmisten, eläinten ja lippujen määrä on kokonaisluku eikä voi olla negatiivinen.","Kirjoita suunnitelma ennen laskemista: mitä x tarkoittaa (sanoin ja yksikköineen), miten muut suureet ilmaistaan x:n avulla ja mistä yhtälö tai epäyhtälö syntyy.","Valitse x niin, ettei se joudu nimittäjään. Yhteistyötehtävässä x on aika, ja kunkin tekijän osuus työstä on x jaettuna hänen omalla ajallaan. Kun tehtävässä on kaksi määrää ja niiden summa tunnetaan, merkitse toista x:llä ja toista summan avulla, esimerkiksi 100 − x.","Jos yhtälössä on kirjainvakio, käsittele sitä kuin tunnettua lukua: se siirretään, kerrotaan ja jaetaan samoin kuin luku. Jos jaat vakiolla, tarkista erikseen tapaus, jossa vakio on nolla, koska nollalla ei voi jakaa.","Jos yhtälössä on nimittäjiä, kerro jokainen termi nimittäjien pienimmällä yhteisellä jaettavalla ja kirjoita monitermiset osoittajat sulkeisiin.","Ratkaise ja kirjoita jokainen vaihe omalle rivilleen.","Tarkista vastaus alkuperäisestä tehtävästä: toteuttaako se yhtälön ja tehtävän ehdot? Negatiivinen tai murtolukuinen määrä ihmisiä tai esineitä tarkoittaa, että tilanne on mahdoton tai laskussa on virhe.","Vastaa siihen, mitä kysyttiin, ja kirjoita yksikkö."]},{"tyyppi":"kappale","otsikko":"Vakio on luku, jota et vielä tiedä","sisalto":"Kirjainvakio, esimerkiksi a, on luku, jonka arvoa ei ole kerrottu. Se ei ole tuntematon, jota ratkaistaan, vaan sitä käsitellään kuin tunnettua lukua. Yhtälössä 3x + a = 5a − x kootaan x-termit vasemmalle ja a-termit oikealle samoin kuin luvut: 3x + x = 5a − a, joten 4x = 4a ja x = a. Ratkaisu riippuu vakiosta: jos a = 7, ratkaisu on 7. Kun vakio on x:n kertoimena, jakamisessa pitää olla tarkka. Yhtälöstä ax = 6 saadaan x = 6/a, mutta vain silloin, kun a ei ole nolla, koska nollalla ei voi jakaa. Kun a = 0, yhtälö on 0 · x = 6 eli 0 = 6. Lause on epätosi, joten yhtälöllä ei ole ratkaisua. Vastaus kirjoitetaan siksi kahdessa osassa: x = 6/a, kun a ≠ 0, ja kun a = 0, ratkaisua ei ole. Joskus ratkaisu tunnetaan ja kysytään vakiota. Jos luku 2 on yhtälön ax − 1 = x + a ratkaisu, sijoitetaan x = 2 kumpaankin x:n paikkaan: 2a − 1 = 2 + a. Nyt tuntematon on a, ja siitä saadaan a = 3. Sama keino toimii, vaikka yhtälössä olisi x². Jos luku −1 on yhtälön ax² + 4x + 1 = 0 ratkaisu, sijoitus antaa a · (−1)² + 4 · (−1) + 1 = 0. Koska (−1)² = 1, saadaan a − 4 + 1 = 0 ja a = 3. Toisen asteen yhtälöä ei tarvitse ratkaista, koska x on jo tiedossa ja sijoituksen jälkeen yhtälö on ensimmäistä astetta a:n suhteen."},{"tyyppi":"taulukko","otsikko":"Esimerkki 1: millä vakion arvolla ratkaisua ei ole?","otsikkorivi":["Vaihe","Merkintä","Miksi"],"rivit":[["Tehtävä","Millä vakion a arvolla yhtälöllä ax + 3 = 5(x − 1) − 2x ei ole ratkaisua?","Kysytään a:ta, ei x:ää."],["Suunnitelma","Sievennä oikea puoli, vertaa x:n kertoimia ja tarkista vakiot.","Ratkaisua ei ole, kun x häviää ja jäljelle jää epätosi lause."],["Oikea puoli","5(x − 1) − 2x = 5x − 5 − 2x = 3x − 5","Sulkeet auki ja samanmuotoiset termit yhteen."],["x:n kertoimet","ax + 3 = 3x − 5, joten x häviää vain, kun a = 3.","Silloin x-termit kumoutuvat: 3x − 3x = 0. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi."],["Vakiot","3 ja −5 ovat eri luvut.","Jos vakiotkin olisivat samat, jäljelle jäisi 0 = 0, ja mikä tahansa luku kävisi."],["Tarkistus","a = 3: 3x + 3 = 3x − 5, 3x − 3x = −5 − 3, 0 = −8, epätosi","Vasen puoli on jokaisella x:n arvolla 8 suurempi kuin oikea."],["Vastaus","a = 3","Vastaus on vakion arvo. Arvo a = 0 ei käy: silloin 3 = 3x − 5 ja x = 8/3."]]},{"tyyppi":"kappale","otsikko":"Monta nimittäjää yhtälössä ja epäyhtälössä","sisalto":"Kun yhtälössä on monta murtolauseketta, jokainen termi kerrotaan nimittäjien pienimmällä yhteisellä jaettavalla. Yhtälössä (x + 4)/3 − (x − 2)/4 = (x + 7)/6 se on 12, joten saadaan 4(x + 4) − 3(x − 2) = 2(x + 7). Murtoviiva toimii sulkeina: koko osoittaja kerrotaan, ja miinusmerkki koskee koko osoittajaa. Siksi −3(x − 2) = −3x + 6. Edelleen 4x + 16 − 3x + 6 = 2x + 14, x + 22 = 2x + 14 ja x = 8. Tarkistus: (8 + 4)/3 − (8 − 2)/4 = 4 − 1,5 = 2,5 ja (8 + 7)/6 = 2,5. Epäyhtälö ratkaistaan samoin. Nimittäjien pienin yhteinen jaettava on positiivinen luku, joten sillä kertominen ei käännä erisuuruusmerkkiä. Merkki kääntyy vasta, jos lopuksi jaetaan negatiivisella luvulla. Etsitään suurin kokonaisluku, jolle (x + 4)/6 − (x − 2)/2 > 1. Kertomalla kuudella saadaan x + 4 − 3(x − 2) > 6, edelleen x + 4 − 3x + 6 > 6 ja −2x > −4. Jaetaan luvulla −2, jolloin merkki kääntyy: x < 2. Luku 2 ei kuulu ratkaisujoukkoon, joten suurin kokonaisluku on 1. Tarkistus: luvulla 1 vasen puoli on 5/6 − (−1/2) = 4/3, joka on suurempi kuin 1, ja luvulla 2 vasen puoli on 1 − 0 = 1, joka ei ole suurempi kuin 1. Sanallisissa tehtävissä nimittäjät syntyvät usein jakamisesta. Jos lahjan hinta x jaetaan tasan neljän kaverin kesken, kunkin osuus on x/4. Jos osuus pienenee 6 euroa, kun maksajia onkin viisi, yhtälö on x/4 − x/5 = 6. Kertomalla luvulla 20 saadaan 5x − 4x = 120, joten lahja maksaa 120 euroa ja kukin maksaa 120/5 = 24 euroa. Kun x on koko hinta eikä yhden osuus, tuntematon ei joudu nimittäjään."},{"tyyppi":"taulukko","otsikko":"Esimerkki 2: toinen pumppu aloittaa myöhemmin","otsikkorivi":["Vaihe","Merkintä","Miksi"],"rivit":[["Tehtävä","Pumppu A tyhjentää altaan yksin 6 tunnissa ja pumppu B yksin 12 tunnissa. A pumppaa ensin 3 tuntia yksin, minkä jälkeen myös B aloittaa. Montako tuntia tyhjennys kestää kaikkiaan?","Kysytään koko kestoa alusta loppuun."],["Suunnitelma","x = aika tunteina, jonka pumput pumppaavat yhdessä. A pumppaa 3 + x tuntia ja B x tuntia. Osuuksien summa on 1.","Kun x on aika, se ei joudu nimittäjään."],["Osuudet","A: (3 + x)/6, B: x/12","Tunnissa A tyhjentää 1/6 ja B 1/12 altaasta."],["Yhtälö","(3 + x)/6 + x/12 = 1","Yhdessä pumput tyhjentävät koko altaan eli luvun 1."],["Ratkaisu","| · 12: 2(3 + x) + x = 12, 6 + 2x + x = 12, 3x = 6, x = 2","Kerrotaan nimittäjien pienimmällä yhteisellä jaettavalla 12."],["Kysytty aika","3 + 2 = 5 tuntia","x = 2 on vain yhteinen aika, ei vastaus."],["Tarkistus","A pumppaa 5 tuntia: 5/6. B pumppaa 2 tuntia: 2/12 = 1/6. Yhteensä 6/6 = 1.","Osuudet muodostavat koko altaan. Lisäksi 5 tuntia on alle A:n oman ajan 6 tuntia, kuten pitää, koska B auttaa."],["Vastaus","Tyhjennys kestää 5 tuntia.","Vastauksessa on kysytty suure ja yksikkö."]]},{"tyyppi":"ansa","otsikko":"Ansa 1: vakiotehtävässä vastataan a = 0 tai ratkaistaan x","sisalto":"Tehtävä kysyy, millä vakion a arvolla yhtälöllä ax − 2 = 6x + 1 ei ole ratkaisua. Houkutteleva vastaus on a = 0, koska nolla tuntuu tarkoittavan, ettei mitään ole. Sijoitus paljastaa virheen: kun a = 0, yhtälö on −2 = 6x + 1, josta x = −1/2. Ratkaisu on siis olemassa. Toinen virhe on ratkaista x ja jättää a huomiotta. Kysymys koskee vakiota, joten vastaus on vakion arvo. Ratkaisua ei ole, kun x häviää ja jäljelle jää epätosi lause. Se tapahtuu, kun x-termit ovat samat eli a = 6: 6x − 2 = 6x + 1 ja 0 = 3. Vertaa siis x:n kertoimia ja tarkista sijoittamalla, että jäljelle jää epätosi lause eikä 0 = 0."},{"tyyppi":"ansa","otsikko":"Ansa 2: ajat lasketaan yhteen tai niistä otetaan keskiarvo","sisalto":"Ruohonleikkuri A leikkaa nurmikon 2 tunnissa ja leikkuri B 6 tunnissa. Vastaus 2 + 6 = 8 tuntia tarkoittaisi, että toinen leikkuri jarruttaa toista, ja keskiarvo 4 tuntia, että yhdessä työ kestää kauemmin kuin A:lta yksin. Kumpikaan ei voi pitää paikkaansa, kun molemmat leikkaavat. Oikein lasketaan osuuksina: x/2 + x/6 = 1, josta 3x + x = 6 ja x = 1,5. Yhteinen aika on 1,5 tuntia. Tarkista yhteistyötehtävän vastaus kahdella tavalla: osuuksien summa on 1 (A leikkaa 1,5/2 = 3/4 ja B 1,5/6 = 1/4 nurmikosta), ja yhteinen aika on lyhyempi kuin nopeimman tekijän aika yksin. Sama osuusajattelu toimii, kun tekijöitä on kolme. Jos koneet tekisivät työn yksin 6, 3 ja 2 tunnissa, yhtälö on x/6 + x/3 + x/2 = 1, josta x + 2x + 3x = 6 ja x = 1. Yhdessä työ kestää tunnin."},{"tyyppi":"ansa","otsikko":"Ansa 3: miinusmerkki ei koske koko osoittajaa","sisalto":"Yhtälössä (x + 2)/3 − (x − 4)/2 = 1 kertominen kuudella antaa 2(x + 2) − 3(x − 4) = 6. Miinusmerkki ja kerroin 3 koskevat koko osoittajaa x − 4: −3 · x = −3x ja −3 · (−4) = +12. Oikea rivi on 2x + 4 − 3x + 12 = 6, josta −x = −10 ja x = 10. Jos kirjoitat −3x − 12, saat −x − 8 = 6 ja väärän ratkaisun x = −14. Sama virhe tulee vastaan epäyhtälöissä ja kirjainvakion kanssa. Kirjoita monitermiset osoittajat sulkeisiin ennen kuin avaat sulkeet, ja tarkista ratkaisu sijoittamalla: (10 + 2)/3 − (10 − 4)/2 = 4 − 3 = 1."},{"tyyppi":"ansa","otsikko":"Ansa 4: vastausta ei tarkisteta tehtävän ehdoista","sisalto":"Yhtälö voi olla ratkaistu oikein, vaikka vastaus ei sovi tilanteeseen. Kaupassa myytiin 25 kynäpakkausta. Pienessä pakkauksessa on 3 kynää ja isossa 5 kynää, ja kyniä myytiin yhteensä 104. Kun x on pienten pakkausten määrä, isoja on 25 − x, ja 3x + 5(25 − x) = 104. Siitä 3x + 125 − 5x = 104, −2x = −21 ja x = 10,5. Puolikasta pakkausta ei myydä, joten tiedot eivät voi pitää paikkaansa. Toisessa tilanteessa tilalla on kanoja ja lampaita yhteensä 20, ja jalkoja on 90. Yhtälöstä 2x + 4(20 − x) = 90 saadaan x = −5. Negatiivinen määrä kanoja on mahdoton, eli 20 eläimellä ei voi olla 90 jalkaa. Tällaisen tehtävän oikea vastaus on perusteltu toteamus, että tilanne on mahdoton, ei x = −5 eikä x = 10,5. Kun kyse on ihmisistä, eläimistä tai tavaroista, tarkista lopuksi, onko määrä kokonaisluku eikä negatiivinen ja toteutuvatko kaikki tehtävän ehdot."}],"harjoitusryhmat":[{"id":"tyokalut","nimi":"Työkalut","info":"Laske ilman laskinta. Yhden tai kahden vaiheen tehtäviä: vakio kuin luku, osuus aikayksikössä ja nimittäjien poisto."},{"id":"vaiheet","nimi":"Kaksi tai kolme vaihetta","info":"Laske ilman laskinta. Kirjoita välivaiheet vihkoon. Anna murtolukuvastaus supistettuna murtolukuna, esimerkiksi 7/9."},{"id":"ylikurssi","nimi":"Ylikurssi","info":"Laske ilman laskinta. Kirjoita ensin suunnitelma: mitä x tarkoittaa ja mistä yhtälö syntyy. Tarkista lopuksi, että vastaus sopii tehtävän ehtoihin."}],"harjoitukset":[{"id":"H01","ryhma":"tyokalut","kysymys":"Ratkaise x yhtälöstä 4x + a = 2x + 7a. Ratkaisu on muotoa x = k · a. Mikä on k?","vastaus":3,"vinkki":"Käsittele a:ta kuin tunnettua lukua: kokoa x-termit vasemmalle ja a-termit oikealle.","selitys":"4x − 2x = 7a − a, joten 2x = 6a ja x = 3a. Tarkistus luvulla a = 1: x = 3, vasen puoli 4 · 3 + 1 = 13 ja oikea 2 · 3 + 7 = 13."},{"id":"H02","ryhma":"tyokalut","kysymys":"Millä vakion a arvolla luku 4 on yhtälön ax − 6 = 2x + a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":4.666666666666667,"vinkki":"Sijoita x = 4 kumpaankin x:n paikkaan. Silloin yhtälössä on tuntemattomana vain a.","selitys":"4a − 6 = 8 + a, joten 3a = 14 ja a = 14/3. Oikean puolen a on sama vakio kuin vasemmalla, joten se pitää ottaa mukaan."},{"id":"H03","ryhma":"tyokalut","kysymys":"Kone tekee koko työn 8 tunnissa. Kuinka suuren osan työstä se tekee 6 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":0.75,"vinkki":"Tunnissa kone tekee 1/8 työstä.","selitys":"6 tunnissa kone tekee 6 · 1/8 = 6/8 = 3/4 työstä."},{"id":"H04","ryhma":"tyokalut","kysymys":"Kerro lauseke (x + 5)/6 − (x − 7)/4 luvulla 12 ja sievennä. Tulos on muotoa kx + b. Mikä on b?","vastaus":31,"vinkki":"12 : 6 = 2 ja 12 : 4 = 3. Kirjoita osoittajat sulkeisiin: 2(x + 5) − 3(x − 7).","selitys":"2x + 10 − 3x + 21 = −x + 31, joten b = 31. Miinusmerkki koskee koko osoittajaa: −3 · (−7) = +21. Jos miinus kerrotaan vain x:llä, saadaan väärin −x − 11."},{"id":"H05","ryhma":"tyokalut","kysymys":"Millä vakion a arvolla yhtälöllä ax − 3 = 5x + 4 ei ole ratkaisua?","vastaus":5,"vinkki":"Muuttuja häviää, kun x-termit ovat samat. Mitä silloin jää jäljelle?","selitys":"Kun a = 5, saadaan 5x − 3 = 5x + 4 eli 0 = 7, mikä on epätosi. Arvo a = 0 ei käy: silloin −3 = 5x + 4 ja x = −7/5, joten ratkaisu on olemassa."},{"id":"H06","ryhma":"tyokalut","kysymys":"Millä vakion b arvolla yhtälön 4(x − b) = 4x − 12 ratkaisuksi käy mikä tahansa luku?","vastaus":3,"vinkki":"Avaa sulkeet: 4x − 4b. Vertaa vakiotermejä, kun x-termit ovat jo samat.","selitys":"Yhtälö on 4x − 4b = 4x − 12. Kun x-termit kumoutuvat, jäljelle jää −4b = −12. Lause on tosi vain, kun b = 3. Silloin yhtälö 4x − 12 = 4x − 12 on tosi jokaisella x:n arvolla."},{"id":"H07","ryhma":"tyokalut","kysymys":"Ratkaise x yhtälöstä ax − 5 = 10. Millä vakion a arvolla yhtälöllä ei ole ratkaisua?","vastaus":0,"vinkki":"Saat ax = 15. Jakaa saa vain luvulla, joka ei ole nolla.","selitys":"ax = 15, joten x = 15/a, kun a ≠ 0. Kun a = 0, yhtälö on 0 · x = 15 eli 0 = 15, mikä on epätosi. Silloin ratkaisua ei ole."},{"id":"H08","ryhma":"vaiheet","kysymys":"Ratkaise yhtälö (x − 1)/3 − (2x + 1)/6 = (x − 6)/2. Mikä on x?","vastaus":5,"vinkki":"Kerro puolittain luvulla 6 ja kirjoita osoittajat sulkeisiin.","selitys":"2(x − 1) − (2x + 1) = 3(x − 6), joten 2x − 2 − 2x − 1 = 3x − 18, −3 = 3x − 18, 3x = 15 ja x = 5. Tarkistus: 4/3 − 11/6 = 8/6 − 11/6 = −1/2 ja (5 − 6)/2 = −1/2."},{"id":"H09","ryhma":"vaiheet","kysymys":"Ratkaise yhtälö x − (x − 1)/4 = (x + 2)/8 − (x − 3)/2. Anna ratkaisu supistettuna murtolukuna.","vastaus":1.3333333333333333,"vinkki":"Kerro jokainen termi luvulla 8, myös termi x, jolla ei ole nimittäjää.","selitys":"8x − 2(x − 1) = (x + 2) − 4(x − 3), joten 8x − 2x + 2 = x + 2 − 4x + 12, 6x + 2 = −3x + 14, 9x = 12 ja x = 12/9 = 4/3."},{"id":"H10","ryhma":"vaiheet","kysymys":"Ratkaise x yhtälöstä (x − a)/2 = (x + a)/3. Ratkaisu on muotoa x = k · a. Mikä on k?","vastaus":5,"vinkki":"Kerro puolittain luvulla 6 ja käsittele a:ta kuin lukua.","selitys":"3(x − a) = 2(x + a), joten 3x − 3a = 2x + 2a ja x = 5a. Tarkistus luvulla a = 1: x = 5, vasen puoli 4/2 = 2 ja oikea 6/3 = 2."},{"id":"H11","ryhma":"vaiheet","kysymys":"Millä vakion a arvolla luku −3 on yhtälön ax² + 2x − 12 = 0 ratkaisu?","vastaus":2,"vinkki":"Sijoita x = −3. Muista, että (−3)² = 9.","selitys":"a · 9 + 2 · (−3) − 12 = 0, joten 9a − 18 = 0 ja a = 2. Toisen asteen yhtälöä ei tarvitse ratkaista, koska x tunnetaan."},{"id":"H12","ryhma":"vaiheet","kysymys":"Kaivinkone A kaivaa ojan 4 tunnissa ja kaivinkone B 12 tunnissa. Montako tuntia kaivaminen kestää, kun molemmat kaivavat yhtä aikaa?","vastaus":3,"vinkki":"Kun x on yhteinen aika tunteina, A kaivaa x/4 ja B x/12 ojasta. Yhteensä koko oja eli 1.","selitys":"x/4 + x/12 = 1. Kerrotaan luvulla 12: 3x + x = 12, joten x = 3. Tarkistus: A kaivaa 3/4 ja B 3/12 = 1/4 ojasta, yhteensä 1. Lisäksi 3 tuntia on alle A:n oman ajan."},{"id":"H13","ryhma":"vaiheet","kysymys":"Tilalla on kanoja ja lampaita yhteensä 60, ja niillä on yhteensä 170 jalkaa. Kanalla on kaksi jalkaa ja lampaalla neljä. Montako kanaa tilalla on?","vastaus":35,"vinkki":"Merkitse kanojen määrää x:llä. Silloin lampaita on 60 − x.","selitys":"2x + 4(60 − x) = 170, joten 2x + 240 − 4x = 170, −2x = −70 ja x = 35. Lampaita on 25. Tarkistus: 2 · 35 + 4 · 25 = 70 + 100 = 170."},{"id":"H14","ryhma":"vaiheet","kysymys":"Ratkaise epäyhtälö (x + 1)/4 − (x − 1)/3 < 1. Mikä on ratkaisu?","vastaus":2,"vinkki":"Kerro luvulla 12. Merkki säilyy, koska 12 on positiivinen. Katso lopuksi x:n kerrointa.","selitys":"3(x + 1) − 4(x − 1) < 12, joten 3x + 3 − 4x + 4 < 12, −x < 5 ja x > −5. Merkki kääntyy, kun jaetaan luvulla −1. Vastaus x < −5 syntyy, jos merkki jää kääntämättä, ja x > −13, jos −4 · (−1) kirjoitetaan −4.","tyyppi":"monivalinta","vaihtoehdot":["x < −5","x > −13","x > −5","x < −13"]},{"id":"H15","ryhma":"ylikurssi","kysymys":"Laske lausekkeen x² − x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 2)/4 = (x − 2)/8.","vastaus":42,"vinkki":"Ratkaise ensin x. Sijoita se sitten lausekkeeseen ja muista, että negatiivisen luvun neliö on positiivinen.","selitys":"Kerrotaan luvulla 8: 2(x + 2) = x − 2, joten 2x + 4 = x − 2 ja x = −6. Lausekkeen arvo on (−6)² − (−6) = 36 + 6 = 42."},{"id":"H16","ryhma":"ylikurssi","kysymys":"Mökin vuokra piti jakaa tasan 6 hengen kesken. Mukaan tulikin 8 henkeä, joten kunkin osuus pieneni 15 euroa. Montako euroa kukin lopulta maksoi?","vastaus":45,"vinkki":"Merkitse x:llä koko vuokraa euroina, älä yhden hengen osuutta. Silloin osuudet ovat x/6 ja x/8.","selitys":"x/6 − x/8 = 15. Kerrotaan luvulla 24: 4x − 3x = 360, joten vuokra on 360 euroa. Kukin maksoi 360/8 = 45 euroa. Tarkistus: alkuperäinen osuus olisi ollut 360/6 = 60 euroa, ja 60 − 45 = 15."},{"id":"H17","ryhma":"ylikurssi","kysymys":"Pumppu A tyhjentää altaan yksin 14 tunnissa ja pumppu B yksin 7 tunnissa. Pumppu A pumppaa ensin 2 tuntia yksin, minkä jälkeen myös pumppu B aloittaa. Montako tuntia altaan tyhjentäminen kestää kaikkiaan?","vastaus":6,"vinkki":"Merkitse x:llä aikaa, jonka pumput pumppaavat yhdessä. Pumppu A pumppaa siis 2 + x tuntia.","selitys":"(2 + x)/14 + x/7 = 1. Kerrotaan luvulla 14: 2 + x + 2x = 14, joten 3x = 12 ja x = 4. Koko tyhjennys kestää 2 + 4 = 6 tuntia. Tarkistus: A pumppaa 6 tuntia eli 6/14 = 3/7 ja B 4 tuntia eli 4/7 altaasta, yhteensä 1."},{"id":"H18","ryhma":"ylikurssi","kysymys":"Mikä on suurin kokonaisluku x, jolle (3x − 2)/4 − (x + 1)/3 < 2?","vastaus":6,"vinkki":"Kerro luvulla 12, poista sulkeet ja ratkaise. Tarkista, kuuluuko rajakohta joukkoon.","selitys":"3(3x − 2) − 4(x + 1) < 24, joten 9x − 6 − 4x − 4 < 24, 5x < 34 ja x < 34/5 = 6 4/5. Suurin kokonaisluku on 6. Tarkistus: luvulla 6 vasen puoli on 4 − 7/3 = 5/3 < 2, luvulla 7 se on 19/4 − 8/3 = 25/12, joka on suurempi kuin 2."},{"id":"H19","ryhma":"ylikurssi","kysymys":"Kolme pumppua tyhjentää altaan yhdessä. Pumppu A tyhjentäisi sen yksin 12 tunnissa, pumppu B 6 tunnissa ja pumppu C 4 tunnissa. Montako tuntia tyhjennys kestää, kun kaikki kolme pumppaavat yhtä aikaa?","vastaus":2,"vinkki":"Kunkin pumpun osuus on x jaettuna sen omalla ajalla. Osuuksien summa on 1.","selitys":"x/12 + x/6 + x/4 = 1. Kerrotaan luvulla 12: x + 2x + 3x = 12, joten x = 2. Tarkistus: 2/12 + 2/6 + 2/4 = 1/6 + 2/6 + 3/6 = 1."},{"id":"H20","ryhma":"ylikurssi","kysymys":"Tilalla on kanoja ja lampaita yhteensä 30. Kanalla on kaksi jalkaa ja lampaalla neljä. Isäntä väittää, että eläimillä on yhteensä 128 jalkaa. Muodosta yhtälö, jossa x on kanojen määrä, ja ratkaise se. Mikä luku x:ksi saadaan?","vastaus":-4,"vinkki":"Lampaita on 30 − x. Ratkaise yhtälö loppuun, vaikka tulos näyttäisi oudolta.","selitys":"2x + 4(30 − x) = 128, joten 2x + 120 − 4x = 128, −2x = 8 ja x = −4. Kanoja ei voi olla −4, joten isännän väite ei voi pitää paikkaansa. Saman näkee myös näin: 30 eläimellä on enintään 30 · 4 = 120 jalkaa."}],"ryhmanimet":{"tyokalut":"Työkalut","vaiheet":"Monivaiheiset tehtävät","ylikurssi":"Ylikurssi"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita välivaiheet näkyviin. Tehtävissä 1–15 arvioidaan lopputulos. Tehtävissä 16–20 arvioidaan koko ratkaisu: oikea vastaus ilman näkyvää ratkaisua on väärin.\nAnna murtolukuvastaukset supistettuina murtolukuina, esimerkiksi 4/9, älä desimaalilukuina.\nKirjoita vakion arvo muodossa a = …, yhtälön ratkaisu muodossa x = … ja epäyhtälön ratkaisu epäyhtälönä. Kun tehtävä kysyy, montako tuntia tai montako euroa, pelkkä luku riittää.\nTehtävissä 17–20 kirjoita ensin suunnitelma: mitä merkitset x:llä ja mistä yhtälö syntyy. Ratkaise, perustele jokainen päätelmä ja tarkista, että vastaus toteuttaa tehtävän ehdot.","tehtavat":[{"nro":1,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä 5x − a = 2x + 8a.","vastaus":"x = 3a"},{"nro":2,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku 2 on yhtälön ax + 3 = 4x − a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":"a = 5/3"},{"nro":3,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Pumppu tyhjentää altaan 15 tunnissa. Kuinka suuren osan altaasta se tyhjentää 6 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":"2/5"},{"nro":4,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kerro lauseke (x + 3)/4 − (2x − 5)/6 luvulla 12 ja sievennä.","vastaus":"−x + 19"},{"nro":5,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla yhtälöllä ax + 7 = 4x − 2 ei ole ratkaisua?","vastaus":"a = 4"},{"nro":6,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö (x − 2)/4 − (2x + 5)/10 = (x − 8)/5.","vastaus":"x = 4"},{"nro":7,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö x − (x − 4)/3 = (x + 2)/2 − (x − 3)/6. Anna ratkaisu supistettuna murtolukuna.","vastaus":"x = 1/2"},{"nro":8,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä (x + a)/4 = (x − a)/3.","vastaus":"x = 7a"},{"nro":9,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku −2 on yhtälön ax² + 3x − 10 = 0 ratkaisu?","vastaus":"a = 4"},{"nro":10,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Pumppu A tyhjentää altaan 10 tunnissa ja pumppu B 15 tunnissa. Montako tuntia tyhjennys kestää, kun molemmat pumppaavat yhtä aikaa?","vastaus":"6 h"},{"nro":11,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Koulun konserttiin myytiin 200 lippua. Aikuisen lippu maksoi 9 € ja lapsen lippu 5 €. Lipuista saatiin yhteensä 1 360 €. Montako aikuisen lippua myytiin?","vastaus":"90"},{"nro":12,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise epäyhtälö (x − 1)/3 − (x + 1)/2 > 1.","vastaus":"x < −11"},{"nro":13,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Laske lausekkeen x² − 3x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 1)/3 = (x − 1)/5.","vastaus":"28"},{"nro":14,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Luokkaretken bussin hinta piti jakaa tasan 20 osallistujan kesken. Mukaan tulikin 24 osallistujaa, joten kunkin osuus pieneni 5 euroa. Montako euroa kukin lopulta maksoi?","vastaus":"25 €"},{"nro":15,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Pumppu A tyhjentää altaan yksin 12 tunnissa ja pumppu B yksin 24 tunnissa. Pumppu A pumppaa ensin 6 tuntia yksin, minkä jälkeen myös pumppu B aloittaa. Montako tuntia altaan tyhjentäminen kestää kaikkiaan?","vastaus":"10 h"},{"nro":16,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Mikä on suurin kokonaisluku x, jolle (2x − 1)/5 − (x + 2)/3 < 1? Kirjoita ratkaisu välivaiheineen.","vastaus":"27"},{"nro":17,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Ratkaise x yhtälöstä ax − 4 = 8. Kerro myös, millä vakion a arvolla yhtälöllä ei ole ratkaisua, ja perustele.","vastaus":"Malliesimerkki: Lisätään molemmille puolille 4: ax = 12. Kun a ≠ 0, jaetaan molemmat puolet a:lla: x = 12/a. Kun a = 0, yhtälö on 0 · x − 4 = 8 eli −4 = 8. Lause on epätosi, eikä mikään x:n arvo muuta sitä. Vastaus: x = 12/a, kun a ≠ 0. Kun a = 0, yhtälöllä ei ole ratkaisua."},{"nro":18,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Millä vakion a arvolla yhtälöllä ax − 5 = 3(x + 2) − x ei ole ratkaisua? Perustele ja tarkista vastauksesi sijoittamalla löytämäsi a:n arvo yhtälöön.","vastaus":"Malliesimerkki: Sievennetään oikea puoli: 3(x + 2) − x = 3x + 6 − x = 2x + 6. Yhtälö on ax − 5 = 2x + 6. Muuttuja x häviää vain, jos x-termit ovat samat eli a = 2. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi. Tarkistus: kun a = 2, yhtälö on 2x − 5 = 2x + 6, josta 2x − 2x = 6 + 5 eli 0 = 11. Lause on epätosi, joten ratkaisua ei ole. Vastaus: a = 2."},{"nro":19,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Kolme lumilinkoa A, B ja C auraa parkkialueen yhdessä. Lumilinko A auraisi alueen yksin 6 tunnissa, B 8 tunnissa ja C 24 tunnissa. Montako tuntia auraus kestää, kun kaikki kolme auraavat yhtä aikaa? Kirjoita suunnitelma, muodosta yhtälö, ratkaise se ja tarkista vastaus sijoittamalla se yhtälöön.","vastaus":"Malliesimerkki: Suunnitelma: x = aika tunteina, jonka auraus kestää yhdessä. Tunnissa A tekee 1/6, B 1/8 ja C 1/24 alueesta, joten x tunnissa osuudet ovat x/6, x/8 ja x/24. Yhdessä osuudet ovat koko työ eli 1. x/6 + x/8 + x/24 = 1. | · 24: 4x + 3x + x = 24, 8x = 24, x = 3. Tarkistus: 3/6 + 3/8 + 3/24 = 12/24 + 9/24 + 3/24 = 24/24 = 1, ja 3 h on lyhyempi kuin nopeimman linkon aika 6 h. Vastaus: auraus kestää 3 tuntia."},{"nro":20,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Tilalla on kanoja ja lampaita yhteensä 40. Jokaisella kanalla on kaksi jalkaa ja jokaisella lampaalla neljä. Isäntä kertoo, että eläimillä on yhteensä 180 jalkaa. Voiko tämä pitää paikkansa? Perustele vastauksesi esimerkiksi yhtälön avulla.","vastaus":"Malliesimerkki: x = kanojen määrä, jolloin lampaita on 40 − x. Jalkoja on 2x + 4(40 − x) = 180, 2x + 160 − 4x = 180, −2x = 20, x = −10. Eläinten määrä ei voi olla negatiivinen, joten tehtävän ehdot eivät toteudu: väite ei voi pitää paikkaansa. (Sama näkyy myös näin: vaikka kaikilla 40 eläimellä olisi neljä jalkaa, jalkoja olisi vain 160.)"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita välivaiheet näkyviin. Tehtävissä 1–15 arvioidaan lopputulos. Tehtävissä 16–20 arvioidaan koko ratkaisu: oikea vastaus ilman näkyvää ratkaisua on väärin.\nAnna murtolukuvastaukset supistettuina murtolukuina, esimerkiksi 4/9, älä desimaalilukuina.\nKirjoita vakion arvo muodossa a = …, yhtälön ratkaisu muodossa x = … ja epäyhtälön ratkaisu epäyhtälönä. Kun tehtävä kysyy, montako tuntia tai montako euroa, pelkkä luku riittää.\nTehtävissä 17–20 kirjoita ensin suunnitelma: mitä merkitset x:llä ja mistä yhtälö syntyy. Ratkaise, perustele jokainen päätelmä ja tarkista, että vastaus toteuttaa tehtävän ehdot.","tehtavat":[{"nro":1,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä 7x − a = 3x + 7a.","vastaus":"x = 2a"},{"nro":2,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku 3 on yhtälön ax + 1 = 2x − a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":"a = 5/4"},{"nro":3,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Tulostin tulostaa koko erän 12 tunnissa. Kuinka suuren osan erästä se tulostaa 8 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":"2/3"},{"nro":4,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kerro lauseke (x + 2)/3 − (3x − 4)/5 luvulla 15 ja sievennä.","vastaus":"−4x + 22"},{"nro":5,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla yhtälöllä ax − 8 = 6x + 1 ei ole ratkaisua?","vastaus":"a = 6"},{"nro":6,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö (x − 4)/6 − (2x + 6)/9 = (x − 6)/2.","vastaus":"x = 3"},{"nro":7,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö x − (x − 7)/6 = (x + 3)/3 − (x − 3)/2. Anna ratkaisu supistettuna murtolukuna.","vastaus":"x = 4/3"},{"nro":8,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä (x + a)/5 = (x − a)/3.","vastaus":"x = 4a"},{"nro":9,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku −3 on yhtälön ax² + 5x − 12 = 0 ratkaisu?","vastaus":"a = 3"},{"nro":10,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Lumilinko A auraa parkkialueen 12 tunnissa ja lumilinko B 24 tunnissa. Montako tuntia auraus kestää, kun molemmat auraavat yhtä aikaa?","vastaus":"8 h"},{"nro":11,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Teatteriesitykseen myytiin 150 lippua. Aikuisen lippu maksoi 12 € ja lapsen lippu 7 €. Lipuista saatiin yhteensä 1 450 €. Montako aikuisen lippua myytiin?","vastaus":"80"},{"nro":12,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise epäyhtälö (x − 2)/6 − (x + 1)/3 > 1.","vastaus":"x < −10"},{"nro":13,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Laske lausekkeen x² − 2x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 1)/4 = (x − 1)/6.","vastaus":"35"},{"nro":14,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Kuoron harjoitusleirin tilavuokra piti jakaa tasan 15 laulajan kesken. Mukaan tulikin 18 laulajaa, joten kunkin osuus pieneni 4 euroa. Montako euroa kukin lopulta maksoi?","vastaus":"20 €"},{"nro":15,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Lumilinko A auraa parkkialueen yksin 20 tunnissa ja lumilinko B yksin 10 tunnissa. Lumilinko A auraa ensin 2 tuntia yksin, minkä jälkeen myös lumilinko B aloittaa. Montako tuntia parkkialueen auraus kestää kaikkiaan?","vastaus":"8 h"},{"nro":16,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Mikä on suurin kokonaisluku x, jolle (3x − 2)/5 − (x + 1)/2 < 1? Kirjoita ratkaisu välivaiheineen.","vastaus":"18"},{"nro":17,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Ratkaise x yhtälöstä ax − 3 = 7. Kerro myös, millä vakion a arvolla yhtälöllä ei ole ratkaisua, ja perustele.","vastaus":"Malliesimerkki: Lisätään molemmille puolille 3: ax = 10. Kun a ≠ 0, jaetaan molemmat puolet a:lla: x = 10/a. Kun a = 0, yhtälö on 0 · x − 3 = 7 eli −3 = 7. Lause on epätosi, eikä mikään x:n arvo muuta sitä. Vastaus: x = 10/a, kun a ≠ 0. Kun a = 0, yhtälöllä ei ole ratkaisua."},{"nro":18,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Millä vakion a arvolla yhtälöllä ax − 4 = 4(x + 1) − x ei ole ratkaisua? Perustele ja tarkista vastauksesi sijoittamalla löytämäsi a:n arvo yhtälöön.","vastaus":"Malliesimerkki: Sievennetään oikea puoli: 4(x + 1) − x = 4x + 4 − x = 3x + 4. Yhtälö on ax − 4 = 3x + 4. Muuttuja x häviää vain, jos x-termit ovat samat eli a = 3. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi. Tarkistus: kun a = 3, yhtälö on 3x − 4 = 3x + 4, josta 3x − 3x = 4 + 4 eli 0 = 8. Lause on epätosi, joten ratkaisua ei ole. Vastaus: a = 3."},{"nro":19,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Kolme tulostinta A, B ja C tulostaa erän yhdessä. Tulostin A tulostaisi erän yksin 4 tunnissa, B 5 tunnissa ja C 20 tunnissa. Montako tuntia tulostus kestää, kun kaikki kolme tulostavat yhtä aikaa? Kirjoita suunnitelma, muodosta yhtälö, ratkaise se ja tarkista vastaus sijoittamalla se yhtälöön.","vastaus":"Malliesimerkki: Suunnitelma: x = aika tunteina, jonka tulostus kestää yhdessä. Tunnissa A tekee 1/4, B 1/5 ja C 1/20 erästä, joten x tunnissa osuudet ovat x/4, x/5 ja x/20. Yhdessä osuudet ovat koko työ eli 1. x/4 + x/5 + x/20 = 1. | · 20: 5x + 4x + x = 20, 10x = 20, x = 2. Tarkistus: 2/4 + 2/5 + 2/20 = 10/20 + 8/20 + 2/20 = 20/20 = 1, ja 2 h on lyhyempi kuin nopeimman tulostimen aika 4 h. Vastaus: tulostus kestää 2 tuntia."},{"nro":20,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Tilalla on ankkoja ja vuohia yhteensä 35. Jokaisella ankalla on kaksi jalkaa ja jokaisella vuohella neljä. Isäntä kertoo, että eläimillä on yhteensä 150 jalkaa. Voiko tämä pitää paikkansa? Perustele vastauksesi esimerkiksi yhtälön avulla.","vastaus":"Malliesimerkki: x = ankkojen määrä, jolloin vuohia on 35 − x. Jalkoja on 2x + 4(35 − x) = 150, 2x + 140 − 4x = 150, −2x = 10, x = −5. Eläinten määrä ei voi olla negatiivinen, joten tehtävän ehdot eivät toteudu: väite ei voi pitää paikkaansa. (Sama näkyy myös näin: vaikka kaikilla 35 eläimellä olisi neljä jalkaa, jalkoja olisi vain 140.)"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita välivaiheet näkyviin. Tehtävissä 1–15 arvioidaan lopputulos. Tehtävissä 16–20 arvioidaan koko ratkaisu: oikea vastaus ilman näkyvää ratkaisua on väärin.\nAnna murtolukuvastaukset supistettuina murtolukuina, esimerkiksi 4/9, älä desimaalilukuina.\nKirjoita vakion arvo muodossa a = …, yhtälön ratkaisu muodossa x = … ja epäyhtälön ratkaisu epäyhtälönä. Kun tehtävä kysyy, montako tuntia tai montako euroa, pelkkä luku riittää.\nTehtävissä 17–20 kirjoita ensin suunnitelma: mitä merkitset x:llä ja mistä yhtälö syntyy. Ratkaise, perustele jokainen päätelmä ja tarkista, että vastaus toteuttaa tehtävän ehdot.","tehtavat":[{"nro":1,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä 6x − a = x + 9a.","vastaus":"x = 2a"},{"nro":2,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku 4 on yhtälön ax + 1 = 3x − a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":"a = 11/5"},{"nro":3,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Traktori kyntää pellon 21 tunnissa. Kuinka suuren osan pellosta se kyntää 9 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":"3/7"},{"nro":4,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kerro lauseke (x + 4)/6 − (2x − 3)/9 luvulla 18 ja sievennä.","vastaus":"−x + 18"},{"nro":5,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla yhtälöllä ax + 3 = 7x − 4 ei ole ratkaisua?","vastaus":"a = 7"},{"nro":6,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö (x − 2)/5 − (2x + 1)/10 = (x − 7)/2.","vastaus":"x = 6"},{"nro":7,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö x − (x − 7)/5 = (x + 3)/2 − (x − 5)/10. Anna ratkaisu supistettuna murtolukuna.","vastaus":"x = 3/2"},{"nro":8,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä (x + a)/5 = (x − a)/4.","vastaus":"x = 9a"},{"nro":9,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku −2 on yhtälön ax² + 5x − 2 = 0 ratkaisu?","vastaus":"a = 3"},{"nro":10,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Kone A kyntää pellon 20 tunnissa ja kone B 30 tunnissa. Montako tuntia kyntäminen kestää, kun molemmat kyntävät yhtä aikaa?","vastaus":"12 h"},{"nro":11,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Sirkusnäytökseen myytiin 240 lippua. Aikuisen lippu maksoi 10 € ja lapsen lippu 6 €. Lipuista saatiin yhteensä 1 980 €. Montako aikuisen lippua myytiin?","vastaus":"135"},{"nro":12,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise epäyhtälö (x − 3)/4 − (x + 1)/2 > 1.","vastaus":"x < −9"},{"nro":13,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Laske lausekkeen x² − 5x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 2)/2 = (x − 1)/5.","vastaus":"36"},{"nro":14,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Joukkueen pelipaitojen painatuksen hinta piti jakaa tasan 12 pelaajan kesken. Mukaan tulikin 16 pelaajaa, joten kunkin osuus pieneni 6 euroa. Montako euroa kukin lopulta maksoi?","vastaus":"18 €"},{"nro":15,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Kone A kyntää pellon yksin 15 tunnissa ja kone B yksin 10 tunnissa. Kone A kyntää ensin 5 tuntia yksin, minkä jälkeen myös kone B aloittaa. Montako tuntia pellon kyntäminen kestää kaikkiaan?","vastaus":"9 h"},{"nro":16,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Mikä on suurin kokonaisluku x, jolle (3x − 1)/4 − (x + 4)/2 < 1? Kirjoita ratkaisu välivaiheineen.","vastaus":"12"},{"nro":17,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Ratkaise x yhtälöstä ax − 5 = 13. Kerro myös, millä vakion a arvolla yhtälöllä ei ole ratkaisua, ja perustele.","vastaus":"Malliesimerkki: Lisätään molemmille puolille 5: ax = 18. Kun a ≠ 0, jaetaan molemmat puolet a:lla: x = 18/a. Kun a = 0, yhtälö on 0 · x − 5 = 13 eli −5 = 13. Lause on epätosi, eikä mikään x:n arvo muuta sitä. Vastaus: x = 18/a, kun a ≠ 0. Kun a = 0, yhtälöllä ei ole ratkaisua."},{"nro":18,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Millä vakion a arvolla yhtälöllä ax − 7 = 5(x + 2) − x ei ole ratkaisua? Perustele ja tarkista vastauksesi sijoittamalla löytämäsi a:n arvo yhtälöön.","vastaus":"Malliesimerkki: Sievennetään oikea puoli: 5(x + 2) − x = 5x + 10 − x = 4x + 10. Yhtälö on ax − 7 = 4x + 10. Muuttuja x häviää vain, jos x-termit ovat samat eli a = 4. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi. Tarkistus: kun a = 4, yhtälö on 4x − 7 = 4x + 10, josta 4x − 4x = 10 + 7 eli 0 = 17. Lause on epätosi, joten ratkaisua ei ole. Vastaus: a = 4."},{"nro":19,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Kolme pumppua A, B ja C tyhjentää altaan yhdessä. Pumppu A tyhjentäisi altaan yksin 5 tunnissa, B 10 tunnissa ja C 30 tunnissa. Montako tuntia tyhjennys kestää, kun kaikki kolme pumppaavat yhtä aikaa? Kirjoita suunnitelma, muodosta yhtälö, ratkaise se ja tarkista vastaus sijoittamalla se yhtälöön.","vastaus":"Malliesimerkki: Suunnitelma: x = aika tunteina, jonka tyhjennys kestää yhdessä. Tunnissa A tekee 1/5, B 1/10 ja C 1/30 altaasta, joten x tunnissa osuudet ovat x/5, x/10 ja x/30. Yhdessä osuudet ovat koko työ eli 1. x/5 + x/10 + x/30 = 1. | · 30: 6x + 3x + x = 30, 10x = 30, x = 3. Tarkistus: 3/5 + 3/10 + 3/30 = 18/30 + 9/30 + 3/30 = 30/30 = 1, ja 3 h on lyhyempi kuin nopeimman pumpun aika 5 h. Vastaus: tyhjennys kestää 3 tuntia."},{"nro":20,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Tilalla on hanhia ja lehmiä yhteensä 60. Jokaisella hanhella on kaksi jalkaa ja jokaisella lehmällä neljä. Isäntä kertoo, että eläimillä on yhteensä 260 jalkaa. Voiko tämä pitää paikkansa? Perustele vastauksesi esimerkiksi yhtälön avulla.","vastaus":"Malliesimerkki: x = hanhien määrä, jolloin lehmiä on 60 − x. Jalkoja on 2x + 4(60 − x) = 260, 2x + 240 − 4x = 260, −2x = 20, x = −10. Eläinten määrä ei voi olla negatiivinen, joten tehtävän ehdot eivät toteudu: väite ei voi pitää paikkaansa. (Sama näkyy myös näin: vaikka kaikilla 60 eläimellä olisi neljä jalkaa, jalkoja olisi vain 240.)"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita välivaiheet näkyviin. Tehtävissä 1–15 arvioidaan lopputulos. Tehtävissä 16–20 arvioidaan koko ratkaisu: oikea vastaus ilman näkyvää ratkaisua on väärin.\nAnna murtolukuvastaukset supistettuina murtolukuina, esimerkiksi 4/9, älä desimaalilukuina.\nKirjoita vakion arvo muodossa a = …, yhtälön ratkaisu muodossa x = … ja epäyhtälön ratkaisu epäyhtälönä. Kun tehtävä kysyy, montako tuntia tai montako euroa, pelkkä luku riittää.\nTehtävissä 17–20 kirjoita ensin suunnitelma: mitä merkitset x:llä ja mistä yhtälö syntyy. Ratkaise, perustele jokainen päätelmä ja tarkista, että vastaus toteuttaa tehtävän ehdot.","tehtavat":[{"nro":1,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä 9x − a = 4x + 14a.","vastaus":"x = 3a"},{"nro":2,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku 3 on yhtälön ax + 2 = 3x − a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":"a = 7/4"},{"nro":3,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Robotti siivoaa koko varaston 14 tunnissa. Kuinka suuren osan varastosta se siivoaa 4 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":"2/7"},{"nro":4,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kerro lauseke (x + 1)/2 − (3x − 2)/8 luvulla 8 ja sievennä.","vastaus":"x + 6"},{"nro":5,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla yhtälöllä ax − 1 = 2x − 6 ei ole ratkaisua?","vastaus":"a = 2"},{"nro":6,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö (x − 3)/6 − (2x + 2)/4 = (x − 9)/3.","vastaus":"x = 3"},{"nro":7,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö x − (x − 1)/2 = (x + 3)/5 − (x − 4)/10. Anna ratkaisu supistettuna murtolukuna.","vastaus":"x = 5/4"},{"nro":8,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä (x + a)/6 = (x − a)/4.","vastaus":"x = 5a"},{"nro":9,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku −4 on yhtälön ax² + 3x − 20 = 0 ratkaisu?","vastaus":"a = 2"},{"nro":10,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Tulostin A tulostaa erän 12 tunnissa ja tulostin B 36 tunnissa. Montako tuntia tulostus kestää, kun molemmat tulostavat yhtä aikaa?","vastaus":"9 h"},{"nro":11,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Jääkiekko-otteluun myytiin 180 lippua. Aikuisen lippu maksoi 8 € ja lapsen lippu 5 €. Lipuista saatiin yhteensä 1 200 €. Montako aikuisen lippua myytiin?","vastaus":"100"},{"nro":12,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise epäyhtälö (x − 1)/6 − (x + 1)/4 > 1.","vastaus":"x < −17"},{"nro":13,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Laske lausekkeen x² − 4x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 2)/3 = (x − 1)/6.","vastaus":"45"},{"nro":14,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Kevätjuhlan bändin palkkio piti jakaa tasan 24 perheen kesken. Mukaan tulikin 30 perhettä, joten kunkin osuus pieneni 3 euroa. Montako euroa kukin lopulta maksoi?","vastaus":"12 €"},{"nro":15,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Tulostin A tulostaa erän yksin 8 tunnissa ja tulostin B yksin 24 tunnissa. Tulostin A tulostaa ensin 4 tuntia yksin, minkä jälkeen myös tulostin B aloittaa. Montako tuntia erän tulostus kestää kaikkiaan?","vastaus":"7 h"},{"nro":16,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Mikä on suurin kokonaisluku x, jolle (2x − 1)/6 − (x + 2)/4 < 1? Kirjoita ratkaisu välivaiheineen.","vastaus":"19"},{"nro":17,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Ratkaise x yhtälöstä ax − 6 = 8. Kerro myös, millä vakion a arvolla yhtälöllä ei ole ratkaisua, ja perustele.","vastaus":"Malliesimerkki: Lisätään molemmille puolille 6: ax = 14. Kun a ≠ 0, jaetaan molemmat puolet a:lla: x = 14/a. Kun a = 0, yhtälö on 0 · x − 6 = 8 eli −6 = 8. Lause on epätosi, eikä mikään x:n arvo muuta sitä. Vastaus: x = 14/a, kun a ≠ 0. Kun a = 0, yhtälöllä ei ole ratkaisua."},{"nro":18,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Millä vakion a arvolla yhtälöllä ax − 3 = 6(x + 1) − x ei ole ratkaisua? Perustele ja tarkista vastauksesi sijoittamalla löytämäsi a:n arvo yhtälöön.","vastaus":"Malliesimerkki: Sievennetään oikea puoli: 6(x + 1) − x = 6x + 6 − x = 5x + 6. Yhtälö on ax − 3 = 5x + 6. Muuttuja x häviää vain, jos x-termit ovat samat eli a = 5. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi. Tarkistus: kun a = 5, yhtälö on 5x − 3 = 5x + 6, josta 5x − 5x = 6 + 3 eli 0 = 9. Lause on epätosi, joten ratkaisua ei ole. Vastaus: a = 5."},{"nro":19,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Kolme konetta A, B ja C kyntää pellon yhdessä. Kone A kyntäisi pellon yksin 4 tunnissa, B 18 tunnissa ja C 36 tunnissa. Montako tuntia kyntäminen kestää, kun kaikki kolme kyntävät yhtä aikaa? Kirjoita suunnitelma, muodosta yhtälö, ratkaise se ja tarkista vastaus sijoittamalla se yhtälöön.","vastaus":"Malliesimerkki: Suunnitelma: x = aika tunteina, jonka kyntäminen kestää yhdessä. Tunnissa A tekee 1/4, B 1/18 ja C 1/36 pellosta, joten x tunnissa osuudet ovat x/4, x/18 ja x/36. Yhdessä osuudet ovat koko työ eli 1. x/4 + x/18 + x/36 = 1. | · 36: 9x + 2x + x = 36, 12x = 36, x = 3. Tarkistus: 3/4 + 3/18 + 3/36 = 27/36 + 6/36 + 3/36 = 36/36 = 1, ja 3 h on lyhyempi kuin nopeimman koneen aika 4 h. Vastaus: kyntäminen kestää 3 tuntia."},{"nro":20,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Tilalla on kalkkunoita ja possuja yhteensä 25. Jokaisella kalkkunalla on kaksi jalkaa ja jokaisella possulla neljä. Isäntä kertoo, että eläimillä on yhteensä 116 jalkaa. Voiko tämä pitää paikkansa? Perustele vastauksesi esimerkiksi yhtälön avulla.","vastaus":"Malliesimerkki: x = kalkkunoiden määrä, jolloin possuja on 25 − x. Jalkoja on 2x + 4(25 − x) = 116, 2x + 100 − 4x = 116, −2x = 16, x = −8. Eläinten määrä ei voi olla negatiivinen, joten tehtävän ehdot eivät toteudu: väite ei voi pitää paikkaansa. (Sama näkyy myös näin: vaikka kaikilla 25 eläimellä olisi neljä jalkaa, jalkoja olisi vain 100.)"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laske ilman laskinta.\nKirjoita välivaiheet näkyviin. Tehtävissä 1–15 arvioidaan lopputulos. Tehtävissä 16–20 arvioidaan koko ratkaisu: oikea vastaus ilman näkyvää ratkaisua on väärin.\nAnna murtolukuvastaukset supistettuina murtolukuina, esimerkiksi 4/9, älä desimaalilukuina.\nKirjoita vakion arvo muodossa a = …, yhtälön ratkaisu muodossa x = … ja epäyhtälön ratkaisu epäyhtälönä. Kun tehtävä kysyy, montako tuntia tai montako euroa, pelkkä luku riittää.\nTehtävissä 17–20 kirjoita ensin suunnitelma: mitä merkitset x:llä ja mistä yhtälö syntyy. Ratkaise, perustele jokainen päätelmä ja tarkista, että vastaus toteuttaa tehtävän ehdot.","tehtavat":[{"nro":1,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä 8x − a = 5x + 11a.","vastaus":"x = 4a"},{"nro":2,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku 2 on yhtälön ax + 5 = 6x − a ratkaisu? Anna vastaus supistettuna murtolukuna.","vastaus":"a = 7/3"},{"nro":3,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kone pakkaa koko tilauksen 16 tunnissa. Kuinka suuren osan tilauksesta se pakkaa 10 tunnissa? Anna vastaus supistettuna murtolukuna.","vastaus":"5/8"},{"nro":4,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Kerro lauseke (x + 6)/5 − (3x − 1)/10 luvulla 10 ja sievennä.","vastaus":"−x + 13"},{"nro":5,"ryhma":"tyokalut","tyyppi":"lasku","kysymys":"Millä vakion a arvolla yhtälöllä ax + 9 = 5x + 4 ei ole ratkaisua?","vastaus":"a = 5"},{"nro":6,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö (x − 3)/8 − (2x + 2)/6 = (x − 7)/3.","vastaus":"x = 3"},{"nro":7,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise yhtälö x − (x − 4)/4 = (x + 2)/3 − (x − 7)/6. Anna ratkaisu supistettuna murtolukuna.","vastaus":"x = 10/7"},{"nro":8,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise x yhtälöstä (x + a)/10 = (x − a)/6.","vastaus":"x = 4a"},{"nro":9,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Millä vakion a arvolla luku −2 on yhtälön ax² + 7x − 6 = 0 ratkaisu?","vastaus":"a = 5"},{"nro":10,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Maalari A maalaa aidan 15 tunnissa ja maalari B 30 tunnissa. Montako tuntia maalaus kestää, kun molemmat maalaavat yhtä aikaa?","vastaus":"10 h"},{"nro":11,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Kuoron joulukonserttiin myytiin 160 lippua. Aikuisen lippu maksoi 11 € ja lapsen lippu 6 €. Lipuista saatiin yhteensä 1 410 €. Montako aikuisen lippua myytiin?","vastaus":"90"},{"nro":12,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Ratkaise epäyhtälö (x − 3)/8 − (x + 2)/4 > 1.","vastaus":"x < −15"},{"nro":13,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Laske lausekkeen x² − 6x arvo sillä x:n arvolla, joka toteuttaa yhtälön (x + 1)/2 = (x − 3)/6.","vastaus":"27"},{"nro":14,"ryhma":"vaiheet","tyyppi":"lasku","kysymys":"Vuokraveneen hinta piti jakaa tasan 18 hengen kesken. Mukaan tulikin 20 henkeä, joten kunkin osuus pieneni 2 euroa. Montako euroa kukin lopulta maksoi?","vastaus":"18 €"},{"nro":15,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Maalari A maalaa aidan yksin 18 tunnissa ja maalari B yksin 9 tunnissa. Maalari A maalaa ensin 3 tuntia yksin, minkä jälkeen myös maalari B aloittaa. Montako tuntia aidan maalaus kestää kaikkiaan?","vastaus":"8 h"},{"nro":16,"ryhma":"ylikurssi","tyyppi":"lasku","kysymys":"Mikä on suurin kokonaisluku x, jolle (2x − 1)/9 − (x + 2)/6 < 1? Kirjoita ratkaisu välivaiheineen.","vastaus":"25"},{"nro":17,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Ratkaise x yhtälöstä ax − 2 = 14. Kerro myös, millä vakion a arvolla yhtälöllä ei ole ratkaisua, ja perustele.","vastaus":"Malliesimerkki: Lisätään molemmille puolille 2: ax = 16. Kun a ≠ 0, jaetaan molemmat puolet a:lla: x = 16/a. Kun a = 0, yhtälö on 0 · x − 2 = 14 eli −2 = 14. Lause on epätosi, eikä mikään x:n arvo muuta sitä. Vastaus: x = 16/a, kun a ≠ 0. Kun a = 0, yhtälöllä ei ole ratkaisua."},{"nro":18,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Millä vakion a arvolla yhtälöllä ax − 6 = 7(x + 1) − x ei ole ratkaisua? Perustele ja tarkista vastauksesi sijoittamalla löytämäsi a:n arvo yhtälöön.","vastaus":"Malliesimerkki: Sievennetään oikea puoli: 7(x + 1) − x = 7x + 7 − x = 6x + 7. Yhtälö on ax − 6 = 6x + 7. Muuttuja x häviää vain, jos x-termit ovat samat eli a = 6. Muilla a:n arvoilla x jää yhtälöön, ja ratkaisuja on täsmälleen yksi. Tarkistus: kun a = 6, yhtälö on 6x − 6 = 6x + 7, josta 6x − 6x = 7 + 6 eli 0 = 13. Lause on epätosi, joten ratkaisua ei ole. Vastaus: a = 6."},{"nro":19,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Kolme maalaria A, B ja C maalaa aidan yhdessä. Maalari A maalaisi aidan yksin 6 tunnissa, B 18 tunnissa ja C 36 tunnissa. Montako tuntia maalaus kestää, kun kaikki kolme maalaavat yhtä aikaa? Kirjoita suunnitelma, muodosta yhtälö, ratkaise se ja tarkista vastaus sijoittamalla se yhtälöön.","vastaus":"Malliesimerkki: Suunnitelma: x = aika tunteina, jonka maalaus kestää yhdessä. Tunnissa A tekee 1/6, B 1/18 ja C 1/36 aidasta, joten x tunnissa osuudet ovat x/6, x/18 ja x/36. Yhdessä osuudet ovat koko työ eli 1. x/6 + x/18 + x/36 = 1. | · 36: 6x + 2x + x = 36, 9x = 36, x = 4. Tarkistus: 4/6 + 4/18 + 4/36 = 24/36 + 8/36 + 4/36 = 36/36 = 1, ja 4 h on lyhyempi kuin nopeimman maalarin aika 6 h. Vastaus: maalaus kestää 4 tuntia."},{"nro":20,"ryhma":"ylikurssi","tyyppi":"sanallinen","kysymys":"Tilalla on strutseja ja alpakoita yhteensä 50. Jokaisella strutsilla on kaksi jalkaa ja jokaisella alpakalla neljä. Isäntä kertoo, että eläimillä on yhteensä 230 jalkaa. Voiko tämä pitää paikkansa? Perustele vastauksesi esimerkiksi yhtälön avulla.","vastaus":"Malliesimerkki: x = strutsien määrä, jolloin alpakoita on 50 − x. Jalkoja on 2x + 4(50 − x) = 230, 2x + 200 − 4x = 230, −2x = 30, x = −15. Eläinten määrä ei voi olla negatiivinen, joten tehtävän ehdot eivät toteudu: väite ei voi pitää paikkaansa. (Sama näkyy myös näin: vaikka kaikilla 50 eläimellä olisi neljä jalkaa, jalkoja olisi vain 200.)"}]}],"tulostus":{"sivuja":6,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":8,"sivunvaihto_ennen":"ylikurssi"},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Suunnittele ennen kuin lasket: mitä x tarkoittaa ja mistä yhtälö syntyy. Vakio on luku, jota käsitellään kuin tunnettua lukua. Yhteistyössä lasketaan osuuksia, ja osuuksien summa on yksi. Tarkista lopuksi, että vastaus sopii tehtävän ehtoihin.","tarvikkeet":"Vihko ja kynä, harjoitukset koneelta tai tulosteena. Ei laskinta.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: aloitus","sisalto":"Kirjoita taululle johdannon haravointitehtävä (3 tuntia ja 6 tuntia) ja anna jokaisen kirjoittaa arvaus. Kerää arvaukset taululle. Keskiarvo 4,5 tuntia ja summa 9 tuntia tulevat yleensä esiin. Kysy, voiko yhteinen aika olla pidempi kuin nopeamman haravoijan aika yksin."},{"aika":"15 min","otsikko":"Tunti 1: yhteistyö osuuksina ja suunnitelma","sisalto":"Käy läpi johdannon ratkaisu ja ansa 2: osuus tunnissa kertaa aika, ja osuuksien summa on 1. Näytä esimerkki 2 rivi riviltä ja korosta suunnitelmariviä: x on yhteinen aika, ja kysytty aika on 3 + x. Kerro, miksi tuntematon valitaan ajaksi: muoto 1/x veisi tuntemattoman nimittäjään, ja murtoyhtälöt ovat 9. luokan asiaa. Käy läpi myös ohjelaatikko Näin ratkaiset ylikurssitason tehtävän."},{"aika":"15 min","otsikko":"Tunti 1: vakio kuin luku","sisalto":"Käy läpi kappale Vakio on luku, jota et vielä tiedä, esimerkki 1 ja ansa 1. Anna parien sijoittaa yhtälöön ax − 2 = 6x + 1 ensin a = 0 ja sitten a = 6 ja verrata, kummalla ratkaisu katoaa. Korosta, että tarkistuksessa jäljelle jäävän lauseen pitää olla epätosi, ei 0 = 0."},{"aika":"10 min","otsikko":"Tunti 1: harjoittelu","sisalto":"Harjoitukset H01–H07 itsenäisesti. Pysähdy tehtäviin H02 (vastaus 7/2 kertoo, että oikean puolen a jäi pois sijoituksesta), H05 (vastaus 0 on ansa 1) ja H07 (tapaus a = 0 kirjainyhtälössä)."},{"aika":"5 min","otsikko":"Tunti 2: aloitus","sisalto":"Kirjoita taululle ansan 3 yhtälö (x + 2)/3 − (x − 4)/2 = 1 ja kaksi riviä: 2x + 4 − 3x + 12 = 6 ja 2x + 4 − 3x − 12 = 6. Parit päättelevät, kumpi rivi on oikein, ja tarkistavat ratkaisut 10 ja −14 sijoittamalla."},{"aika":"15 min","otsikko":"Tunti 2: monta nimittäjää ja epäyhtälö","sisalto":"Käy läpi kappale Monta nimittäjää yhtälössä ja epäyhtälössä. Kerro, että nimittäjien poisto ei käännä merkkiä, koska kertoja on positiivinen, mutta lopuksi negatiivisella jakaminen kääntää. Näytä suurimman kokonaisluvun päättely: luku 2 ei kuulu joukkoon x < 2. Käy läpi myös lahjan hinnan jakaminen: x on koko hinta, ja kysytty on yhden osuus."},{"aika":"20 min","otsikko":"Tunti 2: harjoittelu","sisalto":"Harjoitukset H08–H20 omaan tahtiin. Haastetaidossa työ etenee pääosin itsenäisesti, joten kierrä tukemassa suunnitelman kirjoittamista. Pysähdy tehtäviin H14 (x < −5 kertoo kääntämättömästä merkistä ja x > −13 miinusmerkistä), H16 (vastaus 360 on koko vuokra eikä yhden osuus), H17 (vastaus 4 on yhteinen aika eikä koko aika) ja H20 (negatiivinen x tarkoittaa mahdotonta tilannetta)."},{"aika":"5 min","otsikko":"Tunti 2: lopetus","sisalto":"Käy läpi ansa 4. Jokainen kirjoittaa lapulle yhden lauseen: mistä huomaan, että sanallisen tehtävän vastaus ei voi olla oikein? Kokoa vastaukset: negatiivinen määrä, murto-osa esineestä, yhteinen aika pidempi kuin nopeimman tekijän aika."}]},"virhesanakirja":[{"virhe":"a = 0 (yhtälö ax + 7 = 4x − 2, jolla ei pitäisi olla ratkaisua)","tehtava":"vakio, jolla ratkaisua ei ole (H05, kokeen tehtävät 5 ja 18)","mita_kertoo":"Oppilas yhdistää nollan siihen, ettei ratkaisua ole, eikä tarkista sijoittamalla. Kun a = 0, yhtälö on 7 = 4x − 2, ja sillä on ratkaisu x = 9/4.","mita_tehda":"Anna sijoittaa a = 0 ja a = 4 ja katsoa, kummalla x häviää. Vaadi tarkistusrivi, jossa näkyy epätosi lause."},{"virhe":"a = 5/2 (luku 2 on yhtälön ax + 3 = 4x − a ratkaisu)","tehtava":"vakio annetusta ratkaisusta (H02, kokeen tehtävä 2)","mita_kertoo":"Oppilas sijoittaa x = 2 mutta jättää oikean puolen vakion −a pois: 2a + 3 = 8. Hän ei näe, että sama vakio esiintyy yhtälössä kahdesti.","mita_tehda":"Pyydä alleviivaamaan yhtälöstä jokainen a ja jokainen x ennen sijoitusta. Oikea rivi on 2a + 3 = 8 − a."},{"virhe":"a = −4 (luku −2 on yhtälön ax² + 3x − 10 = 0 ratkaisu)","tehtava":"sijoitus toisen asteen lausekkeeseen (H11, kokeen tehtävä 9)","mita_kertoo":"Oppilas laskee (−2)² = −4. Sijoitus muuten osataan, mutta potenssin ja negatiivisen kantaluvun järjestys on epävarma.","mita_tehda":"Kirjoituta sijoitus sulkeineen: a · (−2)² = a · (−2) · (−2) = 4a. Vertaa lukuun −2², joka on −4."},{"virhe":"25 h tai 12,5 h (pumput 10 ja 15 tuntia yksin, kysytään yhteistä aikaa)","tehtava":"yhteistyötehtävät (H12, H17, H19, kokeen tehtävät 10, 15 ja 19)","mita_kertoo":"Oppilas laskee ajat yhteen tai ottaa niistä keskiarvon. Hän ei ajattele osuuksia eikä huomaa, että yhteinen aika on silloin pidempi kuin nopeamman tekijän aika yksin.","mita_tehda":"Kysy, kuinka suuren osan altaasta pumppu A tyhjentää tunnissa. Vaadi tarkistus kahdella tavalla: osuuksien summa on 1, ja yhteinen aika on alle nopeimman ajan."},{"virhe":"−x − 1 (lauseke (x + 3)/4 − (2x − 5)/6 kerrottuna luvulla 12)","tehtava":"miinusmerkki murtoviivan edessä (H04, H08, H14, kokeen tehtävät 4, 6, 7, 12 ja 16)","mita_kertoo":"Oppilas kertoo osoittajasta vain ensimmäisen termin miinusmerkillä: −2(2x − 5) = −4x − 10. Murtoviiva ei vielä toimi hänelle sulkeina.","mita_tehda":"Kirjoituta osoittaja sulkeisiin ennen kertomista ja anna tarkistaa luvulla: kun x = 1, alkuperäinen lauseke kerrottuna luvulla 12 on 18, ja −x − 1 antaa −2."},{"virhe":"x > −11 (epäyhtälö (x − 1)/3 − (x + 1)/2 > 1)","tehtava":"epäyhtälö nimittäjin (H14, kokeen tehtävä 12)","mita_kertoo":"Oppilas poistaa nimittäjät oikein mutta jättää merkin kääntämättä, kun jakaa luvulla −1. Taito MAT8-YHT-06 ei ole vielä varma monivaiheisessa tehtävässä.","mita_tehda":"Anna kokeilla luvulla 0, joka kuuluu joukkoon x > −11: vasen puoli on −1/3 − 1/2 = −5/6, joka ei ole suurempi kuin 1. Pyydä kirjoittamaan jakaja rivin perään ja kääntämään merkki samalla rivillä."},{"virhe":"28 (suurin kokonaisluku, jolle (2x − 1)/5 − (x + 2)/3 < 1)","tehtava":"suurin kokonaisluku epäyhtälöstä (H18, kokeen tehtävä 16)","mita_kertoo":"Oppilas ratkaisee x < 28 oikein mutta antaa rajakohdan, vaikka merkki on aito <. Hän ei tarkista rajakohtaa sijoittamalla.","mita_tehda":"Pyydä sijoittamaan rajakohta ja sitä yhtä pienempi luku. Rajakohdassa 28 vasen puoli on tasan 1, joten epäyhtälö ei toteudu."},{"virhe":"4 h (pumppu A aloittaa 6 tuntia yksin, kysytään koko tyhjennyksen kestoa)","tehtava":"toinen tekijä aloittaa myöhemmin (H17, kokeen tehtävä 15)","mita_kertoo":"Oppilas ratkaisee yhtälön oikein mutta vastaa x:llä, joka on vain yhteinen aika. Hän ei palaa kysymykseen.","mita_tehda":"Vaadi suunnitelmaan rivi, jossa lukee, mitä x tarkoittaa ja mitä kysytään. Vastaus on alkuaika plus x."},{"virhe":"600 € (bussin hinta piti jakaa 20 osallistujalle, lähtijöitä olikin 24, osuus pieneni 5 euroa)","tehtava":"jakamisesta syntyvät nimittäjät (H16, kokeen tehtävä 14)","mita_kertoo":"Oppilas ratkaisee kokonaishinnan oikein mutta vastaa sillä, vaikka kysytään yhden osallistujan maksua (600 : 24 = 25 €).","mita_tehda":"Kysy, mitä x tarkoittaa ja mitä kysyttiin. Tarkistukseksi riittää laskea molemmat osuudet: 30 € ja 25 € eroavat 5 eurolla."},{"virhe":"Kanoja on −10.","tehtava":"ehtojen tarkistus (H20, kokeen tehtävä 20)","mita_kertoo":"Oppilas ratkaisee yhtälön mekaanisesti eikä vertaa tulosta tilanteeseen. Negatiivinen määrä eläimiä ei ole vastaus vaan merkki siitä, että tilanne on mahdoton.","mita_tehda":"Kysy, voiko tilalla olla −10 kanaa. Pyydä laskemaan, montako jalkaa olisi, jos kaikki eläimet olisivat nelijalkaisia."}],"opettajalle":{"kesto":"Kaksi oppituntia opetteluun ja harjoituksiin (ensimmäisellä yhteistyö ja vakio, toisella monta nimittäjää, epäyhtälö ja ehtojen tarkistus), kolmas kokeeseen. Haastetaito on vapaaehtoinen ja tehdään pääosin itsenäisesti, joten tunnit voi korvata omalla työllä opettajan tuella.","huomiot":["Ero edeltäjiin: MAT8-YHT-04 opettaa tunnistamaan yhtälön, jossa muuttuja häviää. Tässä taidossa päätellään itse vakion arvo, jolla näin käy (tehtävät 5 ja 18). MAT8-YHT-06 opettaa epäyhtälön ilman nimittäjiä; tässä epäyhtälöissä on monta nimittäjää (tehtävät 12 ja 16). MAT8-YHT-05 opettaa sanallisen ongelman, jossa tilannetta katsotaan kahdelta suunnalta; tässä uutta ovat yhteistyötehtävät osuuksina, kaksi määrää yhdellä tuntemattomalla, jakamisesta syntyvät nimittäjät ja ehtojen tarkistus. Edeltäjät oletetaan osatuiksi, eikä niiden tehtävätyyppejä toisteta.","Koe noudattaa haastetaitojen jakaumaa: tehtävät 1–5 varmistavat työkalut (vakio kuin luku, vakio annetusta ratkaisusta, osuus aikayksikössä, nimittäjien poisto miinusmerkin kanssa, vakio, jolla ratkaisua ei ole), tehtävät 6–14 ovat 2–4-vaiheisia, ja tehtävät 15–20 ovat ylikurssitasoa. Tehtävät 1–16 ovat yksikäsitteisiä ja tehtävät 17–20 sanallisia perustelutehtäviä, joiden avain on mallivastaus. Mallivastauksen sanamuoto ei sido: mikä tahansa oikea ja perusteltu muotoilu hyväksytään.","Mittaritehtävät: 16, 18, 19 ja 20 — tehtävä 16 on taidon näytön mukainen monen nimittäjän epäyhtälö, jonka ratkaisu pitää suunnitella itse (nimittäjien poisto, miinusmerkki koko osoittajalle, rajakohdan käsittely) ja jonka lopputulos on yksikäsitteinen; tehtävä 18 mittaa osaa_kun-kriteerin osaa käsittelen vakiota kuten tunnettua lukua (vakion arvo, jolla ratkaisua ei ole, perusteltuna ja sijoittamalla tarkistettuna); tehtävä 19 mittaa osia suunnittelen ratkaisun itse ja tarkistan, että vastaus toteuttaa tehtävän ehdot (yhteistyötehtävä, jossa suunnitelma, yhtälö, ratkaisu ja ehtojen tarkistus näkyvät); tehtävä 20 mittaa ehtojen tarkistusta silloin, kun ratkaisu ei kelpaa: se on oikein vain, kun ratkaisu on johdettu (yhtälö tai muu pätevä perustelu) ja vastauksessa todetaan, ettei tilanne ole mahdollinen. Taidon pääansat eivät ratkaise mittareita oikein: kokeen A tehtävässä 16 miinusmerkkivirhe antaa 7, rajakohdan ottaminen mukaan 28 ja oikean puolen kertomatta jättäminen 13 (oikea 27); tehtävässä 18 vastaus a = 0 tai a = 3 (−x unohtunut) on väärä (oikea a = 2); tehtävässä 19 aikojen summa 38 h ja keskiarvo noin 12,7 h ovat vääriä (oikea 3 h); tehtävässä 20 vastaus kanoja on −10 ilman johtopäätöstä on väärä (oikea: väite ei voi pitää paikkaansa).","Mittaritehtävä 16 on oikein, kun ratkaisussa näkyvät nimittäjien poisto kertomalla jollakin positiivisella yhteisellä jaettavalla, yleensä pienimmällä (osoittajat sulkeissa tai suoraan oikein kerrottuina), tai muu pätevä reitti, kuten murtolausekkeiden laventaminen samannimisiksi, sievennetty epäyhtälö, raja (kokeessa A x < 28) ja oikea suurin kokonaisluku (A: 27). Pelkkä luku ilman ratkaisua on väärin, kuten koepaperin johdanto kertoo. Kertominen suuremmalla yhteisellä jaettavalla (kokeessa A esimerkiksi 30) on oikein. Rajan tilalla saa olla muu yhtäpitävä muoto, esimerkiksi 28 > x.","Mittaritehtävä 18 on oikein, kun (1) oikea puoli on sievennetty, (2) a:n arvo on perusteltu x:n kertoimien vertailulla (x häviää vain, kun x-termit ovat samat), (3) tarkistuksessa a:n arvo on sijoitettu ja jäljelle jäävä lause on epätosi (A: 0 = 11) ja (4) vastaus on a = 2 (A). Oikea a:n arvo ilman tarkistusta on väärin, koska tehtävä pyytää tarkistuksen. Myös perustelu, jossa a ratkaistaan ehdosta x:n kerroin a − 2 = 0, kelpaa. Vastaus, joka erottaa x:n yhteiseksi tekijäksi, on oikein, jos se on muuten pätevä, vaikka keinoa ei opeteta.","Mittaritehtävä 19 on oikein, kun (1) suunnitelmassa kerrotaan, mitä x tarkoittaa, (2) yhtälö on muotoa x/6 + x/8 + x/24 = 1 tai sen kanssa yhtäpitävä (A), (3) ratkaisu näkyy, (4) tarkistus sijoittamalla näyttää, että osuuksien summa on 1, ja (5) vastaus on 3 tuntia (A). Koepaperi pyytää tarkistamaan vastauksen sijoittamalla. Pelkkä toteamus, että aika on lyhyempi kuin nopeimman koneen aika, ei riitä tarkistukseksi, koska se ei näytä, että työ valmistuu juuri silloin. Myös reitti, jossa ensin lasketaan yhteinen osuus tunnissa (1/6 + 1/8 + 1/24 = 1/3) ja sitten aika 1 : 1/3 = 3, hyväksytään, samoin muoto 1/x, jos oppilas osaa sen muualta ja ratkaisee oikein.","Sanallinen tehtävä 17 on oikein, kun ratkaisu x = 12/a (A) ja ehto a ≠ 0 näkyvät ja tapaus a = 0 on perusteltu epätodella lauseella (−4 = 8 tai 0 = 12). Pelkkä x = 12/a tai pelkkä a = 0 on väärin, koska tehtävä kysyy molempia. Mittaritehtävä 20 on oikein, kun yhtälö (tai muu pätevä perustelu) näyttää, ettei tilanne ole mahdollinen: x = −10 (A) ja toteamus, ettei eläinten määrä voi olla negatiivinen. Myös perustelu, että 40 eläimellä on enintään 160 jalkaa, hyväksytään. Vastaus kanoja on −10 ilman johtopäätöstä on väärin.","Vastausten muoto: kun tehtävä pyytää supistetun murtoluvun (2, 3 ja 7), myös sekaluku hyväksytään (a = 1 2/3), mutta desimaalilikiarvo 1,67 ei. Muoto x = 3a tai 3a hyväksytään tehtävissä 1 ja 8, ja tehtävässä 4 mikä tahansa yhtäpitävä järjestys (19 − x). Tehtävissä 10, 14 ja 15 kysymys kertoo yksikön, joten pelkkä luku riittää; väärä yksikkö (esimerkiksi minuutit) on väärin. Tehtävässä 12 vastaus on epäyhtälö: x < −11 tai −11 > x (A). Yhtälö x = −11 tai pelkkä luku on väärin. Kaikki yhtäpitävät yhtälöt hyväksytään, kun oppilas muodostaa yhtälön itse (11, 14, 15, 19, 20).","Kokeen A virhediagnoosit: tehtävässä 2 (oikea a = 5/3) vastaus 5/2 kertoo, että oikean puolen −a jäi sijoituksesta pois. Tehtävässä 4 (oikea −x + 19) vastaus −x − 1 on ansa 3. Tehtävässä 5 (oikea a = 4) vastaus a = 0 on ansa 1. Tehtävässä 6 (oikea x = 4) vastaus 32/3 on ansa 3. Tehtävässä 7 (oikea x = 1/2) vastaus −1/3 kertoo, että termi x jäi kertomatta luvulla 6. Tehtävässä 9 (oikea a = 4) vastaus −4 kertoo, että (−2)² laskettiin −4:ksi. Tehtävässä 10 (oikea 6 h) vastaus 25 h tai 12,5 h on ansa 2. Tehtävässä 11 (oikea 90) vastaus 110 on lasten lippujen määrä. Tehtävässä 12 (oikea x < −11) vastaus x > −11 kertoo kääntämättömästä merkistä ja x < −5 ansasta 3. Tehtävässä 13 (oikea 28) vastaus −4 voi kertoa kahdesta asiasta: (−4)² laskettiin −16:ksi, tai oppilas vastasi pelkällä yhtälön ratkaisulla x = −4 eikä laskenut lausekkeen arvoa. Katso välivaiheista, kumpi. Tehtävässä 14 (oikea 25 €) vastaus 600 € on koko hinta ja 30 € alkuperäinen osuus. Tehtävässä 15 (oikea 10 h) vastaus 4 h on pelkkä yhteinen aika ja 8 h syntyy, kun A:n yksin pumppaamat tunnit unohtuvat.","Versiot A–E ovat tehtävä tehtävältä samaa tyyppiä ja yhtä monivaiheisia: sama ansa toimii jokaisessa versiossa, ja vastauksen muoto on sama (tehtävässä 7 positiivinen murtoluku, tehtävässä 12 muotoa x < negatiivinen luku, tehtävässä 13 negatiivinen ratkaisu sijoitetaan, tehtävässä 16 raja on kokonaisluku, joten rajakohdan virhe näkyy kaikissa versioissa).","Mukaillut tehtävät: monen nimittäjän yhtälöt 6 ja 7 mukaillen yo kevät 1986; vakio annetusta ratkaisusta 9 mukaillen yo syksy 1991 ja 2 mukaillen yo kevät 1995; lausekkeen arvo ratkaisussa 13 mukaillen yo syksy 1998; jaettava hinta 14 mukaillen yo kevät 1993 (markat vaihdettu euroiksi); yhteistyötehtävät 10, 15 ja 19 mukaillen yo kevät 1994 (juhlasalin ovet) ja teknikkokoulutuksen pääsykoe kevät 1995 (marjojen puhdistus); epäyhtälöt 12 ja 16 mukaillen yo syksy 1984 ja yo kevät 1995; kaksi määrää 11 ja 20 kirjan tehtävän 172 (kanat ja lampaat) pohjalta. Kaikissa luvut on vaihdettu. Kirjan ylikurssitehtävistä on jätetty pois kolmannen asteen yhtälö (yo syksy 1986), linssiyhtälöt (tuntematon nimittäjässä, 9. lk), painoindeksitehtävä (neliöjuuri ja laskin) sekä prosenttitehtävät. Yhtälöä ax² + x − 4 = 0 käytetään vain sijoituksena.","Sisällön pohjana Avoin Matematiikka 8 lk., osio 1, luvut 1–8 ja 15 (ylikurssi- ja kertaustehtävät) (Marika Toivola ja Tiina Härkönen, CC BY 3.0)."]},"huoltajalle":{"mista_on_kyse":"Nuori harjoittelee vanhojen ylioppilas- ja pääsykokeiden tyylisiä yhtälötehtäviä: kahden tai kolmen tekijän yhteistyötä (esimerkiksi kaksi pumppua tyhjentää altaan), yhtälöitä, joissa on kirjain eli vakio, ja yhtälöitä, joissa on monta murtolukua. Tärkeintä on suunnitella ratkaisu itse ja tarkistaa, että vastaus sopii tilanteeseen. Taito on vapaaehtoinen haastetaito.","kotona":["Kysy arkinen yhteistyötehtävä: \"Kylpyamme täyttyy kuumasta hanasta 30 minuutin aikana ja kylmästä 6 minuutin aikana. Kauanko täyttyminen kestää, kun molemmat hanat ovat auki?\" Hyvä vastaus laskee, kuinka suuren osan ammeesta kumpikin hana täyttää, ja päätyy alle 6 minuuttiin (5 minuuttia).","Kun nuori on ratkaissut sanallisen tehtävän, kysy: \"Sopiiko vastaus tilanteeseen?\" Negatiivinen määrä ihmisiä tai puolikas lippu kertoo, että tilanne on mahdoton tai laskussa on virhe.","Älä opeta näin: \"yhteinen aika on aikojen keskiarvo\" tai \"laske ajat yhteen\". Kumpikin antaa liian pitkän ajan, sillä yhdessä työ valmistuu nopeammin kuin kummaltakaan yksin."],"milloin_huolestua":"Haastetaito on vapaaehtoinen, joten vaikeus siinä ei ole sinänsä huolen aihe. Jos nuori kuitenkin jää jumiin jo murtolukujen poistossa tai sulkeiden avaamisessa, kertaus kannattaa aloittaa 8. luokan perustaidoista (nimittäjät ja sulkeet yhtälössä). Kerro havainnosta opettajalle."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Osaat ratkaista ylikurssitason yhtälö- ja epäyhtälötehtäviä: suunnittelet ratkaisun itse, käsittelet kirjainvakiota kuin tunnettua lukua, ratkaiset yhteistyötehtävän osuuksilla ja poistat monta nimittäjää kerralla. Tarkistat lopuksi, että vastaus toteuttaa tehtävän ehdot. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

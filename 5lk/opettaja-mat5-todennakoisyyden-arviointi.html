@@ -1,0 +1,524 @@
+<title>Todennäköisyyden arviointi · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT5-TIL-02","oppiaine":"MAT","vuosiluokka":5,"taitoalue":"TIL","jakso":"J5","taso":"vahvistava","otsikko":"Todennäköisyyden arviointi","kuvaus":"Osaan arvioida yksinkertaisen tapahtuman todennäköisyyttä sanoilla ja murtolukuna.","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T13"],"S":["S5"]},"ikoni":"pallo","eyebrow":"Matematiikka · 5. luokka · Tieto ja todennäköisyys","naytto":"Järjestän noppa-, pussi- ja korttitapahtumia todennäköisyysjanalle mahdottomasta varmaan ja ilmoitan todennäköisyyden murtolukuna (esim. parillisen silmäluvun todennäköisyys nopalla on 3/6 eli 1/2).","osaa_kun":"Lasken suotuisat ja kaikki vaihtoehdot, kun vaihtoehdot ovat yhtä todennäköisiä, ja perustelen, miksi kuutosen saaminen ei ole epätodennäköisempää kuin ykkösen saaminen.","teksti":[{"tyyppi":"johdanto","sisalto":"Lautapelissä pääset liikkeelle vasta, kun heität kuutosen. Moni pelaaja on varma, että kuutonen on nopan vaikein silmäluku, koska sitä joutuu odottamaan. Matematiikka antaa tähän tarkemman vastauksen kuin tunne. Kun vaihtoehdot ovat yhtä todennäköisiä, todennäköisyys lasketaan murtolukuna: montako vaihtoehtoa sopii ja montako vaihtoehtoa on kaikkiaan. Neljännellä luokalla luokittelit tapahtumia varmoiksi, mahdottomiksi ja mahdollisiksi. Nyt opit kertomaan myös, kuinka todennäköinen mahdollinen tapahtuma on."},{"tyyppi":"kappale","otsikko":"Todennäköisyys on murtoluku","sisalto":"Pussissa on 2 keltaista ja 5 punaista palloa, ja nostat yhden katsomatta. Jokainen pallo on oma vaihtoehtonsa, joten vaihtoehtoja on kaikkiaan 7. Suotuisia eli sopivia vaihtoehtoja ovat ne, joissa kysytty asia toteutuu, eli tässä 2 keltaista palloa. Keltaisen pallon todennäköisyys on siis 2/7. Osoittaja kertoo suotuisten vaihtoehtojen määrän ja nimittäjä kaikkien vaihtoehtojen määrän. Laskutapa toimii, koska jokaisella pallolla on sama mahdollisuus tulla nostetuksi: pallot ovat samankokoisia, eikä niitä näe. Sama pätee tavalliseen noppaan, jonka kuusi tahkoa ovat yhtä todennäköisiä, ja hyvin sekoitettuihin kortteihin. Jos vaihtoehdot eivät ole yhtä todennäköisiä, pelkkä laskeminen ei riitä. Esimerkiksi onnenpyörässä punainen alue voi olla puolet koko pyörästä, vaikka värejä on kolme."},{"tyyppi":"taulukko","otsikko":"Tavallinen noppa: kuusi yhtä todennäköistä silmälukua","otsikkorivi":["Tapahtuma","Suotuisat silmäluvut","Todennäköisyys"],"rivit":[["Silmäluku on 5","5","1/6"],["Silmäluku on 1 tai 6","1 ja 6","2/6 = 1/3"],["Silmäluku on enintään 3","1, 2 ja 3","3/6 = 1/2"],["Silmäluku on enintään 5","1, 2, 3, 4 ja 5","5/6"],["Silmäluku on 8","ei yhtään","0/6 = 0"],["Silmäluku on jokin luvuista 1–6","1, 2, 3, 4, 5 ja 6","6/6 = 1"]]},{"tyyppi":"kappale","otsikko":"Todennäköisyysjana ja sanat","sisalto":"Todennäköisyyden voi merkitä janalle, jonka vasemmassa päässä on 0 ja oikeassa päässä 1. Mahdottoman tapahtuman todennäköisyys on 0, koska suotuisia vaihtoehtoja ei ole yhtään. Varman tapahtuman todennäköisyys on 1, koska kaikki vaihtoehdot ovat suotuisia ja osoittaja on yhtä suuri kuin nimittäjä. Todennäköisyys ei voi olla suurempi kuin 1, koska suotuisia ei voi olla enemmän kuin kaikkia. Janan keskikohta on 1/2. Tässä taidossa sanoista sovitaan näin. Kun suotuisia on vähemmän kuin puolet kaikista, mutta ainakin yksi, tapahtuma on epätodennäköinen. Kun suotuisia on tasan puolet, tapahtuma on yhtä todennäköinen kuin ei. Kun suotuisia on enemmän kuin puolet, mutta ei kaikki, tapahtuma on todennäköinen. Kaksi tapahtumaa, joilla on sama todennäköisyys, ovat yhtä todennäköisiä."},{"tyyppi":"saanto","otsikko":"Näin lasket ja vertaat todennäköisyyksiä","askeleet":["Laske kaikkien vaihtoehtojen määrä: pussissa pallojen yhteismäärä, nopassa 6 ja korteissa korttien määrä.","Laske suotuisat vaihtoehdot. Lue ehto tarkasti: suurempi kuin 4 ei sisällä lukua 4, mutta vähintään 4 sisältää sen.","Kirjoita murtoluku, jonka osoittajana on suotuisten määrä ja nimittäjänä kaikkien määrä. Supista, jos voit.","Tarkista, että tulos on väliltä 0–1. Jos osoittaja on suurempi kuin nimittäjä, olet unohtanut osan vaihtoehdoista.","Kun vertaat kahta todennäköisyyttä, joilla on eri nimittäjät, tee niistä samannimiset. Tämän taidon tehtävissä toinen nimittäjä on aina toisen monikerta, joten riittää laventaa se murtoluku, jonka nimittäjä on pienempi. Esimerkiksi 2/5 = 4/10, joten 2/5 on suurempi kuin 3/10, vaikka 3 on suurempi kuin 2."]},{"tyyppi":"ansa","otsikko":"Ansa 1: suotuisat jaetaan muilla","sisalto":"Pussissa on 3 sinistä ja 5 muuta palloa. Moni kirjoittaa sinisen todennäköisyydeksi 3/5, koska vertaa sinisiä muihin palloihin. Nimittäjään kuuluvat kuitenkin kaikki vaihtoehdot, myös siniset itse. Palloja on 3 + 5 = 8, joten oikea todennäköisyys on 3/8. Virheen huomaa joskus siitä, että tulos menee yli yhden: jos sinisiä olisi 6 ja muita 2, väärä tapa antaisi 6/2. Kirjoita siis nimittäjäksi kaikkien pallojen määrä."},{"tyyppi":"ansa","otsikko":"Ansa 2: värit eivät ole vaihtoehtoja","sisalto":"Pussissa on 6 punaista, 1 sininen ja 1 keltainen pallo. Värejä on kolme, joten moni sanoo punaisen todennäköisyydeksi 1/3. Värit eivät kuitenkaan ole yhtä todennäköisiä, koska punaisia palloja on paljon enemmän. Vaihtoehtoja ovat pallot: niitä on 8, ja punaisia on 6, joten todennäköisyys on 6/8 = 3/4. Laske siis palloja, älä värejä. Värit olisivat yhtä todennäköisiä vain, jos jokaista väriä olisi yhtä monta palloa."},{"tyyppi":"ansa","otsikko":"Ansa 3: raja otetaan mukaan","sisalto":"Mikä on todennäköisyys saada nopalla luku, joka on suurempi kuin 4? Jos lasket mukaan luvut 4, 5 ja 6, saat 3/6. Luku 4 ei kuitenkaan ole suurempi kuin itsensä, joten suotuisia ovat vain 5 ja 6, ja todennäköisyys on 2/6 = 1/3. Sana vähintään toimii toisin: vähintään 4 tarkoittaa lukuja 4, 5 ja 6. Samoin pienempi kuin 3 tarkoittaa lukuja 1 ja 2, mutta enintään 3 tarkoittaa lukuja 1, 2 ja 3. Kun ehdossa on kaksi rajaa, kumpikaan ei kuulu mukaan: suurempi kuin 2 mutta pienempi kuin 6 tarkoittaa lukuja 3, 4 ja 5. Kirjoita suotuisat luvut näkyviin ennen kuin lasket ne."},{"tyyppi":"ansa","otsikko":"Ansa 4: kuutonen ei ole vaikeampi kuin ykkönen","sisalto":"Pelissä kuutosta odotetaan usein, joten jokainen heitto ilman kuutosta jää mieleen. Siksi kuutonen tuntuu vaikeimmalta saada. Nopassa kuutonen on kuitenkin yhdellä tahkolla aivan kuten ykkönen, ja kaikki kuusi tahkoa ovat yhtä todennäköisiä. Kuutosen todennäköisyys on 1/6 ja ykkösen todennäköisyys on 1/6, joten ne ovat yhtä todennäköisiä. Tunne kertoo siitä, mitä toivot, ei siitä, mitä noppa tekee. Perustele siksi kahdella murtoluvulla, ei tunteella."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Todennäköisyys = suotuisten vaihtoehtojen määrä / kaikkien vaihtoehtojen määrä, kun vaihtoehdot ovat yhtä todennäköisiä.","Mahdoton on 0 ja varma on 1. Muut todennäköisyydet ovat niiden välissä.","Epätodennäköinen: suotuisia on ainakin yksi mutta vähemmän kuin puolet. Todennäköinen: suotuisia on enemmän kuin puolet mutta ei kaikki.","Nimittäjään kuuluvat kaikki pallot, myös suotuisat.","Laske palloja, älä värejä.","Suurempi kuin 4 ei sisällä lukua 4. Vähintään 4 sisältää sen.","Vertaa todennäköisyyksiä samannimisinä. Tämän taidon tehtävissä riittää laventaa toinen murtoluku.","Nopan jokaisen silmäluvun todennäköisyys on 1/6."]}],"harjoitusryhmat":[{"id":"murtolukuna","nimi":"Todennäköisyys murtolukuna","info":"Suotuisat vaihtoehdot osoittajaan, kaikki vaihtoehdot nimittäjään."},{"id":"jana","nimi":"Todennäköisyysjana ja sanat","info":"Mahdoton on 0, varma on 1 ja janan keskikohta on 1/2."},{"id":"vertaa","nimi":"Vertaile ja perustele","info":"Laske palloja, älä värejä, ja vertaa murtolukuja samannimisinä."}],"ryhmanimet":{"murtolukuna":"Todennäköisyys murtolukuna","jana":"Todennäköisyysjana ja sanat","vertaa":"Vertaile ja perustele"},"harjoitukset":[{"id":"H01","ryhma":"murtolukuna","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys saada silmäluku 3? Anna vastaus murtolukuna.","vastaus":0.16666666666666666,"vinkki":"Montako tahkoa nopassa on, ja monellako niistä on kolmonen?","selitys":"Nopassa on 6 yhtä todennäköistä silmälukua, ja niistä yksi on 3. Todennäköisyys on 1/6."},{"id":"H02","ryhma":"murtolukuna","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on 4 tai 5? Anna vastaus murtolukuna.","vastaus":0.3333333333333333,"vinkki":"Suotuisia silmälukuja on kaksi.","selitys":"Suotuisat silmäluvut ovat 4 ja 5, joten todennäköisyys on 2/6. Kun osoittaja ja nimittäjä jaetaan 2:lla, saadaan 1/3."},{"id":"H03","ryhma":"murtolukuna","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on vähintään 2? Anna vastaus murtolukuna.","vastaus":0.8333333333333334,"vinkki":"Vähintään 2 tarkoittaa, että myös 2 kelpaa.","selitys":"Suotuisat silmäluvut ovat 2, 3, 4, 5 ja 6, eli niitä on viisi. Todennäköisyys on 5/6."},{"id":"H04","ryhma":"murtolukuna","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on suurempi kuin 5? Anna vastaus murtolukuna.","vastaus":0.16666666666666666,"vinkki":"Luku 5 ei itse ole suurempi kuin 5.","selitys":"Ainoa viittä suurempi silmäluku on 6, joten todennäköisyys on 1/6. Vastaus 2/6 syntyy, jos raja 5 lasketaan mukaan."},{"id":"H05","ryhma":"murtolukuna","kysymys":"Pussissa on 6 vihreää ja 2 valkoista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on vihreä? Anna vastaus murtolukuna.","vastaus":0.75,"vinkki":"Laske ensin, montako palloa pussissa on yhteensä.","selitys":"Palloja on 6 + 2 = 8, ja vihreitä on 6. Todennäköisyys on 6/8, joka supistuu muotoon 3/4."},{"id":"H06","ryhma":"murtolukuna","kysymys":"Pussissa on 5 punaista, 3 sinistä ja 2 keltaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on sininen? Anna vastaus murtolukuna.","vastaus":0.3,"vinkki":"Nimittäjään tulevat kaikki pallot, myös siniset.","selitys":"Palloja on 5 + 3 + 2 = 10, ja sinisiä on 3. Todennäköisyys on 3/10. Vastaus 3/7 syntyy, jos siniset jaetaan muilla palloilla, ja 1/3, jos lasketaan värejä."},{"id":"H07","ryhma":"murtolukuna","kysymys":"Korteissa on luvut 1–13, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen? Anna vastaus murtolukuna.","vastaus":0.3076923076923077,"vinkki":"Kirjoita kaksinumeroiset luvut näkyviin ja laske ne.","selitys":"Kaksinumeroisia lukuja ovat 10, 11, 12 ja 13, eli niitä on neljä. Kortteja on 13, joten todennäköisyys on 4/13. Vastaus 3/13 syntyy, jos lukujen määrä lasketaan erotuksena 13 − 10."},{"id":"H08","ryhma":"murtolukuna","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu kolmen kertotauluun? Anna vastaus murtolukuna.","vastaus":0.3333333333333333,"vinkki":"Kolmen kertotaulun luvut 12:een asti ovat 3, 6, 9 ja 12.","selitys":"Suotuisia kortteja on 4 ja kaikkia 12. Todennäköisyys on 4/12, joka supistuu muotoon 1/3."},{"id":"H09","ryhma":"jana","kysymys":"Pussissa on 4 punaista ja 2 sinistä palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on valkoinen? Anna vastaus lukuna.","vastaus":0,"vinkki":"Montako valkoista palloa pussissa on?","selitys":"Valkoisia palloja ei ole yhtään, joten suotuisia vaihtoehtoja on 0. Mahdottoman tapahtuman todennäköisyys on 0."},{"id":"H10","ryhma":"jana","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on pienempi kuin 8? Anna vastaus lukuna.","vastaus":1,"vinkki":"Onko nopassa yhtään silmälukua, joka ei ole pienempi kuin 8?","selitys":"Kaikki kuusi silmälukua ovat pienempiä kuin 8, joten todennäköisyys on 6/6 = 1. Tapahtuma on varma."},{"id":"H11","ryhma":"jana","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 3 vihreää ja 3 keltaista palloa. Korteissa on luvut 1–5.\nTapahtuma 1: Kortin luku on 6.\nTapahtuma 2: Pussista nostettu pallo on vihreä.\nTapahtuma 3: Nopan silmäluku on 12.\nTapahtuma 4: Pussista nostettu pallo on punainen.\nTapahtuma 5: Kortin luku on enintään 5.\n\nMontako tapahtumista on mahdottomia?","vastaus":3,"vinkki":"Mahdottoman tapahtuman todennäköisyys on 0.","selitys":"Mahdottomia ovat tapahtumat 1, 3 ja 4, koska niissä suotuisia vaihtoehtoja on 0. Tapahtuma 2 on 3/6 = 1/2, ja tapahtuma 5 on varma."},{"id":"H12","ryhma":"jana","tyyppi":"monivalinta","kysymys":"Pussissa on 2 punaista ja 7 valkoista palloa. Nostat yhden pallon katsomatta. Mikä kuvaa punaisen pallon nostamista parhaiten?","vaihtoehdot":["Epätodennäköinen: todennäköisyys on 2/9, ja suotuisia on vähemmän kuin puolet kaikista.","Mahdoton, koska punaisia palloja on vain kaksi.","Yhtä todennäköinen kuin ei, koska pallo on joko punainen tai valkoinen."],"vastaus":0,"vinkki":"Laske todennäköisyys ja vertaa suotuisia puoleen kaikista.","selitys":"Todennäköisyys on 2/9. Suotuisia on 2, mikä on vähemmän kuin puolet yhdeksästä, mutta enemmän kuin 0. Tapahtuma on siis epätodennäköinen."},{"id":"H13","ryhma":"jana","kysymys":"Heität noppaa ja nostat pussista pallon. Pussissa on 4 sinistä ja 8 keltaista palloa.\nTapahtuma 1: Nopan silmäluku on 6.\nTapahtuma 2: Pussista nostettu pallo on sininen.\nTapahtuma 3: Pussista nostettu pallo on keltainen.\nTapahtuma 4: Nopan silmäluku on 1, 2 tai 3.\nTapahtuma 5: Nopan silmäluku on 2.\n\nMonesko tapahtuma on todennäköisin?","vastaus":3,"vinkki":"Lavenna nopan todennäköisyydet kahdestoistaosiksi.","selitys":"Todennäköisyydet ovat 1/6 = 2/12, 4/12, 8/12, 3/6 = 6/12 ja 1/6 = 2/12. Suurin on 8/12, joten todennäköisin on tapahtuma 3."},{"id":"H14","ryhma":"jana","kysymys":"Pussissa A on 1 punainen ja 3 sinistä palloa. Pussissa B on 3 punaista ja 5 sinistä palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista punaisen nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":0.375,"vinkki":"Lavenna pussin A todennäköisyys kahdeksasosiksi.","selitys":"Pussin A todennäköisyys on 1/4 = 2/8 ja pussin B todennäköisyys 3/8. Koska 3/8 on suurempi, vastaus on 3/8."},{"id":"H15","ryhma":"vertaa","kysymys":"Pussissa on 2 sinistä ja 6 keltaista palloa. Leo sanoo, että sinisen pallon todennäköisyys on 2/6, koska sinisiä on 2 ja keltaisia 6. Mikä on oikea todennäköisyys nostaa sininen pallo? Anna vastaus murtolukuna.","vastaus":0.25,"vinkki":"Nimittäjään kuuluvat kaikki pallot, myös siniset.","selitys":"Palloja on 2 + 6 = 8, joten oikea todennäköisyys on 2/8 = 1/4. Leo jakoi siniset keltaisilla eikä kaikilla palloilla."},{"id":"H16","ryhma":"vertaa","tyyppi":"monivalinta","kysymys":"Pussissa on 1 punainen, 1 sininen ja 8 vihreää palloa. Aino sanoo, että vihreän todennäköisyys on 1/3, koska värejä on kolme. Mikä pitää paikkansa?","vaihtoehdot":["Aino on väärässä. Palloja on 10 ja vihreitä 8, joten todennäköisyys on 8/10 = 4/5.","Aino on oikeassa, koska pallo on jotain kolmesta väristä.","Aino on väärässä, koska todennäköisyys on 8/2 = 4."],"vastaus":0,"vinkki":"Ovatko kaikki värit yhtä todennäköisiä?","selitys":"Vaihtoehtoja ovat pallot, ei värit. Palloja on 10 ja vihreitä 8, joten vihreän todennäköisyys on 8/10 = 4/5."},{"id":"H17","ryhma":"vertaa","kysymys":"Pussissa on 2 punaista ja 7 valkoista palloa. Lisäät pussiin 3 punaista palloa. Mikä on nyt todennäköisyys nostaa punainen pallo? Anna vastaus murtolukuna.","vastaus":0.4166666666666667,"vinkki":"Lisätyt pallot kasvattavat sekä punaisten että kaikkien pallojen määrää.","selitys":"Punaisia on nyt 2 + 3 = 5 ja kaikkia palloja 9 + 3 = 12. Todennäköisyys on 5/12. Vastaus 5/9 syntyy, jos lisätyt pallot unohtuvat nimittäjästä."},{"id":"H18","ryhma":"vertaa","tyyppi":"monivalinta","kysymys":"Onni sanoo, että nopalla on vaikeampi saada kuutonen kuin ykkönen, koska kuutosta tarvitaan pelissä niin usein. Mikä pitää paikkansa?","vaihtoehdot":["Onni on väärässä. Kuutosen ja ykkösen todennäköisyys on kummankin 1/6, koska kumpikin on yhdellä kuudesta yhtä todennäköisestä tahkosta.","Onni on oikeassa, koska kuutonen on nopan suurin silmäluku.","Onni on oikeassa, koska kuutosta joutuu pelissä odottamaan pisimpään."],"vastaus":0,"vinkki":"Monellako tahkolla kuutonen on? Entä ykkönen?","selitys":"Kuutonen ja ykkönen ovat kumpikin yhdellä tahkolla, ja tahkot ovat yhtä todennäköisiä. Kummankin todennäköisyys on 1/6."},{"id":"H19","ryhma":"vertaa","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 4 mutta pienempi kuin 9? Anna vastaus murtolukuna.","vastaus":0.3333333333333333,"vinkki":"Kuuluvatko luvut 4 ja 9 suotuisiin?","selitys":"Suotuisia ovat 5, 6, 7 ja 8, koska kumpikaan raja ei kuulu mukaan. Kortteja on 12, joten todennäköisyys on 4/12 = 1/3. Vastaus 6/12 syntyy, jos molemmat rajat lasketaan mukaan."},{"id":"H20","ryhma":"vertaa","kysymys":"Pussissa A on 2 sinistä ja 2 punaista palloa. Pussissa B on 3 sinistä ja 9 punaista palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista sinisen nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":0.5,"vinkki":"Pussissa B on enemmän sinisiä, mutta myös paljon enemmän palloja.","selitys":"Pussin A todennäköisyys on 2/4 = 6/12 ja pussin B todennäköisyys 3/12. Pussista A on todennäköisempää, vaikka sinisiä on vähemmän. Vastaus on 2/4 = 1/2."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nAnna todennäköisyys murtolukuna. Supista, jos voit.\nKirjoita mahdottoman tapahtuman todennäköisyydeksi 0 ja varman tapahtuman todennäköisyydeksi 1.\nTehtävissä 11–13 vastaus on kokonaisluku.\nPerustele tehtävät 18–20 kokonaisilla lauseilla.","tehtavat":[{"nro":1,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–9, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on 3 tai 8?","vastaus":"2/9"},{"nro":2,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on vähintään 3?","vastaus":"2/3"},{"nro":3,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on suurempi kuin 3?","vastaus":"1/2"},{"nro":4,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 2 vihreää ja 9 valkoista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on vihreä?","vastaus":"2/11"},{"nro":5,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 5 punaista, 2 sinistä ja 4 keltaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on keltainen?","vastaus":"4/11"},{"nro":6,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 4 punaista, 6 vihreää ja 2 mustaa palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on punainen tai musta?","vastaus":"1/2"},{"nro":7,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu neljän kertotauluun?","vastaus":"1/4"},{"nro":8,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–15, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen?","vastaus":"2/5"},{"nro":9,"ryhma":"jana","tyyppi":"lasku","kysymys":"Pussissa on 6 keltaista ja 3 mustaa palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on valkoinen?","vastaus":0},{"nro":10,"ryhma":"jana","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on enintään 12?","vastaus":1},{"nro":11,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 4 punaista ja 5 sinistä palloa. Korteissa on luvut 1–10, jokaisessa kortissa eri luku.\nTapahtuma 1: Nopan silmäluku on 0.\nTapahtuma 2: Pussista nostettu pallo on vihreä.\nTapahtuma 3: Kortin luku on suurempi kuin 9.\nTapahtuma 4: Nopan silmäluku on suurempi kuin 6.\nTapahtuma 5: Kortin luku on pienempi kuin 11.\n\nMontako tapahtumista on mahdottomia?","vastaus":3},{"nro":12,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 5 punaista ja 7 sinistä palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on sininen.\nTapahtuma 2: Pussista nostettu pallo on punainen.\nTapahtuma 3: Kortin luku on suurempi kuin 9.\nTapahtuma 4: Nopan silmäluku on enintään 4.\nTapahtuma 5: Kortin luku on enintään 6.\n\nMonesko tapahtuma on todennäköisin?","vastaus":4},{"nro":13,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 3 punaista ja 9 sinistä palloa. Korteissa on luvut 1–10, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on punainen.\nTapahtuma 2: Kortin luku on suurempi kuin 5.\nTapahtuma 3: Kortin luku on 11.\nTapahtuma 4: Kortin luku on enintään 3.\nTapahtuma 5: Pussista nostettu pallo on sininen.\n\nMontako tapahtumista on epätodennäköisiä eli niiden todennäköisyys on suurempi kuin 0 mutta pienempi kuin 1/2?","vastaus":2},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa A on 4 punaista ja 3 sinistä palloa. Pussissa B on 6 punaista ja 8 sinistä palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista punaisen nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":"4/7"},{"nro":15,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 4 sinistä ja 10 keltaista palloa. Eetu sanoo, että sinisen pallon todennäköisyys on 4/10, koska sinisiä on 4 ja keltaisia 10. Mikä on oikea todennäköisyys nostaa sininen pallo?","vastaus":"2/7"},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 2 punaista ja 8 sinistä palloa. Lisäät pussiin 3 punaista palloa. Mikä on nyt todennäköisyys nostaa punainen pallo?","vastaus":"5/13"},{"nro":17,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–20, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 12 mutta pienempi kuin 17?","vastaus":"1/5"},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Leo pelaa lautapeliä, jossa pääsee liikkeelle vain kuutosella. Hän sanoo, että kuutosta on vaikeampi saada kuin kakkosta. Onko Leo oikeassa? Perustele todennäköisyyksillä.","vastaus":"Malliesimerkki: Ei ole. Nopassa on kuusi yhtä todennäköistä tahkoa, ja kuutonen on yhdellä tahkolla ja kakkonen yhdellä. Kuutosen todennäköisyys on 1/6 ja kakkosen todennäköisyys on 1/6, joten ne ovat yhtä todennäköisiä."},{"nro":19,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 2 punaista, 3 sinistä ja 7 keltaista palloa. Leo sanoo, että punaisen pallon todennäköisyys on 1/3, koska värejä on kolme. Onko Leo oikeassa? Perustele laskemalla.","vastaus":"Malliesimerkki: Ei ole. Vaihtoehtoja ovat pallot, eivät värit, eikä jokaista väriä ole yhtä monta. Palloja on 12 ja punaisia 2, joten todennäköisyys on 2/12 = 1/6."},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 3 punaista ja 11 sinistä palloa. Nostat yhden pallon katsomatta. Kirjoita punaisen pallon todennäköisyys murtolukuna. Kerro, millä sanalla tapahtumaa kuvataan: mahdoton, epätodennäköinen, yhtä todennäköinen kuin ei, todennäköinen vai varma. Perustele sanan valinta.","vastaus":"Malliesimerkki: Todennäköisyys on 3/14. Tapahtuma on epätodennäköinen, koska punaisia on 3 eli vähemmän kuin puolet kaikista 14 pallosta."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nAnna todennäköisyys murtolukuna. Supista, jos voit.\nKirjoita mahdottoman tapahtuman todennäköisyydeksi 0 ja varman tapahtuman todennäköisyydeksi 1.\nTehtävissä 11–13 vastaus on kokonaisluku.\nPerustele tehtävät 18–20 kokonaisilla lauseilla.","tehtavat":[{"nro":1,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–11, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on 2 tai 9?","vastaus":"2/11"},{"nro":2,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on enintään 2?","vastaus":"1/3"},{"nro":3,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on pienempi kuin 4?","vastaus":"1/2"},{"nro":4,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 5 sinistä ja 6 punaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on sininen?","vastaus":"5/11"},{"nro":5,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 6 vihreää, 2 valkoista ja 3 mustaa palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on musta?","vastaus":"3/11"},{"nro":6,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 2 sinistä, 3 keltaista ja 4 valkoista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on sininen tai valkoinen?","vastaus":"2/3"},{"nro":7,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–15, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu viiden kertotauluun?","vastaus":"1/5"},{"nro":8,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen?","vastaus":"1/4"},{"nro":9,"ryhma":"jana","tyyppi":"lasku","kysymys":"Pussissa on 4 vihreää ja 7 punaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on sininen?","vastaus":0},{"nro":10,"ryhma":"jana","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–9, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on pienempi kuin 10?","vastaus":1},{"nro":11,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 6 keltaista ja 2 mustaa palloa. Korteissa on luvut 1–15, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on musta.\nTapahtuma 2: Kortin luku on 16.\nTapahtuma 3: Nopan silmäluku on pienempi kuin 10.\nTapahtuma 4: Pussista nostettu pallo on valkoinen.\nTapahtuma 5: Nopan silmäluku on pienempi kuin 2.\n\nMontako tapahtumista on mahdottomia?","vastaus":2},{"nro":12,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 4 vihreää ja 8 valkoista palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Kortin luku on pienempi kuin 6.\nTapahtuma 2: Nopan silmäluku on enintään 4.\nTapahtuma 3: Pussista nostettu pallo on vihreä.\nTapahtuma 4: Nopan silmäluku on 1.\nTapahtuma 5: Kortin luku on suurempi kuin 5.\n\nMonesko tapahtuma on todennäköisin?","vastaus":2},{"nro":13,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 5 vihreää ja 3 mustaa palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on musta.\nTapahtuma 2: Kortin luku on suurempi kuin 6.\nTapahtuma 3: Nopan silmäluku on 4.\nTapahtuma 4: Pussista nostettu pallo on keltainen.\nTapahtuma 5: Kortin luku on kaksinumeroinen.\n\nMontako tapahtumista on epätodennäköisiä eli niiden todennäköisyys on suurempi kuin 0 mutta pienempi kuin 1/2?","vastaus":3},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa A on 3 vihreää ja 2 valkoista palloa. Pussissa B on 4 vihreää ja 6 valkoista palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista vihreän nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":"3/5"},{"nro":15,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 2 vihreää ja 8 mustaa palloa. Sara sanoo, että vihreän pallon todennäköisyys on 2/8, koska vihreitä on 2 ja mustia 8. Mikä on oikea todennäköisyys nostaa vihreä pallo?","vastaus":"1/5"},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 3 vihreää ja 6 valkoista palloa. Lisäät pussiin 4 vihreää palloa. Mikä on nyt todennäköisyys nostaa vihreä pallo?","vastaus":"7/13"},{"nro":17,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–15, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 5 mutta pienempi kuin 10?","vastaus":"4/15"},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Aya tarvitsee pelissä kuutosen voittaakseen. Hän sanoo, että kuutosen saaminen on epätodennäköisempää kuin viitosen. Onko Aya oikeassa? Perustele todennäköisyyksillä.","vastaus":"Malliesimerkki: Ei ole. Nopassa on kuusi yhtä todennäköistä tahkoa, ja kuutonen ja viitonen ovat kumpikin yhdellä tahkolla. Kummankin todennäköisyys on 1/6, joten ne ovat yhtä todennäköisiä."},{"nro":19,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 4 vihreää, 2 valkoista ja 6 mustaa palloa. Aino sanoo, että valkoisen pallon todennäköisyys on 1/3, koska värejä on kolme. Onko Aino oikeassa? Perustele laskemalla.","vastaus":"Malliesimerkki: Ei ole. Vaihtoehtoja ovat pallot, eivät värit, eikä jokaista väriä ole yhtä monta. Palloja on 12 ja valkoisia 2, joten todennäköisyys on 2/12 = 1/6."},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 8 vihreää ja 2 valkoista palloa. Nostat yhden pallon katsomatta. Kirjoita vihreän pallon todennäköisyys murtolukuna. Kerro, millä sanalla tapahtumaa kuvataan: mahdoton, epätodennäköinen, yhtä todennäköinen kuin ei, todennäköinen vai varma. Perustele sanan valinta.","vastaus":"Malliesimerkki: Todennäköisyys on 8/10 = 4/5. Tapahtuma on todennäköinen, koska vihreitä on 8 eli enemmän kuin puolet kaikista 10 pallosta."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nAnna todennäköisyys murtolukuna. Supista, jos voit.\nKirjoita mahdottoman tapahtuman todennäköisyydeksi 0 ja varman tapahtuman todennäköisyydeksi 1.\nTehtävissä 11–13 vastaus on kokonaisluku.\nPerustele tehtävät 18–20 kokonaisilla lauseilla.","tehtavat":[{"nro":1,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–7, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on 1 tai 5?","vastaus":"2/7"},{"nro":2,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on vähintään 4?","vastaus":"1/2"},{"nro":3,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on suurempi kuin 2?","vastaus":"2/3"},{"nro":4,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 3 keltaista ja 4 mustaa palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on keltainen?","vastaus":"3/7"},{"nro":5,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 7 punaista, 2 keltaista ja 4 sinistä palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on keltainen?","vastaus":"2/13"},{"nro":6,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 5 punaista, 4 vihreää ja 3 mustaa palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on punainen tai vihreä?","vastaus":"3/4"},{"nro":7,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–14, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu seitsemän kertotauluun?","vastaus":"1/7"},{"nro":8,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–14, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen?","vastaus":"5/14"},{"nro":9,"ryhma":"jana","tyyppi":"lasku","kysymys":"Pussissa on 7 sinistä ja 3 valkoista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on keltainen?","vastaus":0},{"nro":10,"ryhma":"jana","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–15, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 0?","vastaus":1},{"nro":11,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 3 vihreää ja 7 punaista palloa. Korteissa on luvut 1–8, jokaisessa kortissa eri luku.\nTapahtuma 1: Kortin luku on suurempi kuin 8.\nTapahtuma 2: Nopan silmäluku on 10.\nTapahtuma 3: Pussista nostettu pallo on vihreä.\nTapahtuma 4: Pussista nostettu pallo on sininen.\nTapahtuma 5: Kortin luku on vähintään 1.\n\nMontako tapahtumista on mahdottomia?","vastaus":3},{"nro":12,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 3 keltaista ja 9 mustaa palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on keltainen.\nTapahtuma 2: Nopan silmäluku on 5 tai 6.\nTapahtuma 3: Nopan silmäluku on pienempi kuin 6.\nTapahtuma 4: Kortin luku on vähintään 5.\nTapahtuma 5: Pussista nostettu pallo on musta.\n\nMonesko tapahtuma on todennäköisin?","vastaus":3},{"nro":13,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 4 valkoista ja 4 punaista palloa. Korteissa on luvut 1–10, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on valkoinen.\nTapahtuma 2: Kortin luku on suurempi kuin 6.\nTapahtuma 3: Nopan silmäluku on 1 tai 2.\nTapahtuma 4: Kortin luku on 0.\nTapahtuma 5: Nopan silmäluku on suurempi kuin 1.\n\nMontako tapahtumista on epätodennäköisiä eli niiden todennäköisyys on suurempi kuin 0 mutta pienempi kuin 1/2?","vastaus":2},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa A on 3 keltaista ja 7 mustaa palloa. Pussissa B on 5 keltaista ja 15 mustaa palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista keltaisen nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":"3/10"},{"nro":15,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 3 punaista ja 12 valkoista palloa. Elias sanoo, että punaisen pallon todennäköisyys on 3/12, koska punaisia on 3 ja valkoisia 12. Mikä on oikea todennäköisyys nostaa punainen pallo?","vastaus":"1/5"},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 4 keltaista ja 7 mustaa palloa. Lisäät pussiin 2 keltaista palloa. Mikä on nyt todennäköisyys nostaa keltainen pallo?","vastaus":"6/13"},{"nro":17,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–12, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 3 mutta pienempi kuin 10?","vastaus":"1/2"},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Onni on odottanut kuutosta koko pelin. Hän sanoo, että kuutosen saaminen on epätodennäköisempää kuin nelosen. Onko Onni oikeassa? Perustele todennäköisyyksillä.","vastaus":"Malliesimerkki: Ei ole. Nopassa on kuusi yhtä todennäköistä tahkoa, ja kuutonen ja nelonen ovat kumpikin yhdellä tahkolla. Kuutosen todennäköisyys on 1/6 ja nelosen todennäköisyys on 1/6, joten ne ovat yhtä todennäköisiä."},{"nro":19,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 4 keltaista, 9 sinistä ja 3 punaista palloa. Eetu sanoo, että keltaisen pallon todennäköisyys on 1/3, koska värejä on kolme. Onko Eetu oikeassa? Perustele laskemalla.","vastaus":"Malliesimerkki: Ei ole. Vaihtoehtoja ovat pallot, eivät värit, eikä jokaista väriä ole yhtä monta. Palloja on 16 ja keltaisia 4, joten todennäköisyys on 4/16 = 1/4."},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 2 keltaista ja 10 mustaa palloa. Nostat yhden pallon katsomatta. Kirjoita keltaisen pallon todennäköisyys murtolukuna. Kerro, millä sanalla tapahtumaa kuvataan: mahdoton, epätodennäköinen, yhtä todennäköinen kuin ei, todennäköinen vai varma. Perustele sanan valinta.","vastaus":"Malliesimerkki: Todennäköisyys on 2/12 = 1/6. Tapahtuma on epätodennäköinen, koska keltaisia on 2 eli vähemmän kuin puolet kaikista 12 pallosta."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nAnna todennäköisyys murtolukuna. Supista, jos voit.\nKirjoita mahdottoman tapahtuman todennäköisyydeksi 0 ja varman tapahtuman todennäköisyydeksi 1.\nTehtävissä 11–13 vastaus on kokonaisluku.\nPerustele tehtävät 18–20 kokonaisilla lauseilla.","tehtavat":[{"nro":1,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–13, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on 6 tai 10?","vastaus":"2/13"},{"nro":2,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on enintään 4?","vastaus":"2/3"},{"nro":3,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on pienempi kuin 3?","vastaus":"1/3"},{"nro":4,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 8 vihreää ja 5 sinistä palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on sininen?","vastaus":"5/13"},{"nro":5,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 5 valkoista, 3 mustaa ja 6 vihreää palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on musta?","vastaus":"3/14"},{"nro":6,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 3 valkoista, 5 keltaista ja 7 sinistä palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on valkoinen tai sininen?","vastaus":"2/3"},{"nro":7,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–18, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu kuuden kertotauluun?","vastaus":"1/6"},{"nro":8,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–18, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen?","vastaus":"1/2"},{"nro":9,"ryhma":"jana","tyyppi":"lasku","kysymys":"Pussissa on 2 punaista ja 9 keltaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on musta?","vastaus":0},{"nro":10,"ryhma":"jana","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–8, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on vähintään 1?","vastaus":1},{"nro":11,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 5 sinistä ja 5 valkoista palloa. Korteissa on luvut 1–20, jokaisessa kortissa eri luku.\nTapahtuma 1: Nopan silmäluku on vähintään 6.\nTapahtuma 2: Pussista nostettu pallo on punainen.\nTapahtuma 3: Kortin luku on pienempi kuin 1.\nTapahtuma 4: Nopan silmäluku on enintään 1.\nTapahtuma 5: Kortin luku on 20.\n\nMontako tapahtumista on mahdottomia?","vastaus":2},{"nro":12,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 3 sinistä ja 9 punaista palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Nopan silmäluku on suurempi kuin 1.\nTapahtuma 2: Kortin luku on enintään 8.\nTapahtuma 3: Pussista nostettu pallo on punainen.\nTapahtuma 4: Kortin luku on kaksinumeroinen.\nTapahtuma 5: Nopan silmäluku on 4.\n\nMonesko tapahtuma on todennäköisin?","vastaus":1},{"nro":13,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 2 sinistä ja 8 keltaista palloa. Korteissa on luvut 1–16, jokaisessa kortissa eri luku.\nTapahtuma 1: Kortin luku on enintään 8.\nTapahtuma 2: Pussista nostettu pallo on sininen.\nTapahtuma 3: Kortin luku on suurempi kuin 9.\nTapahtuma 4: Kortin luku on pienempi kuin 6.\nTapahtuma 5: Pussista nostettu pallo on vihreä.\n\nMontako tapahtumista on epätodennäköisiä eli niiden todennäköisyys on suurempi kuin 0 mutta pienempi kuin 1/2?","vastaus":3},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa A on 5 sinistä ja 4 valkoista palloa. Pussissa B on 8 sinistä ja 10 valkoista palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista sinisen nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":"5/9"},{"nro":15,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 6 keltaista ja 9 sinistä palloa. Aya sanoo, että keltaisen pallon todennäköisyys on 6/9, koska keltaisia on 6 ja sinisiä 9. Mikä on oikea todennäköisyys nostaa keltainen pallo?","vastaus":"2/5"},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 5 sinistä ja 4 punaista palloa. Lisäät pussiin 3 sinistä palloa. Mikä on nyt todennäköisyys nostaa sininen pallo?","vastaus":"2/3"},{"nro":17,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–18, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 10 mutta pienempi kuin 15?","vastaus":"2/9"},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Sara sanoo, että kolmonen tulee nopalla helpommin kuin kuutonen, koska kuutosta joutuu pelissä aina odottamaan. Onko Sara oikeassa? Perustele todennäköisyyksillä.","vastaus":"Malliesimerkki: Ei ole. Kolmonen ja kuutonen ovat kumpikin yhdellä nopan kuudesta yhtä todennäköisestä tahkosta. Kummankin todennäköisyys on 1/6, joten ne ovat yhtä todennäköisiä."},{"nro":19,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 2 mustaa, 5 punaista ja 7 valkoista palloa. Noor sanoo, että mustan pallon todennäköisyys on 1/3, koska värejä on kolme. Onko Noor oikeassa? Perustele laskemalla.","vastaus":"Malliesimerkki: Ei ole. Vaihtoehtoja ovat pallot, eivät värit, eikä jokaista väriä ole yhtä monta. Palloja on 14 ja mustia 2, joten todennäköisyys on 2/14 = 1/7."},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 6 sinistä ja 4 punaista palloa. Nostat yhden pallon katsomatta. Kirjoita sinisen pallon todennäköisyys murtolukuna. Kerro, millä sanalla tapahtumaa kuvataan: mahdoton, epätodennäköinen, yhtä todennäköinen kuin ei, todennäköinen vai varma. Perustele sanan valinta.","vastaus":"Malliesimerkki: Todennäköisyys on 6/10 = 3/5. Tapahtuma on todennäköinen, koska sinisiä on 6 eli enemmän kuin puolet kaikista 10 pallosta."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nAnna todennäköisyys murtolukuna. Supista, jos voit.\nKirjoita mahdottoman tapahtuman todennäköisyydeksi 0 ja varman tapahtuman todennäköisyydeksi 1.\nTehtävissä 11–13 vastaus on kokonaisluku.\nPerustele tehtävät 18–20 kokonaisilla lauseilla.","tehtavat":[{"nro":1,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–15, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on 4 tai 11?","vastaus":"2/15"},{"nro":2,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on vähintään 5?","vastaus":"1/3"},{"nro":3,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Heität tavallista noppaa, jossa on silmäluvut 1–6. Mikä on todennäköisyys, että silmäluku on pienempi kuin 5?","vastaus":"2/3"},{"nro":4,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 4 valkoista ja 5 keltaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on valkoinen?","vastaus":"4/9"},{"nro":5,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 3 sinistä, 4 punaista ja 6 keltaista palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on punainen?","vastaus":"4/13"},{"nro":6,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Pussissa on 4 punaista, 2 sinistä ja 10 vihreää palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on punainen tai sininen?","vastaus":"3/8"},{"nro":7,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–20, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku kuuluu kahdeksan kertotauluun?","vastaus":"1/10"},{"nro":8,"ryhma":"murtolukuna","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–16, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on kaksinumeroinen?","vastaus":"7/16"},{"nro":9,"ryhma":"jana","tyyppi":"lasku","kysymys":"Pussissa on 8 mustaa ja 3 vihreää palloa. Nostat yhden pallon katsomatta. Mikä on todennäköisyys, että pallo on punainen?","vastaus":0},{"nro":10,"ryhma":"jana","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–20, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on pienempi kuin 21?","vastaus":1},{"nro":11,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 2 punaista ja 9 keltaista palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on punainen.\nTapahtuma 2: Nopan silmäluku on suurempi kuin 6.\nTapahtuma 3: Kortin luku on 13.\nTapahtuma 4: Pussista nostettu pallo on musta.\nTapahtuma 5: Kortin luku on pienempi kuin 1.\n\nMontako tapahtumista on mahdottomia?","vastaus":4},{"nro":12,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 7 keltaista ja 5 valkoista palloa. Korteissa on luvut 1–12, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on valkoinen.\nTapahtuma 2: Kortin luku kuuluu neljän kertotauluun.\nTapahtuma 3: Nopan silmäluku on vähintään 3.\nTapahtuma 4: Pussista nostettu pallo on keltainen.\nTapahtuma 5: Nopan silmäluku on pienempi kuin 6.\n\nMonesko tapahtuma on todennäköisin?","vastaus":5},{"nro":13,"ryhma":"jana","tyyppi":"lasku","kysymys":"Heität noppaa, nostat pussista pallon ja nostat yhden kortin. Pussissa on 7 mustaa ja 5 vihreää palloa. Korteissa on luvut 1–14, jokaisessa kortissa eri luku.\nTapahtuma 1: Pussista nostettu pallo on vihreä.\nTapahtuma 2: Kortin luku on enintään 7.\nTapahtuma 3: Nopan silmäluku on 0.\nTapahtuma 4: Pussista nostettu pallo on musta.\nTapahtuma 5: Nopan silmäluku on 3 tai 4.\n\nMontako tapahtumista on epätodennäköisiä eli niiden todennäköisyys on suurempi kuin 0 mutta pienempi kuin 1/2?","vastaus":2},{"nro":14,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa A on 3 vihreää ja 4 keltaista palloa. Pussissa B on 5 vihreää ja 9 keltaista palloa. Nostat kummastakin pussista yhden pallon katsomatta. Kummasta pussista vihreän nostaminen on todennäköisempää? Anna sen todennäköisyys murtolukuna.","vastaus":"3/7"},{"nro":15,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 2 valkoista ja 10 punaista palloa. Noor sanoo, että valkoisen pallon todennäköisyys on 2/10, koska valkoisia on 2 ja punaisia 10. Mikä on oikea todennäköisyys nostaa valkoinen pallo?","vastaus":"1/6"},{"nro":16,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Pussissa on 3 valkoista ja 8 vihreää palloa. Lisäät pussiin 4 valkoista palloa. Mikä on nyt todennäköisyys nostaa valkoinen pallo?","vastaus":"7/15"},{"nro":17,"ryhma":"vertaa","tyyppi":"lasku","kysymys":"Korteissa on luvut 1–16, jokaisessa kortissa eri luku. Nostat yhden kortin katsomatta. Mikä on todennäköisyys, että kortin luku on suurempi kuin 7 mutta pienempi kuin 14?","vastaus":"3/8"},{"nro":18,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Elias sanoo, että kuutonen on nopan vaikein silmäluku, koska sitä tarvitaan pelissä niin usein. Onko Elias oikeassa? Perustele todennäköisyyksillä.","vastaus":"Malliesimerkki: Ei ole. Jokainen silmäluku on yhdellä tahkolla, ja kaikki kuusi tahkoa ovat yhtä todennäköisiä. Kuutosen todennäköisyys on 1/6 ja jokaisen muun silmäluvun todennäköisyys on myös 1/6, joten kuutonen ei ole muita vaikeampi."},{"nro":19,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 3 sinistä, 2 vihreää ja 10 keltaista palloa. Onni sanoo, että sinisen pallon todennäköisyys on 1/3, koska värejä on kolme. Onko Onni oikeassa? Perustele laskemalla.","vastaus":"Malliesimerkki: Ei ole. Vaihtoehtoja ovat pallot, eivät värit, eikä jokaista väriä ole yhtä monta. Palloja on 15 ja sinisiä 3, joten todennäköisyys on 3/15 = 1/5."},{"nro":20,"ryhma":"vertaa","tyyppi":"sanallinen","kysymys":"Pussissa on 4 valkoista ja 10 vihreää palloa. Nostat yhden pallon katsomatta. Kirjoita valkoisen pallon todennäköisyys murtolukuna. Kerro, millä sanalla tapahtumaa kuvataan: mahdoton, epätodennäköinen, yhtä todennäköinen kuin ei, todennäköinen vai varma. Perustele sanan valinta.","vastaus":"Malliesimerkki: Todennäköisyys on 4/14 = 2/7. Tapahtuma on epätodennäköinen, koska valkoisia on 4 eli vähemmän kuin puolet kaikista 14 pallosta."}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Todennäköisyys on suotuisten vaihtoehtojen määrä jaettuna kaikkien vaihtoehtojen määrällä, kun jokaisella vaihtoehdolla on sama mahdollisuus. Siksi lasketaan palloja eikä värejä, ja siksi kuutosen todennäköisyys on sama 1/6 kuin ykkösen.","vaiheet":[{"aika":"8 min","otsikko":"Tunti 1: Aloitus","sisalto":"Kysy johdannon kysymys: onko kuutonen nopan vaikein silmäluku? Kerää perustelut näkyviin arvioimatta niitä. Anna parien tutkia noppaa ja laskea, monellako tahkolla kukin silmäluku on. Jätä kysymys auki ja palaa siihen tunnin lopussa."},{"aika":"15 min","otsikko":"Tunti 1: Todennäköisyys murtolukuna","sisalto":"Laita läpinäkymättömään pussiin 2 keltaista ja 5 punaista palloa. Kysy ensin, montako vaihtoehtoa nostossa on, ja varmista, että vastaus on 7 eikä 2. Kirjoita taululle keltaisen todennäköisyys 2/7 ja nimeä osoittaja suotuisiksi ja nimittäjä kaikiksi vaihtoehdoiksi. Käy sitten läpi tekstin noppataulukko. Pysähdy riveihin enintään 3 ja enintään 5 ja näytä ansa 3: suurempi kuin 4 ei sisällä lukua 4."},{"aika":"17 min","otsikko":"Tunti 1: Harjoittelu","sisalto":"Oppilaan sivun ryhmä Todennäköisyys murtolukuna (H01–H08). Tehtävä H04 paljastaa rajan mukaan laskemisen (vastaus 2/6) ja H06 kaksi muuta ansaa: 3/7 kertoo, että siniset jaettiin muilla palloilla, ja 1/3, että laskettiin värejä."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Palaa kuutoskysymykseen. Parit kirjoittavat kuutosen ja ykkösen todennäköisyydet ja yhden virkkeen siitä, miksi ne ovat samat. Kuulkaa kaksi perustelua, joissa näkyvät sekä murtoluvut että tahkot."},{"aika":"10 min","otsikko":"Tunti 2: Todennäköisyysjana","sisalto":"Teippaa lattiaan tai piirrä taululle jana, jonka päissä ovat 0 ja 1 ja keskellä 1/2. Jaa pareille tapahtumakortteja, esimerkiksi: nopan silmäluku on 8, pussista nostettu pallo on keltainen, nopan silmäluku on enintään 3. Parit laskevat todennäköisyyden ja sijoittavat kortin janalle. Kirjoita sanojen sopimus näkyviin: vähemmän kuin puolet on epätodennäköinen, tasan puolet on yhtä todennäköinen kuin ei ja enemmän kuin puolet on todennäköinen."},{"aika":"10 min","otsikko":"Tunti 2: Ansat 1 ja 2","sisalto":"Laita pussiin 6 punaista, 1 sininen ja 1 keltainen pallo. Esitä kaksi väitettä: punaisen todennäköisyys on 1/3, koska värejä on kolme, ja sinisen todennäköisyys on 1/7, koska muita palloja on seitsemän. Parit etsivät kummastakin virheen ja laskevat oikeat todennäköisyydet 6/8 ja 1/8. Näytä lopuksi vertailu laventamalla: 2/5 ja 3/10."},{"aika":"20 min","otsikko":"Tunti 2: Harjoittelu","sisalto":"Oppilaan sivun ryhmät Todennäköisyysjana ja sanat sekä Vertaile ja perustele (H09–H20). Tehtävät H13, H14 ja H20 vaativat laventamista. Tehtävässä H20 pelkkien sinisten pallojen vertailu johtaa väärään pussiin."},{"aika":"5 min","otsikko":"Tunti 2: Lopetus","sisalto":"Jokainen kirjoittaa yhden pussin, jossa punaisen todennäköisyys on epätodennäköinen, ja yhden, jossa se on todennäköinen, ja vaihtaa vihkoa parin kanssa. Pari tarkistaa todennäköisyydet murtolukuina."}],"tarvikkeet":"Noppa jokaiselle parille. Läpinäkymättömiä pusseja ja samankokoisia palloja tai palikoita vähintään kolmessa värissä. Numerokortit 1–10 jokaiselle parille (esimerkiksi paperilappuja). Maalarinteippiä tai pitkä paperinauha todennäköisyysjanaksi ja tapahtumakortit janatehtävään."},"virhesanakirja":[{"virhe":"Pussissa on 3 sinistä ja 5 muuta palloa → sinisen todennäköisyys 3/5","tehtava":"todennäköisyys pussista (ansa 1)","mita_kertoo":"Oppilas vertaa suotuisia muihin eikä kaikkiin vaihtoehtoihin. Nimittäjästä puuttuvat suotuisat itse.","mita_tehda":"Nosta pallot pöydälle riviin ja laske ääneen kaikki pallot. Kirjoita nimittäjäksi tämä luku ja ympyröi rivistä suotuisat. Kysy, ovatko siniset myös pussin palloja."},{"virhe":"Pussissa on 9 punaista ja 4 sinistä palloa → punaisen todennäköisyys 9/4","tehtava":"todennäköisyys, kun suotuisia on enemmän kuin muita","mita_kertoo":"Sama virhe kuin edellä, mutta nyt tulos on yli yhden. Oppilas ei tarkista, että todennäköisyys on väliltä 0–1.","mita_tehda":"Kysy, voiko suotuisia olla enemmän kuin kaikkia vaihtoehtoja. Lisää saantoon tarkistus: jos osoittaja on suurempi kuin nimittäjä, jotain puuttuu."},{"virhe":"Pussissa on 6 punaista, 1 sininen ja 1 keltainen pallo → punaisen todennäköisyys 1/3","tehtava":"pussi, jossa on kolme väriä eri määrinä (ansa 2)","mita_kertoo":"Oppilas pitää värejä yhtä todennäköisinä vaihtoehtoina, vaikka niitä on eri määrät.","mita_tehda":"Kaada pallot pöydälle ja järjestä ne värin mukaan riveihin. Kysy, ovatko rivit yhtä pitkiä, ja laske sitten pallot: 6/8. Kysy, milloin värit olisivat yhtä todennäköisiä."},{"virhe":"Nopalla luku, joka on suurempi kuin 4 → 3/6","tehtava":"nopan ehto, jossa on raja-arvo (ansa 3)","mita_kertoo":"Raja-arvo 4 on laskettu mukaan. Oppilas ei erota ilmauksia suurempi kuin ja vähintään.","mita_tehda":"Pyydä kirjoittamaan suotuisat silmäluvut näkyviin ja tarkistamaan jokainen erikseen: onko 4 suurempi kuin 4? Vertaa heti perään ehtoa vähintään 4."},{"virhe":"Kuutosta on vaikeampi saada kuin ykköstä, koska sitä tarvitaan pelissä","tehtava":"kuutosen ja ykkösen vertailu (ansa 4)","mita_kertoo":"Oppilas perustelee kokemuksella ja odotuksella eikä tahkojen määrällä.","mita_tehda":"Anna noppa käteen ja pyydä näyttämään, monellako tahkolla kuutonen on ja monellako ykkönen. Pyydä kirjoittamaan kummankin todennäköisyys murtolukuna ennen kuin vastaus sanotaan."},{"virhe":"Pussissa A on 1 punainen ja 1 sininen pallo, pussissa B 4 punaista ja 8 sinistä → pussista B, koska punaisia on enemmän","tehtava":"kahden pussin vertailu","mita_kertoo":"Oppilas vertaa pelkkiä suotuisia eikä todennäköisyyksiä. Kaikkien vaihtoehtojen määrä on unohtunut.","mita_tehda":"Kirjoita kummankin pussin todennäköisyys murtolukuna (1/2 ja 4/12) ja lavenna 1/2 kahdestoistaosiksi. Vertaa vasta sitten osoittajia: 6/12 ja 4/12."},{"virhe":"Varman tapahtuman todennäköisyys on 6, kun kaikki kuusi silmälukua ovat suotuisia","tehtava":"varma ja mahdoton todennäköisyysjanalla","mita_kertoo":"Oppilas kirjoittaa suotuisten määrän eikä murtolukua. Todennäköisyysjanan ääripäät 0 ja 1 eivät ole vielä hallussa.","mita_tehda":"Kirjoita 6/6 ja kysy, mikä luku se on. Merkitse se janan oikeaan päähän ja muistuta, ettei todennäköisyys voi olla yli 1."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen todennäköisyyteen murtolukuna, toinen todennäköisyysjanaan, sanoihin, vertailuun ja ansoihin. Koe pidetään erikseen.","huomiot":["Laskinta ei käytetä. Kaikki nimittäjät ovat enintään 20, ja supistaminen onnistuu kertotauluilla (MAT5-MUR-08). Vertailutehtävissä (koe 12 ja 14, harjoitukset H13, H14 ja H20) toinen nimittäjä on aina toisen monikerta, joten riittää laventaa yksi murtoluku. Erinimisiä murtolukuja, joissa kumpikin pitää laventaa, ei vertailla, koska se ei ole taidon ketjussa. Tehtävässä 13 kaikkien vaihtoehtojen määrä on aina parillinen, jotta 1/2 voidaan laventaa samannimiseksi.","Mittaritehtävät: 3, 5 ja 18 — ne mittaavat osaa_kun-kriteerin kolmea osaa: suotuisten laskeminen, kun raja-arvo ratkaisee (3), kaikkien vaihtoehtojen laskeminen pussista, jossa on kolme väriä eri määrinä (5), ja perustelu sille, miksi kuutonen ei ole epätodennäköisempi kuin toinen silmäluku (18). Tehtävissä 3 ja 5 oikein on vain oikea murtoluku. Koe A: tehtävässä 3 oikea on 3/6 = 1/2, ja raja mukaan laskettuna saadaan 4/6. Tehtävässä 5 oikea on 4/11, ansa 1 antaa 4/7 ja ansa 2 antaa 1/3. Tehtävässä 18 paperilla pitää näkyä kummankin silmäluvun todennäköisyys 1/6 (tai sanoin yksi kuudesta kummallekin) ja syy: kumpikin silmäluku on yhdellä tahkolla, ja tahkot ovat yhtä todennäköisiä. Pelkkä vastaus ei tai pelkkä yhtä todennäköisiä ilman molempia murtolukuja on väärin.","Vastauksen muoto: hyväksytään oikea murtoluku supistettuna tai supistamattomana, koska taidon ydin on vaihtoehtojen laskeminen (koe A tehtävä 4: 2/11; tehtävä 6: 6/12 tai 1/2). Mahdottoman tapahtuman vastaukseksi kelpaa 0 tai murtoluku, jonka osoittaja on 0 (koe A tehtävä 9: 0/9), ja varman vastaukseksi 1 tai murtoluku, jonka osoittaja ja nimittäjä ovat samat (12/12). Desimaaliluku tai pelkkä suotuisten määrä on väärin, koska johdanto pyytää murtolukua. Tehtävissä 11–13 vastaus on kokonaisluku.","Tehtävät 2, 3, 8 ja 17 mittaavat rajan lukemista. Koe A: tehtävässä 2 (vähintään 3) oikea on 4/6 = 2/3, ja jos 3 jätetään pois, saadaan 3/6. Tehtävässä 8 kaksinumeroisia ovat 10–15, joten oikea on 6/15 = 2/5; vastaus 5/15 kertoo, että lukujen määrä laskettiin erotuksena 15 − 10. Tehtävässä 17 oikea on 4/20 = 1/5 (luvut 13–16); 6/20 syntyy, kun molemmat rajat otetaan mukaan, ja 5/20, kun toinen otetaan.","Tehtävä 11 (mahdottomat): koe A:ssa mahdottomia ovat tapahtumat 1, 2 ja 4. Tapahtuma 3 on harvinainen mutta mahdollinen (1/10), joten vastaus 4 kertoo, että epätodennäköinen sekoittuu mahdottomaan. Tehtävä 13 (epätodennäköiset): koe A:ssa niitä ovat tapahtumat 1 (3/12) ja 4 (3/10). Vastaus 3 kertoo, että mukaan on laskettu joko mahdoton tapahtuma 3 tai tapahtuma 2, jonka todennäköisyys on tasan 5/10 = 1/2; katso paperilta, kumpi.","Tehtävä 12 (todennäköisin): jokaisessa versiossa pelkkien osoittajien vertailu ilman laventamista antaa väärän tapahtuman. Koe A: oikea on tapahtuma 4 (4/6 = 8/12), ja vastaus 1 (7/12) kertoo, että nopan todennäköisyyttä ei lavennettu kahdestoistaosiksi.","Tehtävä 14: pussissa, jossa suotuisia on enemmän, todennäköisyys on pienempi. Koe A: oikea on 4/7 (pussi A, 4/7 = 8/14), ja vastaus 6/14 kertoo, että verrattiin pelkkiä punaisia palloja. Tehtävä 15: koe A:ssa Eetun 4/10 on ansa 1, ja oikea on 4/14 = 2/7. Tehtävä 16: koe A:ssa oikea on 5/13; vastaus 5/10 kertoo, että lisätyt pallot unohtuivat nimittäjästä, ja 2/13, että ne unohtuivat osoittajasta.","Sanalliset tehtävät 18–20 tarkistetaan käsin, ja malliesimerkki on vain yksi hyväksyttävä sanamuoto. Tehtävässä 19 pitää näkyä vastaus ei ja oikea todennäköisyys murtolukuna (koe A: 2/12 tai 1/6) sekä näkyvä peruste sille, että nimittäjä on pallojen eikä värien määrä: joko sanoin (vaihtoehtoja ovat pallot) tai laskuna (palloja on 12, punaisia 2). Pelkkä ei tai pelkkä \"värejä on eri määrät\" ilman murtolukua on väärin. Tehtävässä 20 pitää näkyä oikea murtoluku, oikea sana tekstin sopimuksen mukaan ja perustelu, joka vertaa suotuisia puoleen kaikista (koe A: 3/14, epätodennäköinen, koska 3 on vähemmän kuin puolet 14:stä). Perusteluksi kelpaa myös vertailu 1/2:een (3/14 on pienempi kuin 7/14).","Kaikki viisi koetta ovat tehtävä tehtävältä samanlaiset: sama tapahtumatyyppi, sama ansa ja sama määrä vaiheita. Tehtävissä 4, 5 ja 15 suotuisia on aina vähemmän kuin muita palloja, jotta ansa 1 ei paljastu yli yhden menevästä tuloksesta. Kokeissa ei käytetä näytön tapahtumaa parillinen silmäluku eikä tekstin, harjoitusten tai toimeksiannon esimerkkejä.","Sanojen epätodennäköinen, yhtä todennäköinen kuin ei ja todennäköinen rajat ovat tämän taidon sopimus (vähemmän kuin puolet, tasan puolet, enemmän kuin puolet). Arkikielessä epätodennäköinen tarkoittaa usein vain hyvin pientä todennäköisyyttä. Siksi koetehtävä 13 kertoo rajat kysymyksessä lukuina, ja tehtävä 20 arvioidaan tekstin sopimuksen mukaan.","Harjoituksissa oppilaan sivu hyväksyy yhtä suuret murtoluvut, mikä sopii tähän taitoon. Tehtävät H04 ja H19 paljastavat ansan 3 (H19 kahdella rajalla kuten kokeen tehtävä 17), H06 ja H15 ansan 1, H06 ja H16 ansan 2, H18 ansan 4 ja H20 pelkkien suotuisten vertailun. H07 harjoittelee kaksinumeroisten korttien laskemista (kokeen tehtävä 8) ja H17 pussin muuttamista (kokeen tehtävä 16).","Taidosta on rajattu pois toistokokeet ja suhteellinen frekvenssi (MAT6-TIL-03), kahden nopan tai kahden noston yhdistetyt tapahtumat, prosentit sekä erinimisten murtolukujen vertailu, jossa kumpikin pitää laventaa. Tunnilla noppaa ja pussia käytetään vaihtoehtojen laskemiseen, ei heittojen kirjaamiseen."]},"huoltajalle":{"mista_on_kyse":"Lapsi opettelee laskemaan todennäköisyyden murtolukuna: suotuisten vaihtoehtojen määrä jaettuna kaikkien vaihtoehtojen määrällä, kun jokaisella vaihtoehdolla on sama mahdollisuus. Esimerkiksi pussista, jossa on 2 keltaista ja 5 punaista palloa, keltaisen todennäköisyys on 2/7. Lisäksi lapsi sijoittaa tapahtumia janalle mahdottomasta (0) varmaan (1) ja kuvaa niitä sanoilla epätodennäköinen ja todennäköinen.","kotona":["Laittakaa kulhoon tai pussiin erivärisiä nappeja tai rakennuspalikoita, esimerkiksi 3 punaista ja 5 sinistä. Kysykää ennen nostoa, mikä on punaisen todennäköisyys murtolukuna, ja tarkistakaa, että nimittäjään tulee kaikkien palikoiden määrä eli 8.","Lautapelin lomassa voitte kysyä, mikä on todennäköisyys saada luku, joka on suurempi kuin 3, ja mikä on todennäköisyys saada vähintään 3. Lapsi luettelee ensin suotuiset silmäluvut ääneen ja huomaa, että vastaukset ovat eri.","Älä opeta, että todennäköisyys on yksi jaettuna värien määrällä. Pussi, jossa on 6 punaista ja 1 sininen pallo, ei anna kummallekin värille puolta mahdollisuutta, koska vaihtoehtoja ovat pallot eivätkä värit."],"milloin_huolestua":"Jos lapsi laskee harjoittelun jälkeenkin nimittäjäksi värien määrän tai vain muut pallot (3 sinistä ja 5 muuta → 3/5), kerro siitä opettajalle. Kaikkien vaihtoehtojen laskeminen on koko aiheen perusta, ja se kannattaa käydä läpi esineillä ennen kuin aihe jatkuu kuudennella luokalla kokeilemalla."},"ulkoiset":{"edeltavat":[{"id":"MAT4-TIL-04","nimi":"Varma, mahdoton, ehkä","vuosiluokka":4,"kuvaus":"Osaan arvioida tapahtuman todennäköisyyttä arkikielellä."}],"seuraavat":[{"id":"MAT6-TIL-03","nimi":"Onnenpyörän koe","vuosiluokka":6,"kuvaus":"Osaan arvioida todennäköisyyttä kokeilemalla ja verrata tulosta ennusteeseen."}]},"valmis_teksti":"Osaat laskea yksinkertaisen tapahtuman todennäköisyyden murtolukuna, kun vaihtoehdot ovat yhtä todennäköisiä: suotuisat vaihtoehdot osoittajaan ja kaikki vaihtoehdot nimittäjään. Sijoitat tapahtumia todennäköisyysjanalle nollasta yhteen, kuvaat niitä oikealla sanalla ja vertaat todennäköisyyksiä samannimisinä. Tiedät myös, miksi kuutonen ei ole vaikeampi saada kuin ykkönen. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

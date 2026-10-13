@@ -1,0 +1,524 @@
+<title>Yksi sisään, yksi ulos · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT9-FUN-01","oppiaine":"MAT","vuosiluokka":9,"otsikko":"Yksi sisään, yksi ulos","kuvaus":"Osaan selittää, mikä funktio on, ja laskea funktion arvoja merkinnällä f(x).","versio":"0.2","paivitetty":"2026-10-11","ops":{"T":["T4","T15"],"S":["S4"]},"taso":"ydin","jakso":"J1","taitoalue":"FUN","ikoni":"tyokalu","eyebrow":"Matematiikka · 9. luokka · Funktiot ja lukujonot","naytto":"Päättelen nuolikaavioista, taulukoista ja säännöistä, mitkä ovat funktioita, lasken funktion arvoja (esim. f(−3), kun f(x) = 2x² − 1), ratkaisen, millä muuttujan arvolla funktio saa annetun arvon, ja muodostan funktion sanallisesta säännöstä.","osaa_kun":"Perustelen funktion ehdon, jonka mukaan jokaista muuttujan arvoa vastaa täsmälleen yksi funktion arvo, ja käytän sulkeita sijoittaessani negatiivisen luvun.","teksti":[{"tyyppi":"johdanto","sisalto":"Koulun käytävällä on välipala-automaatti, jossa jokaisella valintanumerolla on oma lokeronsa. Kun näppäilet 14, saat aina banaanimaitoa. Kun näppäilet 21, saat aina pähkinäpatukan. Automaattiin voi luottaa, koska sama numero antaa joka kerta saman tuotteen. Jos numero 14 antaisi joskus banaanimaitoa ja joskus vesipullon, et tietäisi, mistä maksat. Kahdessa lokerossa saa silti olla sama tuote: jos numerot 14 ja 15 antavat molemmat banaanimaitoa, automaatti toimii yhtä luotettavasti. Matematiikassa tällaista sääntöä sanotaan funktioksi. Funktio liittää jokaiseen sisään menevään lukuun täsmälleen yhden ulos tulevan luvun. Funktioita on kaikkialla, missä yksi luku määrää toisen: kesätyön palkka määräytyy tehdyistä tunneista, suoratoistopalvelun hinta tilatuista kuukausista ja lukujonon jäsen järjestysnumerostaan."},{"tyyppi":"kappale","otsikko":"Funktio liittää jokaiseen täsmälleen yhden","sisalto":"Funktio on sääntö, joka liittää jokaiseen muuttujan arvoon täsmälleen yhden funktion arvon. Muuttujan arvo on luku, joka menee sisään, ja funktion arvo on luku, joka tulee ulos. Voit ajatella funktiota koneena, joka tekee jokaiselle syötteelle saman toimituksen ja antaa tulosteen. Kaikki luvut, joita funktioon saa syöttää, muodostavat funktion määrittelyjoukon. Kun funktio annetaan tämän taidon kaltaisena lausekkeena (esimerkiksi 3x − 2 tai x² + 1) eikä määrittelyjoukkoa mainita, lausekkeeseen saa sijoittaa minkä tahansa luvun, myös negatiivisen luvun ja desimaaliluvun. Myöhemmin tapaat lausekkeita, joihin kaikkia lukuja ei voi sijoittaa. Funktiolle annetaan nimi, tavallisesti f, ja sääntö kirjoitetaan esimerkiksi muodossa f(x) = 4x − 1. Siinä f on funktion nimi, x on muuttuja ja f(x) on funktion arvo, kun muuttujan arvo on x. Merkintä f(3) tarkoittaa funktion arvoa kohdassa 3: f(3) = 4 · 3 − 1 = 11. Lause \"funktion f arvo kohdassa 3 on 11\" kirjoitetaan siis f(3) = 11. Merkintä f(3) ei ole f kertaa 3, koska f ei ole luku vaan säännön nimi. Miksi ehto \"täsmälleen yksi\" vaaditaan? Jos sääntö antaisi luvulle 3 kaksi eri arvoa, merkintä f(3) ei tarkoittaisi yhtä lukua, eikä sillä voisi laskea. Kirjaimet voivat vaihdella: hinta tuntimäärän t funktiona voidaan merkitä h(t)."},{"tyyppi":"kappale","otsikko":"Nuolikaavio, taulukko ja sääntö","sisalto":"Nuolikaaviossa jokaisesta muuttujan arvosta piirretään nuoli sen funktion arvoon. Kun kuvaa ei ole, kaavio kirjoitetaan pareina: 1 → 6 tarkoittaa, että luvusta 1 lähtee nuoli lukuun 6. Tarkista kaavio kahdella kysymyksellä. Ensimmäinen: lähteekö jostakin muuttujan arvosta kaksi nuolta eri lukuihin? Toinen: lähteekö jokaisesta määrittelyjoukon luvusta nuoli? Kaavio esittää funktiota täsmälleen silloin, kun vastaus ensimmäiseen on ei ja toiseen kyllä. Esimerkki, kun määrittelyjoukko on {1, 3, 5}: kaavio P: 1 → 6, 3 → 2, 5 → 6 esittää funktiota. Kaavio Q: 1 → 6, 3 → 2, 3 → 4, 5 → 0 ei esitä funktiota, koska luvusta 3 lähtee kaksi nuolta. Kaavio R: 1 → 6, 5 → 2 ei esitä funktiota, koska luvulla 3 ei ole arvoa. Taulukossa sama tarkistus tehdään x-riviltä: jos sama x:n arvo esiintyy kahdesti eri y:n arvoilla, taulukko ei esitä funktiota. Sanoin annetusta säännöstä kysy, antaako sääntö jokaiselle luvulle yhden luvun. Sääntö \"liitä lukuun x luku, joka on x:ää 3 suurempi\" on funktio. Sääntö \"liitä positiiviseen lukuun x ne luvut, joiden neliö on x\" ei ole funktio, koska luvulle 16 se antaa kaksi lukua, 4 ja −4: 4² = 16 ja (−4)² = 16. Tämän taidon lausekkeet, kuten 3x − 2 tai x² + 1, antavat samasta luvusta joka kerta saman tuloksen, joten lausekkeella annettu sääntö on funktio."},{"tyyppi":"ansa","otsikko":"Ansa 1: sama funktion arvo kahdesti on sallittu","sisalto":"Kaaviossa 2 → 8, 4 → 8, 7 → 3 luku 8 on kahden nuolen päässä. Moni hylkää kaavion, koska 8 toistuu. Kaavio esittää silti funktiota: luvusta 2 lähtee yksi nuoli ja luvusta 4 yksi nuoli, eikä ehto kiellä niitä osumasta samaan lukuun. Ehto koskee nuolten lähtöpäitä eli muuttujan arvoja, ei niiden päätepisteitä. Sama näkyy lausekkeessa: funktio f(x) = x² antaa luvuille 5 ja −5 saman arvon 25, ja se on funktio. Myös sääntö \"liitä jokaiseen lukuun luku 4\" on funktio, vaikka jokainen nuoli päättyy samaan lukuun. Sitä sanotaan vakiofunktioksi. Arjessa sama: kahdella luokkakaverilla voi olla sama syntymäpäivä, ja silti jokaisella ihmisellä on täsmälleen yksi syntymäpäivä. Kielletty on päinvastainen tilanne: yksi muuttujan arvo ja kaksi eri funktion arvoa."},{"tyyppi":"saanto","otsikko":"Näin lasket funktion arvon","askeleet":["Lue, mitä kysytään: f(−2) on funktion arvo kohdassa −2. Muuttujan arvo −2 sijoitetaan lausekkeeseen x:n paikalle.","Kirjoita lauseke uudelleen ja jätä x:n paikalle tyhjät sulkeet: f(x) = 4x² − 3 → 4 · ( )² − 3. Piilossa ollut kertomerkki palaa näkyviin.","Kirjoita luku sulkeisiin: f(−2) = 4 · (−2)² − 3. Negatiivinen luku menee sulkeisiin joka kerta. Positiivisen luvun sulkeet saa jättää pois.","Laske laskujärjestyksessä: ensin potenssi, sitten kertolasku, lopuksi yhteen- ja vähennyslasku: 4 · 4 − 3 = 16 − 3 = 13. Eksponentti koskee vain sulkeissa olevaa lukua, ei kerrointa 4.","Kirjoita vastaus merkinnällä: f(−2) = 13. Tarkista etumerkki: (−2)² on positiivinen, joten 4 · (−2)² ei voi olla negatiivinen."]},{"tyyppi":"kappale","otsikko":"Säännöstä funktioksi","sisalto":"Kun funktion sääntö kerrotaan sanoin, merkitse lukua x:llä ja kirjoita toimitukset siinä järjestyksessä, jossa ne tehdään. \"Luku kerrotaan kolmella ja tuloon lisätään 8\" on f(x) = 3x + 8. \"Lukuun lisätään 2 ja summa kerrotaan neljällä\" on f(x) = 4(x + 2). Jälkimmäisessä summa lasketaan ennen kertolaskua, ja sulkeet kertovat sen. Ilman sulkeita kertolasku tehtäisiin ensin. Tarkista lauseke laskemalla yksi arvo sekä sanoin että lausekkeella. Kun x = 5, sääntö antaa 5 + 2 = 7 ja 7 · 4 = 28, ja lauseke antaa 4(5 + 2) = 4 · 7 = 28. Arkinen esimerkki: kuntosalin kuukausimaksu on 29 € ja liittymismaksu 15 €. Hinta x kuukaudelta on f(x) = 29x + 15. Kuukausien määrä on muuttuja. Liittymismaksu maksetaan kerran, joten se lisätään kerran eikä sitä kerrota x:llä. Myös lukujonon sääntö on funktio. Taidossa Mikä tulee seuraavaksi laskit jonon jäseniä järjestysnumeron avulla. Jokaisella järjestysnumerolla on täsmälleen yksi jäsen, joten jäsen on järjestysnumeron funktio. Jonossa 4, 10, 16, 22, … jäsen saadaan funktiosta a(n) = 6n − 2: a(1) = 6 · 1 − 2 = 4, a(2) = 6 · 2 − 2 = 10, ja 10. jäsen on a(10) = 58."},{"tyyppi":"ansa","otsikko":"Ansa 2: sulkeet unohtuvat","sisalto":"Sulkeet unohtuvat kahdessa kohdassa. Ensimmäinen on negatiivisen luvun sijoittaminen. Kun f(x) = 2x² − 7 ja lasketaan f(−3), houkuttelee kirjoittaa 2 · −3² − 7. Ilman sulkeita eksponentti koskee vain lukua 3, ja tulokseksi tulee 2 · (−9) − 7 = −25. Toinen väärä tapa on korottaa myös kerroin potenssiin: (2 · (−3))² − 7 = 36 − 7 = 29. Lausekkeessa 2x² eksponentti koskee vain x:ää, sillä 2x² tarkoittaa 2 · x² eikä (2x)². Oikein on f(−3) = 2 · (−3)² − 7 = 2 · 9 − 7 = 11. Toinen kohta on sanallinen sääntö. \"Lukuun lisätään 2 ja summa kerrotaan neljällä\" kirjoitetaan helposti 4x + 2. Tämä lauseke kertoo ensin ja lisää sitten, eli toimitukset ovat väärässä järjestyksessä. Kun x = 5, lauseke 4x + 2 antaa 22, mutta sääntö antaa 28. Oikein on f(x) = 4(x + 2)."},{"tyyppi":"kappale","otsikko":"Millä x:n arvolla?","sisalto":"Funktion arvoa laskiessasi tunnet muuttujan arvon ja etsit funktion arvon. Kysymys voi olla myös toisin päin: millä x:n arvolla funktio saa annetun arvon? Silloin funktion lauseke merkitään yhtä suureksi kuin annettu arvo, ja saadaan yhtälö. Esimerkki: f(x) = 3x + 5. Millä x:n arvolla f(x) = 26? Yhtälö on 3x + 5 = 26, josta 3x = 21 ja x = 7. Tarkistus: f(7) = 3 · 7 + 5 = 26. Kun x on toisessa potenssissa, ratkaisuja voi olla kaksi. Funktio g(x) = x² − 4 saa arvon 45, kun x² − 4 = 45 eli x² = 49. Ratkaisut ovat x = 7 tai x = −7, koska 7² = 49 ja (−7)² = 49. Kaksi ratkaisua ei riko funktion ehtoa: kaksi eri muuttujan arvoa saa antaa saman funktion arvon. Jos x²:n arvoksi tulisi negatiivinen luku, ratkaisua ei olisi, koska minkään luvun neliö ei ole negatiivinen. Jos x²:n arvoksi tulisi 0, ainoa ratkaisu olisi x = 0."},{"tyyppi":"ansa","otsikko":"Ansa 3: väärä suunta tai puuttuva ratkaisu","sisalto":"Kysymyksessä \"millä x:n arvolla f(x) = 26?\" luku 26 on funktion arvo, ei muuttujan arvo. Jos sijoitat sen x:n paikalle, lasket f(26) = 3 · 26 + 5 = 83, joka vastaa eri kysymykseen. Tarkistus paljastaa virheen: f(83) ei ole 26. Kirjoita siis ensin yhtälö f(x) = annettu arvo. Toinen virhe syntyy toisen asteen lausekkeessa. Yhtälöstä x² = 49 vastataan helposti pelkkä x = 7, ja kysymykseen \"montako tällaista x:n arvoa on?\" vastataan 1. Myös −7 kelpaa, joten vastauksesta puuttuu toinen ratkaisu, ja oikea määrä on 2. Kun x²:n arvo on positiivinen, etsi sekä positiivinen että negatiivinen ratkaisu."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Funktio liittää jokaiseen muuttujan arvoon täsmälleen yhden funktion arvon. Muuten merkintä f(3) ei tarkoittaisi yhtä lukua.","Kaksi eri muuttujan arvoa saa antaa saman funktion arvon. Kielletty on yksi muuttujan arvo ja kaksi eri funktion arvoa.","Tarkista kaavio lähtöpäistä: jokaisesta määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli.","f(−2) on funktion arvo kohdassa −2, ei f kertaa −2. Sijoita sulkeisiin: 4 · (−2)² − 3.","f(x) = 26 on yhtälö, josta ratkaistaan x. Älä laske f(26):ta.","x² = 49: x = 7 tai x = −7.","Summa tai erotus, joka kerrotaan, menee sulkeisiin: 4(x + 2)."]}],"harjoitusryhmat":[{"id":"funktio","nimi":"Onko se funktio?","info":"Katso muuttujan arvoja eli nuolten lähtöpäitä. Laskinta ei käytetä."},{"id":"arvo","nimi":"Funktion arvo","info":"Sijoita luku x:n paikalle ja kirjoita negatiivinen luku sulkeisiin. Laskinta ei käytetä."},{"id":"muuttuja","nimi":"Arvosta muuttujaan ja säännöstä funktioksi","info":"Kun funktion arvo annetaan, kirjoita yhtälö ja ratkaise x. Laskinta ei käytetä."}],"harjoitukset":[{"id":"H01","ryhma":"funktio","kysymys":"Kaavioiden määrittelyjoukko on {2, 4, 6}.\nKaavio A: 2 → 3, 4 → 3, 6 → 3\nKaavio B: 2 → 1, 4 → 5, 4 → 9, 6 → 7\nKaavio C: 2 → 5, 4 → 1, 6 → 9\nKaavio D: 2 → 8, 6 → 4\n\nMontako kaavioista esittää funktiota?","vastaus":2,"vinkki":"Kysy jokaisesta kaaviosta: lähteekö jostakin luvusta kaksi nuolta, ja lähteekö jokaisesta luvusta 2, 4 ja 6 nuoli?","selitys":"Funktiota esittävät A ja C. A on vakiofunktio: kaikki nuolet päättyvät lukuun 3, mutta jokaisesta luvusta lähtee yksi nuoli. B ei ole funktio, koska luvusta 4 lähtee kaksi nuolta. D ei ole funktio, koska luvulla 4 ei ole arvoa. Vastaus 1 kertoo, että A hylättiin toistuvan arvon vuoksi, ja vastaus 3, että puuttuvaa nuolta ei huomattu."},{"id":"H02","ryhma":"funktio","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: −2, −1, 0, 1, 2, −1\ny: 3, 5, 1, 3, 4, 2\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":-1,"vinkki":"Etsi x-riviltä luku, joka esiintyy kahdesti. Toistuva y:n arvo ei riko ehtoa.","selitys":"x = −1 esiintyy kahdesti, ja sitä vastaavat y:n arvot 5 ja 2 ovat eri luvut. Arvo y = 3 esiintyy kahdesti, mutta eri x:n arvoilla (−2 ja 1), ja se on sallittua."},{"id":"H03","ryhma":"funktio","kysymys":"Säännöt:\nA: Liitä lukuun x sen neliö.\nB: Liitä lukuun x mikä tahansa luku, joka on x:ää pienempi.\nC: Liitä jokaiseen lukuun luku 10.\nD: Liitä positiiviseen lukuun x ne luvut, joiden neliö on x.\nE: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 2:n päässä luvusta x.\nF: Liitä lukuun x luku, joka on x:ää 7 pienempi.\n\nMontako säännöistä on funktioita?","vastaus":3,"vinkki":"Kysy jokaisesta säännöstä: antaako se luvulle 5 yhden luvun vai useamman?","selitys":"Funktioita ovat A, C ja F. A antaa luvuille 3 ja −3 saman arvon, mikä on sallittua. C on vakiofunktio. B antaa luvulle 5 vaikkapa luvut 4, 1 ja −10, D luvulle 9 luvut 3 ja −3 ja E luvulle 5 luvut 3 ja 7, joten ne eivät ole funktioita."},{"id":"H04","ryhma":"funktio","kysymys":"Kaavion määrittelyjoukko on {1, 3, 6}.\nKaavio: 1 → 5, 3 → 2, 6 → 5\n\nEsittääkö kaavio funktiota?","vastaus":1,"vinkki":"Katso nuolten lähtöpäitä, ei päätepisteitä.","selitys":"Kaavio esittää funktiota, koska jokaisesta määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Luku 5 on kahden nuolen päässä, mutta se on sallittua: kaksi eri muuttujan arvoa saa antaa saman funktion arvon.","tyyppi":"monivalinta","vaihtoehdot":["Ei, koska luku 5 on kahden nuolen päässä.","Kyllä, koska jokaisesta määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli.","Ei, koska luvusta 3 lähtee vain yksi nuoli.","Kyllä, koska kaaviossa on kolme nuolta."]},{"id":"H05","ryhma":"funktio","kysymys":"Taulukossa on kuuden vuokra-asunnon pinta-ala neliömetreinä ja kuukausivuokra euroina.\n45 → 780, 60 → 950, 45 → 820, 72 → 1 100, 38 → 690, 55 → 950\n\nVuokra ei ole tämän taulukon perusteella pinta-alan funktio. Mikä pinta-ala rikkoo funktion ehdon? Anna vastaus neliömetreinä ilman yksikköä.","vastaus":45,"vinkki":"Muuttuja on pinta-ala. Etsi pinta-ala, jota vastaa kaksi eri vuokraa.","selitys":"Pinta-alaa 45 m² vastaa kaksi eri vuokraa, 780 € ja 820 €. Vuokra 950 € toistuu kahdella eri pinta-alalla (60 m² ja 55 m²), mutta se ei riko ehtoa."},{"id":"H06","ryhma":"funktio","kysymys":"Funktiosta g tiedetään, että g(4) = 10. Mitä merkintä tarkoittaa?","vastaus":2,"vinkki":"Sulkeissa on muuttujan arvo, yhtäsuuruusmerkin jälkeen funktion arvo.","selitys":"g(4) = 10 tarkoittaa, että funktion g arvo kohdassa 4 on 10. g on funktion nimi eikä luku, joten g(4) ei ole kertolasku.","tyyppi":"monivalinta","vaihtoehdot":["Funktion g arvo kohdassa 10 on 4.","g kertaa 4 on 10.","Funktion g arvo kohdassa 4 on 10.","Muuttujan arvo 10 kuvautuu luvuksi 4."]},{"id":"H07","ryhma":"arvo","kysymys":"f(x) = 4x − 9. Laske f(6).","vastaus":15,"vinkki":"Sijoita 6 x:n paikalle ja palauta kertomerkki: 4 · 6 − 9.","selitys":"f(6) = 4 · 6 − 9 = 24 − 9 = 15."},{"id":"H08","ryhma":"arvo","kysymys":"g(x) = x² + 7x. Laske g(3).","vastaus":30,"vinkki":"x² tarkoittaa x · x. Laske potenssi ennen yhteenlaskua.","selitys":"g(3) = 3² + 7 · 3 = 9 + 21 = 30. Vastaus 27 tulisi siitä, että x² luettiin 2x:ksi."},{"id":"H09","ryhma":"arvo","kysymys":"f(x) = 10 − 3x. Laske f(−2).","vastaus":16,"vinkki":"Kirjoita 10 − 3 · (−2). Mikä on 3 · (−2)?","selitys":"f(−2) = 10 − 3 · (−2) = 10 − (−6) = 10 + 6 = 16. Vastaus 4 tulisi siitä, että tulon etumerkki pudotettiin: 10 − 6."},{"id":"H10","ryhma":"arvo","kysymys":"f(x) = x² − 8. Laske f(−3).","vastaus":1,"vinkki":"Sijoita sulkeisiin: (−3)² − 8. Mitä lukua kerrotaan itsellään?","selitys":"f(−3) = (−3)² − 8 = 9 − 8 = 1. Vastaus −17 tulisi kirjoituksesta −3² − 8, jossa eksponentti koskee vain lukua 3."},{"id":"H11","ryhma":"arvo","kysymys":"f(x) = 3x² − 10. Laske f(−2).","vastaus":2,"vinkki":"Kirjoita 3 · (−2)² − 10. Eksponentti koskee vain sulkeissa olevaa lukua.","selitys":"f(−2) = 3 · (−2)² − 10 = 3 · 4 − 10 = 12 − 10 = 2. Vastaus −22 tulisi kirjoituksesta 3 · −2² − 10, ja vastaus 26 siitä, että myös kerroin korotettiin potenssiin: (3 · (−2))² − 10."},{"id":"H12","ryhma":"arvo","kysymys":"f(x) = x² − 7x. Laske f(−1).","vastaus":8,"vinkki":"Kirjoita (−1)² − 7 · (−1). Laske kumpikin osa erikseen.","selitys":"f(−1) = (−1)² − 7 · (−1) = 1 + 7 = 8. Vastaus −6 tulisi siitä, että tulon etumerkki pudotettiin: 1 − 7."},{"id":"H13","ryhma":"arvo","kysymys":"Lukujonon 5, 12, 19, 26, … jäsen on järjestysnumeron n funktio a(n) = 7n − 2. Laske jonon 20. jäsen eli a(20).","vastaus":138,"vinkki":"Järjestysnumero 20 on muuttujan arvo. Sijoita se n:n paikalle.","selitys":"a(20) = 7 · 20 − 2 = 140 − 2 = 138. Tarkistus: a(1) = 7 · 1 − 2 = 5, joka on jonon ensimmäinen jäsen."},{"id":"H14","ryhma":"muuttuja","kysymys":"f(x) = 2x + 9. Millä x:n arvolla f(x) = 25?","vastaus":8,"vinkki":"25 on funktion arvo. Kirjoita yhtälö 2x + 9 = 25.","selitys":"2x + 9 = 25, joten 2x = 16 ja x = 8. Tarkistus: f(8) = 2 · 8 + 9 = 25. Vastaus 59 tulisi siitä, että laskettiin f(25)."},{"id":"H15","ryhma":"muuttuja","kysymys":"f(x) = 3x − 4. Millä x:n arvolla f(x) = −19?","vastaus":-5,"vinkki":"Kirjoita yhtälö 3x − 4 = −19 ja lisää molemmille puolille 4.","selitys":"3x − 4 = −19, joten 3x = −15 ja x = −5. Tarkistus: f(−5) = 3 · (−5) − 4 = −15 − 4 = −19."},{"id":"H16","ryhma":"muuttuja","kysymys":"g(x) = x² + 5. Millä x:n arvoilla g(x) = 41? Anna pienempi.","vastaus":-6,"vinkki":"Kirjoita yhtälö x² + 5 = 41 ja eristä x². Mitkä kaksi lukua antavat saman neliön?","selitys":"x² + 5 = 41, joten x² = 36 ja x = 6 tai x = −6. Pienempi on −6. Vastaus 6 kertoo, että negatiivinen ratkaisu jäi pois."},{"id":"H17","ryhma":"muuttuja","kysymys":"g(x) = 2x² − 3. Millä x:n arvoilla g(x) = 29? Montako tällaista x:n arvoa on?","vastaus":2,"vinkki":"Eristä x²: lisää 3 ja jaa kahdella.","selitys":"2x² − 3 = 29, joten 2x² = 32, x² = 16 ja x = 4 tai x = −4. Arvoja on 2. Vastaus 1 kertoo, että −4 jäi huomaamatta."},{"id":"H18","ryhma":"muuttuja","kysymys":"Lukuun lisätään 3 ja summa kerrotaan seitsemällä. Mikä funktio vastaa sääntöä?","vastaus":3,"vinkki":"Mikä toimitus tehdään ensin? Kokeile luvulla x = 1.","selitys":"Summa x + 3 lasketaan ensin, joten se menee sulkeisiin: f(x) = 7(x + 3). Kokeilu: kun x = 1, sääntö antaa (1 + 3) · 7 = 28, ja 7(1 + 3) = 28, mutta 7 · 1 + 3 = 10.","tyyppi":"monivalinta","vaihtoehdot":["f(x) = 7x + 3","f(x) = x + 21","f(x) = 3(x + 7)","f(x) = 7(x + 3)"]},{"id":"H19","ryhma":"muuttuja","kysymys":"Luvusta vähennetään 6 ja erotus kerrotaan neljällä. Kirjoita funktio f(x) ja laske f(10).","vastaus":16,"vinkki":"Erotus lasketaan ensin, joten se tarvitsee sulkeet.","selitys":"f(x) = 4(x − 6), joten f(10) = 4 · (10 − 6) = 4 · 4 = 16. Vastaus 34 tulisi lausekkeesta 4x − 6, jossa sulkeet puuttuvat."},{"id":"H20","ryhma":"muuttuja","kysymys":"Sähköpotkulaudan vuokrassa maksetaan avausmaksu 1 € ja jokaiselta ajominuutilta 0,25 €. Kirjoita hinta euroina ajominuuttien määrän x funktiona f(x). Millä x:n arvolla f(x) = 6?","vastaus":20,"vinkki":"Avausmaksu maksetaan kerran. Kirjoita f(x) = 0,25x + 1 ja ratkaise yhtälö 0,25x + 1 = 6.","selitys":"f(x) = 0,25x + 1. Yhtälöstä 0,25x + 1 = 6 saadaan 0,25x = 5 ja x = 20. Kuuden euron hinnalla ajaa 20 minuuttia."}],"ryhmanimet":{"funktio":"Funktion ehto ja merkintä","arvo":"Funktion arvo","muuttuja":"Arvosta muuttujaan ja säännöstä funktioksi"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei käytetä. Kirjoita välivaiheet näkyviin.\nTehtävissä 1 ja 3 vastaa kirjoittamalla niiden kaavioiden tai sääntöjen kirjaimet, jotka esittävät funktiota.\nKun sijoitat negatiivisen luvun lausekkeeseen, kirjoita sijoitus näkyviin ja luku sulkeisiin. Tehtävässä 11 vastaus on oikein vain, jos sijoitus sulkeineen näkyy.\nTehtävässä 15 kirjoita kaikki ratkaisut. Vastaus, josta puuttuu ratkaisu, on väärin.\nTehtävässä 16 kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla. Vastaus ilman yhtälöä tai tarkistusta on väärin.\nTehtävissä 17, 18 ja 20 kirjoita sekä funktion lauseke että pyydetty luku.\nTehtävissä 4, 5 ja 13 kirjoita vastaus lauseina ja laskuina.","tehtavat":[{"nro":1,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kaavioiden määrittelyjoukko on {2, 3, 5}.\nKaavio A: 2 → 5, 3 → 8, 3 → 9, 5 → 1\nKaavio B: 2 → 7, 3 → 1, 5 → 7\nKaavio C: 2 → 8, 5 → 3\n\nMitkä kaavioista esittävät funktiota?","vastaus":"vain B"},{"nro":2,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: 1, 2, 3, 4, 5, 2\ny: 7, 4, 9, 7, 6, 8\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":2},{"nro":3,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Säännöt:\nA: Liitä lukuun x luku, joka saadaan kertomalla x luvulla 2 ja vähentämällä tulosta 5.\nB: Liitä lukuun x mikä tahansa kokonaisluku, joka on x:ää suurempi.\nC: Liitä jokaiseen lukuun luku 6.\nD: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 5:n päässä luvusta x.\n\nMitkä säännöistä ovat funktioita?","vastaus":"A ja C"},{"nro":4,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Kaavion P määrittelyjoukko on {2, 5, 8} ja kaavion Q määrittelyjoukko {3, 7}.\nKaavio P: 2 → 9, 5 → 9, 8 → 4\nKaavio Q: 3 → 1, 3 → 6, 7 → 6\n\nKumpi kaavioista esittää funktiota? Perustele funktion ehdon avulla kummankin kaavion kohdalla.","vastaus":"Malliesimerkki: P esittää funktiota, koska jokaisesta sen määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Se, että luvut 2 ja 5 kuvautuvat samaksi luvuksi 9, on sallittua. Q ei esitä funktiota, koska luku 3 kuvautuu kahdeksi eri luvuksi, 1 ja 6."},{"nro":5,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Taulukossa on kuuden oppilaan pituus senttimetreinä ja kenkäkoko.\n165 → 40, 158 → 37, 172 → 42, 165 → 41, 184 → 45, 177 → 42\n\nOnko kenkäkoko tämän taulukon perusteella pituuden funktio? Perustele.","vastaus":"Malliesimerkki: Ei ole. Pituutta 165 cm vastaa kaksi eri kenkäkokoa, 40 ja 41, joten yhdellä muuttujan arvolla on kaksi funktion arvoa. Se, että pituuksilla 172 cm ja 177 cm on sama kenkäkoko 42, ei yksinään estäisi funktiota."},{"nro":6,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kirjoita merkinnällä: funktion h arvo kohdassa −2 on 9.","vastaus":"h(−2) = 9"},{"nro":7,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 6x − 7. Laske f(4).","vastaus":17},{"nro":8,"ryhma":"arvo","tyyppi":"lasku","kysymys":"g(x) = x² + 4x. Laske g(3).","vastaus":21},{"nro":9,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 8 − 3x. Laske f(−2).","vastaus":14},{"nro":10,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 7. Laske f(−4).","vastaus":9},{"nro":11,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 2x² − 9. Laske f(−4). Kirjoita sijoitus näkyviin.","vastaus":"f(−4) = 23"},{"nro":12,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 5x. Laske f(−2).","vastaus":14},{"nro":13,"ryhma":"arvo","tyyppi":"sanallinen","kysymys":"Aino laski funktion f(x) = 4x² + 1 arvon f(−3) näin:\nf(−3) = (4 · (−3))² + 1 = 145\n\nMikä virhe laskussa on? Kirjoita sijoitus oikein ja laske oikea arvo.","vastaus":"Malliesimerkki: Myös kerroin 4 on korotettu potenssiin. Eksponentti koskee vain x:ää, sillä 4x² tarkoittaa 4 · x² eikä (4x)². Oikein: f(−3) = 4 · (−3)² + 1 = 4 · 9 + 1 = 37."},{"nro":14,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Taksimatkan hinta euroina on f(x) = 2x + 6, kun x on matkan pituus kilometreinä. Millä x:n arvolla f(x) = 30?","vastaus":12},{"nro":15,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"g(x) = 2x² + 3. Millä x:n arvoilla g(x) = 35? Anna kaikki ratkaisut.","vastaus":"x = 4 tai x = −4"},{"nro":16,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"f(x) = 4x + 9. Millä x:n arvolla f(x) = −11? Kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla.","vastaus":"x = −5"},{"nro":17,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Luku kerrotaan neljällä ja tulosta vähennetään 7. Kirjoita funktio f(x) ja laske f(−2).","vastaus":"f(x) = 4x − 7, f(−2) = −15"},{"nro":18,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Lukuun lisätään 5 ja summa kerrotaan kolmella. Kirjoita funktio f(x) ja laske f(4).","vastaus":"f(x) = 3(x + 5), f(4) = 27"},{"nro":19,"ryhma":"muuttuja","tyyppi":"sanallinen","kysymys":"Verkkokaupassa T-paita maksaa 12 €, ja jokaiseen tilaukseen lisätään 5 €:n toimitusmaksu. Kirjoita tilauksen hinta euroina paitojen määrän x funktiona.","vastaus":"Malliesimerkki: f(x) = 12x + 5, kun x on paitojen määrä."},{"nro":20,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Funktion f sääntö on: luvusta vähennetään 2 ja erotus kerrotaan kolmella. Kirjoita f(x) ja ratkaise, millä x:n arvolla f(x) = 21.","vastaus":"f(x) = 3(x − 2), x = 9"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei käytetä. Kirjoita välivaiheet näkyviin.\nTehtävissä 1 ja 3 vastaa kirjoittamalla niiden kaavioiden tai sääntöjen kirjaimet, jotka esittävät funktiota.\nKun sijoitat negatiivisen luvun lausekkeeseen, kirjoita sijoitus näkyviin ja luku sulkeisiin. Tehtävässä 11 vastaus on oikein vain, jos sijoitus sulkeineen näkyy.\nTehtävässä 15 kirjoita kaikki ratkaisut. Vastaus, josta puuttuu ratkaisu, on väärin.\nTehtävässä 16 kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla. Vastaus ilman yhtälöä tai tarkistusta on väärin.\nTehtävissä 17, 18 ja 20 kirjoita sekä funktion lauseke että pyydetty luku.\nTehtävissä 4, 5 ja 13 kirjoita vastaus lauseina ja laskuina.","tehtavat":[{"nro":1,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kaavioiden määrittelyjoukko on {1, 4, 6}.\nKaavio A: 1 → 6, 4 → 2\nKaavio B: 1 → 2, 4 → 7, 6 → 3, 6 → 8\nKaavio C: 1 → 5, 4 → 8, 6 → 8\n\nMitkä kaavioista esittävät funktiota?","vastaus":"vain C"},{"nro":2,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: 0, 3, 1, 4, 3, 2\ny: 5, 2, 8, 6, 9, 5\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":3},{"nro":3,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Säännöt:\nA: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 3:n päässä luvusta x.\nB: Liitä lukuun x luku, joka saadaan kertomalla x luvulla 4 ja lisäämällä tuloon 1.\nC: Liitä lukuun x mikä tahansa kokonaisluku, joka on x:ää pienempi.\nD: Liitä jokaiseen lukuun luku 3.\n\nMitkä säännöistä ovat funktioita?","vastaus":"B ja D"},{"nro":4,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Kaavion P määrittelyjoukko on {1, 4} ja kaavion Q määrittelyjoukko {2, 6, 9}.\nKaavio P: 1 → 5, 1 → 8, 4 → 8\nKaavio Q: 2 → 6, 6 → 3, 9 → 6\n\nKumpi kaavioista esittää funktiota? Perustele funktion ehdon avulla kummankin kaavion kohdalla.","vastaus":"Malliesimerkki: Q esittää funktiota, koska jokaisesta sen määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Se, että luvut 2 ja 9 kuvautuvat samaksi luvuksi 6, on sallittua. P ei esitä funktiota, koska luku 1 kuvautuu kahdeksi eri luvuksi, 5 ja 8."},{"nro":5,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Taulukossa on kuuden oppilaan pituus senttimetreinä ja kenkäkoko.\n160 → 38, 174 → 42, 168 → 40, 183 → 45, 174 → 43, 155 → 38\n\nOnko kenkäkoko tämän taulukon perusteella pituuden funktio? Perustele.","vastaus":"Malliesimerkki: Ei ole. Pituutta 174 cm vastaa kaksi eri kenkäkokoa, 42 ja 43, joten yhdellä muuttujan arvolla on kaksi funktion arvoa. Se, että pituuksilla 160 cm ja 155 cm on sama kenkäkoko 38, ei yksinään estäisi funktiota."},{"nro":6,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kirjoita merkinnällä: funktion g arvo kohdassa 5 on −4.","vastaus":"g(5) = −4"},{"nro":7,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 7x − 9. Laske f(3).","vastaus":12},{"nro":8,"ryhma":"arvo","tyyppi":"lasku","kysymys":"g(x) = x² + 3x. Laske g(5).","vastaus":40},{"nro":9,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 5 − 4x. Laske f(−3).","vastaus":17},{"nro":10,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 11. Laske f(−5).","vastaus":14},{"nro":11,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 3x² − 8. Laske f(−3). Kirjoita sijoitus näkyviin.","vastaus":"f(−3) = 19"},{"nro":12,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 3x. Laske f(−4).","vastaus":28},{"nro":13,"ryhma":"arvo","tyyppi":"sanallinen","kysymys":"Leo laski funktion f(x) = 3x² + 5 arvon f(−2) näin:\nf(−2) = (3 · (−2))² + 5 = 41\n\nMikä virhe laskussa on? Kirjoita sijoitus oikein ja laske oikea arvo.","vastaus":"Malliesimerkki: Myös kerroin 3 on korotettu potenssiin. Eksponentti koskee vain x:ää, sillä 3x² tarkoittaa 3 · x² eikä (3x)². Oikein: f(−2) = 3 · (−2)² + 5 = 3 · 4 + 5 = 17."},{"nro":14,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Puhelinliittymän kuukausihinta euroina on f(x) = 2x + 8, kun x on lisädatan määrä gigatavuina. Millä x:n arvolla f(x) = 22?","vastaus":7},{"nro":15,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"g(x) = 3x² + 4. Millä x:n arvoilla g(x) = 31? Anna kaikki ratkaisut.","vastaus":"x = 3 tai x = −3"},{"nro":16,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"f(x) = 3x + 10. Millä x:n arvolla f(x) = −8? Kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla.","vastaus":"x = −6"},{"nro":17,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Luku kerrotaan viidellä ja tulosta vähennetään 3. Kirjoita funktio f(x) ja laske f(−3).","vastaus":"f(x) = 5x − 3, f(−3) = −18"},{"nro":18,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Lukuun lisätään 4 ja summa kerrotaan kuudella. Kirjoita funktio f(x) ja laske f(3).","vastaus":"f(x) = 6(x + 4), f(3) = 42"},{"nro":19,"ryhma":"muuttuja","tyyppi":"sanallinen","kysymys":"Elokuvateatterin verkkokaupassa lippu maksaa 11 €, ja jokaiseen tilaukseen lisätään 2 €:n palvelumaksu. Kirjoita tilauksen hinta euroina lippujen määrän x funktiona.","vastaus":"Malliesimerkki: f(x) = 11x + 2, kun x on lippujen määrä."},{"nro":20,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Funktion f sääntö on: luvusta vähennetään 4 ja erotus kerrotaan viidellä. Kirjoita f(x) ja ratkaise, millä x:n arvolla f(x) = 35.","vastaus":"f(x) = 5(x − 4), x = 11"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei käytetä. Kirjoita välivaiheet näkyviin.\nTehtävissä 1 ja 3 vastaa kirjoittamalla niiden kaavioiden tai sääntöjen kirjaimet, jotka esittävät funktiota.\nKun sijoitat negatiivisen luvun lausekkeeseen, kirjoita sijoitus näkyviin ja luku sulkeisiin. Tehtävässä 11 vastaus on oikein vain, jos sijoitus sulkeineen näkyy.\nTehtävässä 15 kirjoita kaikki ratkaisut. Vastaus, josta puuttuu ratkaisu, on väärin.\nTehtävässä 16 kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla. Vastaus ilman yhtälöä tai tarkistusta on väärin.\nTehtävissä 17, 18 ja 20 kirjoita sekä funktion lauseke että pyydetty luku.\nTehtävissä 4, 5 ja 13 kirjoita vastaus lauseina ja laskuina.","tehtavat":[{"nro":1,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kaavioiden määrittelyjoukko on {0, 2, 3}.\nKaavio A: 0 → 5, 2 → 5, 3 → 8\nKaavio B: 2 → 7, 3 → 4\nKaavio C: 0 → 1, 0 → 4, 2 → 6, 3 → 9\n\nMitkä kaavioista esittävät funktiota?","vastaus":"vain A"},{"nro":2,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: 2, 5, 4, 1, 3, 4\ny: 6, 3, 1, 3, 8, 7\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":4},{"nro":3,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Säännöt:\nA: Liitä jokaiseen lukuun luku 8.\nB: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 4:n päässä luvusta x.\nC: Liitä lukuun x mikä tahansa kokonaisluku, joka on x:ää suurempi.\nD: Liitä lukuun x luku, joka saadaan kertomalla x luvulla 3 ja vähentämällä tulosta 2.\n\nMitkä säännöistä ovat funktioita?","vastaus":"A ja D"},{"nro":4,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Kaavion P määrittelyjoukko on {0, 3, 6} ja kaavion Q määrittelyjoukko {2, 5}.\nKaavio P: 0 → 4, 3 → 8, 6 → 4\nKaavio Q: 2 → 6, 5 → 6, 5 → 1\n\nKumpi kaavioista esittää funktiota? Perustele funktion ehdon avulla kummankin kaavion kohdalla.","vastaus":"Malliesimerkki: P esittää funktiota, koska jokaisesta sen määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Se, että luvut 0 ja 6 kuvautuvat samaksi luvuksi 4, on sallittua. Q ei esitä funktiota, koska luku 5 kuvautuu kahdeksi eri luvuksi, 6 ja 1."},{"nro":5,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Taulukossa on kuuden oppilaan pituus senttimetreinä ja kenkäkoko.\n171 → 41, 163 → 39, 178 → 43, 157 → 37, 163 → 38, 185 → 43\n\nOnko kenkäkoko tämän taulukon perusteella pituuden funktio? Perustele.","vastaus":"Malliesimerkki: Ei ole. Pituutta 163 cm vastaa kaksi eri kenkäkokoa, 39 ja 38, joten yhdellä muuttujan arvolla on kaksi funktion arvoa. Se, että pituuksilla 178 cm ja 185 cm on sama kenkäkoko 43, ei yksinään estäisi funktiota."},{"nro":6,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kirjoita merkinnällä: funktion k arvo kohdassa −3 on 7.","vastaus":"k(−3) = 7"},{"nro":7,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 5x − 6. Laske f(5).","vastaus":19},{"nro":8,"ryhma":"arvo","tyyppi":"lasku","kysymys":"g(x) = x² + 6x. Laske g(3).","vastaus":27},{"nro":9,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 9 − 2x. Laske f(−4).","vastaus":17},{"nro":10,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 9. Laske f(−6).","vastaus":27},{"nro":11,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 5x² − 6. Laske f(−2). Kirjoita sijoitus näkyviin.","vastaus":"f(−2) = 14"},{"nro":12,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 4x. Laske f(−3).","vastaus":21},{"nro":13,"ryhma":"arvo","tyyppi":"sanallinen","kysymys":"Sara laski funktion f(x) = 2x² + 7 arvon f(−3) näin:\nf(−3) = (2 · (−3))² + 7 = 43\n\nMikä virhe laskussa on? Kirjoita sijoitus oikein ja laske oikea arvo.","vastaus":"Malliesimerkki: Myös kerroin 2 on korotettu potenssiin. Eksponentti koskee vain x:ää, sillä 2x² tarkoittaa 2 · x² eikä (2x)². Oikein: f(−3) = 2 · (−3)² + 7 = 2 · 9 + 7 = 25."},{"nro":14,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Pyörävuokraamon hinta euroina on f(x) = 3x + 4, kun x on vuokratuntien määrä. Millä x:n arvolla f(x) = 31?","vastaus":9},{"nro":15,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"g(x) = 2x² + 5. Millä x:n arvoilla g(x) = 55? Anna kaikki ratkaisut.","vastaus":"x = 5 tai x = −5"},{"nro":16,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"f(x) = 5x + 8. Millä x:n arvolla f(x) = −12? Kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla.","vastaus":"x = −4"},{"nro":17,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Luku kerrotaan kahdella ja tulosta vähennetään 9. Kirjoita funktio f(x) ja laske f(−4).","vastaus":"f(x) = 2x − 9, f(−4) = −17"},{"nro":18,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Lukuun lisätään 6 ja summa kerrotaan viidellä. Kirjoita funktio f(x) ja laske f(2).","vastaus":"f(x) = 5(x + 6), f(2) = 40"},{"nro":19,"ryhma":"muuttuja","tyyppi":"sanallinen","kysymys":"Pizzeriassa pizza maksaa 9 €, ja jokaiseen tilaukseen lisätään 6 €:n kuljetusmaksu. Kirjoita tilauksen hinta euroina pizzojen määrän x funktiona.","vastaus":"Malliesimerkki: f(x) = 9x + 6, kun x on pizzojen määrä."},{"nro":20,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Funktion f sääntö on: luvusta vähennetään 3 ja erotus kerrotaan kahdella. Kirjoita f(x) ja ratkaise, millä x:n arvolla f(x) = 18.","vastaus":"f(x) = 2(x − 3), x = 12"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei käytetä. Kirjoita välivaiheet näkyviin.\nTehtävissä 1 ja 3 vastaa kirjoittamalla niiden kaavioiden tai sääntöjen kirjaimet, jotka esittävät funktiota.\nKun sijoitat negatiivisen luvun lausekkeeseen, kirjoita sijoitus näkyviin ja luku sulkeisiin. Tehtävässä 11 vastaus on oikein vain, jos sijoitus sulkeineen näkyy.\nTehtävässä 15 kirjoita kaikki ratkaisut. Vastaus, josta puuttuu ratkaisu, on väärin.\nTehtävässä 16 kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla. Vastaus ilman yhtälöä tai tarkistusta on väärin.\nTehtävissä 17, 18 ja 20 kirjoita sekä funktion lauseke että pyydetty luku.\nTehtävissä 4, 5 ja 13 kirjoita vastaus lauseina ja laskuina.","tehtavat":[{"nro":1,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kaavioiden määrittelyjoukko on {3, 4, 7}.\nKaavio A: 3 → 5, 4 → 1, 4 → 8, 7 → 6\nKaavio B: 3 → 9, 7 → 1\nKaavio C: 3 → 2, 4 → 6, 7 → 2\n\nMitkä kaavioista esittävät funktiota?","vastaus":"vain C"},{"nro":2,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: 6, 1, 3, 5, 1, 2\ny: 8, 9, 2, 8, 7, 6\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":1},{"nro":3,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Säännöt:\nA: Liitä lukuun x mikä tahansa kokonaisluku, joka on x:ää pienempi.\nB: Liitä jokaiseen lukuun luku 5.\nC: Liitä lukuun x luku, joka saadaan kertomalla x luvulla 5 ja lisäämällä tuloon 3.\nD: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 6:n päässä luvusta x.\n\nMitkä säännöistä ovat funktioita?","vastaus":"B ja C"},{"nro":4,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Kaavion P määrittelyjoukko on {4, 7} ja kaavion Q määrittelyjoukko {1, 3, 5}.\nKaavio P: 4 → 2, 4 → 9, 7 → 2\nKaavio Q: 1 → 8, 3 → 5, 5 → 8\n\nKumpi kaavioista esittää funktiota? Perustele funktion ehdon avulla kummankin kaavion kohdalla.","vastaus":"Malliesimerkki: Q esittää funktiota, koska jokaisesta sen määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Se, että luvut 1 ja 5 kuvautuvat samaksi luvuksi 8, on sallittua. P ei esitä funktiota, koska luku 4 kuvautuu kahdeksi eri luvuksi, 2 ja 9."},{"nro":5,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Taulukossa on kuuden oppilaan pituus senttimetreinä ja kenkäkoko.\n176 → 42, 159 → 38, 167 → 40, 176 → 43, 161 → 38, 182 → 44\n\nOnko kenkäkoko tämän taulukon perusteella pituuden funktio? Perustele.","vastaus":"Malliesimerkki: Ei ole. Pituutta 176 cm vastaa kaksi eri kenkäkokoa, 42 ja 43, joten yhdellä muuttujan arvolla on kaksi funktion arvoa. Se, että pituuksilla 159 cm ja 161 cm on sama kenkäkoko 38, ei yksinään estäisi funktiota."},{"nro":6,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kirjoita merkinnällä: funktion f arvo kohdassa 6 on −1.","vastaus":"f(6) = −1"},{"nro":7,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 8x − 5. Laske f(2).","vastaus":11},{"nro":8,"ryhma":"arvo","tyyppi":"lasku","kysymys":"g(x) = x² + 2x. Laske g(6).","vastaus":48},{"nro":9,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 6 − 5x. Laske f(−2).","vastaus":16},{"nro":10,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 5. Laske f(−3).","vastaus":4},{"nro":11,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 2x² − 11. Laske f(−5). Kirjoita sijoitus näkyviin.","vastaus":"f(−5) = 39"},{"nro":12,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 2x. Laske f(−5).","vastaus":35},{"nro":13,"ryhma":"arvo","tyyppi":"sanallinen","kysymys":"Eetu laski funktion f(x) = 5x² + 2 arvon f(−2) näin:\nf(−2) = (5 · (−2))² + 2 = 102\n\nMikä virhe laskussa on? Kirjoita sijoitus oikein ja laske oikea arvo.","vastaus":"Malliesimerkki: Myös kerroin 5 on korotettu potenssiin. Eksponentti koskee vain x:ää, sillä 5x² tarkoittaa 5 · x² eikä (5x)². Oikein: f(−2) = 5 · (−2)² + 2 = 5 · 4 + 2 = 22."},{"nro":14,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Ruokatilauksen hinta euroina on f(x) = 8x + 5, kun x on annosten määrä. Millä x:n arvolla f(x) = 45?","vastaus":5},{"nro":15,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"g(x) = 5x² + 2. Millä x:n arvoilla g(x) = 22? Anna kaikki ratkaisut.","vastaus":"x = 2 tai x = −2"},{"nro":16,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"f(x) = 6x + 5. Millä x:n arvolla f(x) = −13? Kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla.","vastaus":"x = −3"},{"nro":17,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Luku kerrotaan kuudella ja tulosta vähennetään 1. Kirjoita funktio f(x) ja laske f(−2).","vastaus":"f(x) = 6x − 1, f(−2) = −13"},{"nro":18,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Lukuun lisätään 2 ja summa kerrotaan kahdeksalla. Kirjoita funktio f(x) ja laske f(5).","vastaus":"f(x) = 8(x + 2), f(5) = 56"},{"nro":19,"ryhma":"muuttuja","tyyppi":"sanallinen","kysymys":"Nettikirjakaupassa pokkari maksaa 15 €, ja jokaiseen tilaukseen lisätään 4 €:n postitusmaksu. Kirjoita tilauksen hinta euroina kirjojen määrän x funktiona.","vastaus":"Malliesimerkki: f(x) = 15x + 4, kun x on kirjojen määrä."},{"nro":20,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Funktion f sääntö on: luvusta vähennetään 5 ja erotus kerrotaan neljällä. Kirjoita f(x) ja ratkaise, millä x:n arvolla f(x) = 36.","vastaus":"f(x) = 4(x − 5), x = 14"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei käytetä. Kirjoita välivaiheet näkyviin.\nTehtävissä 1 ja 3 vastaa kirjoittamalla niiden kaavioiden tai sääntöjen kirjaimet, jotka esittävät funktiota.\nKun sijoitat negatiivisen luvun lausekkeeseen, kirjoita sijoitus näkyviin ja luku sulkeisiin. Tehtävässä 11 vastaus on oikein vain, jos sijoitus sulkeineen näkyy.\nTehtävässä 15 kirjoita kaikki ratkaisut. Vastaus, josta puuttuu ratkaisu, on väärin.\nTehtävässä 16 kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla. Vastaus ilman yhtälöä tai tarkistusta on väärin.\nTehtävissä 17, 18 ja 20 kirjoita sekä funktion lauseke että pyydetty luku.\nTehtävissä 4, 5 ja 13 kirjoita vastaus lauseina ja laskuina.","tehtavat":[{"nro":1,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kaavioiden määrittelyjoukko on {1, 5, 8}.\nKaavio A: 1 → 2, 8 → 5\nKaavio B: 1 → 4, 5 → 3, 8 → 3\nKaavio C: 1 → 7, 5 → 2, 8 → 6, 8 → 9\n\nMitkä kaavioista esittävät funktiota?","vastaus":"vain B"},{"nro":2,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Taulukossa on muuttujan x arvoja ja niitä vastaavia y:n arvoja.\nx: 3, 0, 2, 5, 4, 5\ny: 8, 1, 6, 2, 1, 9\n\nTaulukon yksi x:n arvo rikkoo funktion ehdon. Mikä se on?","vastaus":5},{"nro":3,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Säännöt:\nA: Liitä lukuun x mikä tahansa kokonaisluku, joka on x:ää suurempi.\nB: Liitä lukuun x ne luvut, jotka ovat lukusuoralla 7:n päässä luvusta x.\nC: Liitä lukuun x luku, joka saadaan kertomalla x luvulla 6 ja vähentämällä tulosta 1.\nD: Liitä jokaiseen lukuun luku 2.\n\nMitkä säännöistä ovat funktioita?","vastaus":"C ja D"},{"nro":4,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Kaavion P määrittelyjoukko on {3, 6, 9} ja kaavion Q määrittelyjoukko {1, 4}.\nKaavio P: 3 → 2, 6 → 1, 9 → 2\nKaavio Q: 1 → 7, 4 → 7, 4 → 3\n\nKumpi kaavioista esittää funktiota? Perustele funktion ehdon avulla kummankin kaavion kohdalla.","vastaus":"Malliesimerkki: P esittää funktiota, koska jokaisesta sen määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli. Se, että luvut 3 ja 9 kuvautuvat samaksi luvuksi 2, on sallittua. Q ei esitä funktiota, koska luku 4 kuvautuu kahdeksi eri luvuksi, 7 ja 3."},{"nro":5,"ryhma":"funktio","tyyppi":"sanallinen","kysymys":"Taulukossa on kuuden oppilaan pituus senttimetreinä ja kenkäkoko.\n169 → 40, 181 → 44, 154 → 36, 173 → 41, 154 → 37, 166 → 40\n\nOnko kenkäkoko tämän taulukon perusteella pituuden funktio? Perustele.","vastaus":"Malliesimerkki: Ei ole. Pituutta 154 cm vastaa kaksi eri kenkäkokoa, 36 ja 37, joten yhdellä muuttujan arvolla on kaksi funktion arvoa. Se, että pituuksilla 169 cm ja 166 cm on sama kenkäkoko 40, ei yksinään estäisi funktiota."},{"nro":6,"ryhma":"funktio","tyyppi":"lasku","kysymys":"Kirjoita merkinnällä: funktion p arvo kohdassa −4 on 2.","vastaus":"p(−4) = 2"},{"nro":7,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 4x − 11. Laske f(6).","vastaus":13},{"nro":8,"ryhma":"arvo","tyyppi":"lasku","kysymys":"g(x) = x² + 5x. Laske g(4).","vastaus":36},{"nro":9,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 7 − 3x. Laske f(−5).","vastaus":22},{"nro":10,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 13. Laske f(−4).","vastaus":3},{"nro":11,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = 4x² − 7. Laske f(−3). Kirjoita sijoitus näkyviin.","vastaus":"f(−3) = 29"},{"nro":12,"ryhma":"arvo","tyyppi":"lasku","kysymys":"f(x) = x² − 6x. Laske f(−1).","vastaus":7},{"nro":13,"ryhma":"arvo","tyyppi":"sanallinen","kysymys":"Mira laski funktion f(x) = 3x² + 4 arvon f(−4) näin:\nf(−4) = (3 · (−4))² + 4 = 148\n\nMikä virhe laskussa on? Kirjoita sijoitus oikein ja laske oikea arvo.","vastaus":"Malliesimerkki: Myös kerroin 3 on korotettu potenssiin. Eksponentti koskee vain x:ää, sillä 3x² tarkoittaa 3 · x² eikä (3x)². Oikein: f(−4) = 3 · (−4)² + 4 = 3 · 16 + 4 = 52."},{"nro":14,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Bändikämpän vuokra euroina on f(x) = 6x + 10, kun x on harjoituskertojen määrä. Millä x:n arvolla f(x) = 58?","vastaus":8},{"nro":15,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"g(x) = 2x² + 7. Millä x:n arvoilla g(x) = 79? Anna kaikki ratkaisut.","vastaus":"x = 6 tai x = −6"},{"nro":16,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"f(x) = 2x + 11. Millä x:n arvolla f(x) = −3? Kirjoita yhtälö näkyviin ja tarkista ratkaisu sijoittamalla.","vastaus":"x = −7"},{"nro":17,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Luku kerrotaan kolmella ja tulosta vähennetään 5. Kirjoita funktio f(x) ja laske f(−4).","vastaus":"f(x) = 3x − 5, f(−4) = −17"},{"nro":18,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Lukuun lisätään 7 ja summa kerrotaan neljällä. Kirjoita funktio f(x) ja laske f(3).","vastaus":"f(x) = 4(x + 7), f(3) = 40"},{"nro":19,"ryhma":"muuttuja","tyyppi":"sanallinen","kysymys":"Verkkokaupassa sukkapari maksaa 7 €, ja jokaiseen tilaukseen lisätään 3 €:n toimitusmaksu. Kirjoita tilauksen hinta euroina sukkaparien määrän x funktiona.","vastaus":"Malliesimerkki: f(x) = 7x + 3, kun x on sukkaparien määrä."},{"nro":20,"ryhma":"muuttuja","tyyppi":"lasku","kysymys":"Funktion f sääntö on: luvusta vähennetään 4 ja erotus kerrotaan kuudella. Kirjoita f(x) ja ratkaise, millä x:n arvolla f(x) = 42.","vastaus":"f(x) = 6(x − 4), x = 11"}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":"muuttuja"},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Funktio antaa jokaiselle muuttujan arvolle täsmälleen yhden funktion arvon. Kaksi eri muuttujan arvoa saa antaa saman arvon, mutta yksi muuttujan arvo ei saa antaa kahta. Negatiivinen luku sijoitetaan sulkeisiin.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: aloitus","sisalto":"Kerro välipala-automaatista: numero 14 antaa aina banaanimaitoa. Kysy, mitä tapahtuisi, jos sama numero antaisi joskus eri tuotteen, ja haittaako, jos kaksi numeroa antaa saman tuotteen. Kirjoita taululle kaksi lausetta: \"yksi numero, kaksi tuotetta: ei käy\" ja \"kaksi numeroa, sama tuote: käy\"."},{"aika":"12 min","otsikko":"Tunti 1: funktion ehto","sisalto":"Määrittele funktio, muuttujan arvo, funktion arvo ja määrittelyjoukko. Kirjoita taululle tekstin kaaviot P, Q ja R (määrittelyjoukko {1, 3, 5}) ja käy läpi kaksi tarkistuskysymystä. Näytä sitten ansan 1 kaavio 2 → 8, 4 → 8, 7 → 3 ja anna parien äänestää, onko se funktio. Perustele lähtöpäillä. Lopuksi sääntö \"ne luvut, joiden neliö on x\" ja luku 16."},{"aika":"10 min","otsikko":"Tunti 1: merkintä f(x) ja sijoitus","sisalto":"Kirjoita f(x) = 4x − 1 ja laske f(3). Kysy, miksi f(3) ei ole f kertaa 3. Laske sitten f(−2), kun f(x) = 4x² − 3, tyhjien sulkeiden tekniikalla. Laske tahallaan ilman sulkeita (4 · −2² − 3 = −19) ja kertoimen kanssa potenssiin ((4 · (−2))² − 3 = 61) ja kysy, kumpi kolmesta tuloksesta on oikein ja miksi."},{"aika":"15 min","otsikko":"Tunti 1: harjoittelu","sisalto":"Harjoitukset H01–H13. Pysähdy tehtäviin H01 (vastaus 1 kertoo vakiofunktion hylkäämisestä), H02 (vastaus −2 tai 1 kertoo, että etsittiin toistuvaa y:n arvoa) ja H11 (vastaus −22 kertoo puuttuvista sulkeista, 26 kertoimen korottamisesta potenssiin)."},{"aika":"3 min","otsikko":"Tunti 1: lopetus","sisalto":"Kysy: \"Funktio f(x) = x² antaa luvuille 3 ja −3 saman arvon. Rikkooko se funktion ehtoa?\" Hyvä vastaus erottaa lähtöpään ja päätepisteen."},{"aika":"5 min","otsikko":"Tunti 2: aloitus","sisalto":"Kirjoita f(x) = 3x + 5 ja kaksi kysymystä allekkain: \"Laske f(26)\" ja \"Millä x:n arvolla f(x) = 26?\" Parit ratkaisevat molemmat ja selittävät, miksi vastaukset ovat eri luvut."},{"aika":"10 min","otsikko":"Tunti 2: arvosta muuttujaan","sisalto":"Ratkaise 3x + 5 = 26 ja tarkista sijoittamalla. Näytä, että tarkistus paljastaa väärän suunnan: f(83) ei ole 26. Ratkaise sitten g(x) = 45, kun g(x) = x² − 4, ja kysy, montako ratkaisua on. Yhdistä kaksi ratkaisua ansaan 1: kaksi muuttujan arvoa, sama funktion arvo."},{"aika":"10 min","otsikko":"Tunti 2: säännöstä funktioksi","sisalto":"Kirjoita kaksi sääntöä rinnakkain: \"luku kerrotaan kolmella ja tuloon lisätään 8\" ja \"lukuun lisätään 2 ja summa kerrotaan neljällä\". Pyydä lausekkeet ja tarkista ne luvulla 5. Näytä lauseke 4x + 2 ja sen arvo 22. Käy läpi kuntosaliesimerkki ja lukujono 4, 10, 16, 22, … funktiona a(n) = 6n − 2."},{"aika":"15 min","otsikko":"Tunti 2: harjoittelu","sisalto":"Harjoitukset H14–H20. Pysähdy tehtäviin H14 (vastaus 59 kertoo, että laskettiin f(25)), H17 (vastaus 1 kertoo puuttuvasta negatiivisesta ratkaisusta) ja H19 (vastaus 34 kertoo puuttuvista sulkeista)."},{"aika":"5 min","otsikko":"Tunti 2: lopetus","sisalto":"Jokainen kirjoittaa lapulle oman nuolikaavion, jossa kaksi muuttujan arvoa kuvautuu samaksi luvuksi, ja päättää, onko se funktio. Kerää laput ja ota seuraavan tunnin alkuun yksi oikea ja yksi väärä perustelu."}],"tarvikkeet":"Kaksi tussiväriä: toisella nuolten lähtöpäät ja muuttujan arvot, toisella sulkeet ja näkyviin palaavat kertomerkit. Pieniä lappuja toisen tunnin lopetukseen. Laskinta ei tarvita."},"virhesanakirja":[{"virhe":"Kaavio 1 → 5, 3 → 2, 6 → 5 ei ole funktio, koska 5 toistuu.","tehtava":"funktion ehto kaaviosta (H01, H04, kokeen tehtävät 1 ja 4)","mita_kertoo":"Oppilas lukee ehdon väärin päin: hän vaatii, ettei sama funktion arvo saa esiintyä kahdesti. Hän katsoo nuolten päätepisteitä eikä lähtöpäitä.","mita_tehda":"Peitä kaavion oikea puoli ja kysy jokaisesta muuttujan arvosta, montako nuolta siitä lähtee. Palaa automaattiin: kaksi numeroa saa antaa saman tuotteen."},{"virhe":"Kaavio 2 → 8, 6 → 4 on funktio, kun määrittelyjoukko on {2, 4, 6}.","tehtava":"puuttuva nuoli (H01, kokeen tehtävä 1)","mita_kertoo":"Oppilas tarkistaa vain, ettei mistään lähde kahta nuolta. Hän ei vielä tarkista, että jokaisella määrittelyjoukon luvulla on arvo.","mita_tehda":"Pyydä käymään määrittelyjoukko läpi luku kerrallaan ja osoittamaan jokaisen luvun nuoli. Kysy, mikä on f(4)."},{"virhe":"Taulukossa x: −2, −1, 0, 1, 2, −1 ja y: 3, 5, 1, 3, 4, 2 ehdon rikkoo x = −2 tai x = 1.","tehtava":"funktion ehto taulukosta (H02, H05, kokeen tehtävät 2 ja 5)","mita_kertoo":"Oppilas etsii toistuvaa y:n arvoa (3) ja ilmoittaa sitä vastaavan x:n. Ansa 1 näkyy taulukossa samalla tavalla kuin kaaviossa.","mita_tehda":"Pyydä ympyröimään x-riviltä luvut, jotka esiintyvät kahdesti, ja vertaamaan niiden y:n arvoja. Toistuva y:n arvo jätetään huomiotta."},{"virhe":"Sääntö \"liitä jokaiseen lukuun luku 10\" ei ole funktio.","tehtava":"vakiofunktio (H01, H03, kokeen tehtävä 3)","mita_kertoo":"Oppilas ajattelee, että funktion pitää muuttaa lukua tai että samat arvot ovat kiellettyjä.","mita_tehda":"Kysy, mikä on f(2), f(5) ja f(−1). Jokaiseen kysymykseen on yksi vastaus, joten ehto täyttyy."},{"virhe":"f(−2) = −22, kun f(x) = 3x² − 10","tehtava":"negatiivinen luku ilman sulkeita (H10, H11, kokeen tehtävät 10 ja 11)","mita_kertoo":"Oppilas kirjoittaa 3 · −2² − 10. Ilman sulkeita eksponentti koskee vain lukua 2, ja tulos on 3 · (−4) − 10.","mita_tehda":"Käytä tyhjien sulkeiden tekniikkaa: 3 · ( )² − 10 ja vasta sitten luku. Tarkistussääntö: 3 · (−2)² ei voi olla negatiivinen."},{"virhe":"f(−2) = 26, kun f(x) = 3x² − 10","tehtava":"kerroin korotetaan potenssiin (H11, kokeen tehtävät 11 ja 13)","mita_kertoo":"Oppilas laskee (3 · (−2))² − 10. Hän lukee 3x²:n muodossa (3x)² eikä tiedä, että eksponentti koskee vain sen edessä olevaa x:ää.","mita_tehda":"Kirjoituta 3x² auki muotoon 3 · x · x ja sijoita vasta sitten. Vertaa (3 · 2)² = 36 ja 3 · 2² = 12."},{"virhe":"f(x) = 2x + 9, millä x:n arvolla f(x) = 25? Vastaus 59.","tehtava":"väärä suunta (H14–H16, kokeen tehtävät 14–16 ja 20)","mita_kertoo":"Oppilas sijoittaa annetun funktion arvon x:n paikalle ja laskee f(25). Hän ei erota muuttujan arvoa funktion arvosta.","mita_tehda":"Kysy, kumpi luku tehtävässä on annettu: x vai f(x). Kirjoituta ensin yhtälö 2x + 9 = 25 ja lopuksi tarkistus f(8) = 25."},{"virhe":"g(x) = x² + 5, g(x) = 41: vain x = 6","tehtava":"puuttuva ratkaisu (H16, H17, kokeen tehtävä 15)","mita_kertoo":"Oppilas ottaa neliöjuuren ja unohtaa negatiivisen ratkaisun. Kysymykseen \"montako\" hän vastaa 1.","mita_tehda":"Laske (−6)² + 5 yhdessä. Muistuta MAT8-YHT-08:sta: x² = 36 antaa x = 6 tai x = −6."},{"virhe":"Luvusta vähennetään 6 ja erotus kerrotaan neljällä: f(x) = 4x − 6 ja f(10) = 34.","tehtava":"sulkeet puuttuvat säännöstä (H18, H19, kokeen tehtävät 18 ja 20)","mita_kertoo":"Oppilas kirjoittaa luvut siinä järjestyksessä kuin ne tulevat lauseessa vastaan, mutta lauseke kertoo ensin. Hän ei vielä näe, että erotus pitää laskea ennen kertolaskua.","mita_tehda":"Laske sääntö luvulla 10 sanoin: 10 − 6 = 4 ja 4 · 4 = 16. Kysy, kumpi lauseke antaa saman: 4x − 6 vai 4(x − 6)."},{"virhe":"g(4) = 10 tarkoittaa, että g kertaa 4 on 10.","tehtava":"merkintä f(x) (H06, kokeen tehtävä 6)","mita_kertoo":"Oppilas tulkitsee sulkeet kertolaskuksi kuten lausekkeessa 4(x + 2). Hän ei vielä tiedä, että g on säännön nimi eikä luku.","mita_tehda":"Lue merkintä ääneen: \"g:n arvo kohdassa 4 on 10\". Kirjoita viereen nuoli 4 → 10."}],"opettajalle":{"kesto":"Kaksi oppituntia opetteluun ja harjoituksiin (ensimmäisellä funktion ehto ja arvon laskeminen, toisella arvosta muuttujaan ja säännöstä funktioksi), kolmas kertaukseen ja kokeeseen.","huomiot":["Tehtävät H01 ja H04 sekä kokeiden tehtävät 1 ja 4 mittaavat funktion ehtoa kaaviosta. Kokeen A tehtävässä 1 (oikea: vain B) vastaus \"ei mikään\" kertoo, että oppilas hylkää kaavion, jossa kaksi muuttujan arvoa kuvautuu samaksi luvuksi (ansa 1). Vastaus \"B ja C\" kertoo, ettei oppilas tarkistanut, lähteekö jokaisesta määrittelyjoukon luvusta nuoli (kaaviosta C puuttuu luvun 3 nuoli). Vastaukseksi kelpaa kirjain B myös ilman sanaa \"vain\". H01:ssä vastaus 1 kertoo vakiofunktion hylkäämisestä ja vastaus 3 puuttuvan nuolen ohittamisesta.","Tehtävä H02 ja kokeiden tehtävä 2 mittaavat ehdon tarkistamista taulukosta. Taulukossa on sekä toistuva x:n arvo (eri y:n arvoilla) että toistuva y:n arvo (eri x:n arvoilla). Kokeen A tehtävässä 2 (oikea 2) vastaus 1, 4 tai 7 kertoo, että oppilas etsi toistuvaa y:n arvoa eli luki ehdon väärin päin.","Tehtävä H03 ja kokeiden tehtävä 3 mittaavat sanallisia sääntöjä. Kokeen A tehtävässä 3 (oikea: A ja C) vastaus \"vain A\" kertoo, että oppilas hylkää vakiofunktion (sääntö C, \"liitä jokaiseen lukuun luku 6\"), koska kaikki arvot ovat samat. Jos vastauksessa on B tai D, oppilas ei ole huomannut, että sääntö antaa samalle luvulle useita lukuja (B: kaikki suuremmat kokonaisluvut, D: kaksi lukua lukusuoralla 5:n päässä). Kirjainten järjestys vastauksessa on vapaa.","Kokeen tehtävä 4 on sanallinen. Vastaus on oikein, kun (1) funktiota esittävä kaavio on valittu oikein ja valinta perustellaan sillä, että jokaisesta määrittelyjoukon luvusta lähtee täsmälleen yksi nuoli (tai että jokaisella muuttujan arvolla on täsmälleen yksi funktion arvo), ja (2) toisesta kaaviosta nimetään luku, josta lähtee kaksi nuolta eri lukuihin, esimerkiksi kokeessa A \"luku 3 kuvautuu luvuiksi 1 ja 6\". Maininta siitä, että yhteinen funktion arvo on sallittu, on hyvä mutta ei pakollinen. Pelkkä kirjain on väärin. Perustelu \"Q ei ole funktio, koska 6 toistuu\" on väärin, vaikka johtopäätös olisi oikea, koska se nojaa ansaan 1: kokeen A kaaviossa P luku 9 toistuu samalla tavalla.","Kokeen tehtävä 5 on sanallinen. Vastaus on oikein, kun johtopäätös \"ei ole funktio\" perustellaan pituudella, jota vastaa kaksi eri kenkäkokoa (kokeessa A 165 cm: 40 ja 41). Jos perusteluksi annetaan pelkästään toistuva kenkäkoko (kokeessa A 42), vastaus on väärin. Sanamuoto on vapaa; myös \"pituus 165 kuvautuu kahdeksi luvuksi\" kelpaa.","Kokeen tehtävä 6 mittaa merkintää f(x). Kokeen A vastaus h(9) = −2 kertoo, että muuttujan arvo ja funktion arvo vaihtoivat paikkaa (ansa 3:n merkintäversio). Vastaus h · (−2) = 9 tai h(x) = 9 on väärin. Tehtävää tukee H06.","Tehtävät H07–H13 sekä kokeiden tehtävät 7–12 mittaavat funktion arvon laskemista. Kokeen A tehtävässä 8 (oikea 21) vastaus 18 kertoo, että x² luettiin 2x:ksi. Tehtävässä 9 (oikea 14) vastaus 2 kertoo, että tulon etumerkki pudotettiin (8 − 6). Tehtävässä 10 (oikea 9) vastaus −23 kertoo kirjoituksesta −4² − 7 ilman sulkeita. Tehtävässä 12 (oikea 14) vastaus 6 syntyy kirjoituksesta −2² − 5 · (−2) ja vastaus −6 laskusta 4 − 10, jossa tulon etumerkki pudotettiin.","Kokeen tehtävä 11 on mittaritehtävä. Vastaus on oikein, kun sijoitus on kirjoitettu näkyviin sulkeineen, kokeessa A 2 · (−4)² − 9, ja arvo on oikein (23). Pelkkä oikea luku ilman sijoitusta on väärin, ja sama vaatimus on kokeen johdannossa. Vastaus −41 kertoo kirjoituksesta 2 · −4² − 9 (sulkeet puuttuvat), ja vastaus 55 siitä, että myös kerroin korotettiin potenssiin: (2 · (−4))² − 9 (ansa 2).","Kokeen tehtävä 13 on sanallinen. Laskussa on ansan 2 toinen väärä tapa: myös kerroin on korotettu potenssiin (kokeessa A (4 · (−3))² + 1 = 145). Vastaus on oikein, kun (1) virhe nimetään (kerroin korotettiin potenssiin, tai eksponentti koskee vain x:ää eli 4x² = 4 · x²), (2) sijoitus on kirjoitettu sulkeineen, kokeessa A 4 · (−3)² + 1, ja (3) oikea arvo on laskettu (37). Virheen voi nimetä lyhyesti (\"kerroin ei kuulu potenssiin\"). Vastaus −35 kertoo, että oppilas korjasi virheen poistamalla sulkeet kokonaan (4 · −3² + 1), ja se on väärin. Jos jokin kolmesta puuttuu, vastaus on väärin.","Tehtävät H14–H16 sekä kokeiden tehtävät 14–16 ja 20 mittaavat muuttujan arvon ratkaisemista. Kokeen A vastaukset 66 (tehtävä 14), −35 (tehtävä 16) ja 57 (tehtävä 20) kertovat, että annettu funktion arvo sijoitettiin x:n paikalle (ansa 3). Tehtävässä 15 sama virhe näkyy yrityksenä laskea g(35) = 2 · 35² + 3.","Kokeen tehtävä 15 on oikein vain, kun molemmat ratkaisut ovat mukana. Muodot x = ±4, x = 4 tai x = −4 ja x₁ = 4, x₂ = −4 ovat yhtä hyviä, ja järjestys on vapaa. Kokeen A vastaus x = 4 ilman negatiivista ratkaisua on väärin (ansa 3), ja vastaus x = ±16 kertoo, että neliöjuuri jäi ottamatta. Yhtälö x² = c on 8. luokan ydintä (MAT8-YHT-08). Kun funktio annetaan lausekkeena eikä määrittelyjoukkoa mainita, määrittelyjoukkoon kuuluvat kaikki luvut; tämä sopimus on oppilaan tekstissä.","Kokeen tehtävä 16 on mittaritehtävä. Vastaus on oikein, kun (1) yhtälö on kirjoitettu näkyviin, kokeessa A 4x + 9 = −11, (2) ratkaisu on oikein (x = −5) ja (3) tarkistus sijoittamalla näkyy, esimerkiksi f(−5) = 4 · (−5) + 9 = −11. Jos jokin kolmesta puuttuu, vastaus on väärin; vaatimus on kokeen johdannossa. Vastaus −35 kertoo ansasta 3 (f(−11) laskettiin), ja tarkistus paljastaisi sen.","Kokeen tehtävä 17: hyväksytään kaikki yhtäpitävät lausekkeet (kokeessa A 4x − 7, −7 + 4x, 4 · x − 7) ja mikä tahansa funktion nimi. Molemmat osat vaaditaan: lauseke ja arvo f(−2) = −15. Arvo 1 kertoo, että negatiivisen luvun etumerkki pudotettiin (4 · 2 − 7), ja arvo −5, että kertomerkki katosi ja miinuksesta tuli vähennyslasku (4 − 2 − 7).","Kokeen tehtävä 18 on mittaritehtävä. Vastaus on oikein, kun funktion lauseke on oikein ja arvo on oikein. Kokeessa A hyväksytään 3(x + 5), (x + 5) · 3 ja avattu muoto 3x + 15, koska ne ovat sama funktio; arvo f(4) = 27. Lauseke 3x + 5 ja siitä laskettu arvo 17 kertovat, että sulkeet puuttuvat (ansa 2). Jos lauseke on 3x + 5 mutta arvo 27, vastaus on silti väärin, koska lauseke ei vastaa sääntöä.","Kokeen tehtävä 19 on sanallinen. Hyväksytään kaikki yhtäpitävät muodot ja mikä tahansa funktion nimi (kokeessa A f(x) = 12x + 5, h(x) = 5 + 12x). Muuttujan merkitystä ei tarvitse kirjoittaa, koska tehtävä antaa sen. Vastaus f(x) = 17x tai f(x) = 12x + 5x kertoo, että kerran maksettava toimitusmaksu kerrottiin tilattujen paitojen määrällä. Pelkkä lauseke 12x + 5 ilman merkintää f(x) = kelpaa.","Kokeen tehtävä 20: molemmat osat vaaditaan, lauseke ja ratkaisu. Kokeessa A hyväksytään 3(x − 2), (x − 2) · 3 ja 3x − 6 sekä mikä tahansa funktion nimi, ja ratkaisu on x = 9; yhtälön voi ratkaista jakamalla ensin kolmella tai avaamalla sulkeet. Lauseke 3x − 2 ja siitä saatu ratkaisu 23/3 kertovat, että sulkeet puuttuvat (ansa 2), ja vastaus 57 kertoo väärästä suunnasta (ansa 3). Jos lauseke on väärin mutta x = 9, vastaus on väärin. Tehtävää tukee H20, jossa lauseke kirjoitetaan ja yhtälö ratkaistaan samalla tavalla.","Tehtävät H18 ja H19 sekä kokeiden tehtävät 17, 18 ja 20 mittaavat sanallisen säännön kirjoittamista lausekkeeksi. Kun sääntö kertoo ensin ja lisää sitten, sulkeita ei tarvita; kun summa tai erotus kerrotaan, sulkeet tarvitaan. Kokeilu yhdellä luvulla on nopein tapa tarkistaa oppilaan epätavallinen muoto.","Mittaritehtävät: 4, 11, 16 ja 18 — tehtävä 4 mittaa osaa_kun-kriteerin ensimmäistä osaa eli funktion ehdon perustelua kaaviosta, jossa funktiota esittävässä kaaviossa kaksi muuttujan arvoa kuvautuu samaksi luvuksi. Tehtävä 11 mittaa toista osaa eli sulkeiden käyttöä negatiivista lukua sijoitettaessa lausekkeeseen, jossa on toinen potenssi ja kerroin; sijoitus näkyy paperilla, joten luvun arvaaminen ei riitä. Tehtävä 16 mittaa muuttujan arvon ratkaisemista annetusta funktion arvosta ja tehtävä 18 funktion muodostamista sanallisesta säännöstä, jossa sulkeet ovat tarpeen. Yhdessä ne kattavat osaa_kun-kriteerin molemmat osat ja näytön kaksi muuta osaa.","Rajaus: taidossa ei käsitellä kuvaajia eikä kuvaajan lukemista (MAT9-FUN-02), pystysuoran suoran testiä, kulmakerrointa, nollakohtaa, paraabelin ominaisuuksia, lausekkeen sijoittamista muuttujan paikalle (f(a + 1)), paloittain määriteltyjä funktioita eikä arvo- ja maalijoukkoa. Määrittelyjoukko esiintyy käsitteenä. Jos käytät oppikirjaa, huomaa, että luvun 2 esimerkin 1 vastauksessa arvojoukko ja maalijoukko ovat vaihtaneet paikkaa (arvojoukko on {1, 3, 5, 7, 9}).","Funktiokone (MAT7-FUN-03) on vahvistava taito, joten sitä ei oleteta: syöte–tuloste-ajatus esitellään tekstissä lyhyesti, eikä koneen säännön päättelyä pareista kysytä. Lukujonon sääntö (MAT7-FUN-02) toimii siltana: tehtävä H13 ja oppilaan tekstin esimerkki käsittelevät jäsentä järjestysnumeron funktiona, mutta n:nnen jäsenen lauseketta ei tarvitse muodostaa itse.","Koko taito tehdään ilman laskinta. Desimaaliluku esiintyy vain tehtävässä H20 (0,25x + 1 = 6).","Sisällön pohjana Avoin Matematiikka 9 lk., osio 1, luvut 1 ja 2 (Marika Toivola ja Tiina Härkönen, CC BY 3.0)."]},"huoltajalle":{"mista_on_kyse":"Nuori opettelee, mikä funktio on: sääntö, joka liittää jokaiseen lähtölukuun täsmälleen yhden tuloksen. Esimerkiksi jos f(x) = 2x + 3, niin f(5) = 2 · 5 + 3 = 13. Taitoon kuuluu neljä asiaa: päätellä nuolikaaviosta tai taulukosta, onko kyseessä funktio, laskea funktion arvoja, ratkaista, millä luvulla funktio saa annetun arvon, ja kirjoittaa sanallinen sääntö funktioksi. Negatiivinen luku sijoitetaan sulkeisiin: kun f(x) = x² + 1, f(−4) = (−4)² + 1 = 17.","kotona":["Etsikää arjesta tilanteita, joissa yksi luku määrää toisen: tilattujen pizzojen määrä ja hinta tai ajetut kilometrit ja taksimatkan hinta. Kysy, voiko samalla määrällä olla kaksi eri hintaa. Jos ei voi, hinta on määrän funktio.","Kysy, miksi kahdella luokkakaverilla saa olla sama syntymäpäivä, vaikka yhdellä ihmisellä ei voi olla kahta syntymäpäivää. Sama ajatus on funktion ehdon ytimessä.","Älä opeta näin: \"Funktiossa sama tulos ei saa toistua.\" Toistuminen on sallittua: luvut 3 ja −3 antavat lausekkeesta x² saman tuloksen 9. Kielletty on se, että yksi lähtöluku antaa kaksi eri tulosta."],"milloin_huolestua":"Jos lausekkeen arvon laskeminen negatiivisella luvulla, esimerkiksi (−3)² tai 5 − 2 · (−4), tai yksinkertaisen yhtälön kuten 3x + 4 = 19 ratkaiseminen on vielä epävarmaa, funktiotehtävät menevät arvaamalla. Silloin kannattaa palata ensin niihin. Kerro havainnosta opettajalle."},"ulkoiset":{"edeltavat":[{"id":"MAT7-FUN-02","nimi":"Mikä tulee seuraavaksi","vuosiluokka":7,"kuvaus":"Osaan tutkia lukujonon säännönmukaisuutta ja jatkaa jonoa."},{"id":"MAT7-ALG-01","nimi":"Kirjain luvun paikalla","vuosiluokka":7,"kuvaus":"Osaan muodostaa lausekkeen tilanteesta ja laskea sen arvon, kun muuttujan arvo tunnetaan."}],"seuraavat":[]},"valmis_teksti":"Osaat selittää, mikä funktio on, ja perustella kaaviosta tai taulukosta, toteutuuko funktion ehto. Lasket funktion arvoja merkinnällä f(x) ja kirjoitat negatiivisen luvun sulkeisiin, ratkaiset, millä muuttujan arvolla funktio saa annetun arvon, ja kirjoitat sanallisen säännön funktioksi. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

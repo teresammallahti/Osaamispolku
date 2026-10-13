@@ -1,0 +1,524 @@
+<title>Yksikkö vai prosentti · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT8-PRO-05","oppiaine":"MAT","vuosiluokka":8,"taitoalue":"PRO","jakso":"J2","taso":"ydin","otsikko":"Yksikkö vai prosentti","kuvaus":"Osaan erottaa prosenttiyksikön ja prosentin, kun prosenttiluku muuttuu.","versio":"0.2","paivitetty":"2026-10-04","ops":{"T":["T8","T13"],"S":["S2"]},"ikoni":"mittari","eyebrow":"Matematiikka · 8. luokka · Prosentit","naytto":"Lasken, montako prosenttiyksikköä ja montako prosenttia esimerkiksi kannatus, korko tai ilmankosteus muuttui, ja korjaan virheellisen väitteen uutistekstistä.","osaa_kun":"Selitän, että prosenttiyksikkö on prosenttilukujen erotus ja prosentti suhteellinen muutos, ja käytän kumpaakin sanaa oikein vastauksessani.","teksti":[{"tyyppi":"johdanto","sisalto":"Kaksi uutissivustoa kertoo saman kannatusmittauksen tuloksen. Toisen otsikko on ”Liikennepuolueen kannatus nousi prosenttiyksikön”, toisen ”Liikennepuolueen kannatus kasvoi 12,5 prosenttia”. Kumpikaan ei valehtele: kannatus nousi 8 prosentista 9 prosenttiin. Ensimmäinen otsikko kertoo, kuinka paljon prosenttiluku muuttui. Toinen kertoo, kuinka suuri muutos oli lähtötasoon verrattuna. Sama tilanne tulee vastaan, kun pankki nostaa lainan korkoa, kun sääennuste kertoo ilmankosteuden tai kun puhelin näyttää akun varauksen. Kun suure itse on prosenttiluku, sen muutokselle on kaksi eri sanaa: prosenttiyksikkö ja prosentti. Tässä taidossa opit laskemaan kummankin ja käyttämään oikeaa sanaa oikeassa paikassa."},{"tyyppi":"kappale","otsikko":"Kaksi tapaa kertoa sama muutos","sisalto":"Kannatus, korko, ilmankosteus, työttömyysaste, äänestysprosentti ja akun varaus ovat suureita, joiden arvo on itsessään prosenttiluku. Kun tällainen suure muuttuu, muutoksen voi kertoa kahdella tavalla. Prosenttiyksikkö on prosenttilukujen erotus: kannatus nousi 9 % − 8 % = 1 prosenttiyksikön. Prosentti on suhteellinen muutos eli muutos verrattuna alkuperäiseen arvoon. Se lasketaan samoin kuin hinnan muutosprosentti: 1 : 8 = 0,125 = 12,5 %. Jakolaskussa prosenttimerkit kumoavat toisensa samalla tavalla kuin eurot, kun hinnan nousu 1 € jaetaan alkuperäisellä hinnalla 8 €. Miksi tarvitaan kaksi sanaa? Ilman niitä lause ”kannatus nousi 1 %” olisi kaksitulkintainen. Sana prosentti on varattu suhteelliselle muutokselle. Kannatuksen nousu 1 %:lla tarkoittaisi, että kannatus kasvaa sadasosan omasta arvostaan: 1 % luvusta 8 on 0,08, joten kannatus nousisi vain 8,08 %:iin. Sana prosenttiyksikkö kertoo yksiselitteisesti, että prosenttiluvut on vähennetty toisistaan."},{"tyyppi":"saanto","otsikko":"Näin lasket muutoksen kahdella tavalla","askeleet":["Kirjoita alkuperäinen ja uusi prosenttiluku näkyviin. Alkuperäinen on se, joka oli ajallisesti ensin. Esimerkki: ilmankosteus laski 75 %:sta 45 %:iin.","Prosenttiyksiköt: vähennä pienempi prosenttiluku suuremmasta. 75 − 45 = 30, joten kosteus laski 30 prosenttiyksikköä. Suunnan kerrot sanalla nousi tai laski.","Prosentit: jaa prosenttiyksiköinä laskettu muutos alkuperäisellä prosenttiluvulla. 30 : 75 = 0,4 = 40 %, joten kosteus laski 40 %. Jakaja on alkuperäinen arvo myös silloin, kun suure pienenee.","Arvioi ennen laskinta: puolet luvusta 75 on 37,5, ja muutos 30 on sitä pienempi, joten prosentteina muutos on alle 50 %. Jos laskin näyttää jotain aivan muuta, tarkista lasku.","Kirjoita vastaukseen luku ja oikea sana: 30 prosenttiyksikköä, 40 %. Oikea luku väärällä sanalla on väärä vastaus, koska 30 % ja 30 prosenttiyksikköä ovat eri asioita.","Kun muutos on annettu prosenttiyksikköinä, uusi arvo saadaan yhteen- tai vähennyslaskulla: 6,8 %:n työttömyysaste, joka nousee 0,5 prosenttiyksikköä, on 7,3 %. Kun muutos on annettu prosentteina, lasketaan ensin, paljonko se on alkuperäisestä arvosta: 8 %:n kannatus, joka kasvaa 50 %, kasvaa puolella itsestään eli 4 prosenttiyksikköä, 12 %:iin."]},{"tyyppi":"taulukko","otsikko":"Sama muutos kahdella sanalla","otsikkorivi":["Suure","Ennen → jälkeen","Muutos prosenttiyksikköinä","Muutos prosentteina"],"rivit":[["Puolueen kannatus","8 % → 9 %","nousi 1 prosenttiyksikön","nousi 12,5 %"],["Asuntolainan korko","1,6 % → 2,4 %","nousi 0,8 prosenttiyksikköä","nousi 50 %"],["Ilmankosteus","75 % → 45 %","laski 30 prosenttiyksikköä","laski 40 %"],["Työttömyysaste","7,4 % → 6,8 %","laski 0,6 prosenttiyksikköä","laski noin 8 %"],["Akun varaus","40 % → 100 %","nousi 60 prosenttiyksikköä","nousi 150 %"],["Äänestysprosentti","50 % → 51 %","nousi 1 prosenttiyksikön","nousi 2 %"],["Akun varaus täydestä","100 % → 80 %","laski 20 prosenttiyksikköä","laski 20 %"]]},{"tyyppi":"kappale","otsikko":"Pieni vai suuri muutos – uutisten ja mainosten kieli","sisalto":"Prosenttiyksikkö kertoo, kuinka paljon prosenttiluku muuttui. Prosentti kertoo, kuinka suuri muutos oli lähtötasoon verrattuna. Yhden prosenttiyksikön nousu on 1 %:n kannatukselle 100 % eli kannatuksen kaksinkertaistuminen, mutta 50 %:n kannatukselle vain 2 %. Siksi luvut ovat yleensä eri suuret. Ne ovat samat vain silloin, kun lähtötaso on 100 %, kuten taulukon viimeisellä rivillä: muutos jaetaan silloin luvulla 100. Uutisissa ja mainoksissa valitaan usein se luku, joka sopii viestiin. Pankki voi kertoa, että korko nousi ”vain 0,2 prosenttiyksikköä”, kun 0,4 %:n korko nousi 0,6 %:iin, ja säästötilin mainos voi samasta muutoksesta luvata ”50 % enemmän korkoa”. Kumpikin on totta, mutta kumpikin kertoo vain puolet. Huolellinen lukija laskee molemmat. Sanat erotetaan myös vertailussa. Jos yhden pankin korko on 3 % ja toisen 4 %, toisen pankin korko on 1 prosenttiyksikön suurempi, ja prosentteina se on 1 : 3 ≈ 33 % suurempi. Vertailuprosentissa jaetaan sillä arvolla, johon verrataan, eli kuin-sanan jälkeisellä."},{"tyyppi":"ansa","otsikko":"Ansa 1: erotus ilmoitetaan prosentteina","sisalto":"Puolueen kannatus nousi 24 %:sta 27 %:iin. Vastaus ”kannatus nousi 3 %” on väärin, vaikka lasku 27 − 24 = 3 on oikein. Prosenttilukujen erotus on prosenttiyksikköjä, joten oikein on ”kannatus nousi 3 prosenttiyksikköä”. Prosentteina nousu on 3 : 24 = 0,125 = 12,5 %. Virheen paljastaa kysymys: mistä 3 % otetaan? Kolme prosenttia luvusta 24 on vain 0,72, joten ”nousi 3 %” väittäisi kannatuksen nousseen 24,72 %:iin. Kun korjaat tällaisen väitteen, kirjoita lause, jossa kumpikin sana on oikean luvun perässä: ”Kannatus nousi 3 prosenttiyksikköä eli 12,5 %.”"},{"tyyppi":"ansa","otsikko":"Ansa 2: muutos jaetaan uudella arvolla","sisalto":"Kannatus nousi 20 %:sta 25 %:iin, eli muutos on 5 prosenttiyksikköä. Jos muutos jaetaan uudella arvolla, saadaan 5 : 25 = 20 %, mikä on väärin. Muutosprosentissa verrataan siihen arvoon, joka oli ensin, eli 20 %:iin: 5 : 20 = 0,25 = 25 %. Tarkista ajatuksella: 25 % luvusta 20 on neljäsosa eli 5, ja 20 + 5 = 25. Tarkistus toimii, joten vastaus on oikea."},{"tyyppi":"ansa","otsikko":"Ansa 3: laskevassa muutoksessa jaetaan pienemmällä luvulla","sisalto":"Ilmankosteus laski 90 %:sta 60 %:iin, eli muutos on 30 prosenttiyksikköä. Laskevassa muutoksessa houkuttaa jakaa uudella, pienemmällä arvolla: 30 : 60 = 50 %. Se on väärin. Jos kosteus olisi laskenut 50 %, se olisi pudonnut puoleen eli 45 %:iin eikä 60 %:iin. Oikein jaetaan alkuperäisellä arvolla: 30 : 90 = 0,333… ≈ 33 %. Kosteus laski siis 30 prosenttiyksikköä eli noin 33 %."},{"tyyppi":"ansa","otsikko":"Ansa 4: pieni prosenttiyksikkömäärä tulkitaan pieneksi muutokseksi","sisalto":"Lainan korko nousi 0,5 %:sta 1 %:iin. Uutisessa luki: ”Korko nousi vain puoli prosenttiyksikköä.” Lause on totta, mutta sana ”vain” johtaa harhaan. Korko kaksinkertaistui, eli se nousi 0,5 : 0,5 = 1 = 100 %. Jos lainaa on 20 000 €, vuoden korko kasvaa 100 eurosta 200 euroon. Kun lähtötaso on pieni, pienikin prosenttiyksikkömäärä on prosentteina suuri muutos. Laske siksi aina myös suhteellinen muutos: kuinka suuri muutos on verrattuna siihen, mistä lähdettiin."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Prosenttiyksikkö = prosenttilukujen erotus: 8 % → 9 % on 1 prosenttiyksikön nousu.","Prosentti = muutos jaettuna alkuperäisellä arvolla: 1 : 8 = 12,5 %.","Jakaja on se arvo, joka oli ensin, myös laskevassa muutoksessa. Vertailussa jakaja on kuin-sanan jälkeinen arvo.","Kirjoita luvun perään aina oikea sana. 3 prosenttiyksikköä ja 3 % ovat eri asioita.","Pieni prosenttiyksikkömäärä voi olla prosentteina suuri muutos, kun lähtötaso on pieni."]}],"harjoitusryhmat":[{"id":"erotus","nimi":"Prosenttiyksikkö on erotus","info":"Prosenttiyksiköt saat vähentämällä prosenttiluvut toisistaan. Uusi arvo saadaan yhteen- tai vähennyslaskulla. Laskin on sallittu."},{"id":"suhde","nimi":"Muutos prosentteina","info":"Jaa prosenttiyksiköinä laskettu muutos alkuperäisellä arvolla, myös silloin kun suure pienenee. Arvioi tulos ennen laskinta. Laskin on sallittu."},{"id":"uutiset","nimi":"Oikea sana uutisessa","info":"Laske uutisen tai mainoksen muutos itse kahdella tavalla ja katso, kumpi sana kuuluu millekin luvulle. Laskin on sallittu."}],"ryhmanimet":{"erotus":"Prosenttiyksikkö on erotus","suhde":"Muutos prosentteina","uutiset":"Oikea sana uutisessa"},"harjoitukset":[{"id":"H01","ryhma":"erotus","kysymys":"Puolueen kannatus nousi 14 %:sta 19 %:iin. Montako prosenttiyksikköä kannatus nousi? Anna vastaus pelkkänä lukuna.","vastaus":5,"vinkki":"Prosenttiyksiköt saat vähentämällä prosenttiluvut toisistaan.","selitys":"19 − 14 = 5, joten kannatus nousi 5 prosenttiyksikköä. Prosentteina nousu on eri luku, koska siinä muutos jaetaan alkuperäisellä arvolla 14."},{"id":"H02","ryhma":"erotus","kysymys":"Työttömyysaste laski 9,3 %:sta 8,6 %:iin. Montako prosenttiyksikköä työttömyysaste laski? Anna vastaus pelkkänä lukuna.","vastaus":0.7,"vinkki":"Vähennä pienempi prosenttiluku suuremmasta. Suunta on jo kysymyksessä.","selitys":"9,3 − 8,6 = 0,7, joten työttömyysaste laski 0,7 prosenttiyksikköä."},{"id":"H03","ryhma":"erotus","kysymys":"Asuntolainan korko oli 3,85 %, ja se nousi 0,4 prosenttiyksikköä. Mikä on uusi korko? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":4.25,"vinkki":"Prosenttiyksiköt lisätään suoraan prosenttilukuun.","selitys":"Prosenttiyksikkö on prosenttilukujen erotus, joten uusi korko saadaan yhteenlaskulla: 3,85 % + 0,4 = 4,25 %."},{"id":"H04","ryhma":"erotus","kysymys":"Puhelimen akun varaus oli 83 %. Pelin aikana varaus laski 37 prosenttiyksikköä. Mikä on akun varaus pelin jälkeen? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":46,"vinkki":"Prosenttiyksiköt vähennetään suoraan prosenttiluvusta.","selitys":"83 − 37 = 46, joten varaus on 46 %. Jos varaus olisi laskenut 37 %, se olisi pudonnut eri lukuun, koska silloin 37 % otettaisiin luvusta 83."},{"id":"H05","ryhma":"erotus","kysymys":"Eräässä kunnassa äänestysprosentti oli kunnallisvaaleissa 58,7 % ja eduskuntavaaleissa 72,1 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli eduskuntavaaleissa? Anna vastaus pelkkänä lukuna.","vastaus":13.4,"vinkki":"Kahden prosenttiluvun ero prosenttiyksikköinä on niiden erotus.","selitys":"72,1 − 58,7 = 13,4. Äänestysprosentti oli eduskuntavaaleissa 13,4 prosenttiyksikköä suurempi."},{"id":"H06","ryhma":"erotus","tyyppi":"monivalinta","kysymys":"Ilmankosteus nousi 35 %:sta 42 %:iin. Mikä lause kertoo muutoksen oikein?","vaihtoehdot":["Kosteus nousi 7 %.","Kosteus nousi 7 prosenttiyksikköä.","Kosteus nousi 42 %."],"vastaus":1,"vinkki":"Laske ensin erotus. Mikä sana kuuluu prosenttilukujen erotukselle?","selitys":"42 − 35 = 7 on prosenttilukujen erotus eli 7 prosenttiyksikköä. Prosentteina nousu on 7 : 35 = 0,2 = 20 %, joten lauseet ”nousi 7 %” ja ”nousi 42 %” ovat väärin. Luku 42 % on uusi kosteus, ei muutos."},{"id":"H07","ryhma":"suhde","kysymys":"Puolueen kannatus nousi 15 %:sta 18 %:iin. Montako prosenttiyksikköä kannatus nousi? Anna vastaus pelkkänä lukuna.","vastaus":3,"vinkki":"Prosenttiyksiköt ovat erotus.","selitys":"18 − 15 = 3, joten kannatus nousi 3 prosenttiyksikköä. Seuraava tehtävä kysyy saman muutoksen prosentteina."},{"id":"H08","ryhma":"suhde","kysymys":"Puolueen kannatus nousi 15 %:sta 18 %:iin. Montako prosenttia kannatus nousi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":20,"vinkki":"Jaa muutos 3 prosenttiyksikköä alkuperäisellä kannatuksella.","selitys":"Muutos on 3 prosenttiyksikköä, ja alkuperäinen kannatus on 15 %. 3 : 15 = 0,2 = 20 %. Sama muutos on siis 3 prosenttiyksikköä ja 20 %. Vastaus 3 kertoo, että erotus on ilmoitettu prosentteina, ja vastaus noin 17 (3 : 18), että on jaettu uudella arvolla."},{"id":"H09","ryhma":"suhde","kysymys":"Ilmankosteus laski 85 %:sta 68 %:iin. Montako prosenttia kosteus laski? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":20,"vinkki":"Laskevassakin muutoksessa jaetaan alkuperäisellä arvolla 85.","selitys":"Muutos on 85 − 68 = 17 prosenttiyksikköä. 17 : 85 = 0,2 = 20 %. Vastaus 25 syntyy, jos jaetaan uudella arvolla: 17 : 68 = 0,25."},{"id":"H10","ryhma":"suhde","kysymys":"Säästötilin korko nousi 0,8 %:sta 1,2 %:iin. Montako prosenttia korko nousi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":50,"vinkki":"Muutos on vain 0,4 prosenttiyksikköä. Kuinka suuri se on lähtötasoon 0,8 verrattuna?","selitys":"Muutos on 1,2 − 0,8 = 0,4 prosenttiyksikköä. 0,4 : 0,8 = 0,5 = 50 %. Pieni prosenttiyksikkömäärä on prosentteina suuri muutos, koska lähtötaso on pieni."},{"id":"H11","ryhma":"suhde","kysymys":"Työttömyysaste laski 8,7 %:sta 7,9 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina ilman %-merkkiä.","vastaus":9,"vinkki":"Laske ensin muutos prosenttiyksikköinä ja jaa se alkuperäisellä arvolla 8,7.","selitys":"Muutos on 8,7 − 7,9 = 0,8 prosenttiyksikköä. 0,8 : 8,7 ≈ 0,092 ≈ 9 %. Vastaus 10 syntyy, jos jaetaan uudella arvolla 7,9."},{"id":"H12","ryhma":"suhde","kysymys":"Puolueen kannatus oli 16 %, ja se nousi 6 prosenttiyksikköä. Montako prosenttia kannatus nousi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":37.5,"vinkki":"Muutos prosenttiyksikköinä on jo annettu. Jaa se alkuperäisellä kannatuksella.","selitys":"6 : 16 = 0,375 = 37,5 %. Kannatus nousi 6 prosenttiyksikköä eli 37,5 %, 22 %:iin."},{"id":"H13","ryhma":"suhde","kysymys":"Pankin A lainan korko on 4,8 % ja pankin B 6 %. Montako prosenttia pankin B korko on suurempi kuin pankin A korko? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":25,"vinkki":"Vertailussa jaetaan sillä arvolla, johon verrataan, eli kuin-sanan jälkeisellä.","selitys":"Ero on 6 − 4,8 = 1,2 prosenttiyksikköä. Verrataan pankin A korkoon: 1,2 : 4,8 = 0,25 = 25 %. Vastaus 20 syntyy, jos jaetaan pankin B korolla."},{"id":"H14","ryhma":"suhde","kysymys":"Puolueen kannatus oli 18 %, ja se kasvoi 50 %. Mikä on uusi kannatus? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":27,"vinkki":"Kasvu 50 % tarkoittaa, että kannatus kasvaa puolella itsestään.","selitys":"50 % luvusta 18 on puolet eli 9, joten kannatus kasvoi 9 prosenttiyksikköä: 18 % + 9 = 27 %. Vastaus 68 syntyy, jos prosentit lasketaan yhteen, mutta 50 % on suhteellinen muutos eikä prosenttiyksikköjä."},{"id":"H15","ryhma":"uutiset","kysymys":"Uutinen: ”Korko nousi 2,5 prosentista 3 prosenttiin eli 0,5 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":20,"vinkki":"Uutisen 0,5 on prosenttilukujen erotus. Jaa se alkuperäisellä korolla.","selitys":"3 − 2,5 = 0,5 on prosenttiyksikköjä. Prosentteina nousu on 0,5 : 2,5 = 0,2 = 20 %. Oikea lause: ”Korko nousi 0,5 prosenttiyksikköä eli 20 %.”"},{"id":"H16","ryhma":"uutiset","kysymys":"Uutinen: ”Puolueen kannatus romahti 32 prosentista 24 prosenttiin eli 8 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski? Anna vastaus prosentteina ilman %-merkkiä.","vastaus":25,"vinkki":"Uutisen 8 on erotus eli prosenttiyksikköjä. Jaa se alkuperäisellä kannatuksella 32.","selitys":"32 − 24 = 8 prosenttiyksikköä. 8 : 32 = 0,25 = 25 %. Kannatus laski 8 prosenttiyksikköä eli 25 %."},{"id":"H17","ryhma":"uutiset","tyyppi":"monivalinta","kysymys":"Uutinen: ”Työttömyysaste nousi 6 prosentista 6,3 prosenttiin.”\n\nMikä jatko uutiseen on oikein?","vaihtoehdot":["Työttömyysaste nousi siis 0,3 %.","Työttömyysaste nousi siis 5 prosenttiyksikköä.","Työttömyysaste nousi siis 0,3 prosenttiyksikköä eli 5 %."],"vastaus":2,"vinkki":"Laske erotus ja muutosprosentti. Kumpi sana kuuluu kummallekin luvulle?","selitys":"6,3 − 6 = 0,3 prosenttiyksikköä, ja 0,3 : 6 = 0,05 = 5 %. Kahdessa muussa vaihtoehdossa luku on oikea mutta sana väärä."},{"id":"H18","ryhma":"uutiset","kysymys":"Kyläpuolueen kannatus nousi 5 %:sta 6 %:iin ja Kaupunkipuolueen 20 %:sta 21 %:iin. Molempien muutos lasketaan prosentteina. Montako prosenttiyksikköä suurempi on Kyläpuolueen muutosprosentti kuin Kaupunkipuolueen? Anna vastaus pelkkänä lukuna.","vastaus":15,"vinkki":"Laske ensin kummankin muutosprosentti. Kahden prosenttiluvun erotus on prosenttiyksikköjä.","selitys":"Kyläpuolue: 1 : 5 = 20 %. Kaupunkipuolue: 1 : 20 = 5 %. Molempien kannatus nousi 1 prosenttiyksikön, mutta muutosprosentit ovat 20 % ja 5 %. Niiden erotus on 20 − 5 = 15 prosenttiyksikköä."},{"id":"H19","ryhma":"uutiset","kysymys":"Mainos: ”Säästötilin korko nousee 0,6 prosentista 0,9 prosenttiin – peräti 50 % enemmän korkoa!”\n\nMontako prosenttiyksikköä korko nousee? Anna vastaus pelkkänä lukuna.","vastaus":0.3,"vinkki":"Prosenttiyksiköt ovat erotus.","selitys":"0,9 − 0,6 = 0,3 prosenttiyksikköä. Mainoksen 50 % on myös oikein, koska 0,3 : 0,6 = 0,5 = 50 %. Mainos valitsee suuremmalta kuulostavan luvun, mutta ei valehtele."},{"id":"H20","ryhma":"uutiset","tyyppi":"monivalinta","kysymys":"Puolueen kannatus nousi 4 %:sta 5 %:iin. Toimittaja kirjoitti: ”Kannatus nousi vain prosentin, joten muutos on pieni.”\n\nMikä korjaus on oikea?","vaihtoehdot":["Kannatus nousi 1 prosenttiyksikön eli 25 %, joten lähtötasoon verrattuna muutos on suuri.","Kannatus nousi 1 %, joten muutos on pieni.","Kannatus nousi 5 %, koska uusi kannatus on 5 %."],"vastaus":0,"vinkki":"Laske muutos prosentteina: jaa 1 prosenttiyksikkö alkuperäisellä kannatuksella.","selitys":"5 − 4 = 1 prosenttiyksikkö ja 1 : 4 = 0,25 = 25 %. Neljäsosan kasvu lähtötasosta on suuri muutos, vaikka prosenttiyksikköjä on vain yksi. Luku 5 % on uusi kannatus, ei muutos."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laskin on sallittu. Arvioi ennen laskemista, onko muutos prosentteina pieni vai suuri.\nKirjoita jokaiseen vastaukseen luku ja sen perään sana prosenttiyksikköä tai merkki % (prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin.\nTehtävissä 1–5 riittää vastaus. Tehtävissä 6–18 kirjoita näkyviin lasku, josta vastaus saadaan, esimerkiksi erotus ja jakolasku.\nKun suure laskee, suunta kerrotaan sanalla, esimerkiksi ”laski 22 %”. Voit kirjoittaa luvun myös negatiivisena (−22 % tai −0,3 prosenttiyksikköä), koska etumerkki kertoo saman suunnan.\nPyöristä vain, kun tehtävä niin pyytää.\nTehtävissä 19 ja 20 vastaa lauseilla ja laskuilla.","tehtavat":[{"nro":1,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puolueen kannatus nousi 13 %:sta 17 %:iin. Montako prosenttiyksikköä kannatus nousi?","vastaus":"4 prosenttiyksikköä"},{"nro":2,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Työttömyysaste laski 8,4 %:sta 7,9 %:iin. Montako prosenttiyksikköä työttömyysaste laski?","vastaus":"0,5 prosenttiyksikköä"},{"nro":3,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Asuntolainan korko oli 2,65 %, ja se nousi 0,5 prosenttiyksikköä. Mikä on uusi korko?","vastaus":"3,15 %"},{"nro":4,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puhelimen akun varaus oli 91 %. Videon katselun aikana varaus laski 38 prosenttiyksikköä. Mikä on akun varaus nyt?","vastaus":"53 %"},{"nro":5,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Itäkylässä äänestysprosentti oli 61,4 % ja Länsikylässä 68,9 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli Länsikylässä?","vastaus":"7,5 prosenttiyksikköä"},{"nro":6,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kouluruokaan tyytyväisten oppilaiden osuus nousi 20 %:sta 23 %:iin. Montako prosenttiyksikköä osuus nousi?","vastaus":"3 prosenttiyksikköä"},{"nro":7,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Sama tilanne kuin tehtävässä 6: tyytyväisten osuus nousi 20 %:sta 23 %:iin. Montako prosenttia osuus nousi?","vastaus":"15 %"},{"nro":8,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Ilmankosteus laski 70 %:sta 56 %:iin. Montako prosenttia kosteus laski?","vastaus":"20 %"},{"nro":9,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Työttömyysaste laski 9,6 %:sta 8,8 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina.","vastaus":"noin 8 %"},{"nro":10,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Säästötilin korko nousi 1,2 %:sta 1,8 %:iin. Montako prosenttia korko nousi?","vastaus":"50 %"},{"nro":11,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 24 %, ja se nousi 6 prosenttiyksikköä. Montako prosenttia kannatus nousi?","vastaus":"25 %"},{"nro":12,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kotipankin lainan korko on 3,2 % ja Verkkopankin 4 %. Montako prosenttia Verkkopankin korko on suurempi kuin Kotipankin korko?","vastaus":"25 %"},{"nro":13,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 16 %, ja se kasvoi 25 %. Mikä on uusi kannatus?","vastaus":"20 %"},{"nro":14,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Korko nousi 1,6 prosentista 2 prosenttiin eli 0,4 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi?","vastaus":"25 %"},{"nro":15,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Puolueen kannatus laski 28 prosentista 21 prosenttiin eli 7 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski?","vastaus":"25 %"},{"nro":16,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Ilmankosteus nousi 40 %:sta 50 %:iin. Kerro muutoksen suuruus kahdella eri tavalla. Kirjoita kumpaankin luku ja oikea sana tai merkki.","vastaus":"10 prosenttiyksikköä ja 25 %"},{"nro":17,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Kyläpuolueen kannatus nousi 4 %:sta 6 %:iin ja Kaupunkipuolueen 25 %:sta 27 %:iin. Kummankin kannatus nousi 2 prosenttiyksikköä. Montako prosenttia kummankin puolueen kannatus nousi?","vastaus":"Kyläpuolue 50 %, Kaupunkipuolue 8 %"},{"nro":18,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Ilmankosteus laski 75 prosentista 60 prosenttiin eli 25 prosenttia.”\n\nMontako prosenttia kosteus todellisuudessa laski?","vastaus":"20 %"},{"nro":19,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Uutinen: ”Nuorisotyöttömyys nousi 14 prosentista 21 prosenttiin eli 7 prosenttia.”\n\nSelitä, mikä uutisen väitteessä on väärin, ja kirjoita lause uudelleen niin, että muutos kerrotaan oikein sekä prosenttiyksikköinä että prosentteina.","vastaus":"Malliesimerkki: 21 − 14 = 7 on prosenttilukujen erotus, joten se on prosenttiyksikköjä eikä prosentteja. Prosentteina muutos lasketaan alkuperäisestä arvosta: 7 : 14 = 0,5 = 50 %. Oikein: ”Nuorisotyöttömyys nousi 7 prosenttiyksikköä eli 50 %.”"},{"nro":20,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Lainan korko nousi 1,5 %:sta 3 %:iin. Pankin tiedotteessa lukee: ”Korko nousi vain 1,5 prosenttiyksikköä.” Lainanottaja sanoo: ”Korkoni nousi 100 %.” Selitä, miksi molemmat ovat oikeassa, vaikka luvut ovat eri suuret.","vastaus":"Malliesimerkki: Pankki kertoo prosenttilukujen erotuksen: 3 − 1,5 = 1,5 prosenttiyksikköä. Lainanottaja vertaa muutosta alkuperäiseen korkoon: 1,5 : 1,5 = 1 = 100 %. Korko kaksinkertaistui, joten se nousi 100 %. Luvut kuvaavat samaa muutosta kahdella eri tavalla."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laskin on sallittu. Arvioi ennen laskemista, onko muutos prosentteina pieni vai suuri.\nKirjoita jokaiseen vastaukseen luku ja sen perään sana prosenttiyksikköä tai merkki % (prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin.\nTehtävissä 1–5 riittää vastaus. Tehtävissä 6–18 kirjoita näkyviin lasku, josta vastaus saadaan, esimerkiksi erotus ja jakolasku.\nKun suure laskee, suunta kerrotaan sanalla, esimerkiksi ”laski 22 %”. Voit kirjoittaa luvun myös negatiivisena (−22 % tai −0,3 prosenttiyksikköä), koska etumerkki kertoo saman suunnan.\nPyöristä vain, kun tehtävä niin pyytää.\nTehtävissä 19 ja 20 vastaa lauseilla ja laskuilla.","tehtavat":[{"nro":1,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puolueen kannatus nousi 21 %:sta 26 %:iin. Montako prosenttiyksikköä kannatus nousi?","vastaus":"5 prosenttiyksikköä"},{"nro":2,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Työttömyysaste laski 10,2 %:sta 9,4 %:iin. Montako prosenttiyksikköä työttömyysaste laski?","vastaus":"0,8 prosenttiyksikköä"},{"nro":3,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Asuntolainan korko oli 4,1 %, ja se nousi 0,35 prosenttiyksikköä. Mikä on uusi korko?","vastaus":"4,45 %"},{"nro":4,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puhelimen akun varaus oli 76 %. Videon katselun aikana varaus laski 29 prosenttiyksikköä. Mikä on akun varaus nyt?","vastaus":"47 %"},{"nro":5,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Itäkylässä äänestysprosentti oli 54,8 % ja Länsikylässä 63,1 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli Länsikylässä?","vastaus":"8,3 prosenttiyksikköä"},{"nro":6,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kouluruokaan tyytyväisten oppilaiden osuus nousi 25 %:sta 29 %:iin. Montako prosenttiyksikköä osuus nousi?","vastaus":"4 prosenttiyksikköä"},{"nro":7,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Sama tilanne kuin tehtävässä 6: tyytyväisten osuus nousi 25 %:sta 29 %:iin. Montako prosenttia osuus nousi?","vastaus":"16 %"},{"nro":8,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Ilmankosteus laski 64 %:sta 48 %:iin. Montako prosenttia kosteus laski?","vastaus":"25 %"},{"nro":9,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Työttömyysaste laski 7,3 %:sta 6,5 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina.","vastaus":"noin 11 %"},{"nro":10,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Säästötilin korko nousi 0,5 %:sta 0,8 %:iin. Montako prosenttia korko nousi?","vastaus":"60 %"},{"nro":11,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 30 %, ja se nousi 6 prosenttiyksikköä. Montako prosenttia kannatus nousi?","vastaus":"20 %"},{"nro":12,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kotipankin lainan korko on 4,5 % ja Verkkopankin 5,4 %. Montako prosenttia Verkkopankin korko on suurempi kuin Kotipankin korko?","vastaus":"20 %"},{"nro":13,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 24 %, ja se kasvoi 25 %. Mikä on uusi kannatus?","vastaus":"30 %"},{"nro":14,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Korko nousi 3 prosentista 3,6 prosenttiin eli 0,6 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi?","vastaus":"20 %"},{"nro":15,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Puolueen kannatus laski 35 prosentista 28 prosenttiin eli 7 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski?","vastaus":"20 %"},{"nro":16,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Ilmankosteus nousi 45 %:sta 54 %:iin. Kerro muutoksen suuruus kahdella eri tavalla. Kirjoita kumpaankin luku ja oikea sana tai merkki.","vastaus":"9 prosenttiyksikköä ja 20 %"},{"nro":17,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Kyläpuolueen kannatus nousi 5 %:sta 8 %:iin ja Kaupunkipuolueen 30 %:sta 33 %:iin. Kummankin kannatus nousi 3 prosenttiyksikköä. Montako prosenttia kummankin puolueen kannatus nousi?","vastaus":"Kyläpuolue 60 %, Kaupunkipuolue 10 %"},{"nro":18,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Ilmankosteus laski 80 prosentista 68 prosenttiin eli 18 prosenttia.”\n\nMontako prosenttia kosteus todellisuudessa laski?","vastaus":"15 %"},{"nro":19,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Uutinen: ”Puolueen kannatus nousi 24 prosentista 30 prosenttiin eli 6 prosenttia.”\n\nSelitä, mikä uutisen väitteessä on väärin, ja kirjoita lause uudelleen niin, että muutos kerrotaan oikein sekä prosenttiyksikköinä että prosentteina.","vastaus":"Malliesimerkki: 30 − 24 = 6 on prosenttilukujen erotus, joten se on prosenttiyksikköjä eikä prosentteja. Prosentteina muutos lasketaan alkuperäisestä arvosta: 6 : 24 = 0,25 = 25 %. Oikein: ”Puolueen kannatus nousi 6 prosenttiyksikköä eli 25 %.”"},{"nro":20,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Lainan korko nousi 0,9 %:sta 1,8 %:iin. Pankin tiedotteessa lukee: ”Korko nousi vain 0,9 prosenttiyksikköä.” Lainanottaja sanoo: ”Korkoni nousi 100 %.” Selitä, miksi molemmat ovat oikeassa, vaikka luvut ovat eri suuret.","vastaus":"Malliesimerkki: Pankki kertoo prosenttilukujen erotuksen: 1,8 − 0,9 = 0,9 prosenttiyksikköä. Lainanottaja vertaa muutosta alkuperäiseen korkoon: 0,9 : 0,9 = 1 = 100 %. Korko kaksinkertaistui, joten se nousi 100 %. Luvut kuvaavat samaa muutosta kahdella eri tavalla."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laskin on sallittu. Arvioi ennen laskemista, onko muutos prosentteina pieni vai suuri.\nKirjoita jokaiseen vastaukseen luku ja sen perään sana prosenttiyksikköä tai merkki % (prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin.\nTehtävissä 1–5 riittää vastaus. Tehtävissä 6–18 kirjoita näkyviin lasku, josta vastaus saadaan, esimerkiksi erotus ja jakolasku.\nKun suure laskee, suunta kerrotaan sanalla, esimerkiksi ”laski 22 %”. Voit kirjoittaa luvun myös negatiivisena (−22 % tai −0,3 prosenttiyksikköä), koska etumerkki kertoo saman suunnan.\nPyöristä vain, kun tehtävä niin pyytää.\nTehtävissä 19 ja 20 vastaa lauseilla ja laskuilla.","tehtavat":[{"nro":1,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puolueen kannatus nousi 9 %:sta 15 %:iin. Montako prosenttiyksikköä kannatus nousi?","vastaus":"6 prosenttiyksikköä"},{"nro":2,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Työttömyysaste laski 6,8 %:sta 6,1 %:iin. Montako prosenttiyksikköä työttömyysaste laski?","vastaus":"0,7 prosenttiyksikköä"},{"nro":3,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Asuntolainan korko oli 1,95 %, ja se nousi 0,6 prosenttiyksikköä. Mikä on uusi korko?","vastaus":"2,55 %"},{"nro":4,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puhelimen akun varaus oli 88 %. Videon katselun aikana varaus laski 45 prosenttiyksikköä. Mikä on akun varaus nyt?","vastaus":"43 %"},{"nro":5,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Itäkylässä äänestysprosentti oli 47,6 % ja Länsikylässä 59,2 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli Länsikylässä?","vastaus":"11,6 prosenttiyksikköä"},{"nro":6,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kouluruokaan tyytyväisten oppilaiden osuus nousi 15 %:sta 21 %:iin. Montako prosenttiyksikköä osuus nousi?","vastaus":"6 prosenttiyksikköä"},{"nro":7,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Sama tilanne kuin tehtävässä 6: tyytyväisten osuus nousi 15 %:sta 21 %:iin. Montako prosenttia osuus nousi?","vastaus":"40 %"},{"nro":8,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Ilmankosteus laski 90 %:sta 72 %:iin. Montako prosenttia kosteus laski?","vastaus":"20 %"},{"nro":9,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Työttömyysaste laski 11,2 %:sta 10,1 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina.","vastaus":"noin 10 %"},{"nro":10,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Säästötilin korko nousi 1,5 %:sta 2,1 %:iin. Montako prosenttia korko nousi?","vastaus":"40 %"},{"nro":11,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 8 %, ja se nousi 2 prosenttiyksikköä. Montako prosenttia kannatus nousi?","vastaus":"25 %"},{"nro":12,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kotipankin lainan korko on 6 % ja Verkkopankin 7,5 %. Montako prosenttia Verkkopankin korko on suurempi kuin Kotipankin korko?","vastaus":"25 %"},{"nro":13,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 28 %, ja se kasvoi 25 %. Mikä on uusi kannatus?","vastaus":"35 %"},{"nro":14,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Korko nousi 2,4 prosentista 3 prosenttiin eli 0,6 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi?","vastaus":"25 %"},{"nro":15,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Puolueen kannatus laski 36 prosentista 27 prosenttiin eli 9 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski?","vastaus":"25 %"},{"nro":16,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Ilmankosteus nousi 60 %:sta 75 %:iin. Kerro muutoksen suuruus kahdella eri tavalla. Kirjoita kumpaankin luku ja oikea sana tai merkki.","vastaus":"15 prosenttiyksikköä ja 25 %"},{"nro":17,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Kyläpuolueen kannatus nousi 6 %:sta 9 %:iin ja Kaupunkipuolueen 60 %:sta 63 %:iin. Kummankin kannatus nousi 3 prosenttiyksikköä. Montako prosenttia kummankin puolueen kannatus nousi?","vastaus":"Kyläpuolue 50 %, Kaupunkipuolue 5 %"},{"nro":18,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Ilmankosteus laski 70 prosentista 42 prosenttiin eli 67 prosenttia.”\n\nMontako prosenttia kosteus todellisuudessa laski?","vastaus":"40 %"},{"nro":19,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Uutinen: ”Äänestysprosentti nousi 44 prosentista 55 prosenttiin eli 11 prosenttia.”\n\nSelitä, mikä uutisen väitteessä on väärin, ja kirjoita lause uudelleen niin, että muutos kerrotaan oikein sekä prosenttiyksikköinä että prosentteina.","vastaus":"Malliesimerkki: 55 − 44 = 11 on prosenttilukujen erotus, joten se on prosenttiyksikköjä eikä prosentteja. Prosentteina muutos lasketaan alkuperäisestä arvosta: 11 : 44 = 0,25 = 25 %. Oikein: ”Äänestysprosentti nousi 11 prosenttiyksikköä eli 25 %.”"},{"nro":20,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Lainan korko nousi 2,5 %:sta 5 %:iin. Pankin tiedotteessa lukee: ”Korko nousi vain 2,5 prosenttiyksikköä.” Lainanottaja sanoo: ”Korkoni nousi 100 %.” Selitä, miksi molemmat ovat oikeassa, vaikka luvut ovat eri suuret.","vastaus":"Malliesimerkki: Pankki kertoo prosenttilukujen erotuksen: 5 − 2,5 = 2,5 prosenttiyksikköä. Lainanottaja vertaa muutosta alkuperäiseen korkoon: 2,5 : 2,5 = 1 = 100 %. Korko kaksinkertaistui, joten se nousi 100 %. Luvut kuvaavat samaa muutosta kahdella eri tavalla."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laskin on sallittu. Arvioi ennen laskemista, onko muutos prosentteina pieni vai suuri.\nKirjoita jokaiseen vastaukseen luku ja sen perään sana prosenttiyksikköä tai merkki % (prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin.\nTehtävissä 1–5 riittää vastaus. Tehtävissä 6–18 kirjoita näkyviin lasku, josta vastaus saadaan, esimerkiksi erotus ja jakolasku.\nKun suure laskee, suunta kerrotaan sanalla, esimerkiksi ”laski 22 %”. Voit kirjoittaa luvun myös negatiivisena (−22 % tai −0,3 prosenttiyksikköä), koska etumerkki kertoo saman suunnan.\nPyöristä vain, kun tehtävä niin pyytää.\nTehtävissä 19 ja 20 vastaa lauseilla ja laskuilla.","tehtavat":[{"nro":1,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puolueen kannatus nousi 17 %:sta 20 %:iin. Montako prosenttiyksikköä kannatus nousi?","vastaus":"3 prosenttiyksikköä"},{"nro":2,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Työttömyysaste laski 11,5 %:sta 10,9 %:iin. Montako prosenttiyksikköä työttömyysaste laski?","vastaus":"0,6 prosenttiyksikköä"},{"nro":3,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Asuntolainan korko oli 3,4 %, ja se nousi 0,25 prosenttiyksikköä. Mikä on uusi korko?","vastaus":"3,65 %"},{"nro":4,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puhelimen akun varaus oli 69 %. Videon katselun aikana varaus laski 24 prosenttiyksikköä. Mikä on akun varaus nyt?","vastaus":"45 %"},{"nro":5,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Itäkylässä äänestysprosentti oli 66,3 % ja Länsikylässä 71,8 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli Länsikylässä?","vastaus":"5,5 prosenttiyksikköä"},{"nro":6,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kouluruokaan tyytyväisten oppilaiden osuus nousi 30 %:sta 36 %:iin. Montako prosenttiyksikköä osuus nousi?","vastaus":"6 prosenttiyksikköä"},{"nro":7,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Sama tilanne kuin tehtävässä 6: tyytyväisten osuus nousi 30 %:sta 36 %:iin. Montako prosenttia osuus nousi?","vastaus":"20 %"},{"nro":8,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Ilmankosteus laski 40 %:sta 34 %:iin. Montako prosenttia kosteus laski?","vastaus":"15 %"},{"nro":9,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Työttömyysaste laski 8,9 %:sta 7,6 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina.","vastaus":"noin 15 %"},{"nro":10,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Säästötilin korko nousi 0,8 %:sta 1,4 %:iin. Montako prosenttia korko nousi?","vastaus":"75 %"},{"nro":11,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 45 %, ja se nousi 9 prosenttiyksikköä. Montako prosenttia kannatus nousi?","vastaus":"20 %"},{"nro":12,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kotipankin lainan korko on 5 % ja Verkkopankin 6,5 %. Montako prosenttia Verkkopankin korko on suurempi kuin Kotipankin korko?","vastaus":"30 %"},{"nro":13,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 36 %, ja se kasvoi 25 %. Mikä on uusi kannatus?","vastaus":"45 %"},{"nro":14,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Korko nousi 3,5 prosentista 4,2 prosenttiin eli 0,7 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi?","vastaus":"20 %"},{"nro":15,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Puolueen kannatus laski 15 prosentista 12 prosenttiin eli 3 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski?","vastaus":"20 %"},{"nro":16,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Ilmankosteus nousi 50 %:sta 65 %:iin. Kerro muutoksen suuruus kahdella eri tavalla. Kirjoita kumpaankin luku ja oikea sana tai merkki.","vastaus":"15 prosenttiyksikköä ja 30 %"},{"nro":17,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Kyläpuolueen kannatus nousi 8 %:sta 10 %:iin ja Kaupunkipuolueen 40 %:sta 42 %:iin. Kummankin kannatus nousi 2 prosenttiyksikköä. Montako prosenttia kummankin puolueen kannatus nousi?","vastaus":"Kyläpuolue 25 %, Kaupunkipuolue 5 %"},{"nro":18,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Ilmankosteus laski 52 prosentista 39 prosenttiin eli 33 prosenttia.”\n\nMontako prosenttia kosteus todellisuudessa laski?","vastaus":"25 %"},{"nro":19,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Uutinen: ”Asuntolainan korko nousi 2,2 prosentista 3,3 prosenttiin eli 1,1 prosenttia.”\n\nSelitä, mikä uutisen väitteessä on väärin, ja kirjoita lause uudelleen niin, että muutos kerrotaan oikein sekä prosenttiyksikköinä että prosentteina.","vastaus":"Malliesimerkki: 3,3 − 2,2 = 1,1 on prosenttilukujen erotus, joten se on prosenttiyksikköjä eikä prosentteja. Prosentteina muutos lasketaan alkuperäisestä arvosta: 1,1 : 2,2 = 0,5 = 50 %. Oikein: ”Asuntolainan korko nousi 1,1 prosenttiyksikköä eli 50 %.”"},{"nro":20,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Lainan korko nousi 1,2 %:sta 2,4 %:iin. Pankin tiedotteessa lukee: ”Korko nousi vain 1,2 prosenttiyksikköä.” Lainanottaja sanoo: ”Korkoni nousi 100 %.” Selitä, miksi molemmat ovat oikeassa, vaikka luvut ovat eri suuret.","vastaus":"Malliesimerkki: Pankki kertoo prosenttilukujen erotuksen: 2,4 − 1,2 = 1,2 prosenttiyksikköä. Lainanottaja vertaa muutosta alkuperäiseen korkoon: 1,2 : 1,2 = 1 = 100 %. Korko kaksinkertaistui, joten se nousi 100 %. Luvut kuvaavat samaa muutosta kahdella eri tavalla."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laskin on sallittu. Arvioi ennen laskemista, onko muutos prosentteina pieni vai suuri.\nKirjoita jokaiseen vastaukseen luku ja sen perään sana prosenttiyksikköä tai merkki % (prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin.\nTehtävissä 1–5 riittää vastaus. Tehtävissä 6–18 kirjoita näkyviin lasku, josta vastaus saadaan, esimerkiksi erotus ja jakolasku.\nKun suure laskee, suunta kerrotaan sanalla, esimerkiksi ”laski 22 %”. Voit kirjoittaa luvun myös negatiivisena (−22 % tai −0,3 prosenttiyksikköä), koska etumerkki kertoo saman suunnan.\nPyöristä vain, kun tehtävä niin pyytää.\nTehtävissä 19 ja 20 vastaa lauseilla ja laskuilla.","tehtavat":[{"nro":1,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puolueen kannatus nousi 26 %:sta 33 %:iin. Montako prosenttiyksikköä kannatus nousi?","vastaus":"7 prosenttiyksikköä"},{"nro":2,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Työttömyysaste laski 7,7 %:sta 6,8 %:iin. Montako prosenttiyksikköä työttömyysaste laski?","vastaus":"0,9 prosenttiyksikköä"},{"nro":3,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Asuntolainan korko oli 2,35 %, ja se nousi 0,45 prosenttiyksikköä. Mikä on uusi korko?","vastaus":"2,8 %"},{"nro":4,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Puhelimen akun varaus oli 95 %. Videon katselun aikana varaus laski 57 prosenttiyksikköä. Mikä on akun varaus nyt?","vastaus":"38 %"},{"nro":5,"ryhma":"erotus","tyyppi":"lasku","kysymys":"Itäkylässä äänestysprosentti oli 52,7 % ja Länsikylässä 64,5 %. Montako prosenttiyksikköä suurempi äänestysprosentti oli Länsikylässä?","vastaus":"11,8 prosenttiyksikköä"},{"nro":6,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kouluruokaan tyytyväisten oppilaiden osuus nousi 16 %:sta 20 %:iin. Montako prosenttiyksikköä osuus nousi?","vastaus":"4 prosenttiyksikköä"},{"nro":7,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Sama tilanne kuin tehtävässä 6: tyytyväisten osuus nousi 16 %:sta 20 %:iin. Montako prosenttia osuus nousi?","vastaus":"25 %"},{"nro":8,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Ilmankosteus laski 50 %:sta 40 %:iin. Montako prosenttia kosteus laski?","vastaus":"20 %"},{"nro":9,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Työttömyysaste laski 5,8 %:sta 5,1 %:iin. Montako prosenttia työttömyysaste laski? Anna vastaus kokonaisina prosentteina.","vastaus":"noin 12 %"},{"nro":10,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Säästötilin korko nousi 2,5 %:sta 3,5 %:iin. Montako prosenttia korko nousi?","vastaus":"40 %"},{"nro":11,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 28 %, ja se nousi 7 prosenttiyksikköä. Montako prosenttia kannatus nousi?","vastaus":"25 %"},{"nro":12,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Kotipankin lainan korko on 1,6 % ja Verkkopankin 2 %. Montako prosenttia Verkkopankin korko on suurempi kuin Kotipankin korko?","vastaus":"25 %"},{"nro":13,"ryhma":"suhde","tyyppi":"lasku","kysymys":"Puolueen kannatus oli 52 %, ja se kasvoi 25 %. Mikä on uusi kannatus?","vastaus":"65 %"},{"nro":14,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Korko nousi 1,2 prosentista 1,5 prosenttiin eli 0,3 prosenttia.”\n\nMontako prosenttia korko todellisuudessa nousi?","vastaus":"25 %"},{"nro":15,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Puolueen kannatus laski 45 prosentista 36 prosenttiin eli 9 prosenttia.”\n\nMontako prosenttia kannatus todellisuudessa laski?","vastaus":"20 %"},{"nro":16,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Ilmankosteus nousi 30 %:sta 39 %:iin. Kerro muutoksen suuruus kahdella eri tavalla. Kirjoita kumpaankin luku ja oikea sana tai merkki.","vastaus":"9 prosenttiyksikköä ja 30 %"},{"nro":17,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Kyläpuolueen kannatus nousi 10 %:sta 14 %:iin ja Kaupunkipuolueen 50 %:sta 54 %:iin. Kummankin kannatus nousi 4 prosenttiyksikköä. Montako prosenttia kummankin puolueen kannatus nousi?","vastaus":"Kyläpuolue 40 %, Kaupunkipuolue 8 %"},{"nro":18,"ryhma":"uutiset","tyyppi":"lasku","kysymys":"Uutinen: ”Ilmankosteus laski 90 prosentista 63 prosenttiin eli 43 prosenttia.”\n\nMontako prosenttia kosteus todellisuudessa laski?","vastaus":"30 %"},{"nro":19,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Uutinen: ”Ilmankosteus nousi 26 prosentista 39 prosenttiin eli 13 prosenttia.”\n\nSelitä, mikä uutisen väitteessä on väärin, ja kirjoita lause uudelleen niin, että muutos kerrotaan oikein sekä prosenttiyksikköinä että prosentteina.","vastaus":"Malliesimerkki: 39 − 26 = 13 on prosenttilukujen erotus, joten se on prosenttiyksikköjä eikä prosentteja. Prosentteina muutos lasketaan alkuperäisestä arvosta: 13 : 26 = 0,5 = 50 %. Oikein: ”Ilmankosteus nousi 13 prosenttiyksikköä eli 50 %.”"},{"nro":20,"ryhma":"uutiset","tyyppi":"sanallinen","kysymys":"Lainan korko nousi 3,5 %:sta 7 %:iin. Pankin tiedotteessa lukee: ”Korko nousi vain 3,5 prosenttiyksikköä.” Lainanottaja sanoo: ”Korkoni nousi 100 %.” Selitä, miksi molemmat ovat oikeassa, vaikka luvut ovat eri suuret.","vastaus":"Malliesimerkki: Pankki kertoo prosenttilukujen erotuksen: 7 − 3,5 = 3,5 prosenttiyksikköä. Lainanottaja vertaa muutosta alkuperäiseen korkoon: 3,5 : 3,5 = 1 = 100 %. Korko kaksinkertaistui, joten se nousi 100 %. Luvut kuvaavat samaa muutosta kahdella eri tavalla."}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":"uutiset"},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Prosenttiyksikkö on prosenttilukujen erotus. Prosentti on muutos jaettuna alkuperäisellä arvolla. Sama muutos on siksi kaksi eri lukua, ja kumpikin tarvitsee oman sanansa.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: aloitus","sisalto":"Kirjoita taululle johdannon kaksi otsikkoa: ”kannatus nousi prosenttiyksikön” ja ”kannatus kasvoi 12,5 prosenttia”. Kerro, että kannatus nousi 8 prosentista 9 prosenttiin, ja kysy, kumpi otsikko valehtelee. Anna parien perustella hetki. Älä vielä paljasta, että molemmat ovat oikeassa."},{"aika":"15 min","otsikko":"Tunti 1: ydinasia","sisalto":"Laske taululla 9 − 8 = 1 prosenttiyksikkö ja 1 : 8 = 12,5 %. Vertaa hinnan muutosprosenttiin: 8 € → 9 € on sama jakolasku. Käy läpi saannon esimerkki 75 % → 45 % (30 prosenttiyksikköä, 40 %) ja korosta, että jakaja on alkuperäinen arvo myös laskevassa muutoksessa. Täytä yhdessä taulukon rivejä ja pysähdy viimeiseen: kun lähtötaso on 100 %, luvut ovat samat. Kysy, miksi."},{"aika":"20 min","otsikko":"Tunti 1: harjoittelu","sisalto":"Harjoitukset H01–H14 laskimen kanssa. Pysähdy tehtäviin H08, H09, H10 ja H14: vastaukset 3 ja 0,4 kertovat ansasta 1 (erotus ilmoitettu prosentteina), 25 ansasta 3 ja 68 siitä, että suhteellinen muutos on lisätty prosenttiyksikköinä. H10 näyttää myös ansan 4: 0,4 prosenttiyksikköä on 50 %. Tehtävien määrä ei ole tavoite."},{"aika":"5 min","otsikko":"Tunti 1: lopetus","sisalto":"Palaa aloituksen otsikoihin. Pyydä pareja kirjoittamaan yksi lause, jossa kannatuksen muutos kerrotaan molemmilla sanoilla (”nousi 1 prosenttiyksikön eli 12,5 %”). Kuuntele muutama lause ja tarkista, että sana on oikean luvun perässä."},{"aika":"10 min","otsikko":"Tunti 2: aloitus","sisalto":"Käy läpi ansa 4: korko 0,5 % → 1 % on vain puoli prosenttiyksikköä mutta 100 %. Näytä opetustekstin pankkiesimerkki, jossa sama koron muutos on ”vain 0,2 prosenttiyksikköä” ja ”50 % enemmän korkoa”, ja kysy, kumpi lause on totta. Molemmat ovat, mutta kumpikin kertoo vain puolet."},{"aika":"25 min","otsikko":"Tunti 2: uutiset","sisalto":"Harjoitukset H15–H20. Pyydä jokaisen uutistehtävän jälkeen korjattu lause, jossa kumpikin sana on oikean luvun perässä. Pysähdy tehtävään H18: vastaus 15 % kertoo, että kahden muutosprosentin erotusta ei tunnistettu prosenttiyksiköiksi. H20:n toinen vaihtoehto kertoo ansoista 1 ja 4."},{"aika":"10 min","otsikko":"Tunti 2: lopetus","sisalto":"Jokainen kirjoittaa omin sanoin, mitä eroa on prosenttiyksiköllä ja prosentilla, ja yhden esimerkin kummastakin. Hyvä vastaus kertoo, että prosenttiyksikkö on prosenttilukujen erotus ja prosentti muutos jaettuna alkuperäisellä arvolla. Palaa seuraavalla tunnilla vastauksiin, joissa sanat ovat menneet ristiin."}],"tarvikkeet":"Laskimet. Halutessasi kaksi lehtileikettä tai uutiskuvaa, joissa kerrotaan kannatuksen, koron tai työttömyysasteen muutos."},"opettajalle":{"kesto":"Kaksi oppituntia opetukseen ja harjoitteluun (ensimmäisellä prosenttiyksikkö ja muutos prosentteina, toisella ansa 4 ja uutiset) ja kolmas kertaukseen ja kokeeseen.","huomiot":["Mittaritehtävät: 15, 16 ja 19 — ne mittaavat suoraan osaa_kun-kriteeriä. Tehtävä 15 vaatii tunnistamaan, että uutisen luku on prosenttiyksikköjä, ja laskemaan laskevan muutoksen prosentteina alkuperäisellä arvolla: vaaditaan oikea luku %-merkin kanssa ja näkyvä jakolasku, jossa jakajana on alkuperäinen arvo (kokeessa A 7 : 28 = 0,25 = 25 %). Uutisen luvun kopio tai uudella arvolla jaettu tulos on väärin. Tehtävä 16 mittaa paria ja sanan valintaa: oppilas valitsee itse sanat, ja vaaditaan molemmat luvut oikean sanan kanssa (kokeessa A 10 prosenttiyksikköä ja 25 %). Jos sanat ovat väärin päin tai toinen muoto puuttuu, tehtävä on väärin. Tehtävä 19 mittaa uutislauseen korjaamista: vaaditaan, että erotus nimetään prosenttiyksiköiksi, prosenttimuutos lasketaan alkuperäisellä arvolla ja korjattu lause sisältää molemmat luvut oikeilla sanoilla.","Taidon ydin on sana luvun perässä. Kaikissa koetehtävissä vastaus on oikein vain, kun luku on oikea ja sen perässä on oikea sana: prosenttiyksikköä (myös lyhenne %-yks. tai %-yksikköä hyväksytään) tai % (myös prosenttia). Oikea luku ilman sanaa tai väärällä sanalla on väärin, ja koepaperin ohje kertoo tämän. Tehtävissä 3, 4 ja 13 vastaus on uusi prosenttiluku, joten sen perään kuuluu %. Etumerkki (linjaus 5.10.2026, sama kuin taidossa MAT8-PRO-04; opettaja voi muuttaa): laskeva muutos ilmaistaan sanallisesti (esimerkiksi ”laski 0,5 prosenttiyksikköä”), ja oikea luku negatiivisena (esimerkiksi −0,5 prosenttiyksikköä tai −20 %) hyväksytään, kun sana tai etumerkki kertoo suunnan. Koepaperin johdanto kertoo tämän oppilaalle. Sana prosenttiyksikköä tai % vaaditaan silti.","Tehtävissä 6–18 vaaditaan näkyvä lasku: erotus ja tarvittaessa jakolasku, jonka jakaja näkyy. Pelkkä oikea vastaus ilman laskua on väärin, koska ohje pyytää laskun. Tehtävissä 1–5 pelkkä vastaus sanan kanssa riittää.","Tehtävä 7 (pari tehtävän 6 kanssa): kokeessa A vastaus 3 % kertoo ansasta 1 (erotus prosentteina) ja vastaus noin 13 % (3 : 23) ansasta 2 (jaettu uudella arvolla). Oikea vastaus on 15 %.","Tehtävä 8 ja 18 mittaavat ansaa 3. Kokeessa A tehtävän 8 vastaus 25 % (14 : 56) kertoo jakamisesta uudella, pienemmällä arvolla, ja vastaus 14 % siitä, että erotus on ilmoitettu prosentteina. Tehtävässä 18 uutisen luku on laskettu ansan 3 tavalla eli jakamalla muutos uudella arvolla (kokeessa A 15 : 60 = 25 %, oikea vastaus 15 : 75 = 20 %). Suhde vaihtelee versioittain. Jos oppilas vastaa uutisen luvun, hän on hyväksynyt sen tarkistamatta.","Tehtävä 9: kokeessa A oikea vastaus on noin 8 % (0,8 : 9,6 ≈ 0,083). Vastaus noin 9 % kertoo jakamisesta uudella arvolla (0,8 : 8,8 ≈ 0,091) ja vastaus 0,8 % ansasta 1. Kokonaisiksi pyöristetty vastaus vaaditaan, mutta myös tarkempi oikein pyöristetty arvo (A: 8,3 %) hyväksytään, koska tehtävä ei mittaa pyöristämistä. Väärin pyöristetty arvo on väärin. Merkintä ≈ tai sana noin ei vaikuta arvioon.","Tehtävät 10 ja 17 mittaavat ansaa 4: pieni prosenttiyksikkömäärä on prosentteina suuri muutos (kokeen A tehtävässä 10 0,6 prosenttiyksikköä on 50 %). Tehtävän 10 vastaus 0,6 % on ansan 1 virhe (erotus ilmoitettu prosentteina); oikea vastaus on 50 %. Tehtävässä 17 kummankin puolueen kannatus nousee yhtä monta prosenttiyksikköä, mutta prosentteina muutokset ovat hyvin eri suuret (A: 50 % ja 8 %). Vastaus ”2 % molemmilla” kertoo ansoista 1 ja 4. Molemmat luvut vaaditaan.","Tehtävä 12 on vertailuprosentti (MAT8-PRO-04): jaetaan kuin-sanan jälkeisellä arvolla eli Kotipankin korolla. Kokeessa A vastaus 20 % (0,8 : 4) kertoo väärästä perusarvosta ja vastaus 0,8 % ansasta 1.","Tehtävä 13: kokeessa A vastaus 41 % kertoo, että kannatukseen on lisätty 25 prosenttiyksikköä, eli suhteellinen muutos on tulkittu prosenttiyksiköiksi. Kasvu 25 % lasketaan neljäsosana lähtöarvosta (16 : 4 = 4), mikä on 6. luokan prosenttiosuuden laskua (MAT6-MUR-08). Prosenttikerrointa (MAT8-PRO-03) ei tarvita, mutta 1,25 · 16 on myös oikein.","Tehtävät 14 ja 15: uutisen luku on prosenttiyksiköt, jotka on ilmoitettu prosentteina (ansa 1). Kokeessa A tehtävän 14 vastaus 0,4 % on uutisen kopio ja vastaus 20 % (0,4 : 2) ansa 2; tehtävän 15 vastaus 7 % on uutisen kopio ja noin 33 % (7 : 21) ansa 3.","Tehtävä 19 on sanallinen. Hyväksytään mikä tahansa vastaus, jossa todetaan, että uutisen luku on prosenttilukujen erotus eli prosenttiyksikköjä, lasketaan prosenttimuutos alkuperäisellä arvolla ja kirjoitetaan oikea lause, jossa kumpikin luku on oikean sanan kanssa (kokeessa A ”nousi 7 prosenttiyksikköä eli 50 %”). Korjattu lause voi olla kahtena lauseena. Pelkkä ”pitäisi olla prosenttiyksikköä” ilman prosenttimuutosta ei riitä, eikä pelkkä prosenttimuutos ilman virheen nimeämistä.","Tehtävä 20 on sanallinen. Hyväksytään selitys, jossa todetaan, että pankin luku on prosenttilukujen erotus (prosenttiyksikköjä) ja lainanottajan luku muutos verrattuna alkuperäiseen korkoon, ja jossa 100 % perustellaan laskulla tai sillä, että korko kaksinkertaistui. Pelkkä ”molemmat ovat eri asioita” ei riitä.","Rajaus: taidossa on yksi muutos kerrallaan. Peräkkäiset muutokset (MAT8-PRO-07), promille ja indeksi (9. luokka) on rajattu pois. Prosenttiarvo ja prosenttikerroin (MAT8-PRO-02 ja -03) eivät ole tämän taidon edeltäjäketjussa, joten uutta arvoa lasketaan vain prosenttiyksikköinä tai helpoilla prosenteilla 25 % ja 50 % (H14 ja kokeiden tehtävä 13). Opetustekstissä on 1 %:n ja 3 %:n esimerkit havainnollistuksena, mutta niitä ei kysytä.","Laskin on sallittu koko taidossa. Opetusteksti pyytää arvioimaan tuloksen suuruusluokan ennen laskinta, mutta arviota ei mitata erikseen.","Sisällön pohjana Avoin Matematiikka 8 lk., osio 1, luku 13 (Marika Toivola ja Tiina Härkönen, CC BY 3.0)."]},"virhesanakirja":[{"virhe":"Kannatus nousi 24 %:sta 27 %:iin eli 3 %.","tehtava":"muutoksen ilmoittaminen prosenttiyksikköinä","mita_kertoo":"Erotus osataan laskea, mutta prosenttiyksikön ja prosentin eroa ei ole vielä erotettu. Prosenttimerkki siirtyy lähtöluvuista vastaukseen sellaisenaan.","mita_tehda":"Kysy, mistä 3 % otetaan. Laske 3 % luvusta 24 (0,72) ja näytä, että ”nousi 3 %” veisi kannatuksen vain 24,72 %:iin. Kirjoita sitten oikea lause molemmilla sanoilla: 3 prosenttiyksikköä eli 12,5 %."},{"virhe":"Kannatus 20 % → 25 %: nousu 5 : 25 = 20 %","tehtava":"muutos prosentteina, nouseva","mita_kertoo":"Muutos jaetaan uudella arvolla. Perusarvoa ei ole vielä yhdistetty siihen arvoon, joka oli ensin.","mita_tehda":"Tarkista vastaus lähtöarvosta: 20 % luvusta 20 on 4, ja 20 + 4 = 24 eikä 25. Kirjoita aikajana ”ennen → jälkeen” ja ympyröi jakaja ”ennen”-puolelta."},{"virhe":"Ilmankosteus 90 % → 60 %: lasku 30 : 60 = 50 %","tehtava":"muutos prosentteina, laskeva","mita_kertoo":"Laskevassa muutoksessa jaetaan pienemmällä luvulla, usein siksi, että se tuntuu luontevalta tai jakolasku näyttää helpommalta.","mita_tehda":"Kysy, mihin kosteus päätyisi, jos se laskisi 50 %: puoleen luvusta 90 eli 45 %:iin. Koska se päätyi 60 %:iin, lasku on pienempi. Jaa alkuperäisellä: 30 : 90 ≈ 33 %."},{"virhe":"Korko nousi 0,5 %:sta 1 %:iin, eli vain vähän: puoli prosenttia.","tehtava":"pienen lähtötason muutos","mita_kertoo":"Prosenttiyksikkömäärää pidetään muutoksen suuruutena. Suhteellista muutosta ei lasketa, joten kaksinkertaistuminen jää huomaamatta.","mita_tehda":"Laske, mitä korko maksaa euroina esimerkiksi 20 000 euron lainalle (100 € → 200 €). Kysy, onko kaksinkertaistuminen pieni muutos, ja laske 0,5 : 0,5 = 100 %."},{"virhe":"Kannatus 18 % kasvoi 50 %, joten uusi kannatus on 68 %.","tehtava":"uusi arvo, kun muutos on annettu prosentteina","mita_kertoo":"Suhteellinen muutos on tulkittu prosenttiyksiköiksi ja lisätty suoraan. Virhe on ansan 1 käänteinen muoto.","mita_tehda":"Kysy, mistä 50 % otetaan. Puolet luvusta 18 on 9, joten kannatus kasvaa 9 prosenttiyksikköä, 27 %:iin. Vertaa: kasvu 50 prosenttiyksikköä veisi kannatuksen 68 %:iin."},{"virhe":"Kosteus nousi 32 %:sta 40 %:iin eli 25 prosenttiyksikköä (tai: 8 % ja 25 prosenttiyksikköä).","tehtava":"sanan valinta, kun molemmat luvut on laskettu","mita_kertoo":"Kumpikin luku on laskettu oikein, mutta sanat ovat menneet ristiin. Sanoja ei ole vielä kiinnitetty laskutoimituksiin.","mita_tehda":"Kirjoita laskut allekkain ja sana kummankin perään: vähennyslasku → prosenttiyksikköä, jakolasku → %. Pyydä oppilasta kertomaan jokaisessa vastauksessa ääneen, kummalla laskulla luku syntyi."},{"virhe":"Verkkopankin korko 6 % on 1,2 : 6 = 20 % suurempi kuin Kotipankin 4,8 %.","tehtava":"vertailuprosentti prosenttiluvuilla","mita_kertoo":"Vertailussa jaetaan väärällä arvolla. Kuin-sanan merkitys perusarvon osoittajana ei ole vielä käytössä.","mita_tehda":"Alleviivaa kuin-sana ja sen jälkeinen arvo: se on jakaja. Laske 1,2 : 4,8 = 25 % ja vertaa: Kotipankin korko on 20 % pienempi kuin Verkkopankin, mutta Verkkopankin 25 % suurempi kuin Kotipankin."},{"virhe":"Kyläpuolueen muutos 20 % ja Kaupunkipuolueen 5 %, joten ero on 15 %.","tehtava":"kahden prosenttiluvun erotus","mita_kertoo":"Sääntö on opittu yksittäisiin tilanteisiin, mutta sitä ei vielä sovelleta, kun prosenttiluvut ovat itse muutosprosentteja.","mita_tehda":"Muistuta, että kahden prosenttiluvun erotus on aina prosenttiyksikköjä, olivat luvut kannatuksia, korkoja tai muutosprosentteja: ero on 15 prosenttiyksikköä."}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee erottamaan prosenttiyksikön ja prosentin. Kun kannatus nousee 8 %:sta 9 %:iin, se nousee 1 prosenttiyksikön (prosenttilukujen erotus) mutta 12,5 % (muutos verrattuna lähtötasoon, 1 : 8). Samat sanat tulevat vastaan uutisissa koroista, työttömyydestä ja vaaleista. Tavoite on, että nuori laskee molemmat luvut ja käyttää kummankin perässä oikeaa sanaa.","kotona":["Kun uutisissa kerrotaan koron, kannatuksen tai työttömyysasteen muutoksesta, kysykää yhdessä: onko luku prosenttiyksikköjä vai prosentteja? Laskekaa toinen luku itse.","Säästötilien ja lainojen mainoksissa näkyy usein vain toinen luku. Laskekaa, kuinka monta prosenttia korko oikeasti muuttuu, kun se nousee esimerkiksi 0,5 %:sta 1 %:iin.","Älä opeta näin: ”prosenttiyksikkö ja prosentti tarkoittavat käytännössä samaa”. Arkikielessä sanoja sekoitetaan, mutta tässä taidossa juuri niiden ero arvioidaan: 1 prosenttiyksikkö voi olla 100 % tai 2 % lähtötasosta riippuen."],"milloin_huolestua":"Jos nuori ei osaa laskea muutosprosenttia hinnoista (esimerkiksi montako prosenttia hinta nousi 8 eurosta 10 euroon), kyse ei ole tästä taidosta vaan edeltävästä taidosta Mihin verrataan. Kertokaa siitä opettajalle. Taitoa ei arvioida ajalla eikä yrityskertoja lasketa."},"ulkoiset":{"edeltavat":[],"seuraavat":[{"id":"MAT9-PRO-01","nimi":"Indeksi kertoo","vuosiluokka":9,"kuvaus":"Osaan tulkita indeksilukuja ja laskea muutoksia ja pitoisuuksia prosentteina, prosenttiyksikköinä ja promilleina."}]},"valmis_teksti":"Osaat laskea, montako prosenttiyksikköä ja montako prosenttia prosenttiluku muuttuu, myös silloin kun se pienenee. Jaat muutoksen alkuperäisellä arvolla, käytät kumpaakin sanaa oikean luvun perässä ja korjaat uutisen väitteen, jossa sanat ovat menneet sekaisin. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
