@@ -4,12 +4,15 @@ Osaamisperustainen malli peruskouluun: numeroarvostelun 4–10 tilalla taidot, j
 
 **Esittely:** https://teresammallahti.github.io/Osaamispolku/
 
+- `1lk/` – 1. luokka, matematiikka (45 taitoa)
+- `2lk/` – 2. luokka, matematiikka (54 taitoa)
 - `3lk/` – 3. luokka, matematiikka (55 taitoa)
 - `4lk/` – 4. luokka, kaikki oppiaineet; taitopuu ja taitopolku
 - `5lk/` – 5. luokka, matematiikka (55 taitoa)
+- `6lk/` – 6. luokka, matematiikka (42 taitoa)
 - `7lk/` – 7. luokka, matematiikka
 - `8lk/` – 8. luokka, matematiikka (ydin, vahvistava ja haaste)
-- `9lk/` – 9. luokka, matematiikan ydintaidot
+- `9lk/` – 9. luokka, matematiikka (ydin, vahvistava ja haaste)
 
 Sivusto on staattinen: ei palvelinta, ei kirjautumista, ei tietojen tallennusta. Kaikki henkilöt ja paikat ovat kuvitteellisia. Oppilaiden edistyminen taululla on keksittyä esimerkkidataa.
 

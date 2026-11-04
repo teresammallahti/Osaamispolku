@@ -1,0 +1,524 @@
+<title>Lämpömittarin lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT6-LUK-08","oppiaine":"MAT","vuosiluokka":6,"otsikko":"Lämpömittarin lukija","kuvaus":"Osaan sijoittaa negatiiviset kokonaisluvut lukusuoralle, vertailla niitä ja laskea muutoksen lukusuoran avulla.","versio":"0.2","paivitetty":"2026-10-18","ops":{"T":["T9"],"S":["S2"]},"taso":"ydin","jakso":"J3","taitoalue":"LUK","eyebrow":"Matematiikka · 6. luokka · Luvut ja laskutoimitukset","ikoni":"mittari","naytto":"Luen lämpötiloja lämpömittarista tai taulukosta, lasken lukusuoran avulla lämpötilan muutoksen ja uuden lämpötilan molempiin suuntiin, myös nollan yli (esim. −4 °C:sta lämpenee 7 astetta; 3 °C:sta jäähtyy 5 astetta), merkitsen luvun ja sen vastaluvun lukusuoralle ja järjestän positiivisia ja negatiivisia kokonaislukuja suuruusjärjestykseen merkeillä < ja >.","osaa_kun":"Tiedän, että lukusuoralla oikealla oleva luku on suurempi (−2 > −9), lasken kahden lämpötilan eron askeltamalla nollan yli ja tunnistan vastaluvun luvuksi, joka on yhtä kaukana nollasta toisella puolella.","teksti":[{"tyyppi":"johdanto","sisalto":"Leirikoulun ensimmäisenä aamuna mökin ulkomittari näyttää −6 °C, ja sääennuste lupaa päiväksi yhdeksän astetta lämpimämpää. Mitä mittari silloin näyttää: 15 °C, −15 °C vai jotain muuta? Viidennellä luokalla sijoitit negatiivisia lukuja lukusuoralle, vertailit niitä ja laskit askelia kahden luvun välillä. Nyt lasket, mitä mittari näyttää, kun lämpötila nousee tai laskee nollan yli, ja montako astetta kahden lukeman ero on. Lisäksi opit uuden käsitteen, vastaluvun."},{"tyyppi":"kappale","otsikko":"Lämpömittari on pystysuora lukusuora","sisalto":"Lämpömittarin asteikko on lukusuora, joka on käännetty pystyyn. Nollaviivan yläpuolella ovat lämpöasteet ja alapuolella pakkasasteet, ja tehtävässä kerrotaan, montako astetta yksi viiva on. Kun jokainen viiva on yksi aste ja nesteen pinta on kuusi viivaa nollaviivan alapuolella, mittari näyttää −6 °C. Mittarissa ylempänä oleva lukema on aina suurempi, aivan kuten vaakasuoralla lukusuoralla oikealla oleva luku. Siksi −6 > −13: kuuden asteen pakkanen on lämpimämpi kuin kolmentoista asteen pakkanen. Useamman luvun järjestys kirjoitetaan merkkiketjuna pienimmästä alkaen, esimerkiksi −13 < −6 < 0 < 8."},{"tyyppi":"kappale","otsikko":"Uusi lämpötila: askella nollan kautta","sisalto":"Kun lämpötila nousee tai laskee nollan yli, laske matka kahdessa osassa. Leirikoulun aamuna mittari näyttää −6 °C, ja lämpenee 9 astetta. Lukemasta −6 nollaan on 6 astetta, joten yhdeksästä asteesta kuluu kuusi ja jäljelle jää 3. Ne nousevat nollasta ylöspäin, joten päivällä mittari näyttää 3 °C. Jäähtyminen menee samoin alaspäin: kun illalla on 2 °C ja jäähtyy 7 astetta, nollaan kuluu 2 astetta ja 5 astetta jää. Ne laskevat nollan alle, joten yöllä on −5 °C."},{"tyyppi":"saanto","otsikko":"Näin lasket uuden lämpötilan","askeleet":["Katso, lämpeneekö vai jäähtyykö. Lämmetessä liikut mittarissa ylös eli lukusuoralla oikealle, jäähtyessä alas eli vasemmalle.","Jos liikut poispäin nollasta, etäisyys nollasta kasvaa muutoksen verran: kun −5 °C:sta jäähtyy 6 astetta, pakkasta on 5 + 6 = 11 astetta eli −11 °C.","Jos liikut kohti nollaa, laske ensin, montako astetta on nollaan.","Jos muutos on pienempi kuin matka nollaan, pysyt samalla puolella: kun −12 °C:sta lämpenee 5 astetta, 12 − 5 = 7, joten mittari näyttää −7 °C.","Jos muutos on suurempi kuin matka nollaan, ylität nollan. Vähennä matka nollaan muutoksesta, ja jäljelle jäävät asteet menevät nollan toiselle puolelle.","Tarkista suunta: lämmetessä lukeman pitää kasvaa ja jäähtyessä pienentyä."]},{"tyyppi":"kappale","otsikko":"Muutos ja ero ovat askelten määrä","sisalto":"Kun kysytään, montako astetta lämpeni tai jäähtyi tai mikä on kahden lämpötilan ero, vastaus on askelten määrä mittarissa. Se on positiivinen luku tai nolla, ja suunnan kerrot sanoilla lämpeni tai jäähtyi. Jos lukemat ovat nollan eri puolilla, matka kulkee nollan kautta, ja etäisyydet nollasta lasketaan yhteen. Esimerkiksi Sodankylän −7 °C ja Helsingin 5 °C ero on 7 + 5 = 12 astetta. Jos lukemat ovat samalla puolella nollaa, matka ei kulje nollan kautta, ja etäisyydet nollasta vähennetään. Esimerkiksi kun lämpötila laskee −3 °C:sta −11 °C:een, jäähtyy 11 − 3 = 8 astetta. Taulukosta luet ensin molemmat lukemat ja päätät sitten, kumpi tapa sopii."},{"tyyppi":"kappale","otsikko":"Vastaluku","sisalto":"Luvun vastaluku on luku, joka on lukusuoralla yhtä kaukana nollasta mutta nollan toisella puolella. Luku −14 on 14 askelta nollasta vasemmalle, joten sen vastaluku 14 on 14 askelta oikealle. Samoin luvun 14 vastaluku on −14, joten luvut ovat toistensa vastalukuja. Nolla on ainoa luku, jonka vastaluku on se itse, koska nollalla ei ole toista puolta. Kun merkitset luvun ja sen vastaluvun lukusuoralle, ne ovat peilikuvia nollan suhteen: kumpikin on yhtä monen välin päässä nollasta."},{"tyyppi":"ansa","otsikko":"Ansa: etäisyys nollasta ei ole suuruus","sisalto":"Vertailu: moni kirjoittaa −12 > −4, koska 12 on enemmän kuin 4. Silloin vertaillaan etäisyyksiä nollasta eikä paikkoja lukusuoralla. Luku −4 on oikeammalla, joten −4 > −12, ja neljän asteen pakkanen on lämpimämpi. Vastaluku: luvun −14 vastaluvuksi kirjoitetaan −14. Luku ei ole oma vastalukunsa, koska vastaluku on nollan toisella puolella, joten luvun −14 vastaluku on 14."},{"tyyppi":"ansa","otsikko":"Ansa: uusi lämpötila nollan yli","sisalto":"Jäähtyminen: kun 2 °C:sta jäähtyy 7 astetta, moni laskee 7 − 2 = 5 ja vastaa 5 °C. Lasku 7 − 2 kertoo vain, montako astetta jää nollan jälkeen, ja ne asteet menevät nollan alle: oikein on −5 °C. Lämpeneminen: kun −6 °C:sta lämpenee 9 astetta, moni laskee 6 + 9 = 15 ja vastaa 15 °C tai −15 °C. Pakkaselta lämmetessä liikutaan kohti nollaa, joten matka nollaan vähennetään muutoksesta: 9 − 6 = 3, ja mittari näyttää 3 °C. Tarkista suunta: −15 °C on kylmempi kuin −6 °C, ja lukemasta −6 lukemaan 15 olisi 6 + 15 = 21 astetta eikä 9."},{"tyyppi":"ansa","otsikko":"Ansa: ero väärällä laskulla","sisalto":"Ero nollan yli: lukemien −7 °C ja 5 °C eroksi lasketaan 7 − 5 = 2 astetta. Lukemat ovat nollan eri puolilla, joten matka kulkee nollan kautta: 7 astetta nollaan ja 5 astetta nollasta ylös, yhteensä 12 astetta. Ero pakkasella: lukemien −3 °C ja −11 °C eroksi lasketaan 3 + 11 = 14 astetta. Molemmat ovat nollan alapuolella, joten matka ei kulje nollan kautta, ja ero on 11 − 3 = 8 astetta. Kysy siis aina ensin, kulkeeko matka nollan kautta."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Mittarissa ylempänä ja lukusuoralla oikealla oleva luku on suurempi, myös nollan alapuolella: −6 > −13.","Uusi lämpötila nollan yli: ensin nollaan, sitten loput asteet nollan toiselle puolelle.","Lämmetessä lukema kasvaa, jäähtyessä se pienenee.","Muutos ja ero ovat asteiden määrä ilman miinusmerkkiä.","Nollan eri puolilla etäisyydet nollasta lasketaan yhteen, samalla puolella ne vähennetään.","Vastaluku on yhtä kaukana nollasta toisella puolella. Nollan vastaluku on nolla."]}],"harjoitusryhmat":[{"id":"mittari","nimi":"Mittari, vertailu ja vastaluku","info":"Ylempänä tai oikeammalla oleva luku on suurempi. Vastaluku on yhtä kaukana nollasta toisella puolella."},{"id":"muutos","nimi":"Uusi lämpötila","info":"Askella ensin nollaan ja sitten loput asteet nollan toiselle puolelle."},{"id":"ero","nimi":"Muutos ja ero","info":"Vastaus on asteiden määrä. Nollan eri puolilla etäisyydet lasketaan yhteen, samalla puolella vähennetään."}],"ryhmanimet":{"mittari":"Mittari, vertailu ja vastaluku","muutos":"Uusi lämpötila","ero":"Muutos ja ero"},"harjoitukset":[{"id":"H01","ryhma":"mittari","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on kolmetoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-13,"vinkki":"Nollaviivan alapuolella ovat pakkasasteet. Muista miinusmerkki.","selitys":"Kolmetoista viivaa nollan alapuolella on kolmetoista astetta pakkasta eli −13 °C."},{"id":"H02","ryhma":"mittari","kysymys":"Mittarin asteikossa jokainen viiva on kaksi astetta. Nesteen pinta on kuusi viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-12,"vinkki":"Tässä mittarissa yksi viiva ei ole yksi aste. Laske, montako astetta kuusi viivaa on.","selitys":"Kuusi viivaa on 6 · 2 = 12 astetta, ja pinta on nollan alapuolella. Mittari näyttää −12 °C."},{"id":"H03","ryhma":"mittari","tyyppi":"monivalinta","kysymys":"Mikä vertailu on oikein?","vaihtoehdot":["−16 > −10","−10 > −16","−10 < −16"],"vastaus":1,"vinkki":"Ajattele lämpömittaria: kumpi lukema on ylempänä?","selitys":"−10 on lukusuoralla oikealla puolella lukua −16, joten −10 > −16. Kymmenen asteen pakkanen on lämpimämpi kuin kuudentoista."},{"id":"H04","ryhma":"mittari","kysymys":"Luvut ovat −6, 8, −15, 0 ja 2. Kirjoita toiseksi pienin.","vastaus":-6,"vinkki":"Järjestä luvut lukusuoran järjestykseen vasemmalta oikealle.","selitys":"Järjestys on −15 < −6 < 0 < 2 < 8. Toisena on −6."},{"id":"H05","ryhma":"mittari","kysymys":"Luvut ovat −8, 6, −1, 0, −13 ja −3. Montako niistä on suurempia kuin −5?","vastaus":4,"vinkki":"Suurempi kuin −5 tarkoittaa, että luku on lukusuoralla luvun −5 oikealla puolella.","selitys":"Luvun −5 oikealla puolella ovat −3, −1, 0 ja 6. Luvut −8 ja −13 ovat vasemmalla, joten ne ovat pienempiä."},{"id":"H06","ryhma":"mittari","kysymys":"Mikä on luvun −19 vastaluku?","vastaus":19,"vinkki":"Vastaluku on yhtä kaukana nollasta mutta toisella puolella.","selitys":"−19 on 19 askelta nollasta vasemmalle, joten vastaluku on 19 askelta oikealle eli 19."},{"id":"H07","ryhma":"mittari","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 27, mutta nollan toisella puolella?","vastaus":-27,"vinkki":"Luku 27 on nollan oikealla puolella. Toinen puoli on vasemmalla.","selitys":"27 askelta nollasta vasemmalle on −27. Se on luvun 27 vastaluku."},{"id":"H08","ryhma":"muutos","kysymys":"Aamulla mittari näyttää −8 °C. Päivällä lämpenee 14 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":6,"vinkki":"Laske ensin, montako astetta on lukemasta −8 nollaan.","selitys":"Nollaan on 8 astetta, ja 14 − 8 = 6 astetta jää. Ne nousevat nollan yli, joten päivällä on 6 °C."},{"id":"H09","ryhma":"muutos","kysymys":"Illalla mittari näyttää 4 °C. Yöllä jäähtyy 10 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-6,"vinkki":"Nollaan kuluu ensin neljä astetta. Mihin loput asteet menevät?","selitys":"Nollaan on 4 astetta, ja 10 − 4 = 6 astetta jää. Ne laskevat nollan alle, joten yöllä on −6 °C."},{"id":"H10","ryhma":"muutos","kysymys":"Pakkasaamuna mittari näyttää −16 °C. Aamupäivällä lämpenee 6 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-10,"vinkki":"Riittääkö kuusi astetta nollaan asti?","selitys":"Nollaan olisi 16 astetta, joten kuusi astetta ei riitä. 16 − 6 = 10, joten mittari näyttää −10 °C."},{"id":"H11","ryhma":"muutos","kysymys":"Iltapäivällä mittari näyttää −7 °C. Illalla jäähtyy 8 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-15,"vinkki":"Jäähtyessä liikut mittarissa alaspäin, poispäin nollasta.","selitys":"Pakkasta oli 7 astetta, ja sitä tulee 8 astetta lisää: 7 + 8 = 15. Illalla on −15 °C."},{"id":"H12","ryhma":"muutos","kysymys":"Aamulla mittari näyttää −11 °C. Päivällä lämpenee 15 astetta, ja illalla jäähtyy 10 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-6,"vinkki":"Laske ensin päivän lämpötila ja vasta sitten illan lämpötila.","selitys":"Päivällä 15 − 11 = 4, eli 4 °C. Illalla nollaan kuluu 4 astetta ja 10 − 4 = 6 jää, joten illalla on −6 °C."},{"id":"H13","ryhma":"muutos","kysymys":"Aamupäivän aikana lämpeni 9 astetta, ja keskipäivällä mittari näyttää 2 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-7,"vinkki":"Kulje mittarissa takaisin: lukemasta 2 yhdeksän astetta alaspäin.","selitys":"Lukemasta 2 nollaan on 2 astetta, ja 9 − 2 = 7 astetta jää nollan alle. Aamulla mittari näytti −7 °C."},{"id":"H14","ryhma":"muutos","tyyppi":"monivalinta","kysymys":"Mittari näyttää 6 °C, ja jäähtyy 11 astetta. Missä vaihtoehdossa lasku on askellettu oikein?","vaihtoehdot":["Nollaan on 6 astetta, ja 5 astetta jää nollan alle: −5 °C.","11 − 6 = 5, joten mittari näyttää 5 °C.","6 + 11 = 17, joten mittari näyttää −17 °C."],"vastaus":0,"vinkki":"Jäähtyessä lukeman pitää pienentyä. Missä vaihtoehdossa askelletaan nollan kautta?","selitys":"Ensin 6 astetta nollaan, sitten loput 5 astetta nollan alle, joten −5 °C. Lukema 5 °C on lämpimämpi kuin nolla, ja −17 °C vaatisi 23 asteen jäähtymisen."},{"id":"H15","ryhma":"ero","kysymys":"Montako astetta on ero, kun Kilpisjärvellä on −21 °C ja Porissa −8 °C? Vastaus on asteiden määrä.","vastaus":13,"vinkki":"Molemmat lukemat ovat nollan alapuolella. Kulkeeko matka nollan kautta?","selitys":"Matka ei kulje nollan kautta, joten etäisyydet vähennetään: 21 − 8 = 13 astetta."},{"id":"H16","ryhma":"ero","kysymys":"Montako astetta on ero, kun Rovaniemellä on −13 °C ja Maarianhaminassa 4 °C? Vastaus on asteiden määrä.","vastaus":17,"vinkki":"Lukemat ovat nollan eri puolilla. Laske matka nollaan ja nollasta eteenpäin.","selitys":"Lukemasta −13 nollaan on 13 astetta ja nollasta lukemaan 4 on 4 astetta. Ero on 13 + 4 = 17 astetta."},{"id":"H17","ryhma":"ero","kysymys":"Lämpötila laski 6 °C:sta −8 °C:een. Montako astetta jäähtyi?","vastaus":14,"vinkki":"Lämpötila laski nollan yli. Laske molemmat osat.","selitys":"Lukemasta 6 nollaan on 6 astetta ja nollasta lukemaan −8 on 8 astetta. Jäähtyi 6 + 8 = 14 astetta."},{"id":"H18","ryhma":"ero","kysymys":"Ke: −14 °C\nTo: −5 °C\n\nMontako astetta lämpeni keskiviikosta torstaihin?","vastaus":9,"vinkki":"Molemmat lukemat ovat pakkasella, joten matka ei kulje nollan kautta.","selitys":"Lukemasta −14 lukemaan −5 on 14 − 5 = 9 astetta. Lämpeni 9 astetta."},{"id":"H19","ryhma":"ero","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Aamulla nesteen pinta oli kymmenen viivaa nollaviivan alapuolella ja iltapäivällä kuusi viivaa nollaviivan yläpuolella. Montako astetta lämpeni?","vastaus":16,"vinkki":"Pinta nousi nollaviivan ohi. Laske viivat nollaviivaan ja nollaviivasta ylös.","selitys":"Nollaviivaan on 10 viivaa ja siitä ylös 6 viivaa. Lämpeni 10 + 6 = 16 astetta."},{"id":"H20","ryhma":"ero","kysymys":"Ma: −8 °C\nTi: −15 °C\nKe: 1 °C\nTo: −10 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":16,"vinkki":"Etsi ensin lämpimin ja kylmin lukema. Ovatko ne nollan samalla puolella?","selitys":"Lämpimin on 1 °C ja kylmin −15 °C. Ne ovat nollan eri puolilla, joten ero on 15 + 1 = 16 astetta."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita pakkaslukemat miinusmerkillä, esimerkiksi −6.\nKun kysytään muutosta tai eroa, vastaus on asteiden määrä ilman miinusmerkkiä.\nKirjoita välivaiheet näkyviin, kun tehtävä sitä pyytää.\nPiirrä lukusuora ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on kuusitoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-16},{"nro":2,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita oikea merkki < tai > lukujen −6 ja −15 väliin.","vastaus":"−6 > −15"},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Kuopio: −13 °C\nVaasa: −7 °C\nHanko: 1 °C\nKajaani: −17 °C\n\nMillä paikkakunnalla on kylmintä? Kirjoita sen lämpötila lukuna.","vastaus":-17},{"nro":4,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita luvut 4, −12, 0, −5 ja −19 suuruusjärjestykseen pienimmästä alkaen. Käytä merkkiä <.","vastaus":"−19 < −12 < −5 < 0 < 4"},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Luvut ovat −3, −14, 6, −8 ja −19. Kirjoita toiseksi pienin.","vastaus":-14},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä on luvun −17 vastaluku?","vastaus":17},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 24, mutta nollan toisella puolella?","vastaus":-24},{"nro":8,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille lukusuora −8:sta 8:aan. Tee jokaisesta yhden yksikön välistä yhden ruudun pituinen. Merkitse lukusuoralle luku −5 ja sen vastaluku.","vastaus":"Malliesimerkki: lukusuora −8:sta 8:aan, tasavälinen asteikko (jokainen yhden yksikön väli yksi ruutu) ja nolla merkitty. Luku −5 on 5 väliä nollasta vasemmalle ja sen vastaluku 5 on 5 väliä nollasta oikealle, joten pisteet ovat yhtä kaukana nollasta eri puolilla."},{"nro":9,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −7 °C. Päivällä lämpenee 12 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":5},{"nro":10,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Illalla mittari näyttää 4 °C. Yöllä jäähtyy 11 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-7},{"nro":11,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Pakkasaamuna mittari näyttää −15 °C. Aamupäivällä lämpenee 8 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-7},{"nro":12,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Iltapäivällä mittari näyttää −5 °C. Illalla jäähtyy 8 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-13},{"nro":13,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −6 °C. Päivällä lämpenee 14 astetta, ja illalla jäähtyy 11 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-3},{"nro":14,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamupäivän aikana lämpeni 13 astetta, ja keskipäivällä mittari näyttää 5 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-8},{"nro":15,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Torniossa on −6 °C ja Inarissa −19 °C? Vastaus on asteiden määrä.","vastaus":13},{"nro":16,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Kajaanissa on −10 °C ja Turussa 6 °C? Vastaus on asteiden määrä.","vastaus":16},{"nro":17,"ryhma":"ero","tyyppi":"lasku","kysymys":"Lämpötila laski 5 °C:sta −13 °C:een. Montako astetta jäähtyi?","vastaus":18},{"nro":18,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −12 °C\nTi: −5 °C\n\nMontako astetta lämpeni maanantaista tiistaihin?","vastaus":7},{"nro":19,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −7 °C\nTi: −16 °C\nKe: 2 °C\nTo: −11 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":18},{"nro":20,"ryhma":"ero","tyyppi":"sanallinen","kysymys":"Lämpötila nousi −11 °C:sta 8 °C:een. Montako astetta lämpeni? Kirjoita näkyviin, miten askellat lukusuoralla nollan kautta.","vastaus":"Malliesimerkki: Lukemasta −11 nollaan on 11 astetta ja nollasta lukemaan 8 on 8 astetta. Lämpeni 11 + 8 = 19 astetta."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita pakkaslukemat miinusmerkillä, esimerkiksi −6.\nKun kysytään muutosta tai eroa, vastaus on asteiden määrä ilman miinusmerkkiä.\nKirjoita välivaiheet näkyviin, kun tehtävä sitä pyytää.\nPiirrä lukusuora ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on yksitoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-11},{"nro":2,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita oikea merkki < tai > lukujen −7 ja −18 väliin.","vastaus":"−7 > −18"},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Joensuu: −8 °C\nPori: 2 °C\nKemi: −15 °C\nLahti: −11 °C\n\nMillä paikkakunnalla on kylmintä? Kirjoita sen lämpötila lukuna.","vastaus":-15},{"nro":4,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita luvut −16, 7, −1, 0 ja −10 suuruusjärjestykseen pienimmästä alkaen. Käytä merkkiä <.","vastaus":"−16 < −10 < −1 < 0 < 7"},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Luvut ovat −11, 5, −6, −17 ja −1. Kirjoita toiseksi pienin.","vastaus":-11},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä on luvun −28 vastaluku?","vastaus":28},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 15, mutta nollan toisella puolella?","vastaus":-15},{"nro":8,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille lukusuora −7:stä 7:ään. Tee jokaisesta yhden yksikön välistä yhden ruudun pituinen. Merkitse lukusuoralle luku −6 ja sen vastaluku.","vastaus":"Malliesimerkki: lukusuora −7:stä 7:ään, tasavälinen asteikko (jokainen yhden yksikön väli yksi ruutu) ja nolla merkitty. Luku −6 on 6 väliä nollasta vasemmalle ja sen vastaluku 6 on 6 väliä nollasta oikealle, joten pisteet ovat yhtä kaukana nollasta eri puolilla."},{"nro":9,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −5 °C. Päivällä lämpenee 13 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":8},{"nro":10,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Illalla mittari näyttää 6 °C. Yöllä jäähtyy 14 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-8},{"nro":11,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Pakkasaamuna mittari näyttää −13 °C. Aamupäivällä lämpenee 5 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-8},{"nro":12,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Iltapäivällä mittari näyttää −8 °C. Illalla jäähtyy 5 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-13},{"nro":13,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −12 °C. Päivällä lämpenee 16 astetta, ja illalla jäähtyy 10 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-6},{"nro":14,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamupäivän aikana lämpeni 15 astetta, ja keskipäivällä mittari näyttää 7 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-8},{"nro":15,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Kemissä on −14 °C ja Kuopiossa −6 °C? Vastaus on asteiden määrä.","vastaus":8},{"nro":16,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Kuusamossa on −11 °C ja Hangossa 5 °C? Vastaus on asteiden määrä.","vastaus":16},{"nro":17,"ryhma":"ero","tyyppi":"lasku","kysymys":"Lämpötila laski 7 °C:sta −8 °C:een. Montako astetta jäähtyi?","vastaus":15},{"nro":18,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −17 °C\nTi: −8 °C\n\nMontako astetta lämpeni maanantaista tiistaihin?","vastaus":9},{"nro":19,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: 1 °C\nTi: −13 °C\nKe: −6 °C\nTo: −10 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":14},{"nro":20,"ryhma":"ero","tyyppi":"sanallinen","kysymys":"Lämpötila nousi −5 °C:sta 12 °C:een. Montako astetta lämpeni? Kirjoita näkyviin, miten askellat lukusuoralla nollan kautta.","vastaus":"Malliesimerkki: Lukemasta −5 nollaan on 5 astetta ja nollasta lukemaan 12 on 12 astetta. Lämpeni 5 + 12 = 17 astetta."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita pakkaslukemat miinusmerkillä, esimerkiksi −6.\nKun kysytään muutosta tai eroa, vastaus on asteiden määrä ilman miinusmerkkiä.\nKirjoita välivaiheet näkyviin, kun tehtävä sitä pyytää.\nPiirrä lukusuora ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on kahdeksantoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-18},{"nro":2,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita oikea merkki < tai > lukujen −3 ja −13 väliin.","vastaus":"−3 > −13"},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Kotka: 4 °C\nOulu: −14 °C\nMikkeli: −6 °C\nKuusamo: −21 °C\n\nMillä paikkakunnalla on kylmintä? Kirjoita sen lämpötila lukuna.","vastaus":-21},{"nro":4,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita luvut 0, −8, 5, −20 ja −13 suuruusjärjestykseen pienimmästä alkaen. Käytä merkkiä <.","vastaus":"−20 < −13 < −8 < 0 < 5"},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Luvut ovat −20, −5, −13, 8 ja −10. Kirjoita toiseksi pienin.","vastaus":-13},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä on luvun −31 vastaluku?","vastaus":31},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 29, mutta nollan toisella puolella?","vastaus":-29},{"nro":8,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille lukusuora −10:stä 10:een. Tee jokaisesta yhden yksikön välistä yhden ruudun pituinen. Merkitse lukusuoralle luku −7 ja sen vastaluku.","vastaus":"Malliesimerkki: lukusuora −10:stä 10:een, tasavälinen asteikko (jokainen yhden yksikön väli yksi ruutu) ja nolla merkitty. Luku −7 on 7 väliä nollasta vasemmalle ja sen vastaluku 7 on 7 väliä nollasta oikealle, joten pisteet ovat yhtä kaukana nollasta eri puolilla."},{"nro":9,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −8 °C. Päivällä lämpenee 15 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":7},{"nro":10,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Illalla mittari näyttää 1 °C. Yöllä jäähtyy 9 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-8},{"nro":11,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Pakkasaamuna mittari näyttää −18 °C. Aamupäivällä lämpenee 7 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-11},{"nro":12,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Iltapäivällä mittari näyttää −3 °C. Illalla jäähtyy 12 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-15},{"nro":13,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −8 °C. Päivällä lämpenee 13 astetta, ja illalla jäähtyy 12 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-7},{"nro":14,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamupäivän aikana lämpeni 15 astetta, ja keskipäivällä mittari näyttää 2 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-13},{"nro":15,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Ivalossa on −22 °C ja Lahdessa −10 °C? Vastaus on asteiden määrä.","vastaus":12},{"nro":16,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Sodankylässä on −13 °C ja Porissa 2 °C? Vastaus on asteiden määrä.","vastaus":15},{"nro":17,"ryhma":"ero","tyyppi":"lasku","kysymys":"Lämpötila laski 2 °C:sta −16 °C:een. Montako astetta jäähtyi?","vastaus":18},{"nro":18,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −13 °C\nTi: −1 °C\n\nMontako astetta lämpeni maanantaista tiistaihin?","vastaus":12},{"nro":19,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −5 °C\nTi: −18 °C\nKe: −12 °C\nTo: 4 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":22},{"nro":20,"ryhma":"ero","tyyppi":"sanallinen","kysymys":"Lämpötila nousi −14 °C:sta 6 °C:een. Montako astetta lämpeni? Kirjoita näkyviin, miten askellat lukusuoralla nollan kautta.","vastaus":"Malliesimerkki: Lukemasta −14 nollaan on 14 astetta ja nollasta lukemaan 6 on 6 astetta. Lämpeni 14 + 6 = 20 astetta."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita pakkaslukemat miinusmerkillä, esimerkiksi −6.\nKun kysytään muutosta tai eroa, vastaus on asteiden määrä ilman miinusmerkkiä.\nKirjoita välivaiheet näkyviin, kun tehtävä sitä pyytää.\nPiirrä lukusuora ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on viisitoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-15},{"nro":2,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita oikea merkki < tai > lukujen −8 ja −16 väliin.","vastaus":"−8 > −16"},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Turku: −5 °C\nSalla: −19 °C\nSeinäjoki: −10 °C\nEspoo: 1 °C\n\nMillä paikkakunnalla on kylmintä? Kirjoita sen lämpötila lukuna.","vastaus":-19},{"nro":4,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita luvut −6, 0, −17, 9 ja −11 suuruusjärjestykseen pienimmästä alkaen. Käytä merkkiä <.","vastaus":"−17 < −11 < −6 < 0 < 9"},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Luvut ovat −7, −16, 1, −12 ja −24. Kirjoita toiseksi pienin.","vastaus":-16},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä on luvun −26 vastaluku?","vastaus":26},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 21, mutta nollan toisella puolella?","vastaus":-21},{"nro":8,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille lukusuora −8:sta 8:aan. Tee jokaisesta yhden yksikön välistä yhden ruudun pituinen. Merkitse lukusuoralle luku −3 ja sen vastaluku.","vastaus":"Malliesimerkki: lukusuora −8:sta 8:aan, tasavälinen asteikko (jokainen yhden yksikön väli yksi ruutu) ja nolla merkitty. Luku −3 on 3 väliä nollasta vasemmalle ja sen vastaluku 3 on 3 väliä nollasta oikealle, joten pisteet ovat yhtä kaukana nollasta eri puolilla."},{"nro":9,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −6 °C. Päivällä lämpenee 11 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":5},{"nro":10,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Illalla mittari näyttää 8 °C. Yöllä jäähtyy 13 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-5},{"nro":11,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Pakkasaamuna mittari näyttää −12 °C. Aamupäivällä lämpenee 9 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-3},{"nro":12,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Iltapäivällä mittari näyttää −10 °C. Illalla jäähtyy 6 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-16},{"nro":13,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −10 °C. Päivällä lämpenee 18 astetta, ja illalla jäähtyy 13 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-5},{"nro":14,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamupäivän aikana lämpeni 17 astetta, ja keskipäivällä mittari näyttää 7 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-10},{"nro":15,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Sallassa on −16 °C ja Vaasassa −7 °C? Vastaus on asteiden määrä.","vastaus":9},{"nro":16,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Joensuussa on −6 °C ja Tukholmassa 12 °C? Vastaus on asteiden määrä.","vastaus":18},{"nro":17,"ryhma":"ero","tyyppi":"lasku","kysymys":"Lämpötila laski 9 °C:sta −5 °C:een. Montako astetta jäähtyi?","vastaus":14},{"nro":18,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −19 °C\nTi: −6 °C\n\nMontako astetta lämpeni maanantaista tiistaihin?","vastaus":13},{"nro":19,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −8 °C\nTi: 6 °C\nKe: −14 °C\nTo: −3 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":20},{"nro":20,"ryhma":"ero","tyyppi":"sanallinen","kysymys":"Lämpötila nousi −7 °C:sta 13 °C:een. Montako astetta lämpeni? Kirjoita näkyviin, miten askellat lukusuoralla nollan kautta.","vastaus":"Malliesimerkki: Lukemasta −7 nollaan on 7 astetta ja nollasta lukemaan 13 on 13 astetta. Lämpeni 7 + 13 = 20 astetta."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita pakkaslukemat miinusmerkillä, esimerkiksi −6.\nKun kysytään muutosta tai eroa, vastaus on asteiden määrä ilman miinusmerkkiä.\nKirjoita välivaiheet näkyviin, kun tehtävä sitä pyytää.\nPiirrä lukusuora ruutupaperille viivaimella.","tehtavat":[{"nro":1,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mittarin asteikossa jokainen viiva on yksi aste. Nesteen pinta on yhdeksäntoista viivaa nollaviivan alapuolella. Mikä lämpötila on? Anna vastaus asteina.","vastaus":-19},{"nro":2,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita oikea merkki < tai > lukujen −11 ja −20 väliin.","vastaus":"−11 > −20"},{"nro":3,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Kokkola: −12 °C\nIvalo: −23 °C\nRauma: 2 °C\nJyväskylä: −16 °C\n\nMillä paikkakunnalla on kylmintä? Kirjoita sen lämpötila lukuna.","vastaus":-23},{"nro":4,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Kirjoita luvut −14, 2, 0, −7 ja −22 suuruusjärjestykseen pienimmästä alkaen. Käytä merkkiä <.","vastaus":"−22 < −14 < −7 < 0 < 2"},{"nro":5,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Luvut ovat −15, 4, −1, −8 ja −21. Kirjoita toiseksi pienin.","vastaus":-15},{"nro":6,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä on luvun −18 vastaluku?","vastaus":18},{"nro":7,"ryhma":"mittari","tyyppi":"lasku","kysymys":"Mikä luku on lukusuoralla yhtä kaukana nollasta kuin 32, mutta nollan toisella puolella?","vastaus":-32},{"nro":8,"ryhma":"mittari","tyyppi":"sanallinen","kysymys":"Piirrä ruutupaperille lukusuora −10:stä 10:een. Tee jokaisesta yhden yksikön välistä yhden ruudun pituinen. Merkitse lukusuoralle luku −8 ja sen vastaluku.","vastaus":"Malliesimerkki: lukusuora −10:stä 10:een, tasavälinen asteikko (jokainen yhden yksikön väli yksi ruutu) ja nolla merkitty. Luku −8 on 8 väliä nollasta vasemmalle ja sen vastaluku 8 on 8 väliä nollasta oikealle, joten pisteet ovat yhtä kaukana nollasta eri puolilla."},{"nro":9,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −10 °C. Päivällä lämpenee 16 astetta. Mikä on päivän lämpötila? Anna vastaus asteina.","vastaus":6},{"nro":10,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Illalla mittari näyttää 2 °C. Yöllä jäähtyy 12 astetta. Mikä on yön lämpötila? Anna vastaus asteina.","vastaus":-10},{"nro":11,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Pakkasaamuna mittari näyttää −19 °C. Aamupäivällä lämpenee 6 astetta. Mikä on uusi lämpötila? Anna vastaus asteina.","vastaus":-13},{"nro":12,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Iltapäivällä mittari näyttää −7 °C. Illalla jäähtyy 11 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-18},{"nro":13,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamulla mittari näyttää −5 °C. Päivällä lämpenee 12 astetta, ja illalla jäähtyy 15 astetta. Mikä on illan lämpötila? Anna vastaus asteina.","vastaus":-8},{"nro":14,"ryhma":"muutos","tyyppi":"lasku","kysymys":"Aamupäivän aikana lämpeni 13 astetta, ja keskipäivällä mittari näyttää 8 °C. Mikä lämpötila mittarissa oli aamulla? Anna vastaus asteina.","vastaus":-5},{"nro":15,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Utsjoella on −25 °C ja Oulussa −12 °C? Vastaus on asteiden määrä.","vastaus":13},{"nro":16,"ryhma":"ero","tyyppi":"lasku","kysymys":"Montako astetta on ero, kun Enontekiöllä on −15 °C ja Espoossa 5 °C? Vastaus on asteiden määrä.","vastaus":20},{"nro":17,"ryhma":"ero","tyyppi":"lasku","kysymys":"Lämpötila laski 6 °C:sta −14 °C:een. Montako astetta jäähtyi?","vastaus":20},{"nro":18,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −14 °C\nTi: −3 °C\n\nMontako astetta lämpeni maanantaista tiistaihin?","vastaus":11},{"nro":19,"ryhma":"ero","tyyppi":"lasku","kysymys":"Ma: −17 °C\nTi: −6 °C\nKe: 1 °C\nTo: −10 °C\n\nTaulukossa on neljän aamun lämpötilat. Montako astetta on lämpimimmän ja kylmimmän aamun ero?","vastaus":18},{"nro":20,"ryhma":"ero","tyyppi":"sanallinen","kysymys":"Lämpötila nousi −10 °C:sta 8 °C:een. Montako astetta lämpeni? Kirjoita näkyviin, miten askellat lukusuoralla nollan kautta.","vastaus":"Malliesimerkki: Lukemasta −10 nollaan on 10 astetta ja nollasta lukemaan 8 on 8 astetta. Lämpeni 10 + 8 = 18 astetta."}]}],"tulostus":{"sivuja":3,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":2,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"Kaksi oppituntia opetukseen ja harjoituksiin. Koe pidetään erikseen.","huomiot":["Laskinta ei käytetä. Taito varmentaa 5. luokan ydintaidon MAT5-LUK-05 (sijoitus lukusuoralle, vertailu ja etäisyys askelina): vertailu ja järjestys kerrataan tekstilohkossa Lämpömittari on pystysuora lukusuora, harjoitusryhmässä Mittari, vertailu ja vastaluku sekä kokeen tehtävissä 1–5. Kahden luvun etäisyys askelina myös nollan yli on jo MAT5-LUK-05:n osaa_kun-kriteerissä, joten muutos- ja erotehtävät (15–20) kertaavat sen lämpötilatilanteessa: nyt oppilas päättää lukemien paikan perusteella, lasketaanko etäisyydet nollasta yhteen vai vähennetään. Uutta ovat uusi lämpötila nollan yli molempiin suuntiin (tehtävät 9–14) ja vastaluku (tehtävät 6–8).","Rajaus: muutos lasketaan aina tilanteesta (lämpenee, jäähtyy, nousi, laski) askeltamalla lukusuoralla tai mittarissa. Pelkkiä merkkilausekkeita kuten 3 − 8 tai −5 + 2 ei anneta, koska ne kuuluvat vahvistavaan taitoon MAT6-LUK-09 ja 7. luokan taitoon MAT7-LUK-02. Itseisarvo-termiä ei käytetä (MAT7-LUK-01), vaan puhutaan etäisyydestä nollasta. Koordinaatiston neljä neljännestä (MAT6-GEO-07), velka ja tilin saldo sekä hissin kerrokset (avoin asia MAT5-LUK-05) on jätetty pois. Luvut ovat kokonaislukuja, lämpötilat pysyvät välillä −25 °C … 13 °C ja muutokset ovat enintään 30 astetta.","Mittaritehtävät: 4, 6, 10 ja 16 — ne mittaavat osaa_kun-kriteerin kaikki kolme osaa ja näytön uuden lämpötilan: negatiivisten lukujen vertailua suuruusjärjestyksessä (4), vastalukua (6), uutta lämpötilaa nollan yli jäähtyessä (10) ja eroa askeltamalla nollan yli (16). Arvaus ei riitä, koska jokainen ansa antaa eri vastauksen kuin oikea. Tehtävässä 4 vertailu etäisyydellä nollasta antaa väärän ketjun (A −5 < −12 < −19 < 0 < 4, B −1 < −10 < −16 < 0 < 7, C −8 < −13 < −20 < 0 < 5, D −6 < −11 < −17 < 0 < 9, E −7 < −14 < −22 < 0 < 2). Tehtävässä 6 sama luku miinusmerkkeineen (versio A −17) kertoo, että vastaluvun käsite puuttuu. Tehtävässä 10 jäähtyminen väärin päin (muutoksesta vähennetään lähtölukema) antaa A 7, B 8, C 8, D 5, E 10. Tehtävässä 16 vähentäminen nollan yli antaa A 4, B 6, C 11, D 6, E 10. Tehtävä 2 ei ole mittaritehtävä, koska kahdesta merkistä oikean voi arvata, ja tehtävä 9 (uusi lämpötila nollan yli lämmetessä) jää pois, jotta mittareita on enintään neljä.","Muut ansojen jäljet kokeissa: tehtävässä 2 vertailu etäisyydellä nollasta antaa väärän merkin (A −6 < −15, B −7 < −18, C −3 < −13, D −8 < −16, E −11 < −20). Tehtävässä 9 luvut yhteen etumerkistä välittämättä antaa A 19 tai −19, B 18 tai −18, C 23 tai −23, D 17 tai −17, E 26 tai −26. Tehtävässä 15 (molemmat negatiivisia) yhteenlasku antaa A 25, B 20, C 32, D 23, E 37, mikä kertoo nollan kautta kulkevan tavan käytöstä väärässä paikassa. Tehtävässä 17 vähentäminen nollan yli antaa A 8, B 1, C 14, D 4, E 8. Tehtävässä 14 lämpötila lasketaan taaksepäin: versiossa A vastaus 18 kertoo, että lämpenemisen asteet on lisätty eikä vähennetty, ja vastaus 8 ilman miinusmerkkiä, että nollan yli siirtymistä ei huomattu.","Tehtävä 20 on oikein vain, kun paperilla näkyvät molemmat osat: askeleet lähtölukemasta nollaan ja nollasta loppulukemaan (sanoin, laskuna kuten versiossa A 11 + 8 = 19 tai lukusuoralle piirrettynä kahtena kaarena) sekä oikea asteiden määrä. Pelkkä oikea luku ilman askellusta on väärin, koska tehtävä pyytää askelluksen näkyviin. Mallivastauksen sanamuotoa ei vaadita.","Vastausten muoto: negatiivinen vastaus ilman miinusmerkkiä on väärin (tehtävät 1, 3, 5, 7 ja 10–14), koska se on eri luku tai eri lämpötila. Oikea luku yksikön kanssa (esimerkiksi −17 °C) hyväksytään. Muutos- ja erotehtävissä (15–19) vastaus on asteiden määrä: oikea määrä yksikön kanssa (13 astetta) hyväksytään, mutta miinusmerkkinen vastaus on väärin, koska kokeen johdanto pyytää määrän ilman miinusmerkkiä.","Tehtävässä 2 vastaus on vertailu kirjoitettuna annetussa järjestyksessä (versio A −6 > −15). Myös käänteinen järjestys oikein päin olevalla merkillä hyväksytään (−15 < −6), koska vertailu on silloin oikein. Tehtävässä 4 kaikkien viiden luvun pitää olla oikeassa järjestyksessä merkkien kanssa; myös oikea ketju suurimmasta alkaen merkillä > hyväksytään. Pelkkä pilkuin erotettu luettelo on väärin, koska tehtävä pyytää merkit.","Tehtävä 8 on piirrostehtävä. Oikein on, kun asteikko on tasavälinen, nolla on merkitty ja molemmat pisteet (versiossa A −5 ja 5) ovat yhtä monen välin päässä nollasta eri puolilla. Jos väli ei ole täsmälleen yksi ruutu mutta kaikki välit ovat yhtä pitkiä, vastaus hyväksytään. Kokeessa tarvitaan ruutupaperi ja viivain.","Harjoitukset: tehtävässä H04 vastaus −15 kertoo, että negatiiviset luvut on järjestetty etäisyyden mukaan (−6, −15, 0, 2, 8). Tehtävässä H05 vastaus 3 kertoo, että suurempina on pidetty lukuja, jotka ovat kauempana nollasta (−8, 6, −13). Tehtävässä H08 vastaus 22 tai −22 kertoo lukujen laskemisesta yhteen etumerkistä välittämättä, ja tehtävässä H09 vastaus 6 jäähtymisestä väärin päin (10 − 4). Tehtävässä H11 vastaus 1 tai −1 kertoo, että on liikuttu kohti nollaa eikä siitä poispäin. Tehtävässä H15 vastaus 29 kertoo yhteenlaskusta samalla puolella nollaa, ja tehtävissä H16 ja H17 vastaukset 9 ja 2 vähentämisestä nollan yli."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Kun lämpötila muuttuu nollan yli, askella ensin nollaan ja sitten loput asteet nollan toiselle puolelle. Muutos ja ero ovat askelten määrä, joten niissä ei ole miinusmerkkiä.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: Aloitus","sisalto":"Kerro tilanne: Kuusamossa mittari näyttää aamulla −11 °C, ja päivällä lämpenee 14 astetta. Kysy, mitä mittari näyttää päivällä, ja kirjoita oppilaiden ehdotukset taululle. Älä vielä kerro oikeaa vastausta."},{"aika":"8 min","otsikko":"Tunti 1: Kertaus lattiamittarilla","sisalto":"Teippaa lattiaan asteikko −20:stä 20:een ja merkitse nollaviiva eri värillä. Asteikko on lattialle laskettu lämpömittari, jolla oppilaat voivat askeltaa. Kertaa 5. luokan asia: kumpi on lämpimämpi, −8 °C vai −14 °C, ja kumpi luku on suurempi. Kirjoita vertailu merkillä −8 > −14."},{"aika":"17 min","otsikko":"Tunti 1: Askellus nollan yli","sisalto":"Oppilas askeltaa asteikolla aloituksen tilanteen: ensin 11 askelta nollaan, sitten loput 3 nollan yli. Luokka laskee osat ääneen. Toista jäähtyminen: 4 °C ja jäähtyy 9 astetta. Näytä lopuksi tapaus, jossa nolla ei ylity (−14 °C lämpenee 4 astetta) ja tapaus, jossa liikutaan poispäin nollasta (−6 °C jäähtyy 7 astetta)."},{"aika":"15 min","otsikko":"Tunti 1: Harjoittelu","sisalto":"Harjoitusryhmät Mittari, vertailu ja vastaluku sekä Uusi lämpötila. Seuraa erityisesti tehtäviä H04, H09 ja H11, joissa näkyvät vertailun ansa, jäähtyminen väärin päin ja suunta poispäin nollasta. Pyydä piirtämään pystysuora mittari vihkoon aina, kun vastaus ei ole varma."},{"aika":"10 min","otsikko":"Tunti 2: Ero kahdella tavalla","sisalto":"Kirjoita taululle Utsjoki −16 °C ja Hanko 3 °C sekä Utsjoki −16 °C ja Kuopio −5 °C. Parit laskevat molemmat erot askeltamalla asteikolla. Kootkaa yhteen: nollan eri puolilla etäisyydet lasketaan yhteen (16 + 3 = 19), samalla puolella vähennetään (16 − 5 = 11)."},{"aika":"10 min","otsikko":"Tunti 2: Vastaluku","sisalto":"Kaksi oppilasta asettuu lattialukusuoralle yhtä monen askeleen päähän nollasta eri puolille, esimerkiksi kohtiin −12 ja 12. Luokka nimeää luvut toistensa vastaluvuiksi. Kysy, mikä on nollan vastaluku, ja perustelkaa yhdessä."},{"aika":"17 min","otsikko":"Tunti 2: Harjoittelu","sisalto":"Harjoitusryhmä Muutos ja ero sekä kesken jääneet tehtävät. Seuraa tehtäviä H15, H16 ja H20, joissa näkyy, osaako oppilas valita yhteen- tai vähennyslaskun lukemien paikan perusteella."},{"aika":"8 min","otsikko":"Tunti 2: Lopetus","sisalto":"Palatkaa ensimmäisen tunnin aloitukseen ja tarkistakaa ehdotukset askeltamalla. Jokainen kirjoittaa vihkoon oman lämpötilatarinan, jossa lämpötila ylittää nollan, ja pari ratkaisee sen."}],"tarvikkeet":"Maalarinteippiä ja numerolappuja lattia-asteikkoa (−20…20) varten, ruutuvihko ja viivain. Halutessasi ulkolämpömittari. Kokeeseen ruutupaperi ja viivain (tehtävä 8)."},"virhesanakirja":[{"virhe":"−12 > −4","tehtava":"kahden negatiivisen luvun vertailu","mita_kertoo":"Oppilas vertaa etäisyyksiä nollasta (12 ja 4) eikä paikkoja lukusuoralla. Miinusmerkki on hänelle koriste eikä suunta.","mita_tehda":"Kysy sama lämpötiloina: kumpi on kylmempi, neljä vai kaksitoista astetta pakkasta? Merkitkää molemmat pystysuoralle mittarille ja katsokaa, kumpi on ylempänä."},{"virhe":"2 °C:sta jäähtyy 7 astetta → 5 °C","tehtava":"uusi lämpötila, kun jäähtyy nollan yli","mita_kertoo":"Oppilas laskee 7 − 2 = 5 ja kirjoittaa määrän lämpötilaksi. Hän ei ole huomannut, että loput asteet menevät nollan alle.","mita_tehda":"Askelkaa mittarissa sormella: ensin kaksi astetta nollaan, sitten viisi alaspäin. Kysy, onko sormi nollan ylä- vai alapuolella."},{"virhe":"−6 °C:sta lämpenee 9 astetta → 15 °C tai −15 °C","tehtava":"uusi lämpötila, kun lämpenee nollan yli","mita_kertoo":"Oppilas laskee luvut yhteen etumerkistä välittämättä. Hän ei hahmota, että lämmetessä liikutaan pakkaselta kohti nollaa.","mita_tehda":"Pyydä kertomaan ennen laskemista, nouseeko vai laskeeko lukema ja ylittyykö nolla. Kirjoittakaa sitten kaksi osaa: 6 astetta nollaan, 3 astetta nollan yli."},{"virhe":"Ero, kun −7 °C ja 5 °C → 2 astetta","tehtava":"ero nollan eri puolilla","mita_kertoo":"Oppilas vähentää etäisyydet nollasta (7 − 5), vaikka matka kulkee nollan kautta. Ero on hänelle aina vähennyslasku.","mita_tehda":"Piirrä matka mittariin kahtena kaarena, toinen nollaan ja toinen nollasta ylös. Kirjoittakaa kaarien pituudet ja laskekaa ne yhteen."},{"virhe":"Ero, kun −3 °C ja −11 °C → 14 astetta","tehtava":"ero, kun molemmat lukemat ovat negatiivisia","mita_kertoo":"Oppilas käyttää nollan yli -tapaa (etäisyydet yhteen) myös silloin, kun matka ei kulje nollan kautta.","mita_tehda":"Kysy ennen laskemista: kulkeeko matka nollan kautta? Askelkaa mittarissa lukemasta −11 lukemaan −3 ja laskekaa askeleet."},{"virhe":"Luvun −14 vastaluku → −14","tehtava":"vastaluvun tunnistaminen","mita_kertoo":"Oppilas sekoittaa vastaluvun ja luvun itsensä tai ajattelee, että vastaluku on sama luku. Ajatus nollan toisesta puolesta puuttuu.","mita_tehda":"Kaksi oppilasta seisoo lattialukusuoralla yhtä kaukana nollasta eri puolilla. Kysy, mitkä luvut he ovat ja mikä niissä on samaa ja mikä eri."},{"virhe":"Ero, kun −6 °C ja 2 °C → 9 astetta","tehtava":"ero askelina","mita_kertoo":"Oppilas laskee asteikon viivat lukemasta −6 lukemaan 2 eikä niiden välejä. Lähtöviiva tulee lasketuksi mukaan.","mita_tehda":"Pyydä hyppäämään sormella viivalta seuraavalle ja sanomaan ääneen \"yksi\" vasta, kun sormi laskeutuu ensimmäiselle uudelle viivalle."}],"huoltajalle":{"mista_on_kyse":"Lapsi laskee, mitä lämpömittari näyttää, kun lämpötila nousee tai laskee nollan yli, ja montako astetta kahden lukeman ero on. Viidennellä luokalla negatiiviset luvut sijoitettiin lukusuoralle ja niitä vertailtiin, ja nyt niillä tehdään muutoksia. Keinona on askeltaminen: ensin nollaan, sitten loput asteet nollan toiselle puolelle. Lisäksi lapsi oppii vastaluvun: −14 ja 14 ovat yhtä kaukana nollasta eri puolilla.","kotona":["Katsokaa sääennustetta ja kysykää, montako astetta yön ja päivän lämpötila eroavat, kun yöllä on pakkasta ja päivällä plussaa. Pyydä lasta kertomaan, montako astetta on nollaan ja montako nollasta eteenpäin.","Piirtäkää paperille pystysuora mittari −20:stä 20:een. Keksikää vuorotellen tarina, esimerkiksi aamulla −10 °C ja päivällä lämpenee 12 astetta, ja liikuttakaa sormea asteikolla.","Älä opeta laskemaan muutosta merkkilaskuna (esimerkiksi −10 + 12) tai etumerkkisäännöillä. Niitä harjoitellaan myöhemmin, ja tässä vaiheessa lapsi askeltaa lukusuoralla. Muistisääntö ilman mittaria menee helposti väärin päin."],"milloin_huolestua":"Jos lapsi ei mittarin avullakaan osaa sanoa, mitä mittari näyttää, kun 2 °C:sta jäähtyy 6 astetta, tai pitää −10 °C:ta lämpimämpänä kuin −3 °C, kerro siitä opettajalle. Taitoa tarvitaan 7. luokalla negatiivisilla luvuilla laskemisessa."},"ulkoiset":{"edeltavat":[{"id":"MAT5-LUK-05","nimi":"Nollan toisella puolella","vuosiluokka":5,"kuvaus":"Osaan sijoittaa negatiivisia kokonaislukuja lukusuoralle ja vertailla niitä."}],"seuraavat":[{"id":"MAT7-LUK-01","nimi":"Lukujen kartta","vuosiluokka":7,"kuvaus":"Osaan sijoittaa luvun oikeaan lukujoukkoon ja lukusuoralle sekä käyttää itseisarvoa ja vastalukua."},{"id":"MAT7-LUK-02","nimi":"Pakkasta ja velkaa","vuosiluokka":7,"kuvaus":"Osaan laskea yhteen- ja vähennyslaskuja negatiivisilla kokonaisluvuilla ja sieventää merkkiyhdistelmiä."},{"id":"MAT7-FUN-01","nimi":"Neljä neljännestä","vuosiluokka":7,"kuvaus":"Osaan merkitä ja lukea pisteitä koko koordinaatistossa."}]},"valmis_teksti":"Osaat laskea lämpömittarin avulla uuden lämpötilan, kun lämpötila nousee tai laskee nollan yli, ja kahden lämpötilan eron askeltamalla lukusuoralla. Vertailet negatiivisia lukuja oikein ja tunnistat vastaluvun. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

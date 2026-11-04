@@ -1,0 +1,524 @@
+<title>Arvontapeli · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT6-OHJ-02","oppiaine":"MAT","vuosiluokka":6,"taitoalue":"OHJ","jakso":"J5","taso":"haaste","otsikko":"Arvontapeli","kuvaus":"Osaan tehdä ohjelman, joka käyttää satunnaislukua, ja tutkia sillä todennäköisyyttä.","versio":"0.2","paivitetty":"2026-10-18","ops":{"T":["T5","T14"],"S":["S1","S5"]},"ikoni":"pallo","eyebrow":"Matematiikka · 6. luokka · Ohjelmointi","naytto":"Teen ohjelman, joka heittää virtuaalista noppaa satoja kertoja, laskee muuttujiin kunkin silmäluvun määrän ja näyttää tulokset, ja vertaan tuloksia omaan ennusteeseeni.","osaa_kun":"Suunnittelen ohjelman rakenteen ennen tekemistä, testaan sen ensin pienellä toistomäärällä ja perustelen, miksi tulokset tasoittuvat toistojen määrän kasvaessa.","teksti":[{"tyyppi":"johdanto","sisalto":"Taidossa Onnenpyörän koe teit parin kanssa 50 toistoa nopalla tai onnenpyörällä ja kirjasit jokaisen tuloksen viivalla. Luokan yhdistetyssä taulukossa toistoja oli muutama sata, ja jokainen niistä tehtiin ja kirjattiin käsin. Ohjelma voi heittää virtuaalista noppaa 6 000 kertaa ja pitää kirjaa jokaisesta silmäluvusta puolestasi. Tässä taidossa suunnittelet tällaisen arvontapelin, testaat sen ja vertaat tuloksia omaan ennusteeseesi. Haaste on vapaaehtoinen ja katsoo eteenpäin, sillä ohjelmalla tutkitaan matematiikan kysymyksiä myös 7. luokalla."},{"tyyppi":"kappale","otsikko":"Satunnaisluku on ohjelman noppa","sisalto":"Lohko-ohjelmointiympäristössä on lohko satunnaisluku väliltä 1 ja 6. Kun kone tekee lohkon, se arpoo yhden kokonaisluvun: 1, 2, 3, 4, 5 tai 6. Kone arpoo kuudesta luvusta jokaisen yhtä todennäköisesti, joten lohko toimii kuin reilu noppa. Edellinen arvonta ei vaikuta seuraavaan, eikä ohjelman tekijäkään tiedä etukäteen, mikä luku tulee. Arvottu luku ei jää talteen itsestään. Siksi se laitetaan muuttujaan lohkolla aseta noppa arvoon satunnaisluku väliltä 1 ja 6. Sen jälkeen ohjelma voi katsoa muuttujan noppa arvoa monta kertaa, ja luku pysyy samana, kunnes kone arpoo uuden."},{"tyyppi":"saanto","otsikko":"Suunnitelma paperille ennen konetta","askeleet":["Kirjoita ylös kaikki muuttujat: noppa sekä yksi laskuri jokaiselle silmäluvulle eli ykköset, kakkoset, kolmoset, neloset, vitoset ja kuutoset.","Kirjoita jokaisen seitsemän muuttujan viereen alkuarvo 0. Alkuarvot asetetaan ohjelman alussa ennen toistoa.","Päätä toistojen määrä. Yksi toisto on yksi heitto, ja ensimmäinen ajo on testi, jossa heittoja on 12.","Kirjoita, mitä yhdellä kierroksella tapahtuu: ensin yksi arvonta muuttujaan noppa, sitten kuusi ehtoa, jotka katsovat sen arvoa.","Kirjoita ehdot: jos noppa = 1, niin lisää ykkösiin 1, ja samoin silmäluvuille 2, 3, 4, 5 ja 6.","Merkitse, miten tulokset näytetään. Kuusi laskuria valitaan näkyviin ruudulle, jolloin jokaisen silmäluvun määrä näkyy ajon lopussa.","Kirjoita ennuste ennen ensimmäistä isoa ajoa: montako kutakin silmälukua odotat.","Rakenna ohjelma vasta sitten koneella. Kun rakenne on valmiina paperilla, yksikään muuttuja ei unohdu, eikä niitä tarvitse lisätä kesken."]},{"tyyppi":"kappale","otsikko":"Muuttuja jokaiselle silmäluvulle","sisalto":"Ohjelma laskee jokaisen silmäluvun omaan muuttujaansa, samaan tapaan kuin kirjaustaulukossa jokaisella silmäluvulla oli oma rivinsä. Nimi kertoo, mitä muuttuja laskee: kuutoset laskee kuutosia, eikä nimi a kertoisi mitään. Muuttuja noppa on eri asia kuin kuusi laskuria, koska siinä on vain viimeksi arvottu silmäluku. Ohjelman alkuun tulee seitsemän lohkoa aseta … arvoon 0, yksi jokaiselle muuttujalle. Ne ovat toistolohkon yläpuolella, jotta kone tekee ne vain kerran. Moni ympäristö säilyttää muuttujan luvun ajosta toiseen. Jos alkuarvot puuttuvat, toinen 600 heiton ajo jatkaa ensimmäisen luvuista, ja kuuden laskurin summa on 1 200. Ruudulla on silloin 1 200 heiton tulokset, vaikka luulet katsovasi 600 heiton ajoa. Muuttujan noppa alkuarvo ei muuta tulosta, koska arvonta vaihtaa sen ennen ensimmäistä ehtoa. Asetat sen silti, jotta jokainen ajo alkaa samasta tilanteesta."},{"tyyppi":"kappale","otsikko":"Yksi arvonta ja kuusi ehtoa","sisalto":"Hakasulkeet merkitsevät lohkon sisältöä. Ohjelma alkaa lohkolla kun vihreää lippua klikataan, ja sen alla ovat seitsemän aseta-lohkoa. Niiden jälkeen tulee toista 12 kertaa [ … ], ja sen sisällä on ensin aseta noppa arvoon satunnaisluku väliltä 1 ja 6. Arvonnan alla on kuusi ehtoa: jos noppa = 1, niin [muuta ykkösiä 1:llä], jos noppa = 2, niin [muuta kakkosia 1:llä] ja niin edelleen. Viimeinen on jos noppa = 6, niin [muuta kuutosia 1:llä]. Lohko muuta ykkösiä 1:llä lisää ykkösiin yhden. Joka kierroksella kone arpoo yhden luvun ja käy sitten läpi kaikki kuusi ehtoa. Muuttujassa noppa on yksi luku, joten täsmälleen yksi ehdoista on tosi ja täsmälleen yksi laskuri kasvaa. Yksi kierros on siis yksi heitto, ja kuuden laskurin summa on ajon lopussa sama kuin kierrosten määrä. Kun ohjelma toimii, vaihdat toistoon luvun 12 tilalle 600 tai 6 000, eikä muuta tarvitse muuttaa. Animaatiota ei tarvita, sillä ohjelma heittää, laskee ja näyttää luvut."},{"tyyppi":"ansa","otsikko":"Ansa: uusi arvonta jokaisessa ehdossa","sisalto":"Leo jättää muuttujan noppa pois ja kirjoittaa ehtoon suoraan jos satunnaisluku väliltä 1 ja 6 = 1, niin [muuta ykkösiä 1:llä]. Samoin hän tekee muille silmäluvuille. Ohjelma näyttää lyhyemmältä, mutta nyt jokainen ehto arpoo oman lukunsa. Yhdellä kierroksella kuudesta ehdosta voi olla tosi kaksi tai useampi tai ei yksikään, joten kierros ei enää ole yksi heitto. Se on kuin heittäisit kuutta noppaa ja katsoisit ensimmäisestä vain ykköstä, toisesta vain kakkosta ja niin edelleen. Leon 12 heiton testissä laskureihin kertyi yhteensä 15, ja toisella kerralla 9. Arvo siis luku kerran kierroksen alussa muuttujaan noppa, ja anna kaikkien kuuden ehdon katsoa samaa lukua."},{"tyyppi":"saanto","otsikko":"Testaa ensin 12 heitolla","askeleet":["Aseta toistoon 12 ja aja ohjelma. Pienen määrän tarkistat päässä, ja virhe löytyy ennen isoa ajoa.","Lue kuuden laskurin luvut ja laske ne yhteen. Summan pitää olla 12, koska jokainen kierros lisää täsmälleen yhteen laskuriin yhden.","Esimerkki: ykkösiä 3, kakkosia 1, kolmosia 2, nelosia 2, vitosia 0 ja kuutosia 4. Summa on 3 + 1 + 2 + 2 + 0 + 4 = 12, joten laskurit toimivat.","Älä korjaa ohjelmaa sen takia, että jotakin silmälukua tuli 0 tai 4. Vain 12 heitossa määrät vaihtelevat paljon.","Jos summa on muu kuin 12, tarkista lohkot ennen uutta ajoa. Onko jokaisella silmäluvulla oma ehtonsa, arvotaanko luku kerran kierroksen alussa muuttujaan noppa ja onko jokaisella laskurilla alkuarvo ennen toistoa?","Kun summa on 12, aja testi toisen kerran. Jos summa on nyt yli 12, jokin laskuri jatkoi luultavasti edellisestä ajosta. Tarkista ensin niiden laskurien aseta … arvoon 0, joiden luku on vähintään yhtä suuri kuin ensimmäisessä ajossa.","Jos sama laskuri jää nollaan monessa testissä peräkkäin, tarkista sen ehto ja lohko.","Kun summa on 12 kahdessa peräkkäisessä ajossa, vaihda toistoon 600."]},{"tyyppi":"kappale","otsikko":"Ennuste ja miksi tulokset vaihtelevat","sisalto":"Kirjoita ennuste ennen ensimmäistä isoa ajoa, kuten Onnenpyörän kokeessa. Jokaisen silmäluvun todennäköisyys on 1/6, koska satunnaisluku arpoo kuudesta yhtä todennäköisestä luvusta. 600 heitossa odotettu määrä on siis 1/6 · 600 = 600 : 6 = 100 kutakin silmälukua. 60 heitossa se on 10 ja 6 000 heitossa 1 000. Odotettu määrä ei ole lupaus. Jokainen heitto on sattumaa, joten sama ohjelma antaa eri ajoilla yleensä eri luvut, vaikka siihen ei koskettu. Alla olevan taulukon kahdessa 600 heiton ajossa kuutosia tuli 87 ja 107. Ohjelma ei ole rikki, vaikka yksikään silmäluku ei osunut tasan sataan. Tasan 100 kuutosta tulee vain noin joka 23. ajossa, ja kaikki kuusi tasan sataa on niin harvinaista, ettei sitä käytännössä näe. Ohjelman virheen paljastaa ensin summa ja sitten lohkojen lukeminen, ei se, että määrät poikkeavat ennusteesta."},{"tyyppi":"taulukko","otsikko":"Saman ohjelman neljä ajoa","otsikkorivi":["Silmäluku","60 heittoa","600 heittoa, ajo 1","600 heittoa, ajo 2","6 000 heittoa"],"rivit":[["Ykköset","8","97","112","984"],["Kakkoset","12","108","93","1 012"],["Kolmoset","9","104","99","1 003"],["Neloset","7","95","101","961"],["Vitoset","10","109","88","1 013"],["Kuutoset","14","87","107","1 027"],["Yhteensä","60","600","600","6 000"],["Ennuste kullekin silmäluvulle","10","100","100","1 000"]]},{"tyyppi":"kappale","otsikko":"Miksi osuudet tasoittuvat","sisalto":"Vertaa ajoja osuuksina, älä pelkkinä lukumäärinä. Osuus kertoo, kuinka suuri osa heitoista oli kuutosia, ja sen voi ilmoittaa prosentteina. 600 heitosta yksi prosentti on 6 heittoa, joten ajon 1 kuutosten osuus on 87 : 6 = 14,5 eli 14,5 %. 60 heittoa on kymmenesosa 600 heitosta. Siksi 14 kuutosta 60:stä on sama osuus kuin 140 kuutosta 600:sta: 14 · 10 = 140 ja 140 : 6 = 23,33… ≈ 23,3 %. 6 000 heittoa on kymmenen kertaa 600 heittoa. Siksi 1 027 kuutosta 6 000:sta on sama osuus kuin 102,7 kuutosta 600:sta: 1 027 : 10 = 102,7 ja 102,7 : 6 = 17,11… ≈ 17,1 %. Ennuste 1/6 on 100 : 6 = 16,66… ≈ 16,7 %, ja kaikki osuudet on pyöristetty kymmenesosiin. Kuutosten ero ennusteeseen kasvoi lukumääränä 4:stä 13:een ja 27:ään, mutta osuudet 23,3 %, 14,5 % ja 17,1 % lähestyivät ennustetta. Syy on sama kuin luokan yhdistetyssä toistokokeessa: suuressa määrässä sattuman heilahdukset ylös ja alas kumoavat suurelta osin toisensa. Yksittäisen heiton vaikutus osuuteen pienenee, kun heittoja on enemmän, ja ohjelma vain tekee saman kokeen paljon useammin. Tasoittuminen koskee osuuksia eikä lukumääriä, eikä se tapahdu joka ajossa. Joskus 600 heiton ajon osuus on lähempänä ennustetta kuin 6 000 heiton ajon."}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Aloittaa suoraan koneella ilman paperisuunnitelmaa ja lisää muuttujia sitä mukaa kuin muistaa, esimerkiksi laskurin kuutoset vasta, kun huomaa sen puuttuvan ruudulta","tehtava":"Näyttötilanne, osa 1: suunnitelma suunnitelmapohjaan ennen koneen avaamista","mita_kertoo":"Oppilas pitää ohjelmaa kokeilemalla rakentuvana kokonaisuutena eikä vielä erota rakennetta (muuttujat, toisto, arvonta, ehdot, tulokset) toteutuksesta. Myöhään lisätyiltä muuttujilta puuttuu usein alkuarvo, ja ehtoja jää pois. Osaa kun -kriteeri vaatii, että rakenne suunnitellaan ennen tekemistä.","mita_tehda":"Pyydä sulkemaan laite hetkeksi ja anna suunnitelmapohja. Kysy, mitkä muuttujat ohjelma tarvitsee ja mitä yhdellä kierroksella tapahtuu, ja anna oppilaan kirjoittaa vastaukset pohjaan ennen kuin hän jatkaa koneella."},{"virhe":"Yhdeltä tai useammalta seitsemästä muuttujasta puuttuu aseta … arvoon 0, ja toinen ajo jatkaa edellisen luvuista (kun alkuarvo puuttuu kaikilta laskureilta, toisen 600 heiton ajon laskureissa on yhteensä 1 200); tai alkuarvot ovat toiston sisällä, ja ajon lopussa yksi laskuri on 1 ja muut 0","tehtava":"Näyttötilanne, osa 3: 12 heiton testi ajetaan kahdesti peräkkäin","mita_kertoo":"Oppilas olettaa, että jokainen ajo alkaa tyhjästä, tai ei vielä ajattele, montako kertaa kone tekee toiston sisällä olevan lohkon. Puuttuva alkuarvo ei näy ensimmäisessä ajossa, koska juuri luodussa muuttujassa on yleensä 0. Muuttujan noppa alkuarvo ei muuta tulosta, mutta kriteeri edellyttää alkuarvon kaikille seitsemälle, jotta oppilas käy muuttujat läpi järjestelmällisesti (ks. avoimet asiat).","mita_tehda":"Pyydä ajamaan 12 heiton testi toisen kerran ja laskemaan laskurien summa ääneen. Kysy, mistä ylimääräiset heitot tulivat, minkä laskurin luku jatkui edellisestä ajosta ja mikä lohko olisi vaihtanut sen nollaan ennen ensimmäistä heittoa."},{"virhe":"Jokaisessa ehdossa on oma satunnaislukulohko (jos satunnaisluku väliltä 1 ja 6 = 3, niin …), ja 12 heiton testissä laskureihin kertyy yhteensä esimerkiksi 9 tai 15","tehtava":"Näyttötilanne, osa 3: summatarkistus ja ohjelman läpikäynti lohko lohkolta","mita_kertoo":"Oppilas ajattelee, että satunnaisluku on yksi heitto, joka pysyy samana, vaikka lohkoa käytetään monessa kohdassa. Kone arpoo kuitenkin uuden luvun aina, kun se tekee lohkon, joten jokainen ehto on oma kokeensa eikä kierros ole yksi heitto. Silloin silmälukujen summa ei ole heittojen määrä.","mita_tehda":"Kysy, montako kertaa kone arpoo yhdellä kierroksella, ja anna oppilaan laskea satunnaislukulohkot sormella. Anna hänen sitten siirtää arvonta kierroksen alkuun lohkoon aseta noppa arvoon … ja ajaa testi uudelleen."},{"virhe":"Ajaa heti 600 heittoa ilman pientä testiä tai laskematta laskurien summaa, eikä huomaa, että summa on muu kuin 600","tehtava":"Näyttötilanne, osat 3 ja 4: siirtyminen testistä 600 heiton ajoon","mita_kertoo":"Oppilas luottaa siihen, että uskottavan näköiset luvut (noin sata kutakin) tarkoittavat toimivaa ohjelmaa. Isosta ajosta virhettä on vaikea nähdä, mutta 12 heiton summan laskee päässä. Osaa kun -kriteeri vaatii testin pienellä toistomäärällä ennen isoa ajoa.","mita_tehda":"Pyydä vaihtamaan toistoon 12 ja kirjoittamaan tulostaulukon testiriville kuusi lukua ja niiden summa. Kysy ennen ajoa, mikä summan pitää olla ja miksi, ja anna hänen palata 600 heittoon vasta sitten."},{"virhe":"Sanoo ohjelman olevan rikki, koska kuutosia tuli 87 eikä 100, tai muuttaa ohjelmaa ja ajaa sitä uudelleen, kunnes määrät ovat lähempänä sataa","tehtava":"Näyttötilanne, osat 4 ja 5: 600 heiton tulokset tulostaulukossa, vertailu ennusteeseen ja toinen ajo samalla toistomäärällä","mita_kertoo":"Oppilas pitää odotettua määrää lupauksena eikä todennäköisyytenä. Hän ei vielä erota ohjelman virhettä (summa väärin) sattuman vaihtelusta (summa oikein, määrät ennusteen molemmin puolin). Ajatus, että tulos harvoin osuu tasan ennusteeseen, tuli taidosta Onnenpyörän koe (MAT6-TIL-03), mutta omasta ohjelmasta tullut poikkeama tuntuu helposti viaksi.","mita_tehda":"Kysy ensin, onko summa 600. Pyydä sitten ajamaan sama ohjelma uudelleen muuttamatta mitään ja kirjaamaan toinen ajo taulukkoon, ja kysy, kumpi kahdesta ajosta on oikea."},{"virhe":"Perustelee tasoittumisen lukumäärien erolla (\"ero ennusteeseen pienenee\") tai sanoo, että mitä enemmän heittoja, sitä lähempänä jokainen määrä on tasan ennustetta","tehtava":"Näyttötilanne, osa 5: 60, 600 ja 6 000 heiton ajot, osuudet ja perustelu tulostaulukon alle","mita_kertoo":"Oppilas on huomannut tasoittumisen mutta liittää sen väärään lukuun. Lukumäärän ero ennusteeseen voi kasvaa toistojen määrän kasvaessa, ja tasoittuminen näkyy osuuksissa, jotka lähestyvät yleensä 1/6:aa. Väite tasan ennusteesta kertoo, että sana yleensä puuttuu. Osaa kun -kriteeri vaatii perustelun sille, miksi tulokset tasoittuvat.","mita_tehda":"Pyydä kirjoittamaan oman taulukon yhdestä silmäluvusta kaikista kolmesta ajosta rinnakkain ero ennusteeseen lukumääränä ja osuus prosentteina. Kysy, kumpi rivi lähestyy ennustetta ja kumpi ei, ja anna oppilaan muotoilla perustelu uudelleen."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Suunnitelma ensin, sitten testi 12 heitolla ja summa tarkistukseksi. Arvo luku kerran kierroksessa. Lukumäärät heittelevät, mutta osuudet tasoittuvat yleensä, kun heittoja on paljon.","vaiheet":[{"aika":"7 min","otsikko":"Tunti 1: Aloitus","sisalto":"Näytä Onnenpyörän kokeen luokan yhteistaulukko, jos se on tallessa, ja kysy, montako heittoa luokka teki yhteensä. Näytä yhteisellä näytöllä lohko satunnaisluku väliltä 1 ja 6: klikkaa sitä viisi kertaa ja kirjoita luvut taululle. Kysy, voiko kukaan tietää seuraavan luvun ja mitä lohkolle pitää tehdä, jotta luku jää talteen."},{"aika":"13 min","otsikko":"Tunti 1: Näyttötilanne, osa 1","sisalto":"Jaa suunnitelmapohjat. Laitteet ovat kiinni, ja jokainen kirjoittaa pohjaan muuttujat alkuarvoineen, toistojen määrän, yhden kierroksen ja tulosten näyttämisen. Kierrä ja katso, onko muuttujia seitsemän ja tuleeko arvonta ennen ehtoja. Havainnoi kriteeri 1."},{"aika":"5 min","otsikko":"Tunti 1: Näyttötilanne, osa 2","sisalto":"Jokainen kirjoittaa pohjaan ennusteen: todennäköisyys 1/6 ja odotettu määrä 600, 60 ja 6 000 heitossa. Tarkista, että ennuste on kirjoitettu ennen kuin laite avataan."},{"aika":"15 min","otsikko":"Tunti 1: Näyttötilanne, osa 3","sisalto":"Jokainen rakentaa ohjelman suunnitelman mukaan ja ajaa testin 12 heitolla kahdesti. Laskurien summa kirjoitetaan tulostaulukon testiriveille. Katso ensin ohjelmaa ja vasta sitten ruutua: alkuarvot toiston yläpuolella, yksi arvonta kierroksen alussa, kuusi ehtoa. Havainnoi kriteerit 2, 3 ja 4."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Aja demo-ohjelma, jossa jokaisessa ehdossa on oma satunnaislukulohko, 12 heitolla ja lue laskurit ääneen. Kysy, miksi summa ei ole 12 ja montako kertaa kone arpoo yhdellä kierroksella. Jos summa osuu sattumalta 12:een, aja demo uudelleen ja kerro, että juuri siksi oma testi ajetaan kahdesti."},{"aika":"5 min","otsikko":"Tunti 2: Kertaus","sisalto":"Jokainen avaa ohjelmansa ja ajaa 12 heiton testin. Kysy, alkoivatko laskurit nollasta ja mistä sen tietää."},{"aika":"12 min","otsikko":"Tunti 2: Näyttötilanne, osa 4","sisalto":"Jokainen vaihtaa toistoon 600, ajaa ohjelman, kirjoittaa kuusi määrää ja summan tulostaulukkoon ja vertaa niitä ennusteeseen. Kuuntele, millä perusteella oppilas pitää tulosta onnistuneena. Havainnoi kriteerit 4 ja 5."},{"aika":"8 min","otsikko":"Tunti 2: Näyttötilanne, osa 5 alkaa","sisalto":"Jokainen ajaa saman 600 heiton ohjelman uudelleen muuttamatta mitään ja kirjaa toisen ajon. Kysy, kumpi ajo on oikea, ja ohjaa katsomaan summaa. Havainnoi kriteeri 5."},{"aika":"15 min","otsikko":"Tunti 2: Näyttötilanne, osa 5","sisalto":"Jokainen ajaa 60 ja 6 000 heittoa ja kirjaa ne. Oppilas valitsee yhden silmäluvun, laskee paperilla sen eron ennusteeseen lukumääränä ja osuuden prosentteina kaikista kolmesta ajosta ja kirjoittaa ne rinnakkain. Lopuksi hän kirjoittaa perustelun tulostaulukon alle. Havainnoi kriteeri 6."},{"aika":"5 min","otsikko":"Tunti 2: Lopetus","sisalto":"Kirjoittakaa taululle yhdessä kaksi lausetta: mitä lukumäärille tapahtuu ja mitä osuuksille tapahtuu, kun heittoja on enemmän. Kerro, että jakson seuraavilla tunneilla tehdään kolikonheitto-ohjelma samalla rakenteella."}],"tarvikkeet":"Jokaiselle oma laite ja lohko-ohjelmointiympäristö, jossa on satunnaislukulohko, muuttujat, toistolohko ja jos–niin-ehto ja jossa muuttujan voi näyttää ruudulla. Suunnitelmapohja ja tulostaulukko paperilla jokaiselle sekä kynä (ks. huomiot). Onnenpyörän kokeen (MAT6-TIL-03) luokan yhteistaulukko, jos se on tallessa. Opettajan demo-ohjelma, jossa jokaisessa ehdossa on oma satunnaislukulohko. Yhteinen näyttö tai projektori. Havainnointilomake, jossa on kuusi kriteeriä ja näyttötilanteen viisi osaa."},"opettajalle":{"kesto":"Kaksi oppituntia tämän tuntirungon mukaan jaksossa J5. Havainnointi jatkuu jakson seuraavilla tunneilla, eikä taitoa merkitä osatuksi yhden ajon perusteella: suunnitelma, testaus pienellä toistomäärällä ja perustelu osuuksilla pitää näkyä myös toisessa ohjelmassa, esimerkiksi kolikonheitto-ohjelmassa, jossa satunnaisluku on väliltä 1 ja 2. Tämä on haastetaito, joten se on vapaaehtoinen eikä 7. luokalle siirtymisen ehto.","huomiot":["Suoritusaikoja tai yrityskertoja ei mitata eikä kerätä koskaan, ei myöskään tässä taidossa. Havainnon kohde on suunnitelma, alkuarvot, arvonnan paikka, testaus, vertailu ja perustelu, ei se, kuinka pian ohjelma valmistuu tai monennellako ajolla se toimii. Ohjelmassa ei ole ajastinta, eikä oppilaiden tuloksia verrata keskenään: kaukana ennusteesta oleva ajo on yhtä oikea kuin lähellä oleva.","Näyttötilanne: jokainen tekee oman ohjelman omalla laitteella, ja havainnoit viittä osaa. (1) Suunnitelma paperilla ennen koneen avaamista: muuttujat noppa, ykköset, kakkoset, kolmoset, neloset, vitoset ja kuutoset alkuarvoineen 0, toisto, satunnaisluku 1–6 kerran kierroksessa muuttujaan noppa, kuusi ehtoa (jos noppa = 1, niin lisää ykkösiin 1, ja samoin silmäluvuille 2–6) ja tulosten näyttäminen ruudulla. (2) Ennuste ennen ensimmäistä isoa ajoa: jokaisen silmäluvun todennäköisyys on 1/6, joten 600 heitosta noin 100 kutakin (1/6 · 600 = 100). (3) Testi pienellä toistomäärällä: 12 heittoa ja summatarkistus, eli kuuden laskurin summa on 12; testi ajetaan kahdesti, jotta puuttuvat alkuarvot näkyvät. (4) 600 heittoa, tulokset tulostaulukkoon ja vertailu ennusteeseen. (5) Uusi ajo samalla toistomäärällä (tulokset vaihtelevat, vaikka ohjelmaa ei muutettu) ja sitten 60, 600 ja 6 000 heittoa; oppilas vertaa yhden silmäluvun osuuksia ennusteeseen ja perustelee kirjallisesti, miksi osuudet tasoittuvat.","Valmistele suunnitelmapohja ja tulostaulukko paperille. Suunnitelmapohjassa on kohdat muuttujat ja alkuarvot, toistojen määrä, yksi kierros (arvonta ja ehdot), tulosten näyttäminen ja ennuste. Tulostaulukossa on sarakkeet silmäluvuille 1–6 ja summalle sekä rivit kahdelle 12 heiton testille, kahdelle 600 heiton ajolle ja 60 ja 6 000 heiton ajoille. Taulukon alle tulee rivi ennusteille sekä tila yhden silmäluvun eroille, osuuksille ja perustelulle. Oppilas valitsee itse, minkä silmäluvun osuudet hän laskee. Tee lisäksi demo-ohjelma, jossa jokaisessa ehdossa on oma satunnaislukulohko (oppilaan tekstin Leon virhe), tunnin 1 lopetusta varten.","Lohkojen nimet vaihtelevat ohjelmointiympäristöittäin, erityisesti satunnaislukulohko (esimerkiksi valitse satunnaisluku väliltä 1 ja 6, satunnaisluku 1–6 tai arvo luku), samoin aseta ja muuta (aseta arvoksi, lisää muuttujaan). Oppilaan teksti käyttää yleisnimiä. Ympäristön valinta on avoin asia (_yleiset-MAT.md, Ohjelmointiympäristö). Tarkista etukäteen, että satunnaislukulohko antaa kokonaislukuja 1–6 molemmat päät mukaan lukien ja säilyttävätkö muuttujat arvonsa ajojen välillä. Jos ympäristö nollaa muuttujat itse, näytä alkuarvon merkitys paperilla ja kerro, että monessa ympäristössä luku säilyy.","Animaatiota ei tarvita: ohjelma heittää, laskee ja näyttää luvut. Jos oppilas haluaa näyttää heiton hahmolla, odotuslohko kirjoitetaan muodossa odota hetki, ja se poistetaan ennen isoja ajoja, koska 6 000 kierrosta odotuslohkon kanssa ei valmistu oppitunnilla. Kokeile 6 000 heiton ajo etukäteen omassa ympäristössäsi.","Yksi 12 heiton testi paljastaa arvonnan virheen noin seitsemässä tapauksessa kahdeksasta, koska summa voi osua sattumalta 12:een. Siksi testi ajetaan kahdesti, ja kriteerin 3 havainto tehdään myös ohjelman lohkoista eikä vain summasta. Kuusi erillistä jos–niin-lohkoa on tarkoituksellinen ratkaisu: muuttujassa noppa on yksi luku, joten täsmälleen yksi ehto on tosi. Sisäkkäiset jos–muuten-lohkot toimivat myös ja hyväksytään, kun arvonta on kerran kierroksen alussa ennen ehtoja. Jos oppilas tekee vain viisi ehtoa ja laskee kuutoset vähentämällä muut heittojen määrästä, kyse on lausekkeen laskemisesta ohjelmalla (MAT7-OHJ-02); pyydä kuudes ehto.","Hyväksyttävä perustelu tasoittumiselle (osa 5) nojaa osuuksiin: jokainen heitto on sattumaa, suuressa määrässä sattuman heilahdukset ylös ja alas kumoavat suurelta osin toisensa, ja osuus lähestyy yleensä 1/6:aa eli noin 16,7 %:a. Perustelu ei saa väittää, että lukumäärä osuu tasan ennusteeseen tai että tasoittuminen tapahtuu joka ajossa. Lukumäärän ero ennusteeseen voi kasvaa, vaikka osuus lähestyy ennustetta: oppilaan tekstin esimerkissä kuutosia on 4, 13 ja 27 ennusteesta, ja osuudet ovat 23,3 %, 14,5 % ja 17,1 %. Oppilaan omat ajot voivat poiketa tästä, ja myös ajo, jossa 6 000 heiton osuus on kauempana ennusteesta kuin 600 heiton osuus, kelpaa, kun perustelu sanoo yleensä eikä aina. Mikä tahansa oikea muotoilu kelpaa, eikä sanamuotoa arvioida.","Laskinta ei käytetä. Ennusteet lasketaan paperilla (1/6 · 600 = 100, 1/6 · 60 = 10, 1/6 · 6 000 = 1 000). Osuus prosentteina lasketaan jakamalla, kuten oppilaan tekstissä: 600 heitosta määrä : 6, 60 heitosta määrä ensin · 10 ja 6 000 heitosta määrä ensin : 10, ja tulos pyöristetään kymmenesosiin (MAT6-LUK-05, MAT6-MUR-07). Riittää myös, että oppilas vertaa lukumäärää ennusteeseen ja laskee osuudet vain yhdestä silmäluvusta. Prosenttien erotusta ei lasketa, koska prosenttiyksikkö kuuluu 8. luokalle, vaan osuudet kirjoitetaan rinnakkain.","Taito rakentuu taitojen Ehto ohjaa hahmoa (MAT6-OHJ-01) ja Onnenpyörän koe (MAT6-TIL-03) päälle: muuttuja, toisto ja ehto sekä ennuste ja toistokoe oletetaan tutuiksi. Uutta on satunnaisluku, seitsemän muuttujaa samassa ohjelmassa ja summatarkistus. Ohjelma tekee saman kuin TIL-03:n luokan yhdistetty toistokoe, mutta paljon useammin, joten TIL-03:n yhteistaulukko sopii tunnin 1 aloitukseen. Jos oppilas ei ole tehnyt TIL-03:a, käy ennusteen laskeminen (suotuisat jaettuna kaikilla) läpi ennen osaa 2.","Rajaukset: tähän taitoon eivät kuulu kahden nopan summa ja yhdistetyt todennäköisyydet (MAT9-TIL-06, MAT9-TIL-07), listat ja taulukot ohjelmassa, diagrammin piirtäminen ohjelmalla, taulukkolaskenta (MAT7-OHJ-01), lausekkeiden laskeminen ohjelmalla (MAT7-OHJ-02), ajastimet eikä oppilaiden tulosten vertailu keskenään. Ohjelma ei siis laske osuuksia, vaan oppilas laskee ne paperilla.","Taito on näytetty, kun suunnitelma on paperilla ennen koneen avaamista, kaikilla seitsemällä muuttujalla on alkuarvo ohjelman alussa ennen toistoa, satunnaisluku arvotaan kerran kierroksessa muuttujaan noppa, 12 heiton testin summa on 12 kahdessa peräkkäisessä ajossa, oppilas vertaa 600 heiton tulosta ennusteeseen hyväksyen vaihtelun ja perustelee tasoittumisen osuuksilla. Toimiva ohjelma ilman perustelua ei riitä näytöksi."]},"huoltajalle":{"mista_on_kyse":"Lapsi tekee ohjelman, joka heittää virtuaalista noppaa satoja tai tuhansia kertoja ja laskee, montako kertaa kukin silmäluku tuli. Ennen koneelle menoa hän suunnittelee ohjelman paperille ja kirjoittaa ennusteen: jokaista silmälukua pitäisi tulla noin kuudesosa heitoista, eli 600 heitosta noin 100. Ohjelma testataan ensin 12 heitolla, jotta virheet löytyvät pienestä määrästä. Lopuksi lapsi vertaa tuloksia ennusteeseen ja selittää, miksi osuudet tasoittuvat, kun heittoja on paljon. Tämä on vapaaehtoinen haastetaito, eikä sitä vaadita 7. luokalle siirtymiseen.","kotona":["Heittäkää oikeaa noppaa 12 kertaa ja kirjatkaa silmäluvut viivoin. Kysykää ennen heittoja, montako kuutosta lapsi odottaa, ja laskekaa lopuksi, onko viivoja yhteensä 12.","Jos lapsi näyttää ohjelmaansa, kysykää ennen ajoa, mitä laskureiden summan pitää olla ajon lopussa. Ajakaa ohjelma kahdesti ja katsokaa yhdessä, tulivatko samat luvut.","Älä opeta näin: älä sano, että mitä enemmän heittoja, sitä tarkemmin jokaista silmälukua tulee tasan ennusteen verran. Lukumäärän ero ennusteeseen voi kasvaa, ja tasoittuminen näkyy osuuksissa: kuutosten osuus kaikista heitoista on suuressa määrässä yleensä lähellä kuudesosaa."],"milloin_huolestua":"Taito on vapaaehtoinen haaste, joten keskeneräisyys ei ole huolen paikka. Kerro opettajalle, jos ohjelmointi alkaa tuntua lapsesta niin vastenmieliseltä, että hän lakkaa kokeilemasta, tai jos ohjelmointiympäristö ei toimi kotikoneella. Jos muuttuja, toisto tai ehto on vielä vaikea, kannattaa ensin palata taitoon Ehto ohjaa hahmoa."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Osaat suunnitella ja tehdä ohjelman, joka heittää virtuaalista noppaa ja laskee jokaisen silmäluvun omaan muuttujaansa. Arvot luvun kerran kierroksessa, asetat alkuarvot ohjelman alkuun ja testaat ohjelman ensin pienellä toistomäärällä summan avulla. Vertaat tuloksia ennusteeseen ja perustelet osuuksilla, miksi tulokset tasoittuvat, vaikka lukumäärät vaihtelevat. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,524 @@
+<title>Prosenttiarvo esiin · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT6-MUR-08","oppiaine":"MAT","vuosiluokka":6,"taitoalue":"MUR","jakso":"J2","taso":"ydin","otsikko":"Prosenttiarvo esiin","kuvaus":"Osaan laskea yksinkertaisen prosenttiosuuden määrästä ja kertoa, montako prosenttia osa on kokonaisuudesta.","versio":"0.2","paivitetty":"2026-10-18","ops":{"T":["T9","T10"],"S":["S2"]},"ikoni":"mittari","eyebrow":"Matematiikka · 6. luokka · Murtoluvut ja desimaaliluvut","naytto":"Lasken ilman laskinta esimerkiksi 10 %, 25 %, 1 % ja 30 % annetusta määrästä ja päättelen, montako prosenttia 15 oppilasta on 25 oppilaan luokasta.","osaa_kun":"Lasken prosenttiarvon murtoluvun tai sadasosan kautta (25 % = 1/4, 30 % = 3 · 10 %), lavennan osuuden sadasosiksi (15/25 = 60/100), erotan prosenttiluvun ja prosenttiarvon (25 % ja 20 €) ja tarkistan, ettei osa ole kokonaisuutta suurempi, kun prosentti on alle 100.","teksti":[{"tyyppi":"johdanto","sisalto":"Viidennellä luokalla laskit 50 %, 25 % ja 10 % tasaluvusta jakamalla kahdella, neljällä tai kymmenellä. Leirikoulua suunniteltaessa tarvitaan muitakin prosentteja. Leirikoulu maksaa 190 €, ja siitä 30 % maksetaan jo syksyllä. Kyselyssä 13 luokan 20 oppilaasta haluaa melomaan, ja leirin järjestäjä kysyy, montako prosenttia se on. Tässä taidossa opit laskemaan prosenttiarvon, kuten 1 % tai 30 % määrästä. Opit myös kertomaan, montako prosenttia osa on kokonaisuudesta."},{"tyyppi":"kappale","otsikko":"Prosenttiluku ja prosenttiarvo","sisalto":"Lauseessa ”30 % 190 eurosta on 57 €” on kolme lukua, ja jokaisella on oma tehtävänsä. Prosenttiluku 30 % kertoo, montako sadasosaa kokonaisuudesta otetaan. Kokonaisuus 190 € on koko määrä eli 100 %. Prosenttiarvo 57 € on se osa kokonaisuudesta, jonka prosenttiluku osoittaa. Sillä on sama yksikkö kuin kokonaisuudella. Prosenttiluku ei siis ole euroja: 30 % 190 eurosta ei ole 30 €. Kun prosenttiluku on alle 100, prosenttiarvo on pienempi kuin kokonaisuus, koska siitä otetaan vain osa."},{"tyyppi":"kappale","otsikko":"1 % on sadasosa","sisalto":"Prosentti tarkoittaa sadasosaa, joten 1 % määrästä saadaan jakamalla määrä sataan yhtä suureen osaan. Suunnistusrata on 900 metriä pitkä. Kun rata jaetaan sataan yhtä pitkään osaan, yksi osa on 900 m : 100 = 9 m. Siis 1 % radasta on 9 m. Muut pienet prosentit saat 1 %:n monikertoina. Esimerkiksi 4 % on neljä kertaa 1 %, joten 4 % radasta on 4 · 9 m = 36 m. Jakaminen sadalla voi tuottaa myös desimaaliluvun: 1 % 350 grammasta on 350 g : 100 = 3,5 g."},{"tyyppi":"kappale","otsikko":"Monta kymmenesosaa tai neljäsosaa","sisalto":"30 % = 30/100 = 3/10. Kolme kymmenesosaa on kolme kertaa yksi kymmenesosa, joten laske ensin 10 % ja kerro sitten kolmella. Leirikoulun hinnasta 10 % on 190 € : 10 = 19 €, joten 30 % on 3 · 19 € = 57 €. Samoin 20 % on kaksi kertaa 10 % ja 70 % seitsemän kertaa 10 %. Neljäsosilla toimitaan samalla tavalla. 75 % = 75/100 = 3/4, eli kolme kertaa 25 %. Esimerkiksi 75 % 48 kilosta: 48 kg : 4 = 12 kg, ja 3 · 12 kg = 36 kg."},{"tyyppi":"saanto","otsikko":"Näin lasket prosenttiarvon","askeleet":["Etsi tuttu osa, josta prosentti koostuu: 1 % = 1/100, 10 % = 1/10, 25 % = 1/4 ja 50 % = 1/2.","Laske tuttu osa jakamalla: 1 % saat jakamalla 100:lla, 10 % jakamalla 10:llä ja 25 % jakamalla 4:llä.","Kerro tarvittaessa: 7 % = 7 · 1 %, 30 % = 3 · 10 % ja 75 % = 3 · 25 %.","Kirjoita välivaihe ja yksikkö näkyviin. Esimerkiksi 30 % 6,50 eurosta: 10 % = 0,65 €, joten 30 % = 3 · 0,65 € = 1,95 €.","Tarkista koko. Kun prosenttiluku on alle 100, vastaus on pienempi kuin koko määrä. Kun prosenttiluku on alle 50, vastaus on alle puolet määrästä."]},{"tyyppi":"saanto","otsikko":"Näin lasket, montako prosenttia osa on","askeleet":["Kirjoita osuus murtolukuna osa/kokonaisuus. Kokonaisuus kuuluu nimittäjään, koska se on koko määrä eli 100 %. Esimerkiksi 13 oppilasta 20:stä on 13/20.","Lavenna murtoluku niin, että nimittäjä on 100. Kerro osoittaja ja nimittäjä samalla luvulla: 13/20 = 65/100, koska 20 · 5 = 100 ja 13 · 5 = 65.","Kun nimittäjä on 100, osoittaja kertoo prosentit, koska prosentti on sadasosa: 65/100 = 65 %.","Jos nimittäjää ei voi laventaa suoraan sadaksi, supista ensin. Esimerkiksi 18/30 = 3/5, kun supistetaan kuudella, ja 3/5 = 60/100 = 60 %.","Jos kysytään loppuosaa, laske ensin osan prosentit ja vähennä ne sadasta, koska koko joukko on 100 %. Kuoron 25 laulajasta 6 laulaa bassoa eli 24 %, joten muita on 100 % − 24 % = 76 %. Voit myös laskea ensin loppuosan määrän: 19/25 = 76/100 = 76 %.","Tarkista: kun osa on pienempi kuin kokonaisuus, vastaus on alle 100 %. Tämän taidon tehtävissä kokonaisuus on valittu niin, että osuuden saa aina sadasosiksi."]},{"tyyppi":"ansa","otsikko":"Ansa 1: 1 % ei ole 10 %","sisalto":"Kirpputorin tuotto on 800 €, ja siitä 1 % lahjoitetaan eläinsuojeluun. Vastaus ei ole 80 €, koska 800 € : 10 = 80 € on kymmenesosa eli 10 %. 1 % on sadasosa, joten jaetaan sadalla: 800 € : 100 = 8 €. Tarkista: 1 % on kymmenesosa 10 %:sta, joten 8 € on kymmenesosa 80 eurosta."},{"tyyppi":"ansa","otsikko":"Ansa 2: prosenttiluku ei ole euroja eikä jakaja","sisalto":"Polkupyörä maksaa 250 €. 20 % hinnasta ei ole 20 €, sillä 20 on prosenttiluku eikä euromäärä. Hintaa ei myöskään jaeta 20:llä: 250 € : 20 = 12,50 € on vain 5 % hinnasta. Oikein: 10 % = 250 € : 10 = 25 €, joten 20 % = 2 · 25 € = 50 €. Jos vastauksesi on suurempi kuin koko hinta, vaikka prosenttiluku on alle 100, laskussa on virhe."},{"tyyppi":"ansa","otsikko":"Ansa 3: osa ei ole prosenttiluku, ja kokonaisuus kuuluu nimittäjään","sisalto":"Kuorossa on 25 laulajaa, ja heistä 6 laulaa bassoa. Bassoja ei ole 6 %, koska 6 % tarkoittaisi kuutta laulajaa sadasta. Kirjoita osuus 6/25 ja lavenna neljällä: 24/100 = 24 %. Älä kirjoita 25/6. Se on suurempi kuin yksi eli yli 100 %, vaikka bassoja on vähemmän kuin koko kuorossa laulajia."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Prosenttiluku kertoo sadasosien määrän, ja prosenttiarvo on osa kokonaisuudesta yksikköineen.","1 % määrästä: jaa 100:lla. 7 % on seitsemän kertaa 1 %.","30 % määrästä: laske 10 % ja kerro kolmella. 75 % = 3/4: jaa neljällä ja kerro kolmella.","Montako prosenttia: osa/kokonaisuus, ja lavenna nimittäjä sadaksi. Osoittaja kertoo prosentit.","Kokonaisuus kuuluu nimittäjään.","Koko joukko on 100 %, joten loppuosa on 100 % − osan prosentit.","Kun prosenttiluku on alle 100, osa on pienempi kuin kokonaisuus."]}],"harjoitukset":[{"id":"H01","ryhma":"sadasosa","kysymys":"Paljonko on 1 % 300 eurosta? Anna vastaus euroina.","vastaus":3,"vinkki":"1 % on sadasosa. Jaa määrä sataan yhtä suureen osaan.","selitys":"1 % = 1/100, joten 300 € : 100 = 3 €."},{"id":"H02","ryhma":"sadasosa","kysymys":"Paljonko on 1 % 2 400 metristä? Anna vastaus metreinä.","vastaus":24,"vinkki":"Jaa 100:lla, ei 10:llä.","selitys":"2 400 m : 100 = 24 m. Vastaus 240 m olisi 10 % eli kymmenesosa."},{"id":"H03","ryhma":"sadasosa","kysymys":"Paljonko on 1 % 250 grammasta? Anna vastaus grammoina.","vastaus":2.5,"vinkki":"Jakaminen sadalla voi tuottaa desimaaliluvun.","selitys":"250 g : 100 = 2,5 g. Tarkistus: 100 · 2,5 g = 250 g."},{"id":"H04","ryhma":"sadasosa","kysymys":"Paljonko on 4 % 300 eurosta? Anna vastaus euroina.","vastaus":12,"vinkki":"Laske ensin 1 % ja kerro sitten neljällä.","selitys":"1 % = 300 € : 100 = 3 €, joten 4 % = 4 · 3 € = 12 €."},{"id":"H05","ryhma":"sadasosa","kysymys":"Kumpi on enemmän, 8 % 500 kilosta vai 25 % 150 kilosta? Anna suurempi määrä kilogrammoina.","vastaus":40,"vinkki":"Laske molemmat erikseen. 25 % on neljäsosa.","selitys":"1 % 500 kilosta on 5 kg, joten 8 % on 8 · 5 kg = 40 kg. 25 % 150 kilosta on 150 kg : 4 = 37,5 kg. Suurempi on 40 kg, vaikka sen prosenttiluku on pienempi."},{"id":"H06","ryhma":"sadasosa","kysymys":"Pyöräretken reitti on 6 000 metriä pitkä. Siitä 3 % kulkee hiekkatietä. Montako metriä hiekkatietä reitillä on? Anna vastaus metreinä.","vastaus":180,"vinkki":"Laske ensin, paljonko on 1 % reitistä.","selitys":"1 % = 6 000 m : 100 = 60 m, joten 3 % = 3 · 60 m = 180 m."},{"id":"H07","ryhma":"sadasosa","tyyppi":"monivalinta","kysymys":"Miksi 1 % määrästä saadaan jakamalla määrä 100:lla?","vaihtoehdot":["Koska 1 % on sadasosa: määrä jaetaan sataan yhtä suureen osaan.","Koska 1 % on kymmenesosa, ja kymmenesosa saadaan jakamalla.","Koska määrästä vähennetään sata."],"vastaus":0,"vinkki":"Mitä sana prosentti tarkoittaa?","selitys":"Prosentti tarkoittaa sadasosaa, joten 1 % = 1/100. Sadasosa saadaan jakamalla sataan yhtä suureen osaan. Kymmenesosa on 10 %, ei 1 %."},{"id":"H08","ryhma":"kymmenesosa","kysymys":"Paljonko on 10 % 130 eurosta? Anna vastaus euroina.","vastaus":13,"vinkki":"10 % on kymmenesosa.","selitys":"10 % = 1/10, joten 130 € : 10 = 13 €."},{"id":"H09","ryhma":"kymmenesosa","kysymys":"Paljonko on 30 % 130 eurosta? Anna vastaus euroina.","vastaus":39,"vinkki":"30 % on kolme kertaa 10 %.","selitys":"10 % = 13 €, joten 30 % = 3 · 13 € = 39 €. Vastaus 30 € olisi prosenttiluku euroina."},{"id":"H10","ryhma":"kymmenesosa","kysymys":"Paljonko on 20 % 35 kilosta? Anna vastaus kilogrammoina.","vastaus":7,"vinkki":"Laske 10 % ja kerro kahdella.","selitys":"10 % = 35 kg : 10 = 3,5 kg, joten 20 % = 2 · 3,5 kg = 7 kg."},{"id":"H11","ryhma":"kymmenesosa","kysymys":"Paljonko on 70 % 90 litrasta? Anna vastaus litroina.","vastaus":63,"vinkki":"70 % on seitsemän kertaa 10 %.","selitys":"10 % = 9 l, joten 70 % = 7 · 9 l = 63 l. Tarkistus: 70 % on yli puolet, ja 63 l on yli puolet 90 litrasta."},{"id":"H12","ryhma":"kymmenesosa","kysymys":"Sarjakuvalehdessä on 44 sivua. Noor on lukenut niistä 75 %. Montako sivua Noor on lukenut?","vastaus":33,"vinkki":"75 % = 3/4. Jaa neljällä ja kerro kolmella.","selitys":"44 : 4 = 11 ja 3 · 11 = 33. Noor on lukenut 33 sivua."},{"id":"H13","ryhma":"kymmenesosa","kysymys":"Paljonko on 30 % 4,60 eurosta? Anna vastaus euroina.","vastaus":1.38,"vinkki":"Laske ensin 10 %. Se on desimaaliluku.","selitys":"10 % = 4,60 € : 10 = 0,46 €, joten 30 % = 3 · 0,46 € = 1,38 €."},{"id":"H14","ryhma":"kymmenesosa","tyyppi":"monivalinta","kysymys":"Lauseessa ”40 % 50 eurosta on 20 €” mikä luku on prosenttiarvo?","vaihtoehdot":["40 %","50 €","20 €"],"vastaus":2,"vinkki":"Prosenttiarvo on osa kokonaisuudesta, ja sillä on yksikkö.","selitys":"40 % on prosenttiluku, 50 € on kokonaisuus eli 100 %, ja 20 € on prosenttiarvo eli 40 % kokonaisuudesta."},{"id":"H15","ryhma":"osuus","kysymys":"Lavenna 7/20 murtoluvuksi, jonka nimittäjä on 100. Mikä on osoittaja?","vastaus":35,"vinkki":"Millä luvulla 20 pitää kertoa, jotta saat 100?","selitys":"20 · 5 = 100, joten myös osoittaja kerrotaan viidellä: 7/20 = 35/100. Se on 35 %."},{"id":"H16","ryhma":"osuus","kysymys":"Partioleirin 25 osallistujasta 8 nukkuu riippumatossa. Montako prosenttia osallistujista nukkuu riippumatossa? Kirjoita pelkkä luku.","vastaus":32,"vinkki":"Kirjoita osuus 8/25 ja lavenna nimittäjä sadaksi.","selitys":"8/25 = 32/100, koska 25 · 4 = 100 ja 8 · 4 = 32. Osuus on 32 %."},{"id":"H17","ryhma":"osuus","kysymys":"Kirjaston 50 uutuuskirjasta 19 on lainassa, ja 10 sarjakuvasta 4 on lainassa. Kummasta joukosta suurempi osuus on lainassa? Kirjoita suuremman osuuden prosenttiluku pelkkänä lukuna.","vastaus":40,"vinkki":"Lavenna molemmat osuudet sadasosiksi ja vertaa.","selitys":"19/50 = 38/100 = 38 % ja 4/10 = 40/100 = 40 %. Sarjakuvista suurempi osuus on lainassa, vaikka määrä 4 on pienempi kuin 19."},{"id":"H18","ryhma":"osuus","kysymys":"Pelissä on 40 tasoa, ja Aino on läpäissyt niistä 26. Montako prosenttia tasoista Aino on läpäissyt? Kirjoita pelkkä luku.","vastaus":65,"vinkki":"40 ei laventu suoraan sadaksi. Supista ensin.","selitys":"26/40 = 13/20, kun supistetaan kahdella. 13/20 = 65/100, joten Aino on läpäissyt 65 % tasoista."},{"id":"H19","ryhma":"osuus","kysymys":"Akvaariossa on 30 kalaa, ja niistä 12 on neontetroja. Montako prosenttia kaloista ei ole neontetroja? Kirjoita pelkkä luku.","vastaus":60,"vinkki":"Laske ensin neontetrojen osuus. Koko akvaario on 100 %.","selitys":"12/30 = 2/5 = 40/100 eli 40 %. Muita kaloja on 100 % − 40 % = 60 %. Tarkistus: muita kaloja on 18, ja 18/30 = 3/5 = 60 %."},{"id":"H20","ryhma":"osuus","tyyppi":"monivalinta","kysymys":"Montako prosenttia 6 on 20:stä? Mikä murtoluku kuvaa osuutta?","vaihtoehdot":["20/6","6/20","6/100"],"vastaus":1,"vinkki":"Kokonaisuus kuuluu nimittäjään.","selitys":"Kokonaisuus 20 on 100 %, joten se kirjoitetaan nimittäjään: 6/20 = 30/100 = 30 %. 6/100 olisi 6 %, ja 20/6 on yli yksi eli yli 100 %."}],"harjoitusryhmat":[{"id":"sadasosa","nimi":"1 % ja sen monikerrat","info":"1 % on sadasosa: jaa määrä 100:lla. Muut pienet prosentit saat kertomalla 1 %:n."},{"id":"kymmenesosa","nimi":"Kymmenesosat ja neljäsosat","info":"Laske ensin 10 % tai 25 % ja kerro sitten: 30 % = 3 · 10 % ja 75 % = 3 · 25 %."},{"id":"osuus","nimi":"Montako prosenttia?","info":"Kirjoita osuus murtolukuna osa/kokonaisuus ja lavenna nimittäjä sadaksi. Kirjoita vastaukseksi pelkkä luku."}],"ryhmanimet":{"sadasosa":"1 % ja sen monikerrat","kymmenesosa":"Kymmenesosat, neljäsosat ja prosenttiarvo","osuus":"Montako prosenttia"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita välivaihe näkyviin (esimerkiksi 30 % = 3 · 10 %).\nKirjoita yksikkö, kun tehtävä sitä pyytää.\nKun kysytään prosentteja, kirjoita pelkkä luku tai luku ja %-merkki.\nTehtävissä 6, 12, 13 ja 19 kirjoita perustelu ja laskettu vastaus.","tehtavat":[{"nro":1,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 1 700 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":17},{"nro":2,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 450 kilosta? Anna vastaus kilogrammoina ja kirjoita yksikkö.","vastaus":4.5},{"nro":3,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 6 % 1 200 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":72},{"nro":4,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Koulun kirjastossa on 3 500 kirjaa. Niistä 4 % on runokirjoja. Montako runokirjaa kirjastossa on?","vastaus":140},{"nro":5,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kumpi on enemmän, 4 % 700 eurosta vai 25 % 108 eurosta? Anna suurempi määrä euroina ja kirjoita yksikkö.","vastaus":28},{"nro":6,"ryhma":"sadasosa","tyyppi":"sanallinen","kysymys":"Eetu sanoo, että 1 % 1 500 eurosta on 150 €. Onko Eetu oikeassa? Perustele ja laske oikea vastaus.","vastaus":"Malliesimerkki: Ei ole. 1 % on sadasosa, joten 1 500 € jaetaan sataan yhtä suureen osaan: 1 500 € : 100 = 15 €. Eetun 150 € on 10 % eli kymmenesosa."},{"nro":7,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 20 % 65 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":13},{"nro":8,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 240 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":72},{"nro":9,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 70 % 80 litrasta? Anna vastaus litroina ja kirjoita yksikkö.","vastaus":56},{"nro":10,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 75 % 68 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":51},{"nro":11,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 7,20 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":2.16},{"nro":12,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Reppu maksaa 60 €. Aya sanoo, että 20 % hinnasta on 20 €. Mikä on oikea prosenttiarvo, ja mitä Aya sekoitti?","vastaus":"Malliesimerkki: Oikea prosenttiarvo on 12 €. 10 % hinnasta on 60 € : 10 = 6 €, joten 20 % on 2 · 6 € = 12 €. Aya sekoitti prosenttiluvun ja prosenttiarvon: hän käytti prosenttilukua 20 euromääränä."},{"nro":13,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Elias laski, että 30 % 50 kilosta on 150 kiloa. Voiko tulos olla oikein? Perustele ja laske oikea prosenttiarvo.","vastaus":"Malliesimerkki: Ei voi. 30 % on alle 100 %, joten prosenttiarvon pitää olla pienempi kuin koko määrä 50 kg. 10 % on 50 kg : 10 = 5 kg, joten 30 % on 3 · 5 kg = 15 kg. Elias kertoi koko määrän kolmella ottamatta ensin kymmenesosaa."},{"nro":14,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Lippukunnan 50 jäsenestä 23 lähtee kesäleirille. Montako prosenttia jäsenistä lähtee kesäleirille?","vastaus":46},{"nro":15,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Sääpäiväkirjaan merkittiin 20 päivää, ja niistä 11 oli sateisia. Montako prosenttia päivistä oli sateisia?","vastaus":55},{"nro":16,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Pelissä on 25 tasoa, ja Aya on läpäissyt niistä 9. Montako prosenttia tasoista Aya on läpäissyt?","vastaus":36},{"nro":17,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kokeessa oli 30 kysymystä, ja Noor vastasi oikein 21 kysymykseen. Montako prosenttia kysymyksistä meni oikein?","vastaus":70},{"nro":18,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Luokalla on 28 oppilasta, ja heistä 7 tulee kouluun bussilla. Montako prosenttia luokan oppilaista ei tule kouluun bussilla?","vastaus":75},{"nro":19,"ryhma":"osuus","tyyppi":"sanallinen","kysymys":"Sara laski, montako prosenttia 12 on 20:stä, ja kirjoitti osuudeksi 20/12. Mitä Sara teki väärin? Laske oikea vastaus.","vastaus":"Malliesimerkki: Sara vaihtoi osan ja kokonaisuuden paikat. Kokonaisuus 20 kuuluu nimittäjään, koska se on koko määrä eli 100 %: 12/20 = 60/100 = 60 %. Murtoluku 20/12 on suurempi kuin yksi, joten se antaisi yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"nro":20,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Joukkue Kotkat voitti 20 ottelustaan 17 ja joukkue Haukat 25 ottelustaan 18. Kumman joukkueen voittojen osuus on suurempi? Kirjoita suuremman osuuden prosenttiluku.","vastaus":85}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita välivaihe näkyviin (esimerkiksi 30 % = 3 · 10 %).\nKirjoita yksikkö, kun tehtävä sitä pyytää.\nKun kysytään prosentteja, kirjoita pelkkä luku tai luku ja %-merkki.\nTehtävissä 6, 12, 13 ja 19 kirjoita perustelu ja laskettu vastaus.","tehtavat":[{"nro":1,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 2 300 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":23},{"nro":2,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 380 kilosta? Anna vastaus kilogrammoina ja kirjoita yksikkö.","vastaus":3.8},{"nro":3,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 7 % 1 400 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":98},{"nro":4,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Puutarhamyymälässä on 2 800 kukkasipulia. Niistä 6 % on tulppaanin sipuleita. Montako tulppaanin sipulia myymälässä on?","vastaus":168},{"nro":5,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kumpi on enemmän, 3 % 1 100 eurosta vai 25 % 128 eurosta? Anna suurempi määrä euroina ja kirjoita yksikkö.","vastaus":33},{"nro":6,"ryhma":"sadasosa","tyyppi":"sanallinen","kysymys":"Sara sanoo, että 1 % 2 900 eurosta on 290 €. Onko Sara oikeassa? Perustele ja laske oikea vastaus.","vastaus":"Malliesimerkki: Ei ole. 1 % on sadasosa, joten 2 900 € jaetaan sataan yhtä suureen osaan: 2 900 € : 100 = 29 €. Saran 290 € on 10 % eli kymmenesosa."},{"nro":7,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 20 % 85 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":17},{"nro":8,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 180 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":54},{"nro":9,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 60 % 70 litrasta? Anna vastaus litroina ja kirjoita yksikkö.","vastaus":42},{"nro":10,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 75 % 56 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":42},{"nro":11,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 5,40 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":1.62},{"nro":12,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Lautapeli maksaa 40 €. Onni sanoo, että 30 % hinnasta on 30 €. Mikä on oikea prosenttiarvo, ja mitä Onni sekoitti?","vastaus":"Malliesimerkki: Oikea prosenttiarvo on 12 €. 10 % hinnasta on 40 € : 10 = 4 €, joten 30 % on 3 · 4 € = 12 €. Onni sekoitti prosenttiluvun ja prosenttiarvon: hän käytti prosenttilukua 30 euromääränä."},{"nro":13,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Aino laski, että 40 % 60 kilosta on 240 kiloa. Voiko tulos olla oikein? Perustele ja laske oikea prosenttiarvo.","vastaus":"Malliesimerkki: Ei voi. 40 % on alle 100 %, joten prosenttiarvon pitää olla pienempi kuin koko määrä 60 kg. 10 % on 60 kg : 10 = 6 kg, joten 40 % on 4 · 6 kg = 24 kg. Aino kertoi koko määrän neljällä ottamatta ensin kymmenesosaa."},{"nro":14,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Koulun kirjastossa on 50 lautapeliä, ja niistä 31 on lainassa. Montako prosenttia lautapeleistä on lainassa?","vastaus":62},{"nro":15,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kuorossa on 20 laulajaa, ja heistä 17 esiintyy kevätjuhlassa. Montako prosenttia laulajista esiintyy kevätjuhlassa?","vastaus":85},{"nro":16,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Retkibussissa on 25 istuinta, ja niistä 7 jää tyhjiksi. Montako prosenttia istuimista jää tyhjiksi?","vastaus":28},{"nro":17,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Pyöräretken reitti on 24 kilometriä, ja siitä 18 kilometriä on pyörätietä. Montako prosenttia reitistä on pyörätietä?","vastaus":75},{"nro":18,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Ratsastusleirillä on 40 osallistujaa, ja heistä 6 ratsastaa ponilla. Montako prosenttia osallistujista ei ratsasta ponilla?","vastaus":85},{"nro":19,"ryhma":"osuus","tyyppi":"sanallinen","kysymys":"Leo laski, montako prosenttia 16 on 25:stä, ja kirjoitti osuudeksi 25/16. Mitä Leo teki väärin? Laske oikea vastaus.","vastaus":"Malliesimerkki: Leo vaihtoi osan ja kokonaisuuden paikat. Kokonaisuus 25 kuuluu nimittäjään, koska se on koko määrä eli 100 %: 16/25 = 64/100 = 64 %. Murtoluku 25/16 on suurempi kuin yksi, joten se antaisi yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"nro":20,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Joukkue Kotkat voitti 20 ottelustaan 11 ja joukkue Haukat 25 ottelustaan 13. Kumman joukkueen voittojen osuus on suurempi? Kirjoita suuremman osuuden prosenttiluku.","vastaus":55}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita välivaihe näkyviin (esimerkiksi 30 % = 3 · 10 %).\nKirjoita yksikkö, kun tehtävä sitä pyytää.\nKun kysytään prosentteja, kirjoita pelkkä luku tai luku ja %-merkki.\nTehtävissä 6, 12, 13 ja 19 kirjoita perustelu ja laskettu vastaus.","tehtavat":[{"nro":1,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 3 100 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":31},{"nro":2,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 720 kilosta? Anna vastaus kilogrammoina ja kirjoita yksikkö.","vastaus":7.2},{"nro":3,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 3 % 2 600 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":78},{"nro":4,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kevätkonserttiin myytiin 1 500 lippua. Niistä 8 % myytiin ovelta. Montako lippua myytiin ovelta?","vastaus":120},{"nro":5,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kumpi on enemmän, 6 % 500 eurosta vai 25 % 112 eurosta? Anna suurempi määrä euroina ja kirjoita yksikkö.","vastaus":30},{"nro":6,"ryhma":"sadasosa","tyyppi":"sanallinen","kysymys":"Elias sanoo, että 1 % 2 100 eurosta on 210 €. Onko Elias oikeassa? Perustele ja laske oikea vastaus.","vastaus":"Malliesimerkki: Ei ole. 1 % on sadasosa, joten 2 100 € jaetaan sataan yhtä suureen osaan: 2 100 € : 100 = 21 €. Eliaksen 210 € on 10 % eli kymmenesosa."},{"nro":7,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 20 % 95 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":19},{"nro":8,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 270 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":81},{"nro":9,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 40 % 90 litrasta? Anna vastaus litroina ja kirjoita yksikkö.","vastaus":36},{"nro":10,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 75 % 96 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":72},{"nro":11,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 9,10 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":2.73},{"nro":12,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Lumilauta maksaa 120 €. Sara sanoo, että 40 % hinnasta on 40 €. Mikä on oikea prosenttiarvo, ja mitä Sara sekoitti?","vastaus":"Malliesimerkki: Oikea prosenttiarvo on 48 €. 10 % hinnasta on 120 € : 10 = 12 €, joten 40 % on 4 · 12 € = 48 €. Sara sekoitti prosenttiluvun ja prosenttiarvon: hän käytti prosenttilukua 40 euromääränä."},{"nro":13,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Leo laski, että 60 % 20 kilosta on 120 kiloa. Voiko tulos olla oikein? Perustele ja laske oikea prosenttiarvo.","vastaus":"Malliesimerkki: Ei voi. 60 % on alle 100 %, joten prosenttiarvon pitää olla pienempi kuin koko määrä 20 kg. 10 % on 20 kg : 10 = 2 kg, joten 60 % on 6 · 2 kg = 12 kg. Leo kertoi koko määrän kuudella ottamatta ensin kymmenesosaa."},{"nro":14,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kasvimaalla on 50 taimea, ja niistä 17 on tomaatteja. Montako prosenttia taimista on tomaatteja?","vastaus":34},{"nro":15,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Akvaariossa on 20 kalaa, ja niistä 3 on monneja. Montako prosenttia kaloista on monneja?","vastaus":15},{"nro":16,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kirjastossa on 25 äänikirjaa, ja niistä 13 on lainassa. Montako prosenttia äänikirjoista on lainassa?","vastaus":52},{"nro":17,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Leirikoulussa on 40 osallistujaa, ja heistä 24 valitsee melonnan. Montako prosenttia osallistujista valitsee melonnan?","vastaus":60},{"nro":18,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Puutarhassa on 30 ruusupensasta, ja niistä 9 kukkii keltaisena. Montako prosenttia pensaista ei kuki keltaisena?","vastaus":70},{"nro":19,"ryhma":"osuus","tyyppi":"sanallinen","kysymys":"Aya laski, montako prosenttia 27 on 50:stä, ja kirjoitti osuudeksi 50/27. Mitä Aya teki väärin? Laske oikea vastaus.","vastaus":"Malliesimerkki: Aya vaihtoi osan ja kokonaisuuden paikat. Kokonaisuus 50 kuuluu nimittäjään, koska se on koko määrä eli 100 %: 27/50 = 54/100 = 54 %. Murtoluku 50/27 on suurempi kuin yksi, joten se antaisi yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"nro":20,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Joukkue Kotkat voitti 50 ottelustaan 21 ja joukkue Haukat 25 ottelustaan 11. Kumman joukkueen voittojen osuus on suurempi? Kirjoita suuremman osuuden prosenttiluku.","vastaus":44}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita välivaihe näkyviin (esimerkiksi 30 % = 3 · 10 %).\nKirjoita yksikkö, kun tehtävä sitä pyytää.\nKun kysytään prosentteja, kirjoita pelkkä luku tai luku ja %-merkki.\nTehtävissä 6, 12, 13 ja 19 kirjoita perustelu ja laskettu vastaus.","tehtavat":[{"nro":1,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 1 900 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":19},{"nro":2,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 560 kilosta? Anna vastaus kilogrammoina ja kirjoita yksikkö.","vastaus":5.6},{"nro":3,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 8 % 1 100 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":88},{"nro":4,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Pelissä on 2 700 kerättävää kolikkoa. Niistä 5 % on kultaisia. Montako kultaista kolikkoa pelissä on?","vastaus":135},{"nro":5,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kumpi on enemmän, 2 % 1 800 eurosta vai 25 % 140 eurosta? Anna suurempi määrä euroina ja kirjoita yksikkö.","vastaus":36},{"nro":6,"ryhma":"sadasosa","tyyppi":"sanallinen","kysymys":"Aino sanoo, että 1 % 1 400 eurosta on 140 €. Onko Aino oikeassa? Perustele ja laske oikea vastaus.","vastaus":"Malliesimerkki: Ei ole. 1 % on sadasosa, joten 1 400 € jaetaan sataan yhtä suureen osaan: 1 400 € : 100 = 14 €. Ainon 140 € on 10 % eli kymmenesosa."},{"nro":7,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 20 % 55 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":11},{"nro":8,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 360 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":108},{"nro":9,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 80 % 60 litrasta? Anna vastaus litroina ja kirjoita yksikkö.","vastaus":48},{"nro":10,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 75 % 60 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":45},{"nro":11,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 6,30 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":1.89},{"nro":12,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Kypärä maksaa 110 €. Eetu sanoo, että 30 % hinnasta on 30 €. Mikä on oikea prosenttiarvo, ja mitä Eetu sekoitti?","vastaus":"Malliesimerkki: Oikea prosenttiarvo on 33 €. 10 % hinnasta on 110 € : 10 = 11 €, joten 30 % on 3 · 11 € = 33 €. Eetu sekoitti prosenttiluvun ja prosenttiarvon: hän käytti prosenttilukua 30 euromääränä."},{"nro":13,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Sara laski, että 70 % 30 kilosta on 210 kiloa. Voiko tulos olla oikein? Perustele ja laske oikea prosenttiarvo.","vastaus":"Malliesimerkki: Ei voi. 70 % on alle 100 %, joten prosenttiarvon pitää olla pienempi kuin koko määrä 30 kg. 10 % on 30 kg : 10 = 3 kg, joten 70 % on 7 · 3 kg = 21 kg. Sara kertoi koko määrän seitsemällä ottamatta ensin kymmenesosaa."},{"nro":14,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Sählyturnauksessa pelattiin 50 ottelua, ja niistä 29 päättyi kotijoukkueen voittoon. Montako prosenttia otteluista päättyi kotijoukkueen voittoon?","vastaus":58},{"nro":15,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Partioryhmässä on 20 jäsentä, ja heistä 19 on käynyt yöretkellä. Montako prosenttia jäsenistä on käynyt yöretkellä?","vastaus":95},{"nro":16,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Sählyjoukkue harjoitteli keväällä 25 kertaa, ja niistä 21 kertaa ulkona. Montako prosenttia harjoituskerroista pidettiin ulkona?","vastaus":84},{"nro":17,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kirjastossa on 35 uutuuskirjaa, ja niistä 28 on lainassa. Montako prosenttia uutuuskirjoista on lainassa?","vastaus":80},{"nro":18,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kirjastoauto palveli 45 lainaajaa, ja heistä 9 lainasi sarjakuvia. Montako prosenttia lainaajista ei lainannut sarjakuvia?","vastaus":80},{"nro":19,"ryhma":"osuus","tyyppi":"sanallinen","kysymys":"Elias laski, montako prosenttia 8 on 20:stä, ja kirjoitti osuudeksi 20/8. Mitä Elias teki väärin? Laske oikea vastaus.","vastaus":"Malliesimerkki: Elias vaihtoi osan ja kokonaisuuden paikat. Kokonaisuus 20 kuuluu nimittäjään, koska se on koko määrä eli 100 %: 8/20 = 40/100 = 40 %. Murtoluku 20/8 on suurempi kuin yksi, joten se antaisi yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"nro":20,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Joukkue Kotkat voitti 50 ottelustaan 33 ja joukkue Haukat 20 ottelustaan 14. Kumman joukkueen voittojen osuus on suurempi? Kirjoita suuremman osuuden prosenttiluku.","vastaus":70}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita välivaihe näkyviin (esimerkiksi 30 % = 3 · 10 %).\nKirjoita yksikkö, kun tehtävä sitä pyytää.\nKun kysytään prosentteja, kirjoita pelkkä luku tai luku ja %-merkki.\nTehtävissä 6, 12, 13 ja 19 kirjoita perustelu ja laskettu vastaus.","tehtavat":[{"nro":1,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 4 600 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":46},{"nro":2,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 1 % 230 kilosta? Anna vastaus kilogrammoina ja kirjoita yksikkö.","vastaus":2.3},{"nro":3,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Paljonko on 4 % 2 300 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":92},{"nro":4,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Askartelukaupan varastossa on 1 900 kynää. Niistä 9 % on hopeisia. Montako hopeista kynää varastossa on?","vastaus":171},{"nro":5,"ryhma":"sadasosa","tyyppi":"lasku","kysymys":"Kumpi on enemmän, 3 % 1 300 eurosta vai 25 % 152 eurosta? Anna suurempi määrä euroina ja kirjoita yksikkö.","vastaus":39},{"nro":6,"ryhma":"sadasosa","tyyppi":"sanallinen","kysymys":"Leo sanoo, että 1 % 3 600 eurosta on 360 €. Onko Leo oikeassa? Perustele ja laske oikea vastaus.","vastaus":"Malliesimerkki: Ei ole. 1 % on sadasosa, joten 3 600 € jaetaan sataan yhtä suureen osaan: 3 600 € : 100 = 36 €. Leon 360 € on 10 % eli kymmenesosa."},{"nro":7,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 20 % 75 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":15},{"nro":8,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 390 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":117},{"nro":9,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 90 % 50 litrasta? Anna vastaus litroina ja kirjoita yksikkö.","vastaus":45},{"nro":10,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 75 % 40 metristä? Anna vastaus metreinä ja kirjoita yksikkö.","vastaus":30},{"nro":11,"ryhma":"kymmenesosa","tyyppi":"lasku","kysymys":"Paljonko on 30 % 8,20 eurosta? Anna vastaus euroina ja kirjoita yksikkö.","vastaus":2.46},{"nro":12,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Teltta maksaa 160 €. Noor sanoo, että 40 % hinnasta on 40 €. Mikä on oikea prosenttiarvo, ja mitä Noor sekoitti?","vastaus":"Malliesimerkki: Oikea prosenttiarvo on 64 €. 10 % hinnasta on 160 € : 10 = 16 €, joten 40 % on 4 · 16 € = 64 €. Noor sekoitti prosenttiluvun ja prosenttiarvon: hän käytti prosenttilukua 40 euromääränä."},{"nro":13,"ryhma":"kymmenesosa","tyyppi":"sanallinen","kysymys":"Onni laski, että 30 % 90 kilosta on 270 kiloa. Voiko tulos olla oikein? Perustele ja laske oikea prosenttiarvo.","vastaus":"Malliesimerkki: Ei voi. 30 % on alle 100 %, joten prosenttiarvon pitää olla pienempi kuin koko määrä 90 kg. 10 % on 90 kg : 10 = 9 kg, joten 30 % on 3 · 9 kg = 27 kg. Onni kertoi koko määrän kolmella ottamatta ensin kymmenesosaa."},{"nro":14,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Pyöräretkellä ajettiin 50 kilometriä, ja niistä 43 kilometriä ajettiin pyörätietä. Montako prosenttia matkasta ajettiin pyörätietä?","vastaus":86},{"nro":15,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Ratsastustallilla on 20 hevosta, ja niistä 14 on tammoja. Montako prosenttia hevosista on tammoja?","vastaus":70},{"nro":16,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Askarteluryhmä tekee 25 lyhtyä, ja niistä 18 on valmiina. Montako prosenttia lyhdyistä on valmiina?","vastaus":72},{"nro":17,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kevätjuhlassa on 60 esiintyjää, ja heistä 33 laulaa kuorossa. Montako prosenttia esiintyjistä laulaa kuorossa?","vastaus":55},{"nro":18,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Kevätretkelle lähtee 60 retkeläistä, ja heistä 21 kulkee pyörällä. Montako prosenttia retkeläisistä ei kulje pyörällä?","vastaus":65},{"nro":19,"ryhma":"osuus","tyyppi":"sanallinen","kysymys":"Noor laski, montako prosenttia 22 on 25:stä, ja kirjoitti osuudeksi 25/22. Mitä Noor teki väärin? Laske oikea vastaus.","vastaus":"Malliesimerkki: Noor vaihtoi osan ja kokonaisuuden paikat. Kokonaisuus 25 kuuluu nimittäjään, koska se on koko määrä eli 100 %: 22/25 = 88/100 = 88 %. Murtoluku 25/22 on suurempi kuin yksi, joten se antaisi yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"nro":20,"ryhma":"osuus","tyyppi":"lasku","kysymys":"Joukkue Kotkat voitti 50 ottelustaan 39 ja joukkue Haukat 25 ottelustaan 20. Kumman joukkueen voittojen osuus on suurempi? Kirjoita suuremman osuuden prosenttiluku.","vastaus":80}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Prosenttiluku kertoo, montako sadasosaa otetaan, ja prosenttiarvo on se osa kokonaisuudesta. 1 % saadaan jakamalla määrä sadalla, ja 30 % on kolme kertaa 10 %. Kun kysytään, montako prosenttia osa on, kirjoitetaan osa/kokonaisuus ja lavennetaan nimittäjä sadaksi.","vaiheet":[{"aika":"7 min","otsikko":"Tunti 1: Aloitus","sisalto":"Kerro johdannon tilanne: leirikoulu maksaa 190 €, ja siitä 30 % maksetaan syksyllä. Kysy, onko syksyn maksu yli vai alle puolet hinnasta ja miten sen voisi laskea. Kirjaa ehdotukset taululle kommentoimatta."},{"aika":"10 min","otsikko":"Tunti 1: 1 % on sadasosa","sisalto":"Näytä metrimitta: metri on 100 cm, joten 1 % metristä on 1 cm. Kysy, paljonko on 1 % kolmesta metristä (3 cm) ja 1 % 900 metrin suunnistusradasta (9 m). Kirjoita taululle väite ”1 % 800 eurosta on 80 €” ja anna parien etsiä virhe (ansa 1)."},{"aika":"10 min","otsikko":"Tunti 1: Kymmenesosat ja neljäsosat","sisalto":"Jokainen piirtää ruutupaperille 10 · 10 ruudun neliön ja värittää kolme kokonaista riviä. Kysy, montako ruutua on väritetty (30) ja montako kymmenen ruudun riviä se on (3). Laske taululla 30 % 190 eurosta kahdessa vaiheessa ja sitten 75 % 48 kilosta. Laske lopuksi kartan esimerkki 25 % 80 eurosta = 20 € ja kysy, mikä luvuista on prosenttiluku ja mikä prosenttiarvo."},{"aika":"13 min","otsikko":"Tunti 1: Harjoittelu","sisalto":"Harjoitusryhmät 1 % ja sen monikerrat sekä Kymmenesosat ja neljäsosat (H01–H14). Kierrä ja katso erityisesti H02 (vastaus 240 kertoo ansasta 1), H09 (vastaus 30 kertoo, että prosenttiluku kirjoitettiin euroina) ja H12 (vastaus 11 kertoo, että kertominen kolmella unohtui)."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Jokainen kirjoittaa vihkoon arvion ennen laskua: onko 70 % 90 litrasta yli vai alle 45 litraa, ja miksi. Käykää perustelu läpi: 70 % on yli puolet, joten vastaus on yli puolet 90 litrasta."},{"aika":"8 min","otsikko":"Tunti 2: Aloitus ruudukolla","sisalto":"Kerro johdannon toinen tilanne: 13 luokan 20 oppilaasta haluaa melomaan. Jokainen jakaa 10 · 10 ruudun neliön 20 viiden ruudun ryhmään ja värittää 13 ryhmää. Laskekaa väritetyt ruudut: 13 · 5 = 65, joten osuus on 65 %. Kirjoita taululle 13/20 = 65/100 = 65 %."},{"aika":"10 min","otsikko":"Tunti 2: Laventaminen ja supistaminen","sisalto":"Laske taululla kartan esimerkki: 15 oppilasta 25:stä on 15/25 = 60/100 = 60 %. Näytä sitten osuus, jonka nimittäjä ei laventu suoraan sadaksi: 18/30 = 3/5 = 60/100. Kysy, miksi kokonaisuus kirjoitetaan nimittäjään."},{"aika":"7 min","otsikko":"Tunti 2: Ansat 2 ja 3","sisalto":"Kirjoita taululle kaksi väärää ratkaisua kuoron tilanteesta (6 bassoa 25 laulajasta): ”6 %” ja ”25/6”. Parit selittävät, mikä kummassakin on vialla ja miten 25/6 paljastuu: se on yli yksi eli yli 100 %, vaikka osa on pienempi kuin kokonaisuus."},{"aika":"15 min","otsikko":"Tunti 2: Harjoittelu","sisalto":"Harjoitusryhmä Montako prosenttia? (H15–H20) ja edellisen tunnin kesken jääneet tehtävät. Vastaus 26 harjoituksessa H18 kertoo, että osa kirjoitettiin prosenttiluvuksi, ja vastaus 40 harjoituksessa H19, ettei sana ”ei” tullut luetuksi."},{"aika":"5 min","otsikko":"Tunti 2: Lopetus","sisalto":"Jokainen kirjoittaa vihkoon lauseen ”30 % 190 eurosta on 57 €” ja merkitsee siihen prosenttiluvun, kokonaisuuden ja prosenttiarvon. Kysy lopuksi, miksi prosenttiarvo on pienempi kuin kokonaisuus."}],"tarvikkeet":"Metrimitta tai mittanauha, ruutupaperia (kaksi 10 · 10 ruudun neliötä jokaiselle) ja värikyniä. Kokeeseen kynä ja kumi; laskinta ei käytetä."},"virhesanakirja":[{"virhe":"1 % 1 300 metristä = 130 m","tehtava":"1 % määrästä (H02, kokeen tehtävät 1, 2, 3 ja 6)","mita_kertoo":"Määrä on jaettu kymmenellä eikä sadalla. Oppilas sekoittaa 1 %:n ja 10 %:n, koska molemmissa on numero 1.","mita_tehda":"Näytä metrimitalla, että 1 % metristä on 1 cm ja 10 % on 10 cm. Kysy sitten, kumpi on 130 m: sadasosa vai kymmenesosa 1 300 metristä."},{"virhe":"30 % 150 eurosta = 30 €","tehtava":"prosenttiarvo (H09, kokeen tehtävät 7–12)","mita_kertoo":"Prosenttiluku on kirjoitettu euromääräksi. Oppilas ei vielä erota prosenttilukua ja prosenttiarvoa.","mita_tehda":"Kirjoituta lause ”30 % 150 eurosta on … €” ja merkituta siihen prosenttiluku, kokonaisuus ja prosenttiarvo. Kysy, olisiko 30 € oikein, jos hinta olisi 100 €."},{"virhe":"30 % 150 eurosta = 150 : 30 = 5 €","tehtava":"prosenttiarvo (kokeen tehtävät 8 ja 11)","mita_kertoo":"Prosenttiluku on otettu jakajaksi. Jakaminen 30:llä antaisi yhden kolmaskymmenesosan, joka ei ole 30 %.","mita_tehda":"Kirjoituta ensin 30 % = 30/100 = 3/10. Näytä ruudukosta, että 30 ruutua on kolme kymmenen ruudun riviä, ja laske 10 % ja sen kolminkertainen."},{"virhe":"17 laulajaa 25:stä = 17 %","tehtava":"montako prosenttia (H16, kokeen tehtävät 14–17)","mita_kertoo":"Osa on kirjoitettu prosenttiluvuksi. Oppilas ei huomaa, että 17 % tarkoittaisi 17:ää sadasta eikä 17:ää 25:stä.","mita_tehda":"Väritä ruudukosta 25 neljän ruudun ryhmää ja niistä 17 ryhmää. Laskekaa väritetyt ruudut: 17 · 4 = 68, joten osuus on 68 %."},{"virhe":"Montako prosenttia 17 on 25:stä: 25/17","tehtava":"osuus murtolukuna (H20, kokeen tehtävät 16 ja 19)","mita_kertoo":"Osa ja kokonaisuus ovat väärin päin. Oppilas jakaa suuremman luvun pienemmällä, kuten jakolaskussa on tottunut, eikä kysy, kumpi luku on koko määrä.","mita_tehda":"Kysy, kumpi luku on koko määrä eli 100 %. Kirjoituta se nimittäjään ja tarkistuta, että murtoluku on pienempi kuin yksi, kun osa on pienempi kuin kokonaisuus."},{"virhe":"75 % 32 metristä = 8 m","tehtava":"75 % määrästä (H12, kokeen tehtävä 10)","mita_kertoo":"Määrä on jaettu neljällä, mutta kertominen kolmella unohtui. 8 m on 25 % eikä 75 %.","mita_tehda":"Kirjoituta 75 % = 3/4 ja kysy, montako neljäsosaa otetaan. Tarkistuta, että 75 % on yli puolet: 8 m on alle puolet 32 metristä."},{"virhe":"40 % 70 kilosta = 280 kg","tehtava":"järkevyys (kokeen tehtävä 13)","mita_kertoo":"Koko määrä on kerrottu neljällä ottamatta ensin kymmenesosaa. Oppilas ei tarkista, että alle 100 %:n prosenttiarvo on pienempi kuin koko määrä.","mita_tehda":"Kysy ennen laskua, onko 40 % enemmän vai vähemmän kuin puolet. Laske sitten 10 % = 7 kg ja 40 % = 4 · 7 kg = 28 kg."},{"virhe":"36 retkeläisestä 9 ei ui, joten uivia on 25 %","tehtava":"loppuosan osuus (H19, kokeen tehtävä 18)","mita_kertoo":"Lasku 9/36 = 1/4 = 25 % on oikein, mutta se on ei-uivien osuus. Oppilas ei vähennä sitä sadasta.","mita_tehda":"Kysy, kenen osuus 25 % on. Kirjoituta, että koko joukko on 100 %, ja laske loppuosa: 100 % − 25 % = 75 %. Tarkistakaa: 27/36 = 3/4 = 75 %."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen prosenttiarvoon (1 % ja sen monikerrat, kymmenesosat ja 75 %), toinen siihen, montako prosenttia osa on kokonaisuudesta, sekä prosenttiluvun ja prosenttiarvon erottamiseen. Koe pidetään erikseen.","huomiot":["Laskinta ei käytetä, kuten kartan näyttö sanoo. Prosenttiarvo 1 %:n ja kymmenesosan monikertoina (1 %, 7 %, 20 %, 30 %, 70 %), 75 % ja kysymys ”montako prosenttia” ovat kokonaan uutta: niitä ei ole 1.–5. luokan kartoissa. Taito olettaa 50 %, 25 % ja 10 % tasaluvusta (MAT5-MUR-03), prosentin, murtoluvun ja desimaaliluvun muunnokset (MAT6-MUR-07), murto-osan luvusta (MAT4-MUR-05), supistamisen (MAT6-MUR-01), jakamisen 10:llä ja 100:lla (MAT6-LUK-02) ja desimaaliluvun kertomisen yksinumeroisella luvulla (MAT5-MUR-04). Kartan näytön esimerkki (15 oppilasta 25:stä) ja osaa_kun-kriteerin luvut (25 % ja 20 €) ovat tuntirungossa mutta eivät kokeissa.","Mittaritehtävät: 3, 8, 12 ja 16 — ne mittaavat osaa_kun-kriteerin osat suoraan: prosenttiarvo sadasosan kautta (3: esimerkiksi 6 % = 6 · 1 %), prosenttiarvo kymmenesosan kautta (8: 30 % = 3 · 10 %), prosenttiluvun ja prosenttiarvon erottaminen (12) sekä osuuden laventaminen sadasosiksi (16). Arvaus ei riitä, koska ansat tuottavat uskottavia lukuja. Tehtävässä 3 jakaminen 10:llä antaa kymmenkertaisen vastauksen (A 720 €, B 980 €, C 780 €, D 880 €, E 920 €), ja prosenttiluku euroina antaa vastauksen A 6 €, B 7 €, C 3 €, D 8 €, E 4 €. Tehtävässä 8 prosenttiluku euroina antaa 30 €, ja jakaminen 30:llä antaa A 8 €, B 6 €, C 9 €, D 12 € ja E 13 €. Tehtävässä 16 osa prosenttilukuna antaa A 9 %, B 7 %, C 13 %, D 21 %, E 18 %, ja käännetty murtoluku (koe A: 25/9) on yli 100 %. Tehtävissä 3, 8 ja 16 oikea vastaus riittää. Tehtävässä 12 paperilla pitää näkyä sekä oikea prosenttiarvo yksikköineen (koe A: 12 €) että selitys, jonka mukaan prosenttiluku on käytetty euromääränä. Pelkkä euromäärä ilman selitystä on väärin, samoin pelkkä selitys ilman oikeaa euromäärää. Termejä prosenttiluku ja prosenttiarvo ei vaadita, kun sisältö on sama (”20 % ei tarkoita 20 euroa, vaan 20 sadasosaa hinnasta”).","Jokainen tehtävä on oikein tai väärin. Tehtävät 1–3, 5 ja 7–11 pyytävät vastausta yksikössä ja käskevät kirjoittamaan yksikön. Oikea luku yksikön kanssa hyväksytään (koe A tehtävä 11: 2,16 € tai 2,16 euroa; tehtävä 2: 4,5 kg). Oikea luku ilman yksikköä tai väärällä yksiköllä on väärin, koska johdanto ja tehtävä käskevät kirjoittamaan yksikön. Tehtävässä 4 kysytään kappalemäärää, joten luku riittää. Tehtävissä 14–18 ja 20 kysytään prosentteja: sekä pelkkä luku että luku ja %-merkki hyväksytään (koe A tehtävä 16: 36 tai 36 %). Harjoituksissa oppilaan sivu hyväksyy vain pelkän luvun, joten muistuta ennen koetta yksiköistä.","Johdanto pyytää välivaihetta (30 % = 3 · 10 %). Se ei ole arvosteluperuste laskutehtävissä, mutta se näyttää, mikä ansa on kyseessä. Sanallisissa tehtävissä 6, 12, 13 ja 19 perustelu on osa vastausta.","Tehtävä 6: oikein, kun vastauksessa on (1) kanta, että väite on väärä, (2) perustelu, että 1 % on sadasosa tai että määrä jaetaan sadalla, ja (3) oikea arvo yksikköineen (koe A: 15 €). Maininta, että väitetty summa on 10 %, kelpaa lisäperusteluksi mutta ei korvaa kohtaa (2). Väärin ovat pelkkä luku ilman perustelua ja perustelu ilman oikeaa arvoa.","Tehtävä 13: oikein, kun vastauksessa on (1) kanta, ettei tulos voi olla oikein, (2) perustelu, että alle 100 %:n prosenttiarvo on pienempi kuin koko määrä, ja (3) oikea prosenttiarvo yksikköineen (koe A: 15 kg). Väitetty tulos on saatu kertomalla koko määrä kymmenesosien määrällä ottamatta ensin kymmenesosaa (A 150 kg, B 240 kg, C 120 kg, D 210 kg, E 270 kg). Virheen syyn nimeäminen ei ole pakollista. Pelkkä uusi lasku ilman perustelua on väärin.","Tehtävä 19: oikein, kun vastauksessa on (1) selitys, että osa ja kokonaisuus ovat väärin päin tai että kokonaisuus kuuluu nimittäjään, ja (2) oikea prosenttiluku (koe A: 60 tai 60 %). Laventamisen näyttäminen on suositeltavaa mutta ei pakollista. Pelkkä oikea prosenttiluku ilman selitystä on väärin. Kaikissa sanallisissa tehtävissä hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Ansa 1 (1 % ja 10 % sekaisin): tehtävissä 1 ja 2 vastaus on kymmenkertainen (tehtävä 1: A 170 m, B 230 m, C 310 m, D 190 m, E 460 m; tehtävä 2: A 45 kg, B 38 kg, C 72 kg, D 56 kg, E 23 kg). Tehtävässä 6 sama virhe on valmiina väitteessä.","Ansa 4 ja ansa 5 (prosenttiluku euroina tai jakajana): tehtävissä 7–11 vastaus, joka on sama kuin prosenttiluku (tehtävässä 7: 20 €, tehtävissä 8 ja 11: 30 €, tehtävässä 9 prosenttiluku litroina, tehtävässä 10: 75 m), kertoo prosenttiluvun ja prosenttiarvon sekoittumisesta. Paperilla näkyvä jakolasku prosenttiluvulla (esimerkiksi 240 : 30 koe A:n tehtävässä 8) kertoo ansasta 5. Tehtävässä 10 vastaus, joka on vain neljäsosa (A 17 m, B 14 m, C 24 m, D 15 m, E 10 m), kertoo, että kertominen kolmella unohtui.","Ansa 2 ja ansa 3 (osa prosenttilukuna, kokonaisuus väärässä paikassa): tehtävissä 14–16 vastaus, joka on sama kuin osa (koe A: 23, 11 ja 9), kertoo ansasta 2. Tehtävässä 17 supistamatta jättäminen pysäyttää laventamisen, koska nimittäjä ei laventu sadaksi. Tehtävässä 18 vastaus, joka on osan prosenttiluku eikä loppuosan (A 25, B 15, C 30, D 20, E 35), kertoo, ettei kysymyksen ”ei” tullut luetuksi. Oikeat vastaukset tehtävään 18 ovat A 75, B 85, C 70, D 80, E 65.","Tehtävä 20: avain on suuremman osuuden prosenttiluku (koe A: 85 tai 85 %). Joukkueen nimeä ei vaadita. Jos vastauksessa on joukkueen nimi, sen pitää olla oikea: väärä nimi oikean luvun kanssa on väärin, ja pelkkä nimi ilman prosenttilukua on väärin, koska se ei näytä vertailua. Joka versiossa suurempi osuus on joukkueella, jolla on vähemmän voittoja, joten päättely voittojen määrästä johtaa väärään joukkueeseen ja vain yhden osuuden laskeminen ei riitä (koe A: 17/20 = 85 % ja 18/25 = 72 %).","Havainnoitavaa ei ole: taito on koeperustainen. Tuntirungon ruudukkotehtävä on havainnollistus, ei näyttö.","Rajaus: alennus ja alennettu hinta sekä tarjousten vertailu kuuluvat vahvistavaan taitoon MAT6-MUR-09, joten uutta hintaa ei kysytä. Korotus, prosenttimuutos, prosenttikerroin, perusarvon laskeminen ja yli 100 %:n prosentit kuuluvat 8. luokalle (MAT8-PRO-01–06). Desimaaliprosentteja, desimaaliluvulla jakamista tai kaksinumeroisella jakajalla jakamista ei käytetä. Siksi kokonaisuus on sadan tekijä (20, 25, 50) tai osuus supistuu murtoluvuksi, jonka nimittäjä on sadan tekijä (esimerkiksi 21/30 = 7/10 ja 33/60 = 11/20), ja osuus lasketaan laventamalla eikä jakamalla. Termiä perusarvo ei käytetä oppilaan tekstissä; materiaali puhuu kokonaisuudesta."]},"huoltajalle":{"mista_on_kyse":"Lapsi oppii laskemaan prosenttiarvon eli sen, paljonko jokin prosentti on annetusta määrästä, esimerkiksi 1 %, 7 %, 30 % tai 75 %. 1 % saadaan jakamalla määrä sadalla, ja 30 % on kolme kertaa 10 %. Lisäksi hän laskee, montako prosenttia osa on kokonaisuudesta: osuus kirjoitetaan murtolukuna ja lavennetaan sadasosiksi, esimerkiksi 13 lasta 20:stä on 13/20 = 65/100 = 65 %. Tämä on ydintaito, jota tarvitaan 7. luokalle siirtymiseen.","kotona":["Valitse kaupassa tai mainoksessa hinta ja laskekaa siitä 10 % ja 30 %. Esimerkiksi 120 euron takista 10 % on 12 € ja 30 % on 36 €. Alennettua hintaa ei tarvitse laskea, koska se kuuluu seuraavaan taitoon.","Mittanauhasta näkee, että 1 % metristä on 1 cm. Kysy, paljonko on 1 % kymmenestä metristä (10 cm) tai 1 % 25 eurosta (25 senttiä).","Laskekaa harrastuksesta osuus prosentteina: jos 50 heitosta 32 osuu, osuus on 32/50 = 64/100 = 64 %. Valitse kokonaismäärä, joka laventuu sadaksi, kuten 10, 20, 25 tai 50.","Älä opeta laskemaan ”osa jaettuna kokonaisella kertaa sata” laskimella. Tässä taidossa osuus lavennetaan sadasosiksi (7/20 = 35/100), koska kaksinumeroisella luvulla jakamista ei vielä harjoitella ja laventaminen näyttää, miksi tulos on prosentteja."],"milloin_huolestua":"Jos lapsi harjoittelun jälkeenkin laskee, että 1 % 800 eurosta on 80 €, tai sanoo, että 6 laulajaa 25:stä on 6 %, sadasosan ja osuuden ajatus ei ole vielä kiinnittynyt. Kerro siitä opettajalle, koska prosenttilaskenta jatkuu 6. luokan alennustehtävissä ja 8. luokalla."},"ulkoiset":{"edeltavat":[{"id":"MAT5-MUR-03","nimi":"Sadasosa saa nimen","vuosiluokka":5,"kuvaus":"Osaan kertoa, että prosentti tarkoittaa sadasosaa, ja muuttaa prosentin murtoluvuksi ja desimaaliluvuksi."}],"seuraavat":[]},"valmis_teksti":"Osaat laskea prosenttiarvon 1 %:n, kymmenesosan tai neljäsosan kautta, esimerkiksi 7 %, 30 % tai 75 % määrästä. Kerrot, montako prosenttia osa on kokonaisuudesta, kirjoittamalla osuuden murtolukuna ja laventamalla sen sadasosiksi. Erotat prosenttiluvun ja prosenttiarvon ja tarkistat, ettei osa ole kokonaisuutta suurempi. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

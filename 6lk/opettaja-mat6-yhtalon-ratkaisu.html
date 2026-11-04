@@ -1,0 +1,524 @@
+<title>Yhtälön ratkaisu · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT6-ALG-01","oppiaine":"MAT","vuosiluokka":6,"otsikko":"Yhtälön ratkaisu","kuvaus":"Osaan ratkaista yksinkertaisen yhtälön päättelemällä tai käänteisillä laskutoimituksilla niin, että välivaiheet näkyvät, ja tarkistaa ratkaisun.","versio":"0.2","paivitetty":"2026-10-18","ops":{"T":["T3","T7"],"S":["S3"]},"taso":"ydin","jakso":"J3","taitoalue":"ALG","eyebrow":"Matematiikka · 6. luokka · Säännönmukaisuudet ja algebra","ikoni":"kaanteinen","naytto":"Ratkaisen yhden tai kahden laskutoimituksen yhtälöitä, joissa tuntematon on vain toisella puolella (esim. x + 17 = 42, 6x = 54, x : 4 = 9 ja 3x + 5 = 26), kirjoitan jokaisen välivaiheen omalle rivilleen ja tarkistan ratkaisun sijoittamalla sen yhtälöön.","osaa_kun":"Perustelen välivaiheet käänteisillä laskutoimituksilla tai vaakamallilla (3x + 5 = 26, joten 3x = 21, joten x = 7), käytän yhtäsuuruusmerkkiä vain yhtä suurten lausekkeiden välissä ja huomaan sijoittamalla, jos ratkaisuni on väärä.","teksti":[{"tyyppi":"johdanto","sisalto":"Leirikoulun keittiössä on vanha kaksikuppinen vaaka. Vasemmassa kupissa on neljä samanlaista myslipatukkaa ja 20 gramman punnus, ja oikeassa kupissa on punnuksia yhteensä 220 grammaa. Vaaka on tasapainossa, joten kummankin kupin sisältö painaa yhtä paljon. Kun yhden patukan massaa grammoina merkitään kirjaimella x, tilanne on yhtälö 4x + 20 = 220. Viidennellä luokalla kirjoitit välivaiheet niin, että jokainen yhtäsuuruusmerkki on tosi, ja etsit puuttuvan luvun. Nyt ratkaiset yhtälön niin, että jokainen välivaihe on omalla rivillään, ja tarkistat ratkaisun sijoittamalla."},{"tyyppi":"kappale","otsikko":"Yhtälö on väite","sisalto":"Yhtälö on väite, että kaksi lauseketta ovat yhtä suuret. Yhtälössä 5x + 12 = 47 vasen puoli on lauseke 5x + 12 ja oikea puoli on 47. Kirjain x on tuntematon eli luku, jonka arvoa etsitään. Merkintä 5x tarkoittaa samaa kuin lausekkeissa eli 5 · x. Ratkaisu on luku, joka tekee väitteestä toden. Kun x = 7, vasen puoli on 5 · 7 + 12 = 47, joten väite on tosi ja 7 on ratkaisu. Kun x = 6, vasen puoli on 5 · 6 + 12 = 42, eikä 42 ole 47. Kun luku pannaan kirjaimen paikalle, sanotaan, että luku sijoitetaan yhtälöön."},{"tyyppi":"kappale","otsikko":"Päättely ja käänteinen laskutoimitus","sisalto":"Yhden laskutoimituksen yhtälön voi lukea kysymyksenä. Yhtälö x + 36 = 91 kysyy: mihin lukuun lisätään 36, jotta saadaan 91? Vastauksen saat vähentämällä, koska vähennyslasku kumoaa yhteenlaskun: 91 − 36 = 55, joten x = 55. Laskutoimituksia, jotka kumoavat toisensa, sanotaan käänteisiksi laskutoimituksiksi. Yhteen- ja vähennyslasku ovat toistensa käänteiset, samoin kerto- ja jakolasku. Olet käyttänyt samaa keinoa jo puuttuvan luvun tehtävissä. Katso siis ensin, mitä x:lle on tehty, ja tee sitten päinvastoin. Poikkeus on yhtälö, jossa x itse vähennetään, kuten 70 − x = 26. Silloin kysyt, mikä luku vähennetään 70:stä, jotta jää 26, ja lasket 70 − 26 = 44."},{"tyyppi":"taulukko","otsikko":"Mitä x:lle tehtiin ja miten se puretaan","otsikkorivi":["Yhtälö","Mitä x:lle tehtiin","Käänteinen lasku","Ratkaisu","Tarkistus"],"rivit":[["x + 36 = 91","lisättiin 36","91 − 36 = 55","x = 55","55 + 36 = 91"],["x − 24 = 58","vähennettiin 24","58 + 24 = 82","x = 82","82 − 24 = 58"],["4x = 72","kerrottiin 4:llä","72 : 4 = 18","x = 18","4 · 18 = 72"],["x : 5 = 14","jaettiin 5:llä","14 · 5 = 70","x = 70","70 : 5 = 14"]]},{"tyyppi":"kappale","otsikko":"Vaakamalli","sisalto":"Yhtälöä voi ajatella vaakana, joka on tasapainossa. Vasemmassa kupissa on 5 samanlaista pussia ja 8 yhden gramman punnusta, ja oikeassa kupissa on 43 punnusta. Yhtälönä tämä on 5x + 8 = 43, kun x on yhden pussin massa grammoina. Kun kummastakin kupista otetaan pois 8 punnusta, vaaka pysyy tasapainossa: vasemmalle jää 5 pussia ja oikealle 35 punnusta, eli 5x = 35. Kun 35 punnusta jaetaan viiteen yhtä suureen kasaan, jokaiseen tulee 7, joten yksi pussi painaa 7 grammaa ja x = 7. Seitsemännellä luokalla samat vaiheet kirjoitetaan toimituksina, jotka tehdään yhtälön molemmille puolille, aivan kuin punnukset otetaan pois kummastakin kupista. Vaakamalli sopii yhteen- ja kertolaskuun. Jakolaskuyhtälöä kuten x : 6 = 11 ei voi rakentaa vaa'alle samalla tavalla, joten sen perustelet käänteisellä laskutoimituksella."},{"tyyppi":"kappale","otsikko":"Kaksi laskutoimitusta: viimeksi tehty puretaan ensin","sisalto":"Yhtälössä 6x + 7 = 55 luvulle x on tehty kaksi asiaa. Laskujärjestyksen mukaan x on ensin kerrottu kuudella, ja sitten tuloon on lisätty 7. Purku etenee käänteisessä järjestyksessä, samalla tavalla kuin aamulla puet ensin sukat ja sitten kengät, mutta illalla riisut ensin kengät. Ensin kumotaan viimeksi tehty lisäys: 55 − 7 = 48, joten 6x = 48. Sitten kumotaan kertolasku jakamalla: 48 : 6 = 8, joten x = 8. Jos aloittaisit jakamalla, pitäisi jakaa koko vasen puoli eikä vain 6x, ja juuri se unohtuu helposti. Samoin yhtälössä x : 3 − 2 = 6 lisätään ensin 2, jolloin x : 3 = 8, ja kerrotaan sitten kolmella, jolloin x = 24."},{"tyyppi":"saanto","otsikko":"Näin ratkaiset ja tarkistat yhtälön","askeleet":["Kirjoita yhtälö ensimmäiselle riville.","Katso, mitä x:lle on tehty ja missä järjestyksessä. Pura viimeksi tehty ensin käänteisellä laskutoimituksella.","Kirjoita jokaisen purun jälkeen uusi yhtälö omalle rivilleen. Esimerkiksi ensimmäiselle riville 9x − 4 = 59, toiselle 9x = 63 ja kolmannelle x = 7.","Älä jatka laskua ketjuksi samalle riville. Jokaisen yhtäsuuruusmerkin molemmat puolet ovat yhtä suuret.","Tarkista sijoittamalla ratkaisu alkuperäiseen yhtälöön ja kirjoita kertomerkki näkyviin: 9 · 7 − 4 = 63 − 4 = 59. Kun vasen puoli on yhtä suuri kuin oikea puoli, ratkaisu on oikea. Jos ei ole, etsi rivi, jolla virhe syntyi."]},{"tyyppi":"ansa","otsikko":"Ansa 1: väärä käänteinen laskutoimitus","sisalto":"Yhtälössä x − 16 = 52 näkyy miinusmerkki, ja siksi on houkuttelevaa laskea 52 − 16 = 36. Sijoitus paljastaa virheen: 36 − 16 = 20, eikä 20 ole 52. Koska x:stä vähennettiin 16, vähennys kumotaan lisäämällä: 52 + 16 = 68. Sama virhe syntyy, kun kerroin vähennetään eikä jaeta. Yhtälöstä 3x = 66 tulee silloin 66 − 3 = 63, vaikka 3 · 63 on paljon enemmän kuin 66; oikein on 66 : 3 = 22. Jakolaskussa virhe on jakaa uudestaan: yhtälöstä x : 4 = 32 ei tule 32 : 4 = 8, koska 8 : 4 on vain 2. Jakolaskun kumoaa kertolasku: 32 · 4 = 128."},{"tyyppi":"ansa","otsikko":"Ansa 2: sijoitus paljastaa puolikkaan purun","sisalto":"Leo ratkaisee yhtälön 4x + 4 = 32 ja jakaa ensin neljällä. Hän kirjoittaa toiselle riville x + 4 = 8 ja saa x = 4. Virhe on toisella rivillä: hän jakoi neljällä luvut 4x ja 32 mutta ei lukua 4. Sijoitus paljastaa virheen: 4 · 4 + 4 = 20, eikä 20 ole 32. Kun viimeksi tehty puretaan ensin, ongelmaa ei synny: 32 − 4 = 28, joten 4x = 28 ja x = 7. Kirjoita sijoituksessa kertomerkki näkyviin, koska 4x tarkoittaa 4 · x. Jos kirjoitat luvun 7 kertoimen viereen, syntyy 47 + 4 = 51, ja hylkäät oikean ratkaisun."},{"tyyppi":"ansa","otsikko":"Ansa 3: yhtäsuuruusmerkkiketju","sisalto":"Noor ratkaisee yhtälön 5x + 6 = 41 päässään oikein ja kirjoittaa 41 − 6 = 35 : 5 = 7. Loppuluku 7 on oikea, mutta merkintä väittää, että 41 − 6 on yhtä suuri kuin 7. Yhtäsuuruusmerkki saa olla vain yhtä suurten lausekkeiden välissä, kuten viidennellä luokalla opit. Kirjoita jokainen välivaihe omalle rivilleen: 5x + 6 = 41, sen alle 5x = 35 ja sen alle x = 7. Jokainen rivi on silloin tosi yhtälö, ja lukija näkee, mitä kullakin rivillä tehtiin."}],"harjoitusryhmat":[{"id":"yksi","nimi":"Yksi laskutoimitus","info":"Katso, mitä x:lle on tehty, ja tee käänteinen laskutoimitus. Tarkista sijoittamalla."},{"id":"kaksi","nimi":"Kaksi laskutoimitusta","info":"Pura viimeksi tehty ensin. Kirjoita jokainen välivaihe vihkoon omalle rivilleen."},{"id":"tarkistus","nimi":"Tarkistus sijoittamalla","info":"Sijoita luku alkuperäiseen yhtälöön ja kirjoita kertomerkki näkyviin. Vertaa vasenta puolta oikeaan."}],"harjoitukset":[{"id":"H01","ryhma":"yksi","kysymys":"Yhtälö x + 47 = 82 kysyy: mihin lukuun lisätään 47, jotta saadaan 82? Mikä on x?","vastaus":35,"vinkki":"Yhteenlaskun kumoaa vähennyslasku.","selitys":"82 − 47 = 35, joten x = 35. Tarkistus: 35 + 47 = 82."},{"id":"H02","ryhma":"yksi","kysymys":"Ratkaise x − 34 = 49. Mikä on x?","vastaus":83,"vinkki":"Luvusta x on vähennetty 34. Millä laskutoimituksella vähennys kumotaan?","selitys":"Vähennys kumotaan lisäämällä: 49 + 34 = 83. Tarkistus: 83 − 34 = 49. Lasku 49 − 34 = 15 olisi väärä käänteinen laskutoimitus."},{"id":"H03","ryhma":"yksi","kysymys":"Ratkaise 3x = 54. Mikä on x?","vastaus":18,"vinkki":"3x tarkoittaa 3 · x. Kertolaskun kumoaa jakolasku.","selitys":"54 : 3 = 18, joten x = 18. Tarkistus: 3 · 18 = 54."},{"id":"H04","ryhma":"yksi","kysymys":"Ratkaise x : 3 = 15. Mikä on x?","vastaus":45,"vinkki":"Luku x on jaettu kolmella. Mikä laskutoimitus kumoaa jakolaskun?","selitys":"Jakolasku kumotaan kertomalla: 15 · 3 = 45. Tarkistus: 45 : 3 = 15. Vastaus 5 syntyy, jos jakaa uudestaan."},{"id":"H05","ryhma":"yksi","kysymys":"Yhtälössä x : 6 = 13 luku x on jaettu kuudella. Millä laskulla x löytyy?","vastaus":1,"vinkki":"Jakolaskun kumoaa sen käänteinen laskutoimitus.","selitys":"Jakolaskun kumoaa kertolasku: 13 · 6 = 78, ja tarkistus 78 : 6 = 13 on tosi.","tyyppi":"monivalinta","vaihtoehdot":["13 : 6","13 · 6","13 + 6"]},{"id":"H06","ryhma":"yksi","kysymys":"Vaa'an vasemmassa kupissa on 8 samanlaista pussia. Oikeassa kupissa on 96 yhden gramman punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":12,"vinkki":"Yhtälö on 8x = 96. Ajattele, että punnukset jaetaan kahdeksaan yhtä suureen kasaan.","selitys":"96 : 8 = 12, joten yksi pussi painaa 12 grammaa. Tarkistus: 8 · 12 = 96."},{"id":"H07","ryhma":"yksi","kysymys":"Ratkaise päättelemällä 90 − x = 34. Mikä luku vähennetään 90:stä, jotta jää 34?","vastaus":56,"vinkki":"Tässä x itse vähennetään. Mieti, paljonko 90:stä pitää ottaa pois.","selitys":"90 − 34 = 56, joten x = 56. Tarkistus: 90 − 56 = 34. Summa 90 + 34 olisi suurempi kuin 90, eikä sitä voi vähentää 90:stä niin, että jää 34."},{"id":"H08","ryhma":"kaksi","kysymys":"Yhtälöä 7x + 9 = 65 ratkaistaessa vähennetään ensin 9. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":56,"vinkki":"Seuraava rivi on muotoa 7x = luku.","selitys":"65 − 9 = 56, joten seuraava rivi on 7x = 56."},{"id":"H09","ryhma":"kaksi","kysymys":"Ratkaise 7x + 9 = 65. Mikä on x?","vastaus":8,"vinkki":"Jatka edellisen tehtävän rivistä. Jäljellä on kertolasku.","selitys":"Rivit allekkain: 7x + 9 = 65, 7x = 56, x = 8. Tarkistus: 7 · 8 + 9 = 65."},{"id":"H10","ryhma":"kaksi","kysymys":"Ratkaiset yhtälöä 4x − 7 = 29. Mikä lasku tehdään ensin?","vastaus":1,"vinkki":"Mitä x:lle tehtiin viimeiseksi? Se puretaan ensin.","selitys":"Luku x kerrottiin ensin neljällä, ja sitten vähennettiin 7. Viimeksi tehty vähennys kumotaan ensin lisäämällä: 29 + 7 = 36, joten 4x = 36.","tyyppi":"monivalinta","vaihtoehdot":["29 : 4","29 + 7","29 − 7"]},{"id":"H11","ryhma":"kaksi","kysymys":"Ratkaise 4x − 7 = 29. Mikä on x?","vastaus":9,"vinkki":"Kun olet kumonnut vähennyksen, jäljellä on kertolasku.","selitys":"Rivit allekkain: 4x − 7 = 29, 4x = 36, x = 9. Tarkistus: 4 · 9 − 7 = 29."},{"id":"H12","ryhma":"kaksi","kysymys":"Vaa'an vasemmassa kupissa on 3 samanlaista pussia ja 7 yhden gramman punnusta. Oikeassa kupissa on 34 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":9,"vinkki":"Ota ensin kummastakin kupista pois yhtä monta punnusta.","selitys":"Kun kummastakin kupista otetaan pois 7 punnusta, kolmea pussia vastaa 27 punnusta. 27 : 3 = 9, joten pussi painaa 9 grammaa."},{"id":"H13","ryhma":"kaksi","kysymys":"Ratkaise x : 5 + 3 = 11. Mikä on x?","vastaus":40,"vinkki":"Luku x on ensin jaettu viidellä, ja sitten on lisätty 3. Pura viimeksi tehty ensin.","selitys":"Rivit allekkain: x : 5 + 3 = 11, x : 5 = 8, x = 40. Tarkistus: 40 : 5 + 3 = 11."},{"id":"H14","ryhma":"kaksi","kysymys":"Ratkaise 6x − 15 = 45. Mikä on x?","vastaus":10,"vinkki":"Mikä laskutoimitus kumoaa vähennyksen?","selitys":"Rivit allekkain: 6x − 15 = 45, 6x = 60, x = 10. Tarkistus: 6 · 10 − 15 = 45."},{"id":"H15","ryhma":"tarkistus","kysymys":"Noor ratkaisi yhtälön allekkain:\n2x + 14 = 40\n2x = 54\nx = 27\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":2,"vinkki":"Sijoita ensin saatu luku alkuperäiseen yhtälöön. Tutki sitten rivit yksi kerrallaan.","selitys":"Sijoitus 2 · 27 + 14 = 68 ei anna 40. Virhe on toisella rivillä: luku 14 piti vähentää, joten oikein on 2x = 26 ja x = 13."},{"id":"H16","ryhma":"tarkistus","kysymys":"Leo sai yhtälön 5x − 15 = 35 ratkaisuksi 4. Laske vasemman puolen arvo, kun x = 4.","vastaus":5,"vinkki":"Kirjoita kertomerkki näkyviin: 5 · 4 − 15.","selitys":"5 · 4 − 15 = 20 − 15 = 5. Vasen puoli on 5 eikä 35, joten 4 ei ole ratkaisu."},{"id":"H17","ryhma":"tarkistus","kysymys":"Leo sai yhtälön 5x − 15 = 35 ratkaisuksi 4, mutta sijoitus paljasti virheen. Mikä on oikea ratkaisu?","vastaus":10,"vinkki":"Leo vähensi luvun 15, vaikka vähennys piti kumota.","selitys":"Rivit allekkain: 5x − 15 = 35, 5x = 50, x = 10. Tarkistus: 5 · 10 − 15 = 35."},{"id":"H18","ryhma":"tarkistus","kysymys":"Aya ratkaisi yhtälön allekkain:\n4x + 8 = 36\nx + 8 = 9\nx = 1\n\nLaske vasemman puolen arvo, kun x = 1.","vastaus":12,"vinkki":"Sijoita 1 alkuperäiseen yhtälöön eli ensimmäiselle riville.","selitys":"4 · 1 + 8 = 12, eikä 12 ole 36. Aya jakoi neljällä luvut 4x ja 36 mutta ei lukua 8."},{"id":"H19","ryhma":"tarkistus","kysymys":"Eetu tarkistaa, onko x = 6 yhtälön 7x − 2 = 40 ratkaisu. Mikä tarkistus on kirjoitettu oikein?","vastaus":1,"vinkki":"Lue jokainen yhtäsuuruusmerkki väitteenä. Muista, että 7x tarkoittaa 7 · x.","selitys":"Merkintä 7 · 6 − 2 = 40 on tosi. Merkinnässä 76 − 2 luku 6 on kirjoitettu kertoimen viereen, ja ketju väittää, että 7 · 6 on 40.","tyyppi":"monivalinta","vaihtoehdot":["76 − 2 = 74","7 · 6 − 2 = 40","7 · 6 = 42 − 2 = 40"]},{"id":"H20","ryhma":"tarkistus","kysymys":"Mikä on yhtälön 4x + 8 = 36 oikea ratkaisu?","vastaus":7,"vinkki":"Kumoa ensin viimeksi tehty lisäys.","selitys":"Rivit allekkain: 4x + 8 = 36, 4x = 28, x = 7. Tarkistus: 4 · 7 + 8 = 36."}],"ryhmanimet":{"yksi":"Yksi laskutoimitus","kaksi":"Kaksi laskutoimitusta","tarkistus":"Tarkistus sijoittamalla"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita jokainen välivaihe omalle rivilleen.\nTarkista ratkaisu sijoittamalla, kun tehtävä sitä pyytää.\nKirjoita vastaukseksi x:n arvo lukuna tai se luku, jota tehtävä kysyy.\nKirjoita perustelu, kun tehtävä sitä pyytää.","tehtavat":[{"nro":1,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x + 27 = 64. Mikä on x?","vastaus":37},{"nro":2,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x − 26 = 47. Mikä on x?","vastaus":73},{"nro":3,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise 7x = 84. Mikä on x?","vastaus":12},{"nro":4,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x : 4 = 24. Mikä on x?","vastaus":96},{"nro":5,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise päättelemällä 85 − x = 37. Mikä luku vähennetään 85:stä, jotta jää 37?","vastaus":48},{"nro":6,"ryhma":"yksi","tyyppi":"sanallinen","kysymys":"Ratkaise yhtälö x − 24 = 68. Perustele, millä laskutoimituksella vähennys kumotaan, ja tarkista ratkaisu sijoittamalla.","vastaus":"Malliesimerkki: Luvusta x on vähennetty 24, ja jäljelle jäi 68. Vähennyslaskun kumoaa yhteenlasku, joten lasketaan 68 + 24 = 92 ja x = 92. Tarkistus: 92 − 24 = 68. Vähennyslasku 68 − 24 = 44 olisi väärä käänteinen laskutoimitus, koska 44 − 24 = 20 eikä 68."},{"nro":7,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Yhtälöä 6x + 8 = 62 ratkaistaessa vähennetään ensin 8. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":54},{"nro":8,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 4x + 17 = 53. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":9},{"nro":9,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 6x − 9 = 39. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":8},{"nro":10,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 3 + 5 = 12. Mikä on x?","vastaus":21},{"nro":11,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Vaa'an vasemmassa kupissa on 5 samanlaista pussia ja 7 yhden gramman punnusta. Oikeassa kupissa on 47 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":8},{"nro":12,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Leo ratkaisi yhtälön allekkain:\n5x + 8 = 53\n5x = 45\nx = 40\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":3},{"nro":13,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 6 − 4 = 5. Mikä on x?","vastaus":54},{"nro":14,"ryhma":"kaksi","tyyppi":"sanallinen","kysymys":"Aya ratkaisi yhtälön 3x + 16 = 43 ja kirjoitti 43 − 16 = 27 : 3 = 9. Kirjoita ratkaisu uudelleen niin, että jokainen yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Kolme riviä allekkain: 3x + 16 = 43; 3x = 27; x = 9."},{"nro":15,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sijoita x = 7 yhtälöön 6x − 13 = 35 ja kirjoita kertomerkki näkyviin. Mikä on vasemman puolen arvo?","vastaus":29},{"nro":16,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sara ratkaisi yhtälön allekkain:\n3x + 6 = 33\nx + 6 = 11\nx = 5\n\nSijoita x = 5 alkuperäiseen yhtälöön 3x + 6 = 33. Mikä on vasemman puolen arvo?","vastaus":21},{"nro":17,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Mikä on yhtälön 3x + 6 = 33 oikea ratkaisu?","vastaus":9},{"nro":18,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Elias sai yhtälön 4x + 6 = 38 ratkaisuksi 11. Tarkista ratkaisu sijoittamalla ja kirjoita sijoitus näkyviin. Jos ratkaisu on väärä, ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään. Mikä on oikea ratkaisu?","vastaus":8},{"nro":19,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Noor sai yhtälön x : 4 + 7 = 15 ratkaisuksi 88. Laske vasemman puolen arvo, kun x = 88.","vastaus":29},{"nro":20,"ryhma":"tarkistus","tyyppi":"sanallinen","kysymys":"Selitä, miksi yhtälöä 8x + 3 = 51 ratkaistaessa vähennetään ensin 3 eikä jaeta ensin kahdeksalla. Ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Lausekkeessa 8x + 3 luku x on ensin kerrottu kahdeksalla, ja sitten tuloon on lisätty 3. Purku tehdään käänteisessä järjestyksessä, joten viimeksi lisätty 3 vähennetään ensin. Rivit allekkain: 8x + 3 = 51; 8x = 48; x = 6. Tarkistus: 8 · 6 + 3 = 51."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita jokainen välivaihe omalle rivilleen.\nTarkista ratkaisu sijoittamalla, kun tehtävä sitä pyytää.\nKirjoita vastaukseksi x:n arvo lukuna tai se luku, jota tehtävä kysyy.\nKirjoita perustelu, kun tehtävä sitä pyytää.","tehtavat":[{"nro":1,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x + 39 = 85. Mikä on x?","vastaus":46},{"nro":2,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x − 38 = 54. Mikä on x?","vastaus":92},{"nro":3,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise 6x = 72. Mikä on x?","vastaus":12},{"nro":4,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x : 6 = 18. Mikä on x?","vastaus":108},{"nro":5,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise päättelemällä 93 − x = 56. Mikä luku vähennetään 93:sta, jotta jää 56?","vastaus":37},{"nro":6,"ryhma":"yksi","tyyppi":"sanallinen","kysymys":"Ratkaise yhtälö x − 18 = 57. Perustele, millä laskutoimituksella vähennys kumotaan, ja tarkista ratkaisu sijoittamalla.","vastaus":"Malliesimerkki: Luvusta x on vähennetty 18, ja jäljelle jäi 57. Vähennyslaskun kumoaa yhteenlasku, joten lasketaan 57 + 18 = 75 ja x = 75. Tarkistus: 75 − 18 = 57. Vähennyslasku 57 − 18 = 39 olisi väärä käänteinen laskutoimitus, koska 39 − 18 = 21 eikä 57."},{"nro":7,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Yhtälöä 7x + 5 = 54 ratkaistaessa vähennetään ensin 5. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":49},{"nro":8,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 6x + 19 = 61. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":7},{"nro":9,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 4x − 6 = 26. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":8},{"nro":10,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 4 + 6 = 13. Mikä on x?","vastaus":28},{"nro":11,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Vaa'an vasemmassa kupissa on 4 samanlaista pussia ja 9 yhden gramman punnusta. Oikeassa kupissa on 37 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":7},{"nro":12,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Aino ratkaisi yhtälön allekkain:\n6x + 7 = 49\n6x = 42\nx = 36\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":3},{"nro":13,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 3 − 7 = 8. Mikä on x?","vastaus":45},{"nro":14,"ryhma":"kaksi","tyyppi":"sanallinen","kysymys":"Onni ratkaisi yhtälön 4x + 13 = 49 ja kirjoitti 49 − 13 = 36 : 4 = 9. Kirjoita ratkaisu uudelleen niin, että jokainen yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Kolme riviä allekkain: 4x + 13 = 49; 4x = 36; x = 9."},{"nro":15,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sijoita x = 7 yhtälöön 8x − 9 = 55 ja kirjoita kertomerkki näkyviin. Mikä on vasemman puolen arvo?","vastaus":47},{"nro":16,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Leo ratkaisi yhtälön allekkain:\n2x + 6 = 26\nx + 6 = 13\nx = 7\n\nSijoita x = 7 alkuperäiseen yhtälöön 2x + 6 = 26. Mikä on vasemman puolen arvo?","vastaus":20},{"nro":17,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Mikä on yhtälön 2x + 6 = 26 oikea ratkaisu?","vastaus":10},{"nro":18,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Noor sai yhtälön 6x + 9 = 51 ratkaisuksi 10. Tarkista ratkaisu sijoittamalla ja kirjoita sijoitus näkyviin. Jos ratkaisu on väärä, ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään. Mikä on oikea ratkaisu?","vastaus":7},{"nro":19,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Eetu sai yhtälön x : 3 + 8 = 15 ratkaisuksi 69. Laske vasemman puolen arvo, kun x = 69.","vastaus":31},{"nro":20,"ryhma":"tarkistus","tyyppi":"sanallinen","kysymys":"Selitä, miksi yhtälöä 6x + 5 = 59 ratkaistaessa vähennetään ensin 5 eikä jaeta ensin kuudella. Ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Lausekkeessa 6x + 5 luku x on ensin kerrottu kuudella, ja sitten tuloon on lisätty 5. Purku tehdään käänteisessä järjestyksessä, joten viimeksi lisätty 5 vähennetään ensin. Rivit allekkain: 6x + 5 = 59; 6x = 54; x = 9. Tarkistus: 6 · 9 + 5 = 59."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita jokainen välivaihe omalle rivilleen.\nTarkista ratkaisu sijoittamalla, kun tehtävä sitä pyytää.\nKirjoita vastaukseksi x:n arvo lukuna tai se luku, jota tehtävä kysyy.\nKirjoita perustelu, kun tehtävä sitä pyytää.","tehtavat":[{"nro":1,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x + 48 = 93. Mikä on x?","vastaus":45},{"nro":2,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x − 17 = 68. Mikä on x?","vastaus":85},{"nro":3,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise 3x = 39. Mikä on x?","vastaus":13},{"nro":4,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x : 3 = 27. Mikä on x?","vastaus":81},{"nro":5,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise päättelemällä 74 − x = 38. Mikä luku vähennetään 74:stä, jotta jää 38?","vastaus":36},{"nro":6,"ryhma":"yksi","tyyppi":"sanallinen","kysymys":"Ratkaise yhtälö x − 27 = 65. Perustele, millä laskutoimituksella vähennys kumotaan, ja tarkista ratkaisu sijoittamalla.","vastaus":"Malliesimerkki: Luvusta x on vähennetty 27, ja jäljelle jäi 65. Vähennyslaskun kumoaa yhteenlasku, joten lasketaan 65 + 27 = 92 ja x = 92. Tarkistus: 92 − 27 = 65. Vähennyslasku 65 − 27 = 38 olisi väärä käänteinen laskutoimitus, koska 38 − 27 = 11 eikä 65."},{"nro":7,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Yhtälöä 8x + 7 = 63 ratkaistaessa vähennetään ensin 7. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":56},{"nro":8,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 3x + 17 = 41. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":8},{"nro":9,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 8x − 12 = 28. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":5},{"nro":10,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 5 + 8 = 17. Mikä on x?","vastaus":45},{"nro":11,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Vaa'an vasemmassa kupissa on 6 samanlaista pussia ja 5 yhden gramman punnusta. Oikeassa kupissa on 41 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":6},{"nro":12,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Elias ratkaisi yhtälön allekkain:\n7x + 4 = 60\n7x = 56\nx = 49\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":3},{"nro":13,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 4 − 5 = 9. Mikä on x?","vastaus":56},{"nro":14,"ryhma":"kaksi","tyyppi":"sanallinen","kysymys":"Noor ratkaisi yhtälön 6x + 11 = 59 ja kirjoitti 59 − 11 = 48 : 6 = 8. Kirjoita ratkaisu uudelleen niin, että jokainen yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Kolme riviä allekkain: 6x + 11 = 59; 6x = 48; x = 8."},{"nro":15,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sijoita x = 7 yhtälöön 4x − 7 = 25 ja kirjoita kertomerkki näkyviin. Mikä on vasemman puolen arvo?","vastaus":21},{"nro":16,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Aino ratkaisi yhtälön allekkain:\n4x + 4 = 36\nx + 4 = 9\nx = 5\n\nSijoita x = 5 alkuperäiseen yhtälöön 4x + 4 = 36. Mikä on vasemman puolen arvo?","vastaus":24},{"nro":17,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Mikä on yhtälön 4x + 4 = 36 oikea ratkaisu?","vastaus":8},{"nro":18,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Onni sai yhtälön 8x + 4 = 52 ratkaisuksi 7. Tarkista ratkaisu sijoittamalla ja kirjoita sijoitus näkyviin. Jos ratkaisu on väärä, ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään. Mikä on oikea ratkaisu?","vastaus":6},{"nro":19,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sara sai yhtälön x : 5 + 4 = 11 ratkaisuksi 75. Laske vasemman puolen arvo, kun x = 75.","vastaus":19},{"nro":20,"ryhma":"tarkistus","tyyppi":"sanallinen","kysymys":"Selitä, miksi yhtälöä 9x + 2 = 65 ratkaistaessa vähennetään ensin 2 eikä jaeta ensin yhdeksällä. Ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Lausekkeessa 9x + 2 luku x on ensin kerrottu yhdeksällä, ja sitten tuloon on lisätty 2. Purku tehdään käänteisessä järjestyksessä, joten viimeksi lisätty 2 vähennetään ensin. Rivit allekkain: 9x + 2 = 65; 9x = 63; x = 7. Tarkistus: 9 · 7 + 2 = 65."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita jokainen välivaihe omalle rivilleen.\nTarkista ratkaisu sijoittamalla, kun tehtävä sitä pyytää.\nKirjoita vastaukseksi x:n arvo lukuna tai se luku, jota tehtävä kysyy.\nKirjoita perustelu, kun tehtävä sitä pyytää.","tehtavat":[{"nro":1,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x + 36 = 71. Mikä on x?","vastaus":35},{"nro":2,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x − 29 = 45. Mikä on x?","vastaus":74},{"nro":3,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise 8x = 88. Mikä on x?","vastaus":11},{"nro":4,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x : 5 = 35. Mikä on x?","vastaus":175},{"nro":5,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise päättelemällä 91 − x = 47. Mikä luku vähennetään 91:stä, jotta jää 47?","vastaus":44},{"nro":6,"ryhma":"yksi","tyyppi":"sanallinen","kysymys":"Ratkaise yhtälö x − 16 = 49. Perustele, millä laskutoimituksella vähennys kumotaan, ja tarkista ratkaisu sijoittamalla.","vastaus":"Malliesimerkki: Luvusta x on vähennetty 16, ja jäljelle jäi 49. Vähennyslaskun kumoaa yhteenlasku, joten lasketaan 49 + 16 = 65 ja x = 65. Tarkistus: 65 − 16 = 49. Vähennyslasku 49 − 16 = 33 olisi väärä käänteinen laskutoimitus, koska 33 − 16 = 17 eikä 49."},{"nro":7,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Yhtälöä 9x + 6 = 51 ratkaistaessa vähennetään ensin 6. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":45},{"nro":8,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 7x + 16 = 72. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":8},{"nro":9,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 5x − 15 = 25. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":8},{"nro":10,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 6 + 3 = 11. Mikä on x?","vastaus":48},{"nro":11,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Vaa'an vasemmassa kupissa on 3 samanlaista pussia ja 8 yhden gramman punnusta. Oikeassa kupissa on 35 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":9},{"nro":12,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Sara ratkaisi yhtälön allekkain:\n4x + 7 = 43\n4x = 36\nx = 32\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":3},{"nro":13,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 8 − 2 = 6. Mikä on x?","vastaus":64},{"nro":14,"ryhma":"kaksi","tyyppi":"sanallinen","kysymys":"Elias ratkaisi yhtälön 5x + 14 = 49 ja kirjoitti 49 − 14 = 35 : 5 = 7. Kirjoita ratkaisu uudelleen niin, että jokainen yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Kolme riviä allekkain: 5x + 14 = 49; 5x = 35; x = 7."},{"nro":15,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sijoita x = 6 yhtälöön 7x − 6 = 43 ja kirjoita kertomerkki näkyviin. Mikä on vasemman puolen arvo?","vastaus":36},{"nro":16,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Aya ratkaisi yhtälön allekkain:\n5x + 5 = 50\nx + 5 = 10\nx = 5\n\nSijoita x = 5 alkuperäiseen yhtälöön 5x + 5 = 50. Mikä on vasemman puolen arvo?","vastaus":30},{"nro":17,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Mikä on yhtälön 5x + 5 = 50 oikea ratkaisu?","vastaus":9},{"nro":18,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Eetu sai yhtälön 3x + 12 = 39 ratkaisuksi 17. Tarkista ratkaisu sijoittamalla ja kirjoita sijoitus näkyviin. Jos ratkaisu on väärä, ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään. Mikä on oikea ratkaisu?","vastaus":9},{"nro":19,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Leo sai yhtälön x : 2 + 9 = 17 ratkaisuksi 52. Laske vasemman puolen arvo, kun x = 52.","vastaus":35},{"nro":20,"ryhma":"tarkistus","tyyppi":"sanallinen","kysymys":"Selitä, miksi yhtälöä 7x + 4 = 46 ratkaistaessa vähennetään ensin 4 eikä jaeta ensin seitsemällä. Ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Lausekkeessa 7x + 4 luku x on ensin kerrottu seitsemällä, ja sitten tuloon on lisätty 4. Purku tehdään käänteisessä järjestyksessä, joten viimeksi lisätty 4 vähennetään ensin. Rivit allekkain: 7x + 4 = 46; 7x = 42; x = 6. Tarkistus: 7 · 6 + 4 = 46."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nKirjoita jokainen välivaihe omalle rivilleen.\nTarkista ratkaisu sijoittamalla, kun tehtävä sitä pyytää.\nKirjoita vastaukseksi x:n arvo lukuna tai se luku, jota tehtävä kysyy.\nKirjoita perustelu, kun tehtävä sitä pyytää.","tehtavat":[{"nro":1,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x + 58 = 94. Mikä on x?","vastaus":36},{"nro":2,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x − 35 = 57. Mikä on x?","vastaus":92},{"nro":3,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise 9x = 99. Mikä on x?","vastaus":11},{"nro":4,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise x : 7 = 21. Mikä on x?","vastaus":147},{"nro":5,"ryhma":"yksi","tyyppi":"lasku","kysymys":"Ratkaise päättelemällä 82 − x = 35. Mikä luku vähennetään 82:sta, jotta jää 35?","vastaus":47},{"nro":6,"ryhma":"yksi","tyyppi":"sanallinen","kysymys":"Ratkaise yhtälö x − 23 = 59. Perustele, millä laskutoimituksella vähennys kumotaan, ja tarkista ratkaisu sijoittamalla.","vastaus":"Malliesimerkki: Luvusta x on vähennetty 23, ja jäljelle jäi 59. Vähennyslaskun kumoaa yhteenlasku, joten lasketaan 59 + 23 = 82 ja x = 82. Tarkistus: 82 − 23 = 59. Vähennyslasku 59 − 23 = 36 olisi väärä käänteinen laskutoimitus, koska 36 − 23 = 13 eikä 59."},{"nro":7,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Yhtälöä 4x + 9 = 41 ratkaistaessa vähennetään ensin 9. Mikä luku tulee seuraavalla rivillä yhtäsuuruusmerkin oikealle puolelle?","vastaus":32},{"nro":8,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 8x + 15 = 63. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":6},{"nro":9,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise 9x − 18 = 45. Kirjoita jokainen välivaihe omalle rivilleen. Mikä on x?","vastaus":7},{"nro":10,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 7 + 4 = 13. Mikä on x?","vastaus":63},{"nro":11,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Vaa'an vasemmassa kupissa on 7 samanlaista pussia ja 6 yhden gramman punnusta. Oikeassa kupissa on 55 punnusta. Vaaka on tasapainossa. Montako grammaa yksi pussi painaa?","vastaus":7},{"nro":12,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Onni ratkaisi yhtälön allekkain:\n8x + 3 = 75\n8x = 72\nx = 64\n\nMonennellako rivillä on ensimmäinen virhe?","vastaus":3},{"nro":13,"ryhma":"kaksi","tyyppi":"lasku","kysymys":"Ratkaise x : 9 − 3 = 4. Mikä on x?","vastaus":63},{"nro":14,"ryhma":"kaksi","tyyppi":"sanallinen","kysymys":"Sara ratkaisi yhtälön 7x + 18 = 60 ja kirjoitti 60 − 18 = 42 : 7 = 6. Kirjoita ratkaisu uudelleen niin, että jokainen yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Kolme riviä allekkain: 7x + 18 = 60; 7x = 42; x = 6."},{"nro":15,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Sijoita x = 6 yhtälöön 5x − 4 = 31 ja kirjoita kertomerkki näkyviin. Mikä on vasemman puolen arvo?","vastaus":26},{"nro":16,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Eetu ratkaisi yhtälön allekkain:\n3x + 3 = 30\nx + 3 = 10\nx = 7\n\nSijoita x = 7 alkuperäiseen yhtälöön 3x + 3 = 30. Mikä on vasemman puolen arvo?","vastaus":24},{"nro":17,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Mikä on yhtälön 3x + 3 = 30 oikea ratkaisu?","vastaus":9},{"nro":18,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Aino sai yhtälön 9x + 9 = 72 ratkaisuksi 9. Tarkista ratkaisu sijoittamalla ja kirjoita sijoitus näkyviin. Jos ratkaisu on väärä, ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään. Mikä on oikea ratkaisu?","vastaus":7},{"nro":19,"ryhma":"tarkistus","tyyppi":"lasku","kysymys":"Aya sai yhtälön x : 6 + 5 = 12 ratkaisuksi 102. Laske vasemman puolen arvo, kun x = 102.","vastaus":22},{"nro":20,"ryhma":"tarkistus","tyyppi":"sanallinen","kysymys":"Selitä, miksi yhtälöä 4x + 7 = 39 ratkaistaessa vähennetään ensin 7 eikä jaeta ensin neljällä. Ratkaise yhtälö niin, että jokainen välivaihe on omalla rivillään.","vastaus":"Malliesimerkki: Lausekkeessa 4x + 7 luku x on ensin kerrottu neljällä, ja sitten tuloon on lisätty 7. Purku tehdään käänteisessä järjestyksessä, joten viimeksi lisätty 7 vähennetään ensin. Rivit allekkain: 4x + 7 = 39; 4x = 32; x = 8. Tarkistus: 4 · 8 + 7 = 39."}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Pura viimeksi tehty ensin, kirjoita jokainen välivaihe omalle rivilleen ja tarkista sijoittamalla. Sijoituksessa kertomerkki näkyviin: 4x tarkoittaa 4 · x.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1: Vaaka pöydällä","sisalto":"Laita vaa'an vasempaan kuppiin kolme läpinäkymätöntä pussia, joissa jokaisessa on yhtä monta palikkaa, ja viisi irtopalikkaa. Laita oikeaan kuppiin 20 palikkaa ja kolme tyhjää samanlaista pussia, jotta pussien oma massa kumoutuu. Kysy, montako palikkaa yhdessä pussissa on, ja anna jokaisen kirjoittaa arvaus vihkoon. Kirjoita tilanne yhtälönä 3x + 5 = 20 ja nimeä yhtälö, tuntematon ja ratkaisu. Ota pois viisi palikkaa kummastakin kupista ja jaa loput kolmeen kasaan. Avaa lopuksi pussi: se on sijoitus, joka todistaa ratkaisun oikeaksi."},{"aika":"10 min","otsikko":"Tunti 1: Yhtälö kysymyksenä","sisalto":"Kirjoita taululle x + 46 = 81, x − 18 = 37, 3x = 96 ja x : 7 = 11. Parit muotoilevat jokaisesta kysymyksen (\"Mihin lukuun lisätään 46, jotta saadaan 81?\"), nimeävät käänteisen laskutoimituksen ja tarkistavat sijoittamalla. Kokoa taululle taulukko: mitä x:lle tehtiin ja millä laskulla se puretaan. Kysy lopuksi, miksi yhtälöä x : 7 = 11 ei voi rakentaa vaa'alle samalla tavalla."},{"aika":"25 min","otsikko":"Tunti 1: Harjoittelu","sisalto":"Harjoitusryhmä Yksi laskutoimitus (H01–H07). Katso erityisesti tehtäviä H02 ja H04, joissa väärä käänteinen laskutoimitus antaa vastaukset 15 ja 5, ja tehtävää H07, jossa x itse vähennetään. Pyydä kirjoittamaan vihkoon käänteinen lasku ja tarkistus, vaikka oppilaan sivu kysyy vain luvun."},{"aika":"10 min","otsikko":"Tunti 2: Sukat ja kengät","sisalto":"Kirjoita taululle 5x + 9 = 44 ja kysy, mitä x:lle tehtiin ensin ja mitä sen jälkeen. Kertaa laskujärjestys. Kysy, kumman kengän ja sukan riisut ensin, ja yhdistä vastaus purkujärjestykseen. Ratkaiskaa yhtälö yhdessä niin, että jokainen välivaihe on omalla rivillään: 5x + 9 = 44, 5x = 35, x = 7. Tarkistakaa sijoittamalla 5 · 7 + 9 = 44."},{"aika":"10 min","otsikko":"Tunti 2: Ketju vai rivit","sisalto":"Kirjoita taululle ratkaisu 38 − 6 = 32 : 8 = 4 yhtälöstä 8x + 6 = 38. Kysy, onko loppuluku oikein ja onko jokainen yhtäsuuruusmerkki tosi. Parit kirjoittavat ratkaisun uudelleen riveittäin. Näytä sitten väärä ratkaisu, jossa yhtälöstä 3x + 12 = 42 on jaettu ensin vain 3x ja 42 (x + 12 = 14, x = 2). Parit sijoittavat luvun 2 ja etsivät rivin, jolla virhe syntyi."},{"aika":"25 min","otsikko":"Tunti 2: Harjoittelu ja tarkistus","sisalto":"Harjoitusryhmät Kaksi laskutoimitusta (H08–H14) ja Tarkistus sijoittamalla (H15–H20). Seuraa tehtävää H10, jossa näkyy, aloittaako oppilas purun viimeksi tehdystä, sekä tehtäviä H15 ja H18, joissa väärä ratkaisu löytyy sijoittamalla. Kierrä luokassa ja tarkista vihkoista, että jokainen rivi on tosi yhtälö ja sijoituksessa kertomerkki on näkyvissä."}],"tarvikkeet":"Ruutuvihko. Kaksikuppinen vaaka tai ripustinvaaka, kuusi samanlaista kevyttä pussia, joista kolme on läpinäkymättömiä, ja noin 40 samanlaista pientä palikkaa (näytökseen tarvitaan 15 pusseihin, 5 irrallista ja 20 oikeaan kuppiin) (esimerkiksi rakennuspalikoita). Kokeeseen ruutupaperia tai ruutuvihko."},"virhesanakirja":[{"virhe":"x − 19 = 47 → x = 47 − 19 = 28","tehtava":"yhden laskutoimituksen yhtälö, jossa x:stä vähennetään","mita_kertoo":"Oppilas on nähnyt miinusmerkin ja vähentänyt. Hän ei vielä kysy, mitä x:lle on tehty, vaan toistaa yhtälössä näkyvän laskutoimituksen. Oikein on 47 + 19 = 66.","mita_tehda":"Sijoituta 28 yhtälöön: 28 − 19 = 9, eikä 9 ole 47. Pyydä lukemaan yhtälö kysymyksenä \"mistä luvusta vähennetään 19, jotta jää 47?\" ja kysy, onko vastaus suurempi vai pienempi kuin 47."},{"virhe":"8x = 56 → x = 56 − 8 = 48","tehtava":"kertolaskuyhtälö","mita_kertoo":"Kerroin on vähennetty eikä jaettu. Oppilas ei lue 8x:ää kertolaskuna 8 · x, tai hän on oppinut kotona tai muualla säännön \"luku siirtyy toiselle puolelle ja merkki vaihtuu\". Oikein on 56 : 8 = 7.","mita_tehda":"Kirjoituta 8x muotoon 8 · x ja sijoituta 48: 8 · 48 on paljon enemmän kuin 56. Näytä vaakamallilla kahdeksan pussia ja 56 punnusta, jotka jaetaan kahdeksaan kasaan."},{"virhe":"3x + 6 = 27 → x + 6 = 9 → x = 3","tehtava":"kahden laskutoimituksen yhtälö","mita_kertoo":"Oppilas on aloittanut jakamalla ja jakanut vain 3x:n ja oikean puolen, ei lukua 6. Sijoitus 3 · 3 + 6 = 15 paljastaa virheen. Oikein on 3x = 21 ja x = 7.","mita_tehda":"Kysy, mitä x:lle tehtiin viimeiseksi, ja pura se ensin. Näytä vaakamallilla, että ensin otetaan 6 punnusta pois kummastakin kupista ja vasta sitten jaetaan kolmeen kasaan."},{"virhe":"x : 6 = 42 → x = 42 : 6 = 7","tehtava":"jakolaskuyhtälö","mita_kertoo":"Jakolasku on purettu jakamalla uudestaan. Oppilas tuntee käänteiset laskutoimitukset yhteen- ja vähennyslaskussa mutta ei vielä kerto- ja jakolaskussa. Oikein on 42 · 6 = 252.","mita_tehda":"Sijoituta 7: 7 : 6 ei ole edes kokonaisluku, saati 42. Kysy, minkä luvun kuudesosa on 42, ja näytä, että jakolaskun kumoaa kertolasku."},{"virhe":"45 − 9 = 36 : 4 = 9","tehtava":"kahden laskutoimituksen yhtälön 4x + 9 = 45 välivaiheet","mita_kertoo":"Ratkaisu on oikea, mutta yhtäsuuruusmerkki on luettu \"ja sitten\" -merkiksi: merkintä väittää, että 45 − 9 on 9. Tämä on kartan osaa_kun-kriteerin nimeämä virhe.","mita_tehda":"Pyydä lukemaan ketju ääneen \"on yhtä suuri kuin\" -sanoilla ensimmäiseen yhtäsuuruusmerkkiin asti. Kirjoituttakaa rivit allekkain: 4x + 9 = 45, 4x = 36, x = 9."},{"virhe":"4x + 9 = 45, x = 9: tarkistus 49 + 9 = 58, joten oikea ratkaisu hylätään","tehtava":"tarkistus sijoittamalla","mita_kertoo":"Luku on kirjoitettu kertoimen viereen, jolloin 4 · 9 muuttui luvuksi 49. Oppilas osaa sijoittaa, mutta ei vielä lue 4x:ää kertolaskuna.","mita_tehda":"Pyydä kirjoittamaan sijoitus aina ensin kertomerkin kanssa: 4 · 9 + 9 = 36 + 9 = 45. Kysy, mitä 4x tarkoittaa, kun x = 10, ja verratkaa vastauksia 40 ja 410."},{"virhe":"x : 4 + 5 = 12 → x = 12 · 4 − 5 = 43","tehtava":"kahden laskutoimituksen jakolaskuyhtälö","mita_kertoo":"Laskutoimitukset on purettu väärässä järjestyksessä: ensin kumottiin jakolasku, vaikka viimeksi oli lisätty 5. Sijoitus 43 : 4 ei mene tasan. Oikein on x : 4 = 7 ja x = 28.","mita_tehda":"Kysy, mitä x:lle tehtiin ensin ja mitä viimeiseksi, ja kirjoituta järjestys sanoin. Muistuta sukista ja kengistä: viimeksi tehty puretaan ensin."}],"opettajalle":{"kesto":"Kaksi oppituntia: ensimmäinen yhtälön käsitteeseen, päättelyyn ja yhden laskutoimituksen yhtälöihin, toinen kahden laskutoimituksen yhtälöihin ja tarkistukseen sijoittamalla. Koe pidetään erikseen.","huomiot":["Laskinta ei käytetä. Yhtälö opetetaan alusta, koska vastaavat 4. ja 5. luokan taidot (MAT4-ALG-04 ja MAT5-ALG-03) ovat haasteita eikä niitä oleteta. Taito olettaa puuttuvan luvun käänteisellä laskutoimituksella (MAT4-ALG-02), sijoittamisen ja laskujärjestyksen (MAT5-ALG-02, MAT4-LUK-06), välivaiheet niin, että jokainen yhtäsuuruusmerkki on tosi (MAT5-ALG-05), ja kertomerkittömän kertoimen (MAT6-ALG-03: 3x tarkoittaa 3 · x).","Mittaritehtävät: 8, 9 ja 18 — ne mittaavat suoraan kartan osaa_kun-kriteeriä: kahden laskutoimituksen yhtälö muotoa ax + b = c (8), yhtälö muotoa ax − b = c, jossa väärä käänteinen laskutoimitus antaa eri luvun (9), sekä annetun väärän ratkaisun tarkistus sijoittamalla ja oikea ratkaisu (18). Mittaritehtävissä paperilla pitää näkyä jokainen välivaihe omalla rivillään (koe A, tehtävä 8: 4x + 17 = 53, sen alla 4x = 36 ja sen alla x = 9) ja tehtävässä 18 lisäksi sijoitus (koe A: 4 · 11 + 6 = 50, ei 38). Pelkkä oikea luku on väärin, samoin ketju 53 − 17 = 36 : 4 = 9. Myös erilliset tosilaskut omilla riveillään (53 − 17 = 36 ja 36 : 4 = 9) ja lopuksi x = 9 hyväksytään (ks. avoin asia). Arvaus ei riitä, koska kokeilu ei tuota välivaiheita ja ansat antavat eri luvun: tehtävässä 9 väärä käänteinen laskutoimitus antaa A 5, B 5, C 2, D 2 ja E 3 (oikein 8, 8, 5, 8 ja 7), ja tehtävässä 8 kertoimen vähentäminen antaa A 32, B 36, C 21, D 49 ja E 40. Tehtävässä 18 annettu väärä ratkaisu on väärän käänteisen laskutoimituksen tulos; jos oppilas hyväksyy sen, sijoitus puuttuu tai on laskettu väärin.","Tehtävä 6 (koe A: x − 24 = 68) on oikein, kun vastauksessa on kolme asiaa: perustelu (luvusta x on vähennetty 24, ja vähennyslaskun kumoaa yhteenlasku; myös perustelu, jossa sijoittamalla näytetään, että vähennyslasku 68 − 24 = 44 antaisi väärän luvun, koska 44 − 24 = 20 eikä 68, kelpaa), ratkaisu x = 92 ja tarkistus 92 − 24 = 68. Pelkkä luku on väärin, samoin perustelu ilman ratkaisua tai ratkaisu ilman tarkistusta, koska tehtävä pyytää ne kaikki. Mallivastauksen sanamuotoa ei vaadita.","Tehtävä 14 (koe A: Aya kirjoitti 43 − 16 = 27 : 3 = 9) on oikein, kun jokainen kirjoitettu yhtäsuuruusmerkki on tosi ja jokainen välivaihe on omalla rivillään: yhtälörivit 3x + 16 = 43, 3x = 27 ja x = 9 tai kaksi erillistä tosilaskua 43 − 16 = 27 ja 27 : 3 = 9 ja lopuksi x = 9. Väärin ovat alkuperäinen ketju, pelkkä luku 9 ja korjaus, jossa ketjuun on lisätty sulkeita mutta välivaiheet ovat yhä samalla rivillä.","Tehtävä 20 (koe A: 8x + 3 = 51) on oikein, kun vastauksessa on perustelu ja ratkaisu välivaiheineen. Perusteluksi kelpaa, että x on ensin kerrottu kahdeksalla ja sitten on lisätty 3, joten viimeksi tehty puretaan ensin; myös vaakamalli (ensin otetaan 3 punnusta pois kummastakin kupista) tai huomio, että jakamalla ensin pitäisi jakaa koko vasen puoli eikä vain 8x, kelpaa. Ratkaisun rivit ovat 8x + 3 = 51, 8x = 48 ja x = 6. Pelkkä \"niin kuuluu tehdä\" ei ole perustelu, ja pelkkä ratkaisu ilman perustelua on väärin.","Vastausten muoto: lukutehtävien avain on luku (koe A, tehtävä 1: 37). Myös vastaus muodossa x = 37 hyväksytään. Tehtävässä 12 vastaus on rivin numero, ja tehtävissä 15, 16 ja 19 vasemman puolen arvo. Jos oppilas merkitsee välivaiheet 7. luokan tapaan toimituksina, jotka tehdään yhtälön molemmille puolille, se hyväksytään, kun jokainen rivi on tosi. Muissa kuin tehtävissä 6, 8, 9, 14, 18 ja 20 arvostellaan vain luku, ja jokainen tehtävä on oikein tai väärin. Tehtävässä 15 kertomerkin kirjoittaminen on ohje, ei arvioitava vaatimus: oikea luku (koe A: 29) riittää, ja vastaus 54 kertoo, että luku on kirjoitettu kertoimen viereen.","Ansojen jäljet koe A:ssa: tehtävässä 1 vastaus 91 on väärä käänteinen laskutoimitus (64 + 27), tehtävässä 2 vastaus 21 samoin (47 − 26). Tehtävässä 3 vastaus 77 kertoo, että kerroin on vähennetty eikä jaettu, ja tehtävässä 4 vastaus 6, että jakolasku on purettu jakamalla. Tehtävässä 5 vastaus 122 kertoo, että luvut on laskettu yhteen, vaikka x vähennetään. Tehtävässä 7 vastaus 70 on väärä käänteinen laskutoimitus (62 + 8). Tehtävässä 10 vastaus 51 on väärä käänteinen laskutoimitus ((12 + 5) · 3) ja vastaus 31 väärä purkujärjestys (12 · 3 − 5). Tehtävässä 11 vastaus 35 kertoo kertoimen vähentämisestä (40 − 5). Tehtävässä 13 vastaus 6 on väärä käänteinen laskutoimitus ((5 − 4) · 6). Tehtävässä 15 vastaus 54 kertoo, että luku on kirjoitettu kertoimen viereen (67 − 13). Tehtävissä 16 ja 19 vastaukset 33 ja 15 ovat oikean puolen arvoja: oppilas ei ole sijoittanut lainkaan. Tehtävässä 17 vastaus 5 on Saran väärä ratkaisu, joka syntyy, kun vain osa vasemmasta puolesta jaetaan.","Tehtävä 12: jokaisessa versiossa ensimmäinen virhe on kolmannella rivillä, jossa kerroin on vähennetty eikä jaettu. Vastaus 2 kertoo, että oppilas pitää toisen rivin vähennystä virheenä, vaikka se on oikein; vastaus 1 kertoo, ettei hän ole tarkistanut rivejä lainkaan. Tehtävässä 5 on kokeen ainoa yhtälö, jossa x itse vähennetään; se ratkaistaan päättelemällä.","Rajaus: tuntematon on vain toisella puolella ja enintään kahdessa laskutoimituksessa, kertoimet ovat 2–9, ratkaisut ovat luonnollisia lukuja ja jakolaskut menevät tasan. Pois on rajattu yhtälö, jossa tuntematon on molemmilla puolilla (haaste MAT6-ALG-05), yhtälön muodostaminen sanallisesta tehtävästä (vahvistava MAT6-ALG-04; vaa'an kuvaus on ainoa tilanne, josta yhtälö kirjoitetaan), sulkeet yhtälössä, muoto a : x = b, tuntematon kahdesti (MAT7-ALG-02) sekä negatiiviset, desimaali- ja murtolukuratkaisut. Vaakamalli perustelee yhteen- ja kertolaskuyhtälöt; jakolaskuyhtälöt perustellaan käänteisellä laskutoimituksella.","Harjoitukset: tehtävässä H02 vastaus 15 ja tehtävässä H04 vastaus 5 kertovat väärästä käänteisestä laskutoimituksesta. Tehtävässä H10 vaihtoehto 29 : 4 kertoo, että purku aloitetaan väärästä päästä, ja vaihtoehto 29 − 7 väärästä käänteisestä laskutoimituksesta. Tehtävissä H15–H20 näkyy, osaako oppilas käyttää sijoitusta virheen etsimiseen. Oppilaan sivu tarkistaa vain luvun, joten katso välivaiheet vihkosta."]},"huoltajalle":{"mista_on_kyse":"Lapsi oppii ratkaisemaan yhtälöitä kuten 3x + 5 = 26, jossa x on tuntematon luku ja 3x tarkoittaa 3 · x. Hän purkaa yhtälön käänteisillä laskutoimituksilla viimeksi tehdystä alkaen, kirjoittaa jokaisen välivaiheen omalle rivilleen (3x + 5 = 26, sen alle 3x = 21 ja sen alle x = 7) ja tarkistaa ratkaisun sijoittamalla: 3 · 7 + 5 = 26.","kotona":["Kirjoittakaa vuorotellen toisillenne yhtälöitä paperille. Toinen valitsee salaa luvun, kertoo sen esimerkiksi neljällä, lisää tuloon 6 ja kirjoittaa vain yhtälön, kuten 4x + 6 = 34. Toinen ratkaisee yhtälön välivaiheineen ja tarkistaa ratkaisun sijoittamalla.","Pyydä lasta selittämään ääneen, mitä x:lle on tehty ja missä järjestyksessä, ja miksi purku alkaa viimeksi tehdystä. Arkinen vertaus auttaa: sukat puetaan ennen kenkiä, mutta kengät riisutaan ennen sukkia.","Älä opeta sääntöä \"luku siirtyy toiselle puolelle ja merkki vaihtuu\". Ilman ymmärrystä se tuottaa juuri tämän taidon tyypillisen virheen, jossa yhtälöstä 8x = 56 tulee x = 56 − 8. Älä myöskään hyväksy ketjua 45 − 9 = 36 : 4 = 9, vaikka loppuluku on oikea, koska merkintä väittää, että 45 − 9 on 9."],"milloin_huolestua":"Jos lapsi vielä harjoittelun jälkeen purkaa vähennyksen vähentämällä (yhtälöstä x − 19 = 47 tulee 28) tai ei huomaa sijoittamalla, että ratkaisu on väärä, kerro asiasta opettajalle. Yhtälöiden ratkaisemista jatketaan 7. luokalla."},"ulkoiset":{"edeltavat":[{"id":"MAT5-ALG-05","nimi":"Yhtäsuuruus pitää","vuosiluokka":5,"kuvaus":"Osaan merkitä laskun välivaiheet niin, että yhtäsuuruusmerkin molemmat puolet ovat aina yhtä suuret."},{"id":"MAT4-ALG-02","nimi":"Puuttuva pala","vuosiluokka":4,"kuvaus":"Osaan etsiä puuttuvan luvun laskusta."}],"seuraavat":[{"id":"MAT7-YHT-01","nimi":"Yhtä painavat puolet","vuosiluokka":7,"kuvaus":"Osaan selittää, mitä yhtälö ja sen ratkaisu tarkoittavat, ja tarkistaa ratkaisun sijoittamalla."},{"id":"MAT7-YHT-02","nimi":"Tuntematon selviää","vuosiluokka":7,"kuvaus":"Osaan ratkaista ensimmäisen asteen yhtälön."}]},"valmis_teksti":"Osaat ratkaista yhden ja kahden laskutoimituksen yhtälöitä käänteisillä laskutoimituksilla, kirjoitat jokaisen välivaiheen omalle rivilleen ja tarkistat ratkaisun sijoittamalla. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

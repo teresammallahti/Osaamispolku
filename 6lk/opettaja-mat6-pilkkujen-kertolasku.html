@@ -1,0 +1,524 @@
+<title>Pilkkujen kertolasku · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"MAT6-LUK-06","oppiaine":"MAT","vuosiluokka":6,"otsikko":"Pilkkujen kertolasku","kuvaus":"Osaan kertoa kaksi desimaalilukua keskenään.","versio":"0.2","paivitetty":"2026-10-18","ops":{"T":["T10"],"S":["S2"]},"ikoni":"allekkain","eyebrow":"Matematiikka · 6. luokka · Luvut ja laskutoimitukset","naytto":"Lasken allekkain tuloja kuten 3,4 · 1,5 ja 0,6 · 0,07, ratkaisen hintatehtävän, jossa sekä määrä että yksikköhinta ovat desimaalilukuja (esim. 2,5 kg hintaan 3,20 €/kg), ja selitän tulon pilkun paikan.","osaa_kun":"Lasken tulon desimaalien määrän tekijöiden desimaalien summana, perustelen säännön kymmenes- ja sadasosilla (6 kymmenesosaa kertaa 7 sadasosaa on 42 tuhannesosaa) ja tiedän, että ykköstä pienemmällä luvulla kertominen pienentää lukua.","teksti":[{"tyyppi":"johdanto","sisalto":"Kevätjuhlan tarjoiluun ostetaan 1,8 kg mansikoita, ja hintalapussa lukee 4,50 €/kg. Merkintä tarkoittaa, että yksi kilo maksaa 4,50 €. Viidennellä ja kuudennella luokalla olet jo kertonut desimaaliluvun luonnollisella luvulla, esimerkiksi 4,50 · 2. Nyt molemmissa tekijöissä on pilkku, ja tämä on uusi askel. Tässä taidossa opit, mihin kohtaan tulon pilkku tulee, ja osaat perustella sen kymmenes- ja sadasosilla. Opit myös, miksi 0,8 kg mansikoita maksaa vähemmän kuin kilo."},{"tyyppi":"kappale","otsikko":"Kymmenesosa kertaa kymmenesosa ruudukossa","sisalto":"Ajattele ruutupaperille piirrettyä neliötä, jossa on 10 riviä ja 10 saraketta eli 100 pientä ruutua. Koko neliö on luku 1, joten yksi sarake on 0,1, yksi rivi on 0,1 ja yksi pieni ruutu on 0,01. Väritä neliöstä 3 saraketta sinisellä: ne ovat 0,3. Väritä sitten 2 riviä keltaisella: ne ovat 0,2. Sinisestä alueesta otetaan nyt kaksi kymmenesosaa, ja se on juuri se osa, joka on sekä sinistä että keltaista. Siinä on 3 · 2 = 6 pientä ruutua, joten 0,3 · 0,2 = 0,06. Kymmenesosan kymmenesosa on sadasosa, koska yksi sarake ja yksi rivi menevät päällekkäin yhden pienen ruudun kohdalla."},{"tyyppi":"kappale","otsikko":"Kymmenesosa kertaa sadasosa on tuhannesosia","sisalto":"Jos yksi pieni ruutu eli sadasosa jaetaan vielä kymmeneen yhtä suureen osaan, yksi osa on tuhannesosa. Siksi sadasosan kymmenesosa on tuhannesosa. Esimerkiksi 0,8 · 0,06 on 8 kymmenesosaa kertaa 6 sadasosaa. Koska 8 · 6 = 48, tulo on 48 tuhannesosaa eli 0,048. Tuhannesosat kirjoitetaan kolmella desimaalilla, ja kolme on tekijöiden desimaalien summa: luvussa 0,8 on yksi desimaali ja luvussa 0,06 kaksi. Sama sääntö toimii kaikissa desimaalilukujen kertolaskuissa: tulon desimaalien määrä on tekijöiden desimaalien summa, kun lasket desimaalit ennen kuin jätät lopun nollat pois."},{"tyyppi":"saanto","otsikko":"Kaksi desimaalilukua allekkain","askeleet":["Kirjoita tekijät allekkain oikean reunan mukaan. Pilkkuja ei aseteta kohdakkain.","Kerro niin kuin pilkkuja ei olisi. Jos alemmassa luvussa on kaksi numeroa, laske kaksi välituloa: toisen välitulon viimeiseksi numeroksi tulee nolla.","Laske välitulot yhteen.","Laske, montako desimaalia tekijöissä on yhteensä.","Laske tulosta yhtä monta numeroa oikealta ja merkitse pilkku. Jos numerot eivät riitä, kirjoita eteen nollia: 0,4 · 0,02 on 8 tuhannesosaa eli 0,008.","Jätä lopun nollat pois vasta, kun pilkku on paikallaan.","Tarkista arviolla. Kun yksi tekijöistä on nollan ja yhden välissä ja toinen on nollaa suurempi, tulon pitää olla pienempi kuin toinen tekijä."]},{"tyyppi":"taulukko","otsikko":"Mansikoiden hinta 4,50 · 1,8 vaihe vaiheelta","otsikkorivi":["Vaihe","Mitä tehdään","Tulos"],"rivit":[["Asettelu","1,8 kirjoitetaan luvun 4,50 alle oikean reunan mukaan, pilkuista välittämättä","450 ja sen alla 18"],["1. välitulo","450 · 8: 8 · 0 = 0; 8 · 5 = 40, alle 0, muistiin 4; 8 · 4 = 32 ja 32 + 4 = 36","3 600"],["2. välitulo","450 · 10: ykkösten paikalle 0; sitten 1 · 0 = 0, 1 · 5 = 5 ja 1 · 4 = 4","4 500"],["Yhteenlasku","3 600 + 4 500","8 100"],["Pilkku","luvussa 4,50 on kaksi desimaalia ja luvussa 1,8 yksi, yhteensä kolme, joten pilkku tulee kolmen numeron päähän oikealta","8,100"],["Nollat pois","lopun nollat jätetään pois vasta nyt; rahasummassa kirjoitetaan sentit","<b>8,1 eli 8,10 €</b>"],["Arvio","1,8 on vähän alle 2, ja 4,50 · 2 = 9","8,10 € on vähän alle 9 €"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: pilkku kopioidaan tekijästä","sisalto":"Laskussa 0,7 · 0,4 voi tuntua luontevalta laskea 7 · 4 = 28 ja merkitä pilkku samaan kohtaan kuin tekijöissä: 2,8. Tulo on kuitenkin 0,28, koska 7 kymmenesosaa kertaa 4 kymmenesosaa on 28 sadasosaa. Tekijöissä on yhteensä kaksi desimaalia, joten tulossakin on kaksi. Tulos 2,8 ei voi olla oikein, koska se on suurempi kuin kumpikin tekijä, vaikka kumpikin tekijä on alle yksi."},{"tyyppi":"ansa","otsikko":"Ansa 2: lopun nollat pois liian aikaisin","sisalto":"Laskun 1,5 · 2,4 numerot ovat 15 · 24 = 360. Jos lopun nolla jätetään pois heti, jäljelle jää 36, ja kahdella desimaalilla tulokseksi tulee 0,36. Oikea tulo on 3,6: kaksi desimaalia lasketaan luvusta 360, jolloin saadaan 3,60, ja vasta sitten lopun nolla jätetään pois. Arvio 1,5 · 2 = 3 näyttää, että 0,36 on aivan liian pieni. Sama virhe tekee laskusta 0,05 · 0,6 väärän tuloksen 0,003, vaikka 5 sadasosaa kertaa 6 kymmenesosaa on 30 tuhannesosaa eli 0,030 = 0,03."},{"tyyppi":"ansa","otsikko":"Ansa 3: kokonaiset ja desimaalit erikseen","sisalto":"Laskussa 1,5 · 4,3 voi tuntua helpolta kertoa erikseen kokonaiset 1 · 4 = 4 ja desimaalit 0,5 · 0,3 = 0,15 ja kirjoittaa tuloksi 4,15. Oikea tulo on 6,45, koska 15 · 43 = 645 ja tekijöissä on yhteensä kaksi desimaalia. Erikseen kertomalla jää pois kaksi osaa: 1 · 0,3 = 0,3 ja 0,5 · 4 = 2. Arvio paljastaa virheen, koska 1,5 · 4,3 on vähän yli 1,5 · 4 = 6. Laske siksi aina koko luvuilla allekkain."},{"tyyppi":"ansa","otsikko":"Ansa 4: kertolasku ei aina suurenna","sisalto":"Kun lasket luonnollisilla luvuilla, tulo on yleensä suurempi kuin kumpikin tekijä. Siksi voi tuntua, että 0,8 · 35 on yli 35. Tulo on kuitenkin 28, koska 0,8 on alle yksi: luvusta 35 otetaan vain kahdeksan kymmenesosaa. Kun nollaa suurempi luku kerrotaan luvulla, joka on nollan ja yhden välissä, tulo on pienempi kuin se luku. Kun nollaa suurempi luku kerrotaan yhtä suuremmalla luvulla, tulo on suurempi: 1,5 · 8 = 12. Yhdellä kertominen ei muuta lukua, ja nolla pysyy nollana millä tahansa kerrottuna. Tästä saat arvion hintatehtävään: alle kilon määrä maksaa vähemmän kuin kilo."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kerro niin kuin pilkkuja ei olisi ja merkitse pilkku vasta lopuksi.","Tulon desimaalien määrä on tekijöiden desimaalien summa.","Kymmenesosan kymmenesosa on sadasosa, ja sadasosan kymmenesosa on tuhannesosa: 8 kymmenesosaa kertaa 6 sadasosaa on 48 tuhannesosaa.","Jos numerot eivät riitä, kirjoita pilkun ja numeroiden väliin nollia.","Jätä lopun nollat pois vasta, kun pilkku on paikallaan.","Nollaa suurempi luku pienenee, kun se kerrotaan luvulla, joka on nollan ja yhden välissä."]}],"harjoitukset":[{"id":"H01","ryhma":"pilkku","kysymys":"Laske päässä 0,6 · 0,3.","vastaus":0.18,"vinkki":"Ajattele kymmenesosina: 6 kymmenesosaa kertaa 3 kymmenesosaa.","selitys":"6 · 3 = 18. Kymmenesosan kymmenesosa on sadasosa, joten tulo on 18 sadasosaa eli 0,18."},{"id":"H02","ryhma":"pilkku","kysymys":"Laske päässä 0,9 · 0,04.","vastaus":0.036,"vinkki":"0,04 on 4 sadasosaa. Mitä sadasosan kymmenesosa on?","selitys":"9 kymmenesosaa kertaa 4 sadasosaa on 36 tuhannesosaa eli 0,036. Tekijöissä on yhteensä kolme desimaalia."},{"id":"H03","ryhma":"pilkku","kysymys":"Tulon 1,25 · 3,6 numerot ovat 4 500. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":3,"vinkki":"Laske tekijöiden desimaalit yhteen.","selitys":"Luvussa 1,25 on kaksi desimaalia ja luvussa 3,6 yksi, joten tulossa on kolme: 4,500. Vasta sitten nollat jätetään pois, ja tulo on 4,5."},{"id":"H04","ryhma":"pilkku","kysymys":"Laske päässä 0,5 · 0,6.","vastaus":0.3,"vinkki":"5 · 6 = 30. Montako desimaalia tulossa on, ennen kuin lopun nolla jätetään pois?","selitys":"5 kymmenesosaa kertaa 6 kymmenesosaa on 30 sadasosaa eli 0,30. Lopun nolla jätetään pois vasta nyt, joten tulo on 0,3."},{"id":"H05","ryhma":"pilkku","kysymys":"Neliössä on 10 riviä ja 10 saraketta eli 100 pientä ruutua. Koko neliö on luku 1.\nNeliöstä väritetään 4 saraketta sinisellä ja 7 riviä keltaisella.\n\nRuudut, jotka ovat sekä sinisiä että keltaisia, kuvaavat tuloa 0,4 · 0,7. Kuinka suuri tulo on?","vastaus":0.28,"vinkki":"Montako pientä ruutua on sekä sinisiä että keltaisia? Yksi pieni ruutu on 0,01.","selitys":"Päällekkäin väritettyjä ruutuja on 4 · 7 = 28. Yksi pieni ruutu on 0,01, joten tulo on 28 sadasosaa eli 0,28."},{"id":"H06","ryhma":"pilkku","kysymys":"Miksi 0,2 · 0,03 = 0,006?","vastaus":0,"vinkki":"Mitä on 2 kymmenesosaa kertaa 3 sadasosaa?","selitys":"2 · 3 = 6, ja sadasosan kymmenesosa on tuhannesosa. Siksi tulo on 6 tuhannesosaa eli 0,006. Nollien laskeminen ei ole perustelu.","tyyppi":"monivalinta","vaihtoehdot":["2 kymmenesosaa kertaa 3 sadasosaa on 6 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa.","Koska tekijöissä on yhteensä kolme nollaa, ja jokainen nolla siirtää pilkkua yhden paikan.","Koska pilkku kopioidaan luvusta 0,03 ja siihen lisätään yksi nolla."]},{"id":"H07","ryhma":"pilkku","kysymys":"Onko 0,9 · 64 suurempi vai pienempi kuin 64?","vastaus":0,"vinkki":"Onko 0,9 enemmän vai vähemmän kuin yksi?","selitys":"0,9 on alle yksi, joten luvusta 64 otetaan vain yhdeksän kymmenesosaa. Tulo 57,6 on pienempi kuin 64.","tyyppi":"monivalinta","vaihtoehdot":["Pienempi, koska 0,9 on alle yksi, joten luvusta 64 otetaan vain osa.","Suurempi, koska kertolasku suurentaa aina.","Yhtä suuri, koska 0,9 on melkein yksi."]},{"id":"H08","ryhma":"allekkain","kysymys":"Laske allekkain 3,7 · 2,6.","vastaus":9.62,"vinkki":"Laske 37 · 26 kahtena välitulona ja laske sitten desimaalit yhteen.","selitys":"37 · 6 = 222 ja 37 · 20 = 740. 222 + 740 = 962. Desimaaleja on 1 + 1 = 2, joten tulo on 9,62. Arvio: 4 · 3 = 12, ja 9,62 on lähellä."},{"id":"H09","ryhma":"allekkain","kysymys":"Laske allekkain 6,4 · 0,8.","vastaus":5.12,"vinkki":"Laske 64 · 8. Koska 0,8 on alle yksi, tulon pitää olla alle 6,4.","selitys":"64 · 8 = 512. Desimaaleja on 1 + 1 = 2, joten tulo on 5,12. Se on pienempi kuin 6,4, niin kuin pitääkin."},{"id":"H10","ryhma":"allekkain","kysymys":"Laske allekkain 1,24 · 3,5.","vastaus":4.34,"vinkki":"Desimaaleja on 2 + 1 = 3. Merkitse pilkku ennen kuin jätät lopun nollan pois.","selitys":"124 · 5 = 620 ja 124 · 30 = 3 720. 620 + 3 720 = 4 340. Kolme desimaalia antaa 4,340, ja lopun nolla jätetään pois: 4,34."},{"id":"H11","ryhma":"allekkain","kysymys":"Laske allekkain 0,35 · 0,6.","vastaus":0.21,"vinkki":"35 · 6 = 210. Montako desimaalia tekijöissä on yhteensä?","selitys":"35 · 6 = 210. Desimaaleja on 2 + 1 = 3, joten tulo on 0,210. Lopun nolla jätetään pois vasta nyt: 0,21."},{"id":"H12","ryhma":"allekkain","kysymys":"Laske allekkain 2,3 · 0,04.","vastaus":0.092,"vinkki":"23 · 4 = 92. Tulossa pitää olla kolme desimaalia, joten numerot eivät riitä.","selitys":"23 · 4 = 92. Desimaaleja on 1 + 2 = 3, joten pilkun ja numeroiden väliin tulee nolla: 0,092."},{"id":"H13","ryhma":"allekkain","kysymys":"Laske allekkain 12,5 · 4,8.","vastaus":60,"vinkki":"Laske 125 · 48. Merkitse pilkku ennen kuin jätät nollat pois.","selitys":"125 · 8 = 1 000 ja 125 · 40 = 5 000. 1 000 + 5 000 = 6 000. Desimaaleja on kaksi, joten tulo on 60,00 eli 60. Arvio: 12 · 5 = 60."},{"id":"H14","ryhma":"allekkain","kysymys":"Laske allekkain 4,5 · 2,3.","vastaus":10.35,"vinkki":"Kerro koko luvut 45 · 23 kahtena välitulona.","selitys":"45 · 3 = 135 ja 45 · 20 = 900. 135 + 900 = 1 035. Desimaaleja on kaksi, joten tulo on 10,35. Arvio: 4,5 · 2 = 9, joten tulo on vähän yli 9."},{"id":"H15","ryhma":"hinnat","kysymys":"Tulon 7,6 · 2,9 numerot ovat 2 204. Mikä on tulo? Arvioi ensin: 7,6 · 2,9 on noin 8 · 3.","vastaus":22.04,"vinkki":"8 · 3 = 24. Mihin kohtaan pilkku pitää merkitä, jotta tulo on lähellä lukua 24?","selitys":"Arvio on 24, joten tulo on 22,04 eikä 2,204 tai 220,4. Myös desimaalien summa 1 + 1 = 2 antaa saman."},{"id":"H16","ryhma":"hinnat","kysymys":"Aino ostaa 0,8 kg omenoita. Omenat maksavat 3,40 €/kg. Paljonko omenat maksavat? Anna vastaus euroina.","vastaus":2.72,"vinkki":"Laske 3,40 · 0,8. Koska ostetaan alle kilo, hinnan pitää olla alle 3,40 €.","selitys":"340 · 8 = 2 720. Desimaaleja on 2 + 1 = 3, joten tulo on 2,720. Omenat maksavat 2,72 €."},{"id":"H17","ryhma":"hinnat","kysymys":"Leirikoulun retkieväisiin ostetaan 1,2 kg juustoa. Juusto maksaa 9,50 €/kg. Paljonko juusto maksaa? Anna vastaus euroina.","vastaus":11.4,"vinkki":"Laske 9,50 · 1,2 kahtena välitulona.","selitys":"950 · 2 = 1 900 ja 950 · 10 = 9 500. 1 900 + 9 500 = 11 400. Kolme desimaalia antaa 11,400, joten juusto maksaa 11,40 €."},{"id":"H18","ryhma":"hinnat","kysymys":"Partio ostaa 3,5 m köyttä. Köysi maksaa 1,80 €/m. Paljonko köysi maksaa? Anna vastaus euroina.","vastaus":6.3,"vinkki":"Laske 1,80 · 3,5. Lopun nollat jätetään pois vasta pilkun jälkeen.","selitys":"180 · 5 = 900 ja 180 · 30 = 5 400. 900 + 5 400 = 6 300. Kolme desimaalia antaa 6,300, joten köysi maksaa 6,30 €."},{"id":"H19","ryhma":"hinnat","kysymys":"Noor laski 0,8 · 0,3 ja sai 2,4. Laske oikea tulo.","vastaus":0.24,"vinkki":"Montako desimaalia tekijöissä on yhteensä?","selitys":"8 kymmenesosaa kertaa 3 kymmenesosaa on 24 sadasosaa eli 0,24. Noor kopioi pilkun tekijästä."},{"id":"H20","ryhma":"hinnat","kysymys":"Elias laski 2,5 · 3,6 ja sai 6,30. Laske oikea tulo.","vastaus":9,"vinkki":"Elias kertoi erikseen 2 · 3 ja 0,5 · 0,6. Laske koko luvuilla 25 · 36.","selitys":"25 · 36 = 900. Desimaaleja on kaksi, joten tulo on 9,00 eli 9. Arvio: 2,5 · 4 = 10, joten 6,30 on liian pieni."}],"harjoitusryhmat":[{"id":"pilkku","nimi":"Pilkun paikka ja perustelu","info":"Ajattele kymmenes-, sada- ja tuhannesosina. Tulon desimaalien määrä on tekijöiden desimaalien summa."},{"id":"allekkain","nimi":"Kertolasku allekkain","info":"Kerro niin kuin pilkkuja ei olisi, merkitse pilkku lopuksi ja jätä lopun nollat pois vasta sen jälkeen."},{"id":"hinnat","nimi":"Hinnat, arvio ja korjaus","info":"Arvioi ensin, laske sitten allekkain ja anna rahasumma euroina."}],"ryhmanimet":{"pilkku":"Pilkun paikka ja perustelu","allekkain":"Kertolasku allekkain","hinnat":"Hinnat, arvio ja korjaus"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nLaske allekkain ja jätä välitulot näkyviin.\nTehtävissä 1–5 ja 15 riittää pelkkä vastaus.\nAnna rahasumma euroina, esimerkiksi 4,20.\nKun tehtävä pyytää perustelemaan tai selittämään, vastaa kokonaisella lauseella.","tehtavat":[{"nro":1,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,7 · 0,6.","vastaus":0.42},{"nro":2,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Tulon 4,5 · 1,4 numerot ovat 630. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":2},{"nro":3,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Montako desimaalia on tulossa 0,04 · 0,5, ennen kuin loppunolla jätetään pois?","vastaus":3},{"nro":4,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,3 · 0,09.","vastaus":0.027},{"nro":5,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,4 · 35.","vastaus":14},{"nro":6,"ryhma":"pilkku","tyyppi":"sanallinen","kysymys":"Onko 0,7 · 52 suurempi vai pienempi kuin 52? Perustele laskematta.","vastaus":"Malliesimerkki: Pienempi, koska 0,7 on alle yksi, joten luvusta 52 otetaan vain osa, seitsemän kymmenesosaa."},{"nro":7,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 4,6 · 2,3.","vastaus":10.58},{"nro":8,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 2,17 · 3,4.","vastaus":7.378},{"nro":9,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 7,5 · 1,2.","vastaus":9},{"nro":10,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,45 · 0,8.","vastaus":0.36},{"nro":11,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 4,7 · 0,06.","vastaus":0.282},{"nro":12,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 23,4 · 1,8.","vastaus":42.12},{"nro":13,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 8,6 · 0,7.","vastaus":6.02},{"nro":14,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,12 · 0,4.","vastaus":0.048},{"nro":15,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Tulon 6,9 · 3,2 numerot ovat 2 208. Mikä on tulo? Arvioi ensin: 6,9 · 3,2 on noin 7 · 3.","vastaus":22.08},{"nro":16,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Kevätjuhlan tarjoiluun ostetaan 1,4 kg mansikoita. Mansikat maksavat 3,60 €/kg. Paljonko mansikat maksavat? Anna vastaus euroina.","vastaus":5.04},{"nro":17,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun ruokaan ostetaan 0,6 kg lohta. Lohi maksaa 18,40 €/kg. Paljonko lohi maksaa? Anna vastaus euroina.","vastaus":11.04},{"nro":18,"ryhma":"hinnat","tyyppi":"sanallinen","kysymys":"Selitä kymmenes- ja sadasosilla, miksi 0,7 · 0,03 = 0,021.","vastaus":"Malliesimerkki: 7 kymmenesosaa kertaa 3 sadasosaa on 21 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa. 21 tuhannesosaa on 0,021."},{"nro":19,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leo laski 2,4 · 3,6 ja sai 6,24. Laske oikea tulo.","vastaus":8.64},{"nro":20,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Aya laski 1,2 · 0,4 ja sai 4,8. Laske oikea tulo.","vastaus":0.48}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nLaske allekkain ja jätä välitulot näkyviin.\nTehtävissä 1–5 ja 15 riittää pelkkä vastaus.\nAnna rahasumma euroina, esimerkiksi 4,20.\nKun tehtävä pyytää perustelemaan tai selittämään, vastaa kokonaisella lauseella.","tehtavat":[{"nro":1,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,8 · 0,7.","vastaus":0.56},{"nro":2,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Tulon 6,5 · 1,2 numerot ovat 780. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":2},{"nro":3,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Montako desimaalia on tulossa 0,05 · 0,8, ennen kuin loppunolla jätetään pois?","vastaus":3},{"nro":4,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,7 · 0,08.","vastaus":0.056},{"nro":5,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,6 · 55.","vastaus":33},{"nro":6,"ryhma":"pilkku","tyyppi":"sanallinen","kysymys":"Onko 0,9 · 38 suurempi vai pienempi kuin 38? Perustele laskematta.","vastaus":"Malliesimerkki: Pienempi, koska 0,9 on alle yksi, joten luvusta 38 otetaan vain osa, yhdeksän kymmenesosaa."},{"nro":7,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 3,8 · 2,7.","vastaus":10.26},{"nro":8,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 1,36 · 4,2.","vastaus":5.712},{"nro":9,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 2,5 · 2,8.","vastaus":7},{"nro":10,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,25 · 0,6.","vastaus":0.15},{"nro":11,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 5,3 · 0,07.","vastaus":0.371},{"nro":12,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 31,6 · 2,4.","vastaus":75.84},{"nro":13,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 9,3 · 0,6.","vastaus":5.58},{"nro":14,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,14 · 0,6.","vastaus":0.084},{"nro":15,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Tulon 4,8 · 5,1 numerot ovat 2 448. Mikä on tulo? Arvioi ensin: 4,8 · 5,1 on noin 5 · 5.","vastaus":24.48},{"nro":16,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun keittiöön ostetaan 2,6 kg perunoita. Perunat maksavat 1,20 €/kg. Paljonko perunat maksavat? Anna vastaus euroina.","vastaus":3.12},{"nro":17,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun ruokaan ostetaan 0,4 kg juustoa. Juusto maksaa 13,80 €/kg. Paljonko juusto maksaa? Anna vastaus euroina.","vastaus":5.52},{"nro":18,"ryhma":"hinnat","tyyppi":"sanallinen","kysymys":"Selitä kymmenes- ja sadasosilla, miksi 0,9 · 0,02 = 0,018.","vastaus":"Malliesimerkki: 9 kymmenesosaa kertaa 2 sadasosaa on 18 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa. 18 tuhannesosaa on 0,018."},{"nro":19,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Sara laski 1,7 · 4,3 ja sai 4,21. Laske oikea tulo.","vastaus":7.31},{"nro":20,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Elias laski 2,1 · 0,3 ja sai 6,3. Laske oikea tulo.","vastaus":0.63}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nLaske allekkain ja jätä välitulot näkyviin.\nTehtävissä 1–5 ja 15 riittää pelkkä vastaus.\nAnna rahasumma euroina, esimerkiksi 4,20.\nKun tehtävä pyytää perustelemaan tai selittämään, vastaa kokonaisella lauseella.","tehtavat":[{"nro":1,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,9 · 0,4.","vastaus":0.36},{"nro":2,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Tulon 2,5 · 3,8 numerot ovat 950. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":2},{"nro":3,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Montako desimaalia on tulossa 0,06 · 0,5, ennen kuin loppunolla jätetään pois?","vastaus":3},{"nro":4,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,6 · 0,04.","vastaus":0.024},{"nro":5,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,8 · 45.","vastaus":36},{"nro":6,"ryhma":"pilkku","tyyppi":"sanallinen","kysymys":"Onko 0,6 · 74 suurempi vai pienempi kuin 74? Perustele laskematta.","vastaus":"Malliesimerkki: Pienempi, koska 0,6 on alle yksi, joten luvusta 74 otetaan vain osa, kuusi kymmenesosaa."},{"nro":7,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 5,3 · 1,9.","vastaus":10.07},{"nro":8,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 3,24 · 2,3.","vastaus":7.452},{"nro":9,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 7,5 · 1,6.","vastaus":12},{"nro":10,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,35 · 0,4.","vastaus":0.14},{"nro":11,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 3,9 · 0,08.","vastaus":0.312},{"nro":12,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 18,7 · 3,2.","vastaus":59.84},{"nro":13,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 7,4 · 0,9.","vastaus":6.66},{"nro":14,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,23 · 0,3.","vastaus":0.069},{"nro":15,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Tulon 8,3 · 2,9 numerot ovat 2 407. Mikä on tulo? Arvioi ensin: 8,3 · 2,9 on noin 8 · 3.","vastaus":24.07},{"nro":16,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Luokkaretken eväisiin ostetaan 1,8 kg omenoita. Omenat maksavat 2,40 €/kg. Paljonko omenat maksavat? Anna vastaus euroina.","vastaus":4.32},{"nro":17,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun ruokaan ostetaan 0,8 kg jauhelihaa. Jauheliha maksaa 9,40 €/kg. Paljonko jauheliha maksaa? Anna vastaus euroina.","vastaus":7.52},{"nro":18,"ryhma":"hinnat","tyyppi":"sanallinen","kysymys":"Selitä kymmenes- ja sadasosilla, miksi 0,8 · 0,03 = 0,024.","vastaus":"Malliesimerkki: 8 kymmenesosaa kertaa 3 sadasosaa on 24 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa. 24 tuhannesosaa on 0,024."},{"nro":19,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Onni laski 2,8 · 3,4 ja sai 6,32. Laske oikea tulo.","vastaus":9.52},{"nro":20,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Noor laski 1,3 · 0,3 ja sai 3,9. Laske oikea tulo.","vastaus":0.39}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nLaske allekkain ja jätä välitulot näkyviin.\nTehtävissä 1–5 ja 15 riittää pelkkä vastaus.\nAnna rahasumma euroina, esimerkiksi 4,20.\nKun tehtävä pyytää perustelemaan tai selittämään, vastaa kokonaisella lauseella.","tehtavat":[{"nro":1,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,6 · 0,9.","vastaus":0.54},{"nro":2,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Tulon 1,5 · 4,6 numerot ovat 690. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":2},{"nro":3,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Montako desimaalia on tulossa 0,05 · 0,2, ennen kuin loppunolla jätetään pois?","vastaus":3},{"nro":4,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,4 · 0,07.","vastaus":0.028},{"nro":5,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,2 · 65.","vastaus":13},{"nro":6,"ryhma":"pilkku","tyyppi":"sanallinen","kysymys":"Onko 0,8 · 67 suurempi vai pienempi kuin 67? Perustele laskematta.","vastaus":"Malliesimerkki: Pienempi, koska 0,8 on alle yksi, joten luvusta 67 otetaan vain osa, kahdeksan kymmenesosaa."},{"nro":7,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 6,2 · 3,4.","vastaus":21.08},{"nro":8,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 2,43 · 3,1.","vastaus":7.533},{"nro":9,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 7,5 · 2,4.","vastaus":18},{"nro":10,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,65 · 0,2.","vastaus":0.13},{"nro":11,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 6,8 · 0,04.","vastaus":0.272},{"nro":12,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 26,3 · 1,7.","vastaus":44.71},{"nro":13,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 6,7 · 0,8.","vastaus":5.36},{"nro":14,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,13 · 0,7.","vastaus":0.091},{"nro":15,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Tulon 5,7 · 4,2 numerot ovat 2 394. Mikä on tulo? Arvioi ensin: 5,7 · 4,2 on noin 6 · 4.","vastaus":23.94},{"nro":16,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Kevätjuhlan salaattiin ostetaan 1,2 kg kirsikkatomaatteja. Kirsikkatomaatit maksavat 6,40 €/kg. Paljonko kirsikkatomaatit maksavat? Anna vastaus euroina.","vastaus":7.68},{"nro":17,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun ruokaan ostetaan 0,3 kg kaakaojauhetta. Kaakaojauhe maksaa 12,40 €/kg. Paljonko kaakaojauhe maksaa? Anna vastaus euroina.","vastaus":3.72},{"nro":18,"ryhma":"hinnat","tyyppi":"sanallinen","kysymys":"Selitä kymmenes- ja sadasosilla, miksi 0,2 · 0,07 = 0,014.","vastaus":"Malliesimerkki: 2 kymmenesosaa kertaa 7 sadasosaa on 14 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa. 14 tuhannesosaa on 0,014."},{"nro":19,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Aya laski 1,9 · 4,2 ja sai 4,18. Laske oikea tulo.","vastaus":7.98},{"nro":20,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leo laski 3,1 · 0,2 ja sai 6,2. Laske oikea tulo.","vastaus":0.62}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Älä käytä laskinta.\nLaske allekkain ja jätä välitulot näkyviin.\nTehtävissä 1–5 ja 15 riittää pelkkä vastaus.\nAnna rahasumma euroina, esimerkiksi 4,20.\nKun tehtävä pyytää perustelemaan tai selittämään, vastaa kokonaisella lauseella.","tehtavat":[{"nro":1,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,9 · 0,7.","vastaus":0.63},{"nro":2,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Tulon 5,5 · 1,4 numerot ovat 770. Montako desimaalia tulossa on, ennen kuin loppunollat jätetään pois?","vastaus":2},{"nro":3,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Montako desimaalia on tulossa 0,08 · 0,5, ennen kuin loppunolla jätetään pois?","vastaus":3},{"nro":4,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,9 · 0,06.","vastaus":0.054},{"nro":5,"ryhma":"pilkku","tyyppi":"lasku","kysymys":"Laske 0,4 · 85.","vastaus":34},{"nro":6,"ryhma":"pilkku","tyyppi":"sanallinen","kysymys":"Onko 0,3 · 91 suurempi vai pienempi kuin 91? Perustele laskematta.","vastaus":"Malliesimerkki: Pienempi, koska 0,3 on alle yksi, joten luvusta 91 otetaan vain osa, kolme kymmenesosaa."},{"nro":7,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 7,4 · 2,6.","vastaus":19.24},{"nro":8,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 1,28 · 5,3.","vastaus":6.784},{"nro":9,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 2,5 · 4,4.","vastaus":11},{"nro":10,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,85 · 0,4.","vastaus":0.34},{"nro":11,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 2,9 · 0,09.","vastaus":0.261},{"nro":12,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 42,8 · 1,3.","vastaus":55.64},{"nro":13,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 5,9 · 0,7.","vastaus":4.13},{"nro":14,"ryhma":"allekkain","tyyppi":"lasku","kysymys":"Laske allekkain 0,11 · 0,8.","vastaus":0.088},{"nro":15,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Tulon 3,9 · 6,1 numerot ovat 2 379. Mikä on tulo? Arvioi ensin: 3,9 · 6,1 on noin 4 · 6.","vastaus":23.79},{"nro":16,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Partioretken eväisiin ostetaan 2,2 kg banaaneja. Banaanit maksavat 1,90 €/kg. Paljonko banaanit maksavat? Anna vastaus euroina.","vastaus":4.18},{"nro":17,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Leirikoulun ruokaan ostetaan 0,7 kg kinkkua. Kinkku maksaa 14,20 €/kg. Paljonko kinkku maksaa? Anna vastaus euroina.","vastaus":9.94},{"nro":18,"ryhma":"hinnat","tyyppi":"sanallinen","kysymys":"Selitä kymmenes- ja sadasosilla, miksi 0,3 · 0,08 = 0,024.","vastaus":"Malliesimerkki: 3 kymmenesosaa kertaa 8 sadasosaa on 24 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa. 24 tuhannesosaa on 0,024."},{"nro":19,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Eetu laski 3,3 · 2,7 ja sai 6,21. Laske oikea tulo.","vastaus":8.91},{"nro":20,"ryhma":"hinnat","tyyppi":"lasku","kysymys":"Aino laski 1,4 · 0,2 ja sai 2,8. Laske oikea tulo.","vastaus":0.28}]}],"tulostus":{"sivuja":3,"sarakkeita":3,"sanalliset_sarakkeita":2,"apuviivoja":6,"sivunvaihto_ennen":"hinnat"},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Kerron niin kuin pilkkuja ei olisi. Tulon desimaalien määrä on tekijöiden desimaalien summa, koska kymmenesosan kymmenesosa on sadasosa ja sadasosan kymmenesosa on tuhannesosa. Lopun nollat lähtevät vasta pilkun jälkeen.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: aloitus","sisalto":"Kirjoita taululle hintalappu 4,50 €/kg ja kysy, paljonko 1,8 kg mansikoita maksaa. Pyydä ensin arvio: yli vai alle 9 euroa? Kerro, että tähän asti toinen tekijä on ollut luonnollinen luku ja nyt kummassakin on pilkku."},{"aika":"15 min","otsikko":"1. tunti: ruudukko","sisalto":"Jokainen piirtää ruutupaperille neliön, jossa on 10 · 10 ruutua, ja värittää 3 saraketta sinisellä ja 2 riviä keltaisella. Laskekaa päällekkäiset ruudut ja kirjoittakaa 0,3 · 0,2 = 0,06. Jaa sitten yksi pieni ruutu taululla kymmeneen osaan ja näytä, että sadasosan kymmenesosa on tuhannesosa. Laskekaa 0,8 · 0,06 = 48 tuhannesosaa ja kootkaa sääntö desimaalien summasta."},{"aika":"20 min","otsikko":"1. tunti: harjoittelu","sisalto":"Harjoitukset H01–H07. Kierrä katsomassa vihkoja: lasketaanko desimaalit yhteen vai kopioidaanko pilkku. H05 ja H06 kannattaa purkaa yhdessä, koska ne ovat säännön perustelu."},{"aika":"5 min","otsikko":"1. tunti: lopetus","sisalto":"Jokainen kirjoittaa vihkoon yhden lauseen: miksi 0,9 · 0,04 on 36 tuhannesosaa. Lue muutama lause ääneen. Hyvä lause mainitsee kymmenesosat, sadasosat ja tuhannesosat."},{"aika":"10 min","otsikko":"2. tunti: allekkain","sisalto":"Laske taululle 4,50 · 1,8 taulukon vaiheiden mukaan. Merkitse toisen välitulon nolla ja pilkku eri värillä. Korosta, että 8,100 kirjoitetaan ensin ja nollat jätetään pois vasta sitten, ja vertaa tulosta arvioon 9."},{"aika":"10 min","otsikko":"2. tunti: ansat","sisalto":"Kirjoita taululle 0,7 · 0,4 = 2,8, 1,5 · 2,4 = 0,36, 1,5 · 4,3 = 4,15 ja väite \"0,8 · 35 on yli 35\". Parit etsivät, mikä kussakin meni vikaan, ja näyttävät virheen arviolla tai kymmenesosilla."},{"aika":"20 min","otsikko":"2. tunti: harjoittelu","sisalto":"Harjoitukset H08–H20. Pysähdy niiden kohdalla, joilla H10, H11 tai H13 menee väärin: virhe on lähes aina lopun nollissa. H16–H18 ovat hintatehtäviä; tarkista, että vastaus on euroina ja että alle kilon hinta on pienempi kuin kilohinta."},{"aika":"5 min","otsikko":"2. tunti: lopetus","sisalto":"Kirjoita taululle kolme väitettä. Parit päättävät, ovatko ne totta, ja perustelevat: 0,6 · 40 on pienempi kuin 40; 1,2 · 40 on suurempi kuin 40; 0,5 · 0,5 on suurempi kuin 0,5. Kootkaa muistilapun kohdat yhdessä."}],"tarvikkeet":"Ruutupaperia ja kaksi väriä (sininen ja keltainen) ruudukkoa varten. Ruutuvihko, jotta allekkainlaskun sarakkeet pysyvät kohdakkain. Kaksi tussin väriä taululle: toinen numeroille, toinen toisen välitulon nollalle, muistinumeroille ja pilkulle. Halutessa mainoslehtisiä, joista löytyy kilohintoja."},"virhesanakirja":[{"virhe":"0,7 · 0,4 = 2,8","tehtava":"pilkun paikka (ansa 1)","mita_kertoo":"Pilkku on kopioitu tekijöistä yhden desimaalin kohdalle. Oppilas ei laske desimaaleja yhteen eikä ajattele, että kymmenesosan kymmenesosa on sadasosa.","mita_tehda":"Värittäkää ruudukko: 7 saraketta ja 4 riviä, päällekkäin 28 pientä ruutua eli 28 sadasosaa. Kysy, voiko kahden alle yhden luvun tulo olla 2,8."},{"virhe":"1,5 · 2,4 = 0,36","tehtava":"lopun nollat (ansa 2)","mita_kertoo":"Numerot 360 ovat oikein, mutta lopun nolla on jätetty pois ennen pilkun merkitsemistä, ja kaksi desimaalia on laskettu luvusta 36.","mita_tehda":"Kirjoituta tulo ensin muodossa 3,60 ja vasta sitten 3,6. Pyydä arvio 1,5 · 2 = 3 jokaisen laskun viereen."},{"virhe":"1,5 · 4,3 = 4,15","tehtava":"kokonaiset ja desimaalit erikseen (ansa 3)","mita_kertoo":"Kokonaiset ja desimaalit on kerrottu erikseen (1 · 4 = 4 ja 0,5 · 0,3 = 0,15). Osat 1 · 0,3 ja 0,5 · 4 jäivät kertomatta.","mita_tehda":"Laskekaa 15 · 43 allekkain ja merkitkää pilkku lopuksi. Vertaa arvioon 1,5 · 4 = 6, joka näyttää, että 4,15 on liian pieni."},{"virhe":"\"0,8 · 35 on suurempi kuin 35\"","tehtava":"pieneneekö vai suureneeko (ansa 4)","mita_kertoo":"Oppilas yleistää luonnollisten lukujen kokemuksen, että kertolasku suurentaa aina. Hän ei tulkitse lukua 0,8 osaksi kokonaisesta.","mita_tehda":"Kysy, paljonko 0,8 kg maksaa, kun kilo maksaa 35 €. Laskekaa 8 kymmenesosaa luvusta 35: kymmenesosa on 3,5, joten tulo on 28."},{"virhe":"2,3 · 0,04 = 0,92","tehtava":"nolla pilkun jälkeen","mita_kertoo":"Tulossa on kaksi desimaalia, vaikka tekijöissä on yhteensä kolme. Kun numerot eivät riitä, oppilas ei kirjoita nollaa pilkun ja numeroiden väliin.","mita_tehda":"Laskekaa tuhannesosina: 23 kymmenesosaa kertaa 4 sadasosaa on 92 tuhannesosaa. Kirjoita 92 paikka-arvotaulukkoon tuhannesosien kohdalle ja täyttäkää tyhjä paikka nollalla."},{"virhe":"3,7 · 2,6 = 962","tehtava":"pilkku unohtuu","mita_kertoo":"Kertolasku on oikein, mutta pilkku puuttuu. Oppilas pitää allekkainlaskun numeroita valmiina tulona.","mita_tehda":"Pyydä arvio 4 · 3 = 12 ja kysy, onko 962 lähellä sitä. Lisää laskun loppuun aina rivi \"desimaaleja 1 + 1 = 2\"."},{"virhe":"3,7 · 2,6 = 2,96","tehtava":"toinen välitulo","mita_kertoo":"Toinen välitulo on kirjoitettu ilman nollaa (37 · 2 = 74 eikä 37 · 20 = 740), joten välitulojen summa 222 + 74 = 296 on väärä.","mita_tehda":"Kysy, mitä numero 2 tarkoittaa luvussa 26. Merkitse toisen välitulon nolla eri värillä ennen kertomista."},{"virhe":"\"0,6 · 0,03 = 0,018, koska desimaaleja on kolme\"","tehtava":"perustelu","mita_kertoo":"Oppilas osaa säännön, mutta ei osaa perustella sitä. Sääntö on vielä muistettu temppu eikä ymmärretty asia.","mita_tehda":"Kysy, mitä 0,6 ja 0,03 ovat sanoina (6 kymmenesosaa ja 3 sadasosaa). Jaa ruudukon pieni ruutu kymmeneen osaan ja kysy, minkä nimisiä osat ovat."}],"opettajalle":{"kesto":"Kaksi oppituntia opetteluun ja harjoituksiin. Koe pidetään jakson kertaustunnilla.","huomiot":["Taito on kokonaan uusi: 1.–5. luokan kartoissa desimaaliluku kerrotaan vain luonnollisella luvulla. Taidon oletuksena ovat desimaaliluku · luonnollinen luku allekkain myös kaksinumeroisella kertojalla (MAT6-LUK-04), kertominen 10:llä, 100:lla ja 1 000:lla (MAT6-LUK-02) ja desimaaliluku murtolukuna sekä tuhannesosat (MAT6-LUK-01). Tekijöiden desimaalien summa on materiaalissa enintään kolme, jotta tulo pysyy tuhannesosissa, ja alemmassa tekijässä on pilkusta välittämättä enintään kaksi numeroa, koska kolminumeroinen kertoja allekkain ei ole ketjussa (MAT5-LUK-02).","Mittaritehtävät: 4, 9, 16 ja 18 — tehtävä 4 mittaa tuloa, jossa pilkun ja numeroiden väliin tarvitaan nolla, tehtävä 9 tuloa, jossa lopun nollat jätetään pois vasta pilkun sijoittamisen jälkeen, tehtävä 16 hintatehtävää, jossa sekä määrä että kilohinta ovat desimaalilukuja, ja tehtävä 18 pilkun paikan perustelua kymmenes- ja sadasosilla. Ne vastaavat naytto- ja osaa_kun-kriteerien osia. Arvaus ei riitä, koska väärä pilkun paikka antaa eri luvun ja perustelun pitää nimetä tuhannesosat.","Tehtävä 4 on oikein vain oikealla luvulla (A 0,027, B 0,056, C 0,024, D 0,028, E 0,054). Vastaus A 0,27, B 0,56, C 0,24, D 0,28, E 0,54 tai A 2,7, B 5,6, C 2,4, D 2,8, E 5,4 kertoo ansasta 1: pilkku on kopioitu toisen tekijän desimaalien mukaan eikä desimaaleja ole laskettu yhteen.","Tehtävä 9 on oikein vain, kun tulo on oikein (A 9, B 7, C 12, D 18, E 11) ja allekkainlasku molempine välituloineen näkyy paperilla. Myös muoto, jossa lopun nollat ovat vielä mukana (esimerkiksi kokeessa A 9,00), hyväksytään. Vastaus A 0,09, B 0,07, C 0,12, D 0,18, E 0,11 kertoo ansasta 2: lopun nollat on jätetty pois ennen kuin kaksi desimaalia merkittiin. Tulo on jokaisessa kokeessa luonnollinen luku.","Tehtävä 16 on oikein, kun euromäärä on oikein (A 5,04 €, B 3,12 €, C 4,32 €, D 7,68 €, E 4,18 €) ja kertolasku näkyy paperilla. Hyväksytään euromäärä euromerkin kanssa tai ilman (esimerkiksi kokeessa A 5,04 tai 5,04 €). Vastaus sentteinä on väärin, koska tehtävä pyytää euroja. Vastaus A 50,4, B 31,2, C 43,2, D 76,8, E 41,8 kertoo, että tuloon on merkitty vain kilohinnan kaksi desimaalia eikä tekijöiden desimaaleja ole laskettu yhteen (ansa 1). Vastaus A 0,504, B 0,312, C 0,432, D 0,768, E 0,418 kertoo ansasta 2: lopun nollat on jätetty pois ennen kuin kolme desimaalia merkittiin.","Tehtävä 18 on oikein, kun selityksessä on tekijät kymmenes- ja sadasosina, tulo tuhannesosina ja syy, miksi tuloksi tulee tuhannesosia (esimerkiksi A 7 kymmenesosaa kertaa 3 sadasosaa on 21 tuhannesosaa, koska sadasosan kymmenesosa on tuhannesosa). Hyväksytään myös muotoilu \"kymmenesosan sadasosa on tuhannesosa\", ruudukkoselitys (pieni ruutu jaetaan kymmeneen osaan) ja murtolukumerkintä, jossa nimittäjät 10, 100 ja 1 000 näkyvät. Pelkkä \"koska desimaaleja on kolme\" tai \"koska pilkkuja on kolme\" ilman kymmenes- ja sadasosia on väärin, koska tehtävä pyytää perustelemaan säännön. Malliesimerkki ei ole ainoa hyväksyttävä sanamuoto.","Tehtävä 6 on oikein, kun vastaus on \"pienempi\" ja perustelu nojaa siihen, että kertoja on alle yksi, joten luvusta otetaan vain osa. Hyväksytään myös esimerkiksi \"0,7 on vähemmän kuin kokonainen, joten saadaan vähemmän kuin 52\" (kokeessa A). Pelkkä \"pienempi\" tai pelkkä tulon laskeminen ilman perustelua on väärin, koska tehtävä pyytää perustelemaan laskematta. Malliesimerkki ei ole ainoa hyväksyttävä sanamuoto.","Tehtävän 5 oikea vastaus on A 14, B 33, C 36, D 13, E 34. Vastaus, joka on suurempi kuin luonnollinen tekijä (esimerkiksi A 140, B 330, C 360, D 130, E 340), kertoo, että pilkku unohtui ja oppilas ajattelee kertolaskun aina suurentavan (ansa 4).","Tehtävän 1 vastaus A 4,2, B 5,6, C 3,6, D 5,4, E 6,3 kertoo ansasta 1 (pilkku kopioitu tekijästä). Tehtävän 2 vastaus on kaikissa versioissa 2 ja tehtävän 3 vastaus 3; yhtä pienempi vastaus kertoo, että desimaalit laskettiin vasta lopun nollien poistamisen jälkeen (ansa 2). Tehtävissä 2 ja 3 lopun nollat ratkaisevat vastauksen, joten niissä oikein on vain annettu luku.","Tehtävän 10 oikea tulo on A 0,36, B 0,15, C 0,14, D 0,13, E 0,34; vastaus A 0,036, B 0,015, C 0,014, D 0,013, E 0,034 kertoo ansasta 2. Tehtävässä 14 tulo on alle kymmenesosan: vastaus A 0,48, B 0,84, C 0,69, D 0,91, E 0,88 oikean A 0,048, B 0,084, C 0,069, D 0,091, E 0,088 sijaan kertoo, että nolla pilkun ja numeroiden välistä puuttuu. Tehtävän 11 vastaus A 2,82, B 3,71, C 3,12, D 2,72, E 2,61 kertoo, että pilkku on kopioitu toisesta tekijästä eikä desimaaleja ole laskettu yhteen.","Tehtävän 7 vastaus A 8,18, B 6,56, C 5,27, D 18,08, E 14,24 kertoo ansasta 3: kokonaiset ja desimaalit on kerrottu erikseen. Tehtävän 19 annettu väärä tulos on ansan 3 tulos ja oikea tulo on A 8,64, B 7,31, C 9,52, D 7,98, E 8,91; tehtävän 20 annettu väärä tulos on ansan 1 tulos ja oikea tulo on A 0,48, B 0,63, C 0,39, D 0,62, E 0,28.","Tehtävässä 15 riittää oikea tulo. Jos pilkku on väärässä paikassa, oppilas ei käyttänyt annettua arviota. Tehtävässä 17 oikea hinta on A 11,04 €, B 5,52 €, C 7,52 €, D 3,72 €, E 9,94 €; se on pienempi kuin kilohinta, koska ostetaan alle kilo. Rahatehtävissä 16 ja 17 hyväksytään euromäärä lopun nollan kanssa tai ilman ja euromerkin kanssa tai ilman.","Allekkain-tehtävät (7–14) sekä tehtävät 16, 17, 19 ja 20 ovat oikein, kun tulo on oikein ja lasku näkyy paperilla; kun alemmassa tekijässä on kaksi numeroa, molempien välitulojen pitää näkyä. Pelkkä oikea luku ilman laskua on väärin, koska johdanto pyytää jättämään välitulot näkyviin. Tehtävissä 1–5 ja 15 riittää vastaus. Laskutehtävissä 1, 4, 5 ja 7–20 hyväksytään yhtä suuri luku lopun nollien kanssa tai ilman.","Harjoituksissa näkyvät samat virheet: H10:n vastaus 0,434 ja H13:n vastaus 0,06 kertovat ansasta 2, H14:n vastaus 8,15 ja H20:n annettu tulos ansasta 3, H19:n annettu tulos ansasta 1 ja H12:n vastaus 0,92 puuttuvasta nollasta. H05 on sama ruudukko kuin opetustekstissä; jos se ei aukea, piirtäkää neliö ruutupaperille ja värittäkää.","Taitoon eivät kuulu desimaaliluvulla jakaminen (avoin asia tiedostossa MAT1-MAT2-MAT6-yleiset.md), kolmen tekijän tulot, potenssit (0,3² on 7. luokalla), murtoluku kertaa murtoluku (MAT6-MUR-06), negatiiviset desimaaliluvut, prosentit kertoimena (8. luokka), rahan pyöristys senttiin eikä tulo, jossa on yli kolme desimaalia. Siksi hintatehtävien luvut on valittu niin, että hinta on tasan sentteinä."]},"huoltajalle":{"mista_on_kyse":"Lapsi opettelee kertomaan kaksi desimaalilukua keskenään, esimerkiksi 4,50 · 1,8 = 8,1. Lasku tehdään allekkain niin kuin pilkkuja ei olisi (450 · 18 = 8 100), ja pilkku merkitään lopuksi: tulossa on yhtä monta desimaalia kuin tekijöissä yhteensä, eli ensin 8,100 ja sitten 8,1. Lapsi osaa myös perustella säännön: kymmenesosa kertaa sadasosa on tuhannesosa.","kotona":["Katsokaa kaupassa irtotavaran kilohintaa, esimerkiksi banaanit 2,10 €/kg, ja punnitkaa pussi. Anna lapsen laskea paperilla, paljonko 1,3 kg maksaa, ja arvioida ensin, onko hinta yli vai alle kilohinnan.","Piirtäkää ruutupaperille neliö, jossa on 10 riviä ja 10 saraketta. Värittäkää 4 saraketta yhdellä ja 6 riviä toisella värillä ja laskekaa, montako ruutua on molempia värejä. Kysy, miksi 0,4 · 0,6 on 0,24.","Älä opeta kertomaan kokonaisia ja desimaaleja erikseen (3,5 · 2,4 ei ole 6 + 0,20). Lasketaan aina koko luvuilla niin kuin pilkkuja ei olisi, ja pilkku merkitään vasta lopuksi."],"milloin_huolestua":"Jos kertolasku allekkain kaksinumeroisella luvulla tai desimaaliluvun kertominen luonnollisella luvulla ei vielä suju, myös tämä lasku jää kesken, koska se lasketaan samalla tavalla. Jos lapsi saa numerot oikein mutta pilkku on usein väärässä paikassa, harjoitelkaa arviota ja kymmenesosina ajattelemista. Kertokaa havainnosta opettajalle."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Osaat kertoa kaksi desimaalilukua keskenään allekkain, sijoitat pilkun tekijöiden desimaalien summan mukaan ja perustelet säännön kymmenes- ja sadasosilla. Tiedät myös, että ykköstä pienemmällä luvulla kertominen pienentää lukua. Tämä taito on nyt näytetty.","jakso":"J1","taitoalue":"LUK","taso":"ydin"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
