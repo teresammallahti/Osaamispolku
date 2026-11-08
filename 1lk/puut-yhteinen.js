@@ -127,7 +127,7 @@ const PUU = (() => {
         ${s.oppilas ? `<a class="pl-nappi" href="${s.oppilas}">Oppilaan sivu →</a>` : ""}
         ${s.opettaja ? `<a class="pl-nappi" href="${s.opettaja}">Opettajan sivu →</a>` : ""}
       </div>
-      ${s.lk !== 1 ? `<p class="pl-huom">${s.lk}. luokan taito näytetään tässä, jotta näet jatkumon.${s.oppilas || s.opettaja ? "" : " Sen materiaali tehdään myöhemmin."}</p>` : ""}`;
+      ${s.lk !== 1 ? `<p class="pl-huom">${s.lkteksti ? "Tämä taito (" + s.lkteksti + ")" : s.lk + ". luokan taito"} näytetään tässä, jotta näet jatkumon.${s.oppilas || s.opettaja ? "" : " Sen materiaali tehdään myöhemmin."}</p>` : ""}`;
   }
   function kiinnitaPaneeli(el) {
     paneeli = el;
