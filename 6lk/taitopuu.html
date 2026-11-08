@@ -22,7 +22,7 @@ svg#puu.vedetaan{cursor:grabbing}
 .rengas{fill:none;stroke:#263043;stroke-width:1}
 .rengas.lk{stroke:#2d3a52;stroke-dasharray:3 6}
 .sektori{stroke:none}
-.alueteksti{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.alueteksti{font:600 calc(13px * var(--ta, 1)) var(--mono);letter-spacing:.12em;text-transform:uppercase}
 .kaari{fill:none;stroke:#3a465b;stroke-width:1.6;transition:opacity .15s}
 .kaari.k-osattu{stroke:var(--osattu);stroke-width:2.6}
 .kaari.k-seuraava{stroke:var(--avoin);stroke-width:2}
@@ -40,7 +40,7 @@ svg#puu.vedetaan{cursor:grabbing}
 .solmu.lk5 .reuna{fill:#0e131c;stroke:#6c7a93;stroke-dasharray:3 3}
 .solmu.lk5.t-avoin .reuna{stroke:var(--avoin)}
 .solmu .haaste{fill:none;stroke:#b48ae0;stroke-width:1.6}
-.solmu .nimi{font:500 12px var(--font);fill:var(--ink-2);paint-order:stroke;stroke:#0b0f16;stroke-width:4px;stroke-linejoin:round;pointer-events:none;opacity:0}
+.solmu .nimi{font:500 calc(12px * var(--tn, 1)) var(--font);fill:var(--ink-2);paint-order:stroke;stroke:#0b0f16;stroke-width:calc(4px * var(--tn, 1));stroke-linejoin:round;pointer-events:none;opacity:0}
 .nayta-nimet .solmu.lk4 .nimi,.solmu.korostus .nimi,.solmu.valittu .nimi{opacity:1}
 .solmu.valittu .reuna{stroke:#fff;stroke-width:3.4}
 .himmea .solmu:not(.korostus),.himmea .kaari:not(.korostus){opacity:.13}
@@ -107,10 +107,10 @@ function polaari(a, b) {
 }
 function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
-let solmuEl = {}, kaariEl = [];
+let solmuEl = {}, kaariEl = [], alueTekstit = [];
 function piirra() {
   const A = PUU.aine, Y = A.ympyra;
-  kamera.innerHTML = ""; solmuEl = {}; kaariEl = [];
+  kamera.innerHTML = ""; solmuEl = {}; kaariEl = []; alueTekstit = []; edellinenS = null;
   const on3 = A.solmut.some(s => s.lk === 5), on5 = A.solmut.some(s => s.lk === 7);
   document.getElementById("k3w").style.display = on3 ? "" : "none";
   document.getElementById("k5w").style.display = on5 ? "" : "none";
@@ -131,15 +131,18 @@ function piirra() {
     el("path", {id, d: `M${rt*Math.cos(a0)} ${rt*Math.sin(a0)} A${rt} ${rt} 0 0 ${ylos?0:1} ${rt*Math.cos(a1)} ${rt*Math.sin(a1)}`, fill: "none"}, g0);
     const t = el("text", {class: "alueteksti", fill: a.vari, dy: ylos ? 12 : 0}, g0);
     const tp = el("textPath", {href: "#" + id, startOffset: "50%", "text-anchor": "middle"}, t);
-    const pit = rt * (sk.a1 - sk.a0), nimi = a.nimi.length * 8.5 > pit ? sk.id : a.nimi;
-    tp.textContent = nimi;
+    // Nimen leveys mitataan peruskoossa (13px) erillisellä tekstillä, koska kaarelle
+    // mahtumaton osa textPathista ei piirry eikä sitä voi mitata luotettavasti.
+    const mitta = el("text", {class: "alueteksti", style: "font-size:13px"}, g0);
+    mitta.textContent = a.nimi; const leveys = mitta.getComputedTextLength() || a.nimi.length * 10; mitta.remove();
+    alueTekstit.push({t, tp, ylos, pit: 0.92 * rt * (sk.a1 - sk.a0), leveys, nimi: a.nimi, lyhyt: sk.id});
   });
   R.forEach((r, i) => el("circle", {r, class: "rengas" + ((i === 0 && on3) || (i === R.length - 1 && on5) ? " lk" : "")}, g0));
   // keskus
   const kg = el("g", {class: "keskus"}, kamera);
   el("circle", {r: 78}, kg);
-  el("text", {y: -6, "font-size": 15, "font-weight": 600}, kg).textContent = A.nimi.length > 16 ? A.koodi : A.nimi;
-  el("text", {y: 16, "font-size": 12, fill: "#a8b3c3"}, kg).textContent = "6. luokka";
+  el("text", {y: -6, "font-weight": 600, style: "font-size:calc(15px * min(var(--tn, 1), 1.4))"}, kg).textContent = A.nimi.length > 16 ? A.koodi : A.nimi;
+  el("text", {y: 16, fill: "#a8b3c3", style: "font-size:calc(12px * min(var(--tn, 1), 1.4));transform:translateY(calc(14px * (min(var(--tn, 1), 1.4) - 1)))"}, kg).textContent = "6. luokka";
   // kaaret
   const gk = el("g", {}, kamera);
   A.kaaret.forEach(([a, b]) => {
@@ -151,7 +154,7 @@ function piirra() {
   const gs = el("g", {}, kamera);
   A.solmut.forEach(s => {
     const r = koko(s), a = PUU.alue(s.alue);
-    const g = el("g", {class: `solmu lk${s.lk}`, transform: `translate(${s.rx} ${s.ry})`, tabindex: 0, role: "button",
+    const g = el("g", {class: `solmu lk${s.lk - 6 + 4}`, transform: `translate(${s.rx} ${s.ry})`, tabindex: 0, role: "button",
       "aria-label": `${s.nimi}, ${s.lk}. luokka, ${a.nimi}`, style: `--c:${a.vari}`}, gs);
     el("circle", {r: r + 6, class: "hehku"}, g);
     if (s.taso === "haaste" && s.lk === 6) el("circle", {r: r + 5, class: "haaste"}, g);
@@ -205,7 +208,32 @@ function korosta(id) {
 }
 
 /* ---------- kamera: vedä, rulla, nipistä ---------- */
-function asetaKamera() { kamera.setAttribute("transform", `translate(${kam.x} ${kam.y}) scale(${kam.s})`); svg.classList.toggle("nayta-nimet", kam.s > 1.05 || document.getElementById("knimet").checked); }
+/* Tekstien koko skaalautuu zoomin mukaan: kun koko puu on näytöllä (pieni kam.s), nimet ja
+   alueiden otsikot suurennetaan, jotta ne pysyvät luettavina; lähelle zoomattaessa ne palaavat
+   peruskokoon ja kasvavat zoomin mukana. Koko päivitetään vain zoomin muuttuessa (ei vetäessä),
+   ja yksi CSS-muuttuja hoitaa kaikki tekstit, joten tämä ei hidasta piirtoa. */
+const NIMI_NAYTOLLA = 20, ALUE_NAYTOLLA = 32;  // tavoitekoko näytön pikseleinä
+let edellinenS = null;
+function asetaTekstit() {
+  if (kam.s === edellinenS) return;
+  edellinenS = kam.s;
+  const tn = Math.min(3, Math.max(1, NIMI_NAYTOLLA / (12 * kam.s)));
+  const ta = Math.min(4, Math.max(1, ALUE_NAYTOLLA / (13 * kam.s)));
+  svg.style.setProperty("--tn", tn.toFixed(3));
+  svg.style.setProperty("--ta", ta.toFixed(3));
+  alueTekstit.forEach(x => {
+    // Pitkä nimi pienennetään kaarelle mahtuvaksi (kuitenkin vähintään peruskokoon);
+    // vasta jos se ei mahdu peruskoossakaan, näytetään lyhenne.
+    // Koko nimi näytetään, jos se mahtuu kaarelle vähintään luettavassa koossa (14 px näytöllä);
+    // muuten lyhenne täydessä koossa.
+    const mahtuu = x.pit / x.leveys, vahintaan = Math.max(1, 14 / (13 * kam.s));
+    const koko = mahtuu >= vahintaan, k = koko ? Math.min(ta, mahtuu) : ta, nimi = koko ? x.nimi : x.lyhyt;
+    x.t.style.fontSize = (13 * k).toFixed(1) + "px";
+    x.t.setAttribute("dy", x.ylos ? (12 * k).toFixed(1) : 0);
+    if (x.tp.textContent !== nimi) x.tp.textContent = nimi;
+  });
+}
+function asetaKamera() { kamera.setAttribute("transform", `translate(${kam.x} ${kam.y}) scale(${kam.s})`); asetaTekstit(); svg.classList.toggle("nayta-nimet", kam.s > 1.05 || document.getElementById("knimet").checked); }
 function sovita() {
   const b = kehys.getBoundingClientRect(), R = PUU.aine.ympyra.sateet, rmax = R[R.length - 1] + 125;
   const ala = b.width > 720 ? 58 : 0, h = b.height - ala;
