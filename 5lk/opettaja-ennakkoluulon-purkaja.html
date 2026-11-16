@@ -1,0 +1,524 @@
+<title>Ennakkoluulon purkaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ET5-YHD-02","oppiaine":"ET","vuosiluokka":5,"taitoalue":"YHD","jakso":"J2","taso":"ydin","otsikko":"Ennakkoluulon purkaja","kuvaus":"Osaan kertoa, mitä yleistys, ennakkoluulo ja syrjintä ovat, mistä ennakkoluulot voivat syntyä ja miten niitä voi purkaa.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T1"],"S":["S1"]},"eyebrow":"Elämänkatsomustieto · 5. luokka · Ihmisoikeudet ja yhdenvertaisuus","ikoni":"ajattelu","naytto":"Paperikoe keksityllä kertomuksella: Kuusikallion koulun oppilas tönäisee Okkoa, ja Okko päättää, että kaikki Kuusikallion oppilaat ovat ilkeitä. Kun luokalle muuttaa oppilas Kuusikalliosta, Okko ajattelee jo ennen tutustumista, että tämäkin on ilkeä, eikä päästä häntä pelijoukkueeseen. Merkitsen kertomuksesta yleistyksen, ennakkoluulon ja syrjivän teon, kirjoitan, mistä Okon ennakkoluulo syntyi, ja keksin kaksi tapaa, joilla sitä voisi purkaa.","osaa_kun":"Erotan ajatuksen (yleistys ja ennakkoluulo) teosta (syrjintä) ja perustelen, miksi joukkueesta pois jättäminen on syrjintää: ketään kohdellaan huonommin ryhmän takia eikä oman tekonsa takia. Selitän, että yksi kokemus ei riitä kertomaan koko ryhmästä. Purkukeinot kohdistuvat juuri tähän ennakkoluuloon (esim. tutustuminen, tiedon hankkiminen), eivät ole yleisiä kehotuksia olla kiltti.","teksti":[{"tyyppi":"johdanto","sisalto":"Kesäleirillä Pihla kuulee kaveriltaan, että Koivurannan joukkueen pelaajat huijaavat aina. Pihla ei ole koskaan pelannut Koivurantaa vastaan. Kun leirin pesäpallopelissä Koivurannan Joel sanoo pallon menneen rajan yli, Pihla ajattelee heti: \"Se valehtelee, koska se on Koivurannasta.\" Illalla Pihla ehdottaa, ettei Koivurannan pelaajia oteta mukaan iltapeliin. Pihla ei tunne Joelia eikä ketään muuta Koivurannasta. Hänen ajatuksensa ja tekonsa perustuvat yhteen kuultuun lauseeseen. Tässä taidossa opit erottamaan yleistyksen, ennakkoluulon ja syrjinnän, selvittämään, mistä ennakkoluulo syntyi, ja keksimään keinon, joka purkaa juuri sen. Leiri ja sen pelaajat ovat keksittyjä."},{"tyyppi":"kappale","otsikko":"Yleistys on väite koko ryhmästä","sisalto":"Yleistys on väite, joka koskee koko ryhmää: \"kaikki he ovat...\", \"ne ovat aina...\". Kaikki yleistykset eivät ole vääriä. \"Kaikki ihmiset tarvitsevat unta\" perustuu valtavaan määrään tietoa monista ihmisistä. Yleistys on hätiköity, kun se tehdään liian vähästä tiedosta: yhdestä tai muutamasta kokemuksesta tai yhdestä kuullusta jutusta tehdään väite koko ryhmästä. Esimerkki: Joonas sai Kalliokylän pizzeriasta kerran palaneen pizzan ja sanoo: \"Kaikki Kalliokylän ravintolat ovat huonoja.\" Hänen kokemuksensa oli totta, mutta se kertoo yhdestä pizzasta, ei kaikista ravintoloista. Ryhmässä on monta erilaista jäsentä, ja yksi kokemus kertoo vain yhdestä."},{"tyyppi":"kappale","otsikko":"Ennakkoluulo kohdistuu ihmiseen ennen tutustumista","sisalto":"Ennakkoluulo on ennalta tehty, usein kielteinen käsitys ihmisestä vain siksi, että hän kuuluu johonkin ryhmään. Sana kertoo itse, mistä on kyse: luulo tehdään ennakkoon, ennen kuin ihmistä tunnetaan. Yleistys koskee ryhmää (\"Koivurannan pelaajat huijaavat aina\"). Ennakkoluulo syntyy, kun yleistys liitetään yksittäiseen ihmiseen, jota ei vielä tunneta (\"Joel valehtelee, koska hän on Koivurannasta\"). Yleistys ja ennakkoluulo ovat ajatuksia. Ne eivät vielä tee kenellekään mitään, mutta ne ohjaavat helposti tekoja."},{"tyyppi":"kappale","otsikko":"Syrjintä on teko","sisalto":"Syrjintä tarkoittaa, että jotakuta kohdellaan huonommin kuin muita sen vuoksi, mihin ryhmään hän kuuluu tai millainen hän on, eikä hänen oman tekonsa vuoksi. Opit jo 4. luokalla, että syrjintä on perusteeton ero. Pihlan ehdotus jättää Koivurannan pelaajat iltapelin ulkopuolelle on syrjintää: kukaan heistä ei ole tehnyt mitään, mikä estäisi pelaamisen, vaan heidät jätettäisiin pois vain joukkueen nimen vuoksi. Vertaa: jos Sami ei saa jatkaa peliä, koska hän tönäisi toista tahallaan, häntä kohdellaan oman tekonsa vuoksi. Se ei ole syrjintää. Ratkaisevaa on, johtuuko huonompi kohtelu ryhmästä vai omasta teosta."},{"tyyppi":"kuva","otsikko":"Ajatuksesta tekoon","svg":"<svg viewBox=\"0 0 620 200\" role=\"img\" aria-label=\"Ketju: kokemus tai kuultu juttu, yleistys, ennakkoluulo ja syrjintä. Yleistys ja ennakkoluulo ovat ajatuksia, syrjintä on teko.\"><rect class=\"v-osa\" x=\"5\" y=\"70\" width=\"125\" height=\"64\" rx=\"8\"/><text class=\"v-t vahva\" x=\"67.5\" y=\"97\" text-anchor=\"middle\" style=\"font-size:13px\">Kokemus</text><text class=\"v-t pieni\" x=\"67.5\" y=\"117\" text-anchor=\"middle\" style=\"font-size:11px\">tai kuultu juttu</text><line class=\"v-akseli\" x1=\"132\" y1=\"102\" x2=\"156\" y2=\"102\"/><path class=\"v-akseli\" d=\"M154,97 L162,102 L154,107\" fill=\"none\"/><rect class=\"v-osa\" x=\"162\" y=\"70\" width=\"135\" height=\"64\" rx=\"8\"/><text class=\"v-t vahva\" x=\"229.5\" y=\"97\" text-anchor=\"middle\" style=\"font-size:13px\">Yleistys</text><text class=\"v-t pieni\" x=\"229.5\" y=\"117\" text-anchor=\"middle\" style=\"font-size:11px\">\"Kaikki he ovat...\"</text><line class=\"v-akseli\" x1=\"299\" y1=\"102\" x2=\"319\" y2=\"102\"/><path class=\"v-akseli\" d=\"M317,97 L325,102 L317,107\" fill=\"none\"/><rect class=\"v-osa\" x=\"325\" y=\"70\" width=\"135\" height=\"64\" rx=\"8\"/><text class=\"v-t vahva\" x=\"392.5\" y=\"97\" text-anchor=\"middle\" style=\"font-size:13px\">Ennakkoluulo</text><text class=\"v-t pieni\" x=\"392.5\" y=\"117\" text-anchor=\"middle\" style=\"font-size:11px\">\"Tämäkin on varmaan...\"</text><line class=\"v-akseli\" x1=\"462\" y1=\"102\" x2=\"482\" y2=\"102\"/><path class=\"v-akseli\" d=\"M480,97 L488,102 L480,107\" fill=\"none\"/><rect class=\"v-osa v1\" x=\"488\" y=\"70\" width=\"127\" height=\"64\" rx=\"8\"/><text class=\"v-t vahva\" x=\"551.5\" y=\"97\" text-anchor=\"middle\" style=\"font-size:13px\">Syrjintä</text><text class=\"v-t pieni\" x=\"551.5\" y=\"117\" text-anchor=\"middle\" style=\"font-size:11px\">huonompi kohtelu</text><path class=\"v-apu\" d=\"M165,58 L165,44 L457,44 L457,58\" fill=\"none\"/><text class=\"v-t vahva\" x=\"311\" y=\"34\" text-anchor=\"middle\" style=\"font-size:13px\">AJATUS</text><path class=\"v-apu\" d=\"M491,58 L491,44 L612,44 L612,58\" fill=\"none\"/><text class=\"v-t vahva\" x=\"551\" y=\"34\" text-anchor=\"middle\" style=\"font-size:13px\">TEKO</text><text class=\"v-t\" x=\"311\" y=\"164\" text-anchor=\"middle\" style=\"font-size:12px\">Ketjun voi katkaista: tutustu ihmiseen, hanki tietoa,</text><text class=\"v-t\" x=\"311\" y=\"182\" text-anchor=\"middle\" style=\"font-size:12px\">laske, montako ryhmän jäsentä oikeasti tunnet.</text></svg>","teksti":"Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko, joka usein seuraa niistä. Ketjun voi katkaista jo ennen tekoa."},{"tyyppi":"taulukko","otsikko":"Kolme käsitettä Pihlan leirillä","otsikkorivi":["Käsite","Ajatus vai teko","Mitä se on","Pihlan leirillä"],"rivit":[["Yleistys","ajatus","väite koko ryhmästä","\"Koivurannan pelaajat huijaavat aina.\""],["Ennakkoluulo","ajatus","käsitys yksittäisestä ihmisestä ryhmän perusteella ennen tutustumista","Pihla ajattelee, että Joel valehtelee, koska hän on Koivurannasta."],["Syrjintä","teko","huonompi kohtelu ryhmän vuoksi eikä oman teon vuoksi","Pihla ehdottaa, ettei Koivurannan pelaajia oteta iltapeliin."]]},{"tyyppi":"kappale","otsikko":"Mistä ennakkoluulot syntyvät","sisalto":"Ennakkoluulot syntyvät yleensä kolmesta lähteestä. 1) Oma kokemus yleistetään: yksi tai muutama tapaaminen tuntuu kertovan koko ryhmästä. 2) Muilta kuultu: kaveri, aikuinen tai joku netissä sanoo \"ne ovat sellaisia\", ja sen uskoo tarkistamatta. Pihlan ennakkoluulo syntyi näin. 3) Vieraus: ei tunne ketään ryhmästä, ja vieras tuntuu oudolta tai jopa pelottavalta, joten mieli täyttää tyhjän kohdan arvauksella. Oma porukka voi vielä vahvistaa ennakkoluuloa: kun kaikki kaverit puhuvat samoin, ajatusta on vaikea kyseenalaistaa."},{"tyyppi":"kappale","otsikko":"Miten ennakkoluulo puretaan","sisalto":"Hyvä purkukeino kohdistuu juuri siihen ennakkoluuloon, josta on kyse. Keinoja on monta. Tutustu ihmiseen itseensä: Pihla voisi jutella Joelin kanssa ja katsoa, millainen pelaaja hän on. Hanki tietoa: kysy tai katso itse sen sijaan, että uskot kuultuun. Laske kokemukset: montako ryhmän jäsentä oikeasti tunnen? Pihla ei tuntenut yhtään. Etsi vastaesimerkki: onko joku ryhmästä toiminut toisin? Erota ihminen ryhmästä: Joel on Joel, ei koko joukkue. Yleiset kehotukset, kuten \"ole kiltti kaikille\", eivät pura ennakkoluuloa, koska ne eivät muuta juuri tätä ajatusta. Välttely pahentaa: jos Pihla pysyy kaukana Koivurannan pelaajista, hän ei koskaan saa tietoa, joka voisi osoittaa ennakkoluulon vääräksi."},{"tyyppi":"saanto","otsikko":"Näin tutkit kertomusta","askeleet":["Etsi kokemus tai kuultu juttu, josta kaikki alkoi.","Etsi yleistys: väite koko ryhmästä.","Etsi ennakkoluulo: ajatus yksittäisestä ihmisestä ennen kuin häntä tunnetaan.","Etsi teko: kohdellaanko jotakuta huonommin ryhmän vuoksi? Jos kyllä, se on syrjintää. Jos huonompi kohtelu johtuu ihmisen omasta teosta, se ei ole syrjintää.","Kerro, mistä ennakkoluulo syntyi: omasta kokemuksesta, muilta kuullusta vai vieraudesta.","Keksi keino, joka kohdistuu juuri tähän ennakkoluuloon ja tähän ihmiseen."]},{"tyyppi":"ansa","otsikko":"Ansa 1: ajatus ja teko sekoittuvat","sisalto":"Ajatus ei vielä ole syrjintää. Jos Pihla vain ajattelee Joelista pahaa mutta pelaa hänen kanssaan reilusti, kyse on ennakkoluulosta, ei syrjinnästä. Toisaalta pois jättäminen ei muutu hyväksi sillä, että sen tekee ystävällisesti tai sanomatta mitään pahaa. Kun Pihla ehdottaa Koivurannan pelaajien jättämistä pois, se on syrjintää, vaikka hän ei haukkuisi ketään. Kysy siis kaksi kysymystä erikseen: mitä joku ajattelee, ja mitä hän tekee?"},{"tyyppi":"ansa","otsikko":"Ansa 2: \"Mutta se oli totta!\"","sisalto":"Joonaksen pizza oli oikeasti palanut, ja joku Koivurannan pelaaja on ehkä joskus huijannut. Kokemus voi olla täysin totta, ja yleistys on silti hätiköity. Tosi kokemus kertoo siitä, mitä yksi ihminen teki yhdellä kertaa. Se ei kerro, mitä kaikki muut ryhmän jäsenet tekevät. Älä siis puolusta yleistystä sillä, että kokemus oli totta. Kysy: kuinka monesta ryhmän jäsenestä kokemus kertoo?"},{"tyyppi":"ansa","otsikko":"Ansa 3: yleinen kehotus ei pura ennakkoluuloa","sisalto":"\"Ole kiltti kaikille\" ja \"älä ajattele pahaa kenestäkään\" ovat hyviä neuvoja, mutta ne eivät pura Pihlan ennakkoluuloa. Pihla voi olla kiltti ja silti uskoa, että Joel valehtelee. Purkukeino toimii, kun se muuttaa juuri sitä ajatusta, josta ennakkoluulo syntyi. Pihlan ennakkoluulo syntyi kuullusta lauseesta, joten hän tarvitsee omaa tietoa: tutustumisen Joeliin tai omia havaintoja Koivurannan pelaajista."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Yleistys: väite koko ryhmästä. Hätiköity yleistys tehdään liian vähästä tiedosta.","Ennakkoluulo: käsitys ihmisestä ryhmän perusteella ennen kuin häntä tunnetaan.","Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko.","Syrjintä: joku saa huonompaa kohtelua ryhmänsä vuoksi, ei oman tekonsa vuoksi.","Ennakkoluulo syntyy usein omasta kokemuksesta, muilta kuullusta tai vieraudesta.","Yksi tosi kokemus kertoo yhdestä ihmisestä, ei koko ryhmästä.","Hyvä purkukeino kohdistuu juuri tähän ennakkoluuloon: tutustu, hanki tietoa, laske kokemukset, etsi vastaesimerkki."]}],"harjoitusryhmat":[{"id":"kasitteet","nimi":"Yleistys, ennakkoluulo ja syrjintä","info":"Yleistys koskee ryhmää, ennakkoluulo yksittäistä ihmistä ennen tutustumista. Molemmat ovat ajatuksia. Syrjintä on teko: huonompi kohtelu ryhmän vuoksi."},{"id":"synty","nimi":"Mistä ennakkoluulo syntyy","info":"Kolme lähdettä: oma kokemus yleistetään, muilta kuultu uskotaan tarkistamatta tai vieras tuntuu oudolta."},{"id":"purku","nimi":"Ennakkoluulon purkaminen","info":"Hyvä keino kohdistuu juuri tähän ennakkoluuloon. Yleinen kehotus ei pura sitä, ja välttely pahentaa."}],"ryhmanimet":{"kasitteet":"Yleistys, ennakkoluulo ja syrjintä","synty":"Mistä ennakkoluulo syntyy","purku":"Ennakkoluulon purkaminen"},"harjoitukset":[{"id":"H01","ryhma":"kasitteet","kysymys":"Kertomus:\n1. Ruokalassa yksi Peltolan koulun oppilas etuilee Maijan edelle jonossa.\n2. Maija ajattelee: \"Peltolan oppilaat etuilevat aina.\"\n3. Viikon päästä Maijan kuoroon tulee uusi laulaja, Niilo, joka käy Peltolan koulua.\n4. Maija ei ole puhunut Niilon kanssa, mutta ajattelee, että Niilokin etuilee varmasti.\n5. Kun kuorolaiset jakavat nuottivihkoja, Maija jättää Niilon ilman vihkoa, koska tämä on Peltolasta.\n\nMonennessako virkkeessä on yleistys?","vastaus":2,"vinkki":"Yleistys on väite koko ryhmästä.","selitys":"Virkkeessä 2 Maija sanoo jotain kaikista Peltolan oppilaista. Virkkeen 4 ajatus koskee yhtä ihmistä, Niiloa, joten se on ennakkoluulo."},{"id":"H02","ryhma":"kasitteet","kysymys":"Kertomus:\n1. Ruokalassa yksi Peltolan koulun oppilas etuilee Maijan edelle jonossa.\n2. Maija ajattelee: \"Peltolan oppilaat etuilevat aina.\"\n3. Viikon päästä Maijan kuoroon tulee uusi laulaja, Niilo, joka käy Peltolan koulua.\n4. Maija ei ole puhunut Niilon kanssa, mutta ajattelee, että Niilokin etuilee varmasti.\n5. Kun kuorolaiset jakavat nuottivihkoja, Maija jättää Niilon ilman vihkoa, koska tämä on Peltolasta.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":4,"vinkki":"Ennakkoluulo kohdistuu yksittäiseen ihmiseen ennen kuin hänet tunnetaan.","selitys":"Virkkeessä 4 Maija ajattelee Niilosta pahaa, vaikka ei ole puhunut hänen kanssaan. Ajatus perustuu vain siihen, että Niilo on Peltolasta."},{"id":"H03","ryhma":"kasitteet","kysymys":"Kertomus:\n1. Ruokalassa yksi Peltolan koulun oppilas etuilee Maijan edelle jonossa.\n2. Maija ajattelee: \"Peltolan oppilaat etuilevat aina.\"\n3. Viikon päästä Maijan kuoroon tulee uusi laulaja, Niilo, joka käy Peltolan koulua.\n4. Maija ei ole puhunut Niilon kanssa, mutta ajattelee, että Niilokin etuilee varmasti.\n5. Kun kuorolaiset jakavat nuottivihkoja, Maija jättää Niilon ilman vihkoa, koska tämä on Peltolasta.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":5,"vinkki":"Etsi teko, jossa joku saa huonompaa kohtelua ryhmänsä vuoksi.","selitys":"Virkkeessä 5 Niilo jää ilman vihkoa vain siksi, että hän on Peltolasta. Etuileminen virkkeessä 1 on teko, mutta se ei ole syrjintää, koska ketään ei kohdella huonommin ryhmän vuoksi."},{"id":"H04","ryhma":"kasitteet","kysymys":"Lauseet:\n1. Kaikki kissat ovat laiskoja.\n2. Naapurin kissa nukkui koko päivän.\n3. Lukiolaiset ovat aina kiireisiä.\n4. Serkkuni Ville unohti eilen avaimensa.\n5. Pohjoiskylän ihmiset puhuvat vähän.\n\nMontako lauseista on yleistyksiä eli väitteitä koko ryhmästä?","vastaus":3,"vinkki":"Kysy jokaisesta lauseesta: koskeeko se yhtä yksilöä vai koko ryhmää?","selitys":"Lauseet 1, 3 ja 5 koskevat koko ryhmää: kaikkia kissoja, lukiolaisia ja Pohjoiskylän ihmisiä. Lauseet 2 ja 4 kertovat yhdestä kissasta ja yhdestä ihmisestä. Vastaus on 3."},{"id":"H05","ryhma":"kasitteet","tyyppi":"monivalinta","kysymys":"Mikä erottaa syrjinnän ennakkoluulosta?","vaihtoehdot":["Syrjinnässä käytetään aina ilkeitä sanoja.","Ennakkoluulo on ajatus, syrjintä on teko.","Ennakkoluulo koskee aikuisia, syrjintä lapsia."],"vastaus":1,"vinkki":"Mieti ketjua ajatuksesta tekoon.","selitys":"Ennakkoluulo on ajatus, syrjintä on teko. Kumpikaan ei vaadi ilkeitä sanoja, ja syrjintää on myös hiljainen pois jättäminen."},{"id":"H06","ryhma":"kasitteet","kysymys":"Tilanteet:\n1. Elmeriä ei valita joukkueeseen, koska hän puhuu eri murretta kuin muut.\n2. Iiris ei saa jatkaa lautapeliä, koska hän heitti nappulat lattialle tahallaan.\n3. Peppi ajattelee, että uusi luokkatoveri on varmaan tylsä, mutta lainaa tälle kynää kuten muillekin.\n4. Bändikerhossa Liisa ei saa soittaa, koska hänen kotinsa on joen toisella puolella.\n5. Kenttävuorot jaetaan aakkosjärjestyksessä, ja Aatu pääsee kentälle vasta toisena päivänä.\n\nMontako tilanteista on syrjintää?","vastaus":2,"vinkki":"Syrjintä on teko, jossa joku saa huonompaa kohtelua ryhmänsä vuoksi.","selitys":"Elmeri ja Liisa jäävät ulkopuolelle sen vuoksi, millainen heidän puheensa on tai missä he asuvat. Iiris saa seurauksen omasta teostaan, Peppi vain ajattelee eikä kohtele ketään huonommin, ja aakkosjärjestys kohtelee kaikkia samoin. Vastaus on 2."},{"id":"H07","ryhma":"kasitteet","kysymys":"Tilanteet:\n1. Elmeriä ei valita joukkueeseen, koska hän puhuu eri murretta kuin muut.\n2. Iiris ei saa jatkaa lautapeliä, koska hän heitti nappulat lattialle tahallaan.\n3. Peppi ajattelee, että uusi luokkatoveri on varmaan tylsä, mutta lainaa tälle kynää kuten muillekin.\n4. Bändikerhossa Liisa ei saa soittaa, koska hänen kotinsa on joen toisella puolella.\n5. Kenttävuorot jaetaan aakkosjärjestyksessä, ja Aatu pääsee kentälle vasta toisena päivänä.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":2,"vinkki":"Etsi tilanne, jossa henkilö on itse tehnyt jotain.","selitys":"Iiris heitti nappulat lattialle tahallaan, joten seuraus johtuu hänen omasta teostaan. Se ei ole syrjintää."},{"id":"H08","ryhma":"kasitteet","kysymys":"Lauseet:\n1. Näin yhden Rantakylän koiran haukkuvan, joten kaikki Rantakylän koirat haukkuvat.\n2. Tämä yksi valmentaja puhuu kovalla äänellä.\n3. Kuulin, että yksi Mäkelän koulun oppilas sai jälki-istuntoa, joten Mäkelän oppilaat ovat häiriköitä.\n4. Kaksi kuorolaista myöhästyi, joten kuorolaiset myöhästelevät aina.\n5. Uusi naapurimme ajaa punaisella pyörällä.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3,"vinkki":"Hätiköity yleistys tekee väitteen koko ryhmästä yhden tai muutaman kokemuksen perusteella.","selitys":"Lauseissa 1, 3 ja 4 yhdestä tai kahdesta tapauksesta tehdään väite koko ryhmästä. Lauseet 2 ja 5 kertovat vain yhdestä ihmisestä eivätkä ole yleistyksiä. Vastaus on 3."},{"id":"H09","ryhma":"synty","kysymys":"Ennakkoluulot:\n1. Akseli ajattelee, että Saarelan pelaajat ovat ylimielisiä, koska hänen kerhonsa ohjaaja sanoi niin.\n2. Veera ajattelee, että Kuusiston kerholaiset ovat huolimattomia, koska yksi heistä jätti oven paukkumaan.\n3. Anni ei tunne ketään Kaukolan kylästä, ja kylän ihmiset tuntuvat hänestä vierailta ja vähän pelottavilta.\n4. Topias ajattelee, että Länsikylän lapset ovat ilkeitä, koska hän näki videon, jossa joku väitti niin.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2,"vinkki":"Muilta kuultu voi tulla aikuiselta, kaverilta tai netistä.","selitys":"Akselin ennakkoluulo tuli kerhon ohjaajalta ja Topiaksen videolta. Veeran ennakkoluulo syntyi omasta kokemuksesta ja Annin vieraudesta. Vastaus on 2."},{"id":"H10","ryhma":"synty","kysymys":"Ennakkoluulot:\n1. Akseli ajattelee, että Saarelan pelaajat ovat ylimielisiä, koska hänen kerhonsa ohjaaja sanoi niin.\n2. Veera ajattelee, että Kuusiston kerholaiset ovat huolimattomia, koska yksi heistä jätti oven paukkumaan.\n3. Anni ei tunne ketään Kaukolan kylästä, ja kylän ihmiset tuntuvat hänestä vierailta ja vähän pelottavilta.\n4. Topias ajattelee, että Länsikylän lapset ovat ilkeitä, koska hän näki videon, jossa joku väitti niin.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":3,"vinkki":"Vieraus tarkoittaa, että ryhmästä ei tunne ketään.","selitys":"Anni ei tunne ketään Kaukolasta, joten ajatus syntyy vieraudesta eikä mistään kokemuksesta."},{"id":"H11","ryhma":"synty","tyyppi":"monivalinta","kysymys":"Joonas sai Kalliokylän pizzeriasta kerran palaneen pizzan. Miksi se ei kerro kaikista Kalliokylän ravintoloista?","vaihtoehdot":["Ravintoloita on monta erilaista, ja yksi pizza kertoo vain yhdestä.","Joonas keksi koko pizzan.","Ruokakokemukset eivät koskaan ole tärkeitä."],"vastaus":0,"vinkki":"Mieti, kuinka monesta ravintolasta yksi pizza kertoo.","selitys":"Ravintoloita on monta erilaista, ja yksi kokemus kertoo vain yhdestä. Joonaksen kokemus oli totta (ansa 2), mutta se ei kerro muista ravintoloista."},{"id":"H12","ryhma":"synty","kysymys":"Kertomus: Ilona kuulee isosiskoltaan, että Harjun koulun oppilaat ovat leuhkoja. Ilona ei ole koskaan tavannut ketään Harjun koulusta. Kun Harjun koulusta tulee uusi oppilas, Ilona ajattelee heti, että tämä on varmasti leuhka.\n\nVaihtoehdot:\n1. Ilona teki yleistyksen omasta kokemuksestaan.\n2. Ilona uskoi sen, mitä kuuli muilta.\n3. Ilona tutustui uuteen oppilaaseen ensin.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Ilonan ennakkoluulo syntyi?","vastaus":2,"vinkki":"Etsi kertomuksesta, mistä Ilona sai ajatuksensa.","selitys":"Ilona kuuli asian isosiskoltaan eikä ollut itse tavannut ketään Harjun koulusta. Ennakkoluulo syntyi siis muilta kuullusta."},{"id":"H13","ryhma":"synty","kysymys":"Kertomus: Rasmus pelaa jääkiekkoa. Syksyllä yksi Metsälän joukkueen pelaaja huutaa hänelle pelissä. Talvella toinen Metsälän pelaaja kaataa hänet tahallaan. Rasmus sanoo: \"Kaikki Metsälän pelaajat ovat raakoja.\"\n\nMonenko Metsälän pelaajan käytöksen perusteella Rasmus tekee yleistyksensä?","vastaus":2,"vinkki":"Laske, montako eri pelaajaa kertomuksessa mainitaan.","selitys":"Rasmus perustaa yleistyksensä kahteen pelaajaan. Joukkueessa on paljon muitakin pelaajia, joten kaksi kokemusta ei kerro koko joukkueesta."},{"id":"H14","ryhma":"purku","kysymys":"Ennakkoluulo: Joonatan ajattelee, että uusi luokkatoveri Vilja on varmasti tylsä, koska Vilja on Kirkonkylän koulusta, ja kaveri sanoi, että Kirkonkylän lapset ovat tylsiä.\n\nKeinot:\n1. Joonatan kysyy Viljalta, mitä tämä tykkää tehdä vapaa-ajalla.\n2. Joonatan lupaa itselleen olla hyvä kaveri.\n3. Joonatan miettii, montako Kirkonkylän lasta hän oikeasti tuntee.\n4. Joonatan istuu aina mahdollisimman kaukana Viljasta.\n5. Joonatan tekee Viljan kanssa ryhmätyön ja katsoo itse, millainen hän on.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3,"vinkki":"Hyvä keino muuttaa juuri sitä ajatusta, joka Joonatanilla on Viljasta.","selitys":"Keinot 1, 3 ja 5 antavat Joonatanille omaa tietoa Viljasta tai Kirkonkylän lapsista. Keino 2 on yleinen kehotus, ja keino 4 pahentaa, koska Joonatan ei koskaan tutustu Viljaan. Vastaus on 3."},{"id":"H15","ryhma":"purku","kysymys":"Ennakkoluulo: Joonatan ajattelee, että uusi luokkatoveri Vilja on varmasti tylsä, koska Vilja on Kirkonkylän koulusta, ja kaveri sanoi, että Kirkonkylän lapset ovat tylsiä.\n\nKeinot:\n1. Joonatan kysyy Viljalta, mitä tämä tykkää tehdä vapaa-ajalla.\n2. Joonatan lupaa itselleen olla hyvä kaveri.\n3. Joonatan miettii, montako Kirkonkylän lasta hän oikeasti tuntee.\n4. Joonatan istuu aina mahdollisimman kaukana Viljasta.\n5. Joonatan tekee Viljan kanssa ryhmätyön ja katsoo itse, millainen hän on.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska Joonatan välttelee Viljaa?","vastaus":4,"vinkki":"Etsi keino, joka estää tutustumisen.","selitys":"Keinossa 4 Joonatan pysyy kaukana Viljasta. Silloin hän ei saa tietoa, joka voisi osoittaa ennakkoluulon vääräksi."},{"id":"H16","ryhma":"purku","tyyppi":"monivalinta","kysymys":"Jalmari on kuullut, että kuorossa laulavat ovat leuhkoja. Mikä keino purkaa juuri tämän ennakkoluulon?","vaihtoehdot":["Jalmari lupaa olla ystävällinen jokaiselle.","Jalmari jättää kuorokonsertin väliin.","Jalmari juttelee kuorossa laulavan luokkatoverin kanssa ja kysyy, mitä kuorossa tehdään."],"vastaus":2,"vinkki":"Hyvä keino antaa omaa tietoa juuri tästä ryhmästä.","selitys":"Juttelemalla kuorossa laulavan luokkatoverin kanssa Jalmari saa omaa tietoa kuorolaisista. Yleinen kehotus ei muuta ajatusta, ja konsertin välttely pitää ennakkoluulon ennallaan."},{"id":"H17","ryhma":"purku","kysymys":"Ennakkoluulo: Hertta ajattelee, että Laaksolan koulun oppilaat ovat ilkeitä, koska yksi heistä oli hänelle ilkeä uimahallissa.\n\nNeuvot Hertalle:\n1. Hymyile kaikille.\n2. Muista, että kokemuksesi koski vain yhtä Laaksolan koululaista.\n3. Juttele jonkun toisen Laaksolan koululaisen kanssa, kun tapaatte.\n4. Ajattele positiivisesti.\n5. Kysy kaverilta, joka tuntee Laaksolan oppilaita, millaisia he ovat.\n6. Unohda koko juttu.\n\nMontako neuvoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":3,"vinkki":"Yleinen kehotus ei mainitse Laaksolaa eikä anna Hertalle uutta tietoa.","selitys":"Neuvot 1, 4 ja 6 ovat yleisiä. Neuvot 2, 3 ja 5 kohdistuvat juuri Hertan ennakkoluuloon: ne muistuttavat, että kokemus koski yhtä oppilasta, tai antavat uutta tietoa Laaksolan oppilaista. Vastaus on 3."},{"id":"H18","ryhma":"purku","kysymys":"Väitteet:\n1. Tutustuminen ihmiseen voi purkaa ennakkoluulon.\n2. Kun kokemus on totta, yleistys on aina oikea.\n3. Välttely pitää ennakkoluulon ennallaan.\n4. Muilta kuultu kannattaa tarkistaa itse.\n5. Ennakkoluulo katoaa, kun päättää olla kiltti kaikille.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kaksi väitteistä on tämän taidon ansoja.","selitys":"Väitteet 1, 3 ja 4 ovat totta. Väite 2 on ansa 2: tosi kokemus ei tee yleistyksestä oikeaa. Väite 5 on ansa 3: yleinen kehotus ei pura juuri tätä ennakkoluuloa. Vastaus on 3."},{"id":"H19","ryhma":"purku","kysymys":"Kaapon ajatuksia ja tekoja:\n1. Kaapo ajattelee, että uusi luokkatoveri on varmaan hidas, koska hän on maalta.\n2. Kaapo kysyy uudelta luokkatoverilta, haluaako tämä pelata.\n3. Kaapo ajattelee, että kaikki maalta muuttaneet ovat hitaita.\n4. Kaapo jättää uuden luokkatoverin pois pelistä, koska tämä on maalta.\n5. Kaapo ottaa uuden luokkatoverin mukaan peliin.\n\nMontako näistä on tekoja?","vastaus":3,"vinkki":"Ajatus tapahtuu mielessä, teko näkyy muille.","selitys":"Kohdissa 2, 4 ja 5 Kaapo tekee jotain: kysyy, jättää pois ja ottaa mukaan. Kohdat 1 ja 3 ovat ajatuksia. Vain kohdan 4 teko on syrjintää. Vastaus on 3."},{"id":"H20","ryhma":"kasitteet","kysymys":"Väitteet:\n1. Yleistys koskee koko ryhmää.\n2. Ennakkoluulo voi syntyä, vaikka ei tunne ketään ryhmästä.\n3. Ajatus on jo syrjintää.\n4. Syrjintää on myös hiljainen pois jättäminen.\n5. Jos joku saa seurauksen omasta teostaan, se on aina syrjintää.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Muista ajatuksen ja teon ero sekä oman teon seuraus.","selitys":"Väitteet 1, 2 ja 4 ovat totta. Väite 3 on väärä, koska ajatus ei vielä ole teko. Väite 5 on väärä, koska oman teon seuraus ei johdu ryhmästä. Vastaus on 3."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tämä ensin","johdanto":"Yleistys on väite koko ryhmästä. Ennakkoluulo on ennalta tehty käsitys yksittäisestä ihmisestä ryhmän perusteella ennen kuin hänet tunnetaan. Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko: jotakuta kohdellaan huonommin sen vuoksi, mihin ryhmään hän kuuluu, eikä hänen oman tekonsa vuoksi.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein. Kaikki henkilöt, koulut ja paikat ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus:\n1. Koulujen yhteisellä liikuntapäivällä Kuusikallion koulun oppilas tönäisee Okkoa jonossa.\n2. Okko ajattelee: \"Kaikki Kuusikallion oppilaat ovat ilkeitä.\"\n3. Kuukauden päästä Okon luokalle muuttaa Kuusikalliosta uusi oppilas, Tuuli.\n4. Okko ei ole vielä puhunut Tuulin kanssa, mutta hän ajattelee, että Tuulikin on varmasti ilkeä.\n5. Kun välitunnilla jaetaan pelijoukkueita, Okko ei päästä Tuulia omaan joukkueeseensa.\n6. Tuuli seuraa peliä yksin kentän laidalta.\n\nMonennessako virkkeessä on yleistys?","vastaus":2},{"nro":2,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":4},{"nro":3,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":5},{"nro":4,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMontako kertomuksen virkkeistä kertoo ajatuksesta eikä teosta?","vastaus":2},{"nro":5,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonenko Kuusikallion oppilaan käytöksen perusteella Okko tekee yleistyksensä?","vastaus":1},{"nro":6,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot:\n1. Aliisa ajattelee, että Mäkirinteen pelaajat ovat huonoja häviäjiä, koska yksi heistä potkaisi palloa vihaisena hävityn pelin jälkeen.\n2. Eetu ajattelee, että Järvelän kerholaiset ovat laiskoja, koska hänen kaverinsa sanoi niin.\n3. Kirsikka ei ole koskaan tavannut ketään saaristosta, ja saariston ihmiset tuntuvat hänestä oudoilta.\n4. Mikko ajattelee, että Puistolan koululaiset ovat äänekkäitä, koska yksi heistä huusi bussissa.\n5. Vilma ajattelee, että Kallion koulun oppilaat ovat ylimielisiä, koska hän luki niin nettikeskustelusta.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2},{"nro":7,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot kuin tehtävässä 6.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":3},{"nro":8,"ryhma":"synty","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nVaihtoehdot:\n1. Okko uskoi sen, mitä kuuli muilta.\n2. Okko teki yleistyksen omasta kokemuksestaan.\n3. Okko ei ollut koskaan nähnyt ketään ryhmästä.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Okon ennakkoluulo syntyi?","vastaus":2},{"nro":9,"ryhma":"purku","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1. Keinot, joilla Okko voisi purkaa ennakkoluulonsa:\n1. Okko juttelee Tuulin kanssa ja kysyy, mitä hän tykkää pelata.\n2. Okko päättää olla kiltti kaikille.\n3. Okko pysyttelee kaukana Tuulista, ettei tule riitaa.\n4. Okko muistaa, että tönäisijä oli yksi oppilas eikä koko koulu.\n5. Okko yrittää olla ajattelematta pahaa kenestäkään.\n6. Okko seuraa, miten Tuuli pelaa, ennen kuin päättää mitään hänestä.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3},{"nro":10,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska henkilö välttelee toista?","vastaus":3},{"nro":11,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMontako keinoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":2},{"nro":12,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Siljaa ei kutsuta luokan leffailtaan, koska hän on muuttanut Itärannasta.\n2. Teemu ajattelee, että uusi oppilas on varmaan nirso, koska tämä tulee kaupungista, mutta istuu hänen kanssaan ruokalassa normaalisti.\n3. Aaro ei saa jatkaa kortinpeluuta, koska hän repi kortin tahallaan.\n4. Kuvataidekerhossa Annia ei päästetä samaan pöytään, koska hän käy toista koulua.\n5. Paikat arvotaan, ja Lilja joutuu istumaan eri pöydässä kuin kaverinsa.\n6. Oona ajattelee, että Länsimäen lapset ovat kaikki huonoja hiihtäjiä, mutta ei sano siitä kenellekään.\n\nMontako tilanteista on syrjintää?","vastaus":2},{"nro":13,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":3},{"nro":14,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMontako tilanteista on pelkkiä ajatuksia, joista ei seuraa huonompaa kohtelua?","vastaus":2},{"nro":15,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Lauseet:\n1. Näin yhden Pihlajaniemen kerholaisen roskaavan, joten Pihlajaniemen kerholaiset roskaavat aina.\n2. Yksi kerholainen unohti pipon bussiin.\n3. Kuulin, että yksi Rinnekylän oppilas valehteli, joten Rinnekylän oppilaat valehtelevat.\n4. Uusi luokkatoverimme pitää sienistä.\n5. Kaksi tuulipukuista kävelijää ei tervehtinyt, joten tuulipukuiset ovat tylyjä.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3},{"nro":16,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMiksi virkkeen 5 teko on syrjintää? Kerro myös, miksi virkkeet 2 ja 4 eivät vielä ole syrjintää.","vastaus":"Malliesimerkki: Virkkeessä 5 Okko jättää Tuulin pois joukkueesta vain siksi, että Tuuli on Kuusikalliosta, eikä minkään Tuulin oman teon vuoksi. Siksi se on syrjintää. Virkkeet 2 ja 4 ovat Okon ajatuksia: ne eivät vielä tee Tuulille mitään, vaikka ne johtivat syrjintään."},{"nro":17,"ryhma":"synty","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMistä Okon ennakkoluulo syntyi? Miksi yhden ihmisen käytös ei riitä kertomaan koko ryhmästä?","vastaus":"Malliesimerkki: Ennakkoluulo syntyi Okon omasta kokemuksesta: yksi Kuusikallion oppilas tönäisi häntä. Yksi kokemus kertoo vain siitä yhdestä oppilaasta. Kuusikallion koulussa on paljon muitakin oppilaita, ja Tuuli ei ole tehnyt Okolle mitään."},{"nro":18,"ryhma":"purku","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nKeksi kaksi tapaa, joilla Okko voisi purkaa juuri ennakkoluulonsa Tuulista. Kerro kummastakin, miksi se purkaa juuri tämän ennakkoluulon.","vastaus":"Malliesimerkki: Okko voisi jutella Tuulin kanssa ja tutustua häneen, jolloin hän näkee, millainen Tuuli oikeasti on. Okko voisi myös laskea, montako Kuusikallion oppilasta hän tuntee, ja huomata, että hänen ajatuksensa perustuu yhteen tönäisyyn."},{"nro":19,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä tarkoittavat yleistys, ennakkoluulo ja syrjintä.","vastaus":"Malliesimerkki: Yleistys on väite koko ryhmästä, esimerkiksi \"kaikki he ovat ilkeitä\". Ennakkoluulo on käsitys ihmisestä, joka tehdään ennen kuin häntä tunnetaan, vain siksi, että hän kuuluu johonkin ryhmään. Syrjintä on teko, jossa jotakuta kohdellaan huonommin kuin muita hänen ryhmänsä vuoksi eikä hänen oman tekonsa vuoksi."},{"nro":20,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Mette ajattelee, että uusi oppilas Kaarlo laulaa varmasti huonosti, koska Kaarlo on kotoisin Pohjoiskylästä. Mette ei sano eikä tee mitään. Musiikkitunnilla Mette kuulee Kaarlon laulavan hyvin.\n\nOnko kyse ennakkoluulosta, syrjinnästä vai molemmista? Perustele.","vastaus":"Malliesimerkki: Kyse on ennakkoluulosta, ei syrjinnästä. Mette ajatteli Kaarlosta jotain vain sen perusteella, mistä hän on kotoisin, ennen kuin tunsi hänet. Hän ei kuitenkaan kohdellut Kaarloa huonommin, joten tekoa eli syrjintää ei ollut. Ennakkoluulo purkautui, kun Mette kuuli Kaarlon laulavan."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tämä ensin","johdanto":"Yleistys on väite koko ryhmästä. Ennakkoluulo on ennalta tehty käsitys yksittäisestä ihmisestä ryhmän perusteella ennen kuin hänet tunnetaan. Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko: jotakuta kohdellaan huonommin sen vuoksi, mihin ryhmään hän kuuluu, eikä hänen oman tekonsa vuoksi.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein. Kaikki henkilöt, koulut ja paikat ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus:\n1. Kirjastossa kaksi Haapalan koulun oppilasta nauraa Ronjan valitsemalle kirjalle.\n2. Kotimatkalla Ronja ajattelee: \"Haapalan oppilaat ovat kaikki pilkkaajia.\"\n3. Talvella Ronjan uimaryhmään tulee uusi uimari, Ilmari, joka käy Haapalan koulua.\n4. Ilmari esittäytyy ryhmälle ja kertoo pitävänsä sukeltamisesta.\n5. Ronja ei ole vielä jutellut Ilmarin kanssa, mutta hän ajattelee, että Ilmarikin pilkkaa varmasti muita.\n6. Kun valmentaja pyytää muodostamaan parit, Ronja ei suostu Ilmarin pariksi, koska Ilmari on Haapalasta.\n\nMonennessako virkkeessä on yleistys?","vastaus":2},{"nro":2,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":5},{"nro":3,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":6},{"nro":4,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMontako kertomuksen virkkeistä kertoo ajatuksesta eikä teosta?","vastaus":2},{"nro":5,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonenko Haapalan koulun oppilaan käytöksen perusteella Ronja tekee yleistyksensä?","vastaus":2},{"nro":6,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot:\n1. Paavo ajattelee, että Rantalan pelaajat ovat epäreiluja, koska hänen valmentajansa sanoi niin.\n2. Inkeri ajattelee, että Koivikon kerholaiset ovat sotkuisia, koska yksi heistä jätti roskat pöydälle.\n3. Leevi ajattelee, että Vuorelan lapset ovat tylsiä, koska isoveli sanoi niin.\n4. Saga ajattelee, että Niittylän koululaiset etuilevat, koska yksi heistä etuili kioskin jonossa.\n5. Jasper ei ole koskaan tavannut ketään tunturikylästä, ja tunturikylän ihmiset tuntuvat hänestä oudoilta.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2},{"nro":7,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot kuin tehtävässä 6.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":5},{"nro":8,"ryhma":"synty","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nVaihtoehdot:\n1. Ronja teki yleistyksen omasta kokemuksestaan.\n2. Ronja uskoi sen, mitä kuuli muilta.\n3. Ronja ei ollut koskaan nähnyt ketään ryhmästä.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Ronjan ennakkoluulo syntyi?","vastaus":1},{"nro":9,"ryhma":"purku","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1. Keinot, joilla Ronja voisi purkaa ennakkoluulonsa:\n1. Ronja päättää olla ystävällinen kaikille.\n2. Ronja juttelee Ilmarin kanssa sukeltamisesta.\n3. Ronja muistaa, että nauraneet olivat kaksi oppilasta eikä koko koulu.\n4. Ronja vaihtaa rataa aina, kun Ilmari tulee samalle radalle.\n5. Ronja harjoittelee kerran Ilmarin parina ja katsoo itse, millainen hän on.\n6. Ronja yrittää olla ajattelematta pahaa kenestäkään.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3},{"nro":10,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska henkilö välttelee toista?","vastaus":4},{"nro":11,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMontako keinoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":2},{"nro":12,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Matias ajattelee, että uusi oppilas on varmaan huono pelaamaan, koska tämä tulee maalta, mutta pelaa hänen kanssaan normaalisti.\n2. Emiliaa ei kutsuta luokan pihaleikkiin, koska hän on muuttanut Kaakkolasta.\n3. Ryhmät arvotaan, ja Onni joutuu eri ryhmään kuin kaverinsa.\n4. Teatterikerhossa Joosua ei saa roolia, koska hän käy toista koulua.\n5. Ville ei saa jatkaa palapelin tekoa, koska hän piilotti toisen palat tahallaan.\n6. Kerttu ajattelee, että Etelärannan lapset ovat kaikki laiskoja, mutta ei sano siitä kenellekään.\n\nMontako tilanteista on syrjintää?","vastaus":2},{"nro":13,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":5},{"nro":14,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMontako tilanteista on pelkkiä ajatuksia, joista ei seuraa huonompaa kohtelua?","vastaus":2},{"nro":15,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Lauseet:\n1. Yksi pelaaja unohti mailansa kentälle.\n2. Näin yhden Kuusiston kerholaisen kiroilevan, joten Kuusiston kerholaiset kiroilevat aina.\n3. Kaksi pyöräilijää ajoi punaisia päin, joten pyöräilijät eivät välitä liikennesäännöistä.\n4. Naapurin poika soittaa rumpuja.\n5. Kuulin, että yksi Peltomäen oppilas lunttasi kokeessa, joten Peltomäen oppilaat lunttaavat.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3},{"nro":16,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMiksi virkkeen 6 teko on syrjintää? Kerro myös, miksi virkkeet 2 ja 5 eivät vielä ole syrjintää.","vastaus":"Malliesimerkki: Virkkeessä 6 Ronja kieltäytyy Ilmarin parista vain siksi, että Ilmari on Haapalasta, eikä minkään Ilmarin oman teon vuoksi. Siksi se on syrjintää. Virkkeet 2 ja 5 ovat Ronjan ajatuksia: ne eivät vielä tee Ilmarille mitään, vaikka ne johtivat syrjintään."},{"nro":17,"ryhma":"synty","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMistä Ronjan ennakkoluulo syntyi? Miksi kahden ihmisen käytös ei riitä kertomaan koko ryhmästä?","vastaus":"Malliesimerkki: Ennakkoluulo syntyi Ronjan omasta kokemuksesta: kaksi Haapalan oppilasta nauroi hänen kirjalleen. Kahden oppilaan käytös kertoo vain niistä kahdesta oppilaasta. Haapalan koulussa on paljon muitakin oppilaita, ja Ilmari ei ole tehnyt Ronjalle mitään."},{"nro":18,"ryhma":"purku","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nKeksi kaksi tapaa, joilla Ronja voisi purkaa juuri ennakkoluulonsa Ilmarista. Kerro kummastakin, miksi se purkaa juuri tämän ennakkoluulon.","vastaus":"Malliesimerkki: Ronja voisi jutella Ilmarin kanssa ja tutustua häneen, jolloin hän näkee, millainen Ilmari oikeasti on. Ronja voisi myös muistaa, että nauraneet olivat vain kaksi oppilasta, ja kysyä joltakulta, joka tuntee Haapalan oppilaita, millaisia he ovat."},{"nro":19,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä tarkoittavat yleistys, ennakkoluulo ja syrjintä.","vastaus":"Malliesimerkki: Yleistys on väite koko ryhmästä, esimerkiksi \"kaikki he ovat ilkeitä\". Ennakkoluulo on käsitys ihmisestä, joka tehdään ennen kuin häntä tunnetaan, vain siksi, että hän kuuluu johonkin ryhmään. Syrjintä on teko, jossa jotakuta kohdellaan huonommin kuin muita hänen ryhmänsä vuoksi eikä hänen oman tekonsa vuoksi."},{"nro":20,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Joona ajattelee, että uusi oppilas Helmi on varmasti huono piirtämään, koska Helmi on kotoisin Länsikylästä. Joona ei sano eikä tee mitään. Kuvataidetunnilla Joona näkee Helmin piirtävän hienon kuvan.\n\nOnko kyse ennakkoluulosta, syrjinnästä vai molemmista? Perustele.","vastaus":"Malliesimerkki: Kyse on ennakkoluulosta, ei syrjinnästä. Joona ajatteli Helmistä jotain vain sen perusteella, mistä hän on kotoisin, ennen kuin tunsi hänet. Hän ei kuitenkaan kohdellut Helmiä huonommin, joten tekoa eli syrjintää ei ollut. Ennakkoluulo purkautui, kun Joona näki Helmin piirtävän."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tämä ensin","johdanto":"Yleistys on väite koko ryhmästä. Ennakkoluulo on ennalta tehty käsitys yksittäisestä ihmisestä ryhmän perusteella ennen kuin hänet tunnetaan. Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko: jotakuta kohdellaan huonommin sen vuoksi, mihin ryhmään hän kuuluu, eikä hänen oman tekonsa vuoksi.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein. Kaikki henkilöt, koulut ja paikat ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus:\n1. Eevi pelaa sählyä Kotikallion joukkueessa.\n2. Ottelussa yksi Lepolan joukkueen pelaaja kampittaa Eevin tahallaan.\n3. Eevi ajattelee: \"Lepolan pelaajat ovat kaikki epäreiluja.\"\n4. Keväällä Eevin luokalle tulee uusi oppilas, Aamos, joka pelaa Lepolan joukkueessa.\n5. Eevi ei tunne Aamosta, mutta hän ajattelee, että Aamoskin on varmasti epäreilu.\n6. Kun luokka tekee ryhmätöitä, Eevi ei ota Aamosta ryhmäänsä, koska Aamos pelaa Lepolassa.\n\nMonennessako virkkeessä on yleistys?","vastaus":3},{"nro":2,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":5},{"nro":3,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":6},{"nro":4,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMontako kertomuksen virkkeistä kertoo ajatuksesta eikä teosta?","vastaus":2},{"nro":5,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonenko Lepolan pelaajan käytöksen perusteella Eevi tekee yleistyksensä?","vastaus":1},{"nro":6,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot:\n1. Nella ajattelee, että Harjulan kerholaiset ovat töykeitä, koska yksi heistä tönäisi häntä ovella.\n2. Elias ei ole koskaan tavannut ketään rannikkokylästä, ja rannikkokylän ihmiset tuntuvat hänestä oudoilta.\n3. Aada ajattelee, että Tammiston pelaajat ovat kehuskelijoita, koska hänen serkkunsa sanoi niin.\n4. Konsta ajattelee, että Hakalan koululaiset ovat ilkeitä, koska hän luki niin nettikeskustelusta.\n5. Iida ajattelee, että Mäntylän lapset ovat kärsimättömiä, koska yksi heistä tuskastui jonossa.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2},{"nro":7,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot kuin tehtävässä 6.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":2},{"nro":8,"ryhma":"synty","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nVaihtoehdot:\n1. Eevi ei ollut koskaan nähnyt ketään ryhmästä.\n2. Eevi uskoi sen, mitä kuuli muilta.\n3. Eevi teki yleistyksen omasta kokemuksestaan.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Eevin ennakkoluulo syntyi?","vastaus":3},{"nro":9,"ryhma":"purku","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1. Keinot, joilla Eevi voisi purkaa ennakkoluulonsa:\n1. Eevi kysyy Aamokselta, miten tämä aloitti sählyn.\n2. Eevi välttelee Aamosta välitunneilla, ettei tule riitaa.\n3. Eevi päättää olla mukava kaikille.\n4. Eevi muistaa, että kampittaja oli yksi pelaaja eikä koko joukkue.\n5. Eevi tekee yhden ryhmätyön Aamoksen kanssa ja katsoo itse, millainen hän on.\n6. Eevi yrittää olla ajattelematta pahaa kenestäkään.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3},{"nro":10,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska henkilö välttelee toista?","vastaus":2},{"nro":11,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMontako keinoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":2},{"nro":12,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Leo ei saa jatkaa pallopeliä, koska hän potkaisi palloa toisen päähän tahallaan.\n2. Ainoa ei kutsuta syntymäpäiville, koska hän on muuttanut Pohjolasta.\n3. Sara ajattelee, että Itälän lapset ovat kaikki ujoja, mutta ei sano siitä kenellekään.\n4. Vuorot arvotaan, ja Niklas pääsee vasta viimeisenä.\n5. Henrik ajattelee, että uusi oppilas on varmaan omituinen, koska tämä tulee saaristosta, mutta tekee hänen kanssaan ryhmätyön normaalisti.\n6. Kokkikerhossa Ellaa ei päästetä samaan työpisteeseen, koska hän käy toista koulua.\n\nMontako tilanteista on syrjintää?","vastaus":2},{"nro":13,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":1},{"nro":14,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMontako tilanteista on pelkkiä ajatuksia, joista ei seuraa huonompaa kohtelua?","vastaus":2},{"nro":15,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kuulin, että yksi Kivelän oppilas rikkoi ikkunan, joten Kivelän oppilaat rikkovat tavaroita.\n2. Uusi naapurimme kasvattaa tomaatteja.\n3. Näin yhden Haukilahden kerholaisen huutavan, joten Haukilahden kerholaiset huutavat aina.\n4. Kaksi koiranulkoiluttajaa jätti kakat keräämättä, joten koiranomistajat eivät siivoa jälkiään.\n5. Yksi pelaaja unohti juomapullonsa vaihtopenkille.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3},{"nro":16,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMiksi virkkeen 6 teko on syrjintää? Kerro myös, miksi virkkeet 3 ja 5 eivät vielä ole syrjintää.","vastaus":"Malliesimerkki: Virkkeessä 6 Eevi jättää Aamoksen pois ryhmästä vain siksi, että Aamos pelaa Lepolassa, eikä minkään Aamoksen oman teon vuoksi. Siksi se on syrjintää. Virkkeet 3 ja 5 ovat Eevin ajatuksia: ne eivät vielä tee Aamokselle mitään, vaikka ne johtivat syrjintään."},{"nro":17,"ryhma":"synty","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMistä Eevin ennakkoluulo syntyi? Miksi yhden ihmisen käytös ei riitä kertomaan koko ryhmästä?","vastaus":"Malliesimerkki: Ennakkoluulo syntyi Eevin omasta kokemuksesta: yksi Lepolan pelaaja kampitti häntä. Yksi kokemus kertoo vain siitä yhdestä pelaajasta. Lepolan joukkueessa on paljon muitakin pelaajia, ja Aamos ei ole tehnyt Eeville mitään."},{"nro":18,"ryhma":"purku","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nKeksi kaksi tapaa, joilla Eevi voisi purkaa juuri ennakkoluulonsa Aamoksesta. Kerro kummastakin, miksi se purkaa juuri tämän ennakkoluulon.","vastaus":"Malliesimerkki: Eevi voisi jutella Aamoksen kanssa ja tutustua häneen, jolloin hän näkee, millainen Aamos oikeasti on. Eevi voisi myös muistaa, että kampittaja oli vain yksi pelaaja, ja katsoa itse, miten Aamos toimii ryhmätyössä."},{"nro":19,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä tarkoittavat yleistys, ennakkoluulo ja syrjintä.","vastaus":"Malliesimerkki: Yleistys on väite koko ryhmästä, esimerkiksi \"kaikki he ovat ilkeitä\". Ennakkoluulo on käsitys ihmisestä, joka tehdään ennen kuin häntä tunnetaan, vain siksi, että hän kuuluu johonkin ryhmään. Syrjintä on teko, jossa jotakuta kohdellaan huonommin kuin muita hänen ryhmänsä vuoksi eikä hänen oman tekonsa vuoksi."},{"nro":20,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Anni ajattelee, että uusi oppilas Joel on varmasti huono matematiikassa, koska Joel on kotoisin Saarikylästä. Anni ei sano eikä tee mitään. Matematiikan tunnilla Anni huomaa Joelin ratkaisevan vaikean tehtävän.\n\nOnko kyse ennakkoluulosta, syrjinnästä vai molemmista? Perustele.","vastaus":"Malliesimerkki: Kyse on ennakkoluulosta, ei syrjinnästä. Anni ajatteli Joelista jotain vain sen perusteella, mistä hän on kotoisin, ennen kuin tunsi hänet. Hän ei kuitenkaan kohdellut Joelia huonommin, joten tekoa eli syrjintää ei ollut. Ennakkoluulo purkautui, kun Anni näki Joelin ratkaisevan tehtävän."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tämä ensin","johdanto":"Yleistys on väite koko ryhmästä. Ennakkoluulo on ennalta tehty käsitys yksittäisestä ihmisestä ryhmän perusteella ennen kuin hänet tunnetaan. Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko: jotakuta kohdellaan huonommin sen vuoksi, mihin ryhmään hän kuuluu, eikä hänen oman tekonsa vuoksi.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein. Kaikki henkilöt, koulut ja paikat ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus:\n1. Uimarannalla kaksi Rantalan kesäkerhon lasta kaataa Kallen hiekkalinnan.\n2. Kalle ajattelee: \"Kaikki Rantalan kerhon lapset rikkovat toisten juttuja.\"\n3. Syksyllä Kallen luokalle tulee uusi oppilas, Emma, joka on käynyt Rantalan kesäkerhoa.\n4. Kalle ei ole vielä puhunut Emman kanssa, mutta hän ajattelee, että Emmakin rikkoo varmasti toisten tavaroita.\n5. Kun luokka rakentaa pienoismalleja, Kalle ei anna Emman tulla samaan pöytään, koska Emma on käynyt Rantalan kerhoa.\n6. Emma rakentaa mallinsa yksin.\n\nMonennessako virkkeessä on yleistys?","vastaus":2},{"nro":2,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":4},{"nro":3,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":5},{"nro":4,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMontako kertomuksen virkkeistä kertoo ajatuksesta eikä teosta?","vastaus":2},{"nro":5,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonenko Rantalan kesäkerhon lapsen käytöksen perusteella Kalle tekee yleistyksensä?","vastaus":2},{"nro":6,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot:\n1. Ronja ajattelee, että Kankaan pelaajat ovat riitaisia, koska hänen valmentajansa sanoi niin.\n2. Juho ajattelee, että Lehtolan kerholaiset ovat hajamielisiä, koska yksi heistä unohti takkinsa bussiin.\n3. Elina ajattelee, että Kalliolan koululaiset ovat kovaäänisiä, koska yksi heistä huusi kirjastossa.\n4. Patrik ei ole koskaan tavannut ketään vuoristosta, ja vuoriston ihmiset tuntuvat hänestä oudoilta.\n5. Selma ajattelee, että Metsäkylän lapset ovat ilkeitä, koska hän luki niin nettikeskustelusta.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2},{"nro":7,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot kuin tehtävässä 6.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":4},{"nro":8,"ryhma":"synty","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nVaihtoehdot:\n1. Kalle uskoi sen, mitä kuuli muilta.\n2. Kalle teki yleistyksen omasta kokemuksestaan.\n3. Kalle ei ollut koskaan nähnyt ketään ryhmästä.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Kallen ennakkoluulo syntyi?","vastaus":2},{"nro":9,"ryhma":"purku","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1. Keinot, joilla Kalle voisi purkaa ennakkoluulonsa:\n1. Kalle päättää olla kohtelias kaikille.\n2. Kalle kysyy Emmalta, mitä kesäkerhossa tehtiin.\n3. Kalle pitää omat tavaransa piilossa aina, kun Emma on lähellä, eikä puhu hänelle.\n4. Kalle muistaa, että hiekkalinnan kaatajat olivat kaksi lasta eivätkä koko kerho.\n5. Kalle yrittää olla ajattelematta pahaa kenestäkään.\n6. Kalle rakentaa Emman kanssa yhden mallin ja katsoo itse, millainen hän on.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3},{"nro":10,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska henkilö välttelee toista?","vastaus":3},{"nro":11,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMontako keinoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":2},{"nro":12,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Nooraa ei kutsuta luokan leffailtaan, koska hän on muuttanut Pohjoisrannasta.\n2. Paikat arvotaan, ja Aino joutuu istumaan eri pöydässä kuin kaverinsa.\n3. Viljami ajattelee, että uusi oppilas on varmaan hidas, koska tämä tulee kaupungista, mutta pelaa hänen kanssaan normaalisti.\n4. Jenna ei saa jatkaa rakennuspeliä, koska hän kaatoi toisen tornin tahallaan.\n5. Sisu ajattelee, että Länsirannan lapset ovat kaikki huonoja laulajia, mutta ei sano siitä kenellekään.\n6. Askartelukerhossa Iinaa ei päästetä samaan pöytään, koska hän käy toista koulua.\n\nMontako tilanteista on syrjintää?","vastaus":2},{"nro":13,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":4},{"nro":14,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMontako tilanteista on pelkkiä ajatuksia, joista ei seuraa huonompaa kohtelua?","vastaus":2},{"nro":15,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Lauseet:\n1. Näin yhden Lammilan kerholaisen etuilevan, joten Lammilan kerholaiset etuilevat aina.\n2. Kuulin, että yksi Koskelan oppilas varasti kynän, joten Koskelan oppilaat varastavat.\n3. Yksi pelaaja unohti hanskansa pukuhuoneeseen.\n4. Kaksi skeittaria ei väistänyt, joten skeittarit ovat töykeitä.\n5. Uusi luokkatoverimme pitää hevosista.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3},{"nro":16,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMiksi virkkeen 5 teko on syrjintää? Kerro myös, miksi virkkeet 2 ja 4 eivät vielä ole syrjintää.","vastaus":"Malliesimerkki: Virkkeessä 5 Kalle ei päästä Emmaa samaan pöytään vain siksi, että Emma on käynyt Rantalan kerhoa, eikä minkään Emman oman teon vuoksi. Siksi se on syrjintää. Virkkeet 2 ja 4 ovat Kallen ajatuksia: ne eivät vielä tee Emmalle mitään, vaikka ne johtivat syrjintään."},{"nro":17,"ryhma":"synty","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMistä Kallen ennakkoluulo syntyi? Miksi kahden ihmisen käytös ei riitä kertomaan koko ryhmästä?","vastaus":"Malliesimerkki: Ennakkoluulo syntyi Kallen omasta kokemuksesta: kaksi Rantalan kerhon lasta kaatoi hänen hiekkalinnansa. Kahden lapsen käytös kertoo vain niistä kahdesta lapsesta. Kerhossa on ollut paljon muitakin lapsia, ja Emma ei ole tehnyt Kallelle mitään."},{"nro":18,"ryhma":"purku","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nKeksi kaksi tapaa, joilla Kalle voisi purkaa juuri ennakkoluulonsa Emmasta. Kerro kummastakin, miksi se purkaa juuri tämän ennakkoluulon.","vastaus":"Malliesimerkki: Kalle voisi jutella Emman kanssa ja tutustua häneen, jolloin hän näkee, millainen Emma oikeasti on. Kalle voisi myös muistaa, että hiekkalinnan kaatajat olivat vain kaksi lasta, ja rakentaa Emman kanssa yhden mallin nähdäkseen itse."},{"nro":19,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä tarkoittavat yleistys, ennakkoluulo ja syrjintä.","vastaus":"Malliesimerkki: Yleistys on väite koko ryhmästä, esimerkiksi \"kaikki he ovat ilkeitä\". Ennakkoluulo on käsitys ihmisestä, joka tehdään ennen kuin häntä tunnetaan, vain siksi, että hän kuuluu johonkin ryhmään. Syrjintä on teko, jossa jotakuta kohdellaan huonommin kuin muita hänen ryhmänsä vuoksi eikä hänen oman tekonsa vuoksi."},{"nro":20,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Lilja ajattelee, että uusi oppilas Teo on varmasti huono hiihtämään, koska Teo on kotoisin Etelärannasta. Lilja ei sano eikä tee mitään. Hiihtotunnilla Lilja näkee Teon hiihtävän taitavasti.\n\nOnko kyse ennakkoluulosta, syrjinnästä vai molemmista? Perustele.","vastaus":"Malliesimerkki: Kyse on ennakkoluulosta, ei syrjinnästä. Lilja ajatteli Teosta jotain vain sen perusteella, mistä hän on kotoisin, ennen kuin tunsi hänet. Hän ei kuitenkaan kohdellut Teoa huonommin, joten tekoa eli syrjintää ei ollut. Ennakkoluulo purkautui, kun Lilja näki Teon hiihtävän."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tämä ensin","johdanto":"Yleistys on väite koko ryhmästä. Ennakkoluulo on ennalta tehty käsitys yksittäisestä ihmisestä ryhmän perusteella ennen kuin hänet tunnetaan. Yleistys ja ennakkoluulo ovat ajatuksia. Syrjintä on teko: jotakuta kohdellaan huonommin sen vuoksi, mihin ryhmään hän kuuluu, eikä hänen oman tekonsa vuoksi.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein. Kaikki henkilöt, koulut ja paikat ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus:\n1. Retkellä yksi Mäntylän partiolippukunnan partiolainen jättää roskansa Siirin leiripaikalle.\n2. Siiri kerää roskat pois.\n3. Siiri ajattelee: \"Mäntylän partiolaiset ovat kaikki sotkijoita.\"\n4. Myöhemmin Siirin luokalle tulee uusi oppilas, Lukas, joka on Mäntylän partiolainen.\n5. Siiri ei tunne Lukasta, mutta hän ajattelee, että Lukaskin on varmasti sotkija.\n6. Kun luokka valitsee luokkaretken järjestäjiä, Siiri sanoo Lukakselle, ettei tämä saa tulla hänen järjestäjäryhmäänsä, koska Lukas on Mäntylän partiolainen.\n\nMonennessako virkkeessä on yleistys?","vastaus":3},{"nro":2,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on ennakkoluulo?","vastaus":5},{"nro":3,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonennessako virkkeessä on syrjivä teko?","vastaus":6},{"nro":4,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMontako kertomuksen virkkeistä kertoo ajatuksesta eikä teosta?","vastaus":2},{"nro":5,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nMonenko Mäntylän partiolaisen käytöksen perusteella Siiri tekee yleistyksensä?","vastaus":1},{"nro":6,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot:\n1. Oskari ei ole koskaan tavannut ketään järviseudulta, ja järviseudun ihmiset tuntuvat hänestä oudoilta.\n2. Venla ajattelee, että Kivistön kerholaiset ovat äkkipikaisia, koska yksi heistä suuttui pelissä.\n3. Aleksi ajattelee, että Hiekkaharjun pelaajat ovat leuhkoja, koska hänen valmentajansa sanoi niin.\n4. Linnea ajattelee, että Ruskolan koululaiset ovat epäsiistejä, koska yksi heistä jätti roskat penkille.\n5. Eemil ajattelee, että Korvenkylän lapset ovat ilkeitä, koska isosisko sanoi niin.\n\nMontako ennakkoluuloista syntyi muilta kuullusta?","vastaus":2},{"nro":7,"ryhma":"synty","tyyppi":"lasku","kysymys":"Ennakkoluulot kuin tehtävässä 6.\n\nMonennessako ennakkoluulo syntyi vieraudesta?","vastaus":1},{"nro":8,"ryhma":"synty","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1.\n\nVaihtoehdot:\n1. Siiri teki yleistyksen omasta kokemuksestaan.\n2. Siiri ei ollut koskaan nähnyt ketään ryhmästä.\n3. Siiri uskoi sen, mitä kuuli muilta.\n\nMonennessako vaihtoehdossa kerrotaan, mistä Siirin ennakkoluulo syntyi?","vastaus":1},{"nro":9,"ryhma":"purku","tyyppi":"lasku","kysymys":"Kertomus kuin tehtävässä 1. Keinot, joilla Siiri voisi purkaa ennakkoluulonsa:\n1. Siiri kysyy Lukakselta, mitä partioretkillä tehdään.\n2. Siiri päättää olla kiltti kaikille.\n3. Siiri muistaa, että roskaaja oli yksi partiolainen eikä koko lippukunta.\n4. Siiri yrittää olla ajattelematta pahaa kenestäkään.\n5. Siiri ei koskaan valitse Lukasta mihinkään ryhmään, ettei tule ongelmia.\n6. Siiri tekee Lukaksen kanssa yhden tehtävän ja katsoo itse, millainen hän on.\n\nMontako keinoista kohdistuu juuri tähän ennakkoluuloon?","vastaus":3},{"nro":10,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMonennessako keinossa ennakkoluulo pääsee jatkumaan, koska henkilö välttelee toista?","vastaus":5},{"nro":11,"ryhma":"purku","tyyppi":"lasku","kysymys":"Keinot kuin tehtävässä 9.\n\nMontako keinoista on yleisiä kehotuksia, jotka eivät kohdistu juuri tähän ennakkoluuloon?","vastaus":2},{"nro":12,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Sanni ajattelee, että Pohjolan lapset ovat kaikki huonoja tanssijoita, mutta ei sano siitä kenellekään.\n2. Eliasta ei kutsuta luokan pihapeliin, koska hän on muuttanut Kotirinteeltä.\n3. Rasmus ei saa jatkaa piirustustuokiota, koska hän sotki toisen piirustuksen tahallaan.\n4. Robottikerhossa Miljaa ei päästetä samaan ryhmään, koska hän käy toista koulua.\n5. Aleksi ajattelee, että uusi oppilas on varmaan hiljainen, koska tämä tulee maalta, mutta juttelee hänen kanssaan normaalisti.\n6. Vuorot arvotaan, ja Helmi pääsee vasta viimeisenä.\n\nMontako tilanteista on syrjintää?","vastaus":2},{"nro":13,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMonennessako tilanteessa joku saa seurauksen omasta teostaan eikä ryhmänsä vuoksi?","vastaus":3},{"nro":14,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 12.\n\nMontako tilanteista on pelkkiä ajatuksia, joista ei seuraa huonompaa kohtelua?","vastaus":2},{"nro":15,"ryhma":"kasitteet","tyyppi":"lasku","kysymys":"Lauseet:\n1. Uusi naapurimme pitää kissoista.\n2. Kuulin, että yksi Hovilan oppilas kiusasi toista, joten Hovilan oppilaat kiusaavat.\n3. Yksi pelaaja unohti lippiksensä katsomoon.\n4. Näin yhden Mäkikylän kerholaisen kiroilevan, joten Mäkikylän kerholaiset kiroilevat aina.\n5. Kaksi mopoilijaa ajoi kovaa, joten mopoilijat ajavat aina holtittomasti.\n\nMontako lauseista on hätiköityjä yleistyksiä?","vastaus":3},{"nro":16,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMiksi virkkeen 6 teko on syrjintää? Kerro myös, miksi virkkeet 3 ja 5 eivät vielä ole syrjintää.","vastaus":"Malliesimerkki: Virkkeessä 6 Siiri sulkee Lukaksen pois ryhmästään vain siksi, että Lukas on Mäntylän partiolainen, eikä minkään Lukaksen oman teon vuoksi. Siksi se on syrjintää. Virkkeet 3 ja 5 ovat Siirin ajatuksia: ne eivät vielä tee Lukakselle mitään, vaikka ne johtivat syrjintään."},{"nro":17,"ryhma":"synty","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nMistä Siirin ennakkoluulo syntyi? Miksi yhden ihmisen käytös ei riitä kertomaan koko ryhmästä?","vastaus":"Malliesimerkki: Ennakkoluulo syntyi Siirin omasta kokemuksesta: yksi Mäntylän partiolainen roskasi hänen leiripaikkansa. Yksi kokemus kertoo vain siitä yhdestä partiolaisesta. Lippukunnassa on paljon muitakin partiolaisia, ja Lukas ei ole tehnyt Siirille mitään."},{"nro":18,"ryhma":"purku","tyyppi":"sanallinen","kysymys":"Kertomus kuin tehtävässä 1.\n\nKeksi kaksi tapaa, joilla Siiri voisi purkaa juuri ennakkoluulonsa Lukaksesta. Kerro kummastakin, miksi se purkaa juuri tämän ennakkoluulon.","vastaus":"Malliesimerkki: Siiri voisi jutella Lukaksen kanssa ja tutustua häneen, jolloin hän näkee, millainen Lukas oikeasti on. Siiri voisi myös muistaa, että roskaaja oli vain yksi partiolainen, ja tehdä Lukaksen kanssa yhden tehtävän nähdäkseen itse."},{"nro":19,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä tarkoittavat yleistys, ennakkoluulo ja syrjintä.","vastaus":"Malliesimerkki: Yleistys on väite koko ryhmästä, esimerkiksi \"kaikki he ovat ilkeitä\". Ennakkoluulo on käsitys ihmisestä, joka tehdään ennen kuin häntä tunnetaan, vain siksi, että hän kuuluu johonkin ryhmään. Syrjintä on teko, jossa jotakuta kohdellaan huonommin kuin muita hänen ryhmänsä vuoksi eikä hänen oman tekonsa vuoksi."},{"nro":20,"ryhma":"kasitteet","tyyppi":"sanallinen","kysymys":"Mikael ajattelee, että uusi oppilas Inka on varmasti huono pelaamaan shakkia, koska Inka on kotoisin Itäkylästä. Mikael ei sano eikä tee mitään. Välitunnilla Mikael näkee Inkan voittavan shakkipelin.\n\nOnko kyse ennakkoluulosta, syrjinnästä vai molemmista? Perustele.","vastaus":"Malliesimerkki: Kyse on ennakkoluulosta, ei syrjinnästä. Mikael ajatteli Inkasta jotain vain sen perusteella, mistä hän on kotoisin, ennen kuin tunsi hänet. Hän ei kuitenkaan kohdellut Inkaa huonommin, joten tekoa eli syrjintää ei ollut. Ennakkoluulo purkautui, kun Mikael näki Inkan pelaavan."}]}],"tulostus":{"sivuja":5,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":16},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Taito jatkaa 4. luokan taitoa ET4-YHD-02 (perusteltu ja perusteeton ero) ja 5. luokan taitoa ET5-YHD-01 (vapaus ja suvaitsevaisuus). Perusteeton ero nimetään nyt syrjinnäksi ja sen taustalta etsitään ajatukset: yleistys ja ennakkoluulo. Hätiköity yleistys palaa virhepäätelmänä taidossa ET5-LOG-02; tässä se esitellään vain ennakkoluulon lähtökohtana.","Kaikki ryhmät ovat keksittyjä kouluja, kyliä, kerhoja ja joukkueita. Todellisia kansallisuuksia, etnisiä ryhmiä, uskontoja tai kieliä ei käytetä ennakkoluulon kohteena, jotta mikään tehtävä ei toista todellista ennakkoluuloa eikä kohdistu luokan oppilaisiin. Jos keskustelussa nousee esiin todellinen ennakkoluulo, sitä käsitellään yleisellä tasolla, ei kenenkään oppilaan kautta. Oppilaalta ei kysytä hänen omia ennakkoluulojaan eikä kokemuksiaan syrjinnästä.","Materiaalin sopimukset kerrotaan kokeen johdannossa. Yleistys on väite koko ryhmästä. Ennakkoluulo on tässä taidossa käsitys yksittäisestä ihmisestä ryhmän perusteella ennen tutustumista (kartan esimerkin mukaisesti: Okko ajattelee jo ennen tutustumista, että Tuulikin on ilkeä). Syrjintä on teko, jossa joku saa huonompaa kohtelua ryhmän vuoksi eikä oman tekonsa vuoksi. Ennakkoluulon lähteitä on kolme: oma kokemus, muilta kuultu ja vieraus.","Mittaritehtävät: 16 (ajatuksen ja teon ero sekä syrjinnän perustelu: ryhmän vuoksi eikä oman teon vuoksi), 17 (yhden tai kahden ihmisen käytös ei riitä kertomaan koko ryhmästä) ja 18 (kaksi purkukeinoa, jotka kohdistuvat juuri tähän ennakkoluuloon). Tehtävän 5 vastaus vaihtelee versioittain (1 tai 2 kokemusta), jotta oppilas lukee kertomuksen eikä vastaa muistista; versioissa B ja D tehtävän 17 kysymys puhuu kahden ihmisen käytöksestä.","Tehtävissä 1–4 jokaisessa kertomuksessa on täsmälleen yksi yleistys, yksi ennakkoluulo ja yksi syrjivä teko; muut virkkeet ovat taustaa, alkukokemus tai seuraus. Jos oppilas vastaa tehtävässä 1 ennakkoluulon virkkeen, hän ei erota ryhmää koskevaa väitettä yksilöä koskevasta ajatuksesta. Jos tehtävän 4 vastaus on 3, oppilas laskee alkukokemuksen tai syrjivän teon ajatukseksi (ansa 1). Tehtävässä 8 vaihtoehdot ovat versioittain eri järjestyksessä.","Tehtävissä 9–11 jokaisessa versiossa on kolme kohdistuvaa keinoa, kaksi yleistä kehotusta ja yksi välttely. Jos oppilas laskee tehtävässä 9 yleiset kehotukset mukaan (vastaus 5), hän ei vielä vaadi, että keino muuttaa juuri tätä ajatusta (ansa 3). Tehtävissä 12–14 on joka versiossa kaksi syrjintää, kaksi pelkkää ajatusta, yksi oman teon seuraus ja yksi arvonta. Jos oppilas laskee tehtävässä 12 oman teon seurauksen syrjinnäksi (vastaus 3), tarkista tehtävä 13. Tehtävässä 15 lauseet yhdestä ihmisestä eivät ole yleistyksiä.","Sanallisissa tehtävissä 16–20 hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuotoa. Tehtävässä 16 pitää näkyä, että pois jättäminen johtuu ryhmästä eikä uuden oppilaan omasta teosta, ja että yleistys ja ennakkoluulo ovat ajatuksia. Tehtävässä 18 kelpaavat tutustuminen, oma tiedon hankkiminen, kokemusten määrän muistaminen, vastaesimerkki ja yksilön erottaminen ryhmästä, kun ne on kohdistettu kertomuksen henkilöön tai ryhmään; \"ole kiltti\", \"älä ajattele pahaa\" tai \"unohda koko juttu\" eivät kelpaa. Tehtävässä 20 oikea vastaus on ennakkoluulo ilman syrjintää, koska tekoa ei ole.","Jos oppilas tunnistaa kertomuksista oman kokemuksensa ulkopuolelle jättämisestä, asiaa ei käsitellä luokan edessä vaan kahden kesken ja tarvittaessa koulun kiusaamisen vastaisen suunnitelman mukaisesti.","Tarkistettavat asiatiedot: ei lähdettä vaativia faktoja. Käsitteiden määritelmät on muotoiltu Espoon 5. luokan tarkennuksen (\"mistä ennakkoluulot ja yleistykset johtuvat ja kuinka niitä saa poistettua\") ja kartan kriteerin mukaan.","Tässä taidossa ei mitata tekemisen nopeutta eikä ajanoteta mitään."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Yleistys ja ennakkoluulo ovat ajatuksia, syrjintä on teko. Yksi kokemus kertoo yhdestä ihmisestä, ei koko ryhmästä.","vaiheet":[{"aika":"7 min","otsikko":"1. tunti: aloitus","sisalto":"Lue johdannon kertomus Pihlasta ääneen. Kysy: mihin Pihlan ajatus Joelista perustuu? Kuinka monesta Koivurannan pelaajasta Pihlalla on omaa tietoa? Anna luokan huomata, että vastaus on nolla."},{"aika":"15 min","otsikko":"1. tunti: kolme käsitettä","sisalto":"Käy läpi yleistys, ennakkoluulo ja syrjintä sekä ketjukuva. Pysähdy ajatuksen ja teon eroon (ansa 1) ja oman teon seuraukseen (Samin esimerkki). Käytä vain keksittyjä ryhmiä; älä pyydä oppilaita kertomaan omista ennakkoluuloistaan."},{"aika":"15 min","otsikko":"1. tunti: harjoittelu","sisalto":"Harjoitusryhmä 1. Pura H06 ääneen: miksi Iiriksen tilanne ei ole syrjintää, vaikka hänkin joutuu pois pelistä."},{"aika":"8 min","otsikko":"1. tunti: lopetus","sisalto":"Kysy ansasta 2: jos kokemus oli totta, miksi yleistys on silti hätiköity? Kerää kaksi tai kolme perustelua."},{"aika":"10 min","otsikko":"2. tunti: synty ja purku","sisalto":"Käy läpi ennakkoluulon kolme lähdettä ja purkukeinot. Anna parien keksiä Pihlalle yksi kohdistuva keino ja yksi yleinen kehotus ja selittää, miksi vain ensimmäinen purkaa juuri Pihlan ennakkoluulon. Harjoitusryhmät 2 ja 3."},{"aika":"30 min","otsikko":"2. tunti: näyttö","sisalto":"Koe (versio A–E). Kertomus ja tehtävät 1–3 ja 16–18 ovat kartan näyttö: yleistys, ennakkoluulo ja syrjivä teko merkitään, ennakkoluulon synty selitetään ja kaksi purkukeinoa keksitään."},{"aika":"5 min","otsikko":"2. tunti: purku","sisalto":"Kerää kokeet. Kysy yleisesti, mikä purkukeino tuntui toimivimmalta, ja kerro, että tulokset käydään läpi seuraavalla tunnilla."}],"tarvikkeet":"Harjoitukset laitteelta tai tulostettuna. Toiselle tunnille tulostettu koe."},"virhesanakirja":[{"virhe":"Vastaa kokeen A tehtävässä 1 luvun 4, eli pitää Okon ajatusta Tuulista yleistyksenä","tehtava":"yleistyksen ja ennakkoluulon erottaminen (H01, H02, H04, kokeen tehtävät 1 ja 2)","mita_kertoo":"Oppilas tunnistaa kielteisen ajatuksen mutta ei erota, koskeeko se koko ryhmää vai yhtä ihmistä.","mita_tehda":"Pyydä alleviivaamaan kummastakin virkkeestä, kenestä ajatus kertoo: kaikista Kuusikallion oppilaista vai Tuulista. Kysy sitten, kumpi ajatus syntyi ensin."},{"virhe":"Vastaa kokeen A tehtävässä 4 luvun 3 tai 4, eli laskee alkukokemuksen tai syrjivän teon ajatukseksi","tehtava":"ajatus ja teko (H05, H19, H20, kokeen tehtävät 4, 14 ja 16)","mita_kertoo":"Oppilas sekoittaa ajatuksen ja teon (ansa 1). Hän voi pitää kaikkea kielteistä \"ajatteluna\" tai päinvastoin kaikkea kielteistä syrjintänä.","mita_tehda":"Kysy jokaisesta virkkeestä: näkisikö joku muu tämän tapahtuvan? Teko näkyy, ajatus ei. Palaa ketjukuvaan."},{"virhe":"Vastaa kokeen A tehtävässä 12 luvun 3, eli laskee Aaron tilanteen (repi kortin tahallaan) syrjinnäksi","tehtava":"oman teon seuraus (H06, H07, kokeen tehtävät 12 ja 13)","mita_kertoo":"Oppilas pitää kaikkea pois jättämistä syrjintänä. Hän ei vielä kysy, johtuuko huonompi kohtelu ryhmästä vai omasta teosta.","mita_tehda":"Kysy: jos Aaro olisi muuttanut Itärannasta, mutta ei olisi repinyt korttia, olisiko hän saanut jatkaa? Entä Silja? Ero näkyy, kun ryhmä ja teko vaihdetaan."},{"virhe":"Kirjoittaa tehtävässä 17, että ennakkoluulo on oikea, koska tönäisy oikeasti tapahtui","tehtava":"kokemuksen ja yleistyksen ero (H08, H13, kokeen tehtävät 5, 15 ja 17)","mita_kertoo":"Oppilas puolustaa yleistystä tosi kokemuksella (ansa 2). Hän ei vielä erota sitä, mitä yksi ihminen teki, siitä, mitä koko ryhmä tekee.","mita_tehda":"Kysy: kuinka monta oppilasta Kuusikallion koulussa voisi olla? Kuinka monesta heistä Okolla on kokemus? Kun luvut ovat vierekkäin, yleistyksen koko näkyy."},{"virhe":"Vastaa kokeen A tehtävässä 9 luvun 5, eli laskee yleiset kehotukset (\"kiltti kaikille\") kohdistuviksi keinoiksi","tehtava":"kohdistuva purkukeino (H14, H16, H17, kokeen tehtävät 9, 11 ja 18)","mita_kertoo":"Oppilas pitää hyvää neuvoa purkukeinona (ansa 3). Hän ei vielä kysy, muuttaako keino juuri sitä ajatusta, josta ennakkoluulo syntyi.","mita_tehda":"Kysy: voiko Okko olla kiltti kaikille ja silti ajatella, että Tuuli on ilkeä? Kun vastaus on kyllä, pyydä keksimään keino, jonka jälkeen Okko tietäisi Tuulista jotain uutta."},{"virhe":"Vastaa kokeen tehtävässä 6 väärin, koska laskee valmentajan tai serkun sanoman omaksi kokemukseksi","tehtava":"ennakkoluulon lähteet (H09, H10, H12, kokeen tehtävät 6–8 ja 17)","mita_kertoo":"Oppilas ei erota omaa havaintoa siitä, mitä joku toinen kertoi. Ero on tärkeä, koska purkukeino riippuu lähteestä: kuultu kannattaa tarkistaa itse.","mita_tehda":"Kysy jokaisesta tapauksesta: näkikö henkilö itse jotain vai kuuliko hän sen joltakulta? Jos hän ei tunne ketään ryhmästä eikä ole kuullut mitään, lähde on vieraus."}],"huoltajalle":{"mista_on_kyse":"Lapsi oppii erottamaan kolme asiaa: yleistyksen (väite koko ryhmästä), ennakkoluulon (käsitys ihmisestä ennen kuin hänet tunnetaan) ja syrjinnän (teko, jossa joku saa huonompaa kohtelua ryhmänsä vuoksi). Hän pohtii myös, mistä ennakkoluulot syntyvät ja miten niitä voi purkaa tutustumalla ja hankkimalla tietoa.","kotona":["Kun kuulette yleistyksen (\"kaikki ne ovat...\"), voit kysyä: kuinka monta heistä oikeasti tunnet? Kysymys auttaa huomaamaan, kuinka vähästä tiedosta yleistys on tehty.","Jos lapsi kertoo, ettei halua ottaa jotakuta mukaan, kysy: johtuuko se siitä, mitä hän teki, vai siitä, mistä hän on? Kysymys erottaa oman teon seurauksen syrjinnästä.","Älä opeta näin: älä sano pelkästään \"ole kiltti kaikille\". Se on hyvä neuvo, mutta se ei pura ennakkoluuloa. Ehdota mieluummin tutustumista juuri siihen ihmiseen, josta lapsi ajattelee pahaa."],"milloin_huolestua":"Jos lapsi kertoo, että häntä tai jotakuta muuta jätetään toistuvasti ulkopuolelle sen vuoksi, mistä hän on kotoisin, mitä koulua hän käy tai mihin ryhmään hän kuuluu, kerro siitä opettajalle. Se ei ole oppimisen vaan hyvinvoinnin asia, ja koulun kuuluu puuttua siihen."},"ulkoiset":{},"valmis_teksti":"Erotat yleistyksen, ennakkoluulon ja syrjinnän, tiedät, mistä ennakkoluulo syntyy, ja osaat keksiä keinon, joka purkaa juuri sen. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

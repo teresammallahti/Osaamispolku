@@ -1,0 +1,524 @@
+<title>Uutisten kartanlukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"YMP5-MAA-08","oppiaine":"YMP","vuosiluokka":5,"taitoalue":"MAA","jakso":"J4","taso":"haaste","otsikko":"Uutisten kartanlukija","kuvaus":"Osaan paikantaa Euroopasta kertovan uutisen tapahtumapaikan ja selittää, miten paikan luonto liittyy uutiseen.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T16","T14","T11"],"S":["S3"]},"eyebrow":"Ympäristöoppi · 5. luokka · Maapallo ja kartat","ikoni":"kartta","naytto":"Valitsen ajankohtaisen uutisen jostakin Euroopan maasta (esimerkiksi tulva, metsäpalo, helle). Paikannan tapahtumapaikan kartastosta tai karttapalvelusta ja esitän luokalle, miten paikan sijainti, ilmasto tai pinnanmuodot liittyvät tapahtumaan.","osaa_kun":"Yhdistän uutisen vähintään yhteen paikan maantieteelliseen piirteeseen ja kerron uutisen lähteen ja päivämäärän.","teksti":[{"tyyppi":"johdanto","sisalto":"Uutisessa kerrotaan, että joki on noussut tulvaksi keskieurooppalaisessa kaupungissa. Uutinen kertoo, mitä tapahtui ja milloin. Se kertoo harvoin, miksi tulva tuli juuri sinne. Sen kertoo kartta. Kun katsot kartasta, mistä joki tulee ja mitä sen yläjuoksulla on, ymmärrät uutista paremmin kuin moni aikuinen. Tässä taidossa valitset itse uutisen jostakin Euroopan maasta, etsit tapahtumapaikan kartalta ja kerrot luokalle, miten paikan luonto liittyy siihen, mitä tapahtui."},{"tyyppi":"kappale","otsikko":"Uutinen kertoo mitä, kartta kertoo miksi juuri siellä","sisalto":"Luonnonilmiöistä kertovissa uutisissa tapahtumapaikan maantiede selittää usein paljon. Maantieteellisiä piirteitä ovat esimerkiksi sijainti (kuinka pohjoisessa tai etelässä paikka on, onko se rannikolla vai sisämaassa), ilmasto (millaiset kesät ja talvet ovat ja paljonko sataa), pinnanmuodot (vuoret, laaksot, tasangot ja joet) ja kallioperä (onko paikka mannerlaattojen reunalla). Kun osaat kysyä uutiselta, mikä näistä piirteistä liittyy tapahtumaan, uutinen muuttuu satunnaisesta tapahtumasta ymmärrettäväksi. Tarvitset tähän samoja taitoja, joita käytit Euroopan kartan kanssa: kartaston hakemistoa ja ruudukkoa, ilmansuuntia, naapurimaita ja meriä."},{"tyyppi":"taulukko","otsikko":"Uutisen aihe ja paikan piirre","otsikkorivi":["Uutisen aihe","Paikan piirre, joka voi liittyä","Miksi"],"rivit":[["Tulva","Joki, jonka yläjuoksulla on vuoria","Sade ja sulava lumi vuoristossa kerääntyvät jokeen, ja vesi nousee alajuoksulla, vaikka siellä ei sataisi."],["Metsäpalo","Välimeren alueen ilmasto","Kesä on kuuma ja kuiva, joten kasvillisuus kuivuu ja syttyy helposti. Tuuli levittää paloa."],["Helle","Sisämaa kaukana merestä tai eteläinen sijainti","Meri tasoittaa lämpötilaa. Kaukana merestä kesä on kuumempi, ja etelässä aurinko paistaa korkeammalta."],["Myrsky ja rannikon tulva","Matala rannikko avomeren äärellä","Myrsky nostaa merivettä rantaa kohti, ja matala maa jää helposti veden alle. Alankomaissa osa maasta on merenpinnan alapuolella."],["Lumivyöry","Jyrkät vuorenrinteet, esimerkiksi Alpit","Jyrkälle rinteelle kertynyt paksu lumikerros voi lähteä liikkeelle."],["Maanjäristys tai tulivuorenpurkaus","Mannerlaattojen reuna, esimerkiksi Italia, Kreikka tai Islanti","Laatat liikkuvat toistensa suhteen, ja niiden reunoilla maa järisee ja sula kivi voi purkautua pintaan."]]},{"tyyppi":"saanto","otsikko":"Viisi askelta uutisesta kartalle","askeleet":["Valitse uutinen opettajan antamista uutislähteistä. Kirjoita heti muistiin julkaisija (toimitus, joka uutisen teki), otsikko ja julkaisupäivä.","Etsi uutisesta kaikki paikannimet: maa, kaupunki tai alue, joki, järvi, meri tai vuoristo. Alleviivaa ne.","Paikanna tapahtumapaikka. Kartastossa etsi nimi hakemistosta ja käytä ruudukkoa. Karttapalvelussa lähde liikkeelle maasta ja tarkenna alueeseen ja paikkaan.","Kuvaa sijainti kolmella tiedolla: ilmansuunta maan pääkaupungista tai maan sisällä, naapurimaa tai lähin raja ja lähin meri, joki tai vuoristo.","Etsi taulukosta tai kartalta piirre, joka liittyy tapahtumaan, ja yhdistä ne yhdellä virkkeellä, jossa on sana koska tai siksi."]},{"tyyppi":"kappale","otsikko":"Esimerkki: tulva Tonavan varrella","sisalto":"Tämä uutinen on keksitty harjoitusta varten, mutta paikat ja niiden luonto ovat todellisia. Uutinen: ”Tonava nousi tulvaksi Budapestissa. Rantakadut suljettiin, vaikka kaupungissa satoi viime päivinä vain vähän.” Paikannus: Budapest on Unkarin pääkaupunki, ja Tonava virtaa sen halki. Unkari on Keski-Euroopassa Itävallan itäpuolella, eikä sillä ole rannikkoa. Kartalta näkee, että Tonava tulee Unkariin luoteesta, Saksan ja Itävallan kautta, ja jatkaa kohti Mustaamerta. Yhteys luontoon: Tonavaan valuu vettä laajalta alueelta, myös Alppien rinteiltä. Kun vuoristossa sataa paljon tai lumi sulaa, vesi kulkee jokea pitkin alajuoksulle. Siksi Budapestissa voi olla tulva, vaikka siellä itsessään sataisi vähän. Näin esityksen ydinvirke voisi kuulua: Budapestissa tuli tulva, koska Tonava kerää vettä Alppien ja Keski-Euroopan sateista ja vesi virtaa alavirtaan."},{"tyyppi":"kuva","otsikko":"Esimerkkiuutisen paikat kartalla","svg":"<svg viewBox=\"0 0 560 321\" role=\"img\" aria-label=\"Tonavan varren maita Keski-Euroopassa\"><rect class=\"v-meri\" x=\"0\" y=\"0\" width=\"560\" height=\"321\"/><path class=\"v-maa\" d=\"M560,191L559,191L555,193L552,193L547,196L538,192L534,192L533,192L537,190L537,188L531,188L528,186L538,186L543,186L546,181L542,183L538,183L535,181L533,174L530,169L528,168L532,175L533,183L531,183L527,183L527,180L525,185L520,186L514,189L513,194L511,201L506,208L500,213L497,213L496,215L499,224L499,226L496,223L493,223L490,223L484,227L482,227L482,229L476,228L473,227L471,225L473,223L476,222L475,218L479,213L479,211L482,207L483,204L481,201L481,197L484,194L485,194L486,198L487,195L490,195L493,196L495,195L497,197L502,195L502,194L498,192L498,187L496,184L490,181L488,177L489,174L481,169L480,167L481,162L480,158L478,156L476,157L474,156L471,153L467,153L466,154L463,153L463,151L459,151L454,147L449,146L443,150L437,150L433,154L428,156L427,158L426,162L413,165L408,168L407,170L404,171L398,166L396,166L390,167L381,166L377,166L372,164L370,166L367,168L365,164L362,163L360,161L357,160L355,156L353,157L353,152L356,149L357,144L359,138L364,139L365,138L362,136L362,132L361,126L367,116L373,108L377,102L382,101L383,98L383,95L381,91L383,89L381,87L378,82L375,77L375,75L373,72L373,69L375,68L379,70L382,67L385,62L393,60L400,58L411,58L420,60L425,60L431,60L434,64L439,63L441,64L442,66L444,63L446,63L449,62L456,63L459,65L460,62L463,59L465,59L469,65L472,63L482,60L485,62L485,64L489,65L490,62L488,56L489,50L493,43L494,42L497,43L499,41L505,40L509,40L511,40L514,38L514,33L516,32L521,32L523,32L526,29L536,27L539,29L541,31L544,35L550,40L550,41L546,43L548,46L549,50L550,52L550,54L554,54L558,54L560,54L560,191ZM560,214L558,213L556,214L553,215L551,213L556,207L560,203L560,214ZM538,194L540,195L532,195L529,194L528,191L531,193Z\"/><path class=\"v-maa\" d=\"M554,321L560,316L560,321ZM453,321L457,320L459,318L465,317L470,320L476,318L479,318L479,318L479,321L479,321L453,321Z\"/><path class=\"v-maa\" d=\"M127,174L129,175L127,180L125,186L127,186L132,188L132,190L134,192L137,192L141,190L142,193L141,198L141,201L138,201L137,199L135,199L134,202L135,209L133,209L132,205L126,206L124,206L123,201L120,201L119,206L114,212L114,216L112,217L109,213L110,211L107,209L104,205L104,201L103,200L97,204L98,207L95,210L91,212L86,210L78,212L77,210L73,203L74,201L74,197L68,195L64,198L64,200L60,202L58,201L59,200L61,198L62,196L61,194L64,190L69,187L70,182L74,181L82,173L80,171L83,169L86,171L90,171L91,169L94,168L95,168L102,169L104,169L108,170L110,169L108,167L110,165L112,165L116,169L122,169Z\"/><path class=\"v-maa\" d=\"M359,138L357,144L356,149L353,152L353,157L347,159L343,155L341,153L334,155L331,154L324,155L321,161L314,165L309,163L306,166L303,167L296,168L294,169L293,175L283,176L276,175L273,174L268,169L265,169L262,164L260,159L262,153L263,148L266,146L271,147L276,146L279,142L281,141L283,136L286,134L290,129L294,129L296,129L297,132L300,132L302,129L305,126L308,131L311,132L311,137L313,136L316,137L318,134L321,132L325,131L329,133L331,133L334,130L336,130L343,130L348,132L350,135Z\"/><path class=\"v-maa\" d=\"M253,209L249,208L248,209L248,212L244,212L243,214L236,217L236,219L237,221L237,225L236,226L229,229L231,231L229,232L230,236L226,236L223,235L221,236L219,235L215,231L212,235L207,235L205,234L203,236L198,234L197,233L200,232L203,231L200,227L198,225L199,221L197,221L196,219L199,216L195,213L197,210L201,208L201,207L208,209L216,210L220,208L222,206L225,205L229,205L233,205L237,203L239,203L243,204L243,201L245,199L249,199L250,205Z\"/><path class=\"v-maa\" d=\"M350,321L350,319L351,318L354,310L347,308L347,306L344,304L340,299L336,297L334,295L331,297L331,301L329,303L328,306L326,307L326,305L318,300L315,300L310,297L308,293L304,291L303,288L304,287L308,288L309,284L304,277L305,276L310,276L310,275L306,270L302,268L301,266L302,262L305,257L306,252L303,252L299,253L301,250L300,246L301,244L306,245L305,242L301,240L299,239L300,235L297,233L298,232L296,227L297,224L300,222L302,223L306,221L308,218L320,218L322,219L324,223L328,225L331,229L332,228L332,236L337,240L341,242L345,243L346,245L343,248L347,250L344,252L349,256L354,256L357,258L358,260L360,259L363,256L365,255L370,257L370,259L367,259L366,262L370,267L370,267L369,268L368,272L365,274L364,277L365,282L368,288L373,291L377,295L377,297L372,303L368,305L367,310L369,315L368,318L366,319L364,318L360,319L357,319L354,321L353,321L350,321Z\"/><path class=\"v-maa\" d=\"M174,275L172,274L174,273Z\"/><path class=\"v-maa\" d=\"M560,54L558,54L554,54L550,54L550,52L549,50L548,46L546,43L550,41L550,40L544,35L541,31L539,29L536,27L526,29L523,32L521,32L516,32L514,33L514,38L511,40L509,40L505,40L501,35L500,29L499,26L498,22L493,17L495,12L500,11L502,13L507,12L511,8L511,7L514,4L513,1L511,0L560,0Z\"/><path class=\"v-maa\" d=\"M471,225L473,227L476,228L482,229L482,227L484,227L490,223L493,223L496,223L499,226L499,234L498,237L489,241L488,237L489,235L487,235L486,237L487,240L485,243L485,247L486,248L483,254L485,263L484,269L480,270L473,268L470,264L467,266L466,265L461,265L454,261L449,263L443,265L438,268L433,272L431,275L425,278L418,278L404,277L400,278L395,277L387,276L381,276L375,278L374,275L377,272L375,270L370,267L366,262L367,259L370,259L370,257L365,255L363,256L360,259L358,260L357,258L354,256L349,256L344,252L347,250L343,248L346,245L345,243L341,242L337,240L332,236L332,228L331,229L328,225L324,223L322,219L326,218L328,218L332,215L336,215L340,210L340,208L341,205L344,202L344,200L347,195L347,193L349,191L350,186L352,184L352,181L357,174L364,172L367,168L370,166L372,164L377,166L381,166L390,167L396,166L398,166L404,171L407,170L408,168L413,165L426,162L427,158L428,156L433,154L436,154L440,156L443,161L448,169L450,171L454,176L457,179L459,182L463,185L467,193L468,198L467,207L467,211L469,220L468,221Z\"/><path class=\"v-maa\" d=\"M364,0L364,0L366,3L367,7L369,16L373,25L375,31L376,38L375,41L368,45L365,50L365,53L370,55L373,58L373,64L372,67L372,69L373,72L373,72L375,75L375,77L378,82L381,87L383,89L381,91L383,95L383,98L382,101L377,102L373,108L367,116L361,126L362,132L362,136L365,138L364,139L359,138L350,135L348,132L343,130L336,130L334,130L331,133L329,133L325,131L321,132L318,134L316,137L313,136L311,137L311,132L308,131L305,126L302,129L300,132L297,132L296,129L294,129L294,126L290,122L290,119L285,118L280,115L278,117L273,112L275,111L275,108L270,109L266,106L261,104L263,109L257,113L256,112L252,106L249,104L253,100L251,98L246,99L245,97L242,95L235,93L234,89L229,88L229,91L226,92L229,86L230,81L228,76L225,74L226,71L224,66L225,64L227,59L226,56L224,51L225,47L223,44L219,40L217,37L218,36L222,31L223,27L221,19L221,14L226,17L225,12L220,11L220,9L223,9L228,7L237,4L247,1L252,1L252,0L364,0Z\"/><path class=\"v-maa\" d=\"M78,80L73,79L72,77L74,75L76,70L73,67L71,65L68,65L65,62L65,59L61,60L60,57L58,59L56,57L54,58L54,59L51,58L48,56L45,57L41,55L39,52L41,51L46,52L50,56L52,56L48,52L51,52L49,46L52,42L54,41L60,35L62,32L65,22L67,19L69,20L72,19L77,16L81,12L87,10L90,10L102,11L104,14L107,16L106,23L104,26L102,33L98,32L96,35L97,37L100,38L101,39L100,44L95,47L96,50L95,51L88,53L85,51L81,52L81,53L84,61L84,63L81,68L81,70L78,72L77,74L79,76ZM51,58L50,60L45,62L40,59L38,60L37,58L37,56L41,56L45,58L48,58L49,59ZM94,8L94,8L94,8ZM88,8L88,8L88,8ZM74,10L71,12L73,10ZM78,9L76,8L82,8ZM70,16L68,17L67,15L70,13ZM48,48L50,51L48,51L44,48ZM101,7L101,7L101,7Z\"/><path class=\"v-maa\" d=\"M295,321L293,320L293,318L290,318L289,315L291,312L289,309L289,304L292,302L293,297L297,294L300,295L300,293L298,290L299,288L303,288L303,288L304,291L308,293L310,297L315,300L318,300L326,305L326,307L323,309L320,310L321,312L321,315L315,317L314,313L313,313L308,320L307,321L295,321Z\"/><path class=\"v-maa\" d=\"M433,154L437,150L443,150L449,146L454,147L459,151L463,151L463,153L466,154L467,153L471,153L474,156L476,157L478,156L480,158L481,162L480,167L481,169L489,174L488,177L490,181L496,184L498,187L498,192L502,194L502,195L497,197L495,195L493,196L490,195L487,195L486,198L485,194L484,194L481,197L481,201L483,204L482,207L479,211L479,213L475,218L476,222L473,223L471,225L468,221L469,220L467,211L467,207L468,198L467,193L463,185L459,182L457,179L454,176L450,171L448,169L443,161L440,156L436,154Z\"/><path class=\"v-maa\" d=\"M76,269L75,269L76,269Z\"/><path class=\"v-maa\" d=\"M353,321L354,321L357,319L360,319L364,318L366,319L368,321L353,321Z\"/><path class=\"v-maa\" d=\"M77,97L77,101L79,105L82,107L82,109L80,110L78,115L77,114L72,114L69,112L71,109L69,104L70,101L73,97L75,95Z\"/><path class=\"v-maa\" d=\"M391,0L391,0L387,1L387,5L385,5L380,7L378,6L371,8L367,7L366,3L364,0L364,0L391,0Z\"/><path class=\"v-maa\" d=\"M127,186L125,186L127,180L128,185Z\"/><path class=\"v-maa\" d=\"M326,321L324,320L321,315L321,312L320,310L323,309L326,307L326,307L328,306L329,303L331,301L331,297L334,295L336,297L340,299L344,304L347,306L347,308L354,310L351,318L350,319L350,321L326,321Z\"/><path class=\"v-maa\" d=\"M174,275L174,273L172,274ZM156,321L154,317L151,315L147,313L144,313L145,309L141,304L139,302L137,298L133,297L134,292L133,286L131,282L131,273L130,270L127,268L121,265L114,258L112,258L107,255L104,254L100,256L94,261L89,266L82,268L78,269L78,266L82,261L82,259L77,259L73,256L68,252L68,247L71,243L72,242L72,239L68,236L66,231L70,231L75,229L77,225L75,222L73,217L72,215L72,213L77,210L77,210L78,212L86,210L91,212L95,210L98,207L97,204L103,200L104,201L104,205L107,209L110,211L109,213L112,217L114,216L114,212L119,206L120,201L123,201L124,206L126,206L132,205L133,209L135,209L134,202L135,199L137,199L138,201L141,201L141,198L142,193L147,194L148,195L151,196L153,196L155,192L157,191L162,191L167,192L174,190L174,194L177,200L191,205L197,205L201,207L201,208L197,210L195,213L199,216L196,219L197,221L199,221L198,225L200,227L203,231L200,232L201,231L199,227L195,228L191,226L187,229L177,233L177,231L173,234L171,239L172,240L174,245L176,247L175,250L174,251L172,250L171,253L171,261L173,266L178,273L182,275L189,282L193,284L196,290L198,296L200,305L201,309L205,314L211,321L156,321ZM131,299L131,303L129,302L125,302L126,300L130,300Z\"/><path class=\"v-maa v1\" d=\"M353,157L355,156L357,160L360,161L362,163L365,164L367,168L364,172L357,174L352,181L352,184L350,186L349,191L347,193L347,195L344,200L344,202L341,205L340,208L340,210L336,215L332,215L328,218L326,218L322,219L320,218L308,218L306,221L302,223L300,222L297,224L292,225L290,228L288,229L279,229L276,228L273,225L269,224L266,221L260,216L257,211L253,209L250,205L249,199L245,199L248,196L252,196L253,192L251,190L252,188L252,185L255,184L256,181L256,180L252,178L254,176L258,177L263,177L263,174L265,169L268,169L273,174L276,175L283,176L293,175L294,169L296,168L303,167L306,166L309,163L314,165L321,161L324,155L331,154L334,155L341,153L343,155L347,159Z\"/><path class=\"v-maa v3\" d=\"M169,0L167,1L168,4L171,4L176,6L181,2L182,1L187,1L188,0L205,0L205,0L208,3L213,3L214,6L214,11L217,13L221,14L221,19L223,27L222,31L218,36L217,37L219,40L223,44L225,47L224,51L226,56L227,59L225,64L224,66L226,71L225,74L228,76L230,81L229,86L226,92L225,93L223,92L223,90L221,88L218,87L217,88L219,90L211,94L204,95L203,97L199,98L198,100L195,100L194,102L191,101L185,103L182,107L180,104L179,105L181,110L185,114L186,115L183,119L185,122L187,127L190,131L192,131L195,136L198,139L200,141L202,141L206,147L206,152L204,153L200,151L199,156L197,158L193,159L188,162L187,164L190,169L188,174L191,176L190,180L186,178L186,176L184,175L181,175L176,173L175,176L167,176L161,178L159,179L153,180L152,176L148,175L144,175L143,178L141,181L139,181L139,179L137,178L136,176L132,173L127,174L127,174L122,169L116,169L112,165L110,165L108,167L110,169L108,170L104,169L102,169L95,168L94,168L92,165L94,159L95,155L98,150L101,141L107,135L107,132L105,131L99,129L96,126L92,126L89,126L87,123L84,124L80,116L78,115L80,110L82,109L82,107L79,105L77,101L77,97L79,94L82,93L82,89L80,86L81,85L78,80L79,76L77,74L78,72L81,70L81,68L84,63L84,61L81,53L81,52L85,51L88,53L95,51L96,50L95,47L100,44L101,39L100,38L97,37L96,35L98,32L102,33L104,26L106,23L107,16L105,13L107,8L110,5L116,6L121,7L123,11L122,13L124,14L126,10L129,12L129,11L130,5L132,3L136,5L141,5L143,6L146,12L147,12L143,5L137,2L137,0L137,0L169,0ZM220,9L220,11L215,10L216,7L214,5L214,3Z\"/><path class=\"v-maa\" d=\"M96,321L96,321L93,320L95,316L93,313L95,311L94,309L97,304L99,303L104,302L106,300L109,302L110,300L110,295L111,293L113,294L113,299L113,299L112,303L113,306L112,316L109,321L96,321ZM0,81L2,80L1,78L4,67L6,63L11,61L20,61L22,61L23,69L25,72L30,71L31,74L31,78L37,81L37,85L38,84L43,86L45,88L44,91L44,92L43,95L47,97L52,96L53,94L56,93L54,98L54,102L57,103L61,106L64,112L69,112L72,114L77,114L78,115L80,116L84,124L87,123L89,126L92,126L96,126L99,129L105,131L107,132L107,135L101,141L98,150L95,155L94,159L92,165L94,168L94,168L91,169L90,171L86,171L83,169L80,171L82,173L74,181L70,182L69,187L64,190L61,194L62,196L61,198L59,200L58,201L60,202L64,200L64,198L68,195L74,197L74,201L73,203L77,210L72,213L72,215L73,217L75,222L77,225L75,229L70,231L66,231L68,236L72,239L72,242L71,243L68,247L68,252L73,256L77,259L82,259L82,261L78,266L78,269L76,269L75,269L71,271L64,276L61,277L60,280L56,282L52,282L48,283L47,282L43,282L40,279L35,277L34,274L30,272L30,270L24,271L21,270L13,266L11,263L8,263L5,265L0,268L0,81Z\"/><path class=\"v-maa\" d=\"M294,129L290,129L286,134L283,136L281,141L279,142L276,146L271,147L266,146L263,148L262,153L260,150L253,148L251,149L246,149L242,146L240,146L233,142L230,143L229,142L227,142L226,148L224,147L222,150L222,152L218,151L216,152L210,151L209,149L206,147L202,141L200,141L198,139L195,136L192,131L190,131L187,127L185,122L183,119L186,115L185,114L181,110L179,105L180,104L182,107L185,103L191,101L194,102L195,100L198,100L199,98L203,97L204,95L211,94L219,90L217,88L218,87L221,88L223,90L223,92L225,93L226,92L229,91L229,88L234,89L235,93L242,95L245,97L246,99L251,98L253,100L249,104L252,106L256,112L257,113L263,109L261,104L266,106L270,109L275,108L275,111L273,112L278,117L280,115L285,118L290,119L290,122L294,126Z\"/><path class=\"v-maa\" d=\"M197,233L198,234L203,236L205,234L207,235L212,235L215,231L219,235L221,236L223,235L226,236L230,236L229,232L231,231L229,229L236,226L237,225L237,221L236,219L236,217L243,214L244,212L248,212L248,209L249,208L253,209L257,211L260,216L266,221L269,224L273,225L276,228L279,229L288,229L290,228L292,225L297,224L296,227L298,232L297,233L300,235L299,239L301,240L305,242L306,245L301,244L300,246L301,250L299,253L296,252L294,249L293,247L289,247L285,246L280,246L276,247L274,245L271,246L267,245L264,245L260,242L257,244L252,243L248,249L245,247L243,244L240,243L238,244L237,255L240,257L244,263L246,270L247,272L253,278L255,282L262,289L266,291L266,295L268,298L273,302L272,305L267,300L263,297L259,292L253,290L249,288L244,289L241,288L240,285L232,278L226,271L225,268L228,268L232,268L228,265L223,259L221,256L222,249L221,246L215,240L211,239L209,243L204,252L202,252L198,244L196,234ZM254,303L257,304L262,304L264,305L260,305L255,305ZM264,299L254,299L248,297L254,297L255,298ZM256,296L251,295L250,292L257,293ZM227,274L227,274L227,274ZM220,249L217,249L216,247L213,245L215,242ZM220,255L220,256L217,254L219,252ZM226,266L226,267L221,262L218,256L221,259L227,266ZM226,277L225,278L220,272L221,272ZM229,276L229,276L229,276ZM213,257L212,257L210,249L211,247L210,244L211,243L212,247L213,249L213,251ZM272,309L275,311L267,309ZM289,315L290,318L283,313L277,308L272,307L265,304L261,302L265,302L275,307L273,306L276,306L277,307L286,314Z\"/><path class=\"v-maa\" d=\"M368,321L366,319L368,318L369,315L367,310L368,305L372,303L377,297L377,295L373,291L368,288L365,282L364,277L365,274L368,272L369,268L370,267L375,270L377,272L374,275L375,278L381,276L387,276L395,277L400,278L404,277L418,278L425,278L431,275L433,272L438,268L443,265L449,263L454,261L461,265L466,265L467,266L470,264L473,268L480,270L484,269L484,276L483,279L480,278L477,280L473,286L473,290L474,297L472,299L467,306L472,308L478,316L479,318L479,318L476,318L470,320L465,317L459,318L457,320L453,321L368,321Z\"/><path class=\"v-maa\" d=\"M303,288L299,288L298,290L300,293L300,295L297,294L293,297L292,302L289,304L289,309L291,312L289,315L286,314L277,307L276,306L273,306L272,305L273,302L268,298L266,295L266,291L262,289L255,282L253,278L247,272L246,270L244,263L240,257L237,255L238,244L240,243L243,244L245,247L248,249L252,243L257,244L260,242L264,245L267,245L271,246L274,245L276,247L280,246L285,246L289,247L293,247L294,249L296,252L299,253L303,252L306,252L305,257L302,262L301,266L302,268L306,270L310,275L310,276L305,276L304,277L309,284L308,288L304,287Z\"/><path class=\"v-maa\" d=\"M51,58L54,59L54,58L56,57L58,59L60,57L61,60L65,59L65,62L68,65L71,65L73,67L76,70L74,75L72,77L73,79L78,80L81,85L80,86L82,89L82,93L79,94L77,97L75,95L73,97L70,101L69,104L71,109L69,112L64,112L61,106L57,103L54,102L54,98L56,93L53,94L52,96L47,97L43,95L44,92L44,91L45,88L43,86L38,84L37,85L37,81L31,78L31,74L30,71L25,72L23,69L22,61L30,58L37,56L37,58L38,60L40,59L45,62L50,60Z\"/><path class=\"v-maa\" d=\"M511,0L513,1L514,4L511,7L511,8L507,12L502,13L500,11L495,12L493,17L498,22L499,26L500,29L501,35L505,40L505,40L499,41L497,43L494,42L493,43L489,50L488,56L490,62L489,65L485,64L485,62L482,60L472,63L469,65L465,59L463,59L460,62L459,65L456,63L449,62L446,63L444,63L442,66L441,64L439,63L434,64L431,60L425,60L420,60L411,58L400,58L393,60L385,62L382,67L379,70L375,68L373,69L373,72L372,69L372,67L373,64L373,58L370,55L365,53L365,50L368,45L375,41L376,38L375,31L373,25L369,16L367,7L371,8L378,6L380,7L385,5L387,5L387,1L391,0L391,0L511,0Z\"/><path class=\"v-maa v3\" d=\"M127,180L129,175L127,174L132,173L136,176L137,178L139,179L139,181L141,181L143,178L144,175L148,175L152,176L153,180L159,179L161,178L167,176L175,176L176,173L181,175L184,175L186,176L186,178L190,180L191,176L188,174L190,169L187,164L188,162L193,159L197,158L199,156L200,151L204,153L206,152L206,147L209,149L210,151L216,152L218,151L222,152L222,150L224,147L226,148L227,142L229,142L230,143L233,142L240,146L242,146L246,149L251,149L253,148L260,150L262,153L260,159L262,164L265,169L263,174L263,177L258,177L254,176L252,178L256,180L256,181L255,184L252,185L252,188L251,190L253,192L252,196L248,196L245,199L243,201L243,204L239,203L237,203L233,205L229,205L225,205L222,206L220,208L216,210L208,209L201,207L197,205L191,205L177,200L174,194L174,190L167,192L162,191L157,191L155,192L153,196L151,196L148,195L147,194L142,193L141,190L137,192L134,192L132,190L132,188L127,186L128,185Z\"/><path class=\"v-maa\" d=\"M307,321L308,320L313,313L314,313L315,317L321,315L324,320L326,321L307,321Z\"/><circle class=\"v-merkki\" cx=\"298.8\" cy=\"182.5\" r=\"4\"/><polyline class=\"v-jana\" fill=\"none\" points=\"110.5,160.2 138.2,151.3 176.7,138.1 199.8,151.7 214.1,159.4 251.0,163.4 264.1,165.5 297.4,174.5 298.8,182.5 292.6,222.9 298.8,239.9 314.8,242.3 326.6,253.5 365.6,257.6 373.9,273.5 433.2,272.3 457.4,262.4 466.8,230.2 467.8,225.8 482.9,230.8 498.8,229.0\" style=\"stroke-width:2.2\"/><text class=\"v-t\" x=\"420.4\" y=\"291.1\" text-anchor=\"middle\" style=\"font-size:11px\">Tonava</text><text class=\"v-t\" x=\"305.8\" y=\"186.5\" text-anchor=\"start\" style=\"font-size:12px\">Budapest</text><circle class=\"v-merkki\" cx=\"251.0\" cy=\"163.4\" r=\"4\"/><text class=\"v-t\" x=\"244.0\" y=\"167.4\" text-anchor=\"end\" style=\"font-size:12px\">Wien</text><text class=\"v-t\" x=\"151.1\" y=\"77.4\" text-anchor=\"middle\" style=\"font-size:11px\">SAKSA</text><text class=\"v-t\" x=\"200.3\" y=\"187.1\" text-anchor=\"middle\" style=\"font-size:10px\">ITÄVALTA</text><text class=\"v-t\" x=\"309.3\" y=\"203.7\" text-anchor=\"middle\" style=\"font-size:10px\">UNKARI</text><text class=\"v-t\" x=\"123.2\" y=\"208.8\" text-anchor=\"middle\" style=\"font-size:11px\">Alpit</text><text class=\"v-t meri\" x=\"522.1\" y=\"272.7\" text-anchor=\"middle\" style=\"font-size:11px\">Mustameri</text><text class=\"v-t meri\" x=\"260.3\" y=\"313.5\" text-anchor=\"middle\" style=\"font-size:11px\">Adrianmeri</text></svg>","teksti":"Unkari on merkitty sinisellä. Saksa ja Itävalta, joiden kautta Tonava virtaa ennen Unkaria, on merkitty ruskealla. Tumma viiva on Tonava: se virtaa Wienin ja Budapestin kautta kohti Mustaamerta. Alppien rinteiltä valuu vettä Tonavaan. Joen reitti on piirretty likimääräisesti."},{"tyyppi":"kuva","otsikko":"Miksi tulva voi tulla, vaikka ei sada","svg":"<svg viewBox=\"0 0 640 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Sade vuoristossa nostaa joen alajuoksulla\"><path class=\"v-maa v3\" d=\"M0,200 L0,120 L40,70 L75,110 L110,55 L150,105 L185,90 L230,150 L300,175 L640,185 L640,250 L0,250 Z\"/><path class=\"v-osa\" d=\"M100,68 L110,55 L120,70 Z\"/><path class=\"v-osa\" d=\"M32,80 L40,70 L48,80 Z\"/><ellipse class=\"v-osa\" cx=\"60\" cy=\"28\" rx=\"34\" ry=\"13\"/><line class=\"v-hyppy\" x1=\"42\" y1=\"44\" x2=\"37\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"54\" y1=\"44\" x2=\"49\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"66\" y1=\"44\" x2=\"61\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"78\" y1=\"44\" x2=\"73\" y2=\"58\"/><ellipse class=\"v-osa\" cx=\"135\" cy=\"28\" rx=\"34\" ry=\"13\"/><line class=\"v-hyppy\" x1=\"117\" y1=\"44\" x2=\"112\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"129\" y1=\"44\" x2=\"124\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"141\" y1=\"44\" x2=\"136\" y2=\"58\"/><line class=\"v-hyppy\" x1=\"153\" y1=\"44\" x2=\"148\" y2=\"58\"/><path class=\"v-kayra v1\" d=\"M120,108 C170,140 200,150 240,162 S330,180 400,182 L640,184\" style=\"stroke-width:4\"/><polygon class=\"v-nuoli\" points=\"310,178 300,173 300,183\"/><polygon class=\"v-nuoli\" points=\"480,181 470,176 470,186\"/><path class=\"v-ruutu v1\" d=\"M490,186 L620,186 L620,176 L490,176 Z\"/><rect class=\"v-osa\" x=\"520\" y=\"154\" width=\"14\" height=\"24\"/><rect class=\"v-osa\" x=\"540\" y=\"146\" width=\"14\" height=\"32\"/><rect class=\"v-osa\" x=\"560\" y=\"158\" width=\"14\" height=\"20\"/><rect class=\"v-osa\" x=\"580\" y=\"150\" width=\"14\" height=\"28\"/><text class=\"v-t pieni\" x=\"95.0\" y=\"215.0\" text-anchor=\"middle\" style=\"font-size:11px\">1. Yläjuoksu: vuoristossa</text><text class=\"v-t pieni\" x=\"95.0\" y=\"229.0\" text-anchor=\"middle\" style=\"font-size:11px\">sataa ja lumi sulaa</text><text class=\"v-t pieni\" x=\"330.0\" y=\"140.0\" text-anchor=\"middle\" style=\"font-size:11px\">2. Joki kerää vettä</text><text class=\"v-t pieni\" x=\"330.0\" y=\"154.0\" text-anchor=\"middle\" style=\"font-size:11px\">laajalta alueelta</text><text class=\"v-t pieni\" x=\"560.0\" y=\"122.0\" text-anchor=\"middle\" style=\"font-size:11px\">3. Alajuoksu: vesi nousee,</text><text class=\"v-t pieni\" x=\"560.0\" y=\"136.0\" text-anchor=\"middle\" style=\"font-size:11px\">vaikka täällä ei sataisi</text><text class=\"v-t pieni\" x=\"560.0\" y=\"215.0\" text-anchor=\"middle\" style=\"font-size:11px\">kaupunki joen varrella</text><text class=\"v-t pieni\" x=\"320.0\" y=\"246.0\" text-anchor=\"middle\" style=\"font-size:11px\">Kaavio, ei mittakaavassa. Tulvan syy voi olla kaukana tapahtumapaikasta.</text></svg>","teksti":"Joki kerää vettä koko sille alueelle, jolta vesi valuu siihen. Kun vuoristossa sataa paljon tai lumi sulaa nopeasti, vesi nousee alajuoksulla päivien kuluttua."},{"tyyppi":"ansa","otsikko":"Ansa 1: uutisen kertaaminen ei ole selitys","sisalto":"Helppo esitys kertoo uutisen uudelleen: mitä tapahtui, montako taloa kastui, mitä viranomaiset sanoivat. Kaikki voi olla totta, mutta maantiede puuttuu. Kriteeri vaatii, että yhdistät tapahtuman vähintään yhteen paikan piirteeseen. Tarkista esityksestäsi, onko siinä virke, jossa sana koska tai siksi yhdistää tapahtuman ja paikan luonnon. Jos sellaista ei ole, esitys on uutisen lukeminen eikä kartanlukua."},{"tyyppi":"ansa","otsikko":"Ansa 2: ”netistä” ei ole lähde","sisalto":"Kun kysytään, mistä tieto on, vastaus ”netistä” tai ”hakukoneesta” ei kerro mitään. Hakukone ei kirjoita uutisia, vaan löytää ne. Lähde on se toimitus tai julkaisija, joka uutisen teki. Myös päivämäärä on tärkeä: se on päivä, jolloin uutinen julkaistiin, ei päivä, jolloin luit sen tai pidät esityksen. Vanha uutinen voi näyttää tuoreelta, jos päivämäärää ei katso. Kirjoita lähde ja päivämäärä muistiin heti, kun valitset uutisen."},{"tyyppi":"ansa","otsikko":"Ansa 3: piirteen on oltava totta","sisalto":"Selitys kaatuu, jos piirre on väärä. Esimerkiksi ”Espanjassa on helle, koska se on lähellä päiväntasaajaa” ei pidä: Espanja on paljon lähempänä Suomea kuin päiväntasaajaa. Parempi on: ”Madridissa on helle, koska se on etelässä ja kaukana merestä.” Tarkista jokainen väite kartastosta. Muista myös sään ja ilmaston ero: yksi hellepäivä tai yksi myrsky on säätä. Siitä ei voi päätellä, että paikan ilmasto muuttuu. Ilmastosta kertoo sään keskimääräinen tila pitkältä ajalta."},{"tyyppi":"kappale","otsikko":"Kun uutinen tuntuu raskaalta","sisalto":"Luonnonilmiöistä kertovat uutiset voivat kertoa vahingoista ja ihmisistä, jotka ovat joutuneet hätään. Jos uutinen jää mieleen ja huolettaa, siitä kannattaa puhua aikuisen kanssa. Valitse esitykseen uutinen, joka kertoo luonnonilmiöstä, ja jätä pois sodat ja rikokset, koska niitä ei selitetä luonnon piirteillä. Etsi uutisia vain opettajan antamista lähteistä, älä avaa tuntemattomia linkkejä äläkä kirjoita omia tietojasi millekään sivulle."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Uutinen kertoo, mitä tapahtui. Kartta auttaa kertomaan, miksi juuri siellä.","Paikanna tapahtumapaikka maata tarkemmin: kaupunki, alue, joki tai vuoristo.","Kuvaa sijainti ilmansuunnalla, naapurimaalla ja merellä, joella tai vuoristolla.","Yhdistä tapahtuma vähintään yhteen paikan piirteeseen sanalla koska tai siksi.","Kerro lähde: julkaisija ja julkaisupäivä. ”Netistä” ei ole lähde.","Yksi helle tai myrsky on säätä, ei ilmastoa."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Kertoo uutisen tapahtumat tarkasti, mutta esityksessä ei ole yhtään virkettä, joka yhdistäisi tapahtuman paikan sijaintiin, ilmastoon tai pinnanmuotoihin.","tehtava":"Esitys luokalle, kriteerin ensimmäinen osa","mita_kertoo":"Oppilas on lukenut uutisen ja ymmärtänyt sen, mutta pitää uutisen kertomista tehtävänä. Kysymys ”miksi juuri siellä” ei ole vielä noussut esiin. Tämä on taidon tavallisin havainto.","mita_tehda":"Kysy esityksen jälkeen yksi kysymys: miksi tämä tapahtui juuri siellä eikä esimerkiksi Suomessa? Ohjaa taulukkoon ja anna oppilaan valita piirre ja perustella se kartalta. Hyväksy näyttö, kun oppilas sanoo yhdistävän virkkeen itse."},{"virhe":"Näyttää kartalta vain maan tai ei löydä tapahtumapaikkaa, vaikka uutisessa on kaupungin, joen tai alueen nimi.","tehtava":"Paikannus kartastosta tai karttapalvelusta","mita_kertoo":"Oppilas tuntee Euroopan maat mutta ei vielä käytä kartaston hakemistoa ja ruudukkoa tai karttapalvelun tarkennusta. Pelkkä maa ei riitä, koska suuressa maassa luonto vaihtelee paljon, ja piirre liittyy tiettyyn paikkaan.","mita_tehda":"Pyydä alleviivaamaan uutisesta paikannimet. Näytä hakemistosta yksi nimi ja ruudukon kirjain ja numero, ja anna oppilaan etsiä seuraava itse. Pyydä lopuksi kuvaamaan sijainti ilmansuunnalla, naapurimaalla ja merellä, joella tai vuoristolla."},{"virhe":"Kertoo lähteeksi ”netistä” tai hakukoneen nimen, tai päivämäärä puuttuu tai on esityksen päivä.","tehtava":"Lähteen ja päivämäärän kertominen, kriteerin toinen osa","mita_kertoo":"Oppilas ei erota hakukonetta julkaisijasta eikä julkaisupäivää omasta lukupäivästään. 4. luokan lähdekriittisyyden taito ei vielä siirry uuteen tilanteeseen.","mita_tehda":"Avaa uutinen yhdessä ja pyydä etsimään sivulta julkaisijan nimi ja päivämäärä. Kysy: kuka tämän kirjoitti, ja milloin? Pyydä kirjaamaan molemmat esityksen alkuun. Kriteeri täyttyy, kun oppilas kertoo ne itse."},{"virhe":"Yhdistää tapahtuman piirteeseen, joka ei pidä paikkansa, esimerkiksi ”Espanja on lähellä päiväntasaajaa” tai ”Unkari on meren rannalla”.","tehtava":"Esityksen yhdistävä virke","mita_kertoo":"Oppilas on ymmärtänyt, että paikka ja tapahtuma pitää yhdistää, mutta piirre on arvattu eikä tarkistettu kartalta. Ajatus on oikea, tieto väärä.","mita_tehda":"Pyydä tarkistamaan väite kartastosta: missä päiväntasaaja on, ja missä Espanja on? Anna oppilaan korjata virke itse ja sanoa se uudelleen. Hyväksy korjattu yhteys."},{"virhe":"Päättelee yhdestä säätapahtumasta liian paljon, esimerkiksi ”tämä helle todistaa, että Espanjan ilmasto on muuttunut”.","tehtava":"Esitys ja keskustelu esityksen jälkeen","mita_kertoo":"Oppilas sekoittaa sään ja ilmaston, vaikka erosi ne aiemmin tänä vuonna. Ilmastonmuutos on ajankohtainen aihe, ja oppilas yhdistää siihen jokaisen sääuutisen.","mita_tehda":"Älä kiistä ilmastonmuutosta, vaan erota tasot: yksi hellepäivä on säätä, ilmasto on pitkän ajan keskiarvo. Kysy, mitä tietoa tarvittaisiin, jotta voisi sanoa ilmaston muuttuneen. Hyväksy virke, jossa helle liitetään paikan ilmastoon tai sijaintiin, ja ilmastonmuutos mainitaan vain, jos uutinen itse kertoo tutkijoiden arviosta."},{"virhe":"Valitsee uutisen, joka ei kerro luonnonilmiöstä (esimerkiksi urheilu, politiikka, sota) tai joka sijoittuu Euroopan ulkopuolelle, tai uutinen järkyttää oppilasta.","tehtava":"Uutisen valinta ennen esitystä","mita_kertoo":"Oppilas tarttuu uutiseen, joka on näkyvimmin esillä, eikä vielä erota, mitkä uutiset selittyvät maantieteellä. Järkyttävä uutinen voi viedä huomion selittämisestä.","mita_tehda":"Tarkista uutiset ennen esityksiä. Ohjaa valitsemaan luonnonilmiöuutinen Euroopasta ja tarjoa varalle opettajan valmiiksi valitsemia uutisia. Jos uutinen huolettaa oppilasta, keskustele siitä kahden kesken ja anna hänen vaihtaa uutinen."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Taito on haastetason havainnointitaito, eikä se vaikuta siirtymiseen. Ensimmäisellä tunnilla opetetaan viisi askelta, käydään esimerkki läpi ja oppilaat valitsevat ja paikantavat uutisensa. Toisella tunnilla pidetään esitykset.","Kriteeri täyttyy, kun oppilas yhdistää uutisen vähintään yhteen paikan maantieteelliseen piirteeseen (sijainti, ilmasto, pinnanmuodot tai kallioperä) ja kertoo uutisen julkaisijan ja julkaisupäivän. Esityksen pituutta, sujuvuutta tai esiintymistaitoa ei arvioida. Näyttö on oppilaan oma, eikä läpäisy riipu toisesta oppilaasta.","Valitse etukäteen 2–4 uutislähdettä, joista oppilaat etsivät uutisia (esimerkiksi suomalaisten uutismedioiden lapsille tai nuorille tehdyt uutiset tai koulun käyttämä uutispalvelu). Tarkista oppilaiden uutiset ennen esityksiä. Kaikki uutiset eivät sovi: rajaa pois sodat ja rikokset sekä uutiset, joissa korostuvat kuolemat. Pidä varalla 3–4 tulostettua luonnonilmiöuutista Euroopasta niille, joilla ei ole laitetta tai sopivaa uutista. Tällä varamuodolla näyttö ei riipu kodin tai koulun laitteista.","Paikannukseen käy kartasto (hakemisto ja ruudukko, kuten taidossa YMP5-MAA-05) tai karttapalvelu. Jos oppilas käyttää karttapalvelua, varmista, ettei hän kirjaudu tai anna omia tietojaan.","Esimerkkiuutinen Budapestin tulvasta on keksitty, ja materiaali kertoo sen oppilaalle. Paikkatiedot ovat todellisia: Tonava virtaa Saksasta Itävallan (Wien) ja Unkarin (Budapest) kautta Mustaanmereen, ja Alppien vedet valuvat siihen sivujokien kautta.","Ilmastonmuutokseen liittyvät väitteet: hyväksy, jos oppilas kertoo uutisen mukaan tutkijoiden arvioivan ilmastonmuutoksen lisäävän helleaaltoja tai rankkasateita. Älä hyväksy päätelmää, jossa yksittäinen säätapahtuma todistaa ilmaston muuttuneen (havainnointikriteeri viisi). Oppilaan omaa kantaa ilmastopolitiikkaan ei arvioida.","Tarkistettavat asiatiedot: taulukon yleistykset (välimerenilmaston kuiva kesä ja metsäpalot, Alankomaiden merenpinnan alapuoliset alueet, Italia, Kreikka ja Islanti laattojen reunoilla), Madrid sisämaassa ylätasangolla, Tonavan reitti ja Alppien vesien valuminen Tonavaan."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Uutinen kertoo mitä tapahtui. Sinun tehtäväsi on kertoa kartan avulla, miksi juuri siellä.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Lue keksitty esimerkkiuutinen Budapestin tulvasta ääneen. Kysy: miten Budapestissa voi olla tulva, jos siellä ei juuri satanut? Kirjaa arvaukset taululle."},{"aika":"10 min","otsikko":"Ydinasia","sisalto":"Näytä kartta ja jokikaavio. Näytä, mistä Tonava tulee, ja yhdistä tulva yläjuoksun sateisiin ja sulavaan lumeen. Käy läpi taulukko: mikä piirre liittyy mihinkin uutiseen. Kirjoita taululle ydinvirkkeen malli: tapahtui, koska paikan piirre."},{"aika":"20 min","otsikko":"Uutisen valinta ja paikannus","sisalto":"Oppilaat valitsevat uutisen annetuista lähteistä tai varauutisista, kirjaavat julkaisijan, otsikon ja päivämäärän ja paikantavat tapahtumapaikan viiden askeleen mukaan. Kierrä ja tarkista jokaisen uutinen. Pysähdy erityisesti niiden luo, jotka paikantavat vain maan."},{"aika":"10 min","otsikko":"Ydinvirke","sisalto":"Jokainen kirjoittaa yhden virkkeen, jossa sana koska yhdistää tapahtuman paikan piirteeseen. Lue muutama ääneen ja kysy luokalta, onko piirre totta ja onko se tarkistettu kartasta. Esitykset pidetään seuraavalla tunnilla."}],"tarvikkeet":"Kartastoja tai laitteet karttapalvelun käyttöön, 2–4 opettajan valitsemaa uutislähdettä, 3–4 tulostettua luonnonilmiöuutista Euroopasta varalle, esimerkkiuutinen ja kuvat taululle."},"huoltajalle":{"mista_on_kyse":"Lapsi valitsee uutisen jostakin Euroopan maasta, esimerkiksi tulvasta, metsäpalosta tai helteestä, ja etsii tapahtumapaikan kartalta. Sen jälkeen hän kertoo luokalle, miten paikan sijainti, ilmasto tai pinnanmuodot liittyvät tapahtumaan, ja mainitsee uutisen julkaisijan ja päivämäärän. Uutiset valitaan koulussa opettajan antamista lähteistä.","kotona":["Kun kuulette tai luette yhdessä uutisen luonnonilmiöstä Euroopassa, kysy lapselta, missä paikka on ja miksi juuri siellä tapahtui niin.","Etsikää tapahtumapaikka yhdessä kartalta, jos sellainen on käsillä, ja kysykää: mikä joki, meri tai vuoristo on lähellä?","Kysy, kuka uutisen on julkaissut ja milloin. Vastaus ”netistä” ei riitä.","Jos uutinen jää lasta huolettamaan, puhukaa siitä. Kertokaa, että viranomaiset varoittavat tulvista ja helteistä ja auttavat ihmisiä."],"milloin_huolestua":"Jos lapsi pystyy kertomaan uutisen mutta ei osaa sanoa, miksi se tapahtui juuri siellä, hän ei vielä yhdistä tapahtumaa maantieteeseen. Tämä on haastetason taito, eikä se vaikuta luokalta siirtymiseen. Jos uutiset näyttävät ahdistavan lasta, kerro siitä opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat paikantaa Euroopasta kertovan uutisen tapahtumapaikan ja selittää, miten paikan luonto liittyy uutiseen. Kerroit myös, kuka uutisen julkaisi ja milloin. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

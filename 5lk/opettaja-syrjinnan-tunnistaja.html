@@ -1,0 +1,524 @@
+<title>Syrjinnän tunnistaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"YH5-OIK-03","oppiaine":"YH","vuosiluokka":5,"taitoalue":"OIK","jakso":"J2","taso":"ydin","otsikko":"Syrjinnän tunnistaja","kuvaus":"Osaan tunnistaa syrjinnän arjen tilanteesta, erottaa sen perustellusta erilaisesta kohtelusta ja tiedän, että Suomen laki kieltää syrjinnän.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T3"],"S":["S2"]},"eyebrow":"Yhteiskuntaoppi · 5. luokka · Oikeudet ja säännöt","ikoni":"vertailu","naytto":"Paperikoe, jossa on viisi keksittyä tilannetta: kerhon vetäjä ei ota Aminaa mukaan, koska tämä on tyttö; elokuvateatteri ei päästä kavereidensa kanssa ilman aikuista tullutta 9-vuotiasta Eetua elokuvaan, jonka ikäraja on 12; kahvila ei palvele pyörätuolia käyttävää asiakasta; joukkueeseen valitaan kokeilutreeneissä parhaiten pelanneet; kaupan vartija seuraa vain tummaihoisia asiakkaita. Merkitsen jokaiseen syrjintä tai ei syrjintää ja perustelen. Syrjintätilanteista nimeän, mihin henkilöön liittyvään syyhyn kohtelu perustuu. Lopuksi kirjoitan, mitä Suomen laki sanoo syrjinnästä ja kenelle syrjinnästä voi kertoa.","osaa_kun":"Erotan kolme syrjintätilannetta kahdesta perustellusta erilaisesta kohtelusta (lakiin perustuva ikäraja, taitoon perustuva valinta) ja nimeän jokaisen syrjinnän syyn (sukupuoli, vammaisuus, alkuperä tai ihonväri). Kirjoitan, että Suomen laki kieltää syrjinnän, ja nimeän yhden tavan toimia (kertoa aikuiselle tai opettajalle; aikuisten asioissa yhdenvertaisuusvaltuutettu tai sukupuoleen liittyvässä asiassa tasa-arvovaltuutettu).","teksti":[{"tyyppi":"johdanto","sisalto":"Hiekkarannan sirkuskoulu valitsee esiintymisryhmään kuusi akrobaattia. Valinta tehdään koe-esiintymisessä, jossa opettaja katsoo, kuka hallitsee temput parhaiten. Pettu ei pääse ryhmään, ja häntä harmittaa. Samana syksynä koulun toinen opettaja ilmoittaa, ettei Noora saa tulla edes harrastetunneille, koska hän on kuuro. Kumpikin jää ilman paikkaa, mutta tilanteet ovat aivan erilaiset. Pettua ei syrjitty: hänet jätettiin pois, koska esiintymisryhmään valittiin taidon perusteella. Nooraa syrjittiin: kuurous ei estä harjoittelemasta temppuja, ja hänet jätettiin pois sen vuoksi, kuka hän on. Tässä taidossa opit tunnistamaan syrjinnän, erottamaan sen hyväksyttävästä erilaisesta kohtelusta ja kertomaan, mitä Suomen laki sanoo syrjinnästä."},{"tyyppi":"kappale","otsikko":"Mitä syrjintä on","sisalto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi, eikä erolle ole hyväksyttävää perustetta. Määritelmässä on kolme osaa, ja kaikkien kolmen pitää täyttyä. Ensiksi jotakuta kohdellaan huonommin: hän ei pääse mukaan, häntä ei palvella tai häntä epäillään muita enemmän. Toiseksi syy liittyy siihen, kuka hän on, eikä siihen, mitä hän tekee tai osaa. Kolmanneksi erolle ei ole hyväksyttävää perustetta. 4. luokalla opit erottamaan tarpeeseen perustuvan eron perusteettomasta erosta. Nyt opit lisäksi, mitä laki sanoo ja milloin erilainen kohtelu on lain mukaan sallittua."},{"tyyppi":"taulukko","otsikko":"Syitä, joiden vuoksi ketään ei saa syrjiä","otsikkorivi":["Henkilöön liittyvä syy","Esimerkki syrjinnästä"],"rivit":[["sukupuoli","Partioretkelle ei oteta Hennaa, koska hän on tyttö."],["ikä","Kuvataidekurssi ei ota 75-vuotiasta Eskoa, koska \"vanhukset eivät opi uutta\"."],["alkuperä tai ihonväri","Asuntoa ei vuokrata perheelle, koska perhe on kotoisin Afganistanista."],["kieli","Pihapeliin ei oteta Anttia, koska hän puhuu kotona saamea."],["uskonto tai vakaumus","Askartelukerho ei ota Rubenia, koska hän on juutalainen."],["vammaisuus","Kirjaston kerho ei ota Mikkoa, koska hän on sokea."],["terveydentila","Kuoro ei ota Elmaa, koska hänellä on diabetes."]]},{"tyyppi":"kappale","otsikko":"Hyväksyttävä peruste: laki, turvallisuus, taito ja tarve","sisalto":"Kaikki erilainen kohtelu ei ole syrjintää. Ero on hyväksyttävä, kun sille on peruste, joka liittyy asiaan. Laki: osa ikärajoista on kirjattu lakiin lasten suojelemiseksi. Alkoholia ja tupakkaa ei saa myydä alle 18-vuotiaille, ja mopolla ajamiseen tarvitaan ajokortti, jonka voi saada aikaisintaan 15-vuotiaana. Elokuvien ikärajat (7, 12, 16 ja 18) perustuvat kuvaohjelmalakiin. Täysi-ikäisen seurassa lapsi saa katsoa elokuvan, jonka ikäraja on enintään kolme vuotta hänen ikäänsä korkeampi, mutta ei 18-elokuvaa. Ilman aikuista ikärajaa noudatetaan sellaisenaan. Turvallisuus: uimahallin hyppytorniin saa mennä vain, jos osaa uida. Taito: kun joukkueeseen, kuoroon tai kilparyhmään valitaan, valinta saa perustua siihen, kuka hallitsee tarvittavan taidon parhaiten, jos valinta tehdään kaikille samalla tavalla. Tarve: kun joku saa apuvälineen, tulkin tai ohjeet omalla kielellään, ero auttaa häntä pääsemään mukaan. Peruste ei kuitenkaan saa olla tekosyy. Jos kuuroa lasta ei oteta harrastetunneille \"turvallisuuden vuoksi\", vaikka kuurous ei tee harjoittelusta vaarallista, kyse on syrjinnästä."},{"tyyppi":"saanto","otsikko":"Kolme kysymystä jokaiseen tilanteeseen","askeleet":["Kohdellaanko jotakuta huonommin kuin muita? Jos ei, kyse ei ole syrjinnästä.","Johtuuko huonompi kohtelu siitä, kuka hän on (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus tai terveydentila)? Jos syy on jokin muu, kyse ei ole syrjinnästä, vaikka tilanne voi silti olla epäreilu.","Onko erolle hyväksyttävä peruste, joka liittyy siihen, mitä ollaan tekemässä: laki, turvallisuus tai taito, jota tehtävässä oikeasti tarvitaan? Jos on, kyse ei ole syrjinnästä. Jos ei ole, kyse on syrjinnästä."]},{"tyyppi":"kuva","otsikko":"Syrjintä vai ei?","svg":"<svg viewBox=\"0 0 620 330\" role=\"img\" aria-label=\"Kolme kysymystä syrjinnän tunnistamiseen\"><rect class=\"v-osa\" x=\"20\" y=\"10\" width=\"330\" height=\"50\" rx=\"6\" /><text class=\"v-t\" x=\"185.0\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">1. Kohdellaanko jotakuta huonommin</text><text class=\"v-t\" x=\"185.0\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">kuin muita?</text><line class=\"v-akseli\" x1=\"350\" y1=\"35\" x2=\"420\" y2=\"35\" /><path class=\"v-akseli\" fill=\"none\" d=\"M413,30 L420,35 L413,40\" /><text class=\"v-t pieni\" x=\"385\" y=\"27\" text-anchor=\"middle\" style=\"font-size:11px\">ei</text><rect class=\"v-osa v2\" x=\"420\" y=\"10\" width=\"180\" height=\"50\" rx=\"6\" /><text class=\"v-t\" x=\"510.0\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">Ei syrjintää</text><line class=\"v-akseli\" x1=\"185\" y1=\"60\" x2=\"185\" y2=\"100\" /><path class=\"v-akseli\" fill=\"none\" d=\"M180,93 L185,100 L190,93\" /><text class=\"v-t pieni\" x=\"200\" y=\"85\" style=\"font-size:11px\">kyllä</text><rect class=\"v-osa\" x=\"20\" y=\"100\" width=\"330\" height=\"66\" rx=\"6\" /><text class=\"v-t\" x=\"185.0\" y=\"120\" text-anchor=\"middle\" style=\"font-size:12px\">2. Johtuuko se siitä, kuka hän on?</text><text class=\"v-t\" x=\"185.0\" y=\"136\" text-anchor=\"middle\" style=\"font-size:12px\">(esim. sukupuoli, ikä, alkuperä,</text><text class=\"v-t\" x=\"185.0\" y=\"152\" text-anchor=\"middle\" style=\"font-size:12px\">kieli, uskonto, vammaisuus)</text><line class=\"v-akseli\" x1=\"350\" y1=\"133\" x2=\"420\" y2=\"133\" /><path class=\"v-akseli\" fill=\"none\" d=\"M413,128 L420,133 L413,138\" /><text class=\"v-t pieni\" x=\"385\" y=\"125\" text-anchor=\"middle\" style=\"font-size:11px\">ei</text><rect class=\"v-osa v2\" x=\"420\" y=\"100\" width=\"180\" height=\"66\" rx=\"6\" /><text class=\"v-t\" x=\"510.0\" y=\"120\" text-anchor=\"middle\" style=\"font-size:12px\">Ei syrjintää, mutta</text><text class=\"v-t\" x=\"510.0\" y=\"136\" text-anchor=\"middle\" style=\"font-size:12px\">voi silti olla</text><text class=\"v-t\" x=\"510.0\" y=\"152\" text-anchor=\"middle\" style=\"font-size:12px\">epäreilua</text><line class=\"v-akseli\" x1=\"185\" y1=\"166\" x2=\"185\" y2=\"206\" /><path class=\"v-akseli\" fill=\"none\" d=\"M180,199 L185,206 L190,199\" /><text class=\"v-t pieni\" x=\"200\" y=\"191\" style=\"font-size:11px\">kyllä</text><rect class=\"v-osa\" x=\"20\" y=\"206\" width=\"330\" height=\"66\" rx=\"6\" /><text class=\"v-t\" x=\"185.0\" y=\"226\" text-anchor=\"middle\" style=\"font-size:12px\">3. Onko erolle hyväksyttävä peruste,</text><text class=\"v-t\" x=\"185.0\" y=\"242\" text-anchor=\"middle\" style=\"font-size:12px\">joka liittyy asiaan? (laki, turvallisuus,</text><text class=\"v-t\" x=\"185.0\" y=\"258\" text-anchor=\"middle\" style=\"font-size:12px\">taito, jota tehtävässä tarvitaan)</text><line class=\"v-akseli\" x1=\"350\" y1=\"239\" x2=\"420\" y2=\"239\" /><path class=\"v-akseli\" fill=\"none\" d=\"M413,234 L420,239 L413,244\" /><text class=\"v-t pieni\" x=\"385\" y=\"231\" text-anchor=\"middle\" style=\"font-size:11px\">kyllä</text><rect class=\"v-osa v2\" x=\"420\" y=\"206\" width=\"180\" height=\"66\" rx=\"6\" /><text class=\"v-t\" x=\"510.0\" y=\"226\" text-anchor=\"middle\" style=\"font-size:12px\">Ei syrjintää</text><line class=\"v-akseli\" x1=\"185\" y1=\"272\" x2=\"185\" y2=\"296\" /><path class=\"v-akseli\" fill=\"none\" d=\"M180,289 L185,296 L190,289\" /><text class=\"v-t pieni\" x=\"200\" y=\"289\" style=\"font-size:11px\">ei</text><rect class=\"v-osa v1\" x=\"20\" y=\"296\" width=\"330\" height=\"30\" rx=\"6\" /><text class=\"v-t vahva\" x=\"185\" y=\"316\" text-anchor=\"middle\" style=\"font-size:13px\">Syrjintää – laki kieltää sen</text></svg>","teksti":"Kysy kysymykset järjestyksessä. Syrjinnästä on kyse vasta, kun vastaus on ensin kaksi kertaa \"kyllä\" ja sitten \"ei\"."},{"tyyppi":"ansa","otsikko":"Ansa 1: \"En tarkoittanut pahaa\"","sisalto":"Kampaamon omistaja sanoo kuurolle asiakkaalle ystävällisesti: \"Ei mitään henkilökohtaista, mutta emme ota asiakkaita, joiden kanssa ei voi puhua.\" Ystävällinen sävy ei muuta asiaa. Syrjintä ei edellytä, että syrjijä haluaa pahaa tai tietää syrjivänsä. Ratkaisevaa on, mitä tapahtuu ja miksi: kuuroa asiakasta kohdellaan huonommin vammaisuuden vuoksi, vaikka hiukset voi leikata ilman puhetta, ja se on syrjintää."},{"tyyppi":"ansa","otsikko":"Ansa 2: \"Se on meidän sääntömme\"","sisalto":"Kerho, seura tai yritys saa tehdä omia sääntöjä, mutta ne eivät saa rikkoa lakia. Jos askartelukerhon säännöissä lukee \"Kerhoon ei oteta lapsia, joilla on allergia\", sääntö syrjii terveydentilan vuoksi, vaikka se on kirjoitettu paperille ja koskee kaikkia hakijoita. Kysy säännöstäkin samat kolme kysymystä. Allergia ei estä askartelemasta."},{"tyyppi":"ansa","otsikko":"Ansa 3: yksi sana ratkaisee","sisalto":"Ikä, kieli tai pituus voi olla tilanteessa hyväksyttävä peruste tai syrjinnän syy. Lakiin perustuva elokuvan ikäraja ei ole syrjintää, mutta kahvila, joka ei päästä vanhuksia sisään, syrjii iän vuoksi. Kääntäjältä saa vaatia sen kielen taitoa, jota hän kääntää, mutta pallopeliin ei saa jättää ketään pois kotikielen vuoksi. Älä siis päätä vastausta sen perusteella, mikä sana tilanteessa mainitaan. Kysy, liittyykö syy siihen, mitä ollaan tekemässä."},{"tyyppi":"kappale","otsikko":"Mitä laki sanoo ja mitä voit tehdä","sisalto":"Suomen perustuslain mukaan ihmiset ovat yhdenvertaisia lain edessä, eikä ketään saa ilman hyväksyttävää perustetta asettaa eri asemaan henkilöön liittyvän syyn vuoksi. Yhdenvertaisuuslaki kieltää syrjinnän muun muassa iän, alkuperän, kansalaisuuden, kielen, uskonnon, vakaumuksen, terveydentilan ja vammaisuuden perusteella. Tasa-arvolaki kieltää syrjinnän sukupuolen perusteella. Syrjintäkielto koskee myös lapsia ja esimerkiksi kouluja, kauppoja, kahviloita ja harrastuksia. Jos sinua tai jotakuta toista syrjitään, kerro aikuiselle, johon luotat: opettajalle, rehtorille, kuraattorille tai kotona aikuiselle. Aikuinen voi viedä asian eteenpäin. Syrjinnästä voi ilmoittaa yhdenvertaisuusvaltuutetulle, ja sukupuoleen perustuvasta syrjinnästä tasa-arvovaltuutetulle. Valtuutetut ovat viranomaisia, joiden tehtävä on valvoa, että syrjintäkieltoa noudatetaan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Syrjintä: huonompi kohtelu henkilöön liittyvän syyn vuoksi ilman hyväksyttävää perustetta.","Henkilöön liittyviä syitä ovat esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus ja terveydentila.","Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.","Syrjintä on syrjintää, vaikka syrjijä ei tarkoittaisi pahaa tai vaikka se olisi kirjoitettu sääntöihin.","Suomen laki kieltää syrjinnän: perustuslaki, yhdenvertaisuuslaki ja tasa-arvolaki.","Kerro aikuiselle. Aikuinen voi viedä asian yhdenvertaisuusvaltuutetulle tai tasa-arvovaltuutetulle."]}],"harjoitusryhmat":[{"id":"tunnista","nimi":"Syrjintä vai ei","info":"Kysy kolme kysymystä: kohdellaanko huonommin, johtuuko se siitä kuka hän on, ja onko erolle hyväksyttävä peruste."},{"id":"syy","nimi":"Syy ja peruste","info":"Nimeä, mihin henkilöön liittyvään syyhyn kohtelu perustuu. Tarkista, liittyykö syy siihen, mitä ollaan tekemässä."},{"id":"laki","nimi":"Laki ja toiminta","info":"Laki kieltää syrjinnän. Kerro aikuiselle; valtuutetut valvovat syrjintäkieltoa."}],"ryhmanimet":{"tunnista":"Syrjintä vai ei","syy":"Syrjinnän syy ja hyväksyttävä peruste","laki":"Laki ja toiminta"},"harjoitukset":[{"id":"H01","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Kirpputorin myyjä ei myy Kasperille lautapeliä, koska Kasper puhuu ruotsia.\n2. Kevätjuhlan juontajaksi valitaan Iida, joka luki kaikille järjestetyssä koe-esiintymisessä tekstin selkeimmin.\n3. Kuvataidekerhoon ei oteta Selmaa, koska hän on kuuro.\n4. Elokuvateatteri ei päästä 5-vuotiasta Ottoa yksin ilman aikuista elokuvaan, jonka ikäraja on 7.\n5. Pihapeliin ei oteta Hugoa, koska hänen perheensä on kotoisin Virosta.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3,"vinkki":"Kysy jokaisesta tilanteesta kolme kysymystä. Muista, että laki ja taito voivat olla hyväksyttäviä perusteita.","selitys":"Kasper (kieli), Selma (vammaisuus) ja Hugo (alkuperä) kohdellaan huonommin syystä, joka ei liity lautapelin ostamiseen, piirtämiseen eikä pelaamiseen. Iidan valinta perustuu taitoon ja Oton tilanne lakiin perustuvaan ikärajaan. Syrjintää on 3."},{"id":"H02","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Pingisturnauksen finaaliin pääsevät ne kaksi pelaajaa, jotka voittivat alkusarjassa eniten otteluita.\n2. Kerhon vetäjä ei päästä Liamia kerhoon, koska Liam on musta.\n3. Uimahallin hyppytorniin pääsee vain, jos osaa uida. Uimataidoton Veikka jää altaan reunalle.\n4. Kahvila ei palvele Sofiaa, koska hän on muslimi.\n\nMontako näistä neljästä tilanteesta EI ole syrjintää?","vastaus":2,"vinkki":"Etsi tilanteet, joissa erolla on hyväksyttävä peruste, joka liittyy asiaan.","selitys":"Finaalipaikat perustuvat taitoon, ja hyppytornin uimataitovaatimus perustuu turvallisuuteen. Liamin ihonväri ja Sofian uskonto eivät liity kerhoon eivätkä kahvilassa asioimiseen. Ei syrjintää on 2."},{"id":"H03","ryhma":"tunnista","tyyppi":"monivalinta","kysymys":"Mikä näistä tilanteista on syrjintää?","vaihtoehdot":["Jalkapalloseuran edustusjoukkueeseen valitaan valintapeleissä parhaiten pelanneet.","Kokkikurssi ei ota 68-vuotiasta Sirkkaa, koska kurssin vetäjän mielestä vanhat ihmiset eivät opi uutta.","Elokuvateatteri ei päästä 6-vuotiasta Jonia yksin ilman aikuista elokuvaan, jonka ikäraja on 12."],"vastaus":1,"vinkki":"Kysy jokaisesta: liittyykö syy siihen, mitä ollaan tekemässä?","selitys":"Ruoan valmistaminen ei vaadi tiettyä ikää aikuisella, joten Sirkan jättäminen pois iän vuoksi on syrjintää. Jalkapallojoukkueen valinta perustuu taitoon, ja elokuvan ikäraja perustuu lakiin."},{"id":"H04","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Vuokraamon myyjä sanoo kohteliaasti Saidille: \"En halua loukata, mutta en vuokraa sinulle kajakkia.\" Muille asiakkaille myyjä vuokraa kajakkeja. Said on ainoa tummaihoinen asiakas.\n2. Hiihdonopettaja sanoo Ainolle: \"Ei pahalla, mutta et voi laskea jyrkintä rinnettä ennen kuin osaat pysähtyä.\" Sama sääntö koskee kaikkia.\n3. Kirjastonhoitaja neuvoo Karia kohteliaasti etsimään kirjan hyllystä.\n\nMonennessako tilanteessa kohtelias puhe ei muuta sitä, että kyse on syrjinnästä?","vastaus":1,"vinkki":"Katso, mitä tapahtuu ja miksi, älä sitä, miten se sanotaan.","selitys":"Saidia kohdellaan muita huonommin ihonvärin vuoksi, vaikka myyjä puhuu kohteliaasti. Ainon kohdalla pysähtymistaito on turvallisuuteen perustuva vaatimus, joka koskee kaikkia. Karia ei kohdella huonommin."},{"id":"H05","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Teatterikerhon säännöissä lukee: \"Kerhoon otetaan vain lapsia, joiden molemmat vanhemmat ovat syntyneet Suomessa.\"\n2. Kuoron sopraanoryhmään valitaan ne, jotka laulavat koelaulussa korkeat sävelet puhtaasti.\n3. Kauppa ei myy 12-vuotiaalle Pinjalle ilotulitteita.\n4. Uintikurssi ei ota Jaakkoa, koska hän on poika.\n5. Lautapeliklubi ei päästä Leenaa, koska hän käyttää kyynärsauvoja.\n6. Kartingradalla Petteri ei pääse ajamaan isoa autoa, koska hänen jalkansa eivät vielä ylety polkimille.\n\nMontako näistä kuudesta tilanteesta on syrjintää?","vastaus":3,"vinkki":"Myös kerhon sääntö voi olla syrjivä. Tarkista jokaisesta peruste.","selitys":"Teatterikerhon sääntö syrjii alkuperän vuoksi, uintikurssi sukupuolen vuoksi ja lautapeliklubi vammaisuuden vuoksi. Sopraanovalinta perustuu taitoon, ilotulitteiden myyntikielto lakiin ja kartingauton rajoitus turvallisuuteen. Syrjintää on 3."},{"id":"H06","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Kirjaston lukudiplomikilpailuun ei oteta Kaapoa, koska hän on adoptoitu.\n2. Elokuvateatteri ei päästä 10-vuotiasta Miraa ilman aikuista elokuvaan, jonka ikäraja on 16.\n3. Tanssiryhmän esitykseen valitaan ne, jotka ovat oppineet koko tanssin.\n4. Bänditunnille ei päästetä Tuomasta, koska hänen perheensä puhuu kotona arabiaa.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":2,"vinkki":"Etsi tilanne, jossa ikäraja on kirjattu lakiin.","selitys":"Elokuvien ikärajat perustuvat lakiin, ja Mira on ilman aikuista. Tanssiryhmän valinta perustuu taitoon. Kaapon ja Tuomaksen tilanteet ovat syrjintää (perhesuhteet ja kieli)."},{"id":"H07","ryhma":"tunnista","kysymys":"Tilanteet:\n1. Uimaseura ei ota harrasteryhmään Hildaa, koska hänellä on epilepsia. Hilda uisi samassa altaassa valvottuna kuin muut.\n2. Koulun shakkijoukkueeseen valitaan kaikille avoimessa karsinnassa eniten pelejä voittaneet.\n3. Askartelukerho ei ota Oliveria, koska hän on poika.\n4. Kesäleiri ei ota Mariaa, koska hän on romani.\n5. Ravintola ei myy 15-vuotiaalle Ellalle viiniä.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3,"vinkki":"Laske tilanteet, joissa syy liittyy henkilöön eikä erolle ole asiaan liittyvää perustetta.","selitys":"Hilda (terveydentila), Oliver (sukupuoli) ja Maria (alkuperä) jätetään pois syystä, joka ei liity uimiseen, askarteluun eikä leiriin. Shakkijoukkueen valinta perustuu taitoon ja alkoholin myyntikielto alle 18-vuotiaille lakiin. Syrjintää on 3."},{"id":"H08","ryhma":"syy","kysymys":"Syrjintätilanteet:\n1. Pizzeria ei palvele Aaronia, koska hän on juutalainen.\n2. Pelikerho ei ota Saaraa, koska hän on tyttö.\n3. Sählyvuorolle ei päästetä Mohamedia, koska hänen ihonsa on tumma.\n4. Leikkipuiston kerho ei ota Iirestä, koska hän käyttää pyörätuolia.\n5. Taidekoulu ei ota Lauria, koska hän puhuu äidinkielenään viroa.\n\nMonennessako tilanteessa syrjinnän syy on uskonto?","vastaus":1,"vinkki":"Mieti jokaisesta, mikä henkilöön liittyvä asia tilanteessa mainitaan.","selitys":"Aaronia syrjitään uskonnon vuoksi. Saaraa syrjitään sukupuolen, Mohamedia ihonvärin, Iirestä vammaisuuden ja Lauria kielen vuoksi."},{"id":"H09","ryhma":"syy","kysymys":"Syrjintätilanteet:\n1. Kuntosali ei päästä Raimoa, koska hän on 80-vuotias.\n2. Leiri ei ota Amiraa, koska hänen perheensä on kotoisin Vietnamista.\n3. Kauppa ei palkkaa Juliaa kesätöihin, koska hän on nainen.\n4. Vaatekaupan myyjä ei päästä Danielia sovituskoppiin, koska hänen ihonsa on tumma.\n5. Bändikerho ei ota Eliasta, koska hänellä on astma.\n6. Ravintola ei päästä Patrikia sisään, koska hän on romani.\n\nMontako näistä tilanteista perustuu alkuperään tai ihonväriin?","vastaus":3,"vinkki":"Alkuperä tarkoittaa sitä, mistä ihminen tai hänen sukunsa on kotoisin tai mihin etniseen ryhmään hän kuuluu.","selitys":"Amiran (alkuperä), Danielin (ihonväri) ja Patrikin (alkuperä, romani) tilanteet perustuvat alkuperään tai ihonväriin. Raimon syy on ikä, Julian sukupuoli ja Eliaksen terveydentila. Vastaus on 3."},{"id":"H10","ryhma":"syy","tyyppi":"monivalinta","kysymys":"Kahvilan omistaja ei päästä Mikaelia sisään, koska Mikael on sokea ja hänellä on opaskoira mukana. Omistaja sanoo: \"Koirat eivät kuulu kahvilaan.\"\n\nMihin henkilöön liittyvään syyhyn kohtelu perustuu?","vaihtoehdot":["ikä","uskonto","vammaisuus"],"vastaus":2,"vinkki":"Miksi Mikaelilla on opaskoira?","selitys":"Opaskoira on sokean ihmisen apuväline. Kun hänet jätetään pois opaskoiran vuoksi, häntä kohdellaan huonommin vammaisuuden vuoksi. Koirasäännöstä ei voi tehdä tekosyytä opaskoiran käyttäjän pois jättämiselle."},{"id":"H11","ryhma":"syy","kysymys":"Syyt:\n1. ikä\n2. lempijoukkue\n3. kieli\n4. uskonto\n5. kenkien merkki\n6. vammaisuus\n7. terveydentila\n\nMontako näistä seitsemästä on henkilöön liittyviä syitä, jotka yhdenvertaisuuslaki mainitsee syrjintäkiellossa?","vastaus":5,"vinkki":"Lain luettelossa ovat muun muassa ikä, alkuperä, kansalaisuus, kieli, uskonto, vakaumus, terveydentila ja vammaisuus.","selitys":"Ikä, kieli, uskonto, vammaisuus ja terveydentila ovat lain mainitsemia syitä. Lempijoukkue ja kenkien merkki eivät ole. Vastaus on 5."},{"id":"H12","ryhma":"syy","kysymys":"Tilanne: Sukelluskurssi ei ota 10-vuotiasta Eemiliä mukaan. Kurssin vetäjä sanoo kolme eri syytä eri päivinä.\n\nPuheenvuorot:\n1. \"Kurssilla sukelletaan laitteilla syvälle, ja laitteet on tehty aikuisille. 10-vuotiaille on oma snorklauskurssi.\"\n2. \"Lapset ovat yleensä levottomia.\"\n3. \"En vain halua lapsia kurssille.\"\n\nMonennessako puheenvuorossa on asiaan liittyvä hyväksyttävä peruste?","vastaus":1,"vinkki":"Hyväksyttävä peruste liittyy asiaan, esimerkiksi lakiin tai turvallisuuteen. Yleistys tai mieltymys ei ole peruste.","selitys":"Syvälle sukeltamisen vaarallisuus ja aikuisille tehdyt laitteet ovat turvallisuuteen liittyvä peruste. Puheenvuoro 2 on yleistys, joka ei kerro mitään Eemilistä, ja puheenvuoro 3 ei anna mitään perustetta."},{"id":"H13","ryhma":"syy","kysymys":"Tilanteet:\n1. Käännöstoimisto vaatii, että ruotsin kielen kääntäjä osaa ruotsia hyvin.\n2. Pihapeliin ei oteta Veeraa, koska hän puhuu kotona ruotsia.\n3. Kirjasto ei palkkaa Ahmedia kirjastonhoitajaksi, koska hänen äidinkielensä on arabia, vaikka hän puhuu ja kirjoittaa suomea sujuvasti.\n\nMonennessako tilanteessa kieleen liittyvä vaatimus on hyväksyttävä?","vastaus":1,"vinkki":"Kysy jokaisesta: tarvitaanko kieltä siinä, mitä ollaan tekemässä?","selitys":"Kääntäjä tarvitsee työssään ruotsia, joten vaatimus liittyy asiaan. Pihapeli ei vaadi mitään kieltä, ja Ahmed osaa suomea niin hyvin kuin työ vaatii, joten häntä syrjitään äidinkielen vuoksi."},{"id":"H14","ryhma":"syy","kysymys":"Tilanteet:\n1. Lukupiiri ei ota Kerttua, koska hän käyttää kuulolaitetta.\n2. Partioretkelle ei oteta Joelia, koska hän on muslimi.\n3. Ratsastustalli ei anna 8-vuotiaan Topiaksen ratsastaa isolla ravihevosella, koska hevonen on arvaamaton ja lapsille on omat ponit.\n4. Kesäkerho ei ota Ronjaa, koska hän on tyttö.\n\nMontako eri henkilöön liittyvää syrjinnän syytä näissä tilanteissa on?","vastaus":3,"vinkki":"Etsi ensin syrjintätilanteet ja nimeä sitten jokaisen syy.","selitys":"Syrjintätilanteita on kolme: Kerttu (vammaisuus), Joel (uskonto) ja Ronja (sukupuoli). Topiaksen rajoitus perustuu turvallisuuteen, joten se ei ole syrjintää. Eri syitä on 3."},{"id":"H15","ryhma":"laki","kysymys":"Väitteet:\n1. Laki kieltää kohtelemasta ketään huonommin vammaisuuden vuoksi ilman hyväksyttävää perustetta.\n2. Koulussa syrjintä on sallittua, koska laki koskee vain työpaikkoja.\n3. Sukupuoleen perustuva syrjintä on kielletty.\n4. Seura saa jättää jäseniä pois ihonvärin vuoksi, jos seuran kokous niin päättää.\n5. Laki kieltää syrjinnän myös silloin, kun palvelua tarjoaa yksityinen yritys.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3,"vinkki":"Muista ansa 2: oma sääntö tai päätös ei tee syrjinnästä sallittua.","selitys":"Väitteet 1, 3 ja 5 pitävät paikkansa. Syrjintäkielto koskee myös kouluja, eikä seuran kokous voi päättää sallituksi sitä, minkä laki kieltää. Vastaus on 3."},{"id":"H16","ryhma":"laki","kysymys":"Väitteet:\n1. Laki kieltää kaiken erilaisen kohtelun, myös taitoon perustuvat valinnat.\n2. Syrjintä on kielletty myös kaupoissa ja harrastuksissa.\n3. Elokuvan ikäraja perustuu lakiin.\n\nMonennessako väitteessä on virhe?","vastaus":1,"vinkki":"Onko jokainen ero syrjintää?","selitys":"Laki ei kiellä kaikkea erilaista kohtelua. Kun valinta tehdään kaikille samalla tavalla taidon perusteella, kyse ei ole syrjinnästä. Väitteet 2 ja 3 pitävät paikkansa."},{"id":"H17","ryhma":"laki","kysymys":"Tilanne: Välitunnilla porukka ei päästä Aadaa pallopeliin, koska Aada käyttää kuulolaitetta.\n\nTeot:\n1. Kerrot opettajalle, mitä tapahtui.\n2. Et kerro kenellekään, koska asialle ei voi tehdä mitään.\n3. Pyydät Aadaa pelaamaan kanssasi.\n4. Kerrot kotona aikuiselle.\n5. Sanot porukalle, että kuulolaite ei estä pelaamista.\n6. Jätät seuraavana päivänä porukan johtajan itse pois pelistä.\n\nMontako näistä kuudesta teosta on hyvä tapa toimia?","vastaus":4,"vinkki":"Hyvä teko ottaa mukaan, sanoo asian ääneen tai vie sen aikuiselle. Kosto ei ole hyvä tapa.","selitys":"Teot 1, 3, 4 ja 5 auttavat Aadaa. Vaikeneminen ei auta, ja kostossa kohtelet itse jotakuta epäreilusti. Vastaus on 4."},{"id":"H18","ryhma":"laki","tyyppi":"monivalinta","kysymys":"Mikä viranomainen valvoo tasa-arvolakia eli sitä, ettei ketään syrjitä sukupuolen vuoksi?","vaihtoehdot":["tasa-arvovaltuutettu","yhdenvertaisuusvaltuutettu","lapsiasiavaltuutettu"],"vastaus":0,"vinkki":"Tasa-arvolaki ja tasa-arvovaltuutettu kuuluvat yhteen.","selitys":"Tasa-arvovaltuutettu valvoo tasa-arvolakia. Yhdenvertaisuusvaltuutettu valvoo muuta syrjintäkieltoa, ja lapsiasiavaltuutettu edistää lasten oikeuksia yleisesti eikä ratkaise yksittäisiä syrjintätapauksia."},{"id":"H19","ryhma":"laki","kysymys":"Kohdat:\n1. Kerrot rehtorille.\n2. Yhdenvertaisuusvaltuutettu.\n3. Kerrot kuraattorille.\n4. Tasa-arvovaltuutettu.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":2,"vinkki":"Toinen valtuutetuista valvoo sukupuoleen perustuvaa syrjintää, toinen muuta syrjintää.","selitys":"Yhdenvertaisuusvaltuutettu valvoo syrjintää esimerkiksi alkuperän ja vammaisuuden perusteella. Tasa-arvovaltuutettu valvoo sukupuoleen perustuvaa syrjintää. Rehtori ja kuraattori ovat koulun aikuisia, joille voi kertoa."},{"id":"H20","ryhma":"laki","kysymys":"Väitteet:\n1. Syrjintä on syrjintää, vaikka syrjijä sanoo, ettei tarkoittanut pahaa.\n2. Lakiin perustuva ikäraja ei ole syrjintää.\n3. Jos sana \"ikä\" mainitaan, kyse on aina syrjinnästä.\n4. Taitoon perustuva valinta voi olla hyväksyttävä, jos kaikki arvioidaan samalla tavalla.\n5. Turvallisuuden vuoksi tehty rajoitus on aina hyväksyttävä, vaikka se ei liittyisi turvallisuuteen lainkaan.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3,"vinkki":"Muista kolme ansaa: tarkoitus, oma sääntö ja yksi sana.","selitys":"Väitteet 1, 2 ja 4 pitävät paikkansa. Ikä voi olla hyväksyttävä peruste (lakiin perustuva ikäraja), joten väite 3 on väärä. Turvallisuus ei käy tekosyyksi, jos rajoitus ei oikeasti liity turvallisuuteen, joten väite 5 on väärä."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tämä ensin","johdanto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus), eikä erolle ole hyväksyttävää perustetta. Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Kerhon vetäjä ei ota Aminaa mukaan kerhoon, koska Amina on tyttö.\n2. Elokuvateatteri ei päästä 9-vuotiasta Eetua, joka on tullut kavereidensa kanssa ilman aikuista, elokuvaan, jonka ikäraja on 12.\n3. Kahvila ei palvele asiakasta, koska hän käyttää pyörätuolia.\n4. Joukkueeseen valitaan ne, jotka pelasivat kaikille avoimissa kokeilutreeneissä parhaiten.\n5. Kaupan vartija seuraa vain tummaihoisia asiakkaita.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":2},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa valinta perustuu taitoon?","vastaus":4},{"nro":4,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on vammaisuus?","vastaus":3},{"nro":5,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on sukupuoli?","vastaus":1},{"nro":6,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on alkuperä tai ihonväri?","vastaus":5},{"nro":7,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Vaateliikkeen myyjä pyytää vain romaninaista Helmiä jättämään laukkunsa kassalle. Myyjä sanoo: \"En tarkoita mitään pahaa, olen vain varovainen.\"\n2. Huvipuiston laitteeseen ei päästetä 115-senttistä Luukasta, koska laitteen turvakaari on tehty vähintään 120-senttisille. Työntekijä sanoo: \"En halua kiusata, mutta turvakaari ei pidä sinua paikallaan.\"\n3. Shakkikerhon säännöissä lukee: \"Kerhoon otetaan vain suomea äidinkielenään puhuvia.\"\n4. Lukivaikeuksinen Iiris saa kokeessa kuunnella tehtävät ääneen luettuina.\n\nMontako näistä neljästä tilanteesta on syrjintää?","vastaus":2},{"nro":8,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa tekijä sanoo, ettei tarkoita pahaa, mutta kyse on silti syrjinnästä?","vastaus":1},{"nro":9,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa ero perustuu turvallisuuteen?","vastaus":2},{"nro":10,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa joku saa eri kohtelua, jotta hän pääsee mukaan samalla tavalla kuin muut?","vastaus":4},{"nro":11,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet:\n1. Suomen perustuslain mukaan ihmiset ovat yhdenvertaisia lain edessä.\n2. Syrjintä on sallittua, jos se on kirjoitettu kerhon omiin sääntöihin.\n3. Tasa-arvolaki suojaa ihmisiä sukupuoleen perustuvalta syrjinnältä.\n4. Laki kieltää syrjinnän myös kaupoissa ja kahviloissa.\n5. Syrjintäkielto ei koske lapsia.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet kuin tehtävässä 11.\n\nMonennessako väitteessä nimetty laki on säädetty erityisesti sukupuolten tasa-arvoa varten?","vastaus":3},{"nro":13,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tilanne: Näet tai koet syrjintää.\n\nKohdat:\n1. Kerrot opettajalle.\n2. Pysyt hiljaa etkä kerro kenellekään.\n3. Asiasta voi ilmoittaa tasa-arvovaltuutetulle.\n4. Kerrot huoltajalle tai muulle aikuiselle, johon luotat.\n5. Asiasta voi ilmoittaa yhdenvertaisuusvaltuutetulle.\n6. Kostat syrjijälle.\n\nMontako näistä kuudesta kohdasta on hyvä tapa toimia?","vastaus":4},{"nro":14,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa sukupuoleen perustuvasta syrjinnästä?","vastaus":3},{"nro":15,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa esimerkiksi alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":5},{"nro":16,"ryhma":"syy","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kolme on syrjintää. Kirjoita jokaisesta syrjintätilanteesta, mihin henkilöön liittyvään syyhyn kohtelu perustuu ja miksi syy ei liity siihen, mitä ollaan tekemässä.","vastaus":"Malliesimerkki: Amina jätetään pois sukupuolen vuoksi, vaikka kerhossa voi olla mukana kuka tahansa. Kahvila ei palvele asiakasta vammaisuuden vuoksi, vaikka pyörätuoli ei estä kahvilassa asioimista. Vartija seuraa asiakkaita ihonvärin eli alkuperän vuoksi, vaikka ihonväri ei kerro mitään siitä, kuka varastaa."},{"nro":17,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kaksi ei ole syrjintää. Perustele kummastakin, miksi erilainen kohtelu on hyväksyttävää.","vastaus":"Malliesimerkki: Eetun tilanne ei ole syrjintää, koska elokuvan ikäraja perustuu lakiin ja suojaa lapsia, ja Eetu on tullut ilman aikuista. Joukkuevalinta ei ole syrjintää, koska se perustuu taitoon ja kaikki saivat näyttää taitonsa samoissa kokeilutreeneissä."},{"nro":18,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Mitä Suomen laki sanoo syrjinnästä? Kerro myös yksi tapa toimia, jos sinua tai jotakuta toista syrjitään.","vastaus":"Malliesimerkki: Suomen laki kieltää syrjinnän. Ketään ei saa kohdella huonommin esimerkiksi sukupuolen, iän, alkuperän, kielen, uskonnon tai vammaisuuden vuoksi. Jos minua tai jotakuta toista syrjitään, kerron opettajalle tai huoltajalle."},{"nro":19,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kaupunginosan lukupiirin vetäjä päättää: \"Lukupiiriin ei oteta lapsia, jotka puhuvat kotona muuta kieltä kuin suomea.\" Lukupiirissä luetaan suomenkielisiä kirjoja, ja kaikki hakijat lukevat suomea sujuvasti.\n\nOnko kyse syrjinnästä? Nimeä syy ja perustele.","vastaus":"Malliesimerkki: On syrjintää. Syy on kieli. Kaikki hakijat lukevat suomea sujuvasti, joten kotikieli ei liity lukupiirissä lukemiseen. Se, että päätös on kirjoitettu lukupiirin sääntöön, ei tee siitä sallittua."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"13-vuotias Jessica ei saa ajaa autoa yleisellä tiellä, vaikka hän osaa ajaa.\n\nOnko kyse syrjinnästä? Perustele.","vastaus":"Malliesimerkki: Ei ole syrjintää. Autolla ajamiseen tarvitaan ajokortti, ja laissa on sille ikäraja. Ikäraja koskee kaikkia samanikäisiä ja suojaa liikenteessä kulkevia."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tämä ensin","johdanto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus), eikä erolle ole hyväksyttävää perustetta. Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Kuoron solisteiksi valitaan ne, jotka lauloivat kaikille järjestetyssä koelaulussa puhtaimmin.\n2. Leirin vetäjä ei ota leirille Kirilliä, koska Kirill puhuu äidinkielenään venäjää.\n3. Kauppa ei myy 16-vuotiaalle Oskarille olutta.\n4. Teatterikerho ei ota Mattia, koska Matti käyttää kuulolaitetta.\n5. Robotiikkakerhoon ei oteta Siiriä, koska vetäjän mielestä robotit eivät ole tyttöjen juttu.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":3},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa valinta perustuu taitoon?","vastaus":1},{"nro":4,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on vammaisuus?","vastaus":4},{"nro":5,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on sukupuoli?","vastaus":5},{"nro":6,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on kieli?","vastaus":2},{"nro":7,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Seikkailupuiston korkealle köysiradalle ei päästetä 130-senttistä Kaapoa, koska radan turvavaljaat on tehty vähintään 140-senttisille. Ohjaaja sanoo: \"En tee tätä kiusallani, valjaat eivät ole sinulle turvalliset.\"\n2. Jalkapalloseuran säännöissä lukee: \"Seuraan otetaan vain Suomessa syntyneitä.\"\n3. Pyörätuolia käyttävälle Ilmarille järjestetään luokkaretkelle esteetön kulkureitti.\n4. Taksinkuljettaja ei ota kyytiin Fatimaa, koska Fatima on sokea ja hänellä on opaskoira. Kuljettaja sanoo: \"Ei mitään henkilökohtaista, en vain halua koiraa autooni.\"\n\nMontako näistä neljästä tilanteesta on syrjintää?","vastaus":2},{"nro":8,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa tekijä sanoo, ettei tarkoita pahaa, mutta kyse on silti syrjinnästä?","vastaus":4},{"nro":9,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa ero perustuu turvallisuuteen?","vastaus":1},{"nro":10,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa joku saa eri kohtelua, jotta hän pääsee mukaan samalla tavalla kuin muut?","vastaus":3},{"nro":11,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet:\n1. Syrjintäkielto koskee vain aikuisia.\n2. Tasa-arvolaki koskee syrjintää sukupuolen perusteella.\n3. Yhdenvertaisuuslaki kieltää syrjinnän esimerkiksi iän, alkuperän, kielen ja vammaisuuden perusteella.\n4. Laki kieltää vain sen syrjinnän, joka tehdään tahallaan.\n5. Harrastusseura ei saa syrjiä jäseniään.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet kuin tehtävässä 11.\n\nMonennessako väitteessä nimetty laki on säädetty erityisesti sukupuolten tasa-arvoa varten?","vastaus":2},{"nro":13,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tilanne: Näet tai koet syrjintää.\n\nKohdat:\n1. Asiasta voi ilmoittaa yhdenvertaisuusvaltuutetulle.\n2. Kerrot rehtorille.\n3. Naurat mukana, ettei sinua jätetä pois.\n4. Asiasta voi ilmoittaa tasa-arvovaltuutetulle.\n5. Jätät itse syrjijän pois seuraavasta pelistä.\n6. Kerrot kuraattorille.\n\nMontako näistä kuudesta kohdasta on hyvä tapa toimia?","vastaus":4},{"nro":14,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa sukupuoleen perustuvasta syrjinnästä?","vastaus":4},{"nro":15,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa esimerkiksi alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":1},{"nro":16,"ryhma":"syy","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kolme on syrjintää. Kirjoita jokaisesta syrjintätilanteesta, mihin henkilöön liittyvään syyhyn kohtelu perustuu ja miksi syy ei liity siihen, mitä ollaan tekemässä.","vastaus":"Malliesimerkki: Kirill jätetään pois kielen vuoksi, vaikka leirillä voi olla mukana venäjää äidinkielenään puhuva lapsi. Matti jätetään pois vammaisuuden vuoksi, vaikka kuulolaite ei estä näyttelemistä. Siiri jätetään pois sukupuolen vuoksi, vaikka sukupuoli ei vaikuta robotiikkaan."},{"nro":17,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kaksi ei ole syrjintää. Perustele kummastakin, miksi erilainen kohtelu on hyväksyttävää.","vastaus":"Malliesimerkki: Solistien valinta ei ole syrjintää, koska se perustuu taitoon ja kaikki saivat laulaa samassa koelaulussa. Oskarin tilanne ei ole syrjintää, koska laki kieltää myymästä alkoholia alle 18-vuotiaille ja ikäraja suojaa nuoria."},{"nro":18,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Mitä Suomen laki sanoo syrjinnästä? Kerro myös yksi tapa toimia, jos sinua tai jotakuta toista syrjitään.","vastaus":"Malliesimerkki: Suomen laki kieltää syrjinnän. Ketään ei saa kohdella huonommin esimerkiksi sukupuolen, iän, alkuperän, kielen, uskonnon tai vammaisuuden vuoksi. Jos minua tai jotakuta toista syrjitään, kerron opettajalle tai huoltajalle."},{"nro":19,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kuvataidekoulun sääntöön lisätään: \"Kouluun ei oteta oppilaita, joilla on kuulolaite.\" Kuvataidekoulussa piirretään ja maalataan, ja opettaja näyttää työvaiheet myös kuvina.\n\nOnko kyse syrjinnästä? Nimeä syy ja perustele.","vastaus":"Malliesimerkki: On syrjintää. Syy on vammaisuus. Kuulolaite ei estä piirtämistä eikä maalaamista, joten sääntö ei liity siihen, mitä koulussa tehdään. Sääntöön kirjoittaminen ei tee syrjinnästä sallittua."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Elokuvateatteri ei päästä 13-vuotiasta Pauliinaa elokuvaan, jonka ikäraja on 18.\n\nOnko kyse syrjinnästä? Perustele.","vastaus":"Malliesimerkki: Ei ole syrjintää. Elokuvan ikäraja perustuu lakiin, ja 18-elokuvaan ei pääse alle 18-vuotias edes aikuisen kanssa. Ikäraja koskee kaikkia samanikäisiä ja suojaa lapsia."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tämä ensin","johdanto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus), eikä erolle ole hyväksyttävää perustetta. Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Pizzeria ei palvele sokeaa Pirjoa, koska hänellä on opaskoira mukana.\n2. Elokuvateatteri ei päästä 12-vuotiasta Ronjaa, joka on tullut ilman aikuista, elokuvaan, jonka ikäraja on 16.\n3. Pyöränkorjauskurssille ei oteta Lauraa, koska hän on tyttö.\n4. Shakkikerhon kilpajoukkueeseen valitaan neljä pelaajaa, jotka voittivat kaikille avoimessa karsintaturnauksessa eniten pelejä.\n5. Kerhon vetäjä ei ota Danielia kerhoon, koska Danielin perhe on kotoisin Irakista.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":2},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa valinta perustuu taitoon?","vastaus":4},{"nro":4,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on vammaisuus?","vastaus":1},{"nro":5,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on sukupuoli?","vastaus":3},{"nro":6,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on alkuperä?","vastaus":5},{"nro":7,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Puutyökerhossa 7-vuotias Eino ei saa käyttää sähkösahaa, jota isommat käyttävät aikuisen valvonnassa. Ohjaaja sanoo: \"Ei tämä ole kiusaa, kone on liian vaarallinen niin pienelle.\"\n2. Heikkonäköinen Sofia saa kirjastosta kirjat isokirjaimisina.\n3. Kaupunginosan sählyvuoron säännöissä lukee: \"Vuorolle ei oteta tyttöjä.\" Vuoro on tarkoitettu kaikille alueen lapsille.\n4. Kioskin myyjä vaatii henkilöllisyystodistuksen vain tummaihoiselta Joelilta, kun hän ostaa karkkia. Myyjä sanoo: \"Ei siinä mitään pahaa, kunhan tarkistan.\"\n\nMontako näistä neljästä tilanteesta on syrjintää?","vastaus":2},{"nro":8,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa tekijä sanoo, ettei tarkoita pahaa, mutta kyse on silti syrjinnästä?","vastaus":4},{"nro":9,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa ero perustuu turvallisuuteen?","vastaus":1},{"nro":10,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa joku saa eri kohtelua, jotta hän pääsee mukaan samalla tavalla kuin muut?","vastaus":2},{"nro":11,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet:\n1. Syrjinnän kielto on voimassa, vaikka syrjijä olisi ystävällinen.\n2. Kaikki ikärajat ovat lain mukaan syrjintää.\n3. Yhdenvertaisuuslaki kieltää syrjinnän esimerkiksi uskonnon ja terveydentilan perusteella.\n4. Syrjinnästä saa kertoa vain, jos on itse joutunut syrjityksi.\n5. Sukupuoleen perustuvan syrjinnän kieltää tasa-arvolaki.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet kuin tehtävässä 11.\n\nMonennessako väitteessä nimetty laki on säädetty erityisesti sukupuolten tasa-arvoa varten?","vastaus":5},{"nro":13,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tilanne: Näet tai koet syrjintää.\n\nKohdat:\n1. Kerrot opettajalle.\n2. Asiasta voi ilmoittaa yhdenvertaisuusvaltuutetulle.\n3. Katsot muualle.\n4. Kerrot huoltajalle.\n5. Asiasta voi ilmoittaa tasa-arvovaltuutetulle.\n6. Haukut syrjijää muiden kuullen.\n\nMontako näistä kuudesta kohdasta on hyvä tapa toimia?","vastaus":4},{"nro":14,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa sukupuoleen perustuvasta syrjinnästä?","vastaus":5},{"nro":15,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa esimerkiksi alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":2},{"nro":16,"ryhma":"syy","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kolme on syrjintää. Kirjoita jokaisesta syrjintätilanteesta, mihin henkilöön liittyvään syyhyn kohtelu perustuu ja miksi syy ei liity siihen, mitä ollaan tekemässä.","vastaus":"Malliesimerkki: Pirjoa ei palvella vammaisuuden vuoksi, sillä opaskoira on sokean apuväline eikä estä syömistä pizzeriassa. Laura jätetään pois sukupuolen vuoksi, vaikka sukupuoli ei vaikuta pyörän korjaamiseen. Daniel jätetään pois alkuperän vuoksi, vaikka se, mistä perhe on kotoisin, ei liity kerhoon."},{"nro":17,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kaksi ei ole syrjintää. Perustele kummastakin, miksi erilainen kohtelu on hyväksyttävää.","vastaus":"Malliesimerkki: Ronjan tilanne ei ole syrjintää, koska elokuvan ikäraja perustuu lakiin ja suojaa lapsia, ja Ronja tuli ilman aikuista. Kilpajoukkueen valinta ei ole syrjintää, koska se perustuu taitoon ja kaikki pelasivat samassa karsinnassa."},{"nro":18,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Mitä Suomen laki sanoo syrjinnästä? Kerro myös yksi tapa toimia, jos sinua tai jotakuta toista syrjitään.","vastaus":"Malliesimerkki: Suomen laki kieltää syrjinnän. Ketään ei saa kohdella huonommin esimerkiksi sukupuolen, iän, alkuperän, kielen, uskonnon tai vammaisuuden vuoksi. Jos minua tai jotakuta toista syrjitään, kerron opettajalle tai huoltajalle."},{"nro":19,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kaupunginosan kokkikerhon vetäjä kirjoittaa ilmoitukseen: \"Kerhoon otetaan vain lapsia, joiden perhe on suomalaista syntyperää.\" Kerhossa leivotaan pullaa ja tehdään keittoja.\n\nOnko kyse syrjinnästä? Nimeä syy ja perustele.","vastaus":"Malliesimerkki: On syrjintää. Syy on alkuperä. Perheen syntyperä ei liity leipomiseen eikä ruoanlaittoon. Se, että ehto on kirjoitettu ilmoitukseen, ei tee siitä sallittua."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kauppa ei myy 14-vuotiaalle Valtterille konsolipeliä, jonka ikäraja on 18.\n\nOnko kyse syrjinnästä? Perustele.","vastaus":"Malliesimerkki: Ei ole syrjintää. Pelien ikärajat perustuvat lakiin, ja ikärajaa on noudatettava myös myynnissä. Ikäraja koskee kaikkia samanikäisiä ja suojaa lapsia."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tämä ensin","johdanto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus), eikä erolle ole hyväksyttävää perustetta. Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Orkesteriin valitaan ne, jotka soittivat kaikille järjestetyssä soittokokeessa parhaiten.\n2. Hotelli ei anna huonetta perheelle, koska perhe on somalialaistaustainen.\n3. Tanssikurssille ei oteta Eliasta, koska vetäjän mielestä tanssi ei sovi pojille.\n4. Kioski ei myy 17-vuotiaalle Veetille tupakkaa.\n5. Kuntosali ei päästä Tuulia sisään, koska hän käyttää pyörätuolia.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":4},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa valinta perustuu taitoon?","vastaus":1},{"nro":4,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on vammaisuus?","vastaus":5},{"nro":5,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on sukupuoli?","vastaus":3},{"nro":6,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on alkuperä?","vastaus":2},{"nro":7,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Kuulovammainen Lassi saa elokuvateatterissa laitteen, joka tuo äänen suoraan hänen kuulolaitteeseensa.\n2. Kuoronjohtaja ei ota kuoroon Adaa, koska Ada on romani. Johtaja sanoo: \"En minä ole ketään vastaan, mutta joku voisi pahastua.\"\n3. Kiipeilyhallin korkealle seinälle ei päästetä Matiasta ennen kuin hän on käynyt turvakurssin, jonka kaikki muutkin ovat käyneet. Ohjaaja sanoo: \"En tee tätä kiusallani.\"\n4. Lautapelikahvilan säännöissä lukee: \"Pyörätuolia käyttäviä ei palvella.\" Kahvilassa on luiska ja tilaa pyörätuolille.\n\nMontako näistä neljästä tilanteesta on syrjintää?","vastaus":2},{"nro":8,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa tekijä sanoo, ettei tarkoita pahaa, mutta kyse on silti syrjinnästä?","vastaus":2},{"nro":9,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa ero perustuu turvallisuuteen?","vastaus":3},{"nro":10,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa joku saa eri kohtelua, jotta hän pääsee mukaan samalla tavalla kuin muut?","vastaus":1},{"nro":11,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet:\n1. Yhdenvertaisuuslaki kieltää syrjinnän esimerkiksi iän, kielen ja uskonnon perusteella.\n2. Syrjintä on sallittua, jos syrjijä ei tarkoita pahaa.\n3. Syrjintäkielto koskee myös lapsia.\n4. Tasa-arvolain mukaan ketään ei saa syrjiä sukupuolen vuoksi.\n5. Kahvila saa syrjiä, jos syrjintä on kirjoitettu kahvilan sääntöihin.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet kuin tehtävässä 11.\n\nMonennessako väitteessä nimetty laki on säädetty erityisesti sukupuolten tasa-arvoa varten?","vastaus":4},{"nro":13,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tilanne: Näet tai koet syrjintää.\n\nKohdat:\n1. Kostat syrjijälle.\n2. Asiasta voi ilmoittaa tasa-arvovaltuutetulle.\n3. Kerrot kuraattorille.\n4. Asiasta voi ilmoittaa yhdenvertaisuusvaltuutetulle.\n5. Pysyt hiljaa.\n6. Kerrot opettajalle.\n\nMontako näistä kuudesta kohdasta on hyvä tapa toimia?","vastaus":4},{"nro":14,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa sukupuoleen perustuvasta syrjinnästä?","vastaus":2},{"nro":15,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa esimerkiksi alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":4},{"nro":16,"ryhma":"syy","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kolme on syrjintää. Kirjoita jokaisesta syrjintätilanteesta, mihin henkilöön liittyvään syyhyn kohtelu perustuu ja miksi syy ei liity siihen, mitä ollaan tekemässä.","vastaus":"Malliesimerkki: Perhe jätetään ilman huonetta alkuperän vuoksi, vaikka se ei liity hotellissa yöpymiseen. Elias jätetään pois sukupuolen vuoksi, vaikka sukupuoli ei estä tanssimista. Tuulia ei päästetä sisään vammaisuuden vuoksi, vaikka pyörätuolin käyttäjä voi harjoitella kuntosalilla."},{"nro":17,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kaksi ei ole syrjintää. Perustele kummastakin, miksi erilainen kohtelu on hyväksyttävää.","vastaus":"Malliesimerkki: Orkesterin valinta ei ole syrjintää, koska se perustuu taitoon ja kaikki soittivat samassa soittokokeessa. Veetin tilanne ei ole syrjintää, koska laki kieltää myymästä tupakkaa alle 18-vuotiaille."},{"nro":18,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Mitä Suomen laki sanoo syrjinnästä? Kerro myös yksi tapa toimia, jos sinua tai jotakuta toista syrjitään.","vastaus":"Malliesimerkki: Suomen laki kieltää syrjinnän. Ketään ei saa kohdella huonommin esimerkiksi sukupuolen, iän, alkuperän, kielen, uskonnon tai vammaisuuden vuoksi. Jos minua tai jotakuta toista syrjitään, kerron opettajalle tai huoltajalle."},{"nro":19,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Teatterikerhon vetäjä ilmoittaa: \"Kerhoon ei oteta muslimeja.\" Kerhossa harjoitellaan näytelmää, jossa ei ole mitään uskontoon liittyvää.\n\nOnko kyse syrjinnästä? Nimeä syy ja perustele.","vastaus":"Malliesimerkki: On syrjintää. Syy on uskonto. Uskonto ei liity näyttelemiseen, joten muslimeja kohdellaan huonommin ilman hyväksyttävää perustetta. Vetäjän ilmoitus ei tee siitä sallittua."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"14-vuotias Kristian ei saa ajaa mopolla, vaikka hänellä on oma mopo.\n\nOnko kyse syrjinnästä? Perustele.","vastaus":"Malliesimerkki: Ei ole syrjintää. Mopolla ajamiseen tarvitaan ajokortti, jonka voi saada aikaisintaan 15-vuotiaana. Ikäraja perustuu lakiin ja liikenneturvallisuuteen ja koskee kaikkia samanikäisiä."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tämä ensin","johdanto":"Syrjintä tarkoittaa, että ihmistä kohdellaan huonommin kuin muita jonkin hänen henkilöönsä liittyvän syyn vuoksi (esimerkiksi sukupuoli, ikä, alkuperä, ihonväri, kieli, uskonto, vammaisuus), eikä erolle ole hyväksyttävää perustetta. Hyväksyttävä peruste liittyy asiaan: laki, turvallisuus tai taito, jota tehtävässä tarvitaan.\nKirjoita tehtäviin 1–15 vastaukseksi luku. Vastaa tehtäviin 16–20 kokonaisin virkkein.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Elokuvateatteri ei päästä 14-vuotiasta Kallea, joka on tullut ilman aikuista, elokuvaan, jonka ikäraja on 16.\n2. Kirjaston satutunnille ei päästetä Aadaa, koska hän käyttää kyynärsauvoja.\n3. Uimaseuran kilparyhmään valitaan ne, jotka uivat kaikille järjestetyissä valintauinneissa tekniikaltaan parhaiten.\n4. Pelikerho ei ota Ninaa, koska Nina on tyttö.\n5. Uimahallin kassa ei päästä sisään Ahmedia ja hänen veljeään, koska he puhuvat keskenään arabiaa.\n\nMontako näistä viidestä tilanteesta on syrjintää?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa erilainen kohtelu perustuu lakiin?","vastaus":1},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa valinta perustuu taitoon?","vastaus":3},{"nro":4,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on vammaisuus?","vastaus":2},{"nro":5,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on sukupuoli?","vastaus":4},{"nro":6,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 1.\n\nMonennessako tilanteessa syrjinnän syy on kieli?","vastaus":5},{"nro":7,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet:\n1. Liisa, joka ei osaa uida, saa lähteä kanoottiretkelle vain pelastusliivit päällä ja aikuisen kanssa samassa kanootissa. Ohjaaja sanoo: \"En epäile sinua, mutta vesi on syvää.\"\n2. Uimahallin kassa ei myy lippua Sannille, koska Sannilla on Downin oireyhtymä. Kassa sanoo: \"En tarkoita pahaa, ajattelen vain muiden uimareiden viihtyvyyttä.\"\n3. Viittomakielinen Rasmus saa luokkaretkelle mukaan tulkin.\n4. Bändikoulun säännöissä lukee: \"Bändeihin otetaan vain poikia.\"\n\nMontako näistä neljästä tilanteesta on syrjintää?","vastaus":2},{"nro":8,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa tekijä sanoo, ettei tarkoita pahaa, mutta kyse on silti syrjinnästä?","vastaus":2},{"nro":9,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa ero perustuu turvallisuuteen?","vastaus":1},{"nro":10,"ryhma":"syy","tyyppi":"lasku","kysymys":"Tilanteet kuin tehtävässä 7.\n\nMonennessako tilanteessa joku saa eri kohtelua, jotta hän pääsee mukaan samalla tavalla kuin muut?","vastaus":3},{"nro":11,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tasa-arvolaki kieltää syrjimästä ketään sukupuolen takia.\n2. Laki kieltää syrjinnän vain silloin, kun syrjijä tekee sen tahallaan.\n3. Elokuvan ikäraja ei ole syrjintää, koska se perustuu lakiin.\n4. Syrjintäkielto ei koske harrastuksia.\n5. Perustuslain mukaan ketään ei saa ilman hyväksyttävää perustetta asettaa eri asemaan henkilöön liittyvän syyn vuoksi.\n\nMontako näistä viidestä väitteestä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"laki","tyyppi":"lasku","kysymys":"Väitteet kuin tehtävässä 11.\n\nMonennessako väitteessä nimetty laki on säädetty erityisesti sukupuolten tasa-arvoa varten?","vastaus":1},{"nro":13,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tilanne: Näet tai koet syrjintää.\n\nKohdat:\n1. Kerrot huoltajalle.\n2. Katsot muualle.\n3. Asiasta voi ilmoittaa yhdenvertaisuusvaltuutetulle.\n4. Kerrot rehtorille.\n5. Teet syrjijälle saman, minkä hän teki.\n6. Asiasta voi ilmoittaa tasa-arvovaltuutetulle.\n\nMontako näistä kuudesta kohdasta on hyvä tapa toimia?","vastaus":4},{"nro":14,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa sukupuoleen perustuvasta syrjinnästä?","vastaus":6},{"nro":15,"ryhma":"laki","tyyppi":"lasku","kysymys":"Kohdat kuin tehtävässä 13.\n\nMonennessako kohdassa on viranomainen, jolle voi ilmoittaa esimerkiksi alkuperään tai vammaisuuteen perustuvasta syrjinnästä?","vastaus":3},{"nro":16,"ryhma":"syy","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kolme on syrjintää. Kirjoita jokaisesta syrjintätilanteesta, mihin henkilöön liittyvään syyhyn kohtelu perustuu ja miksi syy ei liity siihen, mitä ollaan tekemässä.","vastaus":"Malliesimerkki: Aada jätetään pois vammaisuuden vuoksi, vaikka kyynärsauvat eivät estä sadun kuuntelemista. Nina jätetään pois sukupuolen vuoksi, vaikka sukupuoli ei vaikuta pelaamiseen. Ahmedia ja hänen veljeään ei päästetä sisään kielen vuoksi, vaikka puhuttu kieli ei liity uimiseen."},{"nro":17,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Tehtävän 1 tilanteista kaksi ei ole syrjintää. Perustele kummastakin, miksi erilainen kohtelu on hyväksyttävää.","vastaus":"Malliesimerkki: Kallen tilanne ei ole syrjintää, koska elokuvan ikäraja perustuu lakiin ja suojaa lapsia, ja Kalle tuli ilman aikuista. Kilparyhmän valinta ei ole syrjintää, koska se perustuu taitoon ja kaikki uivat samoissa valintauinneissa."},{"nro":18,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Mitä Suomen laki sanoo syrjinnästä? Kerro myös yksi tapa toimia, jos sinua tai jotakuta toista syrjitään.","vastaus":"Malliesimerkki: Suomen laki kieltää syrjinnän. Ketään ei saa kohdella huonommin esimerkiksi sukupuolen, iän, alkuperän, kielen, uskonnon tai vammaisuuden vuoksi. Jos minua tai jotakuta toista syrjitään, kerron opettajalle tai huoltajalle."},{"nro":19,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kuvataideleirin ilmoituksessa lukee: \"Leirille ei oteta lapsia, jotka käyttävät kyynärsauvoja.\" Leirillä piirretään ja maalataan sisätiloissa, joihin pääsee hissillä.\n\nOnko kyse syrjinnästä? Nimeä syy ja perustele.","vastaus":"Malliesimerkki: On syrjintää. Syy on vammaisuus. Kyynärsauvat eivät estä piirtämistä eikä maalaamista, ja tiloihin pääsee hissillä. Ilmoitukseen kirjoittaminen ei tee syrjinnästä sallittua."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Kauppa ei myy 17-vuotiaalle Iidalle siideriä.\n\nOnko kyse syrjinnästä? Perustele.","vastaus":"Malliesimerkki: Ei ole syrjintää. Laki kieltää myymästä alkoholijuomia alle 18-vuotiaille. Ikäraja koskee kaikkia samanikäisiä ja suojaa nuoria."}]}],"tulostus":{"sivuja":5,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Syrjintä on huonompaa kohtelua sen vuoksi, kuka ihminen on, ilman asiaan liittyvää perustetta. Suomen laki kieltää sen.","vaiheet":[{"aika":"1. tunti, 8 min","otsikko":"Aloitus","sisalto":"Lue johdannon sirkuskoulutilanne. Kysy: kumpikin jäi ilman paikkaa, miksi vain toinen tilanne on syrjintää? Kirjaa vastaukset ja palaa niihin tunnin lopussa."},{"aika":"1. tunti, 15 min","otsikko":"Ydinasia","sisalto":"Käy läpi syrjinnän kolme osaa, syytaulukko ja kaavio. Kerro, että syrjintäperusteiden luettelo on laissa, ja näytä ero 4. luokan tarve–perusteeton-jakoon: nyt hyväksyttäviä perusteita ovat myös laki, turvallisuus ja taito. Ikärajoista kerro, että elokuvien ikärajoissa on täysi-ikäisen seuralaisen poikkeus, ja siksi tehtävissä lapsi on aina ilman aikuista tai elokuvan ikäraja on 18."},{"aika":"1. tunti, 20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Pura ääneen H04 (kohtelias puhe ei muuta syrjintää) ja H13 (sama kieli voi olla hyväksyttävä vaatimus tai syrjinnän syy). Laki-ryhmän jälkeen kertaa, kenelle syrjinnästä voi kertoa."},{"aika":"1. tunti, 2 min","otsikko":"Lopetus","sisalto":"Palaa aloituksen kysymykseen. Jokainen sanoo parilleen yhden hyväksyttävän perusteen ja yhden syrjinnän syyn."},{"aika":"2. tunti, 10 min","otsikko":"Kertaus","sisalto":"Kertaa kolme ansaa lyhyesti keksityillä esimerkeillä, jotka eivät ole kokeesta."},{"aika":"2. tunti, 35 min","otsikko":"Näyttö","sisalto":"Paperikoe (yksi versioista A–E). Koe A vastaa kartan näyttöä. Tehtävät 1–6 ja 16–18 ovat näytön ydin."}],"tarvikkeet":"Harjoitukset laitteelta tai tulostettuina. Toiselle tunnille tulostettu koe."},"virhesanakirja":[{"virhe":"Vastaa tehtävässä 1 luvun 4 tai 5, koska laskee myös lakiin perustuvan ikärajan tai taitoon perustuvan valinnan syrjinnäksi","tehtava":"syrjinnän tunnistaminen (H01, H05, kokeen tehtävät 1–3)","mita_kertoo":"Oppilas pitää jokaista eroa syrjintänä. Hän ei vielä tunne hyväksyttäviä perusteita (laki, turvallisuus, taito).","mita_tehda":"Käy kaavio läpi tilanne kerrallaan. Kysy erikseen kolmas kysymys: liittyykö peruste siihen, mitä ollaan tekemässä? Vertaa joukkuevalintaa ja kielen vuoksi tehtyä pois jättämistä."},{"virhe":"Vastaa tehtävässä 1 luvun 2, koska ei pidä kauppaa, kahvilaa tai vartijaa syrjijänä","tehtava":"syrjinnän tunnistaminen palveluissa (H09, kokeen tehtävät 1 ja 4–6)","mita_kertoo":"Oppilas ajattelee syrjinnän koskevan vain leikkiä ja kavereita, ei palveluja tai aikuisten tekemiä ratkaisuja.","mita_tehda":"Kerro, että laki kieltää syrjinnän myös kaupoissa, kahviloissa ja harrastuksissa. Kysy: mitä vartija päättelee ihonväristä? Kertooko ihonväri jotain siitä, kuka varastaa?"},{"virhe":"Ei laske kohteliaasti perusteltua tapausta syrjinnäksi (tehtävä 7 liian pieni, tehtävä 8 väärin)","tehtava":"ansa 1 (H04, kokeen tehtävät 7–8)","mita_kertoo":"Oppilas arvioi puhujan sävyä ja tarkoitusta eikä sitä, mitä tapahtuu ja miksi.","mita_tehda":"Peitä tilanteesta puhujan lause ja pyydä arvioimaan pelkkä teko. Palauta sitten lause ja kysy, muuttiko se tekoa."},{"virhe":"Pitää kerhon tai yrityksen kirjoitettua sääntöä sallittuna (tehtävä 7 tai 19)","tehtava":"ansa 2 (H05, H15, kokeen tehtävät 7, 11 ja 19)","mita_kertoo":"Oppilas pitää kirjoitettua sääntöä automaattisesti oikeana. Hän ei vielä erota yhteisön sääntöä laista (vrt. YH5-OIK-01).","mita_tehda":"Muistuta, että yhteisön sääntö ei voi sallia sitä, minkä laki kieltää. Kysy säännöstäkin kolme kysymystä."},{"virhe":"Nimeää syyn väärin tai yleisellä sanalla (\"koska hän on erilainen\") tehtävässä 16","tehtava":"syyn nimeäminen (H08–H09, H13, kokeen tehtävät 4–6 ja 16)","mita_kertoo":"Oppilas tunnistaa syrjinnän mutta ei vielä osaa nimetä sen syytä, joten hän ei voi käyttää lain käsitteitä.","mita_tehda":"Anna syytaulukko näkyviin ja pyydä valitsemaan sieltä sana. Kysy: mikä henkilöön liittyvä asia tilanteessa mainitaan?"},{"virhe":"Vastaa tehtävässä 18 vain \"syrjintä on väärin\" tai \"pitää kertoa\" mainitsematta lakia","tehtava":"lain sisältö ja toimintatapa (H15–H17, kokeen tehtävät 11–15 ja 18)","mita_kertoo":"Oppilas osaa moraalisen arvion mutta ei tiedä, että syrjintä on laissa kielletty.","mita_tehda":"Kertaa yksi lause: Suomen laki kieltää syrjinnän. Pyydä nimeämään yksi laki (perustuslaki, yhdenvertaisuuslaki tai tasa-arvolaki) ja yksi aikuinen, jolle voi kertoa."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Mittaritehtävät: 1, 16, 17 ja 18. Tehtävä 1 ja sanalliset 16–17 vastaavat kartan kriteeriä (kolme syrjintätilannetta erotettu kahdesta hyväksyttävästä erosta, jokaisen syrjinnän syy nimetty), tehtävä 18 lakia ja toimintatapaa.","Koe A on kartan näyttö sellaisenaan (Amina, Eetu, kahvila, joukkue, vartija). Versioissa B–E on sama rakenne: jokaisessa tehtävän 1 tilanteissa on kolme syrjintää (aina sukupuoli, vammaisuus ja kolmantena alkuperä, ihonväri tai kieli), yksi lakiin perustuva ikäraja ja yksi kaikille avoimeen valintaan perustuva taitovalinta. Tehtävän 7 tilanteissa on aina yksi \"en tarkoita pahaa\" -syrjintä, yksi sääntöön kirjoitettu syrjintä, yksi turvallisuusperuste ja yksi tarpeeseen perustuva tuki.","Elokuvien ikärajat: kuvaohjelmalain mukaan 7-, 12- ja 16-vuoden ikärajasta saa poiketa enintään kolme vuotta, kun lapsi on täysi-ikäisen seurassa; 18-ikärajasta ei poiketa. Siksi jokaisessa elokuvatehtävässä lapsi on ilman aikuista tai ikäraja on 18. Jos oppilas huomauttaa, että aikuisen kanssa 9-vuotias pääsisi 12-elokuvaan, hän on oikeassa, ja se on hyvä huomio.","Sanalliset tehtävät 16–20 tarkistetaan käsin. Hyväksy mikä tahansa oikea muotoilu, ei vain malliesimerkin sanamuotoa. Tehtävässä 16 jokaiseen kolmeen tilanteeseen tarvitaan oikea syy (sukupuoli; vammaisuus; alkuperä, ihonväri tai kieli versiosta riippuen; \"alkuperä\" ja \"ihonväri\" kelpaavat kumpikin vartija- ja hotellitilanteissa) ja lyhyt perustelu. Tehtävässä 17 kelpaa \"laki\" tai \"ikäraja suojaa lapsia\" ja \"taito\" tai \"kaikki saivat yrittää samalla tavalla\". Tehtävässä 18 vaaditaan, että laki kieltää syrjinnän, ja yksi tapa toimia (aikuiselle kertominen, yhdenvertaisuus- tai tasa-arvovaltuutettu). Tehtävässä 19 vaaditaan syrjintä, oikea syy ja perustelu. Tehtävässä 20 vaaditaan \"ei syrjintää\" ja lakiin perustuva perustelu.","Opaskoiratilanteissa (harjoitus H10, kokeet B ja C) syy on vammaisuus: opaskoira on sokean apuväline. Jos oppilas vastaa \"koira\", kysy, miksi koira on mukana.","Uskonto on syrjintäperusteena opetustekstissä, harjoituksissa ja kokeen D tehtävässä 19 keksityin henkilöin. Mikään tehtävä ei kysy oppilaan omaa uskontoa, kieltä tai taustaa. Romanit ja somalialaistaustaiset mainitaan syrjinnän kohteina, eivät tekijöinä tai ominaisuuksien kautta. Jos oppilas tunnistaa tilanteesta oman kokemuksensa, käsittele asia kahden kesken ja tarvittaessa koulun yhdenvertaisuussuunnitelman mukaisesti.","Työnjako: 4. luokalla (ET4-YHD-02) erotettiin tarpeeseen perustuva ero perusteettomasta. Tässä taidossa uutta ovat lain käsitteet (syrjintäperusteet, hyväksyttävä peruste: laki, turvallisuus, taito), kolme ansaa ja valtuutetut. Välillinen syrjintä (sääntö, joka näyttää koskevan kaikkia samoin) on haastetaidossa YH5-OIK-05, eikä sitä kysytä tässä.","Tarkistettavat asiatiedot: yhdenvertaisuuslain 8 §:n syrjintäperusteet (1325/2014) ja tasa-arvolaki (609/1986); kuvaohjelmalain ikärajat ja kolmen vuoden poikkeus (710/2011); ikärajojen soveltaminen pelien myyntiin (koe C, tehtävä 20); AM-ajokortin alaikäraja 15 vuotta (koe D, tehtävä 20); ilotulitteiden myyntikielto alle 18-vuotiaille (H05); alkoholin ja tupakan myyntikielto alle 18-vuotiaille; yhdenvertaisuusvaltuutetun ja tasa-arvovaltuutetun tehtävät (työelämän syrjintää valvoo yhdenvertaisuusvaltuutetun lisäksi työsuojeluviranomainen). Lähteet: https://www.finlex.fi/fi/laki/ajantasa/2014/20141325, https://www.finlex.fi/fi/laki/ajantasa/1986/19860609, https://kavi.fi/ikarajat/, https://syrjinta.fi, https://tasa-arvo.fi.","Tässä taidossa ei mitata tekemisen nopeutta eikä ajanoteta mitään."]},"huoltajalle":{"mista_on_kyse":"Lapsi opettelee tunnistamaan syrjinnän eli tilanteen, jossa ihmistä kohdellaan huonommin sen vuoksi, kuka hän on (esimerkiksi sukupuoli, ikä, alkuperä, kieli, uskonto tai vammaisuus), ja erottamaan sen hyväksyttävästä erilaisesta kohtelusta, kuten lakiin perustuvasta ikärajasta tai taitoon perustuvasta joukkuevalinnasta. Lisäksi hän oppii, että Suomen laki kieltää syrjinnän ja kenelle siitä voi kertoa.","kotona":["Kun uutisissa, kirjassa tai elokuvassa tulee vastaan tilanne, jossa joku jää ulkopuolelle, kysykää yhdessä: mistä se johtuu, ja liittyykö syy siihen, mitä ollaan tekemässä?","Kun lapsi kohtaa ikärajan, esimerkiksi elokuvassa tai pelissä, kertokaa, että ikäraja perustuu lakiin ja sen tarkoitus on suojata lapsia, eikä se ole syrjintää.","Kertokaa lapselle, että aikuiselle saa aina kertoa, jos häntä tai jotakuta toista kohdellaan huonommin sen vuoksi, kuka hän on."],"milloin_huolestua":"Jos lapsi kertoo, että häntä tai jotakuta toista kohdellaan toistuvasti huonommin sukupuolen, alkuperän, kielen, uskonnon, vammaisuuden tai muun vastaavan syyn vuoksi, ottakaa yhteyttä opettajaan. Se on hyvinvoinnin ja turvallisuuden asia, ja koulun kuuluu puuttua siihen."},"ulkoiset":{},"valmis_teksti":"Tunnistat syrjinnän, erotat sen hyväksyttävästä erilaisesta kohtelusta ja tiedät, että Suomen laki kieltää syrjinnän. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,524 @@
+<title>Oppikirjan koodi · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI5-LUK-05","oppiaine":"AI","vuosiluokka":5,"taitoalue":"LUK","jakso":"J2","taso":"vahvistava","otsikko":"Oppikirjan koodi","kuvaus":"Osaan lukea eri oppiaineiden tekstejä ja käyttää niiden rakennetta apuna.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T5"],"S":["S2"]},"eyebrow":"Äidinkieli · 5. luokka · Lukeminen ja tekstien tulkinta","ikoni":"kirja","naytto":"Paperikoe: Saan kolme lyhyttä katkelmaa eri oppiaineiden kirjoista (esimerkiksi matematiikan sanallinen tehtävä, ympäristöopin tietoteksti ja historian aikajana). Kerron kunkin tekstin tarkoituksen ja yhden piirteen, joka auttaa lukijaa, ja vastaan yhteen sisältökysymykseen kustakin.","osaa_kun":"Käytän tekstin rakennetta tietoisesti, esimerkiksi luen matematiikan tehtävästä ensin kysymyksen tai etsin lihavoidun käsitteen selityksen, enkä lue kaikkia tekstejä samalla tavalla.","teksti":[{"tyyppi":"johdanto","sisalto":"On tiistai-ilta, ja repussa on kolme kirjaa. Matematiikan kirjassa odottaa sanallinen tehtävä, ympäristöopin kirjassa sivu siitä, mihin syksyn lehdet katoavat, ja historian kirjassa aikajana. Jos luet kaikki kolme samalla tavalla alusta loppuun, teet turhaa työtä ja tärkein asia voi jäädä huomaamatta. Jokaisen oppiaineen teksti on rakennettu omaan tarkoitukseensa, ja rakenne kertoo, miten tekstiä kannattaa lukea. Tässä taidossa opit lukemaan oppikirjan koodin."},{"tyyppi":"kappale","otsikko":"Kolme tekstiä, kolme tarkoitusta","sisalto":"Matematiikan sanallinen tehtävä antaa sinulle ongelman ratkaistavaksi. Ympäristöopin tietoteksti selittää, miten jokin ilmiö toimii ja miksi. Historian teksti kertoo, mitä tapahtui ja missä järjestyksessä. Kun tiedät tekstin tarkoituksen, tiedät myös, mitä siitä etsit: matematiikan tehtävästä kysymystä ja tarvittavia lukuja, tietotekstistä käsitteitä, syitä ja vaiheita, historian tekstistä vuosilukuja ja järjestystä. Tekstin tarkoitus ei ole sama asia kuin sen aihe. Aihe kertoo, mistä teksti puhuu (kakuista, linnuista, sillasta), tarkoitus kertoo, mitä teksti yrittää saada aikaan."},{"tyyppi":"kuva","otsikko":"Oppikirjan koodi","svg":"<svg viewBox=\"0 0 600 236\" role=\"img\" aria-label=\"Kolme oppikirjan tekstiä: matematiikan tehtävä, ympäristöopin tietoteksti ja historian aikajana\"><text class=\"v-t vahva\" x=\"100\" y=\"18\" text-anchor=\"middle\" style=\"font-size:14px\">Matematiikka</text><text class=\"v-t vahva\" x=\"300\" y=\"18\" text-anchor=\"middle\" style=\"font-size:14px\">Ympäristöoppi</text><text class=\"v-t vahva\" x=\"500\" y=\"18\" text-anchor=\"middle\" style=\"font-size:14px\">Historia</text><rect class=\"v-osa\" x=\"12\" y=\"28\" width=\"176\" height=\"160\" rx=\"4\"/><rect class=\"v-osa\" x=\"212\" y=\"28\" width=\"176\" height=\"160\" rx=\"4\"/><rect class=\"v-osa\" x=\"412\" y=\"28\" width=\"176\" height=\"160\" rx=\"4\"/><line class=\"v-tikki pieni\" x1=\"26\" y1=\"48\" x2=\"174\" y2=\"48\"/><line class=\"v-tikki pieni\" x1=\"26\" y1=\"62\" x2=\"174\" y2=\"62\"/><line class=\"v-tikki pieni\" x1=\"26\" y1=\"76\" x2=\"174\" y2=\"76\"/><line class=\"v-tikki pieni\" x1=\"26\" y1=\"90\" x2=\"174\" y2=\"90\"/><line class=\"v-tikki pieni\" x1=\"26\" y1=\"104\" x2=\"130\" y2=\"104\"/><circle class=\"v-merkki\" cx=\"60\" cy=\"62\" r=\"4\"/><circle class=\"v-merkki\" cx=\"132\" cy=\"90\" r=\"4\"/><rect class=\"v-ruutu v1\" x=\"24\" y=\"120\" width=\"152\" height=\"30\" rx=\"3\"/><text class=\"v-t\" x=\"100\" y=\"140\" text-anchor=\"middle\" style=\"font-size:13px\">Kysymys?</text><text class=\"v-t pieni\" x=\"100\" y=\"174\" text-anchor=\"middle\" style=\"font-size:11px\">luvut ja kysymys</text><rect class=\"v-ruutu v2\" x=\"226\" y=\"40\" width=\"74\" height=\"18\" rx=\"2\"/><text class=\"v-t\" x=\"263\" y=\"53\" text-anchor=\"middle\" style=\"font-size:11px\">käsite</text><line class=\"v-tikki pieni\" x1=\"306\" y1=\"49\" x2=\"374\" y2=\"49\"/><line class=\"v-tikki pieni\" x1=\"226\" y1=\"68\" x2=\"374\" y2=\"68\"/><text class=\"v-t\" x=\"300\" y=\"94\" text-anchor=\"middle\" style=\"font-size:12px\">syy → seuraus</text><text class=\"v-t pieni\" x=\"236\" y=\"122\" style=\"font-size:11px\">ensin</text><text class=\"v-t pieni\" x=\"236\" y=\"140\" style=\"font-size:11px\">sitten</text><text class=\"v-t pieni\" x=\"236\" y=\"158\" style=\"font-size:11px\">lopuksi</text><line class=\"v-tikki pieni\" x1=\"282\" y1=\"118\" x2=\"374\" y2=\"118\"/><line class=\"v-tikki pieni\" x1=\"282\" y1=\"136\" x2=\"374\" y2=\"136\"/><line class=\"v-tikki pieni\" x1=\"282\" y1=\"154\" x2=\"374\" y2=\"154\"/><line class=\"v-tikki pieni\" x1=\"426\" y1=\"48\" x2=\"574\" y2=\"48\"/><line class=\"v-tikki pieni\" x1=\"426\" y1=\"62\" x2=\"574\" y2=\"62\"/><line class=\"v-tikki pieni\" x1=\"426\" y1=\"76\" x2=\"530\" y2=\"76\"/><line class=\"v-akseli\" x1=\"428\" y1=\"128\" x2=\"572\" y2=\"128\"/><circle class=\"v-merkki\" cx=\"446\" cy=\"128\" r=\"5\"/><circle class=\"v-merkki\" cx=\"500\" cy=\"128\" r=\"5\"/><circle class=\"v-merkki\" cx=\"556\" cy=\"128\" r=\"5\"/><text class=\"v-t pieni\" x=\"446\" y=\"150\" text-anchor=\"middle\" style=\"font-size:11px\">1800</text><text class=\"v-t pieni\" x=\"500\" y=\"150\" text-anchor=\"middle\" style=\"font-size:11px\">1900</text><text class=\"v-t pieni\" x=\"556\" y=\"150\" text-anchor=\"middle\" style=\"font-size:11px\">2000</text><text class=\"v-t pieni\" x=\"500\" y=\"174\" text-anchor=\"middle\" style=\"font-size:11px\">vuosiluvut ja järjestys</text><text class=\"v-t vahva\" x=\"100\" y=\"210\" text-anchor=\"middle\" style=\"font-size:12px\">Lue kysymys ensin</text><text class=\"v-t vahva\" x=\"300\" y=\"210\" text-anchor=\"middle\" style=\"font-size:12px\">Etsi käsite ja syy</text><text class=\"v-t vahva\" x=\"500\" y=\"210\" text-anchor=\"middle\" style=\"font-size:12px\">Tarkista aikajana</text><text class=\"v-t pieni\" x=\"300\" y=\"230\" text-anchor=\"middle\" style=\"font-size:11px\">Kolme tekstiä, kolme tapaa lukea</text></svg>","teksti":"Jokaisessa oppiaineessa tekstin rakenne näyttää, mistä lukeminen kannattaa aloittaa."},{"tyyppi":"kappale","otsikko":"Matematiikan tehtävä: kysymys ensin","sisalto":"Sanallisen tehtävän kysymys on yleensä viimeisessä virkkeessä, mutta se kannattaa lukea ensimmäisenä. Vasta kun tiedät, mitä kysytään, tiedät, mitkä luvut tarvitset. Tehtävässä voi olla lukuja, jotka kertovat tilanteesta mutta eivät vastaa kysymykseen. Esimerkki: \"(1) Kerhossa on 18 lasta, ja kerho kokoontuu 2 kertaa viikossa. (2) Jokainen lapsi tarvitsee askarteluun 3 kartonkia. (3) Montako kartonkia kerho tarvitsee yhdellä kokoontumiskerralla?\" Kysymys koskee yhtä kertaa, joten luku 2 on vain tilannetietoa. Vastaus on 18 · 3 = 54 kartonkia."},{"tyyppi":"saanto","otsikko":"Näin luet matematiikan tehtävän","askeleet":["Lue kysymys ensin. Se on yleensä viimeinen virke.","Etsi kysymyksen tärkein sana, esimerkiksi yhteensä, enemmän, jäljellä tai kukin. Se kertoo, mitä lasket.","Lue tehtävä alusta ja merkitse luvut, joita kysymys tarvitsee. Jätä tilannetieto rauhaan.","Tarkista yksikkö: euroja, kilometrejä, kappaleita vai hyllyjä.","Lue kysymys vielä kerran ja tarkista, vastaako vastauksesi juuri siihen."]},{"tyyppi":"kappale","otsikko":"Tietoteksti: käsite, syy ja vaiheet","sisalto":"Ympäristöopin kirjassa uusi käsite on usein lihavoitu, ja sen selitys on lähellä, samassa tai seuraavassa virkkeessä. Tietoteksti kertoo myös syitä ja seurauksia. Sanat koska, siksi, joten ja tämän vuoksi ovat merkkejä: niiden kohdalla teksti kertoo, miksi jokin tapahtuu. Jos teksti kuvaa vaiheita, järjestyssanat ensin, sitten, sen jälkeen ja lopuksi näyttävät, missä järjestyksessä asiat tapahtuvat. Tämän sivun aineistoissa lihavoitu sana on merkitty tähdillä, esimerkiksi *haihtuminen*, ja virkkeet on numeroitu, jotta löydät kohdan helposti."},{"tyyppi":"kappale","otsikko":"Historian teksti: tekstin järjestys ja ajan järjestys","sisalto":"Historian kirjassa vuosiluvut ja aikajana kertovat, missä järjestyksessä asiat tapahtuivat. Aikajanalla vanhin tapahtuma on vasemmalla tai ylimpänä. Teksti ei kuitenkaan aina kerro asioita aikajärjestyksessä. Se voi aloittaa tärkeimmästä tapahtumasta ja palata sitten taaksepäin. Esimerkki: \"(1) Vuonna 1923 Myllykylään valmistui uusi koulutalo. (2) Ennen sitä lapset olivat opiskelleet vuodesta 1887 alkaen talon kamarissa. (3) Koulua laajennettiin vuonna 1968.\" Teksti alkaa keskeltä, ja vanhin tapahtuma on vasta toisessa virkkeessä. Vuosisadasta puhutaan muodossa 1800-luku: siihen kuuluvat vuodet 1800–1899. Kahden tapahtuman välinen aika lasketaan vähentämällä vanhempi vuosiluku uudemmasta: 1923 − 1887 = 36 vuotta."},{"tyyppi":"kuva","otsikko":"Aikajana järjestää tapahtumat","svg":"<svg viewBox=\"0 0 580 200\" role=\"img\" aria-label=\"Aikajana: 1887 opetus alkaa talon kamarissa, 1923 uusi koulutalo, 1968 koulua laajennetaan\"><line class=\"v-akseli\" x1=\"40\" y1=\"89\" x2=\"540\" y2=\"89\"/><line class=\"v-akseli\" x1=\"40\" y1=\"84\" x2=\"40\" y2=\"94\"/><text class=\"v-t pieni\" x=\"40\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1880</text><line class=\"v-akseli\" x1=\"140\" y1=\"84\" x2=\"140\" y2=\"94\"/><text class=\"v-t pieni\" x=\"140\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1900</text><line class=\"v-akseli\" x1=\"240\" y1=\"84\" x2=\"240\" y2=\"94\"/><text class=\"v-t pieni\" x=\"240\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1920</text><line class=\"v-akseli\" x1=\"340\" y1=\"84\" x2=\"340\" y2=\"94\"/><text class=\"v-t pieni\" x=\"340\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1940</text><line class=\"v-akseli\" x1=\"440\" y1=\"84\" x2=\"440\" y2=\"94\"/><text class=\"v-t pieni\" x=\"440\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1960</text><line class=\"v-akseli\" x1=\"540\" y1=\"84\" x2=\"540\" y2=\"94\"/><text class=\"v-t pieni\" x=\"540\" y=\"110\" text-anchor=\"middle\" style=\"font-size:11px\">1980</text><circle class=\"v-merkki\" cx=\"75\" cy=\"89\" r=\"6\"/><circle class=\"v-merkki\" cx=\"255\" cy=\"89\" r=\"6\"/><circle class=\"v-merkki\" cx=\"480\" cy=\"89\" r=\"6\"/><text class=\"v-t vahva\" x=\"75\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">1887</text><text class=\"v-t pieni\" x=\"75\" y=\"48\" text-anchor=\"middle\" style=\"font-size:11px\">opetus talon kamarissa</text><line class=\"v-apu\" x1=\"75\" y1=\"54\" x2=\"75\" y2=\"82\"/><text class=\"v-t vahva\" x=\"255\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">1923</text><text class=\"v-t pieni\" x=\"255\" y=\"48\" text-anchor=\"middle\" style=\"font-size:11px\">uusi koulutalo</text><line class=\"v-apu\" x1=\"255\" y1=\"54\" x2=\"255\" y2=\"82\"/><text class=\"v-t vahva\" x=\"480\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">1968</text><text class=\"v-t pieni\" x=\"480\" y=\"48\" text-anchor=\"middle\" style=\"font-size:11px\">koulua laajennetaan</text><line class=\"v-apu\" x1=\"480\" y1=\"54\" x2=\"480\" y2=\"82\"/><rect class=\"v-ruutu v2\" x=\"29\" y=\"128\" width=\"92\" height=\"40\" rx=\"3\"/><text class=\"v-t\" x=\"75\" y=\"145\" text-anchor=\"middle\" style=\"font-size:11px\">tekstissä</text><text class=\"v-t vahva\" x=\"75\" y=\"161\" text-anchor=\"middle\" style=\"font-size:12px\">2. virke</text><rect class=\"v-ruutu v1\" x=\"209\" y=\"128\" width=\"92\" height=\"40\" rx=\"3\"/><text class=\"v-t\" x=\"255\" y=\"145\" text-anchor=\"middle\" style=\"font-size:11px\">tekstissä</text><text class=\"v-t vahva\" x=\"255\" y=\"161\" text-anchor=\"middle\" style=\"font-size:12px\">1. virke</text><rect class=\"v-ruutu v2\" x=\"434\" y=\"128\" width=\"92\" height=\"40\" rx=\"3\"/><text class=\"v-t\" x=\"480\" y=\"145\" text-anchor=\"middle\" style=\"font-size:11px\">tekstissä</text><text class=\"v-t vahva\" x=\"480\" y=\"161\" text-anchor=\"middle\" style=\"font-size:12px\">3. virke</text><text class=\"v-t pieni\" x=\"290\" y=\"192\" text-anchor=\"middle\" style=\"font-size:11px\">Aikajanalla vanhin on vasemmalla. Teksti aloitti keskeltä.</text></svg>","teksti":"Myllykylän esimerkki aikajanalla. Laatikot kertovat, monennessako virkkeessä tapahtuma mainittiin."},{"tyyppi":"taulukko","otsikko":"Oppikirjan koodi taulukkona","otsikkorivi":["Oppiaine","Tekstin tarkoitus","Mikä auttaa lukijaa","Mitä luet ensin"],"rivit":[["Matematiikka","Antaa ongelman ratkaistavaksi","Kysymys lopussa, luvut ja yksiköt","Kysymyksen"],["Ympäristöoppi","Selittää, miten ilmiö toimii ja miksi","Lihavoidut käsitteet, syysanat ja järjestyssanat","Otsikon ja lihavoidut käsitteet"],["Historia","Kertoo, mitä tapahtui ja missä järjestyksessä","Vuosiluvut ja aikajana","Aikajanan"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: kaikki luvut mukaan laskuun","sisalto":"Kun tehtävässä on monta lukua, ne on helppo laskea kaikki mukaan. Tehtävä ei kuitenkaan lupaa, että jokaista lukua tarvitaan. Kerhon esimerkissä luku 2 kertoo, kuinka usein kerho kokoontuu, mutta kysymys koskee yhtä kertaa. Kun luet kysymyksen ensin, näet, mitä lukuja se tarvitsee ja mitkä voi jättää pois."},{"tyyppi":"ansa","otsikko":"Ansa 2: tekstin järjestys ei ole ajan järjestys","sisalto":"Historian tekstissä ensimmäisenä kerrottu tapahtuma ei ole välttämättä vanhin. Sanat ennen sitä, aiemmin ja jo ovat merkkejä siitä, että teksti palaa ajassa taaksepäin. Jos järjestät tapahtumat sen mukaan, missä kohdassa tekstiä ne mainitaan, järjestys menee väärin. Tarkista aina vuosiluvut tai aikajana."},{"tyyppi":"ansa","otsikko":"Ansa 3: edellinen vaihe ei ole syy","sisalto":"Tietotekstissä vaiheet ja syyt ovat lähekkäin, ja ne on helppo sekoittaa. Se, mitä tapahtui juuri ennen, ei ole aina syy. Syy vastaa kysymykseen miksi, ja sen tunnistaa usein sanoista koska ja siksi. Järjestyssana sitten kertoo vain, mitä tapahtuu seuraavaksi."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kysy ennen lukemista: minkä oppiaineen teksti tämä on ja mihin se pyrkii?","Matematiikan tehtävässä lue kysymys ensin. Kaikkia lukuja ei aina tarvita.","Tietotekstissä etsi lihavoitu käsite ja sen selitys, syysanat (koska, siksi) ja järjestyssanat (ensin, sitten, lopuksi).","Historian tekstissä tarkista järjestys vuosiluvuista ja aikajanalta, ei virkkeiden järjestyksestä.","Tarkoitus kertoo, mitä teksti yrittää saada aikaan. Aihe kertoo vain, mistä se puhuu."]}],"harjoitusryhmat":[{"id":"matikka","nimi":"Matematiikan tehtävä","info":"Lue kysymys ensin. Kaikkia tehtävän lukuja ei aina tarvita."},{"id":"tieto","nimi":"Ympäristöopin tietoteksti","info":"Etsi lihavoitu käsite, syysanat ja järjestyssanat. Virkkeet on numeroitu."},{"id":"historia","nimi":"Historian teksti ja aikajana","info":"Tarkista järjestys vuosiluvuista ja aikajanalta, ei siitä, missä kohdassa tekstiä tapahtuma mainitaan."}],"ryhmanimet":{"matikka":"Teksti 1: matematiikan tehtävä","tieto":"Teksti 2: ympäristöopin tietoteksti","historia":"Teksti 3: historian teksti ja aikajana"},"harjoitukset":[{"id":"H01","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Viidennen luokan retkellä on mukana 24 oppilasta ja 3 aikuista. (2) Bussimatka museoon kestää 40 minuuttia. (3) Museon pääsylippu maksaa oppilaalta 6 euroa, ja aikuiset pääsevät sisään ilmaiseksi. (4) Kuinka monta euroa oppilaiden liput maksavat yhteensä?\n\nMonennessako virkkeessä on tehtävän kysymys?","vastaus":4,"vinkki":"Kysymys päättyy kysymysmerkkiin.","selitys":"Virke 4 päättyy kysymysmerkkiin: kuinka monta euroa oppilaiden liput maksavat yhteensä. Se kannattaa lukea ensimmäisenä."},{"id":"H02","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Viidennen luokan retkellä on mukana 24 oppilasta ja 3 aikuista. (2) Bussimatka museoon kestää 40 minuuttia. (3) Museon pääsylippu maksaa oppilaalta 6 euroa, ja aikuiset pääsevät sisään ilmaiseksi. (4) Kuinka monta euroa oppilaiden liput maksavat yhteensä?\n\nMontako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4,"vinkki":"Käy virkkeet läpi yksi kerrallaan ja laske jokainen luku.","selitys":"Luvut ovat 24, 3, 40 ja 6. Niitä on neljä."},{"id":"H03","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Viidennen luokan retkellä on mukana 24 oppilasta ja 3 aikuista. (2) Bussimatka museoon kestää 40 minuuttia. (3) Museon pääsylippu maksaa oppilaalta 6 euroa, ja aikuiset pääsevät sisään ilmaiseksi. (4) Kuinka monta euroa oppilaiden liput maksavat yhteensä?\n\nMontako näistä luvuista tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2,"vinkki":"Kysymys koskee vain oppilaiden lippuja. Aikuiset pääsevät ilmaiseksi.","selitys":"Tarvitset oppilaiden määrän 24 ja lipun hinnan 6. Aikuisten määrä 3 ja bussimatkan 40 minuuttia ovat tilannetietoa."},{"id":"H04","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Viidennen luokan retkellä on mukana 24 oppilasta ja 3 aikuista. (2) Bussimatka museoon kestää 40 minuuttia. (3) Museon pääsylippu maksaa oppilaalta 6 euroa, ja aikuiset pääsevät sisään ilmaiseksi. (4) Kuinka monta euroa oppilaiden liput maksavat yhteensä?\n\nRatkaise tehtävä. Kuinka monta euroa oppilaiden liput maksavat yhteensä?","vastaus":144,"vinkki":"Kerro oppilaiden määrä yhden lipun hinnalla.","selitys":"24 · 6 = 144 euroa. Jos laskit mukaan myös aikuiset, sait 162, mutta aikuiset pääsevät sisään ilmaiseksi."},{"id":"H05","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Puutarhakerho istuttaa koulun pihalle kukkapenkin. (2) Penkkiin tulee 5 riviä, ja jokaiselle riville istutetaan 8 orvokkia. (3) Kerhossa on 12 jäsentä, ja kerho kokoontuu tiistaisin. (4) Orvokkeja on ostettu valmiiksi 50. (5) Montako orvokkia jää yli, kun penkki on istutettu?\n\nMontako tehtävän luvuista on tilannetietoa, jota ei tarvita vastaukseen?","vastaus":1,"vinkki":"Lue kysymys ensin ja katso sitten jokaista lukua: tarvitaanko sitä, kun lasketaan yli jäävät orvokit?","selitys":"Luvut ovat 5, 8, 12 ja 50. Kerhon jäsenten määrä 12 ei vaikuta orvokkeihin, joten tilannetietoa on yksi luku."},{"id":"H06","ryhma":"matikka","tyyppi":"luku","kysymys":"Matematiikan tehtävä\n(1) Puutarhakerho istuttaa koulun pihalle kukkapenkin. (2) Penkkiin tulee 5 riviä, ja jokaiselle riville istutetaan 8 orvokkia. (3) Kerhossa on 12 jäsentä, ja kerho kokoontuu tiistaisin. (4) Orvokkeja on ostettu valmiiksi 50. (5) Montako orvokkia jää yli, kun penkki on istutettu?\n\nRatkaise tehtävä. Montako orvokkia jää yli?","vastaus":10,"vinkki":"Laske ensin, montako orvokkia penkkiin tulee. Vähennä se ostetuista.","selitys":"Penkkiin tulee 5 · 8 = 40 orvokkia. Ostettuja on 50, joten yli jää 50 − 40 = 10."},{"id":"H07","ryhma":"matikka","tyyppi":"monivalinta","kysymys":"Matematiikan tehtävä\n(1) Puutarhakerho istuttaa koulun pihalle kukkapenkin. (2) Penkkiin tulee 5 riviä, ja jokaiselle riville istutetaan 8 orvokkia. (3) Kerhossa on 12 jäsentä, ja kerho kokoontuu tiistaisin. (4) Orvokkeja on ostettu valmiiksi 50. (5) Montako orvokkia jää yli, kun penkki on istutettu?\n\nKysymys vaihdetaan muotoon: Montako orvokkia penkkiin istutetaan? Mitkä luvut tarvitset nyt?","vastaus":0,"vinkki":"Uusi kysymys ei kysy, montako jää yli.","selitys":"Nyt tarvitaan vain rivien määrä 5 ja orvokit rivillä 8: 5 · 8 = 40. Kysymys ratkaisee, mitkä luvut ovat tarpeellisia.","vaihtoehdot":["5 ja 8","5, 8 ja 50","8 ja 12"]},{"id":"H08","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Vesi kiertää\n(1) Maapallon vesi ei katoa minnekään, vaan se kiertää paikasta toiseen. (2) Ensin auringon lämpö lämmittää järvien ja merien pintavettä. (3) Silloin osa vedestä muuttuu näkymättömäksi vesihöyryksi, ja tätä kutsutaan nimellä *haihtuminen*. (4) Sen jälkeen vesihöyry nousee ylös ilmaan, jossa on kylmempää. (5) Koska ilma on siellä kylmää, vesihöyry tiivistyy pieniksi vesipisaroiksi, ja pisaroista syntyy pilviä. (6) Lopuksi pisarat kasvavat niin raskaiksi, että ne putoavat sateena takaisin maahan.\n\nMontako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3,"vinkki":"Käy virkkeet läpi ja etsi vain nämä neljä sanaa tai sanaparia.","selitys":"Järjestyssanat ovat ensin (virke 2), sen jälkeen (virke 4) ja lopuksi (virke 6). Sana sitten ei esiinny tekstissä."},{"id":"H09","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Vesi kiertää\n(1) Maapallon vesi ei katoa minnekään, vaan se kiertää paikasta toiseen. (2) Ensin auringon lämpö lämmittää järvien ja merien pintavettä. (3) Silloin osa vedestä muuttuu näkymättömäksi vesihöyryksi, ja tätä kutsutaan nimellä *haihtuminen*. (4) Sen jälkeen vesihöyry nousee ylös ilmaan, jossa on kylmempää. (5) Koska ilma on siellä kylmää, vesihöyry tiivistyy pieniksi vesipisaroiksi, ja pisaroista syntyy pilviä. (6) Lopuksi pisarat kasvavat niin raskaiksi, että ne putoavat sateena takaisin maahan.\n\nMonennessako virkkeessä kerrotaan syy sille, että vesihöyry tiivistyy pisaroiksi?","vastaus":5,"vinkki":"Etsi sana koska. Pelkkä edellinen vaihe ei ole syy.","selitys":"Virkkeessä 5 lukee: koska ilma on siellä kylmää, vesihöyry tiivistyy. Virke 4 kertoo edellisen vaiheen, mutta ei sitä, miksi pisaroita syntyy."},{"id":"H10","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Vesi kiertää\n(1) Maapallon vesi ei katoa minnekään, vaan se kiertää paikasta toiseen. (2) Ensin auringon lämpö lämmittää järvien ja merien pintavettä. (3) Silloin osa vedestä muuttuu näkymättömäksi vesihöyryksi, ja tätä kutsutaan nimellä *haihtuminen*. (4) Sen jälkeen vesihöyry nousee ylös ilmaan, jossa on kylmempää. (5) Koska ilma on siellä kylmää, vesihöyry tiivistyy pieniksi vesipisaroiksi, ja pisaroista syntyy pilviä. (6) Lopuksi pisarat kasvavat niin raskaiksi, että ne putoavat sateena takaisin maahan.\n\nMonennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":3,"vinkki":"Lihavoitu sana on merkitty tähdillä.","selitys":"Virkkeessä 3 kerrotaan, että osa vedestä muuttuu vesihöyryksi, ja tätä kutsutaan haihtumiseksi. Selitys ja käsite ovat samassa virkkeessä."},{"id":"H11","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Vesi kiertää\n(1) Maapallon vesi ei katoa minnekään, vaan se kiertää paikasta toiseen. (2) Ensin auringon lämpö lämmittää järvien ja merien pintavettä. (3) Silloin osa vedestä muuttuu näkymättömäksi vesihöyryksi, ja tätä kutsutaan nimellä *haihtuminen*. (4) Sen jälkeen vesihöyry nousee ylös ilmaan, jossa on kylmempää. (5) Koska ilma on siellä kylmää, vesihöyry tiivistyy pieniksi vesipisaroiksi, ja pisaroista syntyy pilviä. (6) Lopuksi pisarat kasvavat niin raskaiksi, että ne putoavat sateena takaisin maahan.\n\nMonennessako virkkeessä vesi palaa takaisin maahan?","vastaus":6,"vinkki":"Etsi vaihe, joka on järjestyksessä viimeinen.","selitys":"Virkkeessä 6 pisarat putoavat sateena takaisin maahan. Järjestyssana lopuksi kertoo, että se on viimeinen vaihe."},{"id":"H12","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Mihin lehdet katoavat\n(1) Syksyllä puista putoaa maahan suuri määrä lehtiä. (2) Vähitellen lehdet katoavat, koska *hajottajat* pilkkovat ne pieniksi palasiksi. (3) Hajottajia ovat esimerkiksi sienet, bakteerit ja lierot. (4) Ne muuttavat kuolleet kasvinosat ravinteiksi, joita kasvit voivat käyttää uudelleen. (5) Hajottajat tarvitsevat työhönsä kosteutta ja lämpöä. (6) Siksi lehdet hajoavat kesällä paljon paremmin kuin talvella.\n\nMontako esimerkkiä hajottajista tekstissä luetellaan?","vastaus":3,"vinkki":"Esimerkit on lueteltu samassa virkkeessä pilkuin ja sanalla ja.","selitys":"Virkkeessä 3 luetellaan sienet, bakteerit ja lierot, eli kolme esimerkkiä."},{"id":"H13","ryhma":"tieto","tyyppi":"luku","kysymys":"Pääotsikko: Mihin lehdet katoavat\n(1) Syksyllä puista putoaa maahan suuri määrä lehtiä. (2) Vähitellen lehdet katoavat, koska *hajottajat* pilkkovat ne pieniksi palasiksi. (3) Hajottajia ovat esimerkiksi sienet, bakteerit ja lierot. (4) Ne muuttavat kuolleet kasvinosat ravinteiksi, joita kasvit voivat käyttää uudelleen. (5) Hajottajat tarvitsevat työhönsä kosteutta ja lämpöä. (6) Siksi lehdet hajoavat kesällä paljon paremmin kuin talvella.\n\nTekstin mukaan lehdet hajoavat kesällä paremmin kuin talvella. Monennessako virkkeessä kerrotaan tämän syy?","vastaus":5,"vinkki":"Sana siksi virkkeessä 6 viittaa taaksepäin. Syy on sitä edellä.","selitys":"Virke 6 alkaa sanalla siksi, ja se viittaa virkkeeseen 5: hajottajat tarvitsevat kosteutta ja lämpöä. Kesällä lämpöä on enemmän."},{"id":"H14","ryhma":"tieto","tyyppi":"monivalinta","kysymys":"Pääotsikko: Mihin lehdet katoavat\n(1) Syksyllä puista putoaa maahan suuri määrä lehtiä. (2) Vähitellen lehdet katoavat, koska *hajottajat* pilkkovat ne pieniksi palasiksi. (3) Hajottajia ovat esimerkiksi sienet, bakteerit ja lierot. (4) Ne muuttavat kuolleet kasvinosat ravinteiksi, joita kasvit voivat käyttää uudelleen. (5) Hajottajat tarvitsevat työhönsä kosteutta ja lämpöä. (6) Siksi lehdet hajoavat kesällä paljon paremmin kuin talvella.\n\nMikä on tämän tekstin tarkoitus?","vastaus":1,"vinkki":"Mieti, mitä teksti yrittää saada aikaan. Aihe on syksyn lehdet, mutta mitä tekstissä tehdään niille?","selitys":"Teksti selittää ilmiön ja sen syyn: miksi lehdet katoavat ja mitä hajottajat tekevät. Se ei kerro tarinaa eikä anna ohjetta.","vaihtoehdot":["Kertoa tarina syksystä","Selittää, mihin pudonneet lehdet katoavat ja miksi","Antaa ohje lehtien haravointiin"]},{"id":"H15","ryhma":"historia","tyyppi":"luku","kysymys":"Pääotsikko: Koskelan kylän silta\n(1) Vuonna 1906 Koskelan kylään valmistui ensimmäinen silta joen yli. (2) Ennen sitä joki oli ylitetty lossilla, joka oli aloittanut liikenteen vuonna 1858. (3) Siltaa levennettiin vuonna 1954, kun autoja oli tullut kylään enemmän. (4) Vanha lossi myytiin naapurikylään vuonna 1910.\nAikajana:\n1858 | Lossi aloittaa liikenteen\n1906 | Ensimmäinen silta valmistuu\n1910 | Lossi myydään naapurikylään\n1954 | Siltaa levennetään\n\nMontako vuotta lossi oli liikenteessä Koskelassa ennen kuin silta valmistui?","vastaus":48,"vinkki":"Vähennä lossin aloitusvuosi sillan valmistumisvuodesta.","selitys":"1906 − 1858 = 48 vuotta."},{"id":"H16","ryhma":"historia","tyyppi":"luku","kysymys":"Pääotsikko: Koskelan kylän silta\n(1) Vuonna 1906 Koskelan kylään valmistui ensimmäinen silta joen yli. (2) Ennen sitä joki oli ylitetty lossilla, joka oli aloittanut liikenteen vuonna 1858. (3) Siltaa levennettiin vuonna 1954, kun autoja oli tullut kylään enemmän. (4) Vanha lossi myytiin naapurikylään vuonna 1910.\nAikajana:\n1858 | Lossi aloittaa liikenteen\n1906 | Ensimmäinen silta valmistuu\n1910 | Lossi myydään naapurikylään\n1954 | Siltaa levennetään\n\nTekstin ensimmäinen virke kertoo sillan valmistumisesta. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":2,"vinkki":"Katso aikajanaa, älä tekstin järjestystä.","selitys":"Aikajanalla lossi (1858) on ensimmäinen ja silta (1906) toinen. Teksti aloitti siis toisesta tapahtumasta."},{"id":"H17","ryhma":"historia","tyyppi":"luku","kysymys":"Pääotsikko: Koskelan kylän silta\n(1) Vuonna 1906 Koskelan kylään valmistui ensimmäinen silta joen yli. (2) Ennen sitä joki oli ylitetty lossilla, joka oli aloittanut liikenteen vuonna 1858. (3) Siltaa levennettiin vuonna 1954, kun autoja oli tullut kylään enemmän. (4) Vanha lossi myytiin naapurikylään vuonna 1910.\nAikajana:\n1858 | Lossi aloittaa liikenteen\n1906 | Ensimmäinen silta valmistuu\n1910 | Lossi myydään naapurikylään\n1954 | Siltaa levennetään\n\nMontako aikajanan tapahtumaa on 1900-luvulla?","vastaus":3,"vinkki":"1900-lukuun kuuluvat vuodet 1900–1999.","selitys":"Vuodet 1906, 1910 ja 1954 ovat 1900-lukua. Vuosi 1858 kuuluu 1800-lukuun."},{"id":"H18","ryhma":"historia","tyyppi":"luku","kysymys":"Pääotsikko: Rantalan kirjasto\n(1) Rantalan uusi kirjastotalo avattiin vuonna 1978. (2) Kirjastolla oli kuitenkin jo pitkä historia. (3) Ensimmäiset kirjat oli koottu kylän koulun kaappiin vuonna 1881. (4) Vuonna 1925 kirjasto muutti koulusta seurantalon yläkertaan. (5) Uudessa talossa avattiin lasten oma lukusali vuonna 1991.\nAikajana:\n1881 | Kirjat koulun kaappiin\n1925 | Kirjasto seurantalon yläkertaan\n1978 | Uusi kirjastotalo avataan\n1991 | Lasten lukusali avataan\n\nMontako vuotta kirjasto oli seurantalon yläkerrassa ennen uuden kirjastotalon avaamista?","vastaus":53,"vinkki":"Etsi aikajanalta muutto seurantaloon ja uuden talon avaaminen.","selitys":"1978 − 1925 = 53 vuotta."},{"id":"H19","ryhma":"historia","tyyppi":"luku","kysymys":"Pääotsikko: Rantalan kirjasto\n(1) Rantalan uusi kirjastotalo avattiin vuonna 1978. (2) Kirjastolla oli kuitenkin jo pitkä historia. (3) Ensimmäiset kirjat oli koottu kylän koulun kaappiin vuonna 1881. (4) Vuonna 1925 kirjasto muutti koulusta seurantalon yläkertaan. (5) Uudessa talossa avattiin lasten oma lukusali vuonna 1991.\nAikajana:\n1881 | Kirjat koulun kaappiin\n1925 | Kirjasto seurantalon yläkertaan\n1978 | Uusi kirjastotalo avataan\n1991 | Lasten lukusali avataan\n\nMontako aikajanan tapahtumaa on 1800-luvulla?","vastaus":1,"vinkki":"1800-lukuun kuuluvat vuodet 1800–1899.","selitys":"Vain vuosi 1881 on 1800-lukua. Muut tapahtumat ovat 1900-luvulla."},{"id":"H20","ryhma":"historia","tyyppi":"monivalinta","kysymys":"Pääotsikko: Rantalan kirjasto\n(1) Rantalan uusi kirjastotalo avattiin vuonna 1978. (2) Kirjastolla oli kuitenkin jo pitkä historia. (3) Ensimmäiset kirjat oli koottu kylän koulun kaappiin vuonna 1881. (4) Vuonna 1925 kirjasto muutti koulusta seurantalon yläkertaan. (5) Uudessa talossa avattiin lasten oma lukusali vuonna 1991.\nAikajana:\n1881 | Kirjat koulun kaappiin\n1925 | Kirjasto seurantalon yläkertaan\n1978 | Uusi kirjastotalo avataan\n1991 | Lasten lukusali avataan\n\nMikä tekstin piirre auttaa parhaiten selvittämään, missä järjestyksessä asiat tapahtuivat?","vastaus":1,"vinkki":"Teksti alkaa vuodesta 1978, mutta se ei ole vanhin tapahtuma.","selitys":"Vuosiluvut ja aikajana kertovat järjestyksen. Virkkeiden järjestys johtaa harhaan, koska teksti alkaa uusimmasta talosta ja palaa sitten taaksepäin.","vaihtoehdot":["Pääotsikko","Vuosiluvut ja aikajana","Virkkeiden järjestys tekstissä"]}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue kolme oppikirjan katkelmaa","johdanto":"Teksti 1. Matematiikan kirjasta\n(1) Koulussa järjestetään kevätjuhla. (2) Juhlaan tulee 96 vierasta. (3) Juhla alkaa kello 18 ja kestää 2 tuntia. (4) Jokaisen pöydän ääreen mahtuu 8 vierasta. (5) Montako pöytää tarvitaan, jotta kaikki vieraat mahtuvat istumaan?\n\nTeksti 2. Ympäristöopin kirjasta\nPääotsikko: Kasvi valmistaa ravintonsa\n(1) Vihreä kasvi ei syö ruokaa niin kuin eläin, vaan se valmistaa ravintonsa itse. (2) *Yhteyttäminen* tarkoittaa sitä, että kasvi valmistaa auringonvalon avulla sokeria vedestä ja ilman hiilidioksidista. (3) Ensin kasvin juuret imevät maasta vettä. (4) Sitten vesi kulkee varressa lehtiin, joihin ilmasta tulee hiilidioksidia. (5) Lopuksi lehtien vihreä väriaine sitoo auringonvalon energiaa, ja lehdissä syntyy sokeria ja happea. (6) Koska yhteyttäminen tarvitsee valoa, kasvi ei voi yhteyttää pimeässä.\n\nTeksti 3. Historian kirjasta\nPääotsikko: Mäkelän meijeri\n(1) Vuonna 1931 Mäkelän kylän meijeri sai uuden, suuremman rakennuksen. (2) Ennen sitä maito oli käsitelty pienessä puisessa meijerissä, joka oli perustettu vuonna 1897. (3) Uuteen rakennukseen hankittiin sähkökäyttöinen kirnu vuonna 1936. (4) Meijeri lopetti toimintansa vuonna 1972, ja rakennukseen tuli kyläkoulun käsityöluokka.\nAikajana:\n1897 | Puinen meijeri perustetaan\n1931 | Uusi meijerirakennus valmistuu\n1936 | Sähkökirnu hankitaan\n1972 | Meijeri lopettaa, tilalle käsityöluokka","tehtavat":[{"nro":1,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on tehtävän kysymys?","vastaus":5},{"nro":2,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4},{"nro":3,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako niistä tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2},{"nro":4,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Ratkaise tehtävä. Kirjoita vastaus ja yksikkö.","vastaus":12},{"nro":5,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on lukuja, joita ei tarvita kysymykseen vastaamiseen?","vastaus":3},{"nro":6,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Kysymys vaihdetaan muotoon: Monelta juhla päättyy? Vastaa tasatuntina.","vastaus":20},{"nro":7,"ryhma":"matikka","tyyppi":"sanallinen","kysymys":"Teksti 1. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti antaa ongelman ratkaistavaksi. Kysymys on viimeisessä virkkeessä, ja kun luen sen ensin, tiedän, että tarvitsen vain vieraiden määrän ja pöytäpaikat."},{"nro":8,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":2},{"nro":9,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3},{"nro":10,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan syy sille, että kasvi ei voi yhteyttää pimeässä?","vastaus":6},{"nro":11,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako asiaa kasvi tarvitsee yhteyttämiseen virkkeen 2 mukaan?","vastaus":3},{"nro":12,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä yhteyttämisessä syntyy?","vastaus":5},{"nro":13,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako ainetta lehdissä syntyy tekstin mukaan?","vastaus":2},{"nro":14,"ryhma":"tieto","tyyppi":"sanallinen","kysymys":"Teksti 2. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti selittää, miten kasvi valmistaa ravintonsa ja miksi se tarvitsee valoa. Järjestyssanat ensin, sitten ja lopuksi auttavat, koska ne näyttävät vaiheiden järjestyksen."},{"nro":15,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta puinen meijeri ehti toimia ennen uutta rakennusta?","vastaus":34},{"nro":16,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Tekstin ensimmäinen virke kertoo uudesta rakennuksesta. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":2},{"nro":17,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako aikajanan tapahtumaa on 1800-luvulla?","vastaus":1},{"nro":18,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Monennessako virkkeessä kerrotaan aikajanan vanhin tapahtuma?","vastaus":2},{"nro":19,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta uudessa rakennuksessa käsiteltiin maitoa ennen kuin meijeri lopetti?","vastaus":41},{"nro":20,"ryhma":"historia","tyyppi":"sanallinen","kysymys":"Teksti 3. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti kertoo, mitä meijerille tapahtui ja missä järjestyksessä. Aikajana auttaa, koska siitä näkee vuosiluvut oikeassa järjestyksessä, vaikka teksti alkaa vuodesta 1931."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue kolme oppikirjan katkelmaa","johdanto":"Teksti 1. Matematiikan kirjasta\n(1) Viidesluokkalaiset myyvät pullia koulun myyjäisissä. (2) Myyjäisissä on töissä 14 oppilasta, ja kukin heistä on paikalla 3 tuntia. (3) Yksi pulla maksaa 2 euroa. (4) Pullia myydään yhteensä 85. (5) Montako euroa pullien myynnistä saadaan?\n\nTeksti 2. Ympäristöopin kirjasta\nPääotsikko: Lumi suojaa maata\n(1) Talvella lumi suojaa pakkaselta maata, kasvien juuria ja maassa talvehtivia eläimiä. (2) *Lumipeite* tarkoittaa maata peittävää lumikerrosta. (3) Lumipeite pitää lämpöä, koska lumihiutaleiden väliin jää paljon ilmaa. (4) Ensin syksyn ensilumi sataa maahan ohuena kerroksena. (5) Sen jälkeen kerros paksunee jokaisen lumisateen myötä, ja keskitalvella lumipeite voi olla 50 senttimetriä paksu. (6) Lopuksi keväällä lumi sulaa, ja sulamisvesi imeytyy maahan.\n\nTeksti 3. Historian kirjasta\nPääotsikko: Harjun kyläkauppa\n(1) Vuonna 1949 Harjun kyläkauppa muutti uuteen tiilitaloon. (2) Sitä ennen kauppa oli toiminut vuodesta 1911 omassa puisessa puodissa. (3) Ensimmäisen kerran kauppa oli avattu jo vuonna 1878 talon pirtissä. (4) Tiilitalon kauppa suljettiin vuonna 1996, ja talossa toimii nykyään kahvila.\nAikajana:\n1878 | Kauppa avataan talon pirtissä\n1911 | Kauppa saa oman puodin\n1949 | Kauppa muuttaa tiilitaloon\n1996 | Kauppa suljetaan","tehtavat":[{"nro":1,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on tehtävän kysymys?","vastaus":5},{"nro":2,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4},{"nro":3,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako niistä tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2},{"nro":4,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Ratkaise tehtävä. Kirjoita vastaus ja yksikkö.","vastaus":170},{"nro":5,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on lukuja, joita ei tarvita kysymykseen vastaamiseen?","vastaus":2},{"nro":6,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Kysymys vaihdetaan muotoon: Montako tuntia oppilaat ovat myyjäisissä töissä yhteensä?","vastaus":42},{"nro":7,"ryhma":"matikka","tyyppi":"sanallinen","kysymys":"Teksti 1. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti antaa ongelman ratkaistavaksi. Kysymys on viimeisenä, ja kun luen sen ensin, huomaan, että tarvitsen vain pullan hinnan ja myytyjen pullien määrän."},{"nro":8,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":2},{"nro":9,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3},{"nro":10,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan syy sille, että lumipeite pitää lämpöä?","vastaus":3},{"nro":11,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako asiaa lumi suojaa pakkaselta virkkeen 1 mukaan?","vastaus":3},{"nro":12,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lumelle tapahtuu keväällä?","vastaus":6},{"nro":13,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Kuinka monta senttimetriä paksu lumipeite voi tekstin mukaan olla keskitalvella?","vastaus":50},{"nro":14,"ryhma":"tieto","tyyppi":"sanallinen","kysymys":"Teksti 2. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti selittää, miksi lumi suojaa maata ja miten lumipeite syntyy ja sulaa. Lihavoitu käsite auttaa, koska sen selitys on heti samassa virkkeessä."},{"nro":15,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta kauppa toimi talon pirtissä ennen omaa puotia?","vastaus":33},{"nro":16,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Tekstin ensimmäinen virke kertoo muutosta tiilitaloon. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":3},{"nro":17,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako aikajanan tapahtumaa on 1800-luvulla?","vastaus":1},{"nro":18,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Monennessako virkkeessä kerrotaan aikajanan vanhin tapahtuma?","vastaus":3},{"nro":19,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta kauppa toimi tiilitalossa?","vastaus":47},{"nro":20,"ryhma":"historia","tyyppi":"sanallinen","kysymys":"Teksti 3. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti kertoo kaupan vaiheet ja sen, missä järjestyksessä ne tapahtuivat. Vuosiluvut auttavat, koska teksti alkaa vuodesta 1949 ja palaa sitten taaksepäin."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue kolme oppikirjan katkelmaa","johdanto":"Teksti 1. Matematiikan kirjasta\n(1) Luokka kävelee luontopolkua laavulle. (2) Polku laavulle on 7 kilometriä pitkä. (3) Retkelle lähtee 22 oppilasta ja 2 opettajaa. (4) Ensimmäisellä tauolla matkaa on jäljellä 3 kilometriä. (5) Montako kilometriä luokka on kävellyt ennen ensimmäistä taukoa?\n\nTeksti 2. Ympäristöopin kirjasta\nPääotsikko: Miksi linnut muuttavat\n(1) Osa Suomen linnuista lähtee syksyllä etelään ja palaa keväällä takaisin. (2) *Muuttolintu* tarkoittaa lintua, joka viettää talven toisella, lämpimämmällä alueella. (3) Monet muuttolinnut lähtevät, koska niiden ravintoa, kuten hyönteisiä ja lieroja, ei talvella löydy. (4) Ensin linnut syövät syksyllä paljon ja keräävät vararavintoa rasvaksi. (5) Sitten ne lentävät pitkän matkan, ja osa niistä levähtää matkalla. (6) Lopuksi keväällä ne palaavat Suomeen pesimään.\n\nTeksti 3. Historian kirjasta\nPääotsikko: Koivulahden satama\n(1) Koivulahden satamaan rakennettiin uusi kivilaituri vuonna 1923. (2) Sitä ennen veneet ja laivat olivat kiinnittyneet puiseen laituriin, joka oli tehty vuonna 1864. (3) Satamaan oli valmistunut tavaravarasto vuonna 1890. (4) Kivilaituria pidennettiin vuonna 1967, jotta suuremmatkin laivat mahtuivat rantaan.\nAikajana:\n1864 | Puinen laituri tehdään\n1890 | Tavaravarasto valmistuu\n1923 | Kivilaituri rakennetaan\n1967 | Kivilaituria pidennetään","tehtavat":[{"nro":1,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on tehtävän kysymys?","vastaus":5},{"nro":2,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4},{"nro":3,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako niistä tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2},{"nro":4,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Ratkaise tehtävä. Kirjoita vastaus ja yksikkö.","vastaus":4},{"nro":5,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on lukuja, joita ei tarvita kysymykseen vastaamiseen?","vastaus":3},{"nro":6,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Kysymys vaihdetaan muotoon: Montako retkeläistä luontopolulla on yhteensä?","vastaus":24},{"nro":7,"ryhma":"matikka","tyyppi":"sanallinen","kysymys":"Teksti 1. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti antaa ongelman ratkaistavaksi. Kysymys on viimeisessä virkkeessä, ja kun luen sen ensin, tiedän, että tarvitsen vain polun pituuden ja jäljellä olevan matkan."},{"nro":8,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":2},{"nro":9,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3},{"nro":10,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan syy sille, että linnut lähtevät etelään?","vastaus":3},{"nro":11,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako esimerkkiä lintujen ravinnosta virkkeessä 3 luetellaan?","vastaus":2},{"nro":12,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä linnut tekevät ennen lähtöä?","vastaus":4},{"nro":13,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, että osa linnuista levähtää matkalla?","vastaus":5},{"nro":14,"ryhma":"tieto","tyyppi":"sanallinen","kysymys":"Teksti 2. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti selittää, miksi osa linnuista muuttaa etelään ja miten muutto etenee. Sana koska auttaa, koska sen kohdalta löytyy syy muuttamiseen."},{"nro":15,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta puinen laituri oli käytössä ennen kivilaituria?","vastaus":59},{"nro":16,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Tekstin ensimmäinen virke kertoo kivilaiturista. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":3},{"nro":17,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako aikajanan tapahtumaa on 1800-luvulla?","vastaus":2},{"nro":18,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Monennessako virkkeessä kerrotaan aikajanan vanhin tapahtuma?","vastaus":2},{"nro":19,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta kivilaituri oli ollut käytössä, kun sitä pidennettiin?","vastaus":44},{"nro":20,"ryhma":"historia","tyyppi":"sanallinen","kysymys":"Teksti 3. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti kertoo, miten satama muuttui ja missä järjestyksessä. Aikajana auttaa, koska teksti alkaa kivilaiturista, vaikka se ei ole vanhin tapahtuma."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue kolme oppikirjan katkelmaa","johdanto":"Teksti 1. Matematiikan kirjasta\n(1) Koulun kirjastoon on tullut uusia kirjoja. (2) Uusia kirjoja on 120. (3) Jokaiseen hyllyyn laitetaan 24 kirjaa. (4) Kirjaston lukunurkassa on 6 nojatuolia ja 4 sohvaa. (5) Montako hyllyä uudet kirjat täyttävät?\n\nTeksti 2. Ympäristöopin kirjasta\nPääotsikko: Mehiläinen pölyttää\n(1) Monet kasvit tarvitsevat hyönteisiä, jotta niihin syntyisi siemeniä ja hedelmiä. (2) *Pölytys* tarkoittaa sitä, että siitepöly siirtyy kukan heteistä emiin. (3) Ensin mehiläinen laskeutuu kukkaan hakemaan mettä. (4) Sitten sen karvoihin tarttuu kukan siitepölyä. (5) Sen jälkeen mehiläinen lentää seuraavaan kukkaan, ja siitepölyä varisee sen emiin. (6) Mehiläinen on tärkeä pölyttäjä, koska se käy päivän aikana hyvin monessa kukassa.\n\nTeksti 3. Historian kirjasta\nPääotsikko: Peltolan mylly\n(1) Peltolan mylly sai sähkömoottorin vuonna 1938. (2) Vuonna 1902 myllyyn oli rakennettu toinen kerros. (3) Itse mylly oli rakennettu kosken rantaan jo vuonna 1843, ja sitä pyöritti vesi. (4) Myllyn rakennus kunnostettiin kylämuseoksi vuonna 1989.\nAikajana:\n1843 | Mylly rakennetaan kosken rantaan\n1902 | Myllyyn rakennetaan toinen kerros\n1938 | Mylly saa sähkömoottorin\n1989 | Myllystä tulee kylämuseo","tehtavat":[{"nro":1,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on tehtävän kysymys?","vastaus":5},{"nro":2,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4},{"nro":3,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako niistä tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2},{"nro":4,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Ratkaise tehtävä. Kirjoita vastaus ja yksikkö.","vastaus":5},{"nro":5,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on lukuja, joita ei tarvita kysymykseen vastaamiseen?","vastaus":4},{"nro":6,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Kysymys vaihdetaan muotoon: Montako istuinta lukunurkassa on yhteensä, kun nojatuolit ja sohvat lasketaan?","vastaus":10},{"nro":7,"ryhma":"matikka","tyyppi":"sanallinen","kysymys":"Teksti 1. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti antaa ongelman ratkaistavaksi. Kysymys on lopussa, ja kun luen sen ensin, tiedän, että tarvitsen kirjojen määrän ja hyllyn kirjamäärän, en lukunurkan istuimia."},{"nro":8,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":2},{"nro":9,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3},{"nro":10,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan syy sille, että mehiläinen on tärkeä pölyttäjä?","vastaus":6},{"nro":11,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako asiaa virkkeen 1 mukaan voi syntyä, kun hyönteiset auttavat kasvia?","vastaus":2},{"nro":12,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä siitepölyä tarttuu mehiläiseen?","vastaus":4},{"nro":13,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, miksi mehiläinen laskeutuu kukkaan?","vastaus":3},{"nro":14,"ryhma":"tieto","tyyppi":"sanallinen","kysymys":"Teksti 2. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti selittää, mitä pölytys on ja miten mehiläinen pölyttää kukkia. Järjestyssanat auttavat, koska niistä näkee, missä järjestyksessä vaiheet tapahtuvat."},{"nro":15,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta myllyä pyöritti vesi ennen sähkömoottoria?","vastaus":95},{"nro":16,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Tekstin ensimmäinen virke kertoo sähkömoottorista. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":3},{"nro":17,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako aikajanan tapahtumaa on 1800-luvulla?","vastaus":1},{"nro":18,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Monennessako virkkeessä kerrotaan aikajanan vanhin tapahtuma?","vastaus":3},{"nro":19,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta kului toisen kerroksen rakentamisesta sähkömoottoriin?","vastaus":36},{"nro":20,"ryhma":"historia","tyyppi":"sanallinen","kysymys":"Teksti 3. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti kertoo myllyn vaiheet ja niiden järjestyksen. Aikajana auttaa, koska teksti kertoo vanhimman tapahtuman vasta kolmannessa virkkeessä."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue kolme oppikirjan katkelmaa","johdanto":"Teksti 1. Matematiikan kirjasta\n(1) Koulun kuoro valmistautuu konserttiin. (2) Kuorossa laulaa 27 lasta. (3) Konserttia varten harjoitellaan 6 laulua, ja harjoituksia on 4. (4) Jokainen laulaja saa konserttiin 2 lippua omille vierailleen. (5) Montako lippua laulajat saavat yhteensä?\n\nTeksti 2. Ympäristöopin kirjasta\nPääotsikko: Routa\n(1) Talvella maa voi jäätyä syvältä, erityisesti teillä ja pihoilla, joilta lumi on aurattu pois. (2) *Routa* tarkoittaa maata, jossa oleva vesi on jäätynyt. (3) Ensin pakkanen jäähdyttää maan pintaa. (4) Sitten maassa oleva vesi jäätyy, ja jäätynyt kerros ulottuu vähitellen syvemmälle. (5) Vesi laajenee jäätyessään, ja siksi routa voi nostaa maata ja tehdä tiehen kohoumia. (6) Lopuksi keväällä routa sulaa, ja tiet voivat olla pehmeitä ja kuoppaisia.\n\nTeksti 3. Historian kirjasta\nPääotsikko: Lehtomäen palokunta\n(1) Lehtomäen kylän palokunta sai ensimmäisen paloautonsa vuonna 1928. (2) Palokunta oli perustettu jo vuonna 1885, ja aluksi se sammutti paloja käsiruiskulla. (3) Vuonna 1906 palokunta oli rakentanut itselleen kalustovajan. (4) Uusi paloasema valmistui vuonna 1979.\nAikajana:\n1885 | Palokunta perustetaan\n1906 | Kalustovaja rakennetaan\n1928 | Ensimmäinen paloauto\n1979 | Uusi paloasema valmistuu","tehtavat":[{"nro":1,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on tehtävän kysymys?","vastaus":5},{"nro":2,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako numeroin kirjoitettua lukua tehtävässä on?","vastaus":4},{"nro":3,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Montako niistä tarvitset, kun vastaat tehtävän kysymykseen?","vastaus":2},{"nro":4,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Ratkaise tehtävä. Kirjoita vastaus ja yksikkö.","vastaus":54},{"nro":5,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Monennessako virkkeessä on lukuja, joita ei tarvita kysymykseen vastaamiseen?","vastaus":3},{"nro":6,"ryhma":"matikka","tyyppi":"lasku","kysymys":"Teksti 1. Kysymys vaihdetaan muotoon: Montako laulua harjoituksissa lauletaan yhteensä, kun jokaisessa harjoituksessa lauletaan kaikki laulut kerran?","vastaus":24},{"nro":7,"ryhma":"matikka","tyyppi":"sanallinen","kysymys":"Teksti 1. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti antaa ongelman ratkaistavaksi. Kysymys on viimeisessä virkkeessä, ja kun luen sen ensin, tiedän, että tarvitsen laulajien määrän ja liput laulajaa kohden."},{"nro":8,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä lihavoitu käsite tarkoittaa?","vastaus":2},{"nro":9,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako järjestyssanaa tekstissä on? Laske sanat ensin, sitten, sen jälkeen ja lopuksi.","vastaus":3},{"nro":10,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan syy sille, että routa voi nostaa maata?","vastaus":5},{"nro":11,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Montako paikkaa virkkeessä 1 mainitaan, joissa maa voi jäätyä erityisen syvältä?","vastaus":2},{"nro":12,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä routa sulaa?","vastaus":6},{"nro":13,"ryhma":"tieto","tyyppi":"lasku","kysymys":"Teksti 2. Monennessako virkkeessä kerrotaan, mitä pakkanen tekee ensimmäiseksi?","vastaus":3},{"nro":14,"ryhma":"tieto","tyyppi":"sanallinen","kysymys":"Teksti 2. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti selittää, mitä routa on, miten se syntyy ja miksi se nostaa maata. Sana siksi auttaa, koska sen kohdalla kerrotaan syyn seuraus."},{"nro":15,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta palokunta toimi ennen ensimmäistä paloautoa?","vastaus":43},{"nro":16,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Tekstin ensimmäinen virke kertoo paloautosta. Monesko tapahtuma se on aikajärjestyksessä?","vastaus":3},{"nro":17,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako aikajanan tapahtumaa on 1800-luvulla?","vastaus":1},{"nro":18,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Monennessako virkkeessä kerrotaan aikajanan vanhin tapahtuma?","vastaus":2},{"nro":19,"ryhma":"historia","tyyppi":"lasku","kysymys":"Teksti 3. Montako vuotta kalustovaja oli ollut olemassa, kun paloauto saatiin?","vastaus":22},{"nro":20,"ryhma":"historia","tyyppi":"sanallinen","kysymys":"Teksti 3. Mikä on tekstin tarkoitus? Nimeä yksi tekstin piirre, joka auttaa lukijaa, ja kerro, miten se auttaa.","vastaus":"Malliesimerkki: Teksti kertoo palokunnan vaiheet ja sen, missä järjestyksessä ne tapahtuivat. Aikajana auttaa, koska siitä näkee vuosiluvut järjestyksessä, vaikka teksti alkaa paloautosta."}]}],"tulostus":{"sivuja":3,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Mittaritehtävät ovat 4, 7, 14 ja 20 kaikissa versioissa. Tehtävä 4 on matematiikan tekstin sisältökysymys, jossa tilannetietoa on tarjolla laskuun; tehtävät 7, 14 ja 20 ovat kartan näytön ydin: tekstin tarkoitus ja yksi lukijaa auttava piirre. Kokeen tehtävät 11 ja 15 ovat ympäristöopin ja historian sisältökysymykset.","Tehtävät 7, 14 ja 20 ovat sanallisia, ja vastausavain on malliesimerkki. Hyväksy mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuotoa. Vastaus on oikein, kun siinä on molemmat osat: (1) tarkoitus, eli mitä teksti yrittää saada aikaan (antaa ongelman ratkaistavaksi, selittää ilmiön ja sen syyn, kertoa tapahtumat ja niiden järjestyksen), ja (2) yksi rakenteen piirre ja se, miten piirre auttaa (kysymys lopussa, tarvittavat luvut, yksikkö, lihavoitu käsite ja sen selitys, syysana, järjestyssanat, otsikko, vuosiluvut, aikajana). Pelkkä aihe (\"teksti kertoo meijeristä\") ei ole tarkoitus, ja pelkkä piirteen nimi ilman sen hyötyä on väärin.","Tehtävän 4 vastaus on oikein vain oikealla luvulla; yksikön puuttuminen ei tee vastauksesta väärää, mutta väärä yksikkö tekee (esimerkiksi koe C: 4 kilometriä, ei 4 oppilasta). Jos vastaukseen on otettu mukaan tilannetietoa (esimerkiksi koe D: lukunurkan istuimet tai koe E: harjoitusten määrä), se on juuri tämän taidon ydinvirhe.","Tehtävä 6 vaihtaa kysymyksen ja käyttää samoja lukuja toisin. Se näyttää, että oppija ymmärtää kysymyksen ohjaavan lukujen valintaa. Kokeen A tehtävässä 6 kelpaa vastaukseksi 20 tai kello 20.","Virkkeet on numeroitu, jotta mitattava taito on tekstin rakenteen käyttö eikä virkkeiden laskeminen. Järjestyssanoiksi lasketaan tehtävässä 9 vain luetellut sanat ensin, sitten, sen jälkeen ja lopuksi.","Historian katkelmien kylät, rakennukset ja vuosiluvut ovat keksittyjä. Ympäristöopin katkelmien asiatiedot on yksinkertaistettu viidennelle luokalle; tarkista ennen käyttöä: yhteyttämisen kuvaus (vesi juurista, hiilidioksidi ilmasta, sokeri ja happi lehdissä), lumipeitteen paksuus 50 cm keskitalvella (koe B, \"voi olla\"), lintujen ravinto (hyönteiset ja lierot, koe C), pölytyksen määritelmä (siitepöly heteistä emiin, koe D) ja roudan synty (vesi laajenee jäätyessään, koe E).","Ensimmäinen tunti on opetukseen ja harjoituksiin, toinen kokeeseen ja purkuun. Lukemisen nopeutta ei mitata: aineisto on esillä koko kokeen ajan, ja jokainen saa lukea katkelmat rauhassa. Jos oppilas käyttää lukemisessa apuvälineitä tai lukee ääneen avustajan kanssa, mitattava taito säilyy, kunhan tarkoitus, piirre ja vastaukset ovat oppilaan omia."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Ennen kuin luet, kysy: minkä oppiaineen teksti tämä on ja mihin se pyrkii?","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: aloitus","sisalto":"Näytä kolme avattua oppikirjaa: matematiikan, ympäristöopin ja historian. Kysy, mistä kohdasta kunkin sivun lukisi ensimmäisenä. Vastaukset ovat yleensä erilaiset, ja juuri se on tunnin aihe."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Käy läpi taulukko Oppikirjan koodi rivi kerrallaan. Lue kerhon esimerkki ääneen ja kysy, mikä luku ei kuulu laskuun. Lue Myllykylän esimerkki ja piirrä sen aikajana. Erota tarkoitus ja aihe: aihe on, mistä teksti puhuu, tarkoitus, mitä se yrittää saada aikaan."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Pysähdy tehtävän H07 kohdalla: sama tehtävä, eri kysymys, eri luvut. Historian ryhmässä kysy, mistä tiesit järjestyksen; oikea vastaus on vuosiluvut tai aikajana, ei virkkeiden järjestys."},{"aika":"8 min","otsikko":"Lopetus","sisalto":"Ota jokin oikea oppikirjan sivu tämän päivän läksyistä. Nimetkää yhdessä sen tarkoitus ja yksi piirre, joka auttaa lukijaa. Tämä on sama tehtävä, joka kokeessa tehdään kolmesta katkelmasta."},{"aika":"5 min","otsikko":"2. tunti: kertaus","sisalto":"Kertaa taulukko Oppikirjan koodi: kolme tarkoitusta ja kunkin tekstin auttavat piirteet. Muistuta, että tarkoitus ei ole sama asia kuin aihe ja että piirteestä kerrotaan myös, miten se auttaa."},{"aika":"35 min","otsikko":"Näyttö","sisalto":"Koe yksi versioista A–E. Kolme katkelmaa ovat esillä koko kokeen ajan, ja jokainen lukee ne omaan tahtiinsa."},{"aika":"5 min","otsikko":"Purku","sisalto":"Kysy, mistä kohdasta kukin aloitti kunkin katkelman lukemisen ja miksi. Kerää taululle yksi auttava piirre jokaisesta kolmesta tekstistä."}],"tarvikkeet":"Kolme oppikirjaa (matematiikka, ympäristöoppi, historia), joista näytetään yksi aukeama. Harjoitukset laitteelta tai tulostettuina. Tulostettu koe A–E."},"virhesanakirja":[{"virhe":"Laskee mukaan tilannetiedon, esimerkiksi vastaa H04:ään 162 eikä 144","tehtava":"H03, H04 sekä kokeiden tehtävä 4","mita_kertoo":"Aikuiset on laskettu mukaan, vaikka tehtävä kertoo heidän pääsevän ilmaiseksi. Luvut on poimittu tekstistä ennen kuin kysymys on luettu loppuun.","mita_tehda":"Pyydä lukemaan ääneen ensin kysymys ja sitten jokaisen luvun kohdalla vastaamaan, tarvitaanko sitä. Yliviivaa tarpeettomat luvut ennen laskemista."},{"virhe":"Olettaa, että kaikki tehtävän luvut tarvitaan, ja vastaa kokeen tehtävään 3 luvulla 4","tehtava":"H03, H05 sekä kokeiden tehtävät 3 ja 5","mita_kertoo":"Oppija olettaa, että jokaisella tehtävän luvulla on käyttöä. Oletus on opittu tehtävistä, joissa ylimääräistä tietoa ei ole.","mita_tehda":"Anna sama tehtävä kahdella eri kysymyksellä (kuten H06 ja H07). Kun sama luku on tarpeen toisessa ja tarpeeton toisessa, kysymyksen merkitys tulee näkyväksi."},{"virhe":"Pitää tekstin ensimmäistä virkettä vanhimpana tapahtumana, esimerkiksi vastaa H16:een 1","tehtava":"H16, H20 sekä kokeiden tehtävät 16 ja 18","mita_kertoo":"Tekstin ensimmäinen virke on tulkittu vanhimmaksi tapahtumaksi. Aikajanaa ei ole käytetty tarkistukseen.","mita_tehda":"Leikkaa virkkeet erilleen ja pyydä järjestämään ne aikajanalle vuosilukujen mukaan. Kysy sitten, missä kohdassa tekstiä vanhin tapahtuma oli."},{"virhe":"Pitää edellistä vaihetta syynä, esimerkiksi vastaa H09:ään 4","tehtava":"H09, H13 sekä kokeiden tehtävä 10","mita_kertoo":"Juuri ennen tapahtunut vaihe on tulkittu syyksi. Oppija lukee vaiheiden järjestystä mutta ei syysanoja.","mita_tehda":"Pyydä etsimään tekstistä sana koska tai siksi ja lukemaan, mitä sen jälkeen tai sitä ennen sanotaan. Kysy: vastaako tämä kysymykseen miksi?"},{"virhe":"Laskee järjestyssanoiksi myös sanat silloin, koska tai jo ja vastaa kokeen tehtävään 9 enemmän kuin 3","tehtava":"H08 sekä kokeiden tehtävä 9","mita_kertoo":"Ajan ja syyn sanat ovat sekoittuneet järjestyssanoihin. Tehtävänanto on luettu silmäillen, vaikka siinä luetellaan laskettavat sanat.","mita_tehda":"Pyydä alleviivaamaan tehtävänannon neljä sanaa ja etsimään tekstistä vain ne. Tämä on sama taito kuin matematiikan kysymyksen lukeminen ensin."},{"virhe":"Kertoo tekstin aiheen tarkoituksen sijaan (\"teksti kertoo myllystä\")","tehtava":"H14 sekä kokeiden tehtävät 7, 14 ja 20","mita_kertoo":"Oppija tietää, mistä teksti puhuu, mutta ei vielä, mitä teksti yrittää tehdä. Ero aiheen ja tarkoituksen välillä ei ole selvä.","mita_tehda":"Anna kolme saman aiheen tekstiä eri oppiaineista (esimerkiksi mylly matematiikan tehtävänä, tietotekstinä ja historiana). Kun aihe on sama, tarkoitus erottuu."}],"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee lukemaan eri oppiaineiden tekstejä niiden omalla tavalla. Matematiikan tehtävästä luetaan ensin kysymys, ympäristöopin tekstistä etsitään käsitteet ja syyt, ja historian tekstistä tarkistetaan järjestys vuosiluvuista ja aikajanalta.","kotona":["Kun lapsi tekee matematiikan läksyä, pyydä häntä lukemaan ensin ääneen tehtävän viimeinen virke. Kysy sitten, mitkä tehtävän luvuista tarvitaan.","Kun lapsi lukee ympäristöopin tai historian läksyä, kysy yksi kysymys: miksi näin tapahtui? Pyydä näyttämään kohta, josta vastaus löytyy.","Selatkaa jotakin oppikirjaa yhdessä ja etsikää sivulta lihavoitu sana. Kysy, mistä sen selitys löytyy.","Älä vaadi lukemaan jokaista tekstiä alusta loppuun samalla tavalla. Tekstin rakenteen käyttäminen on tässä taidossa juuri se, mitä harjoitellaan."],"milloin_huolestua":"Jos lapsi lukee tekstit sujuvasti mutta laskee matematiikan tehtävissä toistuvasti kaikki luvut yhteen tai ei löydä läksyn kysymyksen vastausta tekstistä, kerro siitä opettajalle. Usein syy on lukutavassa eikä laskutaidossa, ja se korjaantuu harjoittelemalla."},"ulkoiset":{},"valmis_teksti":"Osaat lukea oppikirjojen koodia: luet matematiikan tehtävästä ensin kysymyksen, löydät tietotekstistä käsitteet ja syyt ja tarkistat historian järjestyksen aikajanalta. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

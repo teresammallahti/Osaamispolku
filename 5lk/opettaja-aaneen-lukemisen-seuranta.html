@@ -1,0 +1,524 @@
+<title>Ääneen lukemisen seuranta · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI5-LUK-07","oppiaine":"AI","vuosiluokka":5,"taitoalue":"LUK","jakso":"J1","taso":"ydin","otsikko":"Ääneen lukemisen seuranta","kuvaus":"Osaan lukea ääneen ikätasoista tekstiä ja seurata, miten lukemiseni kehittyy lukuvuoden aikana.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T5"],"S":["S2"]},"ikoni":"kuuntelu","eyebrow":"Äidinkieli · 5. luokka · Lukeminen ja tekstien tulkinta","naytto":"Luen annettua tekstiä ääneen puolentoista minuutin ajan kolmesti lukuvuodessa: syksyllä, talvella ja keväällä.","osaa_kun":"Teen kaikki kolme mittausta, luen kokonaisin sanoin ja korjaan itse väärin lukemani sanan. Lukunopeus kirjataan tiedoksi eikä se estä siirtymistä.","teksti":[{"tyyppi":"johdanto","sisalto":"Ympäristöopin kirjassa on kappale, jossa on sanoja kuten <i>hajottajasieni</i>, <i>ravinnepitoisuus</i> ja <i>pölyttäjähyönteinen</i>. Jokainen sana on tuttu, kun sen lukee rauhassa. Kun niitä tulee peräkkäin monta, huomaat kappaleen lopussa, että muistat sanat mutta et sitä, mitä ne yhdessä kertoivat. Viidennellä luokalla tekstejä on enemmän, ja niissä on pidempiä sanoja ja uusia käsitteitä jokaisessa oppiaineessa. Siksi lukemisen sujuvuutta seurataan edelleen. Kolme kertaa tämän lukuvuoden aikana luet annettua tekstiä ääneen puolitoista minuuttia, ja oikein luetut sanat lasketaan. Tällä sivulla kerrotaan, mitä mittauksessa tapahtuu, mihin lukua verrataan ja mihin sitä ei käytetä."},{"tyyppi":"kappale","otsikko":"Vertailukohta on oma käyräsi","sisalto":"Lukua verrataan vain sinun omiin aiempiin lukuihisi. Jos teit saman mittauksen jo aiemmin, myös ne luvut kuuluvat samaan käyrään, ja nyt käyrästä näkee jo enemmän kuin yhden vuoden suunnan. Kenenkään lukua ei kerrota toisille, eikä ketään aseteta järjestykseen. Yksittäiseen lukuun vaikuttavat päivä, vireys ja teksti, joten yksi luku ei kerro paljon. Kolme lukua samana vuonna kertoo suunnan, ja usean vuoden luvut kertovat, miten lukeminen on kehittynyt pitkällä aikavälillä. Tavallista on, että käyrässä on tasaisia jaksoja. Lukeminen kehittyy usein portaittain: välillä luku pysyy paikallaan, ja sitten se nousee."},{"tyyppi":"kuva","otsikko":"Tasainen jakso kuuluu kehitykseen","svg":"<svg viewBox=\"0 0 420 182\" role=\"img\" aria-label=\"Kolme mittausta: syksy, talvi ja kevät. Talvella luku pysyi ennallaan, keväällä se nousi.\"><line class=\"v-akseli\" x1=\"40\" y1=\"150\" x2=\"400\" y2=\"150\"/><line class=\"v-akseli\" x1=\"40\" y1=\"30\" x2=\"40\" y2=\"150\"/><text class=\"v-t pieni\" x=\"48\" y=\"26\" style=\"font-size:11px\">oma luku</text><line class=\"v-akseli\" x1=\"100\" y1=\"150\" x2=\"100\" y2=\"155\"/><text class=\"v-t\" x=\"100\" y=\"172\" text-anchor=\"middle\" style=\"font-size:12px\">syksy</text><line class=\"v-akseli\" x1=\"220\" y1=\"150\" x2=\"220\" y2=\"155\"/><text class=\"v-t\" x=\"220\" y=\"172\" text-anchor=\"middle\" style=\"font-size:12px\">talvi</text><line class=\"v-akseli\" x1=\"340\" y1=\"150\" x2=\"340\" y2=\"155\"/><text class=\"v-t\" x=\"340\" y=\"172\" text-anchor=\"middle\" style=\"font-size:12px\">kevät</text><polyline class=\"v-kayra v1\" points=\"100,100 220,98 340,64\"/><circle class=\"v-merkki\" cx=\"100\" cy=\"100\" r=\"6\"/><circle class=\"v-merkki\" cx=\"220\" cy=\"98\" r=\"6\"/><circle class=\"v-merkki\" cx=\"340\" cy=\"64\" r=\"6\"/><text class=\"v-t pieni\" x=\"160\" y=\"88\" text-anchor=\"middle\" style=\"font-size:11px\">tasainen jakso</text></svg>","teksti":"Esimerkki ilman lukuja. Syksyn ja talven välillä luku pysyi lähes ennallaan, ja keväällä se nousi. Tasainen jakso ei tarkoita, että lukeminen olisi pysähtynyt."},{"tyyppi":"kappale","otsikko":"Miksi sujuvuutta seurataan vielä viidennellä luokalla","sisalto":"Lukemisessa on kaksi työtä yhtä aikaa: sanojen tunnistaminen ja sen ymmärtäminen, mitä ne yhdessä tarkoittavat. Molemmat vievät huomiota. Kun teksti on helppo, tunnistaminen käy melkein itsestään, ja huomio riittää ymmärtämiseen. Viidennellä luokalla tekstit muuttuvat. Historian, ympäristöopin ja matematiikan teksteissä on pitkiä yhdyssanoja, käsitteitä ja virkkeitä, joissa on monta osaa. Jos jokainen pitkä sana vaatii pysähtymistä, huomiota ei jää siihen, että huomaisit, milloin et ymmärrä. Juuri sitä harjoittelet taidossa Ymmärryksen vahti. Sujuvuus ei siis ole kilpailu vaan perusta: mitä vähemmän sanat vievät huomiota, sitä enemmän sitä jää ajattelulle."},{"tyyppi":"saanto","otsikko":"Näin mittaus etenee","askeleet":["Saat paperin, jolla on yhtenäinen teksti, jota et ole nähnyt. Tekstiä ei valmistella etukäteen, koska mittauksen kohteena on tavallinen lukeminen.","Luet ääneen niin hyvin kuin osaat, ensimmäisestä sanasta alkaen.","Luet puolitoista minuuttia, ja sinut pysäytetään, kun aika täyttyy. Teksti on tehty niin pitkäksi, ettei sitä ehdi lukea loppuun.","Jos luet sanan väärin ja korjaat sen itse, se lasketaan oikeaksi.","Väärin luetut sanat, joita ei korjata, ja ohitetut sanat vähennetään tuloksesta.","Tulos kirjataan päivämäärän ja tekstin nimen kanssa. Saat tietää oman lukusi.","Jokaisella kerralla on eri teksti. Tekstit on tehty keskenään samanlaisiksi, jotta lukuja voi verrata."]},{"tyyppi":"kappale","otsikko":"Pitkä sana luetaan loppuun asti","sisalto":"Viidennen luokan teksteissä on paljon pitkiä sanoja, ja niissä sattuu useimmat virheet. Silmä tunnistaa sanan alun ja olettaa lopun. Sana <i>tutkimusasema</i> muuttuu muotoon <i>tutkimusmatka</i>, ja <i>kasvillisuus</i> muotoon <i>kasvatus</i>. Pitkä sana on usein yhdyssana, ja se aukeaa helpoimmin, kun sen huomaa koostuvan osista: <i>pölyttäjä</i> ja <i>hyönteinen</i>. Kun silmä kulkee sanan loppuun asti, lukeminen hidastuu hetkeksi mutta virke pysyy oikeana. Jos huomaat lukeneesi väärin, palaa sanan alkuun ja lue se uudelleen. Itse korjattu sana lasketaan oikeaksi, ja korjaaminen kertoo, että seuraat, mitä luet."},{"tyyppi":"taulukko","otsikko":"Mikä sujuvuutta kehittää ja mikä ei","otsikkorivi":["Keino","Mitä se tekee lukemiselle","Toimiiko"],"rivit":[["<b>Luet paljon tekstiä, joka on omalla tasollasi</b>","Samat sanat ja sanojen osat tulevat vastaan yhä uudelleen, ja tunnistaminen helpottuu kaikissa teksteissä.","Toimii. Lukemisen määrä on tärkein yksittäinen keino."],["<b>Luet eri oppiaineiden tekstejä</b>","Tietotekstien sanasto ja virkkeet ovat erilaisia kuin kertomusten. Kun luet molempia, kumpikaan ei ole vieras.","Toimii. Viidennellä luokalla tietotekstien osuus kasvaa."],["<b>Luet saman kappaleen toiseen kertaan</b>","Toisella kerralla sanat ovat tuttuja, ja huomio siirtyy sisältöön ja äänenpainoihin.","Toimii, erityisesti kappaleissa, joissa on paljon uusia sanoja."],["<b>Pilkot vaikean yhdyssanan osiin</b>","Pitkä sana muuttuu kahdeksi tutuksi sanaksi, ja seuraavalla kerralla tunnistat sen kokonaisena.","Toimii. Tämä auttaa myös ymmärtämään, mitä sana tarkoittaa."],["<b>Harjoittelet lukemista kellon kanssa</b>","Kiire siirtyy tavalliseen lukemiseen, ja sanan loppu jää lukematta myös silloin, kun kiirettä ei ole.","Ei toimi. Arvatut sanat vähennetään, ja sisältö katoaa."]]},{"tyyppi":"ansa","otsikko":"Ansa 1: hypit vaikeiden sanojen yli","sisalto":"Kun tulee vastaan pitkä tai vieras sana, voi tuntua järkevältä hypätä sen yli ja jatkaa, jotta lukeminen ei pysähdy. Mittauksessa ohitettu sana lasketaan vääräksi, joten hyppy ei kasvata lukua. Tärkeämpää on, mitä tapahtuu tavallisessa lukemisessa: ohitettu sana on usein juuri se, joka kertoo virkkeen tärkeimmän asian. Tietotekstissä se on yleensä käsite, jota koko kappale selittää. Lue vaikea sana osissa, vaikka se hidastaa hetken. Seuraavalla kerralla se on jo tuttu."},{"tyyppi":"ansa","otsikko":"Ansa 2: vertaat lukuasi toisen lukuun","sisalto":"Jos kuulet kaverin luvun, on vaikea olla vertaamatta. Vertailu ei kuitenkaan kerro mitään hyödyllistä. Kaksi lukijaa voi lukea yhtä hyvin ja saada eri luvut, koska toinen lukee rauhallisemmin ja ymmärtää yhtä hyvin tai paremmin. Toinen taas saa suuren luvun ja muistaa tekstistä vähän. Luku ei myöskään kerro, kumpi lukee enemmän tai kumpi pitää lukemisesta. Ainoa vertailu, josta on hyötyä, on sinun oma lukusi nyt ja aiemmin. Siksi omaa lukuasi ei tarvitse kertoa kenellekään, eikä kenenkään tarvitse kertoa omaansa sinulle."},{"tyyppi":"kappale","otsikko":"Mitä luku ei kerro","sisalto":"Luku kertoo vain, kuinka vaivattomasti tunnistat sanoja, kun luet tuntematonta tekstiä ääneen. Se ei kerro, kuinka hyvin ymmärrät, kuinka paljon tiedät, kuinka hyvin kirjoitat tai kuinka hyvä olet äidinkielessä. Se ei kerro myöskään lukemisesi tärkeimpiä taitoja: huomaatko, milloin et ymmärrä, osaatko tiivistää lukemasi ja osaatko kertoa siitä toiselle. Ne havaitaan muissa taidoissa. Luku ei myöskään vaikuta siihen, siirrytkö kuudennelle luokalle: tässä taidossa vaaditaan, että teet kaikki kolme mittausta, luet kokonaisin sanoin ja korjaat itse väärin lukemasi sanan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Vertailukohta on oma aiempi lukusi, ei kenenkään muun luku.","Kolme mittausta vuodessa: syksyllä, talvella ja keväällä. Tasainen jakso kuuluu kehitykseen.","Lue pitkä sana loppuun asti. Pilko yhdyssana osiin.","Itse korjattu sana lasketaan oikeaksi. Ohitettu sana lasketaan vääräksi.","Tekstiä ei ole tarkoituskaan saada loppuun.","Lukunopeus kirjataan tiedoksi, eikä se vaikuta siirtymiseen.","Sujuvuutta kasvattaa lukeminen, ei kiirehtiminen."]}],"kokeet":[],"lukukokeet":{"kesto_sekuntia":90,"ohje":["Anna oppilaalle oppilaan kappale ja pidä itselläsi opettajan kappale, jossa on juokseva sanaluku joka kymmenennen sanan kohdalla.","Sano ääneen: lue tätä tekstiä ääneen niin hyvin kuin osaat. Jos jokin sana menee väärin, saat korjata sen itse. Lopetan sinut, kun aika täyttyy — tekstiä ei ole tarkoituskaan saada loppuun.","Käynnistä ajanotto, kun oppilas aloittaa ensimmäisen sanan. Merkitse omaan kappaleeseesi viiva siihen kohtaan, jossa oppilas on, kun puolitoista minuuttia täyttyy.","Merkitse lukemisen aikana yliviivaus jokaiseen väärin luettuun sanaan. Jos oppilas korjaa sanan itse, se lasketaan oikeaksi. Ohitettu sana lasketaan vääräksi.","Tulos on pysäytyskohtaan mennessä luettujen sanojen määrä, josta vähennetään väärin luetut sanat. Kirjaa se kirjauslomakkeeseen yhdessä virheiden määrän kanssa.","Käytä samaa tekstiä vain kerran samalle oppilaalle. Kolme mittaustekstiä on tarkoitettu syksyyn, talveen ja kevääseen, ja kaksi varatekstiä poissaolojen varalle.","Tulos on tämän taidon ainoa mitattava luku. Sitä ei lueta ääneen luokalle eikä siitä tehdä luokan sisäistä järjestystä — vertailukohta on oppilaan oma edellinen tulos."],"kirjaus_ohje":"Kirjaa jokaisesta mittauksesta päivämäärä, käytetty teksti, oikein luettujen sanojen määrä ja korjaamattomien virheiden määrä. Sanaa minuutissa saadaan kertomalla tulos kahdella ja jakamalla kolmella. Huomiot-sarakkeeseen kuuluvat havainnot, joita luku ei kerro: pitkien sanojen tavuttaminen, välimerkkien ohittaminen, itse tehdyt korjaukset, rivin katoaminen ja se, osasiko lukija kertoa, mistä teksti kertoi. Jos oppilaalla on 4. luokan mittaukset samalla protokollalla, kirjaa ne samaan lomakkeeseen vertailun avuksi.","viiteasteikko":{"otsikko":"Vertailuasteikko: mihin lukua voi verrata","selite":["Ainoa julkisesti saatavilla oleva suomalainen normiaineisto tälle mittaustavalle on Niilo Mäki Instituutin LukiMat-aineisto <b>2. luokalta</b>. Se on kerätty täsmälleen tällä protokollalla: lausemuotoista tekstiä ääneen 90 sekuntia, pisteenä jokainen oikein luettu tai itse korjattu sana.","Luvut ovat sanoja 90 sekunnissa. Sanaa minuutissa saadaan kertomalla kahdella ja jakamalla kolmella.","<b>Taulukko ei ole 5. luokan normi.</b> Viidesluokkalaisen luku on tavallisesti suurempi kuin toisen luokan luvut, joten taulukosta ei voi päätellä, onko viidesluokkalaisen tulos tavanomainen. Taulukko kertoo vain sen, missä lukutaso on ollut toisen luokan päätteeksi. Jos viidesluokkalaisen luku on taulukon keskiarvojen tasolla tai sen alle, se on syy keskustella erityisopettajan kanssa.","<b>Luokille 3–6 ei ole julkista vastaavaa taulukkoa.</b> ALLU-lukutestillä, Lukilasse 2:lla ja Niilo Mäki Instituutin alakoulun DigiLukiseulalla on normit luokille 1–6, mutta ne ovat maksullisia välineitä eikä niiden normitaulukoita julkaista. Jos koulu haluaa kansallisen vertailukohdan, se hankitaan niistä.","Siihen asti vertailukohta on oppilaan oma edellinen tulos, myös edellisen lukuvuoden tulokset, jos ne on kirjattu samalla protokollalla, sekä koulun oma kertyvä aineisto."],"sarakkeet":["Ajankohta","Keskiarvo","Keskihajonta","Alin kymmenys","Puoliväli","Ylin kymmenys"],"rivit":[["Syksy","74","37","25–30","67–70","118–130"],["Talvi","101","38","44–53","93–97","144–153"],["Kevät","103","38","45–55","99–102","145–156"]],"lahde":"Lähde: LukiMat — Oppimisen arviointi, tuen tarpeen tunnistaminen, 2. luokka, tekstin lukeminen (90 s). Niilo Mäki Instituutti / Jyväskylän yliopisto. Luvut ovat 2. luokan normiaineistosta."},"tekstit":[{"id":"L1","nimi":"Lukuteksti A · syksy","teksti":"Metsän reunalla kohoaa usein korkea kasa, joka näyttää ensi silmäyksellä pelkältä neulasläjältä. Se on kuitenkin kekomuurahaisten koti, jossa voi asua satojatuhansia muurahaisia. Keko on rakennettu havunneulasista, pienistä oksanpaloista ja kaarnanmuruista, jotka muurahaiset ovat kantaneet paikalleen yksi kerrallaan. Näkyvä keko on vasta pesän yläosa, sillä käytäviä ja kammioita jatkuu syvälle maan alle. Pesän tärkein asukas on kuningatar, jonka ainoa tehtävä on munia. Kaikki muut työt hoitavat työläiset, jotka ovat naaraita. Osa niistä hoitaa munia ja toukkia, osa korjaa keon pintaa ja osa lähtee etsimään ruokaa. Ruokaa etsivät muurahaiset kulkevat pitkin polkuja, joita voi nähdä metsässä selvästi. Polulla näkee usein muurahaisia, jotka kantavat saalista tai rakennustarpeita, jotka näyttävät aivan liian suurilta niin pienelle kantajalle. Ne löytävät tiensä takaisin, koska jättävät maahan hajujäljen, jota muut seuraavat. Muurahaiset saalistavat paljon hyönteisiä, ja siksi ne ovat metsälle hyödyllisiä. Lisäksi ne hoitavat kirvoja, jotka elävät puiden oksilla ja imevät kasvin nestettä. Kirvat erittävät makeaa nestettä, jota muurahaiset keräävät ravinnokseen. Vastineeksi muurahaiset puolustavat kirvoja niitä syöviltä hyönteisiltä. Keon paikka ei ole sattumaa. Keko rakennetaan usein kohtaan, johon aurinko paistaa, jolloin pesä lämpenee nopeasti. Keon sisällä työläiset siirtävät toukkia paikasta toiseen sen mukaan, missä on sopivan lämmintä. Neulaskerros toimii katon tavoin ja suojaa pesää sateelta. Keväällä muurahaiset kokoontuvat aurinkoisina päivinä keon pinnalle lämmittelemään. Kun ne palaavat sisälle, ne tuovat lämmön mukanaan syvemmälle pesään. Jos kekoa uhkaa vihollinen, muurahaiset puolustautuvat puremalla ja ruiskuttamalla muurahaishappoa. Happo kirvelee ihoa, ja sen tuoksun tunnistaa helposti keon läheltä. Siksi kekoon ei kannata koskea paljain käsin eikä keppiä kannata työntää sen sisään. Rikottu keko pitää korjata, ja korjaamiseen kuluu muurahaisilta paljon voimia. Syksyn tullen muurahaisten liike hiljenee vähitellen. Ne vetäytyvät talveksi syvälle maan alle, jonne pakkanen ei ulotu. Siellä ne odottavat liikkumattomina kevättä ja lämpimiä päiviä. Kun lumi sulaa ja aurinko lämmittää keon, työ alkaa jälleen alusta. Hyvin hoidettu keko voi pysyä samalla paikalla vuosikymmeniä. Muurahaisia on maapallolla valtavasti, ja niitä elää lähes kaikkialla, missä on maata ja lämpöä. Metsässä kulkiessa kannattaa pysähtyä hetkeksi seuraamaan muurahaisten polkuja. Pienen hetken aikana näkee, miten tarkasti jokainen yhteisön jäsen hoitaa oman tehtävänsä. Yksittäinen muurahainen on pieni ja heikko, mutta yhdessä ne rakentavat pesän, joka kestää myrskyt ja pakkaset."},{"id":"L2","nimi":"Lukuteksti B · talvi","teksti":"Paperia käytetään joka päivä niin paljon, että harva tulee ajatelleeksi, mistä se on peräisin. Suurin osa paperista valmistetaan puusta, ja Suomessa raaka-aineena käytetään esimerkiksi kuusta, mäntyä ja koivua. Puun sisällä on pieniä ja ohuita kuituja, jotka sitovat puun lujaksi kokonaisuudeksi. Paperinvalmistuksessa nämä kuidut irrotetaan toisistaan ja liitetään sitten uudella tavalla yhteen. Ensin metsästä tuodut rungot kuoritaan ja pilkotaan pieniksi lastuiksi, joita kutsutaan hakkeeksi. Hake voidaan keittää suurissa säiliöissä aineiden kanssa, jotka liuottavat kuituja yhdessä pitävää ainetta. Toinen tapa on hioa puuta niin kauan, että kuidut irtoavat toisistaan. Kummassakin tapauksessa syntyy massaa, joka muistuttaa paksua ja harmaata puuroa. Massasta suurin osa on vettä, ja kuituja on joukossa vain vähän. Paperikone on valtava laite, joka voi olla pidempi kuin jalkapallokenttä, ja se käy usein yötä päivää. Paperikoneen alkupäässä massa levitetään ohueksi kerrokseksi liikkuvalle viiralle, joka on tiheää verkkoa. Vesi valuu verkon läpi, ja kuidut jäävät sen pinnalle tiiviiksi matoksi. Sen jälkeen märkä paperi kulkee raskaiden telojen välistä, jotka puristavat siitä lisää vettä pois. Lopuksi paperi kuivataan kulkemalla kuumien sylinterien ympäri. Valmis paperi kääritään rulliksi, jotka ovat niin suuria, että niitä siirretään nostureilla. Paperin ominaisuuksia voidaan muuttaa lisäämällä massaan muita aineita, jotka tekevät pinnasta sileän ja valkoisen. Rullista leikataan arkkeja, joille painetaan kirjoja, lehtiä ja vihkoja. Samasta kuidusta valmistetaan myös pahvia, jota tarvitaan laatikoihin ja pakkauksiin. Käytetty paperi ei ole jätettä, vaan siitä voidaan valmistaa uutta paperia. Kierrätyspaperi liotetaan veteen, ja siitä poistetaan painomuste ja muut ylimääräiset aineet. Puhdistetusta massasta tehdään esimerkiksi pehmopaperia, sanomalehtipaperia tai pahvilaatikoita. Kierrätys ei kuitenkaan voi jatkua loputtomiin, koska kuidut lyhenevät ja heikkenevät jokaisella kierroksella. Siksi joukkoon lisätään aina myös uutta puukuitua. Lyhyistä kuiduista tehty paperi on pehmeämpää mutta heikompaa kuin pitkistä kuiduista tehty. Paperin kierrättäminen säästää puuta ja vähentää kaatopaikoille päätyvän jätteen määrää. Kotona paperi kannattaa lajitella erilleen muusta jätteestä, jotta se päätyy takaisin tehtaalle. Paperinvalmistus tarvitsee paljon vettä ja energiaa, ja tehtaat pyrkivät käyttämään niitä yhä säästeliäämmin. Seuraavan kerran, kun avaat uuden vihon, voit muistaa, että sen sivut ovat kulkeneet pitkän matkan. Matka alkoi metsästä, jatkui tehtaan koneiden läpi ja päättyi kauppaan. Ehkä sama kuitu on jo aiemmin ollut osa sanomalehteä tai pakkauslaatikkoa."},{"id":"L3","nimi":"Lukuteksti C · kevät","teksti":"Suomi on yksi maailman soisimmista maista, ja soita on lähes joka puolella maata. Suo on paikka, jossa maa on märkää ympäri vuoden ja vesi seisoo lähellä pintaa. Märässä maassa on vähän happea, ja siksi kuolleet kasvit eivät maadu kokonaan. Ne kerrostuvat hitaasti toistensa päälle ja muuttuvat vähitellen turpeeksi. Turvetta kertyy vuodessa vain ohut kerros, joten paksu turvekerros on syntynyt tuhansien vuosien aikana. Turvetta on käytetty Suomessa pitkään polttoaineena, mutta sen nostaminen muuttaa suon pysyvästi. Suon tärkein kasvi on rahkasammal, joka kasvaa tiheinä mättäinä. Rahkasammal pystyy imemään itseensä vettä moninkertaisesti oman painonsa verran. Kun sammalmättäästä puristaa kourallisen, siitä valuu runsaasti vettä kuin pesusienestä. Rahkasammal tekee ympäristöstään hapanta, mikä vaikeuttaa monien muiden kasvien kasvua. Suolla elääkin kasveja, jotka ovat sopeutuneet niukkaan ravintoon. Kihokki on pieni kasvi, jonka lehdillä on tahmeita karvoja. Lehdelle laskeutunut hyönteinen jää kiinni, ja kasvi saa siitä ravinteita, joita suon maaperästä ei saa. Suolla kasvaa myös hilla, jota kutsutaan monin paikoin lakaksi. Sen kullankeltaiset marjat kypsyvät keskikesän jälkeen, ja niitä pidetään herkkuna. Myöhemmin syksyllä mättäiden pinnalla punoittavat karpalot, jotka voi kerätä vielä keväälläkin lumen sulettua. Suot ovat tärkeitä myös linnuille. Monet kahlaajat etsivät ravintoa suon märistä kohdista, joissa on paljon hyönteisten toukkia. Kurjet pesivät mielellään soiden keskellä, jonne ihmisen on vaikea päästä. Kevään tullen niiden kova huuto kuuluu kauas suon yli. Suo toimii myös luonnon suodattimena, joka puhdistaa sadevettä ennen kuin se virtaa puroihin ja järviin. Lisäksi turpeeseen on varastoitunut valtavasti hiiltä, joka on peräisin kuolleista kasveista. Kun suo kuivataan ojittamalla, turve alkaa hajota ja hiiltä vapautuu ilmaan. Siksi soiden suojeleminen on tärkeää myös ilmaston kannalta. Monilla soilla kulkee pitkospuita, jotka ovat kapeita lankkuja märän maan päällä. Pitkospuilla pysyminen on tärkeää, koska suolla on paikkoja, joissa jalka uppoaa syvälle. Erityisen märät ja avoimet kohdat voivat olla vaarallisia, eikä niille kannata mennä. Pitkospuilla kävellessä voi turvallisesti tutkia suon kasveja ja kuunnella lintuja. Suolla liikkuessa kannattaa pukea jalkaan kumisaappaat ja ottaa mukaan hyttyskarkote, sillä alkukesällä hyttysiä on runsaasti. Hiljaisena aamuna suo voi tuntua yhdeltä luonnon rauhallisimmista paikoista. Moni huomaa siellä ensimmäistä kertaa, kuinka monenlaista elämää märkä maa pitää sisällään."},{"id":"L4","nimi":"Lukuteksti D · varateksti","teksti":"Kesäisellä niityllä kukasta toiseen lentävä mehiläinen tekee työtä, josta hyötyvät myös ihmiset. Tarhamehiläiset elävät suurissa yhteisöissä, joita kutsutaan yhdyskunniksi. Jokaisessa yhdyskunnassa on yksi kuningatar, suuri joukko työläisiä ja kesäisin myös koiraita, joita sanotaan kuhnureiksi. Kuningatar munii pesän kennoihin, ja työläiset hoitavat kaikki muut tehtävät. Työläisen tehtävät vaihtuvat sen iän mukaan. Nuorena se siivoaa kennoja ja ruokkii toukkia, myöhemmin se rakentaa vahasta uusia kennoja ja vartioi pesän suuaukkoa. Vasta vanhempana työläinen lähtee pesästä keräämään mettä ja siitepölyä. Pesän suuaukolla vartijat tunnistavat oman pesän mehiläiset hajusta ja ajavat vieraat pois. Kennot ovat kuusikulmaisia, ja niiden muoto säästää vahaa ja tilaa. Pesässä voi kesällä olla kymmeniätuhansia mehiläisiä, ja jokaisella niistä on oma tehtävänsä. Hunaja syntyy kukkien medestä, jonka mehiläiset kantavat pesään. Pesässä mettä siirretään kennoihin, ja siitä haihdutetaan vettä siipiä leyhyttämällä. Kun hunaja on tarpeeksi paksua, työläiset sulkevat kennon ohuella vahakannella. Hyvän ravintopaikan löytänyt mehiläinen kertoo siitä muille tanssimalla. Tanssin suunnasta ja kestosta muut päättelevät, mihin suuntaan ja kuinka kauas niiden pitää lentää. Mehiläisten työ on tärkeää myös siksi, että ne pölyttävät kasveja. Kun mehiläinen vierailee kukassa, siitepölyä tarttuu sen karvoihin ja siirtyy seuraavaan kukkaan. Ilman pölyttäjiä monet marjat, hedelmät ja viljelykasvit tuottaisivat paljon pienemmän sadon. Pölyttäjiä ovat myös kimalaiset, perhoset ja monet muut hyönteiset. Talvella mehiläiset eivät nuku, vaan ne kerääntyvät pesässä tiiviiksi rykelmäksi. Ne tuottavat lämpöä värisyttämällä lihaksiaan ja vaihtavat paikkaa rykelmän reunan ja keskustan välillä. Ravinnoksi niille riittää kesällä kerätty hunaja. Mehiläinen pistää yleensä vain puolustaessaan itseään tai pesäänsä. Kun tarhamehiläisen työläinen pistää ihmistä, sen piikki jää kiinni ihoon ja mehiläinen kuolee. Siksi mehiläinen ei pistä turhaan, eikä sitä kannata huitoa. Rauhallisesti paikallaan pysyvän ihmisen ohi mehiläinen lentää yleensä välittämättä hänestä lainkaan. Jos pistoksesta seuraa voimakas turvotus tai hengitysvaikeuksia, apua on haettava heti. Mehiläistarhaus on vanha ammatti, ja hunajaa on kerätty ihmisten ravinnoksi jo hyvin kauan. Mehiläistarhaajat hoitavat pesiä suojapuvuissa ja käyttävät savua rauhoittamaan mehiläisiä. Monessa puutarhassa kasvatetaan nykyään kukkia, joista pölyttäjät löytävät ravintoa koko kesän ajan. Jokainen kukkiva pihanurkka auttaa pieniä työntekijöitä, joiden ansiosta pöytään riittää marjoja."},{"id":"L5","nimi":"Lukuteksti E · varateksti","teksti":"Syksyllä metsään ilmestyy sieniä, jotka tuntuvat kasvavan esiin yhdessä yössä. Se, mitä tavallisesti kutsumme sieneksi, on kuitenkin vain pieni osa koko eliöstä. Varsinainen sieni elää maan alla ohuina rihmoina, jotka muodostavat laajan ja tiheän verkoston. Tätä verkostoa kutsutaan rihmastoksi, ja se voi levitä hyvin laajalle alueelle. Maan pinnalle nouseva sieni on itiöemä, jonka tehtävä on levittää itiöitä. Itiöt ovat niin pieniä, ettei niitä erota paljaalla silmällä. Ne lentävät tuulen mukana uusille paikoille, ja osa niistä alkaa kasvaa uudeksi rihmastoksi. Sienet eivät ole kasveja, sillä ne eivät pysty valmistamaan ravintoa auringonvalon avulla. Ne saavat ravintonsa muilla tavoilla, ja juuri siksi ne ovat metsälle niin tärkeitä. Monet sienet elävät yhteistyössä puiden kanssa. Sienirihmasto kietoutuu puun hienoimpien juurten ympärille ja ulottuu paljon kauemmas kuin juuret. Rihmasto kerää maasta vettä ja ravinteita ja luovuttaa niitä puulle. Puu puolestaan antaa sienelle sokeria, jota se on valmistanut lehdissään. Tällaisesta yhteistyöstä hyötyvät molemmat, ja moni puu kasvaa sen ansiosta paremmin. Toiset sienet hajottavat kuolleita puita, lehtiä ja neulasia. Ilman niitä metsän pohja täyttyisi vähitellen kaatuneista rungoista ja karikkeesta. Hajottajasienet palauttavat ravinteet maaperään, josta uudet kasvit voivat käyttää niitä. Kaatunut runko pehmenee ja murenee sienten työn tuloksena vähitellen, vaikka siihen kuluu usein vuosikymmeniä. Lahoavassa rungossa elää lisäksi monia hyönteisiä, jotka eivät pystyisi elämään missään muualla. Sieniä kuuluu myös arkiseen elämään. Moni on nähnyt, miten unohtunut appelsiini peittyy ajan mittaan vihertävään pölyyn. Leivän päälle kasvava home on sieni, ja samoin lääkkeitä on kehitetty sienistä. Metsästä kerätyt ruokasienet ovat monelle syksyn herkkua. Sienestäjän tärkein sääntö on yksinkertainen: syö vain sellaisia sieniä, jotka tunnistat varmasti. Suomen metsissä kasvaa myös myrkyllisiä sieniä, ja muutama niistä on hengenvaarallinen. Jotkin myrkkysienet muistuttavat läheisesti syötäviä lajeja. Siksi aloittelijan kannattaa sienestää kokeneen aikuisen kanssa ja käyttää apuna sienikirjaa. Epävarmaa sientä ei maisteta, vaan se jätetään metsään. Sienet kannattaa kerätä koriin eikä muovipussiin, jotta ne pysyvät hyvinä kotimatkan ajan. Sienestäessä on hyvä katsella myös niitä sieniä, joita ei poimita. Niiden muodoissa ja väreissä on yllättävän paljon vaihtelua. Jokainen niistä on vain näkyvä merkki maan alla kulkevasta verkostosta, joka pitää metsän elävänä."}]},"havainnointikriteerit":[{"virhe":"Lukee lyhyet sanat sujuvasti mutta arvaa pitkien yhdyssanojen loput: tekstissä lukee <i>sienirihmasto</i> tai <i>tutkimusasema</i>, lukija sanoo sanan, joka alkaa samoin, eikä pysähdy.","tehtava":"Mittaus, erityisesti pitkät yhdyssanat ja taivutetut sanat","mita_kertoo":"Sanantunnistus nojaa sanan alkuun. Tämä on viidennellä luokalla tavallisin virhetyyppi, koska tekstien sanat pitenevät. Korjaamaton arvaus vähentää tulosta ja muuttaa virkkeen merkityksen, joten luku on tässä tapauksessa sekä aliarvio että merkki ymmärtämisen riskistä tietoteksteissä.","mita_tehda":"Kirjaa havainto huomioihin ja merkitse, toistuuko se. Harjoittele tavallisilla tunneilla yhdyssanojen pilkkomista osiin ja lukemista sanan loppuun asti. Jos arvaukset ovat runsaita myös talven mittauksessa, kirjaa se ja keskustele erityisopettajan kanssa."},{"virhe":"Lukee nopeasti ja virheettömästi mutta tasaisella äänellä, välimerkkejä noudattamatta, eikä osaa jälkeenpäin kertoa, mistä teksti kertoi.","tehtava":"Mittaus ja yksi kysymys heti sen jälkeen: mistä tässä oli kyse","mita_kertoo":"Sanojen tunnistaminen on sujuvaa, mutta huomio on kokonaan ääneen tuottamisessa. Suuri luku näyttää tässä tapauksessa paremmalta kuin lukeminen on. Usein kyse on siitä, että lukija on ymmärtänyt mittauksen nopeuskilpailuksi.","mita_tehda":"Kerro, että tekstiä ei ole tarkoitus saada loppuun ja että ymmärtäminen on lukemisen tarkoitus. Anna sama teksti luettavaksi hiljaa ja kysy uudelleen. Jos ymmärtäminen ei synny silloinkaan, jatkotyö kuuluu taitoihin AI5-LUK-01 ja AI4-LUK-02 eikä tämän luvun kasvattamiseen."},{"virhe":"Korjaa itseään hyvin usein, myös oikein luettuja sanoja: palaa virkkeen alkuun, lukee sanan uudelleen ja varmistaa.","tehtava":"Mittaus, koko lukuaika","mita_kertoo":"Lukija seuraa tarkasti, mitä lukee, mikä on hyvä merkki ymmärtämisen valvonnasta. Tiheä varmistelu voi kuitenkin kertoa epävarmuudesta tai pelosta tehdä virhe. Luku jää pienemmäksi kuin lukutaito, koska varmistelu vie aikaa.","mita_tehda":"Kerro, että itse korjattu sana lasketaan aina oikeaksi ja ettei oikein luettua sanaa tarvitse varmistaa. Kirjaa havainto tuloksen viereen, jotta luku tulkitaan oikein. Jos varmistelu näkyy myös muussa koulutyössä, keskustele siitä oppilaan kanssa erikseen."},{"virhe":"Rivi katoaa toistuvasti: lukija hyppää rivin yli tai lukee saman rivin kahdesti eikä huomaa sitä.","tehtava":"Mittaus, rivinvaihdot","mita_kertoo":"Kyse voi olla silmän liikkeiden hallinnasta tai näöstä eikä sanantunnistuksesta. Rivin katoaminen voi pienentää tulosta paljon, vaikka sanat itsessään tunnistuisivat vaivatta.","mita_tehda":"Kirjaa havainto ja tarkista, toistuuko se muussa lukemisessa. Kokeile väljemmin ladottua tekstiä tai rivin alle pantavaa paperia tavallisessa lukemisessa. Toistuessa suosittele näön tarkistamista ja keskustele erityisopettajan kanssa."},{"virhe":"Tulos ei nouse syksystä kevääseen, ja korjaamattomia virheitä on jokaisessa mittauksessa paljon.","tehtava":"Kolmen mittauksen ja virhemäärien vertailu","mita_kertoo":"Tämä on eri asia kuin hidas mutta tarkka lukeminen. Kun luku pysyy pienenä ja virheitä on paljon, sanantunnistus itsessään on epävarmaa, eikä lukemisen määrä yksin riitä. Viidennellä luokalla tämä näkyy erityisesti tietotekstien kanssa kaikissa oppiaineissa.","mita_tehda":"Ohjaa tarkempaan arviointiin erityisopettajalle viimeistään talven mittauksen jälkeen. Älä odota kevään mittausta, jos jo kaksi ensimmäistä näyttävät saman kuvan. Selvitä samalla, ymmärtääkö oppilas saman tekstin kuunneltuna: se erottaa lukemisen vaikeuden ymmärtämisen vaikeudesta."},{"virhe":"Kysyy heti mittauksen jälkeen muiden tuloksia, vertaa lukuaan kavereihin tai kieltäytyy mittauksesta, koska pelkää olevansa muita hitaampi.","tehtava":"Mittaustilanne ja sen jälkeinen keskustelu","mita_kertoo":"Luku on oppilaalle muuttunut vertailuksi muihin. Se kertoo yleensä siitä, että tuloksia on puhuttu luokassa tai kotona, ei lukutaidosta. Pelko voi pienentää tulosta, ja kieltäytyminen estää seurannan, joka on tarkoitettu oppilaan omaksi hyödyksi.","mita_tehda":"Kerro, että luku verrataan vain oppilaan omaan aiempaan lukuun eikä muiden lukuja kerrota kenellekään. Näytä oppilaalle hänen oma käyränsä. Jos pelko jatkuu, tee mittaus rauhallisimpaan aikaan ja kirjaa havainto. Tarkista, onko tuloksia puhuttu luokassa, ja puutu siihen."}],"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Lukua verrataan vain sinun omaan aiempaan lukuusi. Itse korjattu sana lasketaan oikeaksi, ohitettu sana vääräksi, eikä tekstiä ole tarkoituskaan saada loppuun.","vaiheet":[{"aika":"7 min","otsikko":"Aloitus: mitä seurataan ja miksi","sisalto":"Kerro, että ääneen lukemisen sujuvuutta seurataan myös viidennellä luokalla kolmesti vuodessa. Sano heti, että tuloksia ei kerrota muille ja että vertailukohta on oma aiempi luku, myös neljännen luokan luvut, jos ne on kirjattu. Kerro myös, että lukunopeus kirjataan tiedoksi eikä se vaikuta siirtymiseen."},{"aika":"12 min","otsikko":"Pitkät sanat ja huomion jakautuminen","sisalto":"Ota oppikirjasta kappale, jossa on useita pitkiä yhdyssanoja. Lue ensin yksi virke niin, että arvaat pitkän sanan loppuosan, ja sitten oikein. Kysy, mitä virkkeen merkitykselle tapahtui. Harjoitelkaa pareittain yhdyssanojen pilkkomista osiin samasta kappaleesta."},{"aika":"10 min","otsikko":"Mittauksen kulku ja laskentasäännöt","sisalto":"Käy läpi mittauksen askeleet. Painota kolmea sääntöä: itse korjattu sana lasketaan oikeaksi, korjaamaton väärä sana vähennetään ja ohitettu sana lasketaan vääräksi. Johda niistä, että arvaaminen ja hyppiminen eivät kasvata lukua. Vastaa kysymyksiin nyt, ei mittaustilanteessa."},{"aika":"11 min","otsikko":"Mikä sujuvuutta kehittää","sisalto":"Käy läpi taulukon keinot. Korosta eri oppiaineiden tekstien lukemista ja saman kappaleen lukemista toiseen kertaan. Perustele kellon kanssa harjoittelun kielto samalla laskentasäännöllä kuin edellä."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kerro, milloin ensimmäinen mittaus tehdään ja että se tehdään kahden kesken rauhallisessa paikassa. Jätä tilaa kysymyksille."}],"tarvikkeet":"Lukutekstit tulostettuna kahtena kappaleena: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa on juokseva sanaluku joka kymmenennen sanan kohdalla. Sekuntikello tai puhelimen ajastin, kynä ja kirjauslomake, jossa on sarakkeet päivämäärälle, tekstille, tulokselle, virheille ja huomioille. Oppikirjan kappale, jossa on pitkiä yhdyssanoja. Rauhallinen paikka mittauksiin."},"opettajalle":{"kesto":"Ei yhtä oppituntia. Aihe esitellään yhdellä tunnilla tämän tuntirungon mukaan, ja mittaukset tehdään yksi oppilas kerrallaan kolmesti lukuvuodessa: syksyllä, talvella ja keväällä.","huomiot":["Tämä on hankkeen ainoa dokumentoitu poikkeus ajanoton kiellosta: ääneen lukemisen sujuvuutta seurataan jokaisella alakoulun luokalla, koska se on vakiintunut tapa havaita lukemisen vaikeus ajoissa. Poikkeus koskee vain tätä mittausta. Lukunopeus kirjataan tiedoksi, eikä se estä siirtymistä.","Taito on näytetty, kun oppilas on tehnyt kaikki kolme mittausta, lukee kokonaisin sanoin (ei tavuttaen) ja korjaa itse väärin lukemansa sanan ainakin silloin, kun virhe muuttaa virkkeen merkityksen. Nopeutta tai tulosta ei vaadita. Jos oppilas ei korjaa yhtään virhettä, koska virheitä ei tule, kriteeri täyttyy; jos virheitä tulee eikä yhtäkään korjata, kirjaa havainto ja seuraa seuraavassa mittauksessa.","Tulosta ei lueta ääneen eikä siitä tehdä luokan sisäistä järjestystä missään muodossa. Luku kerrotaan oppilaalle itselleen ja kotiin. Julkiseksi tullut luku muuttaa seuraavan mittauksen jännitystilanteeksi.","Viidennellä luokalla tekstit ovat hieman pidempiä (noin 330–350 sanaa) kuin 4. luokalla, jotta sujuvakaan lukija ei ehdi loppuun. Tekstit ovat tietotekstejä, joissa ei ole numeroita, vierasperäisiä nimiä tai erisnimiä. Ne on tehty samantasoisiksi, mutta sanojen keskipituudessa on pieniä eroja: teksti D on hieman muita vaativampi, joten se on varatekstinä.","Vertailuasteikko on 2. luokan normiaineisto, eikä se ole 5. luokan normi. Sen ainoa käyttö tällä luokalla on huomata selvästi poikkeava tulos: jos viidesluokkalaisen luku on 2. luokan kevään keskiarvon tasolla tai sen alle, ohjaa erityisopettajalle. Kansallinen vertailu tehdään tarvittaessa ALLU-, Lukilasse 2- tai DigiLukiseula-välineillä.","Erottele kaksi heikkoa tulosta. Heikko tulos ilman virheitä on hidasta mutta tarkkaa lukemista, joka paranee lukemisen määrällä. Heikko tulos ja paljon korjaamattomia virheitä tarkoittaa epävarmaa sanantunnistusta, ja silloin jatkoselvitys on aiheellinen. Merkitse siksi virheiden määrä aina tuloksen viereen.","Jos oppilaalla on 4. luokan mittaukset samalla protokollalla, käytä niitä vertailussa. Pitkän aikavälin käyrä kertoo enemmän kuin yhden vuoden kolme pistettä. Älä kuitenkaan vertaa yksittäisiä lukuja eri vuosien tekstien välillä tarkasti, koska tekstien pituus ja sanasto ovat eri.","Tekstien asiatiedot on kirjoitettu yleisesti tunnetuista aiheista (kekomuurahainen, paperin valmistus, suo, tarhamehiläinen, sienet). Ne kannattaa lukea läpi ennen tulostamista, ja jos jokin kohta on paikallisesti harhaanjohtava, sen voi muuttaa, kunhan sanamäärä pysyy suunnilleen samana.","Tekstien C (suo), D (mehiläiset) ja E (sienet) aiheita sivutaan myös taitojen AI5-LUK-01 (kokeet A ja B) ja AI5-LUK-02 (koe C) koeteksteissä. Sanamuodot ovat eri, mutta tuttu aihe voi helpottaa lukemista hieman. Jos oppilas on juuri tehnyt saman aiheen kokeen, valitse mittaukseen toinen teksti ja kirjaa käytetty teksti."]},"huoltajalle":{"mista_on_kyse":"Tämä on ainoa taito, jossa koulu mittaa aikaa. Lapsi lukee annettua tekstiä ääneen puolitoista minuuttia, ja oikein luetut sanat lasketaan. Mittaus tehdään kolmesti lukuvuodessa: syksyllä, talvella ja keväällä. Viidennellä luokalla tekstit ovat pidempiä ja sanat pitkiä, koska oppikirjojen tekstit muuttuvat samaan suuntaan. Luku ei ole arvosana eikä se vaikuta siirtymiseen kuudennelle luokalle: taidossa vaaditaan, että lapsi tekee mittaukset, lukee kokonaisin sanoin ja korjaa itse väärin lukemansa sanan. Lukua verrataan vain lapsen omiin aiempiin tuloksiin.","kotona":["Älkää ottako aikaa kotona. Kellon kanssa harjoittelu opettaa arvaamaan sanan lopun, ja arvatut sanat vähennetään tuloksesta. Sujuvuus kasvaa lukemalla, ei kiirehtimällä.","Antakaa lapsen lukea monenlaista tekstiä: kertomusten lisäksi myös tietotekstejä, esimerkiksi oppikirjan kappaleita, ohjeita tai lehtijuttuja. Viidennellä luokalla juuri tietotekstien sanasto haastaa.","Jos lapsi kompastuu pitkään sanaan, voitte pilkkoa sen yhdessä osiin. Yhdyssana on usein kaksi tuttua sanaa peräkkäin.","Jos lapsi kertoo tuloksestaan, kysykää ensin, mistä teksti kertoi. Älkää verratko lukua sisarusten, kavereiden tai verkosta löytyvien taulukoiden lukuihin. Julkisesti saatavilla olevat vertailuluvut koskevat toista luokkaa eivätkä sovi viidesluokkalaiselle."],"milloin_huolestua":"Yksi laskenut tulos ei ole huolen aihe. Ottakaa yhteyttä opettajaan, jos lapsi alkaa vältellä lukemista myös kotona, jos lukeminen on selvästi työläämpää kuin ikätovereilla eikä helpotu, jos lapsi ymmärtää kuulemansa hyvin mutta lukeminen itsessään on raskasta tai jos rivi katoaa toistuvasti. Rivin katoaminen kannattaa tarkistuttaa myös näön puolelta."},"ulkoiset":{},"valmis_teksti":"Olet tehnyt kaikki kolme mittausta: syksyllä, talvella ja keväällä. Luet kokonaisin sanoin, luet pitkät sanat loppuun asti ja korjaat itse, jos sana tulee väärin. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,524 @@
+<title>Maapallon tehtävälista · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ET4-LUO-01","oppiaine":"ET","vuosiluokka":4,"taitoalue":"LUO","jakso":"J1","taso":"vahvistava","otsikko":"Maapallon tehtävälista","kuvaus":"Osaan kertoa, mitä YK:n kestävän kehityksen tavoitteet ovat, erottaa ekologisen ja sosiaalisen kestävyyden ja kertoa, miten voin kantaa vastuuta tavoitteiden toteutumisesta.","versio":"0.1","paivitetty":"2026-11-13","ops":{"T":["T4"],"S":["S4","S3"]},"eyebrow":"Elämänkatsomustieto · 4. luokka · Luonto ja kestävä tulevaisuus","ikoni":"maapallo","naytto":"Opettaja antaa kahdeksan YK:n kestävän kehityksen tavoitteen korttia: ei köyhyyttä, ei nälkää, hyvä koulutus, sukupuolten tasa-arvo, eriarvoisuuden vähentäminen, ilmastotekoja, vedenalainen elämä ja maanpäällinen elämä. 1) Kerron, ketkä tavoitteista ovat sopineet ja mihin niillä pyritään. 2) Lajittelen kortit ekologiseen ja sosiaaliseen kestävyyteen. 3) Valitsen yhden ekologisen ja yhden sosiaalisen tavoitteen ja kerron kummastakin yhden teon, jolla voin kantaa vastuuta itsestäni, toisista tai luonnosta koulussa tai lähiympäristössä.","osaa_kun":"Kerron, että YK:n jäsenmaat ovat sopineet tavoitteista yhdessä ja että niillä pyritään hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta. Lajittelen vähintään seitsemän korttia kahdeksasta oikein (ilmasto sekä vesi- ja maaluonto ekologisia; köyhyys, nälkä, koulutus, tasa-arvo ja eriarvoisuus sosiaalisia). Teot liittyvät valitsemaani tavoitteeseen, ovat koulussa tai lähiympäristössä tehtäviä eivätkä riipu kodin hankinnoista, ja kerron, keneen vastuu kohdistuu.","teksti":[{"tyyppi":"johdanto","sisalto":"Tehtävälistalle kirjoitetaan asiat, jotka pitää hoitaa, kuten läksyt tai luokan kasvien kastelu. Entä jos koko maapallolla olisi yhteinen tehtävälista? Sellainen on olemassa. YK:n jäsenmaat ovat sopineet yhdessä 17 kestävän kehityksen tavoitetta, jotka on tarkoitus saavuttaa vuoteen 2030 mennessä. Tässä taidossa opit, mitä tavoitteet ovat, tutustut kahdeksaan niistä, opit erottamaan ekologisen ja sosiaalisen kestävyyden ja mietit, miten voit itse kantaa vastuuta koulussa ja lähiympäristössä."},{"tyyppi":"kappale","otsikko":"Mitä kestävä kehitys tarkoittaa?","sisalto":"Kestävä kehitys tarkoittaa, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa ja että luontoa ei vahingoiteta. Tärkeä sana on tulevaisuus. Jos järvestä pyydettäisiin tänä vuonna kaikki kalat, kaloja ei olisi ensi vuonna kenellekään. Kestävästi toimitaan, kun kalaa pyydetään vain niin paljon, että kaloja riittää myös myöhemmin. Sama koskee metsiä, vettä ja ilmaa: ne pitää jättää sellaisiksi, että myös tulevat ihmiset ja eläimet voivat elää hyvin."},{"tyyppi":"kappale","otsikko":"Kuka tavoitteista sopi?","sisalto":"YK eli Yhdistyneet kansakunnat on järjestö, jossa melkein kaikki maailman maat ovat jäseninä. Myös Suomi on YK:n jäsen. YK:n jäsenmaat sopivat kestävän kehityksen tavoitteista yhdessä. Tavoitteita on 17, ja ne on tarkoitus saavuttaa vuoteen 2030 mennessä. Ne koskevat kaikkia maita, myös Suomea. Tavoitteita edistävät valtiot ja kunnat, mutta myös koulut, yritykset ja jokainen ihminen omilla teoillaan."},{"tyyppi":"kappale","otsikko":"Ekologinen ja sosiaalinen kestävyys","sisalto":"Tavoitteet voi jakaa ryhmiin sen mukaan, kenen hyvinvoinnista ne ensisijaisesti kertovat. Ekologinen kestävyys tarkoittaa, että luonto voi hyvin: ilmasto, vesistöt, meret, metsät, kasvit ja eläimet. Sosiaalinen kestävyys tarkoittaa, että ihmiset voivat hyvin ja heitä kohdellaan reilusti: jokaisella on ruokaa, koulu ja samat mahdollisuudet, eikä ketään jätetä ulkopuolelle. Kun mietit, kumpaan ryhmään tavoite kuuluu, kysy: kertooko tavoite ensisijaisesti luonnosta vai ihmisistä?"},{"tyyppi":"taulukko","otsikko":"Kahdeksan tavoitetta seitsemästätoista","otsikkorivi":["Tavoite","Mitä sillä tavoitellaan","Kestävyys"],"rivit":[["Ei köyhyyttä","Jokaisella on varaa välttämättömiin asioihin, kuten ruokaan, asuntoon ja vaatteisiin.","sosiaalinen"],["Ei nälkää","Jokainen ihminen saa joka päivä tarpeeksi ruokaa.","sosiaalinen"],["Hyvä koulutus","Jokainen lapsi pääsee kouluun ja oppii.","sosiaalinen"],["Sukupuolten tasa-arvo","Tytöillä ja pojilla, naisilla ja miehillä on samat oikeudet ja mahdollisuudet.","sosiaalinen"],["Eriarvoisuuden vähentäminen","Erot ihmisten mahdollisuuksissa pienenevät, eikä ketään jätetä ulkopuolelle.","sosiaalinen"],["Ilmastotekoja","Ilmastonmuutosta hillitään, jotta maapallo ei lämpene liikaa.","ekologinen"],["Vedenalainen elämä","Meret, järvet ja niiden kasvit ja eläimet voivat hyvin, eikä veteen päädy roskia.","ekologinen"],["Maanpäällinen elämä","Metsät, niityt ja suot sekä maalla elävät kasvit ja eläimet säilyvät.","ekologinen"]]},{"tyyppi":"kappale","otsikko":"Vastuu itsestä, toisista ja luonnosta","sisalto":"Tavoitteet ovat isoja, mutta niitä edistetään myös pienillä teoilla. Vastuu voi kohdistua kolmeen suuntaan. Vastuu itsestä: pidät huolta omasta oppimisestasi, sillä hyvä koulutus koskee myös sinua. Vastuu toisista: autat ja otat mukaan, jotta kukaan ei jää ulkopuolelle. Vastuu luonnosta: et roskaa, keräät roskia ja jätät eläinten kodit rauhaan. Myös sähkön säästäminen on ilmastoteko, koska sähkön tuottamisesta syntyy usein ilmastoa lämmittäviä päästöjä: sammuta valot ja laitteet, kun et tarvitse niitä. Hyvä teko on sellainen, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa."},{"tyyppi":"kuva","otsikko":"Vastuu kolmeen suuntaan","svg":"<svg viewBox=\"0 0 640 250\" role=\"img\" aria-label=\"Vastuu kolmeen suuntaan: itsestä, toisista ja luonnosta\"><rect class=\"v-ruutu v1\" x=\"190\" y=\"12\" width=\"260\" height=\"52\" rx=\"8\"/><text class=\"v-t vahva\" x=\"320\" y=\"34\" text-anchor=\"middle\" style=\"font-size:13px\">Minun tekoni koulussa</text><text class=\"v-t vahva\" x=\"320\" y=\"52\" text-anchor=\"middle\" style=\"font-size:13px\">ja lähiympäristössä</text><line class=\"v-akseli\" x1=\"320\" y1=\"64\" x2=\"105\" y2=\"96\"/><rect class=\"v-osa\" x=\"10\" y=\"100\" width=\"190\" height=\"104\" rx=\"8\"/><text class=\"v-t vahva\" x=\"105\" y=\"122\" text-anchor=\"middle\" style=\"font-size:13px\">Vastuu itsestä</text><text class=\"v-t\" x=\"105\" y=\"146\" text-anchor=\"middle\" style=\"font-size:12.5px\">Harjoittelen sitkeästi,</text><text class=\"v-t\" x=\"105\" y=\"163\" text-anchor=\"middle\" style=\"font-size:12.5px\">jotta opin uuden</text><text class=\"v-t\" x=\"105\" y=\"180\" text-anchor=\"middle\" style=\"font-size:12.5px\">asian.</text><text class=\"v-t pieni\" x=\"105\" y=\"226\" text-anchor=\"middle\" style=\"font-size:11.5px\">Tavoite: Hyvä koulutus</text><line class=\"v-akseli\" x1=\"320\" y1=\"64\" x2=\"320\" y2=\"96\"/><rect class=\"v-osa\" x=\"225\" y=\"100\" width=\"190\" height=\"104\" rx=\"8\"/><text class=\"v-t vahva\" x=\"320\" y=\"122\" text-anchor=\"middle\" style=\"font-size:13px\">Vastuu toisista</text><text class=\"v-t\" x=\"320\" y=\"146\" text-anchor=\"middle\" style=\"font-size:12.5px\">Kutsun yksin</text><text class=\"v-t\" x=\"320\" y=\"163\" text-anchor=\"middle\" style=\"font-size:12.5px\">jääneen mukaan</text><text class=\"v-t\" x=\"320\" y=\"180\" text-anchor=\"middle\" style=\"font-size:12.5px\">leikkiin.</text><text class=\"v-t pieni\" x=\"320\" y=\"226\" text-anchor=\"middle\" style=\"font-size:11.5px\">Tavoite: Eriarvoisuuden vähentäminen</text><line class=\"v-akseli\" x1=\"320\" y1=\"64\" x2=\"535\" y2=\"96\"/><rect class=\"v-osa\" x=\"440\" y=\"100\" width=\"190\" height=\"104\" rx=\"8\"/><text class=\"v-t vahva\" x=\"535\" y=\"122\" text-anchor=\"middle\" style=\"font-size:13px\">Vastuu luonnosta</text><text class=\"v-t\" x=\"535\" y=\"146\" text-anchor=\"middle\" style=\"font-size:12.5px\">Poimin roskat</text><text class=\"v-t\" x=\"535\" y=\"163\" text-anchor=\"middle\" style=\"font-size:12.5px\">puiston</text><text class=\"v-t\" x=\"535\" y=\"180\" text-anchor=\"middle\" style=\"font-size:12.5px\">nurmikolta.</text><text class=\"v-t pieni\" x=\"535\" y=\"226\" text-anchor=\"middle\" style=\"font-size:11.5px\">Tavoite: Maanpäällinen elämä</text></svg>","teksti":"Sama ihminen voi kantaa vastuuta itsestään, toisista ja luonnosta. Jokainen teko liittyy johonkin tavoitteeseen."},{"tyyppi":"saanto","otsikko":"Näin keksit teon tavoitteelle","askeleet":["Valitse tavoite ja kerro omin sanoin, mitä sillä tavoitellaan.","Kerro, onko tavoite ekologinen (luonto voi hyvin) vai sosiaalinen (ihmiset voivat hyvin).","Keksi teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman ostamista.","Tarkista, että teko liittyy juuri tähän tavoitteeseen: mitä teko muuttaa?","Kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon."]},{"tyyppi":"ansa","otsikko":"Ansa 1: ruoka kasvaa luonnossa, joten Ei nälkää on ekologinen","sisalto":"Ruoka kasvaa pelloilla, mutta tavoite Ei nälkää kertoo siitä, saavatko ihmiset tarpeeksi ruokaa. Se kertoo ihmisten hyvinvoinnista, joten se on sosiaalinen tavoite. Kysy aina: kenen hyvinvoinnista tavoite kertoo ensisijaisesti?"},{"tyyppi":"ansa","otsikko":"Ansa 2: hyvä teko, mutta väärä tavoite","sisalto":"\"Tavoite on Vedenalainen elämä. Tekoni: autan kaveria matematiikassa.\" Teko on hyvä, mutta se ei auta meriä eikä järviä. Teon pitää muuttaa jotain siinä asiassa, josta tavoite kertoo. Vedenalaiseen elämään sopii esimerkiksi rannalle jääneen roskan vieminen roskikseen, ettei se päädy veteen."},{"tyyppi":"ansa","otsikko":"Ansa 3: teko, joka vaatii ostamista","sisalto":"\"Ostan uuden, vähemmän sähköä kuluttavan television\" tai \"Ostetaan sähköauto\" eivät ole tämän taidon tekoja. Ne riippuvat rahasta ja aikuisten päätöksistä. Valitse teko, jonka voit tehdä itse, nyt ja ilman rahaa: sammuta valot, kerää roskat, ota toinen mukaan, auta oppimaan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["YK:n jäsenmaat sopivat yhdessä 17 kestävän kehityksen tavoitetta, jotka on tarkoitus saavuttaa vuoteen 2030 mennessä.","Tavoitteilla pyritään hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta.","Ekologinen: luonto voi hyvin (Ilmastotekoja, Vedenalainen elämä, Maanpäällinen elämä).","Sosiaalinen: ihmiset voivat hyvin ja heitä kohdellaan reilusti (Ei köyhyyttä, Ei nälkää, Hyvä koulutus, Sukupuolten tasa-arvo, Eriarvoisuuden vähentäminen).","Vastuu voi kohdistua itseen, toisiin tai luontoon.","Hyvä teko liittyy tavoitteeseen ja onnistuu koulussa tai lähiympäristössä ilman ostamista."]}],"harjoitusryhmat":[{"id":"tavoitteet","nimi":"Maapallon tehtävälista","info":"YK:n jäsenmaat sopivat yhdessä 17 tavoitetta, jotka on tarkoitus saavuttaa vuoteen 2030 mennessä."},{"id":"lajittelu","nimi":"Ekologinen vai sosiaalinen","info":"Ekologinen: luonto voi hyvin. Sosiaalinen: ihmiset voivat hyvin ja heitä kohdellaan reilusti."},{"id":"vastuu","nimi":"Teot ja vastuu","info":"Teko liittyy tavoitteeseen, onnistuu koulussa tai lähiympäristössä ilman ostamista ja kohdistuu itseen, toisiin tai luontoon."}],"ryhmanimet":{"tavoitteet":"Maapallon tehtävälista","lajittelu":"Ekologinen vai sosiaalinen","vastuu":"Teot ja vastuu"},"harjoitukset":[{"id":"H01","ryhma":"tavoitteet","kysymys":"Montako kestävän kehityksen tavoitetta YK:n jäsenmaat ovat sopineet?","vastaus":17,"vinkki":"Tällä tunnilla tutustutaan kahdeksaan, mutta tavoitteita on enemmän.","selitys":"Tavoitteita on 17. Tässä taidossa tutustutaan niistä kahdeksaan."},{"id":"H02","ryhma":"tavoitteet","kysymys":"Mihin vuoteen mennessä kestävän kehityksen tavoitteet on tarkoitus saavuttaa? Kirjoita vuosiluku.","vastaus":2030,"vinkki":"Vuosiluku alkaa numeroilla 20.","selitys":"Tavoitteet on tarkoitus saavuttaa vuoteen 2030 mennessä."},{"id":"H03","ryhma":"tavoitteet","tyyppi":"monivalinta","vaihtoehdot":["Suomen eduskunta yksin","YK:n jäsenmaat yhdessä","Yksi tutkija, joka keksi ne"],"kysymys":"Ketkä ovat sopineet kestävän kehityksen tavoitteista?","vastaus":1,"vinkki":"Tavoitteet koskevat kaikkia maita.","selitys":"YK:n jäsenmaat sopivat tavoitteista yhdessä. Ne eivät ole yhden maan tai yhden ihmisen päätös."},{"id":"H04","ryhma":"tavoitteet","kysymys":"Väitteet:\n1. Tavoitteilla pyritään hyvään elämään kaikille nyt ja tulevaisuudessa.\n2. Tavoitteet koskevat vain kaukaisia maita, eivät Suomea.\n3. Tavoitteissa huolehditaan sekä ihmisistä että luonnosta.\n4. Yksi maa päätti tavoitteet, ja muut joutuivat noudattamaan niitä.\n\nMontako väitteistä pitää paikkansa?","vastaus":2,"vinkki":"Kuka tavoitteista sopi, ja ketä ne koskevat?","selitys":"Väitteet 1 ja 3 pitävät paikkansa. Tavoitteet koskevat kaikkia maita, myös Suomea, ja niistä sopivat YK:n jäsenmaat yhdessä."},{"id":"H05","ryhma":"tavoitteet","kysymys":"Tilanteet:\n1. Järvestä pyydetään vain niin paljon kalaa, että kaloja riittää myös ensi vuonna.\n2. Metsän kaikki puut kaadetaan kerralla.\n3. Jokainen lapsi pääsee kouluun.\n4. Ruokaa riittää vain osalle ihmisistä.\n\nMontako tilanteista on kestävän kehityksen mukaisia?","vastaus":2,"vinkki":"Kestävä kehitys: hyvä elämä kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta.","selitys":"Tilanteet 1 ja 3 ovat kestäviä: kaloja riittää myöhemminkin, ja jokainen lapsi pääsee kouluun. Kaikkien puiden kaataminen vie metsän tulevilta, ja ruoan riittäminen vain osalle ei ole hyvää elämää kaikille."},{"id":"H06","ryhma":"tavoitteet","tyyppi":"monivalinta","vaihtoehdot":["Hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta","Siihen, että kaikki maat rikastuvat ja luonnosta otetaan niin paljon kuin halutaan","Siihen, että luonto suojellaan ja ihmisistä ei tarvitse välittää"],"kysymys":"Mihin kestävän kehityksen tavoitteilla pyritään?","vastaus":0,"vinkki":"Muista sana tulevaisuus.","selitys":"Tavoitteilla pyritään hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta. Ne huolehtivat sekä ihmisistä että luonnosta."},{"id":"H07","ryhma":"lajittelu","kysymys":"Tavoitteet:\nEi nälkää\nIlmastotekoja\nHyvä koulutus\nVedenalainen elämä\n\nMontako tavoitteista on ekologisia?","vastaus":2,"vinkki":"Ekologinen tavoite kertoo, voiko luonto hyvin.","selitys":"Ilmastotekoja ja Vedenalainen elämä ovat ekologisia. Ei nälkää ja Hyvä koulutus kertovat ihmisistä, joten ne ovat sosiaalisia. Ekologisia on 2."},{"id":"H08","ryhma":"lajittelu","kysymys":"Tavoitteet:\nSukupuolten tasa-arvo\nMaanpäällinen elämä\nEi köyhyyttä\nEriarvoisuuden vähentäminen\nIlmastotekoja\n\nMontako tavoitteista on sosiaalisia?","vastaus":3,"vinkki":"Sosiaalinen tavoite kertoo, voivatko ihmiset hyvin.","selitys":"Sukupuolten tasa-arvo, Ei köyhyyttä ja Eriarvoisuuden vähentäminen ovat sosiaalisia. Maanpäällinen elämä ja Ilmastotekoja ovat ekologisia. Sosiaalisia on 3."},{"id":"H09","ryhma":"lajittelu","kysymys":"Kahdeksan tavoitetta:\nEi köyhyyttä\nEi nälkää\nHyvä koulutus\nSukupuolten tasa-arvo\nEriarvoisuuden vähentäminen\nIlmastotekoja\nVedenalainen elämä\nMaanpäällinen elämä\n\nMontako tavoitteista on ekologisia?","vastaus":3,"vinkki":"Etsi tavoitteet, jotka kertovat ilmastosta, vesistä tai maan luonnosta.","selitys":"Ekologisia ovat Ilmastotekoja, Vedenalainen elämä ja Maanpäällinen elämä: 3. Muut viisi ovat sosiaalisia."},{"id":"H10","ryhma":"lajittelu","kysymys":"Asiat:\n1. Merilinnut eivät syö muoviroskia.\n2. Jokainen lapsi saa kouluruokaa.\n3. Metsän eläimillä on paikka elää.\n4. Tytöt ja pojat saavat harrastaa samoja asioita.\n5. Järven vesi on puhdasta.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":3,"vinkki":"Kertooko asia luonnosta vai ihmisistä?","selitys":"Asiat 1, 3 ja 5 kertovat luonnosta: merilinnuista, metsän eläimistä ja järven vedestä. Asiat 2 ja 4 kertovat ihmisistä. Ekologisia on 3."},{"id":"H11","ryhma":"lajittelu","kysymys":"Asiat:\n1. Puistoon istutetaan kukkia mehiläisille.\n2. Uusi oppilas otetaan mukaan leikkiin.\n3. Rannalta kerätään roskat.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":2,"vinkki":"Missä asiassa huolehditaan ihmisestä?","selitys":"Asia 2: uuden oppilaan ottaminen mukaan huolehtii siitä, ettei ketään jätetä ulkopuolelle. Kukat mehiläisille ja roskien keruu ovat ekologisia."},{"id":"H12","ryhma":"lajittelu","tyyppi":"monivalinta","vaihtoehdot":["Koska se kertoo, saavatko ihmiset tarpeeksi ruokaa","Koska kaikki ruoka on kasveja","Koska nälkä koskee vain eläimiä"],"kysymys":"Miksi tavoite Ei nälkää on sosiaalinen, vaikka ruoka kasvaa luonnossa?","vastaus":0,"vinkki":"Kenen hyvinvoinnista tavoite kertoo?","selitys":"Tavoite kertoo siitä, saavatko ihmiset tarpeeksi ruokaa. Se kertoo ihmisten hyvinvoinnista, joten se on sosiaalinen."},{"id":"H13","ryhma":"lajittelu","kysymys":"Tavoitteet:\n1. Vedenalainen elämä\n2. Hyvä koulutus\n3. Maanpäällinen elämä\n\nMonesko tavoite on sosiaalinen?","vastaus":2,"vinkki":"Kaksi tavoitteista kertoo luonnosta.","selitys":"Hyvä koulutus (2) kertoo ihmisistä, joten se on sosiaalinen. Vedenalainen elämä ja Maanpäällinen elämä ovat ekologisia."},{"id":"H14","ryhma":"vastuu","kysymys":"Teot:\n1. Kerään pudonneet roskat leikkipuistosta.\n2. Selitän kaverille pelin säännöt, kun hän ei ymmärrä niitä.\n3. Siirrän asfaltille ryömineen kastemadon nurmikolle.\n4. Kysyn yksin istuvalta, haluaako hän tulla mukaan.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":2,"vinkki":"Missä teoissa huolehditaan luonnosta tai eläimistä?","selitys":"Roskien kerääminen ja kastemadon siirtäminen huolehtivat luonnosta. Pelin selittäminen ja mukaan kutsuminen kohdistuvat toisiin ihmisiin. Luontoon kohdistuvia on 2."},{"id":"H15","ryhma":"vastuu","kysymys":"Tavoite: Ilmastotekoja\n\nTeot:\n1. Sammutan luokan projektorin, kun sitä ei käytetä.\n2. Lainaan kaverille kumin.\n3. Luen kirjaston kirjaa.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":1,"vinkki":"Mikä teko säästää sähköä?","selitys":"Projektorin sammuttaminen säästää sähköä. Sähkön tuottamisesta syntyy usein ilmastoa lämmittäviä päästöjä, joten säästäminen on ilmastoteko. Kumin lainaaminen on ystävällistä, mutta se ei liity ilmastoon."},{"id":"H16","ryhma":"vastuu","kysymys":"Tavoite: Hyvä koulutus\n\nTeot:\n1. Näytän kaverille, miten sanakirjasta etsitään sana.\n2. Kerään kävyt askarteluun.\n3. Kastelen luokan kasvit.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":1,"vinkki":"Hyvä koulutus: jokainen oppii.","selitys":"Teko 1 auttaa kaveria oppimaan, joten se liittyy hyvään koulutukseen."},{"id":"H17","ryhma":"vastuu","kysymys":"Teot:\n1. Ostan kaupasta uuden kestokassin.\n2. Kerään roskat järven rannalta.\n3. Ostan sähköpotkulaudan, jotta autolla ajetaan vähemmän.\n4. Kerron luokalle, miksi roskat eivät saa päätyä järveen.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":2,"vinkki":"Missä teoissa ostetaan jotain?","selitys":"Roskien kerääminen ja luokalle kertominen onnistuvat ilman rahaa. Kestokassi ja sähköpotkulauta pitää ostaa. Ilman ostamista onnistuu 2 tekoa."},{"id":"H18","ryhma":"vastuu","kysymys":"Teot:\n1. Opettelen uuden pelin säännöt, jotta osaan pelata.\n2. Kutsun uuden oppilaan mukaan pallopeliin.\n3. Kerään roskat lähimetsästä.\n4. Selitän kaverille matematiikan tehtävän.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":2,"vinkki":"Kenelle teosta on hyötyä?","selitys":"Uuden oppilaan kutsuminen ja tehtävän selittäminen kohdistuvat toisiin. Sääntöjen opettelu kohdistuu itseen ja roskien keruu luontoon. Toisiin kohdistuvia on 2."},{"id":"H19","ryhma":"vastuu","kysymys":"Teot:\n1. Lainaan kaverille kynän.\n2. Harjoittelen kirjoittamista, jotta opin.\n3. Rakennamme koulun pihalle hyönteishotellin.\n\nMonennessako teossa vastuu kohdistuu luontoon?","vastaus":3,"vinkki":"Mistä teosta on hyötyä eläimille?","selitys":"Hyönteishotelli (3) antaa hyönteisille paikan elää, joten vastuu kohdistuu luontoon."},{"id":"H20","ryhma":"vastuu","kysymys":"Eetu valitsi tavoitteen Vedenalainen elämä.\n\nEetun teot:\n1. Vien rannalle jääneen siimanpätkän roskikseen, ettei kala tai lintu sotkeudu siihen.\n2. Siivoan oman pulpettini.\n3. Kerron kavereille, miksi rannalle ei jätetä karkkipapereita.\n\nMontako teoista liittyy Eetun tavoitteeseen?","vastaus":2,"vinkki":"Mikä teko suojelee vettä ja vesien eläimiä?","selitys":"Siiman vieminen roskikseen ja kavereille kertominen pitävät roskat poissa vedestä. Pulpetin siivous on hyvä teko, mutta se ei liity vesiin. Liittyviä on 2."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Kokeen kahdeksan tavoitekorttia (YK:n kestävän kehityksen tavoitteita):\nEi köyhyyttä\nIlmastotekoja\nHyvä koulutus\nVedenalainen elämä\nEi nälkää\nMaanpäällinen elämä\nSukupuolten tasa-arvo\nEriarvoisuuden vähentäminen\nKirjoita tehtäviin 1–3 ja 6–18 vastaukseksi luku. Kirjoita tehtäviin 4, 5, 19 ja 20 kokonaisia virkkeitä. Tehtävissä 19 ja 20 kelpaa teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa.","tehtavat":[{"nro":1,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Montako kestävän kehityksen tavoitetta YK:n jäsenmaat ovat sopineet yhteensä?","vastaus":17},{"nro":2,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"YK:n jäsenmaat sopivat tavoitteille yhteisen takarajan. Mikä vuosi se on? Kirjoita vuosiluku.","vastaus":2030},{"nro":3,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tavoitteista ovat sopineet YK:n jäsenmaat yhdessä.\n2. Tavoitteet koskevat vain aikuisia.\n3. Tavoitteilla pyritään hyvään elämään myös tuleville ihmisille.\n4. Tavoitteet on tarkoitus saavuttaa vuoteen 2030 mennessä.\n\nMontako väitteistä pitää paikkansa?","vastaus":3},{"nro":4,"ryhma":"tavoitteet","tyyppi":"sanallinen","kysymys":"Kerro, ketkä ovat sopineet kestävän kehityksen tavoitteista ja mihin tavoitteilla pyritään.","vastaus":"Malliesimerkki: YK:n jäsenmaat ovat sopineet tavoitteista yhdessä. Tavoitteilla pyritään siihen, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa eikä luontoa vahingoiteta."},{"nro":5,"ryhma":"lajittelu","tyyppi":"sanallinen","kysymys":"Lajittele kokeen alussa olevat kahdeksan tavoitekorttia kahteen ryhmään. Kirjoita otsikon Ekologinen alle tavoitteet, jotka kertovat luonnosta, ja otsikon Sosiaalinen alle tavoitteet, jotka kertovat ihmisistä.","vastaus":"Malliesimerkki: Ekologinen: Ilmastotekoja, Vedenalainen elämä, Maanpäällinen elämä. Sosiaalinen: Ei köyhyyttä, Hyvä koulutus, Ei nälkää, Sukupuolten tasa-arvo, Eriarvoisuuden vähentäminen."},{"nro":6,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nIlmastotekoja\nEi köyhyyttä\nMaanpäällinen elämä\nHyvä koulutus\n\nMontako tavoitteista on ekologisia?","vastaus":2},{"nro":7,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nEi nälkää\nVedenalainen elämä\nSukupuolten tasa-arvo\nEriarvoisuuden vähentäminen\nIlmastotekoja\n\nMontako tavoitteista on sosiaalisia?","vastaus":3},{"nro":8,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Kalat voivat elää puhtaassa meressä.\n2. Jokainen lapsi pääsee kouluun.\n3. Niityllä on kukkia, joista mehiläiset saavat ravintoa.\n4. Kaikilla on varaa ruokaan.\n5. Metsässä on pesäpuita linnuille.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":3},{"nro":9,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Puistoon istutetaan puita.\n2. Koulussa jokainen saa apua oppimiseen.\n3. Järvestä siivotaan roskat.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":2},{"nro":10,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\n1. Hyvä koulutus\n2. Vedenalainen elämä\n3. Ei köyhyyttä\n\nMonesko tavoite on ekologinen?","vastaus":2},{"nro":11,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Väitteet:\n1. Ekologinen kestävyys tarkoittaa, että luonto voi hyvin.\n2. Sosiaalinen kestävyys tarkoittaa, että ihmiset voivat hyvin ja heitä kohdellaan reilusti.\n3. Ei nälkää on ekologinen tavoite, koska ruoka kasvaa luonnossa.\n4. Ilmastotekoja on sosiaalinen tavoite.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":12,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Jalkapallokerhoon pääsevät sekä tytöt että pojat.\n2. Rannalta kerätään roskat.\n3. Luokka istuttaa puun.\n\nMonesko asia kuvaa tavoitetta Sukupuolten tasa-arvo?","vastaus":1},{"nro":13,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Kerään roskat koulun pihalta.\n2. Autan kaveria, joka kaatui.\n3. Sammutan luokan valot, kun lähdemme ulos.\n4. Teen tehtäväni huolellisesti, jotta opin.\n5. Rakennan linnunpöntön käsityötunnilla.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":3},{"nro":14,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Ilmastotekoja\n\nTeot:\n1. Sammutan näytön ja valot, kun lähden luokasta.\n2. Lainaan kaverille kynän.\n3. Luen kirjaa.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":1},{"nro":15,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Ostan uuden pyörän, jotta voin pyöräillä.\n2. Kerään roskat koulun pihalta.\n3. Tilaan netistä aurinkopaneelin.\n4. Sammutan valot tyhjästä luokasta.\n5. Otan yksin jääneen mukaan leikkiin.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":3},{"nro":16,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Autan nuorempaa oppilasta solmimaan kengännauhat.\n2. Kerään roskat puistosta.\n3. Otan yksin jääneen mukaan peliin.\n4. Harjoittelen kertotauluja, jotta opin ne.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":2},{"nro":17,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Kerään roskat rannalta.\n2. Harjoittelen lukemista, jotta opin lukemaan sujuvasti.\n3. Autan kaveria.\n\nMonennessako teossa vastuu kohdistuu itseen?","vastaus":2},{"nro":18,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Maanpäällinen elämä\n\nTeot:\n1. Jätän metsässä linnunpesät rauhaan.\n2. Istutamme koulun pihalle kukkia, joista perhoset saavat ravintoa.\n3. Luen nuoremmalle kirjaa.\n4. Jaan pelivuorot reilusti.\n\nMontako teoista liittyy tavoitteeseen?","vastaus":2},{"nro":19,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi ekologinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Ilmastotekoja. Sammutan luokan valot ja tietokoneen, kun niitä ei tarvita, koska sähkön tuottamisesta syntyy usein päästöjä. Vastuu kohdistuu luontoon."},{"nro":20,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi sosiaalinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Eriarvoisuuden vähentäminen. Kutsun välitunnilla yksin jääneen oppilaan mukaan peliin, jotta kukaan ei jää ulkopuolelle. Vastuu kohdistuu toisiin."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Kokeen kahdeksan tavoitekorttia (YK:n kestävän kehityksen tavoitteita):\nMaanpäällinen elämä\nEi nälkää\nEriarvoisuuden vähentäminen\nIlmastotekoja\nHyvä koulutus\nSukupuolten tasa-arvo\nVedenalainen elämä\nEi köyhyyttä\nKirjoita tehtäviin 1–3 ja 6–18 vastaukseksi luku. Kirjoita tehtäviin 4, 5, 19 ja 20 kokonaisia virkkeitä. Tehtävissä 19 ja 20 kelpaa teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa.","tehtavat":[{"nro":1,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Kuinka monta tavoitetta on YK:n kestävän kehityksen tavoitteiden listalla kaikkiaan?","vastaus":17},{"nro":2,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Minä vuonna tavoitteiden pitäisi olla saavutettu? Kirjoita vuosiluku.","vastaus":2030},{"nro":3,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tavoitteet keksi yksi maa yksin.\n2. Tavoitteissa huolehditaan sekä ihmisistä että luonnosta.\n3. Tavoitteita on yhteensä kahdeksan.\n4. Tavoitteet koskevat myös Suomea.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":4,"ryhma":"tavoitteet","tyyppi":"sanallinen","kysymys":"Kerro, ketkä ovat sopineet kestävän kehityksen tavoitteista ja mihin tavoitteilla pyritään.","vastaus":"Malliesimerkki: YK:n jäsenmaat ovat sopineet tavoitteista yhdessä. Tavoitteilla pyritään siihen, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa eikä luontoa vahingoiteta."},{"nro":5,"ryhma":"lajittelu","tyyppi":"sanallinen","kysymys":"Lajittele kokeen alussa olevat kahdeksan tavoitekorttia kahteen ryhmään. Kirjoita otsikon Ekologinen alle tavoitteet, jotka kertovat luonnosta, ja otsikon Sosiaalinen alle tavoitteet, jotka kertovat ihmisistä.","vastaus":"Malliesimerkki: Ekologinen: Maanpäällinen elämä, Ilmastotekoja, Vedenalainen elämä. Sosiaalinen: Ei nälkää, Eriarvoisuuden vähentäminen, Hyvä koulutus, Sukupuolten tasa-arvo, Ei köyhyyttä."},{"nro":6,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nVedenalainen elämä\nSukupuolten tasa-arvo\nEi nälkää\nIlmastotekoja\nEriarvoisuuden vähentäminen\n\nMontako tavoitteista on ekologisia?","vastaus":2},{"nro":7,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nHyvä koulutus\nMaanpäällinen elämä\nEi köyhyyttä\n\nMontako tavoitteista on sosiaalisia?","vastaus":2},{"nro":8,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Tytöillä ja pojilla on samat mahdollisuudet harrastaa.\n2. Joessa uivat lohet.\n3. Kukaan ei näe nälkää.\n4. Suolla elää monenlaisia kasveja.\n5. Jokaisella lapsella on koulukirjat.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":2},{"nro":9,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Mereen ei lasketa likaista vettä.\n2. Metsään rakennetaan linnunpönttöjä.\n3. Pyörätuolilla liikkuva pääsee kouluun kuten muutkin.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":3},{"nro":10,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\n1. Maanpäällinen elämä\n2. Sukupuolten tasa-arvo\n3. Ei nälkää\n\nMonesko tavoite on ekologinen?","vastaus":1},{"nro":11,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Väitteet:\n1. Hyvä koulutus kuuluu sosiaaliseen kestävyyteen.\n2. Vedenalainen elämä kuuluu sosiaaliseen kestävyyteen.\n3. Ekologinen kestävyys tarkoittaa, että luonto voi hyvin.\n4. Sukupuolten tasa-arvo kuuluu sosiaaliseen kestävyyteen.\n\nMontako väitteistä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Kaikki lapset saavat kouluruokaa.\n2. Metsään jätetään lahopuita hyönteisille.\n3. Uusi oppilas otetaan mukaan leikkiin.\n\nMonesko asia kuvaa tavoitetta Maanpäällinen elämä?","vastaus":2},{"nro":13,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Kävelen metsässä polkua pitkin, etten tallaa kasveja.\n2. Otan uuden oppilaan mukaan peliin.\n3. Harjoittelen lukemista, jotta lukeminen sujuu.\n4. Kerään roskat järven rannalta.\n5. Autan nuorempaa oppilasta löytämään luokkansa.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":2},{"nro":14,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Hyvä koulutus\n\nTeot:\n1. Kerään roskat rannalta.\n2. Luen nuoremmalle oppilaalle ääneen ja autan häntä tavaamaan.\n3. Kastelen luokan kukat.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":2},{"nro":15,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Ostan kaupasta uuden kangaskassin.\n2. Autan kaveria tehtävässä.\n3. Kerään roskat rannalta.\n4. Ostan uudet, vähemmän sähköä kuluttavat lamput.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":2},{"nro":16,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Kerron uudelle oppilaalle, missä luokat ovat.\n2. Jaan pelivuorot niin, että kaikki pääsevät pelaamaan.\n3. Autan kaveria, joka ei vielä osaa suomea hyvin, ymmärtämään ohjeen.\n4. Jätän linnunpesät rauhaan.\n5. Opettelen uuden asian sinnikkäästi.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":3},{"nro":17,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Otan uuden oppilaan mukaan.\n2. Jätän linnunpesät rauhaan.\n3. Teen koulutehtäväni huolellisesti, jotta opin.\n\nMonennessako teossa vastuu kohdistuu itseen?","vastaus":3},{"nro":18,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Sukupuolten tasa-arvo\n\nTeot:\n1. Sanon, että tytöt ja pojat pääsevät yhtä lailla mukaan jalkapalloon.\n2. Kerään roskat.\n3. Kun valitsemme leikkiä, kuuntelen sekä tyttöjä että poikia.\n4. Pyydän nukkeleikkiin mukaan myös pojat, jotka haluavat leikkiä.\n\nMontako teoista liittyy tavoitteeseen?","vastaus":3},{"nro":19,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi ekologinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Vedenalainen elämä. Kerään roskat järven rannalta, jotta ne eivät päädy veteen kalojen ja lintujen haitaksi. Vastuu kohdistuu luontoon."},{"nro":20,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi sosiaalinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Hyvä koulutus. Autan kaveria, joka ei ymmärrä tehtävää, jotta hänkin oppii. Vastuu kohdistuu toisiin."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Kokeen kahdeksan tavoitekorttia (YK:n kestävän kehityksen tavoitteita):\nSukupuolten tasa-arvo\nVedenalainen elämä\nEi köyhyyttä\nMaanpäällinen elämä\nEriarvoisuuden vähentäminen\nEi nälkää\nIlmastotekoja\nHyvä koulutus\nKirjoita tehtäviin 1–3 ja 6–18 vastaukseksi luku. Kirjoita tehtäviin 4, 5, 19 ja 20 kokonaisia virkkeitä. Tehtävissä 19 ja 20 kelpaa teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa.","tehtavat":[{"nro":1,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Kokeen kahdeksan korttia ovat vain osa tavoitteista. Montako kestävän kehityksen tavoitetta on kaikkiaan?","vastaus":17},{"nro":2,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Mihin vuoteen mennessä YK:n jäsenmaat aikovat saavuttaa tavoitteet? Kirjoita vuosiluku.","vastaus":2030},{"nro":3,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tavoitteilla pyritään siihen, että luonnon antimet käytetään loppuun nyt heti.\n2. YK:n jäsenmaat sopivat tavoitteista yhdessä.\n3. Tavoitteita on 17.\n4. Tavoitteet koskevat vain eläimiä.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":4,"ryhma":"tavoitteet","tyyppi":"sanallinen","kysymys":"Kerro, ketkä ovat sopineet kestävän kehityksen tavoitteista ja mihin tavoitteilla pyritään.","vastaus":"Malliesimerkki: YK:n jäsenmaat ovat sopineet tavoitteista yhdessä. Tavoitteilla pyritään siihen, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa eikä luontoa vahingoiteta."},{"nro":5,"ryhma":"lajittelu","tyyppi":"sanallinen","kysymys":"Lajittele kokeen alussa olevat kahdeksan tavoitekorttia kahteen ryhmään. Kirjoita otsikon Ekologinen alle tavoitteet, jotka kertovat luonnosta, ja otsikon Sosiaalinen alle tavoitteet, jotka kertovat ihmisistä.","vastaus":"Malliesimerkki: Ekologinen: Vedenalainen elämä, Maanpäällinen elämä, Ilmastotekoja. Sosiaalinen: Sukupuolten tasa-arvo, Ei köyhyyttä, Eriarvoisuuden vähentäminen, Ei nälkää, Hyvä koulutus."},{"nro":6,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nMaanpäällinen elämä\nVedenalainen elämä\nEi köyhyyttä\nIlmastotekoja\n\nMontako tavoitteista on ekologisia?","vastaus":3},{"nro":7,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nEi nälkää\nHyvä koulutus\nSukupuolten tasa-arvo\nVedenalainen elämä\nEriarvoisuuden vähentäminen\n\nMontako tavoitteista on sosiaalisia?","vastaus":4},{"nro":8,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Hylkeet elävät puhtaassa meressä.\n2. Kaikki lapset oppivat lukemaan.\n3. Metsään jätetään lahopuita hyönteisten kodiksi.\n4. Ketään ei jätetä leikin ulkopuolelle.\n5. Järven rannalla ei ole roskia.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":3},{"nro":9,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Kaikki lapset saavat syödä kouluruokaa.\n2. Niittyä ei niitetä, jotta kukat ehtivät kukkia.\n3. Joen kaloille rakennetaan reitti padon ohi.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":1},{"nro":10,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\n1. Eriarvoisuuden vähentäminen\n2. Hyvä koulutus\n3. Ilmastotekoja\n\nMonesko tavoite on ekologinen?","vastaus":3},{"nro":11,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Väitteet:\n1. Maanpäällinen elämä kuuluu ekologiseen kestävyyteen.\n2. Ei köyhyyttä kuuluu ekologiseen kestävyyteen.\n3. Sosiaalinen kestävyys tarkoittaa, että vain luonto voi hyvin.\n4. Eriarvoisuuden vähentäminen kuuluu sosiaaliseen kestävyyteen.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":12,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Mereen ei heitetä roskia.\n2. Puistoon istutetaan kukkia.\n3. Jokainen lapsi pääsee kouluun ja oppii lukemaan.\n\nMonesko asia kuvaa tavoitetta Hyvä koulutus?","vastaus":3},{"nro":13,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Jätän pihan muurahaispesän rauhaan.\n2. Kerron kaverille, että hänkin pääsee mukaan leikkiin.\n3. Lajittelen luokan roskat oikeisiin astioihin.\n4. Sammutan tietokoneen, kun en käytä sitä.\n5. Opettelen uuden asian sinnikkäästi.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":3},{"nro":14,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Vedenalainen elämä\n\nTeot:\n1. Pelaan jalkapalloa.\n2. Otan kaverin mukaan peliin.\n3. Poimin muovipussin järven rannalta ennen kuin tuuli vie sen veteen.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":3},{"nro":15,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Jätän muurahaispesän rauhaan.\n2. Ostan uuden puhelimen, joka kuluttaa vähemmän sähköä.\n3. Lajittelen luokan roskat.\n4. Otan uuden oppilaan mukaan.\n5. Ostan uuden penaalin, joka on tehty kierrätysmuovista.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":3},{"nro":16,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Sammutan valot.\n2. Autan kaveria kantamaan laatikkoa.\n3. Luen kirjoja oppiakseni.\n4. Kerään roskat rannalta.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":1},{"nro":17,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Opettelen sinnikkäästi kertotaulut, jotta osaan ne.\n2. Sammutan valot.\n3. Jaan välineet reilusti.\n\nMonennessako teossa vastuu kohdistuu itseen?","vastaus":1},{"nro":18,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Ilmastotekoja\n\nTeot:\n1. Sammutan valot tyhjästä luokasta.\n2. Otan uuden oppilaan mukaan.\n3. Sammutan tietokoneen, kun en käytä sitä.\n4. Autan kaveria tehtävässä.\n\nMontako teoista liittyy tavoitteeseen?","vastaus":2},{"nro":19,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi ekologinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Maanpäällinen elämä. Jätän lähimetsässä linnunpesät ja muurahaispesät rauhaan. Vastuu kohdistuu luontoon."},{"nro":20,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi sosiaalinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Sukupuolten tasa-arvo. Kun valitsemme välitunnin peliä, huolehdin, että sekä tytöt että pojat pääsevät mukaan ja saavat sanoa mielipiteensä. Vastuu kohdistuu toisiin."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Kokeen kahdeksan tavoitekorttia (YK:n kestävän kehityksen tavoitteita):\nIlmastotekoja\nHyvä koulutus\nEi nälkää\nEriarvoisuuden vähentäminen\nVedenalainen elämä\nEi köyhyyttä\nMaanpäällinen elämä\nSukupuolten tasa-arvo\nKirjoita tehtäviin 1–3 ja 6–18 vastaukseksi luku. Kirjoita tehtäviin 4, 5, 19 ja 20 kokonaisia virkkeitä. Tehtävissä 19 ja 20 kelpaa teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa.","tehtavat":[{"nro":1,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Montako tavoitetta on maapallon yhteisellä tehtävälistalla eli YK:n kestävän kehityksen tavoitteissa?","vastaus":17},{"nro":2,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Kirjoita vuosiluku, johon mennessä kestävän kehityksen tavoitteet on tarkoitus saavuttaa.","vastaus":2030},{"nro":3,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tavoitteet on tarkoitus saavuttaa vuoteen 2030 mennessä.\n2. Tavoitteet koskevat kaikkia maita, myös Suomea.\n3. Tavoitteet ovat yhden koulun omat säännöt.\n4. Tavoitteilla pyritään hyvään elämään kaikille luontoa vahingoittamatta.\n\nMontako väitteistä pitää paikkansa?","vastaus":3},{"nro":4,"ryhma":"tavoitteet","tyyppi":"sanallinen","kysymys":"Kerro, ketkä ovat sopineet kestävän kehityksen tavoitteista ja mihin tavoitteilla pyritään.","vastaus":"Malliesimerkki: YK:n jäsenmaat ovat sopineet tavoitteista yhdessä. Tavoitteilla pyritään siihen, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa eikä luontoa vahingoiteta."},{"nro":5,"ryhma":"lajittelu","tyyppi":"sanallinen","kysymys":"Lajittele kokeen alussa olevat kahdeksan tavoitekorttia kahteen ryhmään. Kirjoita otsikon Ekologinen alle tavoitteet, jotka kertovat luonnosta, ja otsikon Sosiaalinen alle tavoitteet, jotka kertovat ihmisistä.","vastaus":"Malliesimerkki: Ekologinen: Ilmastotekoja, Vedenalainen elämä, Maanpäällinen elämä. Sosiaalinen: Hyvä koulutus, Ei nälkää, Eriarvoisuuden vähentäminen, Ei köyhyyttä, Sukupuolten tasa-arvo."},{"nro":6,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nHyvä koulutus\nVedenalainen elämä\nEi nälkää\nSukupuolten tasa-arvo\n\nMontako tavoitteista on ekologisia?","vastaus":1},{"nro":7,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nIlmastotekoja\nEi köyhyyttä\nMaanpäällinen elämä\nEriarvoisuuden vähentäminen\n\nMontako tavoitteista on sosiaalisia?","vastaus":2},{"nro":8,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Jokaisella on oikeus käydä koulua.\n2. Meressä elävät kalat eivät syö muovinpaloja.\n3. Naiset ja miehet saavat samasta työstä saman palkan.\n4. Kaikilla on koti.\n5. Perhoset löytävät kukkia niityltä.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":2},{"nro":9,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Rannalta kerätään muoviroskat.\n2. Tytöt ja pojat saavat pelissä yhtä paljon peliaikaa.\n3. Metsään jätetään kaatuneet puut hyönteisille.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":2},{"nro":10,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\n1. Ei köyhyyttä\n2. Ilmastotekoja\n3. Sukupuolten tasa-arvo\n\nMonesko tavoite on ekologinen?","vastaus":2},{"nro":11,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Väitteet:\n1. Ilmastotekoja kuuluu ekologiseen kestävyyteen.\n2. Ei nälkää kuuluu sosiaaliseen kestävyyteen.\n3. Sosiaalinen kestävyys tarkoittaa, että ihmiset voivat hyvin ja heitä kohdellaan reilusti.\n4. Hyvä koulutus kuuluu ekologiseen kestävyyteen.\n\nMontako väitteistä pitää paikkansa?","vastaus":3},{"nro":12,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Järveen ei päästetä likavettä, jotta kalat voivat hyvin.\n2. Jokainen saa tarpeeksi ruokaa.\n3. Metsään rakennetaan linnunpönttöjä.\n\nMonesko asia kuvaa tavoitetta Vedenalainen elämä?","vastaus":1},{"nro":13,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Autan kaveria ymmärtämään tehtävän.\n2. Kerään muoviroskat puiston pensaikosta.\n3. Sanon, ettei tyttöjä saa jättää pois pelistä.\n4. Luen koulun kirjaston kirjoja, jotta opin uutta.\n5. Kuljen lähimetsässä niin, etten häiritse lintujen pesiä.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":2},{"nro":14,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Eriarvoisuuden vähentäminen\n\nTeot:\n1. Kerron uudelle oppilaalle, miten ruokala toimii, ja istun hänen vieressään.\n2. Sammutan valot.\n3. Keräämme roskat puistosta.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":1},{"nro":15,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Ostan uuden pelikonsolin, joka kuluttaa vähemmän sähköä.\n2. Kerään roskat puistosta.\n3. Autan kaveria ymmärtämään tehtävän.\n4. Tilaan netistä uuden repun kierrätysmateriaalista.\n5. Sammutan tietokoneen, kun en käytä sitä.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":3},{"nro":16,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Sanon, että tytöt ja pojat pääsevät yhtä lailla peliin.\n2. Opettelen uuden asian sinnikkäästi.\n3. Autan luokkakaveria ymmärtämään tehtävän.\n4. Lajittelen roskat.\n5. Istun ruokalassa yksin syövän oppilaan viereen.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":3},{"nro":17,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Kerään roskat.\n2. Autan nuorempaa oppilasta.\n3. Luen kirjaston kirjoja, jotta opin uutta.\n\nMonennessako teossa vastuu kohdistuu itseen?","vastaus":3},{"nro":18,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Vedenalainen elämä\n\nTeot:\n1. Kerään muovipullot järven rannalta.\n2. Kerron kavereille, miksi rannalle ei saa jättää roskia.\n3. Jätän linnunpesät metsässä rauhaan.\n4. Luen nuoremmalle.\n\nMontako teoista liittyy tavoitteeseen?","vastaus":2},{"nro":19,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi ekologinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Ilmastotekoja. Sammutan luokan valot ja tietokoneen, kun niitä ei tarvita, koska sähkön tuottamisesta syntyy usein päästöjä. Vastuu kohdistuu luontoon."},{"nro":20,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi sosiaalinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Hyvä koulutus. Autan kaveria, joka ei ymmärrä tehtävää, jotta hänkin oppii. Vastuu kohdistuu toisiin."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Kokeen kahdeksan tavoitekorttia (YK:n kestävän kehityksen tavoitteita):\nHyvä koulutus\nMaanpäällinen elämä\nSukupuolten tasa-arvo\nEi köyhyyttä\nIlmastotekoja\nEriarvoisuuden vähentäminen\nEi nälkää\nVedenalainen elämä\nKirjoita tehtäviin 1–3 ja 6–18 vastaukseksi luku. Kirjoita tehtäviin 4, 5, 19 ja 20 kokonaisia virkkeitä. Tehtävissä 19 ja 20 kelpaa teko, jonka voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa.","tehtavat":[{"nro":1,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Montako YK:n kestävän kehityksen tavoitetta on olemassa yhteensä?","vastaus":17},{"nro":2,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Mihin vuoteen mennessä maapallon tehtävälistan tehtävät on tarkoitus tehdä? Kirjoita vuosiluku.","vastaus":2030},{"nro":3,"ryhma":"tavoitteet","tyyppi":"lasku","kysymys":"Väitteet:\n1. Tavoitteista päätti yksi tutkija.\n2. Tavoitteilla pyritään siihen, että myös tulevilla ihmisillä on hyvä elämä.\n3. Tavoitteet koskevat vain ihmisiä, eivät luontoa.\n4. Tavoitteita on 17.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":4,"ryhma":"tavoitteet","tyyppi":"sanallinen","kysymys":"Kerro, ketkä ovat sopineet kestävän kehityksen tavoitteista ja mihin tavoitteilla pyritään.","vastaus":"Malliesimerkki: YK:n jäsenmaat ovat sopineet tavoitteista yhdessä. Tavoitteilla pyritään siihen, että kaikilla ihmisillä on hyvä elämä nyt ja tulevaisuudessa eikä luontoa vahingoiteta."},{"nro":5,"ryhma":"lajittelu","tyyppi":"sanallinen","kysymys":"Lajittele kokeen alussa olevat kahdeksan tavoitekorttia kahteen ryhmään. Kirjoita otsikon Ekologinen alle tavoitteet, jotka kertovat luonnosta, ja otsikon Sosiaalinen alle tavoitteet, jotka kertovat ihmisistä.","vastaus":"Malliesimerkki: Ekologinen: Maanpäällinen elämä, Ilmastotekoja, Vedenalainen elämä. Sosiaalinen: Hyvä koulutus, Sukupuolten tasa-arvo, Ei köyhyyttä, Eriarvoisuuden vähentäminen, Ei nälkää."},{"nro":6,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nEriarvoisuuden vähentäminen\nMaanpäällinen elämä\nIlmastotekoja\nHyvä koulutus\nEi köyhyyttä\n\nMontako tavoitteista on ekologisia?","vastaus":2},{"nro":7,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\nVedenalainen elämä\nEi nälkää\nSukupuolten tasa-arvo\n\nMontako tavoitteista on sosiaalisia?","vastaus":2},{"nro":8,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Joessa on puhdasta vettä kaloille.\n2. Metsän eläimillä on rauhallinen paikka elää.\n3. Kaikki lapset saavat terveellistä ruokaa.\n4. Kenenkään ei tarvitse elää köyhyydessä.\n5. Korallit voivat hyvin meressä.\n\nMontako asioista kuvaa ekologista kestävyyttä?","vastaus":3},{"nro":9,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Metsässä pysytään polulla, jotta kasvit eivät tallaannu.\n2. Lintujen pesimäpaikkaa ei häiritä.\n3. Uusi oppilas saa kaverin, joka näyttää hänelle koulun.\n\nMonesko asia kuvaa sosiaalista kestävyyttä?","vastaus":3},{"nro":10,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Tavoitteet:\n1. Ei nälkää\n2. Eriarvoisuuden vähentäminen\n3. Maanpäällinen elämä\n\nMonesko tavoite on ekologinen?","vastaus":3},{"nro":11,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Väitteet:\n1. Ekologinen kestävyys tarkoittaa, että ihmisillä on rahaa.\n2. Vedenalainen elämä kuuluu ekologiseen kestävyyteen.\n3. Ei köyhyyttä kuuluu sosiaaliseen kestävyyteen.\n4. Maanpäällinen elämä kuuluu sosiaaliseen kestävyyteen.\n\nMontako väitteistä pitää paikkansa?","vastaus":2},{"nro":12,"ryhma":"lajittelu","tyyppi":"lasku","kysymys":"Asiat:\n1. Luokka kerää roskat lähimetsästä.\n2. Kaikki maailman lapset saavat joka päivä tarpeeksi ruokaa.\n3. Tytöt ja pojat saavat samat harrastusmahdollisuudet.\n\nMonesko asia kuvaa tavoitetta Ei nälkää?","vastaus":2},{"nro":13,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Sammutan valot tyhjästä luokasta.\n2. Poimin karkkipaperit uimarannalta.\n3. Jaan välineet reilusti.\n4. Ripustan linnunpöntön koulun pihapuuhun yhdessä opettajan kanssa.\n5. Autan kaveria kantamaan painavaa laatikkoa.\n\nMontako teoista kohdistaa vastuun luontoon?","vastaus":3},{"nro":14,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Maanpäällinen elämä\n\nTeot:\n1. Autan kaveria tehtävässä.\n2. Jätän metsässä linnunpesät rauhaan.\n3. Jaan pelivuorot reilusti.\n\nMonesko teko liittyy tavoitteeseen?","vastaus":2},{"nro":15,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Ripustan linnunpöntön pihapuuhun opettajan kanssa.\n2. Ostan uuden sähköpyörän.\n3. Jaan välineet reilusti.\n4. Ostan kaupasta muovittomia leluja.\n\nMontako teoista voit tehdä itse koulussa tai lähiympäristössä ilman, että mitään tarvitsee ostaa?","vastaus":2},{"nro":16,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Teen tehtäväni huolellisesti, jotta opin.\n2. Jätän muurahaispesän rauhaan.\n3. Otan uuden oppilaan mukaan leikkiin.\n4. Sammutan tietokoneen.\n\nMontako teoista kohdistaa vastuun toisiin ihmisiin?","vastaus":1},{"nro":17,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Teot:\n1. Jaan pelivuorot reilusti.\n2. Kysyn opettajalta, kun en ymmärrä tehtävää, jotta opin sen.\n3. Jätän muurahaispesän rauhaan.\n\nMonennessako teossa vastuu kohdistuu itseen?","vastaus":2},{"nro":18,"ryhma":"vastuu","tyyppi":"lasku","kysymys":"Tavoite: Hyvä koulutus\n\nTeot:\n1. Autan kaveria ymmärtämään matematiikan tehtävän.\n2. Luen nuoremmalle oppilaalle kirjaa ääneen.\n3. Kerään roskat.\n4. Selitän uudelle oppilaalle, miten tehtävät tehdään.\n\nMontako teoista liittyy tavoitteeseen?","vastaus":3},{"nro":19,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi ekologinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Vedenalainen elämä. Kerään roskat järven rannalta, jotta ne eivät päädy veteen kalojen ja lintujen haitaksi. Vastuu kohdistuu luontoon."},{"nro":20,"ryhma":"vastuu","tyyppi":"sanallinen","kysymys":"Valitse korteista yksi sosiaalinen tavoite. Kerro yksi teko, jolla voit itse kantaa vastuuta tavoitteen toteutumisesta koulussa tai lähiympäristössä, ja kerro, keneen vastuu kohdistuu: itseesi, toisiin vai luontoon.","vastaus":"Malliesimerkki: Valitsen tavoitteen Eriarvoisuuden vähentäminen. Kutsun välitunnilla yksin jääneen oppilaan mukaan peliin, jotta kukaan ei jää ulkopuolelle. Vastuu kohdistuu toisiin."}]}],"tulostus":{"sivuja":5,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"Yksi oppitunti tämän tuntirungon mukaan ja koe seuraavalla tunnilla (noin 30 min). Jos aikaa on enemmän, toisella tunnilla voi tutustua myös muihin tavoitteisiin.","huomiot":["Asiatiedot on rajattu varmoihin: YK:n jäsenmaat sopivat yhdessä 17 kestävän kehityksen tavoitetta, jotka on tarkoitus saavuttaa vuoteen 2030 mennessä. Tavoitteiden hyväksymisvuotta, maiden määrää eikä YK:n omia tavoitenumeroita käytetä materiaalissa eikä kokeessa. Jos näytät luokalle YK:n tavoitekuvaston, tarkista kuvat ja nimet YK:n tai Suomen YK-liiton sivuilta.","Kahdeksan korttia ovat kartan näytön kiinteät kortit: Ei köyhyyttä, Ei nälkää, Hyvä koulutus, Sukupuolten tasa-arvo, Eriarvoisuuden vähentäminen, Ilmastotekoja, Vedenalainen elämä ja Maanpäällinen elämä. Lajittelu ekologisiin (3) ja sosiaalisiin (5) on kriteerin mukainen. Kestävyydestä puhutaan usein myös taloudellisena ja kulttuurisena; tässä taidossa käsitellään Espoon 4. luokan tarkennuksen mukaisesti ekologinen ja sosiaalinen.","Mittaritehtävät ovat 4, 5, 19 ja 20. Tehtävä 4 on oikein, kun oppilas kertoo, että tavoitteista ovat sopineet YK:n jäsenmaat (tai maailman maat YK:ssa) yhdessä ja että niillä pyritään hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta; molemmat osat tarvitaan, mutta sanamuoto on vapaa. Pelkkä \"YK\" ilman maita kelpaa, jos oppilas kertoo tavoitteista sovitun yhdessä.","Tehtävä 5 on näytön lajittelu. Se on oikein, kun vähintään seitsemän korttia kahdeksasta on oikeassa ryhmässä, kuten kriteeri sanoo. Tavallisin virhe on Ei nälkää ekologisiin (ks. ansa 1); yksi tällainen virhe sallitaan.","Tehtävät 19 ja 20 ovat näytön tekotehtävät. Oikein, kun 1) valittu tavoite on oikeaa lajia (ekologinen tai sosiaalinen), 2) teko liittyy juuri valittuun tavoitteeseen, 3) teon voi tehdä itse koulussa tai lähiympäristössä eikä se riipu ostamisesta tai kodin hankinnoista ja 4) oppilas kertoo, keneen vastuu kohdistuu (itse, toiset tai luonto). Hyväksy mikä tahansa oikea muotoilu ja mikä tahansa tavoitteeseen sopiva teko, ei vain mallivastausta. Sosiaalisessa tavoitteessa vastuu voi kohdistua myös itseen (esim. Hyvä koulutus: harjoittelen sinnikkäästi, jotta opin).","Numerotehtävissä jokainen asia ja teko on valittu niin, että se kuuluu selvästi yhteen ryhmään. Sähkön säästäminen opetetaan ilmastotekona (sähkön tuottamisesta syntyy usein päästöjä); luonnossa liikkuminen, roskien keruu ja eläinten kotien suojelu ovat luontoon kohdistuvia tekoja. Oma oppiminen on vastuuta itsestä. Teot, joissa ostetaan jotain, ovat tehtävässä 15 harhautuksia, eivät kelpaavia tekoja.","Älä kysy oppilailta, mitä heidän kotonaan tehdään tai ostetaan, eikä vertaile perheiden tapoja. Kaikki teot on rajattu kouluun ja lähiympäristöön.","Ero lähitaitoihin: Luonnon huolenpitäjä (ET1-LUO-01) erotti luonnosta huolehtivan ja vahingoittavan teon; nyt teko liitetään tavoitteeseen ja vastuun suuntaan. Viidennellä luokalla Seitsemäntoista tavoitetta (ET5-LUO-01) kuvailee kaksi tavoitetta tarkemmin ja käsittelee kaikkia 17:ää korttia.","Kokeen sivumäärä on arvio, ja se tarkistetaan tulostettaessa."]},"tuntirunko":{"kesto":"45 min (koe seuraavalla tunnilla)","sanottava_aaneen":"Maapallolla on yhteinen tehtävälista: 17 tavoitetta vuoteen 2030 mennessä. Osa kertoo luonnosta, osa ihmisistä. Jokainen voi tehdä jotain koulussa ja lähiympäristössä ilman rahaa.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Kysy, mitä tehtävälistalla yleensä on. Kerro, että YK:n jäsenmaat ovat sopineet yhdessä maapallon tehtävälistan: 17 kestävän kehityksen tavoitetta, jotka on tarkoitus saavuttaa vuoteen 2030 mennessä. Kirjoita taululle 17 ja 2030."},{"aika":"8 min","otsikko":"Kestävä kehitys","sisalto":"Käy läpi kalastusesimerkki: mitä tapahtuu, jos kaikki kalat pyydetään tänä vuonna? Kokoa yhteen: hyvä elämä kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta."},{"aika":"12 min","otsikko":"Korttien lajittelu","sisalto":"Jaa pareille kahdeksan tavoitekorttia. Parit lukevat taulukon selitykset ja lajittelevat kortit kahteen pinoon kysymyksellä: kertooko tavoite luonnosta vai ihmisistä? Pura yhdessä ja pysähdy korttiin Ei nälkää (ansa 1). Nimeä pinot ekologinen ja sosiaalinen."},{"aika":"12 min","otsikko":"Teot ja vastuu","sisalto":"Näytä kuva Vastuu kolmeen suuntaan. Jokainen pari valitsee yhden ekologisen ja yhden sosiaalisen kortin ja keksii kumpaankin teon, jonka voi tehdä koulussa tai lähiympäristössä ilman ostamista. Kysy jokaisesta teosta: mitä teko muuttaa tavoitteen asiassa, ja keneen vastuu kohdistuu?"},{"aika":"8 min","otsikko":"Harjoittelu ja lopetus","sisalto":"Oppilaan sivun harjoitukset ryhmä kerrallaan. Ehtiikö luokka tehdä jonkin teoista yhdessä vielä tällä viikolla? Kerro, että koe on seuraavalla tunnilla."}],"tarvikkeet":"Kahdeksan tavoitekorttia pareittain (tavoitteen nimi ja taulukon selitys; tee itse tai tulosta YK:n tai Suomen YK-liiton aineistosta). Oppilaan sivu laitteelta tai tulostettuna."},"virhesanakirja":[{"virhe":"Lajittelee kortin Ei nälkää (tai Ei köyhyyttä) ekologisiin","tehtava":"lajittelu (H12, kokeen tehtävät 5–7 ja 11)","mita_kertoo":"Oppilas lajittelee sen mukaan, liittyykö asiaan jokin luonnon tuote (ruoka kasvaa pellolla), eikä sen mukaan, kenen hyvinvoinnista tavoite kertoo.","mita_tehda":"Kysy: kuka on nälkäinen, ihminen vai pelto? Toista kysymys jokaisesta kortista: kertooko tavoite ensisijaisesti luonnosta vai ihmisistä?"},{"virhe":"Vastaa tehtävään 4, että tavoitteet keksi Suomi, opettaja tai yksi tutkija, tai jättää tavoitteiden tarkoituksen pois","tehtava":"tavoitteiden synty ja tarkoitus (H03, H04, H06, kokeen tehtävät 3–4, mittari)","mita_kertoo":"Oppilas ei vielä hahmota, että tavoitteet ovat maailman maiden yhteinen sopimus, tai muistaa vain luvut 17 ja 2030 ilman sisältöä.","mita_tehda":"Palaa tehtävälistavertaukseen: kenen yhteinen lista tämä on? Pyydä täydentämään lause \"YK:n jäsenmaat sopivat yhdessä, että…\"."},{"virhe":"Keksii teon, joka on hyvä mutta ei liity valittuun tavoitteeseen (esim. Vedenalainen elämä: autan kaveria matematiikassa)","tehtava":"teko tavoitteelle (H15, H16, H20, kokeen tehtävät 12, 14, 18–20, mittari)","mita_kertoo":"Oppilas tietää, että hyvät teot edistävät kestävää kehitystä, mutta ei vielä yhdistä tekoa tavoitteen asiaan.","mita_tehda":"Kysy: mitä tekosi muuttaa meressä tai järvessä? Jos ei mitään, etsitään teko, joka muuttaa. Käy läpi saannon askel 4."},{"virhe":"Ehdottaa tekoa, joka vaatii ostamista (aurinkopaneeli, uusi pyörä) tai aikuisen päätöstä, tai laskee sellaisen tehtävässä 15 kelpaavaksi","tehtava":"teot ilman ostamista (H17, kokeen tehtävät 15 ja 19–20)","mita_kertoo":"Oppilas ajattelee kestävää kehitystä hankintoina. Se on yleinen mielikuva, mutta tämän taidon teot ovat oppilaan omia ja rahasta riippumattomia.","mita_tehda":"Kysy: voitko tehdä tämän huomenna koulussa ilman rahaa? Kerää luokan kanssa lista tekoja, jotka onnistuvat heti. Älä kysy, mitä kotona on tai mitä perhe ostaa."},{"virhe":"Ei kerro tehtävissä 19–20, keneen vastuu kohdistuu, tai sekoittaa suunnat (luonnon tekoon \"vastuu toisista\")","tehtava":"vastuun suunta (H14, H18, H19, kokeen tehtävät 13, 16–17 ja 19–20)","mita_kertoo":"Oppilas osaa keksiä teon mutta ei vielä erottele, kenen hyväksi teko tehdään.","mita_tehda":"Näytä kuva Vastuu kolmeen suuntaan ja kysy: kenelle teosta on hyötyä, sinulle, toiselle ihmiselle vai luonnolle? Pyydä lisäämään vastaukseen lause \"Vastuu kohdistuu…\"."},{"virhe":"Vastaa tehtävään 1 kahdeksan tai tehtävään 2 jonkin muun vuosiluvun kuin 2030","tehtava":"tavoitteiden määrä ja tavoitevuosi (H01, H02, kokeen tehtävät 1–2)","mita_kertoo":"Oppilas sekoittaa kokeen kahdeksan korttia kaikkiin tavoitteisiin tai ei muista tavoitevuotta.","mita_tehda":"Näytä kaikki 17 tavoitetta yhdessä kuvassa ja kerro, että tunnilla tutustuttiin niistä kahdeksaan. Kirjoita taululle 17 ja 2030 ja palaa niihin tunnin lopussa."}],"huoltajalle":{"mista_on_kyse":"Lapsi tutustuu YK:n kestävän kehityksen tavoitteisiin: YK:n jäsenmaat ovat sopineet yhdessä 17 tavoitetta, joilla pyritään hyvään elämään kaikille nyt ja tulevaisuudessa luontoa vahingoittamatta. Tavoitteet on tarkoitus saavuttaa vuoteen 2030 mennessä. Lapsi oppii erottamaan tavoitteet, jotka kertovat luonnosta (ekologinen kestävyys), ja tavoitteet, jotka kertovat ihmisistä (sosiaalinen kestävyys), sekä keksimään tekoja, joilla hän voi kantaa vastuuta itsestään, toisista ja luonnosta koulussa ja lähiympäristössä.","kotona":["Kun näette uutisen tai kuvan luonnosta tai ihmisten elämästä, kysy: kertooko tämä luonnosta vai ihmisistä, ja liittyykö se johonkin maapallon tavoitteeseen?","Kysy lapselta, minkä teon hän keksi koulussa ja keneen vastuu siinä kohdistuu. Riittää, että teko onnistuu koulussa tai lähiympäristössä.","Älä opeta näin: älä tee tavoitteista syyllistämistä tai hankintalistaa. Taidossa harjoitellaan omia, pieniä tekoja, jotka eivät vaadi rahaa."],"milloin_huolestua":"Jos lapsi on hyvin huolissaan ilmastonmuutoksesta tai maapallon tulevaisuudesta, kuuntele ja kerro, että monet ihmiset ja maat tekevät työtä asian eteen; kerro huolesta myös opettajalle. Jos lapsi sekoittaa ekologisen ja sosiaalisen kestävyyden, se on tässä iässä tavallista, ja eroa harjoitellaan koulussa."},"ulkoiset":{"edeltavat":[],"seuraavat":[]},"valmis_teksti":"Osaat kertoa, mitä YK:n kestävän kehityksen tavoitteet ovat, erottaa ekologisen ja sosiaalisen kestävyyden ja keksiä teon, jolla kannat vastuuta itsestäsi, toisista tai luonnosta. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

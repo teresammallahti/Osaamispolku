@@ -1,0 +1,524 @@
+<title>Repliikin rakentaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI5-OIK-02","oppiaine":"AI","vuosiluokka":5,"taitoalue":"OIK","jakso":"J2","taso":"ydin","otsikko":"Repliikin rakentaja","kuvaus":"Osaan merkitä repliikit ja johtolauseet oikein välimerkein.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T11"],"S":["S3"]},"eyebrow":"Äidinkieli · 5. luokka · Oikeinkirjoitus ja kirjoitustaidon sujuvuus","ikoni":"keskustelu","naytto":"Paperikoe: Lisään välimerkit valmiisiin repliikkeihin. Kirjoitan itse lainausmerkein kolme repliikkiä: yhdessä johtolause on ennen repliikkiä, yhdessä repliikin jälkeen ja yhdessä repliikki on kysymys. Lisäksi kirjoitan yhden repliikin repliikkiviivalla.","osaa_kun":"Kun johtolause on ennen repliikkiä, sen jälkeen tulee kaksoispiste ja repliikki alkaa isolla kirjaimella (Äiti sanoi: ”Tule tänne.”). Kun johtolause tulee repliikin jälkeen, pilkku tulee lainausmerkin jälkeen ja johtolause alkaa pienellä kirjaimella (”Tule tänne”, äiti sanoi.). Kysymys- tai huutomerkin jälkeen en laita pilkkua (”Tuletko?” äiti kysyi.). Repliikkiviivan kanssa pilkku tulee ennen johtolausetta (– Tule tänne, äiti sanoi.).","teksti":[{"tyyppi":"johdanto","sisalto":"Avaat kirjan ja luet: Opas sanoi: ”Polku jatkuu sillan yli.” Toisessa kirjassa sama asia on kirjoitettu näin: – Polku jatkuu sillan yli, opas sanoi. Repliikki ja johtolause ovat samat, mutta merkit ovat eri. Neljännellä luokalla merkitsit repliikit repliikkiviivalla. Nyt opit toisen tavan, lainausmerkit. Samalla opit, miten välimerkit muuttuvat, kun johtolause siirtyy repliikin eteen tai sen perään."},{"tyyppi":"kappale","otsikko":"Lainausmerkit rajaavat repliikin","sisalto":"Lainausmerkit ovat repliikin molemmin puolin kuin aidat. Ensimmäinen näyttää, mistä puhe alkaa, ja toinen, mihin se loppuu. Suomessa molemmat lainausmerkit ovat samanmuotoisia (”), ja käsin ne kirjoitetaan rivin yläreunaan. Kaikki lainausmerkkien sisällä on puhujan omia sanoja. Johtolause eli osa, joka kertoo kuka puhuu ja miten, jää lainausmerkkien ulkopuolelle."},{"tyyppi":"saanto","otsikko":"Kun johtolause on ennen repliikkiä","askeleet":["Kirjoita johtolause: Mummo sanoi","Laita johtolauseen perään kaksoispiste: Mummo sanoi:","Avaa lainausmerkki ja aloita repliikki isolla kirjaimella, sillä repliikki on oma virkkeensä: Mummo sanoi: ”Kahvi on valmis","Päätä repliikki pisteeseen, kysymysmerkkiin tai huutomerkkiin ja sulje lainausmerkki vasta sen jälkeen: Mummo sanoi: ”Kahvi on valmis.”","Lainausmerkin perään ei tule enää mitään. Virke on valmis."]},{"tyyppi":"saanto","otsikko":"Kun johtolause tulee repliikin jälkeen","askeleet":["Aloita lainausmerkillä ja isolla kirjaimella: ”Kahvi on valmis","Jos repliikki on väite, älä laita pistettä. Sulje lainausmerkki ja laita pilkku vasta lainausmerkin jälkeen: ”Kahvi on valmis”,","Jos repliikki on kysymys tai huudahdus, kysymys- tai huutomerkki tulee lainausmerkkien sisään. Silloin pilkkua ei tule lainkaan: ”Onko kahvi valmis?”","Aloita johtolause pienellä kirjaimella ja päätä se pisteeseen: ”Kahvi on valmis”, mummo sanoi. Jos johtolause alkaa nimellä, nimi kirjoitetaan tietysti isolla: ”Kahvi on valmis”, Selma sanoi."]},{"tyyppi":"kuva","otsikko":"Sama repliikki neljällä tavalla","svg":"<svg viewBox=\"0 0 600 212\" role=\"img\" aria-label=\"Sama repliikki neljällä tavalla merkittynä\"><rect class=\"v-ruutu v3\" x=\"16\" y=\"10\" width=\"113\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"23\" y=\"29\" style=\"font-size:15px\">Mummo sanoi</text><text class=\"v-t vahva\" x=\"132\" y=\"29\" style=\"font-size:20px\">:</text><rect class=\"v-ruutu v1\" x=\"144\" y=\"10\" width=\"144\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"151\" y=\"29\" style=\"font-size:15px\">”Kahvi on valmis.”</text><text class=\"v-t pieni\" x=\"372\" y=\"29\">kaksoispiste, repliikki isolla</text><rect class=\"v-ruutu v1\" x=\"16\" y=\"54\" width=\"139\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"23\" y=\"73\" style=\"font-size:15px\">”Kahvi on valmis”</text><text class=\"v-t vahva\" x=\"158\" y=\"73\" style=\"font-size:20px\">,</text><rect class=\"v-ruutu v3\" x=\"170\" y=\"54\" width=\"113\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"177\" y=\"73\" style=\"font-size:15px\">mummo sanoi</text><text class=\"v-t vahva\" x=\"286\" y=\"73\" style=\"font-size:20px\">.</text><text class=\"v-t pieni\" x=\"372\" y=\"73\">pilkku lainausmerkin jälkeen</text><rect class=\"v-ruutu v1\" x=\"16\" y=\"98\" width=\"164\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"23\" y=\"117\" style=\"font-size:15px\">”Onko kahvi valmis?”</text><rect class=\"v-ruutu v3\" x=\"186\" y=\"98\" width=\"113\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"193\" y=\"117\" style=\"font-size:15px\">mummo kysyi</text><text class=\"v-t vahva\" x=\"302\" y=\"117\" style=\"font-size:20px\">.</text><text class=\"v-t pieni\" x=\"372\" y=\"117\">kysymysmerkki, ei pilkkua</text><rect class=\"v-ruutu v1\" x=\"16\" y=\"142\" width=\"141\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"23\" y=\"161\" style=\"font-size:15px\">– Kahvi on valmis</text><text class=\"v-t vahva\" x=\"160\" y=\"161\" style=\"font-size:20px\">,</text><rect class=\"v-ruutu v3\" x=\"172\" y=\"142\" width=\"113\" height=\"28\" rx=\"3\"/><text class=\"v-t\" x=\"179\" y=\"161\" style=\"font-size:15px\">mummo sanoi</text><text class=\"v-t vahva\" x=\"287\" y=\"161\" style=\"font-size:20px\">.</text><text class=\"v-t pieni\" x=\"372\" y=\"161\">repliikkiviiva, pilkku</text><rect class=\"v-ruutu v1\" x=\"16\" y=\"190\" width=\"16\" height=\"14\" rx=\"2\"/><text class=\"v-t pieni\" x=\"38\" y=\"202\">repliikki (puhujan sanat)</text><rect class=\"v-ruutu v3\" x=\"210\" y=\"190\" width=\"16\" height=\"14\" rx=\"2\"/><text class=\"v-t pieni\" x=\"232\" y=\"202\">johtolause (kuka puhuu)</text></svg>","teksti":"Johtolause voi olla repliikin edellä tai perässä. Rajalle tulee kaksoispiste, pilkku tai ei mitään sen mukaan, kumpi on ensin ja millainen repliikki on."},{"tyyppi":"taulukko","otsikko":"Mitä repliikin ja johtolauseen rajalle tulee","otsikkorivi":["Merkintätapa","Esimerkki","Rajalla"],"rivit":[["Johtolause ensin","Isä sanoi: ”Bussi lähti jo.”","Kaksoispiste. Repliikki alkaa isolla, ja piste tulee lainausmerkkien sisään."],["Johtolause ensin, kysymys","Isä kysyi: ”Lähtikö bussi jo?”","Kaksoispiste. Kysymysmerkki tulee lainausmerkkien sisään."],["Repliikki ensin, väite","”Bussi lähti jo”, isä sanoi.","Pilkku lainausmerkin jälkeen. Johtolause alkaa pienellä."],["Repliikki ensin, kysymys tai huudahdus","”Lähtikö bussi jo?” isä kysyi.","Kysymys- tai huutomerkki lainausmerkkien sisällä. Ei pilkkua."],["Repliikkiviiva","– Bussi lähti jo, isä sanoi.","Pilkku ennen johtolausetta. Jokainen puhuja aloittaa uuden rivin."]]},{"tyyppi":"ansa","otsikko":"Ansa 1: pilkku väärällä puolella lainausmerkkiä","sisalto":"Moni kirjoittaa ”Bussi lähti jo,” isä sanoi. Suomessa pilkku ei kuulu repliikkiin, vaan se tulee vasta lainausmerkin jälkeen: ”Bussi lähti jo”, isä sanoi. Muista järjestys: ensin repliikin sanat, sitten lainausmerkki ja vasta sitten pilkku."},{"tyyppi":"ansa","otsikko":"Ansa 2: kysymysmerkki ja pilkku peräkkäin","sisalto":"Kun on oppinut, että repliikin perään tulee pilkku, sen haluaa laittaa joka kerta: ”Lähtikö bussi jo?”, isä kysyi. Nyt rajalla on kaksi merkkiä. Kysymysmerkki tekee jo pilkun työn, joten pilkku jää pois: ”Lähtikö bussi jo?” isä kysyi. Sama koskee huutomerkkiä."},{"tyyppi":"ansa","otsikko":"Ansa 3: kaksoispiste unohtuu tai repliikki alkaa pienellä","sisalto":"Kun johtolause on ensin, rajalle kuuluu kaksoispiste eikä pilkku: Isä sanoi: ”Bussi lähti jo.” Virheellisiä ovat sekä Isä sanoi, ”Bussi lähti jo.” että Isä sanoi ”Bussi lähti jo.” Kaksoispisteen jälkeen repliikki alkaa isolla kirjaimella, koska se on puhujan oma virke. Isä sanoi: ”bussi lähti jo.” on siis myös väärin."},{"tyyppi":"kappale","otsikko":"Valitse yksi tapa","sisalto":"Kirjoissa näkyy sekä repliikkiviivoja että lainausmerkkejä. Samassa kertomuksessa kannattaa käyttää vain toista, jotta lukija tottuu yhteen merkintään. Repliikkiviiva sopii pitkään vuoropuheluun, jossa jokainen puhuja saa oman rivinsä. Lainausmerkit sopivat silloin, kun repliikkejä on vain muutama kerronnan keskellä. Niitä käytetään myös uutisissa, kun kerrotaan, mitä joku on sanonut."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Lainausmerkit (”) repliikin alkuun ja loppuun. Johtolause jää niiden ulkopuolelle.","Johtolause ensin: kaksoispiste, repliikki isolla ja loppumerkki lainausmerkkien sisään (Äiti sanoi: ”Tule tänne.”).","Repliikki ensin: pilkku lainausmerkin jälkeen ja johtolause pienellä (”Tule tänne”, äiti sanoi.).","Kysymys- tai huutomerkin jälkeen ei tule pilkkua (”Tuletko?” äiti kysyi.).","Repliikkiviivan kanssa pilkku tulee ennen johtolausetta (– Tule tänne, äiti sanoi.)."]}],"harjoitusryhmat":[{"id":"ennen","nimi":"Johtolause ennen repliikkiä","info":"Johtolauseen jälkeen tulee kaksoispiste. Repliikki alkaa isolla, ja loppumerkki tulee lainausmerkkien sisään."},{"id":"jalkeen","nimi":"Johtolause repliikin jälkeen","info":"Väitteen jälkeen pilkku tulee lainausmerkin perään. Kysymys- tai huutomerkin jälkeen pilkkua ei tule."},{"id":"korjaa","nimi":"Repliikkiviiva ja virheiden etsiminen","info":"Vaihda merkintätapaa ja etsi virheitä. Aina rivissä ei ole virhettä."}],"ryhmanimet":{"ennen":"Johtolause ennen repliikkiä","jalkeen":"Johtolause repliikin jälkeen","korjaa":"Repliikkiviiva ja virheiden korjaaminen"},"harjoitukset":[{"id":"H01","ryhma":"ennen","kysymys":"Opettaja sanoi ”Piirrä ensin kartta”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2,"vinkki":"Johtolause on ensin. Mitä johtolauseen perään tulee? Entä repliikin loppuun?","selitys":"Kaksoispiste johtolauseen perään ja piste repliikin loppuun lainausmerkkien sisään: Opettaja sanoi: ”Piirrä ensin kartta.” Merkkejä tarvitaan kaksi. Jos repliikin lopussa on huutomerkki pisteen sijaan, merkkejä on silti kaksi."},{"id":"H02","ryhma":"ennen","kysymys":"Naapurin poika huusi aidan takaa ”Pallo lensi teidän pihallenne!”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":5,"vinkki":"Kaksoispiste tulee johtolauseen loppuun, juuri ennen lainausmerkkiä.","selitys":"Johtolause on Naapurin poika huusi aidan takaa, ja siinä on viisi sanaa. Kaksoispiste tulee viidennen sanan jälkeen."},{"id":"H03","ryhma":"ennen","kysymys":"isoäiti kysyi: ”onko teillä sateenvarjoa?”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":2,"vinkki":"Virkkeen ensimmäinen sana ja kaksoispisteen jälkeen alkava repliikki.","selitys":"Virke alkaa sanalla Isoäiti, ja kaksoispisteen jälkeen alkava repliikki on oma virkkeensä, joten Onko alkaa isolla. Muita isoja kirjaimia ei tarvita."},{"id":"H04","ryhma":"ennen","kysymys":"1 Äiti kysyi: ”Missä sinun kenkäsi ovat?”\n2 Ilona vastasi: ”Ne ovat eteisessä.”\n3 Äiti sanoi, ”Tuo ne tänne.”\n4 Ilona sanoi: ”Tuon ne heti.”\n\nMonennellako rivillä on virhe?","vastaus":3,"vinkki":"Katso merkkiä johtolauseen ja lainausmerkin välissä.","selitys":"Rivillä 3 johtolauseen perässä on pilkku. Kun johtolause on ensin, rajalle kuuluu kaksoispiste: Äiti sanoi: ”Tuo ne tänne.”"},{"id":"H05","ryhma":"ennen","kysymys":"Myyjä kysyi kassalla ”Tarvitsetko kassin”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2,"vinkki":"Repliikki on kysymys. Mikä merkki sen loppuun tulee?","selitys":"Kaksoispiste johtolauseen perään ja kysymysmerkki repliikin loppuun lainausmerkkien sisään: Myyjä kysyi kassalla: ”Tarvitsetko kassin?” Merkkejä tarvitaan kaksi."},{"id":"H06","ryhma":"ennen","tyyppi":"monivalinta","kysymys":"Mikä virke on merkitty oikein?","vaihtoehdot":["Lääkäri sanoi: ”Kuume laskee pian.”","Lääkäri sanoi: ”kuume laskee pian.”","Lääkäri sanoi ”Kuume laskee pian”."],"vastaus":0,"vinkki":"Tarkista kolme kohtaa: kaksoispiste, repliikin alkukirjain ja pisteen paikka.","selitys":"Oikeassa virkkeessä on kaksoispiste, repliikki alkaa isolla ja piste on lainausmerkkien sisällä. Toisessa repliikki alkaa pienellä. Kolmannesta puuttuu kaksoispiste, ja piste on lainausmerkin ulkopuolella."},{"id":"H07","ryhma":"ennen","kysymys":"1 Kapteeni huusi: ”Kaikki kannelle!”\n2 Kokki kysyi: ”Mitä nyt tapahtuu?”\n3 Kapteeni sanoi ”Myrsky on tulossa.”\n4 Kokki sanoi: ”Sidotaan veneet kiinni.”\n\nMonennellako rivillä on virhe?","vastaus":3,"vinkki":"Jokaisessa rivissä johtolause on ensin. Mikä merkki silloin tarvitaan?","selitys":"Rivillä 3 johtolauseen ja lainausmerkin välistä puuttuu kaksoispiste: Kapteeni sanoi: ”Myrsky on tulossa.”"},{"id":"H08","ryhma":"jalkeen","kysymys":"”Kirjasto sulkeutuu pian” sanoi virkailija\n\nMontako välimerkkiä virkkeestä puuttuu, kun lainausmerkit ovat jo paikallaan?","vastaus":2,"vinkki":"Repliikki on väite. Mitä lainausmerkin jälkeen tulee? Entä virkkeen loppuun?","selitys":"Väitteen jälkeen tulee pilkku lainausmerkin perään, ja virke päättyy pisteeseen: ”Kirjasto sulkeutuu pian”, sanoi virkailija. Puuttuu kaksi merkkiä."},{"id":"H09","ryhma":"jalkeen","kysymys":"”Saanko lainata tämän” kysyi Veikko\n”Saat” vastasi virkailija\n”Laina-aika on kolme viikkoa” virkailija sanoi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2,"vinkki":"Pilkku tulee vain väitteen perään. Kysymyksen perään tulee kysymysmerkki.","selitys":"Ensimmäinen repliikki on kysymys, joten sen perään tulee kysymysmerkki eikä pilkkua. Toinen ja kolmas repliikki ovat väitteitä, ja niiden lainausmerkin perään tulee pilkku. Pilkkuja tarvitaan kaksi."},{"id":"H10","ryhma":"jalkeen","kysymys":"1 ”Ovi on lukossa”, sanoi Aada.\n2 ”Kenellä on avain?”, kysyi Eemil.\n3 ”Minulla on”, vastasi Aada.\n4 ”Hienoa!” huudahti Eemil.\n\nMonennellako rivillä on virhe?","vastaus":2,"vinkki":"Tarvitseeko kysymysmerkin perään pilkkua?","selitys":"Rivillä 2 kysymysmerkin perässä on lisäksi pilkku. Kysymysmerkki riittää yksin: ”Kenellä on avain?” kysyi Eemil."},{"id":"H11","ryhma":"jalkeen","kysymys":"1 ”Mihin tämä juna menee?” kysyi matkustaja.\n2 ”Se menee Tampereelle,” konduktööri vastasi.\n3 ”Kiitos tiedosta”, matkustaja sanoi.\n4 ”Hyvää matkaa!” konduktööri toivotti.\n\nMonennellako rivillä on virhe?","vastaus":2,"vinkki":"Katso tarkasti, kummalla puolella lainausmerkkiä pilkku on.","selitys":"Rivillä 2 pilkku on lainausmerkkien sisällä. Suomessa se tulee lainausmerkin jälkeen: ”Se menee Tampereelle”, konduktööri vastasi."},{"id":"H12","ryhma":"jalkeen","kysymys":"1 ”Kalat syövät leipää”, kertoi Oona.\n2 ”Saanko minäkin syöttää?” kysyi Pietu.\n3 ”Tässä on pala”, Oona sanoi.\n4 ”Kiitos”, Sanoi Pietu.\n\nMonennellako rivillä on virhe?","vastaus":4,"vinkki":"Katso johtolauseiden alkukirjaimia.","selitys":"Rivillä 4 sana sanoi alkaa isolla, vaikka se ei ole nimi eikä aloita virkettä. Oikein on ”Kiitos”, sanoi Pietu."},{"id":"H13","ryhma":"jalkeen","kysymys":"”Tuletko huomenna mukaan” kysyi Iida\n”Tulen” vastasi Jaakko\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4,"vinkki":"Tarkista jokaisesta rivistä kaksi kohtaa: repliikin loppu ja rivin loppu.","selitys":"Ensimmäiseltä riviltä puuttuu kysymysmerkki lainausmerkkien sisältä ja piste rivin lopusta. Toiselta riviltä puuttuu pilkku lainausmerkin jälkeen ja piste rivin lopusta. Yhteensä neljä."},{"id":"H14","ryhma":"jalkeen","tyyppi":"monivalinta","kysymys":"Mikä rivi on merkitty oikein?","vaihtoehdot":["”Lumi sulaa jo”, mummo sanoi.","”Lumi sulaa jo,” mummo sanoi.","”Lumi sulaa jo.” mummo sanoi."],"vastaus":0,"vinkki":"Missä kohdassa pilkku on, ja onko rajalla piste?","selitys":"Oikeassa rivissä pilkku on lainausmerkin jälkeen. Toisessa pilkku on lainausmerkkien sisällä, ja kolmannessa repliikin perässä on piste, joka katkaisee virkkeen liian aikaisin."},{"id":"H15","ryhma":"korjaa","kysymys":"Rivi ”Aurinko paistaa”, sanoi Leo. kirjoitetaan uudelleen niin, että repliikki merkitään repliikkiviivalla eikä lainausmerkeillä.\n\nMontako välimerkkiä uudella rivillä on, kun repliikkiviivaa ei lasketa?","vastaus":2,"vinkki":"Kirjoita rivi ensin itse: viiva, repliikki, raja, johtolause.","selitys":"Uusi rivi on – Aurinko paistaa, sanoi Leo. Siinä on pilkku ennen johtolausetta ja piste lopussa, eli kaksi välimerkkiä."},{"id":"H16","ryhma":"korjaa","kysymys":"1 – Missä sinä olit? kysyi isä.\n2 – Kirjastossa, vastasi Hilla.\n3 – Lainasitko jotain?, kysyi isä.\n4 – Kaksi sarjakuvaa, Hilla sanoi.\n\nMonennellako rivillä on virhe?","vastaus":3,"vinkki":"Sama sääntö pätee repliikkiviivan kanssa: kysymysmerkki riittää yksin.","selitys":"Rivillä 3 kysymysmerkin perässä on pilkku. Oikein on – Lainasitko jotain? kysyi isä."},{"id":"H17","ryhma":"korjaa","kysymys":"Rivi – Kello on jo paljon, sanoi äiti. kirjoitetaan uudelleen niin, että johtolause on ennen repliikkiä ja repliikki on lainausmerkeissä.\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":2,"vinkki":"Kirjoita ensin johtolause: kuka sanoi.","selitys":"Uusi rivi on Äiti sanoi: ”Kello on jo paljon.” Johtolauseessa on kaksi sanaa, joten kaksoispiste tulee toisen sanan jälkeen."},{"id":"H18","ryhma":"korjaa","kysymys":"1 Opettaja kysyi: ”Kuka haluaa lukea?”\n2 ”Minä haluan”, sanoi Vilja.\n3 ”Aloita sivulta kymmenen”, opettaja sanoi.\n4 ”Missä kohdassa?” kysyi Vilja.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":4,"vinkki":"Tarkista jokainen rivi erikseen. Aina ei ole virhettä.","selitys":"Kaikki neljä riviä ovat oikein. Rivillä 1 johtolause on ensin ja sen perässä kaksoispiste. Riveillä 2 ja 3 väitteen jälkeen tulee pilkku lainausmerkin perään. Rivillä 4 kysymysmerkki riittää."},{"id":"H19","ryhma":"korjaa","kysymys":"1 ”Olen valmis” sanoi Nooa.\n2 Äiti kysyi ”Otitko hammasharjan?”\n3 ”Otin,” Nooa vastasi.\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3,"vinkki":"Jokaisella rivillä on yksi virhe.","selitys":"Rivillä 1 puuttuu pilkku lainausmerkin jälkeen. Rivillä 2 puuttuu kaksoispiste johtolauseen perästä. Rivillä 3 pilkku on lainausmerkkien sisällä, vaikka sen kuuluu olla niiden jälkeen. Virheitä on kolme."},{"id":"H20","ryhma":"korjaa","tyyppi":"monivalinta","kysymys":"”Joko ruoka on valmis?” kysyi Tuomas.\n\nMiksi tässä rivissä ei ole pilkkua?","vaihtoehdot":["Kysymysmerkki on jo rajalla, eikä samaan kohtaan tarvita kahta merkkiä.","Johtolause on niin lyhyt, ettei se tarvitse pilkkua.","Lainausmerkin jälkeen ei koskaan tule pilkkua."],"vastaus":0,"vinkki":"Mitä kysymysmerkki kertoo lukijalle?","selitys":"Kysymysmerkki on jo rajalla ja kertoo, että repliikki on kysymys. Samaan kohtaan ei tarvita toista merkkiä. Lainausmerkin jälkeen voi kyllä tulla pilkku: väitteen jälkeen se tulee aina."}],"kokeet":[{"id":"A","nimi":"Koe A","tehtavat":[{"nro":1,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Kuljettaja sanoi ”Seuraava pysäkki on kirjasto”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2},{"nro":2,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Pieni tyttö kysyi isältään ”Miksi taivas on sininen?”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":4},{"nro":3,"ryhma":"ennen","tyyppi":"lasku","kysymys":"isä sanoi: ”huomenna eino tulee kylään.”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":3},{"nro":4,"ryhma":"ennen","tyyppi":"lasku","kysymys":"1 Isä kysyi: ”Onko pyörässä ilmaa?”\n2 Vilja vastasi: ”Takarengas on tyhjä.”\n3 Isä sanoi, ”Haetaan pumppu.”\n4 Vilja sanoi: ”Se on autotallissa.”\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":5,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause on ennen repliikkiä. Tilanne: valmentaja kertoo, että harjoitukset on peruttu.","vastaus":"Malliesimerkki: Valmentaja kertoi: ”Harjoitukset on peruttu.”"},{"nro":6,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita rivi ”Satama on tyhjä”, sanoi kalastaja. uudelleen niin, että johtolause on ennen repliikkiä.","vastaus":"Malliesimerkki: Kalastaja sanoi: ”Satama on tyhjä.”"},{"nro":7,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Sataa vettä” sanoi Ella\n”Otetaanko sateenvarjo” kysyi Oiva\n”Minulla on sadetakki” Ella vastasi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2},{"nro":8,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Onko sinulla laturia” kysyi Peppi\n”Se on repussa” vastasi Eljas\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4},{"nro":9,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Lähdetäänkö uimaan?” kysyi Ronja.\n2 ”Vesi on vielä kylmää,” Aapo sanoi.\n3 ”Mennään sitten pyöräilemään”, Ronja ehdotti.\n4 ”Se sopii”, Aapo vastasi.\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":10,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Ovi jäi auki”, sanoi Elsa.\n2 ”Kuka sen jätti?” kysyi isä.\n3 ”Minä taisin jättää”, Elsa myönsi.\n4 ”Suljetko sen nyt?”, isä kysyi.\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":11,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Sade loppui”, Isä sanoi.\n2 ”Lähdetäänkö ulos?” kysyi Alma.\n3 ”Lähdetään heti”, isä vastasi.\n4 ”Haen kumisaappaat”, Alma sanoi.\n\nMonennellako rivillä on virhe?","vastaus":1},{"nro":12,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Lainausmerkit ovat paikallaan, mutta muut välimerkit puuttuvat. Kirjoita rivit oikein.\n\nKuljettaja ilmoitti ”Tie on suljettu”\n”Mitä nyt tehdään” kysyi Pinja\n”Ajamme kiertotietä” kuljettaja vastasi","vastaus":"Malliesimerkki: Kuljettaja ilmoitti: ”Tie on suljettu.”\n”Mitä nyt tehdään?” kysyi Pinja.\n”Ajamme kiertotietä”, kuljettaja vastasi."},{"nro":13,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause tulee repliikin jälkeen. Tilanne: Aino kertoo, että hänen pyöränsä on korjattu.","vastaus":"Malliesimerkki: ”Pyöräni on korjattu”, Aino kertoi."},{"nro":14,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, joka on kysymys ja jonka jälkeen tulee johtolause. Tilanne: Eetu kysyy, missä hänen reppunsa on.","vastaus":"Malliesimerkki: ”Missä minun reppuni on?” Eetu kysyi."},{"nro":15,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"– Piha on täynnä lunta sanoi Elina\n– Kuka sen luo kysyi isä\n– Minä luon sen Elina sanoi\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan? Repliikkiviivoja ei lasketa.","vastaus":6},{"nro":16,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"Rivit ovat eri kertomuksista.\n\n1 Äiti kysyi: ”Kuka söi omenat?”\n2 ”Minä söin kaksi”, Iida sanoi.\n3 – Minä söin loput. sanoi Juho.\n4 ”Ostetaan lisää,” äiti sanoi.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":2},{"nro":17,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 Maija kysyi ”Onko tämä sinun pipusi?”\n2 ”Se on veljeni,” Jaakko vastasi.\n3 ”Annatko sen hänelle?”, Maija kysyi.\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3},{"nro":18,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 – Mihin sinä menet? kysyi äiti.\n2 – Kaverin luo, Arvo vastasi.\n3 – Tule kotiin ennen yhdeksää. äiti sanoi.\n4 – Tulen ajoissa, Arvo lupasi.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":19,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita tehtävän 17 katkelma oikein.","vastaus":"Malliesimerkki: Maija kysyi: ”Onko tämä sinun pipusi?”\n”Se on veljeni”, Jaakko vastasi.\n”Annatko sen hänelle?” Maija kysyi."},{"nro":20,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita repliikki repliikkiviivalla niin, että johtolause tulee repliikin jälkeen. Tilanne: Matilda kertoo, että sali on varattu.","vastaus":"Malliesimerkki: – Sali on varattu, Matilda kertoi."}]},{"id":"B","nimi":"Koe B","tehtavat":[{"nro":1,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Kokki sanoi ”Keitto on vielä kuumaa”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2},{"nro":2,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Vanha kalastaja kertoi meille ”Hauki nappasi uistimeen.”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":4},{"nro":3,"ryhma":"ennen","tyyppi":"lasku","kysymys":"opettaja sanoi: ”tänään iida lukee ensimmäisenä.”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":3},{"nro":4,"ryhma":"ennen","tyyppi":"lasku","kysymys":"1 Myyjä kysyi: ”Etsittekö jotain?”\n2 Asiakas sanoi, ”Etsin talvikenkiä.”\n3 Myyjä sanoi: ”Ne ovat perällä.”\n4 Asiakas sanoi: ”Kiitos avusta.”\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":5,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause on ennen repliikkiä. Tilanne: lääkäri sanoo, että lepo auttaa.","vastaus":"Malliesimerkki: Lääkäri sanoi: ”Lepo auttaa.”"},{"nro":6,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita rivi ”Juna on myöhässä”, sanoi Kasper. uudelleen niin, että johtolause on ennen repliikkiä.","vastaus":"Malliesimerkki: Kasper sanoi: ”Juna on myöhässä.”"},{"nro":7,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Kauppa on kiinni” sanoi isä\n”Mihin aikaan se aukeaa” kysyi Tilda\n”Se aukeaa yhdeksältä” isä vastasi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2},{"nro":8,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Mihin bussi menee” kysyi Hugo\n”Se menee keskustaan” vastasi kuljettaja\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4},{"nro":9,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Leivotaanko pullaa?” kysyi Senja.\n2 ”Hiivaa on kaapissa”, isä sanoi.\n3 ”Minä vaivaan taikinan”, Senja lupasi.\n4 ”Uuni on jo kuuma,” isä sanoi.\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":10,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Näitkö revontulet?”, kysyi Liinu.\n2 ”Näin ne ikkunasta”, vastasi Patrik.\n3 ”Ne olivat vihreitä”, Liinu kertoi.\n4 ”Toivottavasti niitä näkyy taas”, Patrik sanoi.\n\nMonennellako rivillä on virhe?","vastaus":1},{"nro":11,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Kirjasto on auki”, sanoi Miro.\n2 ”Haluatko tulla mukaan?” hän kysyi.\n3 ”Tulen mielelläni”, Siskoni vastasi.\n4 ”Otetaan vanhat kirjat mukaan”, Miro sanoi.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":12,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Lainausmerkit ovat paikallaan, mutta muut välimerkit puuttuvat. Kirjoita rivit oikein.\n\nÄiti sanoi ”Ruoka on pöydässä”\n”Mitä ruokaa on” kysyi Eelis\n”Tänään on lasagnea” äiti vastasi","vastaus":"Malliesimerkki: Äiti sanoi: ”Ruoka on pöydässä.”\n”Mitä ruokaa on?” kysyi Eelis.\n”Tänään on lasagnea”, äiti vastasi."},{"nro":13,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause tulee repliikin jälkeen. Tilanne: Saga kertoo, että hänen kirjansa on kadonnut.","vastaus":"Malliesimerkki: ”Kirjani on kadonnut”, Saga kertoi."},{"nro":14,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, joka on kysymys ja jonka jälkeen tulee johtolause. Tilanne: Onni kysyy, mihin aikaan elokuva alkaa.","vastaus":"Malliesimerkki: ”Mihin aikaan elokuva alkaa?” Onni kysyi."},{"nro":15,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"– Tuuli on yltynyt sanoi kalastaja\n– Palataanko rantaan kysyi Ilmari\n– Palataan ennen pimeää kalastaja vastasi\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan? Repliikkiviivoja ei lasketa.","vastaus":6},{"nro":16,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"Rivit ovat eri kertomuksista.\n\n1 – Kenen lapaset nämä ovat? kysyi opettaja.\n2 Aleksi sanoi ”Ne ovat minun.”\n3 ”Laita ne kuivumaan”, opettaja sanoi.\n4 – Laitan ne patterille Aleksi vastasi.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":2},{"nro":17,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 Opettaja sanoi ”Kirjoita nimesi paperiin.”\n2 ”Kirjoitanko myös päivämäärän?”, kysyi Ruut.\n3 ”Päivämäärä on jo valmiina,” opettaja vastasi.\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3},{"nro":18,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 – Vesi on lämmintä. Sanni sanoi.\n2 – Uskallanko hypätä? kysyi Mikael.\n3 – Laituri on matala, Sanni varoitti.\n4 – Kävelen sitten portaita, Mikael sanoi.\n\nMonennellako rivillä on virhe?","vastaus":1},{"nro":19,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita tehtävän 17 katkelma oikein.","vastaus":"Malliesimerkki: Opettaja sanoi: ”Kirjoita nimesi paperiin.”\n”Kirjoitanko myös päivämäärän?” kysyi Ruut.\n”Päivämäärä on jo valmiina”, opettaja vastasi."},{"nro":20,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita repliikki repliikkiviivalla niin, että johtolause tulee repliikin jälkeen. Tilanne: Lauri kertoo, että peli alkaa kohta.","vastaus":"Malliesimerkki: – Peli alkaa kohta, Lauri kertoi."}]},{"id":"C","nimi":"Koe C","tehtavat":[{"nro":1,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Mummo sanoi ”Mustikat ovat jo kypsiä”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2},{"nro":2,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Uusi valmentaja huusi pojille ”Kaikki maaliin!”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":4},{"nro":3,"ryhma":"ennen","tyyppi":"lasku","kysymys":"mummo kysyi: ”tuleeko leevi syömään?”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":3},{"nro":4,"ryhma":"ennen","tyyppi":"lasku","kysymys":"1 Opas sanoi: ”Tässä on vanha linna.”\n2 Eemeli kysyi: ”Asuuko siellä joku?”\n3 Opas vastasi: ”Siellä on nyt museo.”\n4 Eemeli sanoi, ”Mennään katsomaan.”\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":5,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause on ennen repliikkiä. Tilanne: kirjastonhoitaja kertoo, että kirja pitää palauttaa.","vastaus":"Malliesimerkki: Kirjastonhoitaja kertoi: ”Kirja pitää palauttaa.”"},{"nro":6,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita rivi ”Pihalla on kettu”, sanoi Elli. uudelleen niin, että johtolause on ennen repliikkiä.","vastaus":"Malliesimerkki: Elli sanoi: ”Pihalla on kettu.”"},{"nro":7,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Kirja on pöydällä” sanoi Kasper\n”Mikä kirja se on” kysyi äiti\n”Se on satukirja” Kasper vastasi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2},{"nro":8,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Kuka voitti pelin” kysyi isoisä\n”Peli päättyi tasan” vastasi Matilda\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4},{"nro":9,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Tämä tehtävä on vaikea,” Kaapo sanoi.\n2 ”Mikä siinä on vaikeaa?” kysyi opettaja.\n3 ”En ymmärrä kysymystä”, Kaapo vastasi.\n4 ”Luetaan se yhdessä”, opettaja sanoi.\n\nMonennellako rivillä on virhe?","vastaus":1},{"nro":10,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Puhelimen akku loppui”, sanoi Venla.\n2 ”Onko sinulla laturi?” kysyi Alvar.\n3 ”Laturi jäi kotiin!”, Venla huudahti.\n4 ”Lainaa minun laturiani”, Alvar sanoi.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":11,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Teltta on pystyssä”, sanoi Lotta.\n2 ”Mistä saamme vettä?” Kysyi Henrik.\n3 ”Järvestä”, Lotta vastasi.\n4 ”Keitetään vesi ensin”, Henrik sanoi.\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":12,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Lainausmerkit ovat paikallaan, mutta muut välimerkit puuttuvat. Kirjoita rivit oikein.\n\nValmentaja kertoi ”Ottelu siirtyy sunnuntaille”\n”Missä se pelataan” kysyi Kerttu\n”Se pelataan kotikentällä” valmentaja vastasi","vastaus":"Malliesimerkki: Valmentaja kertoi: ”Ottelu siirtyy sunnuntaille.”\n”Missä se pelataan?” kysyi Kerttu.\n”Se pelataan kotikentällä”, valmentaja vastasi."},{"nro":13,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause tulee repliikin jälkeen. Tilanne: Elias kertoo, että hänen kissansa on sairas.","vastaus":"Malliesimerkki: ”Kissani on sairas”, Elias kertoi."},{"nro":14,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, joka on kysymys ja jonka jälkeen tulee johtolause. Tilanne: Mila kysyy, kenen takki naulakossa on.","vastaus":"Malliesimerkki: ”Kenen takki naulakossa on?” Mila kysyi."},{"nro":15,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"– Kakku on uunissa sanoi Emma\n– Milloin se on valmis kysyi Taavi\n– Se on valmis pian Emma vastasi\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan? Repliikkiviivoja ei lasketa.","vastaus":6},{"nro":16,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"Rivit ovat eri kertomuksista.\n\n1 ”Bussi tulee”, sanoi Aino.\n2 – Juostaanko?, kysyi Eemil.\n3 Aino vastasi, ”Ei tarvitse juosta.”\n4 – Ehdimme hyvin, Eemil sanoi.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":2},{"nro":17,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 ”Saanko maistaa?”, kysyi Benjamin.\n2 Isoäiti sanoi ”Keitto kiehuu vielä.”\n3 ”Odotan sitten vähän,” Benjamin sanoi.\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3},{"nro":18,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 – Kuka soittaa kelloa? kysyi Hilda.\n2 – Se on postinkantaja, isä vastasi.\n3 – Avaanko oven? Hilda kysyi.\n4 – Avaa vain. isä sanoi.\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":19,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita tehtävän 17 katkelma oikein.","vastaus":"Malliesimerkki: ”Saanko maistaa?” kysyi Benjamin.\nIsoäiti sanoi: ”Keitto kiehuu vielä.”\n”Odotan sitten vähän”, Benjamin sanoi."},{"nro":20,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita repliikki repliikkiviivalla niin, että johtolause tulee repliikin jälkeen. Tilanne: Oskari kertoo, että lumi on sulanut.","vastaus":"Malliesimerkki: – Lumi on sulanut, Oskari kertoi."}]},{"id":"D","nimi":"Koe D","tehtavat":[{"nro":1,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Vahtimestari sanoi ”Ovi aukeaa kahdeksalta”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2},{"nro":2,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Naapurin rouva kysyi meiltä ”Onko kissanne kotona?”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":4},{"nro":3,"ryhma":"ennen","tyyppi":"lasku","kysymys":"valmentaja sanoi: ”huomenna aada pelaa maalissa.”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":3},{"nro":4,"ryhma":"ennen","tyyppi":"lasku","kysymys":"1 Mummo kysyi, ”Haluatko teetä?”\n2 Saga vastasi: ”Haluan mielelläni.”\n3 Mummo sanoi: ”Vesi kiehuu jo.”\n4 Saga sanoi: ”Haen mukit.”\n\nMonennellako rivillä on virhe?","vastaus":1},{"nro":5,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause on ennen repliikkiä. Tilanne: mummo sanoo, että sauna on lämmin.","vastaus":"Malliesimerkki: Mummo sanoi: ”Sauna on lämmin.”"},{"nro":6,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita rivi ”Tuuli kääntyi”, sanoi purjehtija. uudelleen niin, että johtolause on ennen repliikkiä.","vastaus":"Malliesimerkki: Purjehtija sanoi: ”Tuuli kääntyi.”"},{"nro":7,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Kissa nukkuu sohvalla” sanoi Nelli\n”Saako sitä silittää” kysyi Arttu\n”Se pitää silittämisestä” Nelli vastasi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2},{"nro":8,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Missä sakset ovat” kysyi Lumi\n”Ne ovat laatikossa” vastasi Onni\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4},{"nro":9,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Joko posti tuli?” kysyi Aune.\n2 ”Postilaatikko on tyhjä”, Veeti sanoi.\n3 ”Odotan pakettia,” Aune kertoi.\n4 ”Se tulee varmaan huomenna”, Veeti sanoi.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":10,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Lumiukko on valmis”, sanoi Kerttu.\n2 ”Tarvitseeko se hatun?”, kysyi Paavo.\n3 ”Hattu löytyy eteisestä”, Kerttu sanoi.\n4 ”Haen sen”, Paavo lupasi.\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":11,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Polku kääntyy tästä”, sanoi opas.\n2 ”Kuinka pitkä matka on vielä?” kysyi Neea.\n3 ”Kaksi kilometriä”, opas vastasi.\n4 ”Jaksan kyllä”, Neea Sanoi.\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":12,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Lainausmerkit ovat paikallaan, mutta muut välimerkit puuttuvat. Kirjoita rivit oikein.\n\nIsoisä sanoi ”Kalastus on parasta aamulla”\n”Saanko tulla mukaan” kysyi Juuso\n”Herätän sinut kuudelta” isoisä vastasi","vastaus":"Malliesimerkki: Isoisä sanoi: ”Kalastus on parasta aamulla.”\n”Saanko tulla mukaan?” kysyi Juuso.\n”Herätän sinut kuudelta”, isoisä vastasi."},{"nro":13,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause tulee repliikin jälkeen. Tilanne: Ronja kertoo, että hänen hammastaan särkee.","vastaus":"Malliesimerkki: ”Hammastani särkee”, Ronja kertoi."},{"nro":14,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, joka on kysymys ja jonka jälkeen tulee johtolause. Tilanne: Jooa kysyy, milloin uimahalli aukeaa.","vastaus":"Malliesimerkki: ”Milloin uimahalli aukeaa?” Jooa kysyi."},{"nro":15,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"– Lintu rakentaa pesää sanoi Hertta\n– Mistä se tuo oksat kysyi Lauri\n– Se kerää ne metsästä Hertta vastasi\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan? Repliikkiviivoja ei lasketa.","vastaus":6},{"nro":16,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"Rivit ovat eri kertomuksista.\n\n1 – Missä koira on. kysyi Vilma.\n2 ”Se on pihalla”, isä vastasi.\n3 Vilma sanoi: ”Haen sen sisään.”\n4 ”Se on likainen,” isä sanoi.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":2},{"nro":17,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 ”Tämä palapeli on iso,” sanoi Irma.\n2 Ukki kysyi ”Montako palaa siinä on?”\n3 ”Onkohan siinä tuhat palaa?”, Irma mietti.\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3},{"nro":18,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 – Kukat tarvitsevat vettä, sanoi Rasmus.\n2 – Kastelin ne aamulla. Ida vastasi.\n3 – Multa on silti kuivaa, Rasmus sanoi.\n4 – Kastellaan uudestaan, Ida päätti.\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":19,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita tehtävän 17 katkelma oikein.","vastaus":"Malliesimerkki: ”Tämä palapeli on iso”, sanoi Irma.\nUkki kysyi: ”Montako palaa siinä on?”\n”Onkohan siinä tuhat palaa?” Irma mietti."},{"nro":20,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita repliikki repliikkiviivalla niin, että johtolause tulee repliikin jälkeen. Tilanne: Pihla kertoo, että kauppa on kiinni.","vastaus":"Malliesimerkki: – Kauppa on kiinni, Pihla kertoi."}]},{"id":"E","nimi":"Koe E","tehtavat":[{"nro":1,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Kirjastonhoitaja sanoi ”Uudet kirjat ovat hyllyssä”\n\nMontako muuta välimerkkiä virkkeeseen tarvitaan, kun lainausmerkit ovat jo paikallaan?","vastaus":2},{"nro":2,"ryhma":"ennen","tyyppi":"lasku","kysymys":"Retken opas kertoi meille ”Polku on liukas.”\n\nMonennenko sanan jälkeen tulee kaksoispiste?","vastaus":4},{"nro":3,"ryhma":"ennen","tyyppi":"lasku","kysymys":"kuljettaja kysyi: ”nouseeko veeti tällä pysäkillä?”\n\nMontako sanaa tässä virkkeessä pitää aloittaa isolla kirjaimella?","vastaus":3},{"nro":4,"ryhma":"ennen","tyyppi":"lasku","kysymys":"1 Valmentaja sanoi: ”Tänään harjoitellaan syöttöjä.”\n2 Joona kysyi: ”Pelataanko lopuksi?”\n3 Valmentaja vastasi, ”Pelataan lopuksi vähän.”\n4 Joona sanoi: ”Hyvä juttu.”\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":5,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause on ennen repliikkiä. Tilanne: kapteeni kertoo, että laiva on lähdössä.","vastaus":"Malliesimerkki: Kapteeni kertoi: ”Laiva on lähdössä.”"},{"nro":6,"ryhma":"ennen","tyyppi":"sanallinen","kysymys":"Kirjoita rivi ”Lehdet ovat pudonneet”, sanoi puutarhuri. uudelleen niin, että johtolause on ennen repliikkiä.","vastaus":"Malliesimerkki: Puutarhuri sanoi: ”Lehdet ovat pudonneet.”"},{"nro":7,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Vene on rannassa” sanoi ukki\n”Saanko soutaa” kysyi Aino\n”Saat soutaa lahden yli” ukki vastasi\n\nMontako pilkkua näille riveille tarvitaan?","vastaus":2},{"nro":8,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"”Milloin konsertti alkaa” kysyi Elmo\n”Se alkaa illalla” vastasi Siiri\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan, kun lainausmerkit ovat jo paikallaan?","vastaus":4},{"nro":9,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Mitä tänään syödään?” kysyi Iivo.\n2 ”Tänään on kalakeittoa,” äiti vastasi.\n3 ”Saako siihen leipää?” Iivo kysyi.\n4 ”Leipä on pöydällä”, äiti sanoi.\n\nMonennellako rivillä on virhe?","vastaus":2},{"nro":10,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Junassa on paljon väkeä”, sanoi Jenni.\n2 ”Löytyykö meille paikat?” kysyi Timo.\n3 ”Tuolla on kaksi vapaata paikkaa”, Jenni sanoi.\n4 ”Istutaan tuonne!”, Timo huudahti.\n\nMonennellako rivillä on virhe?","vastaus":4},{"nro":11,"ryhma":"jalkeen","tyyppi":"lasku","kysymys":"1 ”Akvaariossa on uusi kala”, sanoi Inka.\n2 ”Mikä sen nimi on?” kysyi Oskari.\n3 ”Sillä ei ole vielä nimeä”, Opettaja sanoi.\n4 ”Keksitään sille nimi”, Inka ehdotti.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":12,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Lainausmerkit ovat paikallaan, mutta muut välimerkit puuttuvat. Kirjoita rivit oikein.\n\nOpettaja kertoi ”Huomenna on liikuntapäivä”\n”Mitä silloin tehdään” kysyi Aliisa\n”Pelataan pesäpalloa” opettaja vastasi","vastaus":"Malliesimerkki: Opettaja kertoi: ”Huomenna on liikuntapäivä.”\n”Mitä silloin tehdään?” kysyi Aliisa.\n”Pelataan pesäpalloa”, opettaja vastasi."},{"nro":13,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, jossa johtolause tulee repliikin jälkeen. Tilanne: Veera kertoo, että hänen kenkänsä ovat märät.","vastaus":"Malliesimerkki: ”Kenkäni ovat märät”, Veera kertoi."},{"nro":14,"ryhma":"jalkeen","tyyppi":"sanallinen","kysymys":"Kirjoita lainausmerkein repliikki, joka on kysymys ja jonka jälkeen tulee johtolause. Tilanne: Aaro kysyy, kuka on lainannut hänen kynänsä.","vastaus":"Malliesimerkki: ”Kuka on lainannut kynäni?” Aaro kysyi."},{"nro":15,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"– Tänään on pihakirppis sanoi Maisa\n– Myydäänkö vanhat lelut kysyi Eetu\n– Myydään osa niistä Maisa vastasi\n\nMontako välimerkkiä riveiltä puuttuu kaikkiaan? Repliikkiviivoja ei lasketa.","vastaus":6},{"nro":16,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"Rivit ovat eri kertomuksista.\n\n1 ”Mikä päivä tänään on?” kysyi Aatos.\n2 – Tänään on perjantai, sanoi Ella.\n3 Aatos sanoi: ”viikonloppu alkaa.”\n4 – Mitä teet huomenna?, Ella kysyi.\n\nMontako riviä neljästä on merkitty oikein?","vastaus":2},{"nro":17,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 ”Laiva lähtee satamasta,” sanoi Valtteri.\n2 ”Mihin se on menossa?”, kysyi Hanna.\n3 Valtteri vastasi ”Se menee Tukholmaan.”\n\nMontako merkintävirhettä katkelmassa on?","vastaus":3},{"nro":18,"ryhma":"korjaa","tyyppi":"lasku","kysymys":"1 – Joko elokuva alkaa? kysyi Tuure.\n2 – Mainokset ovat vielä menossa, Kiia vastasi.\n3 – Haen vielä vettä. Tuure sanoi.\n4 – Ehdit hyvin, Kiia sanoi.\n\nMonennellako rivillä on virhe?","vastaus":3},{"nro":19,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita tehtävän 17 katkelma oikein.","vastaus":"Malliesimerkki: ”Laiva lähtee satamasta”, sanoi Valtteri.\n”Mihin se on menossa?” kysyi Hanna.\nValtteri vastasi: ”Se menee Tukholmaan.”"},{"nro":20,"ryhma":"korjaa","tyyppi":"sanallinen","kysymys":"Kirjoita repliikki repliikkiviivalla niin, että johtolause tulee repliikin jälkeen. Tilanne: Kalle kertoo, että sade on lakannut.","vastaus":"Malliesimerkki: – Sade on lakannut, Kalle kertoi."}]}],"tulostus":{"sivuja":4,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":3,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Taito jatkaa 4. luokan repliikkiviivataitoa (AI4-OIK-03). Uutta on lainausmerkkien käyttö, kaksoispiste johtolauseen jälkeen ja välimerkkien paikka lainausmerkkeihin nähden. Repliikkiviiva kerrataan, ja kokeen viimeisessä osiossa se on mukana.","Ensimmäinen oppitunti: opetusteksti ja harjoitukset. Näyttö eli koe pidetään toisella oppitunnilla valvotusti paperilla.","Mittaritehtävät: 5 (oma repliikki, johtolause ensin), 13 (oma repliikki, johtolause perässä), 14 (oma kysymysrepliikki, johtolause perässä) ja 20 (oma repliikki repliikkiviivalla). Ne vastaavat kartan neljää sääntöä ja näytön vaatimusta kirjoittaa itse kolme repliikkiä lainausmerkein ja yksi repliikkiviivalla.","Tehtävissä 5, 6, 12, 13, 14, 19 ja 20 vastausavain on malliesimerkki. Hyväksy mikä tahansa sanamuoto, jossa merkinnät ovat oikein. Johtolauseen verbi voi olla muukin kuin mallin (sanoi, kertoi, ilmoitti). Repliikin sanamuoto voi poiketa tilanteen kuvauksesta, kunhan asia on sama.","Johtolause voi alkaa myös puhujan nimellä (”Tule jo”, Aino sanoi.), ja silloin iso alkukirjain on oikein. Johtolauseen sanajärjestys voi vaihdella (sanoi Aino / Aino sanoi); molemmat ovat oikein.","Tehtävä 12 (lisää välimerkit) on oikein, kun kaikki kolme riviä ovat oikein. Tehtävä 19 on oikein, kun kaikki kolme virhettä on korjattu eikä uusia ole tullut.","Numeerisissa tehtävissä väitteet on valittu neutraaleiksi (sanoi, kertoi, vastasi), jotta huutomerkki ei ole perusteltu vaihtoehto. Jos oppilas kuitenkin perustelee tehtävässä 7 tai 15 jonkin väitteen huudahdukseksi, katso perustelu ja kirjaa havainto purussa; avain on sääntöjen mukainen.","Tehtävä 16 sekoittaa tarkoituksella lainausmerkki- ja repliikkiviivarivejä (ne ovat eri kertomuksista), jotta molempien merkintätapojen säännöt tulevat kokeeseen.","Tarkistettava asiatieto: säännöt (pilkku lainausmerkin jälkeen, ei pilkkua kysymys- tai huutomerkin jälkeen, kaksoispiste ja iso alkukirjain kun johtolause on ensin, piste lainausmerkkien sisään) on kirjoitettu Kielitoimiston ohjeiden mukaisiksi muistinvaraisesti. Tarkista ne Kielitoimiston ohjepankista (repliikit, lainausmerkit) ennen käyttöä: https://www.kielitoimistonohjepankki.fi/","Tässä taidossa ei mitata kirjoitusnopeutta eikä kirjata yrityskertoja."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Lainausmerkkien sisällä on vain se, minkä puhuja sanoi. Pilkku ei ole puhujan sana, joten se tulee lainausmerkin jälkeen.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Näytä sama repliikki kahdella tavalla: repliikkiviivalla ja lainausmerkein. Kysy, mitä eroa merkeissä on ja mikä pysyy samana. Repliikkiviiva on tuttu 4. luokalta, joten lainausmerkit rakentuvat sen päälle."},{"aika":"15 min","otsikko":"Ydinasia","sisalto":"Käy läpi kaksi järjestystä: johtolause ensin (kaksoispiste, iso alkukirjain, piste lainausmerkkien sisään) ja repliikki ensin (pilkku lainausmerkin jälkeen, johtolause pienellä). Ota kysymys- ja huutomerkin poikkeus vasta näiden jälkeen. Kirjoita yksi rivi näkyviin ensin väärin ja sitten oikein, ja näytä opetustekstin neljän rivin kuva."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Ryhmän Johtolause repliikin jälkeen virheriveissä kysy perustelu: missä pilkku on ja miksi. Perustelu paljastaa, katsotaanko merkin paikkaa vai arvataanko."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kirjoita yhdessä yksi repliikki kolmella tavalla: johtolause ensin, repliikki ensin ja repliikkiviivalla. Kerro, että seuraavalla tunnilla on paperikoe, jossa kirjoitetaan myös omia repliikkejä."}],"tarvikkeet":"Kirjoitustila, jossa sama repliikki näkyy rinnakkain eri merkinnöin. Halutessasi lyhyt ote kirjasta, jossa repliikit on merkitty lainausmerkein. Koe tulostetaan seuraavalle oppitunnille."},"virhesanakirja":[{"virhe":"”Bussi lähti jo,” isä sanoi.","tehtava":"pilkun paikka lainausmerkkiin nähden","mita_kertoo":"Pilkku on tiedossa, mutta se mielletään osaksi repliikkiä. Malli voi tulla englanninkielisistä teksteistä tai siitä, että lainausmerkki tuntuu viimeiseltä merkiltä, jonka jälkeen ei tule mitään.","mita_tehda":"Peitä johtolause ja kysy, mitkä sanat puhuja sanoi. Pilkku ei ole puhujan sana, joten se jää lainausmerkkien ulkopuolelle."},{"virhe":"”Lähtikö bussi jo?”, isä kysyi.","tehtava":"kysymysmerkki ja pilkku peräkkäin","mita_kertoo":"Pilkkusääntö on omaksuttu ja sitä sovelletaan kaikkiin repliikkeihin. Virhe kertoo säännön oppimisesta, ei sen puutteesta.","mita_tehda":"Kysy, mitä tehtävää rajalla oleva merkki hoitaa. Kun kysymysmerkki on jo rajalla, toinen merkki on liikaa."},{"virhe":"Isä sanoi, ”Bussi lähti jo.”","tehtava":"välimerkki johtolauseen jälkeen","mita_kertoo":"Johtolauseen ja repliikin raja tunnistetaan, mutta merkiksi valitaan tuttu pilkku. Kaksoispisteen tehtävä (tästä alkaa jotain, mitä edellä ennakoitiin) on vielä vieras.","mita_tehda":"Vertaa kaksoispisteeseen ennen luetteloa: Ostin kolme asiaa: maitoa, leipää ja juustoa. Kaksoispiste ilmoittaa, että nyt tulee luvattu sisältö, tässä puhujan sanat."},{"virhe":"Isä sanoi: ”bussi lähti jo.”","tehtava":"repliikin alkukirjain kaksoispisteen jälkeen","mita_kertoo":"Kaksoispisteen jälkeen jatketaan kuin samaa virkettä. Ajatus on looginen, mutta repliikki on puhujan oma virke.","mita_tehda":"Pyydä kirjoittamaan repliikki yksinään ilman johtolausetta. Kirjoittaja aloittaa sen isolla, eikä johtolauseen lisääminen eteen muuta sitä."},{"virhe":"”Bussi lähti jo”, Isä sanoi.","tehtava":"johtolauseen alkukirjain","mita_kertoo":"Johtolause mielletään uudeksi virkkeeksi, koska lainausmerkki ja pilkku näyttävät katkaisevan rivin.","mita_tehda":"Lue rivi ääneen yhtenä virkkeenä. Pilkun jälkeen ei aloiteta isolla, ellei sana ole nimi. Vertaa riviin ”Bussi lähti jo”, Aino sanoi."},{"virhe":"Isä sanoi: ”Bussi lähti jo”.","tehtava":"loppupisteen paikka","mita_kertoo":"Piste mielletään koko virkkeen merkiksi, joka kuuluu viimeiseksi. Kun johtolause on ensin, repliikin loppupiste päättää kuitenkin myös koko virkkeen, ja se tulee lainausmerkkien sisään.","mita_tehda":"Näytä rinnakkain Isä kysyi: ”Lähtikö bussi jo?” Kysymysmerkin paikka on selvä, ja piste käyttäytyy samoin."}],"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee merkitsemään repliikit eli puheen kertomukseen kahdella tavalla: lainausmerkein ja repliikkiviivalla. Uutta on se, että välimerkit muuttuvat sen mukaan, onko johtolause (äiti sanoi) ennen repliikkiä vai sen jälkeen: Äiti sanoi: ”Tule tänne.” mutta ”Tule tänne”, äiti sanoi.","kotona":["Kun luette yhdessä kirjaa tai lehteä, etsikää kohta, jossa joku puhuu. Katsokaa, onko repliikki merkitty lainausmerkein vai repliikkiviivalla ja onko johtolause ennen vai jälkeen.","Kirjoittakaa sama lause kolmella tavalla, esimerkiksi viestiksi: Isä sanoi: ”Ruoka on valmis.” / ”Ruoka on valmis”, isä sanoi. / – Ruoka on valmis, isä sanoi. Lapsi voi kertoa, miksi merkit ovat eri kohdissa.","Kun lapsi kirjoittaa tarinaa, kysy repliikin kohdalla: onko kyse kysymyksestä? Jos on, kysymysmerkki riittää eikä sen perään tule pilkkua.","Älä opeta näin: älä sano, että pilkku tulee lainausmerkkien sisään. Joissakin muissa kielissä se tulee, mutta suomessa pilkku tulee lainausmerkin jälkeen."],"milloin_huolestua":"Jos lapsi osaa säännöt yksittäisissä tehtävissä mutta omassa tarinassa repliikit sulautuvat kerrontaan ilman mitään merkkejä, keskustelkaa opettajan kanssa. Usein syynä on se, että kirjoittaminen vie kaiken huomion, ja merkinnät kannattaa silloin lisätä erikseen oikolukuvaiheessa. Tässä taidossa ei mitata kirjoitusnopeutta eikä yrityskertoja."},"ulkoiset":{},"valmis_teksti":"Osaat merkitä repliikit sekä lainausmerkein että repliikkiviivalla. Tiedät, milloin rajalle tulee kaksoispiste, milloin pilkku ja milloin ei mitään. Taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

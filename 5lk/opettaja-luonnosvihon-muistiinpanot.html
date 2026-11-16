@@ -1,0 +1,524 @@
+<title>Luonnosvihon muistiinpanot · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KU5-PII-01","oppiaine":"KU","vuosiluokka":5,"taitoalue":"PII","jakso":"J1","taso":"ydin","otsikko":"Luonnosvihon muistiinpanot","kuvaus":"Osaan tehdä kohteesta kuvallisia muistiinpanoja: luonnostelen sitä katsomalla eri etäisyyksiltä ja merkitsen luonnokseen nuolilla ja sanoilla, mitä huomasin.","versio":"0.1","paivitetty":"2026-11-14","ops":{"T":["T1","T4","T11"],"S":["S2"]},"ikoni":"kyna","eyebrow":"Kuvataide · 5. luokka · Piirtäminen ja viiva","naytto":"Teen opettajan valitsemasta kotiseudun historiallisesta rakennuksesta (vierailulla tai opettajan valokuvista) kolme luonnosta: koko rakennus kauempaa, yksi yksityiskohta lähempää ja yksi toinen näkymä. Kirjoitan luonnoksiin nuolten kanssa vähintään kolme havaintoa: yksi rakennuksen muodosta, yksi materiaalista tai pinnasta ja yksi yksityiskohdasta.","osaa_kun":"Luonnoksissa on ainakin yksi kohteesta havaittu yksityiskohta, joka vastaa kohdetta (esimerkiksi ikkunoiden määrä ja paikka tai katon muoto), eikä rakennusta ole piirretty muistista yleisenä talona. Jokainen muistiinpano osoittaa nuolella siihen luonnoksen kohtaan, jota se koskee, ja kertoo asian, jonka voi nähdä kohteesta tai kuvasta.","teksti":[{"tyyppi":"johdanto","sisalto":"Luokka on retkellä vanhan koulurakennuksen pihalla. Kamera tallentaisi rakennuksen yhdellä painalluksella, mutta kuvan ottaja ei välttämättä katso mitään tarkasti. Kun piirrät, joudut katsomaan: montako ikkunaa rivissä on, onko katto jyrkkä vai loiva, onko seinä laudoista vai kivestä. Kuvallinen muistiinpano on luonnos, johon on merkitty nuolilla ja sanoilla, mitä huomasit. Sen tarkoitus ei ole olla kaunis vaan muistaa. Tässä taidossa opit tekemään kohteesta kolme luonnosta eri etäisyyksiltä ja kirjoittamaan niihin havaintoja, jotka kuka tahansa voisi tarkistaa kohteesta."},{"tyyppi":"kappale","otsikko":"Mikä tekee luonnoksesta muistiinpanon","sisalto":"Muistiinpanossa on kolme osaa: luonnos, nuoli ja havainto. Luonnos on kevyt ja keskeneräinen, ja se saa olla. Nuoli yhdistää sanan siihen kohtaan, jota se koskee. Havainto on lyhyt: kaksi tai kolme sanaa riittää, kunhan se kertoo jotain, minkä voi nähdä. Hyvän muistiinpanon tunnistaa siitä, että joku toinen voisi seistä samassa paikassa, katsoa nuolen osoittamaa kohtaa ja todeta, että asia on niin. Luonnosvihkoa käyttävät muutkin kuin kuvataiteilijat: arkkitehdit, luonnontutkijat ja rakennusten korjaajat piirtävät, koska piirtäminen pakottaa huomaamaan asioita, jotka katse muuten ohittaa."},{"tyyppi":"saanto","otsikko":"Kolme luonnosta kolmelta etäisyydeltä","askeleet":["Kauempaa koko rakennus. Katso ensin kokonaisuutta: kuinka korkea rakennus on leveyteensä nähden, millainen katto on ja montako kerrosta ja ikkunariviä siinä on. Älä vielä piirrä yksityiskohtia.","Lähempää yksi yksityiskohta. Valitse yksi asia, esimerkiksi ikkuna, ovi, koriste tai katon reuna, ja piirrä se isona. Nyt näet asioita, jotka kauempaa sulautuivat yhteen: ruutujen määrän, laudan suunnan, koristeen muodon.","Toinen näkymä. Siirry rakennuksen kulmalle tai päätyyn, tai katso opettajan toista valokuvaa. Toiselta puolelta näkyy usein jotain, mitä edestä ei näe: päädyn muoto, piippu, toinen ovi tai kuisti.","Vierailulla pysy ryhmän mukana. Kun peräännyt nähdäksesi koko rakennuksen, katso taaksesi ja pysy pihalla tai jalkakäytävällä, älä astu ajoradalle."]},{"tyyppi":"saanto","otsikko":"Näin mittaat kynällä","askeleet":["Ojenna käsi suoraksi ja sulje toinen silmä. Pidä kynä pystyssä.","Aseta kynän kärki rakennuksen seinän yläreunan kohdalle ja siirrä peukalo seinän alareunan kohdalle. Nyt kynässä on rakennuksen seinän korkeus.","Käännä kynä vaakaan pitäen peukalo paikallaan ja laske, montako tällaista korkeutta mahtuu seinän leveyteen.","Piirrä luonnoksen ääriviiva samassa suhteessa: jos seinä on kaksi kertaa niin leveä kuin korkea, piirrä se kaksi kertaa niin leveäksi kuin korkeaksi.","Laske ikkunat ja muut toistuvat osat ennen kuin piirrät ne. Merkitse ensin niiden paikat pienillä viivoilla."]},{"tyyppi":"taulukko","otsikko":"Kolmenlaisia havaintoja","otsikkorivi":["Havainnon laji","Mitä katsot","Esimerkki muistiinpanosta"],"rivit":[["<b>Muoto</b>","Rakennuksen ääriviiva, katon muoto, kerrosten ja ikkunarivien määrä, torni tai kuisti.","2 kerrosta, 4 ikkunaa rivissä"],["<b>Materiaali tai pinta</b>","Mistä seinä tai katto on tehty ja miltä pinta näyttää: hirsi, vaakalauta, pystylauta, tiili, kivi, rappaus, pelti, tiilikatto.","seinä vaakalautaa"],["<b>Yksityiskohta</b>","Pieni osa, joka erottaa rakennuksen muista: ikkunan ruudut, koristeet, ovi, piippu, portaat.","ovessa 6 peiliä"]]},{"tyyppi":"kuva","otsikko":"Luonnosvihon sivu: kolme luonnosta, nuolet ja havainnot","svg":"<svg viewBox=\"0 0 620 300\" role=\"img\" aria-label=\"Kolme luonnosta keksitystä vanhasta koulusta muistiinpanoineen\"><rect x=\"6\" y=\"6\" width=\"258\" height=\"288\" rx=\"4\" class=\"v-kehys\" style=\"stroke-width:1\"/><rect x=\"272\" y=\"6\" width=\"172\" height=\"288\" rx=\"4\" class=\"v-kehys\" style=\"stroke-width:1\"/><rect x=\"452\" y=\"6\" width=\"162\" height=\"288\" rx=\"4\" class=\"v-kehys\" style=\"stroke-width:1\"/><text x=\"16\" y=\"24\" class=\"v-t vahva\" text-anchor=\"start\" style=\"font-size:12px\">1 Kauempaa: koko rakennus</text><text x=\"282\" y=\"24\" class=\"v-t vahva\" text-anchor=\"start\" style=\"font-size:12px\">2 Lähempää: ovi</text><text x=\"462\" y=\"24\" class=\"v-t vahva\" text-anchor=\"start\" style=\"font-size:12px\">3 Toinen näkymä: pääty</text><polygon points=\"32,150 228,150 224,108 36,108\" class=\"v-osa\"/><rect x=\"168\" y=\"90\" width=\"13\" height=\"22\" class=\"v-osa\"/><rect x=\"40\" y=\"150\" width=\"180\" height=\"100\" class=\"v-osa\"/><line x1=\"40\" y1=\"189\" x2=\"121\" y2=\"189\" class=\"v-apu\"/><line x1=\"139\" y1=\"189\" x2=\"220\" y2=\"189\" class=\"v-apu\"/><line x1=\"40\" y1=\"196\" x2=\"121\" y2=\"196\" class=\"v-apu\"/><line x1=\"139\" y1=\"196\" x2=\"220\" y2=\"196\" class=\"v-apu\"/><line x1=\"40\" y1=\"238\" x2=\"121\" y2=\"238\" class=\"v-apu\"/><line x1=\"139\" y1=\"238\" x2=\"220\" y2=\"238\" class=\"v-apu\"/><line x1=\"40\" y1=\"245\" x2=\"121\" y2=\"245\" class=\"v-apu\"/><line x1=\"139\" y1=\"245\" x2=\"220\" y2=\"245\" class=\"v-apu\"/><rect x=\"52\" y=\"158\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"60\" y1=\"158\" x2=\"60\" y2=\"180\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"52\" y=\"205\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"60\" y1=\"205\" x2=\"60\" y2=\"227\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"86\" y=\"158\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"94\" y1=\"158\" x2=\"94\" y2=\"180\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"86\" y=\"205\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"94\" y1=\"205\" x2=\"94\" y2=\"227\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"158\" y=\"158\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"166\" y1=\"158\" x2=\"166\" y2=\"180\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"158\" y=\"205\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"166\" y1=\"205\" x2=\"166\" y2=\"227\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"192\" y=\"158\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"200\" y1=\"158\" x2=\"200\" y2=\"180\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"192\" y=\"205\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"200\" y1=\"205\" x2=\"200\" y2=\"227\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"121\" y=\"214\" width=\"18\" height=\"36\" class=\"v-osa\"/><polygon points=\"115,214 145,214 130,200\" class=\"v-osa\"/><text x=\"16\" y=\"46\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Muoto: 2 kerrosta,</text><text x=\"16\" y=\"59\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">4 ikkunaa rivissä</text><line x1=\"60\" y1=\"64\" x2=\"92.0\" y2=\"155.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M92.0,155.0 L93.1,148.2 L86.9,150.4 Z\" class=\"v-nuoli\"/><text x=\"150\" y=\"46\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Yksityiskohta:</text><text x=\"150\" y=\"59\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">piippu harjalla</text><line x1=\"180\" y1=\"64\" x2=\"175.0\" y2=\"88.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M175.0,88.0 L179.5,82.8 L173.0,81.5 Z\" class=\"v-nuoli\"/><text x=\"130\" y=\"282\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Pinta: vaakalaudat</text><line x1=\"190\" y1=\"270\" x2=\"205.0\" y2=\"247.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M205.0,247.0 L199.0,250.2 L204.5,253.8 Z\" class=\"v-nuoli\"/><polygon points=\"310,96 410,96 360,62\" class=\"v-osa\"/><rect x=\"320\" y=\"100\" width=\"80\" height=\"138\" class=\"v-osa\"/><line x1=\"360\" y1=\"108\" x2=\"360\" y2=\"230\" class=\"v-akseli\"/><rect x=\"328\" y=\"110\" width=\"28\" height=\"32\" class=\"v-osa\"/><rect x=\"328\" y=\"152\" width=\"28\" height=\"32\" class=\"v-osa\"/><rect x=\"328\" y=\"194\" width=\"28\" height=\"32\" class=\"v-osa\"/><rect x=\"364\" y=\"110\" width=\"28\" height=\"32\" class=\"v-osa\"/><rect x=\"364\" y=\"152\" width=\"28\" height=\"32\" class=\"v-osa\"/><rect x=\"364\" y=\"194\" width=\"28\" height=\"32\" class=\"v-osa\"/><text x=\"282\" y=\"44\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Yksityiskohta: kolmion</text><text x=\"282\" y=\"57\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">muotoinen katos</text><line x1=\"405\" y1=\"50\" x2=\"385.0\" y2=\"80.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M385.0,80.0 L391.1,76.8 L385.6,73.2 Z\" class=\"v-nuoli\"/><text x=\"282\" y=\"276\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">6 peiliä: 2 vierekkäin,</text><text x=\"282\" y=\"289\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">3 päällekkäin</text><line x1=\"330\" y1=\"266\" x2=\"342.0\" y2=\"224.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M342.0,224.0 L337.2,228.9 L343.5,230.7 Z\" class=\"v-nuoli\"/><polygon points=\"484,160 586,160 535,92\" class=\"v-osa\"/><rect x=\"490\" y=\"160\" width=\"90\" height=\"90\" class=\"v-osa\"/><rect x=\"530\" y=\"80\" width=\"11\" height=\"18\" class=\"v-osa\"/><polygon points=\"484,160 586,160 535,92\" class=\"v-osa\"/><circle cx=\"535\" cy=\"134\" r=\"9\" class=\"v-osa\"/><rect x=\"505\" y=\"172\" width=\"16\" height=\"22\" class=\"v-osa\"/><rect x=\"505\" y=\"208\" width=\"16\" height=\"22\" class=\"v-osa\"/><rect x=\"549\" y=\"172\" width=\"16\" height=\"22\" class=\"v-osa\"/><rect x=\"549\" y=\"208\" width=\"16\" height=\"22\" class=\"v-osa\"/><text x=\"462\" y=\"46\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Päädyssä pyöreä</text><text x=\"462\" y=\"59\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">ikkuna</text><line x1=\"500\" y1=\"64\" x2=\"528.0\" y2=\"128.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M528.0,128.0 L528.6,121.2 L522.6,123.8 Z\" class=\"v-nuoli\"/><text x=\"462\" y=\"276\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">Muoto: pääty on</text><text x=\"462\" y=\"289\" class=\"v-t\" text-anchor=\"start\" style=\"font-size:10.5px\">korkeampi kuin leveä</text><line x1=\"575\" y1=\"266\" x2=\"585.0\" y2=\"240.0\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><path d=\"M585.0,240.0 L579.8,244.4 L585.9,246.8 Z\" class=\"v-nuoli\"/></svg>","teksti":"Keksitty esimerkki: Kaarnalammen vanha koulu. Jokainen nuoli alkaa muistiinpanosta ja päättyy siihen kohtaan, jota se koskee."},{"tyyppi":"saanto","otsikko":"Näin kirjoitat muistiinpanon","askeleet":["Piirrä luonnos ensin. Jätä paperin reunoille tilaa sanoille.","Kirjoita havainto luonnoksen viereen tyhjään kohtaan, ei piirroksen päälle.","Vedä nuoli sanasta suoraan siihen kohtaan, jota havainto koskee. Nuolen kärki osuu kohteeseen, ei sen viereen.","Tarkista jokainen muistiinpano kysymällä: voisiko joku toinen nähdä saman, kun hän katsoo rakennusta tai valokuvaa?"]},{"tyyppi":"ansa","otsikko":"Ansa 1: piirrät talon, jonka jo tiedät","sisalto":"Kun piirrät rakennusta, käsi alkaa helposti piirtää sitä taloa, jonka olet piirtänyt monta kertaa ennenkin: neliö, kolmiokatto, kaksi ikkunaa ja ovi keskellä. Se ei ole väärin piirretty, mutta se ei kerro mitään juuri tästä rakennuksesta. Huomaat ansan, kun luonnoksessasi on eri määrä ikkunoita kuin kohteessa tai katto on erimuotoinen. Korjaus on laskea ja mitata ennen piirtämistä: montako ikkunaa, montako kerrosta, kuinka leveä korkeuteen nähden."},{"tyyppi":"kuva","otsikko":"Muistista vai katsomalla","svg":"<svg viewBox=\"0 0 560 260\" role=\"img\" aria-label=\"Muistista piirretty yleinen talo ja katsomalla piirretty rakennus\"><polygon points=\"40,110 180,110 110,58\" class=\"v-osa\"/><rect x=\"50\" y=\"110\" width=\"120\" height=\"96\" class=\"v-osa\"/><rect x=\"64\" y=\"126\" width=\"26\" height=\"26\" class=\"v-osa\"/><line x1=\"77\" y1=\"126\" x2=\"77\" y2=\"152\" class=\"v-akseli\" style=\"stroke-width:1\"/><line x1=\"64\" y1=\"139\" x2=\"90\" y2=\"139\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"130\" y=\"126\" width=\"26\" height=\"26\" class=\"v-osa\"/><line x1=\"143\" y1=\"126\" x2=\"143\" y2=\"152\" class=\"v-akseli\" style=\"stroke-width:1\"/><line x1=\"130\" y1=\"139\" x2=\"156\" y2=\"139\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"100\" y=\"166\" width=\"20\" height=\"40\" class=\"v-osa\"/><text x=\"110\" y=\"232\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">Muistista: yleinen talo</text><text x=\"110\" y=\"248\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">Sopisi mihin tahansa taloon.</text><polygon points=\"332,106 528,106 524,64 336,64\" class=\"v-osa\"/><rect x=\"468\" y=\"46\" width=\"13\" height=\"22\" class=\"v-osa\"/><rect x=\"340\" y=\"106\" width=\"180\" height=\"100\" class=\"v-osa\"/><line x1=\"340\" y1=\"145\" x2=\"421\" y2=\"145\" class=\"v-apu\"/><line x1=\"439\" y1=\"145\" x2=\"520\" y2=\"145\" class=\"v-apu\"/><line x1=\"340\" y1=\"152\" x2=\"421\" y2=\"152\" class=\"v-apu\"/><line x1=\"439\" y1=\"152\" x2=\"520\" y2=\"152\" class=\"v-apu\"/><line x1=\"340\" y1=\"194\" x2=\"421\" y2=\"194\" class=\"v-apu\"/><line x1=\"439\" y1=\"194\" x2=\"520\" y2=\"194\" class=\"v-apu\"/><line x1=\"340\" y1=\"201\" x2=\"421\" y2=\"201\" class=\"v-apu\"/><line x1=\"439\" y1=\"201\" x2=\"520\" y2=\"201\" class=\"v-apu\"/><rect x=\"352\" y=\"114\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"360\" y1=\"114\" x2=\"360\" y2=\"136\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"352\" y=\"161\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"360\" y1=\"161\" x2=\"360\" y2=\"183\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"386\" y=\"114\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"394\" y1=\"114\" x2=\"394\" y2=\"136\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"386\" y=\"161\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"394\" y1=\"161\" x2=\"394\" y2=\"183\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"458\" y=\"114\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"466\" y1=\"114\" x2=\"466\" y2=\"136\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"458\" y=\"161\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"466\" y1=\"161\" x2=\"466\" y2=\"183\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"492\" y=\"114\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"500\" y1=\"114\" x2=\"500\" y2=\"136\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"492\" y=\"161\" width=\"16\" height=\"22\" class=\"v-osa\"/><line x1=\"500\" y1=\"161\" x2=\"500\" y2=\"183\" class=\"v-akseli\" style=\"stroke-width:1\"/><rect x=\"421\" y=\"170\" width=\"18\" height=\"36\" class=\"v-osa\"/><polygon points=\"415,170 445,170 430,156\" class=\"v-osa\"/><text x=\"430\" y=\"232\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">Katsomalla: juuri tämä rakennus</text><text x=\"430\" y=\"248\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">Katon muoto, ikkunat ja ovi kuten kohteessa.</text><line x1=\"280\" y1=\"20\" x2=\"280\" y2=\"240\" class=\"v-apu\"/></svg>","teksti":"Vasen talo on piirretty siitä, mitä taloista yleensä tiedetään. Oikea on piirretty katsomalla: siitä voi laskea ikkunat ja nähdä katon muodon."},{"tyyppi":"ansa","otsikko":"Ansa 2: sana ilman nuolta tai nuoli tyhjään","sisalto":"Luonnoksen alle on kirjoitettu siisti lista: vaakalaudat, pyöreä ikkuna, jyrkkä katto. Lista on hyvä alku, mutta muistiinpano ei vielä kerro, missä nämä asiat ovat. Toinen tapa erehtyä on vetää nuoli summittain kohti rakennusta, jolloin se päättyy taivaalle tai keskelle seinää. Kuukauden päästä et itsekään muista, mihin sana liittyi. Jokaiselle havainnolle oma nuoli, ja nuolen kärki täsmälleen siihen kohtaan."},{"tyyppi":"ansa","otsikko":"Ansa 3: mielipide tai kuultu tieto havainnon paikalla","sisalto":"Kaunis, tylsä, hieno ovi, rakennettu kauan sitten. Näistä kaksi ensimmäistä ovat mielipiteitä, ja viimeinen on tieto, jonka kuulit tai luit, mutta et nähnyt. Ne saavat olla luonnosvihossasi, mutta ne eivät ole havaintoja, eikä niihin vedetä nuolta. Muuta mielipide havainnoksi kysymällä, mikä sai sinut ajattelemaan niin: hieno ovi muuttuu muotoon ovessa kaksi lasiruutua ja kaareva yläosa."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kolme luonnosta: kauempaa koko rakennus, lähempää yksi yksityiskohta ja yksi toinen näkymä.","Laske ja mittaa kynällä ennen kuin piirrät. Silloin piirrät tämän rakennuksen etkä yleistä taloa.","Vähintään kolme havaintoa: muoto, materiaali tai pinta ja yksityiskohta.","Jokaisella havainnolla on oma nuoli, joka osoittaa täsmälleen oikeaan kohtaan.","Havainto on asia, jonka toinenkin voi nähdä. Mielipide ja kuultu tieto eivät ole havaintoja.","Luonnos saa olla keskeneräinen. Se on muistiinpano, ei valmis työ."]}],"kokeet":[],"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Luonnos on muistiinpano, ei taideteos. Arvioin sitä, onko luonnoksessa juuri tämän rakennuksen piirteitä ja osoittaako jokainen nuoli oikeaan kohtaan, en sitä, kuinka kaunis piirros on.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Piirrä taululle yleinen talo (neliö, kolmiokatto, kaksi ikkunaa) ja näytä sen vieressä valokuva kohteesta. Kysy: mitä tästä kuvasta ei voisi päätellä piirroksesta? Anna oppilaiden luetella eroja: ikkunoiden määrä, katon muoto, materiaali."},{"aika":"10 min","otsikko":"Ydinasia","sisalto":"Näytä kynämittaus: ojennettu käsi, kärki yläreunaan, peukalo alareunaan, kynän kääntö vaakaan. Kokeilkaa yhdessä valokuvasta tai ikkunasta. Piirrä sen jälkeen taululle yksinkertainen luonnos kuvan rakennuksesta ja kirjoita siihen kolme havaintoa nuolineen: muoto, pinta, yksityiskohta. Kirjoita yksi tahallinen virhe, esimerkiksi kaunis katto, ja anna oppilaiden löytää, miksi se ei ole havainto."},{"aika":"25 min","otsikko":"Näyttötehtävä","sisalto":"Oppilaat tekevät kolme luonnosta: koko rakennus kauempaa, yksi yksityiskohta lähempää ja toinen näkymä. Vierailulla siirrytään yhdessä kahteen tai kolmeen paikkaan; luokassa jokaisella on käytössä valokuvat kaikista kolmesta näkymästä. Kierrä ja tarkista kahdesta asiasta: onko ensimmäisessä luonnoksessa havaittu yksityiskohta (esimerkiksi oikea ikkunamäärä) ja osoittavatko nuolet oikeisiin kohtiin. Kirjaa näyttö, kun kolme havaintoa nuolineen on valmis."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Oppilaat näyttävät vierustoverille yhden muistiinpanon, ja tämä etsii samaa kohtaa kohteesta tai valokuvasta. Keskustelkaa lyhyesti: miksi juuri tämä rakennus on säilytetty, ja mitä luonnoksesta voisi myöhemmin muistaa, mitä valokuvasta ei? Keskustelua ei arvioida."}],"tarvikkeet":"Jokaiselle luonnosvihko tai kolme A5-arkkia alustalla, lyijykynä (HB tai B) ja pyyhekumi. Vierailulle kirjoitusalustat. Luokkaan opettajan omat valokuvat kohteesta kolmesta näkymästä: koko rakennus, lähikuva yksityiskohdasta ja toinen puoli tai pääty, mieluiten tulosteina pöytäryhmille tai heijastettuna."},"havainnointikriteerit":[{"virhe":"Rakennus on piirretty yleisenä talona: neliö, kolmiokatto, kaksi ikkunaa ja ovi keskellä, vaikka kohde on toisenlainen.","tehtava":"Näyttötehtävä, luonnos 1 (koko rakennus)","mita_kertoo":"Oppilas piirtää tietonsa taloista, ei havaintoaan. Katse käy kohteessa, mutta käsi toistaa tuttua kaavaa.","mita_tehda":"Pyydä oppilasta laskemaan ääneen kohteen ikkunat ylimmästä rivistä ja vertaamaan omaan luonnokseensa. Kysy sitten katon muodosta. Yksi korjattu yksityiskohta riittää kriteeriin; luonnosta ei tarvitse aloittaa alusta."},{"virhe":"Havainnot on kirjoitettu luetteloksi luonnoksen alle ilman nuolia.","tehtava":"Muistiinpanot luonnoksiin","mita_kertoo":"Oppilas on havainnut asioita, mutta ei ole yhdistänyt niitä kuvaan. Havainto on olemassa, merkintätapa puuttuu.","mita_tehda":"Pyydä vetämään luettelon jokaisesta sanasta nuoli siihen kohtaan, jota se koskee. Jos jokin havainto ei löydä paikkaansa luonnoksesta, kysy, puuttuuko se luonnoksesta vai onko se havainto lainkaan."},{"virhe":"Nuoli päättyy tyhjään kohtaan tai väärään osaan rakennusta, esimerkiksi pinta-nuoli ikkunaan.","tehtava":"Muistiinpanot luonnoksiin","mita_kertoo":"Nuoli on oppilaalle koriste tai yleinen viittaus rakennukseen, ei tarkka osoitus. Kriteeri vaatii, että nuoli osoittaa täsmälleen havaittuun kohtaan.","mita_tehda":"Kysy: jos peität sanan, mitä nuolen kärki näyttää? Anna oppilaan siirtää kärki oikeaan kohtaan. Kevyesti lyijykynällä vedetyn nuolen voi pyyhkiä ja vetää uudelleen."},{"virhe":"Muistiinpanot ovat mielipiteitä tai kuultuja tietoja: kaunis, tylsä, rakennettu kauan sitten.","tehtava":"Muistiinpanot luonnoksiin","mita_kertoo":"Oppilas ei vielä erota näkemäänsä siitä, mitä hän ajattelee tai tietää kohteesta. Tämä on taidon keskeinen raja.","mita_tehda":"Kysy: mitä näit, kun ajattelit tuota? Kirjoita oppilaan vastaus uudeksi muistiinpanoksi. Mielipide saa jäädä vihkoon, mutta siihen ei vedetä nuolta eikä sitä lasketa havainnoksi."},{"virhe":"Kaikki kolme havaintoa ovat samaa lajia, esimerkiksi kolme ikkunaa koskevaa yksityiskohtaa, tai kaikki kolme luonnosta on piirretty samasta kohdasta.","tehtava":"Näyttötehtävä kokonaisuutena","mita_kertoo":"Oppilas on löytänyt yhden tavan katsoa ja pysyy siinä. Näyttö vaatii kolme näkökulmaa: muoto, materiaali tai pinta ja yksityiskohta sekä kolme eri näkymää.","mita_tehda":"Näytä taulukon kolme havainnon lajia ja kysy, mikä niistä puuttuu. Ohjaa oppilas toiseen paikkaan tai toiseen valokuvaan puuttuvaa näkymää varten."},{"virhe":"Ensimmäistä luonnosta hiotaan ja pyyhitään moneen kertaan, eikä toinen ja kolmas luonnos ala.","tehtava":"Näyttötehtävä, kolmen luonnoksen kokonaisuus","mita_kertoo":"Oppilas pitää luonnosta valmiina työnä, jonka pitää olla oikein ja siisti. Usein taustalla on halu onnistua, ei piirtämisen vaikeus.","mita_tehda":"Sano, että keskeneräinen viiva on luonnoksessa oikein, ja ota kumi hetkeksi syrjään. Pyydä aloittamaan toinen luonnos ja palaamaan ensimmäiseen vasta, kun kaikki kolme on aloitettu. Piirroksen tarkkuutta tai kauneutta ei arvioida."}],"opettajalle":{"kesto":"Yksi oppitunti. Jos luonnokset tehdään vierailulla, vierailun aika korvaa näyttötehtävän vaiheen, ja lopetus voidaan pitää seuraavan tunnin alussa.","huomiot":["Arvioinnin kohde on kaksi asiaa: luonnoksissa on ainakin yksi kohteesta havaittu yksityiskohta, joka vastaa kohdetta (esimerkiksi ikkunoiden määrä ja paikka tai katon muoto), ja jokainen muistiinpano osoittaa nuolella oikeaan kohtaan ja kertoo nähtävissä olevan asian. Näytössä vaaditaan kolme luonnosta ja vähintään kolme havaintoa: yksi muodosta, yksi materiaalista tai pinnasta ja yksi yksityiskohdasta. Piirroksen tarkkuutta, siisteyttä tai kauneutta ei arvioida. Sano tämä oppilaille ääneen ennen näyttöä.","Ero 4. luokkaan (KU4-PII-01): silloin arvioitiin välineen jälki ja sen valinta. Nyt väline on vain lyijykynä, ja arvioinnin kohde siirtyy havaintoon ja sen merkitsemiseen. Taito jatkuu 6. luokalle havaintoon perustuvina luonnoksina.","Kohteen valitset sinä: kotiseudun historiallinen rakennus, esimerkiksi alueen vanha kirkko, kartano, koulu, huvila tai asemarakennus. Yhdenkään oppilaan näyttö ei edellytä vierailua. Jos vierailua ei ole, ota kohteesta ennalta vähintään kolme valokuvaa: koko rakennus, lähikuva yhdestä yksityiskohdasta ja toinen puoli tai pääty. Kuviin ei oteta tunnistettavia ihmisiä. Näkymän pitää olla oppilaan nähtävillä koko piirtämisen ajan.","Oppilaan sivun esimerkki (Kaarnalammen vanha koulu) on keksitty, eikä sitä käytetä näyttökohteena, koska sen havainnot ovat valmiina kuvassa.","Mikä kelpaa havainnoksi: asia, jonka voi tarkistaa kohteesta tai valokuvasta katsomalla, myös likimääräinen (katto on jyrkkä, seinä on korkeampi kuin ikkunarivi). Rakennusvuosi, käyttötarkoitus tai mielipide ei kelpaa, vaikka se olisi totta. Oikeinkirjoitusta ei arvioida. Jos oppilaalle kirjoittaminen on vaikeaa, hän voi kirjoittaa yhden sanan tai sanella havainnot sinulle, ja sinä kirjoitat ne; nuolet hän vetää itse.","Vierailulla: sovi ennalta piirtämispaikat, joista koko rakennus näkyy ilman ajoradalle astumista. Kun oppilaat peräytyvät nähdäkseen koko rakennuksen, muistuta katsomaan taakse. Kirjoitusalusta tarvitaan, koska seisten piirrettäessä paperi ei pysy suorassa.","Taito kytkeytyy Espoon 5. luokan T1- ja T11-tavoitteisiin (havainnointi, kotiseudun historiallinen rakennus, oman maan kulttuuriperintö). Kulttuuriperinnöstä keskustellaan lopetuksessa, mutta keskustelua ei arvioida."]},"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee tekemään kuvallisia muistiinpanoja: hän piirtää kotiseudun vanhasta rakennuksesta kolme luonnosta eri etäisyyksiltä ja merkitsee niihin nuolilla ja sanoilla, mitä huomasi, esimerkiksi ikkunoiden määrän, seinän materiaalin ja yhden yksityiskohdan. Arvioinnissa katsotaan, onko luonnoksessa juuri tämän rakennuksen piirteitä ja osoittaako jokainen nuoli oikeaan kohtaan. Piirroksen kauneutta ei arvioida.","kotona":["Kun kuljette jonkin rakennuksen ohi, kysy lapselta yksi asia, jonka hän näkee siitä: montako ikkunaa on ylimmässä rivissä tai mistä seinä on tehty.","Jos lapsi näyttää luonnosvihkoaan, pyydä häntä kertomaan, mihin kukin nuoli osoittaa. Se on taidon tärkein osa.","Vältä arvioimasta luonnosta sanoilla kaunis tai ruma. Kysy mieluummin, mitä hän huomasi piirtäessään."],"milloin_huolestua":"Jos lapsi piirtää jokaisen rakennuksen samanlaisena talona eikä pysty kertomaan katsomastaan rakennuksesta yhtään yksityiskohtaa, kannattaa mainita asiasta opettajalle. Kyse on yleensä katsomisen tavasta, joka kehittyy harjoittelemalla."},"ulkoiset":{},"valmis_teksti":"Teet kuvallisia muistiinpanoja kuin arkkitehti tai tutkija: luonnoksesi kertovat juuri tästä rakennuksesta, ja jokainen nuoli osoittaa sen, minkä näit. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
