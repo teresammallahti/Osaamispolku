@@ -1,0 +1,524 @@
+<title>Kerhon ilmoitustaulu · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"RUB6-LUE-02","oppiaine":"RUB","vuosiluokka":6,"taitoalue":"LUE","jakso":"J4","taso":"ydin","otsikko":"Kerhon ilmoitustaulu","kuvaus":"Osaan lukea lyhyitä ilmoituksia ja viestejä ja löytää niistä, mitä tapahtuu, milloin ja missä, ja huomata, jos jokin on peruttu.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T8"],"S":["S3"]},"eyebrow":"Ruotsi · 6. luokka · Luetun ymmärtäminen","ikoni":"neula","naytto":"Paperikoe: Saan keksityn ruotsinkielisen nuorisotalon ilmoitustaulun viisi lyhyttä ilmoitusta: kerhon aika ja paikka, kadonnut kissa, kahvion aukioloaika, disko ja ilmoitus, jonka mukaan torstain jalkapalloharjoitus on peruttu (esim. Fotbollsträningen på torsdag är inställd!). Sana inställd on harjoiteltu etukäteen. Vastaan suomeksi kuuteen kysymykseen; yksi kysymys on 'Keksitty Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?'.","osaa_kun":"Vähintään viisi vastausta kuudesta on oikein, ja jalkapallokysymys on aina oikein: kerron, että harjoitus on peruttu, enkä vastaa pelkän päivän ja paikan perusteella. Yksittäisiä tuntemattomia sanoja ei tarvitse ymmärtää.","teksti":[{"tyyppi":"johdanto","sisalto":"Kuvittele, että olet leirikoululla keksityssä ruotsinkielisessä kylässä. Nuorisotalon eli ungdomsgårdenin aulassa on ilmoitustaulu (anslagstavla), ja siinä on lappuja: kerhoja, disko, kahvion aukioloajat ja kadonnut kissa. Kaikkia sanoja et vielä tunne, eikä tarvitsekaan. Ilmoituksesta etsitään muutama asia: mitä tapahtuu, milloin ja missä. Lisäksi luet aina loppuun asti, koska viimeinen sana voi kertoa, että koko tapahtuma on peruttu."},{"tyyppi":"kappale","otsikko":"Mitä, milloin, missä ja onko peruttu","sisalto":"Ilmoitus on lyhyt, ja siinä on paljon lukuja ja yksittäisiä sanoja. Ensin silmäilet otsikon: mistä ilmoitus kertoo? Sitten etsit kolme asiaa. Milloin: viikonpäivä loppuu aina -dag, ja kellonajan edessä on kl. Missä: paikan edessä on usein i (jossakin) tai på (jonkin päällä tai luona), esimerkiksi i rum 3, i stora salen, på planen. Lopuksi luet viimeisen rivin: jos siinä on sana inställd, tapahtuma on peruttu. Kahvion ilmoituksessa sama asia näkyy sanasta stängt eli suljettu."},{"tyyppi":"kuva","otsikko":"Kaksi lappua nuorisotalon ilmoitustaululla","svg":"<svg viewBox=\"0 0 620 300\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"10\" width=\"300\" height=\"130\" rx=\"6\" class=\"v-osa v-akseli\"/><circle cx=\"160\" cy=\"22\" r=\"6\" class=\"v-merkki\"/><text x=\"160\" y=\"52\" text-anchor=\"middle\" class=\"v-t vahva\" style=\"font-size:17px\">SÅNGKLUBBEN</text><text x=\"160\" y=\"80\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">Vi sjunger varje tisdag</text><text x=\"160\" y=\"104\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">kl. 16–17</text><text x=\"160\" y=\"128\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">i rum 3. Alla är välkomna!</text><line x1=\"300\" y1=\"48\" x2=\"350\" y2=\"40\" class=\"v-apu\"/><text x=\"358\" y=\"38\" class=\"v-t vahva\" style=\"font-size:14px\">Mitä?</text><text x=\"358\" y=\"56\" class=\"v-t\" style=\"font-size:13px\">laulukerho</text><line x1=\"300\" y1=\"92\" x2=\"350\" y2=\"88\" class=\"v-apu\"/><text x=\"358\" y=\"84\" class=\"v-t vahva\" style=\"font-size:14px\">Milloin?</text><text x=\"358\" y=\"102\" class=\"v-t\" style=\"font-size:13px\">tiistaisin klo 16–17</text><line x1=\"300\" y1=\"124\" x2=\"350\" y2=\"132\" class=\"v-apu\"/><text x=\"358\" y=\"130\" class=\"v-t vahva\" style=\"font-size:14px\">Missä?</text><text x=\"358\" y=\"148\" class=\"v-t\" style=\"font-size:13px\">huoneessa 3</text><rect x=\"10\" y=\"165\" width=\"300\" height=\"125\" rx=\"6\" class=\"v-osa v-akseli\"/><circle cx=\"160\" cy=\"177\" r=\"6\" class=\"v-merkki\"/><text x=\"160\" y=\"207\" text-anchor=\"middle\" class=\"v-t vahva\" style=\"font-size:17px\">OBS!</text><text x=\"160\" y=\"233\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">Dansen på fredag kl. 18</text><text x=\"160\" y=\"255\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">i stora salen</text><text x=\"160\" y=\"279\" text-anchor=\"middle\" class=\"v-t vahva\" style=\"font-size:15px\">är INSTÄLLD.</text><line x1=\"300\" y1=\"244\" x2=\"350\" y2=\"220\" class=\"v-apu\"/><text x=\"358\" y=\"210\" class=\"v-t\" style=\"font-size:13px\">Päivä, aika ja paikka</text><text x=\"358\" y=\"228\" class=\"v-t\" style=\"font-size:13px\">ovat ilmoituksen alussa…</text><line x1=\"300\" y1=\"274\" x2=\"350\" y2=\"266\" class=\"v-apu\"/><text x=\"358\" y=\"262\" class=\"v-t\" style=\"font-size:13px\">…mutta lopussa lukee:</text><text x=\"358\" y=\"282\" class=\"v-t vahva\" style=\"font-size:14px\">tanssi on PERUTTU!</text></svg>","teksti":"Keksityt ilmoitukset. Ylemmästä löydät, mitä, milloin ja missä. Alemmassa on samat tiedot, mutta viimeinen sana kertoo, ettei tanssia tänä perjantaina ole."},{"tyyppi":"taulukko","otsikko":"Viikonpäivät ja kellonajat","otsikkorivi":["Ruotsiksi","Suomeksi","Huomaa"],"rivit":[["måndag","maanantai","å äännetään suunnilleen kuin o: mondag."],["tisdag","tiistai","Alkaa t-kirjaimella kuten torsdag. Katso koko sana."],["onsdag","keskiviikko",""],["torsdag","torstai","Alkaa t-kirjaimella kuten tisdag."],["fredag","perjantai",""],["lördag","lauantai","Alkaa l-kirjaimella kuten lauantai."],["söndag","sunnuntai","Alkaa s-kirjaimella kuten sunnuntai."],["måndag–fredag","maanantaista perjantaihin","Viiva tarkoittaa: alusta loppuun, kaikki päivät siltä väliltä."],["varje onsdag","joka keskiviikko","Sama kuin på onsdagar: keskiviikkoisin."],["på fredag","perjantaina","Tuleva perjantai."],["kl. 15","kello 15","kl. on lyhenne sanasta klockan (äännetään klokkan)."],["kl. 15–17","kello 15–17","Ensimmäinen luku on alku, toinen loppu."]]},{"tyyppi":"taulukko","otsikko":"Ilmoitustaulun sanoja","otsikkorivi":["Ruotsiksi","Suomeksi","Huomaa"],"rivit":[["klubben","kerho","Gitarrklubben = kitarakerho."],["i rum 3","huoneessa 3","rum on huone."],["i stora salen / i lilla salen","isossa salissa / pienessä salissa",""],["i gymnastiksalen","liikuntasalissa",""],["i matsalen","ruokasalissa",""],["i källaren","kellarissa","Äännetään suunnilleen tšellaren: k on pehmeä ä:n edellä, ja ä kuulostaa e:ltä."],["i köket","keittiössä","Äännetään suunnilleen tšööket: k on pehmeä myös ö:n edellä."],["på planen","kentällä",""],["kaféet","kahvio",""],["öppet / stängt","auki / suljettu","stängt äännetään suunnilleen stengt."],["för 10–13 år","10–13-vuotiaille","Myös 10- ja 13-vuotiaat saavat tulla."],["pris: 3 euro","hinta: 3 euroa",""],["försvunnen katt","kadonnut kissa",""],["Har du sett …? Ring …!","Oletko nähnyt …? Soita …!",""],["svart, vit, grå, brun","musta, valkoinen, harmaa, ruskea",""],["ett rött / blått / grönt / gult halsband","punainen / sininen / vihreä / keltainen kaulapanta","Värin perään tulee -t, kun sana on ett-sana."],["OBS!","Huom!",""],["inställd","peruttu","Äännetään suunnilleen instelld. Ett-sanan kanssa inställt, monikossa inställda."],["som vanligt","tavalliseen tapaan","Tämä tapahtuma on, kuten aina."],["Alla är välkomna! / Vi ses!","Kaikki ovat tervetulleita! / Nähdään!",""]]},{"tyyppi":"saanto","otsikko":"Näin luet ilmoituksen","askeleet":["Lue kysymys suomeksi ja päätä, mitä etsit: päivää, kellonaikaa, paikkaa vai jotain muuta.","Silmäile ilmoitusten otsikot ja valitse oikea ilmoitus.","Etsi päivä (sana, joka loppuu -dag), kellonaika (kl.) tai paikka (i tai på ja paikan nimi).","Lue ilmoitus loppuun asti. Jos siinä on inställd tai stängt, se muuttaa vastauksen.","Vastaa suomeksi. Tuntemattoman sanan voit ohittaa, jos löysit kysytyn asian."]},{"tyyppi":"kappale","otsikko":"Esimerkki: kaksi tanssia","sisalto":"1) DANS FÖR ALLA! Vi dansar varje måndag kl. 17–18 i lilla salen.\n2) OBS! Dansen på fredag är inställd. Dansen på måndag är som vanligt.\n\nIida haluaa tanssimaan perjantaina. Kannattaako hänen mennä? Ei kannata. Ilmoituksessa 2 lukee, että perjantain tanssi on inställd eli peruttu. Maanantain tanssi on tavalliseen tapaan (som vanligt) kello 17 pienessä salissa, joten maanantaina Iida voi mennä. Huomaa, että ilmoituksessa 2 on sekä peruttu päivä että tavallinen päivä. Siksi pitää katsoa tarkasti, kumpaan päivään inställd liittyy."},{"tyyppi":"ansa","otsikko":"Ansa 1: päivä ja paikka löytyivät, mutta loppu jäi lukematta","sisalto":"Ilmoituksen alussa voi olla kaikki tutut tiedot: päivä, kellonaika ja paikka. Sana inställd tulee usein vasta lopussa. Jos lopetat lukemisen, kun löysit päivän, luulet tapahtuman olevan tavalliseen tapaan. Lue siksi aina viimeinen rivi ja etsi sanoja inställd, stängt ja som vanligt."},{"tyyppi":"ansa","otsikko":"Ansa 2: tisdag vai torsdag","sisalto":"Tisdag (tiistai) ja torsdag (torstai) alkavat molemmat t-kirjaimella ja loppuvat -dag. Samoin lördag ja söndag näyttävät nopealla vilkaisulla samanlaisilta. Katso sanan keskiosa: tis- on tiistai ja tors- on torstai. Lör- on lauantai ja sön- sunnuntai. Muistisääntö: torsdag ja torstai alkavat molemmat tor-."},{"tyyppi":"ansa","otsikko":"Ansa 3: kaksi kellonaikaa ja monta lukua","sisalto":"Merkintä kl. 14–19 kertoo, että jokin alkaa kello 14 ja loppuu kello 19. Kun kysytään, mihin aikaan jokin alkaa, vastaus on viivan ensimmäinen luku. Kun kysytään, milloin kahvio menee kiinni, vastaus on viivan jälkimmäinen luku. Ilmoituksessa on muitakin lukuja: huoneen numero (rum 6), ikä (10–13 år) ja hinta (3 euro). Katso aina, mikä sana on luvun edessä tai perässä."},{"tyyppi":"kappale","otsikko":"Ääntämisvinkki","sisalto":"Kun luet ilmoituksen ääneen, muista ruotsin kirjaimet: å äännetään suunnilleen kuin suomen o (måndag: mondag), ä suunnilleen kuin e (stängt: stengt) ja ö kuin suomen ö (söndag, lördag). kl. luetaan koko sanana klockan, ja se äännetään klokkan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Etsi mitä, milloin (-dag ja kl.) ja missä (i tai på).","Lue ilmoitus loppuun asti: inställd = peruttu, stängt = suljettu.","tis- on tiistai, tors- on torstai.","kl. 15–17: alku on ensin, loppu viivan jälkeen.","Vastaa suomeksi. Kaikkia sanoja ei tarvitse ymmärtää."]}],"harjoitusryhmat":[{"id":"merkinnat","nimi":"Ilmoituksen merkinnät","info":"Viikonpäivät, kellonajat, huoneet ja ikärajat. kl. 15–17: alku on ensin, loppu viivan jälkeen."},{"id":"milloin","nimi":"Milloin ja missä?","info":"Valitse ensin oikea ilmoitus. Etsi sitten päivä (-dag), kellonaika (kl.) tai paikka (i, på)."},{"id":"peruttu","nimi":"Peruttu vai ei?","info":"Lue jokainen ilmoitus loppuun. inställd = peruttu, stängt = suljettu, som vanligt = tavalliseen tapaan."}],"ryhmanimet":{"milloin":"Mitä, milloin ja missä?","peruttu":"Kannattaako mennä?"},"harjoitukset":[{"id":"H01","ryhma":"merkinnat","tyyppi":"luku","kysymys":"måndag – tisdag – onsdag – torsdag – fredag – lördag – söndag\n\nMonesko viikonpäivä torsdag on, kun måndag on ensimmäinen?","vastaus":4,"vinkki":"tors- on torstai.","selitys":"måndag 1, tisdag 2, onsdag 3, torsdag 4. Torsdag on torstai, viikon neljäs päivä."},{"id":"H02","ryhma":"merkinnat","tyyppi":"luku","kysymys":"DANS FÖR BARN\nkl. 16–18\n\nMonelta tanssi alkaa? Kirjoita pelkkä tunti.","vastaus":16,"vinkki":"Viivan ensimmäinen luku on alku.","selitys":"kl. 16–18 tarkoittaa kello 16:sta kello 18:aan. Tanssi alkaa kello 16."},{"id":"H03","ryhma":"merkinnat","tyyppi":"luku","kysymys":"BIBLIOTEKET\nöppet kl. 10–19\n\nMonelta kirjasto menee kiinni? Kirjoita pelkkä tunti.","vastaus":19,"vinkki":"Kiinnimenoaika on viivan jälkeen.","selitys":"öppet kl. 10–19: kirjasto on auki kello 10–19, joten se menee kiinni kello 19."},{"id":"H04","ryhma":"merkinnat","tyyppi":"luku","kysymys":"SCHACKKLUBBEN\nVi spelar schack på måndagar och torsdagar.\n\nMontako päivää viikossa shakkikerho kokoontuu?","vastaus":2,"vinkki":"och tarkoittaa ja.","selitys":"på måndagar och torsdagar: maanantaisin ja torstaisin, siis kaksi päivää viikossa."},{"id":"H05","ryhma":"merkinnat","tyyppi":"luku","kysymys":"BILDKLUBBEN\nVi målar varje onsdag kl. 15 i rum 12.\n\nMonessako huoneessa kuvataidekerho kokoontuu?","vastaus":12,"vinkki":"rum on huone. Luku 15 on kellonaika.","selitys":"i rum 12 tarkoittaa huoneessa 12. Luku 15 on kellonaika (kl. 15)."},{"id":"H06","ryhma":"merkinnat","tyyppi":"luku","kysymys":"FILMKVÄLL för 10–13 år\n\nMontako näistä saa tulla: Iida 9 v, Onni 10 v, Siiri 13 v ja Eetu 14 v?","vastaus":2,"vinkki":"Myös 10- ja 13-vuotiaat kuuluvat joukkoon 10–13 år.","selitys":"Onni (10) ja Siiri (13) kuuluvat ikärajaan 10–13. Iida on liian nuori ja Eetu liian vanha. Siis kaksi."},{"id":"H07","ryhma":"merkinnat","tyyppi":"monivalinta","vaihtoehdot":["siirretty toiseen päivään","peruttu","alkaa tänään"],"kysymys":"Handbollsträningen är inställd.\n\nMitä inställd tarkoittaa?","vastaus":1,"vinkki":"Sana on tärkein sana koko ilmoituksessa.","selitys":"inställd tarkoittaa peruttu. Harjoitusta ei ole."},{"id":"H08","ryhma":"milloin","tyyppi":"luku","kysymys":"1) SÅNGKLUBBEN: tisdag kl. 15–16 i stora salen.\n2) FILMKLUBBEN: torsdag kl. 18–20 i rum 3.\n\nPekka haluaa elokuvakerhoon. Monelta hänen kerhonsa alkaa? Kirjoita pelkkä tunti.","vastaus":18,"vinkki":"film on elokuva. Valitse ensin oikea ilmoitus.","selitys":"Filmklubben on elokuvakerho. Se on torstaina kello 18–20, joten se alkaa kello 18. Luku 15 kuuluu laulukerhoon."},{"id":"H09","ryhma":"milloin","tyyppi":"luku","kysymys":"DISCO på lördag\nkl. 18–21 i matsalen\n\nMontako tuntia disko kestää?","vastaus":3,"vinkki":"Laske alusta loppuun.","selitys":"Disko alkaa kello 18 ja loppuu kello 21. 21 − 18 = 3 tuntia."},{"id":"H10","ryhma":"milloin","tyyppi":"monivalinta","vaihtoehdot":["tiistaina","torstaina","lauantaina"],"kysymys":"1) DANS: tisdag kl. 17\n2) SÅNG: torsdag kl. 17\n\nAino haluaa laulaa. Minä päivänä hänen pitää tulla?","vastaus":1,"vinkki":"Katso sanan keskiosa: tis- vai tors-?","selitys":"Sång on laulu, ja se on torsdag eli torstaina. Tisdag on tiistai, ja silloin on tanssi."},{"id":"H11","ryhma":"milloin","tyyppi":"luku","kysymys":"UNGDOMSGÅRDEN\nmåndag: schack i rum 2\ntisdag: dans i stora salen\nonsdag: bild i rum 2\ntorsdag: film i rum 5\n\nMontako kerhoa on huoneessa 2?","vastaus":2,"vinkki":"Etsi rivit, joissa lukee rum 2.","selitys":"Rum 2 on maanantaina (schack) ja keskiviikkona (bild). Siis kaksi kerhoa."},{"id":"H12","ryhma":"milloin","tyyppi":"luku","kysymys":"KAFÉET\nmåndag–torsdag kl. 15–19\nfredag kl. 15–21\nlördag kl. 10–16\nsöndag: stängt\n\nMonelta kahvio menee kiinni perjantaina? Kirjoita pelkkä tunti.","vastaus":21,"vinkki":"Etsi rivi, jolla lukee fredag.","selitys":"fredag kl. 15–21: perjantaina kahvio on auki kello 15–21 ja menee kiinni kello 21."},{"id":"H13","ryhma":"milloin","tyyppi":"luku","kysymys":"FÖRSVUNNEN KATT!\nVår katt Nisse är brun. Han har ett svart halsband. Han är tre år. Har du sett Nisse? Ring Tove!\n\nMinkä ikäinen Nisse on? Kirjoita luku.","vastaus":3,"vinkki":"år tarkoittaa vuotta.","selitys":"Han är tre år: hän on kolmevuotias."},{"id":"H14","ryhma":"milloin","tyyppi":"luku","kysymys":"UTFLYKT TILL SKOGEN!\nPå söndag. Vi träffas vid ungdomsgården kl. 9.\n\nMonelta retkelle lähtijät tapaavat nuorisotalolla? Kirjoita pelkkä tunti.","vastaus":9,"vinkki":"Kellonaika on kl.-merkinnän perässä.","selitys":"Vi träffas … kl. 9: tapaamme kello 9 nuorisotalon luona."},{"id":"H15","ryhma":"peruttu","tyyppi":"luku","kysymys":"1) Dansen på måndag är inställd.\n2) Schackklubben på tisdag: kl. 15 i rum 4.\n3) Filmkvällen på fredag är inställd.\n\nMontako näistä tapahtumista on peruttu?","vastaus":2,"vinkki":"Etsi sana inställd.","selitys":"Ilmoituksissa 1 ja 3 lukee inställd. Shakkikerho tiistaina on tavalliseen tapaan. Siis kaksi on peruttu."},{"id":"H16","ryhma":"peruttu","tyyppi":"luku","kysymys":"KAFÉET\nmåndag: stängt\ntisdag–fredag kl. 13–19\nlördag kl. 10–14\nsöndag: stängt\n\nMontako päivää viikossa kahvio on kiinni?","vastaus":2,"vinkki":"stängt tarkoittaa suljettu.","selitys":"Kahvio on stängt maanantaina ja sunnuntaina. Siis kaksi päivää."},{"id":"H17","ryhma":"peruttu","tyyppi":"monivalinta","vaihtoehdot":["lauantaina","sunnuntaina","ei kumpanakaan"],"kysymys":"Simskolan på lördag är inställd. Simskolan på söndag är som vanligt.\n\nVille haluaa uimakouluun tällä viikolla. Minä päivänä hänen kannattaa mennä?","vastaus":1,"vinkki":"som vanligt tarkoittaa tavalliseen tapaan.","selitys":"Lauantain uimakoulu on peruttu (inställd). Sunnuntain uimakoulu on tavalliseen tapaan (som vanligt)."},{"id":"H18","ryhma":"peruttu","tyyppi":"luku","kysymys":"KAFÉET är stängt på söndag. På lördag är kaféet öppet kl. 12–15.\n\nMontako tuntia kahvio on auki lauantaina?","vastaus":3,"vinkki":"öppet tarkoittaa auki.","selitys":"Lauantaina kahvio on auki kello 12–15. 15 − 12 = 3 tuntia. Sunnuntaina se on suljettu."},{"id":"H19","ryhma":"peruttu","tyyppi":"luku","kysymys":"1) Bildklubben på onsdag är inställd.\n2) Bildklubben på fredag: kl. 14 i rum 6.\n\nOona haluaa kuvataidekerhoon tällä viikolla. Monelta hänen kannattaa mennä? Kirjoita pelkkä tunti.","vastaus":14,"vinkki":"Toinen kerhopäivistä on peruttu.","selitys":"Keskiviikon kerho on peruttu. Perjantaina kerho on kello 14 huoneessa 6. Luku 6 on huoneen numero."},{"id":"H20","ryhma":"peruttu","tyyppi":"luku","kysymys":"UNGDOMSGÅRDEN – DEN HÄR VECKAN\n1) Simskolan på tisdag är inställd.\n2) Dansen på torsdag är inställd.\n3) Matchen på lördag: kl. 11 på planen.\n4) Filmklubben på fredag: kl. 18 i rum 5.\n\nMontako tapahtumaa tällä viikolla järjestetään?","vastaus":2,"vinkki":"Laske ne, joissa ei lue inställd.","selitys":"Ilmoitukset 1 ja 2 on peruttu. Ottelu lauantaina ja elokuvakerho perjantaina järjestetään. Siis kaksi."}],"tulostus":{"sivuja":2,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":2,"sivunvaihto_ennen":null},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue ilmoitukset 1–5 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nVastaa suomeksi tai numeroin. Tehtävässä 6 kerro myös, miksi.\n\nUNGDOMSGÅRDEN LINDEN – ANSLAGSTAVLAN\n\n1) GITARRKLUBBEN\nVi spelar gitarr varje onsdag kl. 15–17 i rum 6. Alla är välkomna!\n\n2) FÖRSVUNNEN KATT!\nVår katt Misse är grå och vit. Hon har ett rött halsband. Hon är fem år. Har du sett Misse? Ring Ella!\n\n3) KAFÉET\nmåndag–fredag kl. 14–19\nlördag kl. 12–16\nsöndag: stängt\n\n4) DISCO för 10–13 år!\nfredag kl. 18–21 i stora salen\nPris: 3 euro\n\n5) OBS!\nFotbollsträningen på torsdag kl. 17 är inställd.\nTräningen på tisdag är som vanligt.\nVi ses! /Sami, tränare","tehtavat":[{"nro":1,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minä viikonpäivänä kerho (ilmoitus 1) kokoontuu?","vastaus":"keskiviikkona"},{"nro":2,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kerho (ilmoitus 1) alkaa?","vastaus":"kello 15"},{"nro":3,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minkä värinen kadonnut kissa on?","vastaus":"harmaa ja valkoinen"},{"nro":4,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kahvio menee kiinni lauantaina?","vastaus":"kello 16"},{"nro":5,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Missä disko on?","vastaus":"isossa salissa"},{"nro":6,"ryhma":"peruttu","tyyppi":"sanallinen","kysymys":"Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?","vastaus":"Malliesimerkki: Ei kannata, koska torstain jalkapalloharjoitus on peruttu (inställd)."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue ilmoitukset 1–5 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nVastaa suomeksi tai numeroin. Tehtävässä 6 kerro myös, miksi.\n\nUNGDOMSGÅRDEN LINDEN – ANSLAGSTAVLAN\n\n1) BAKKLUBBEN\nVi bakar bullar varje tisdag kl. 16–18 i köket. Alla är välkomna!\n\n2) FÖRSVUNNEN KATT!\nVår katt Smulan är svart och vit. Hon har ett blått halsband. Hon är tre år. Har du sett Smulan? Ring Oskar!\n\n3) KAFÉET\nmåndag–fredag kl. 15–20\nlördag kl. 11–15\nsöndag: stängt\n\n4) DISCO för 11–13 år!\nlördag kl. 17–20 i källaren\nPris: 2 euro\n\n5) OBS!\nTräningen på måndag är som vanligt.\nMen fotbollsträningen på torsdag kl. 18 är inställd.\nVi ses! /Sami, tränare","tehtavat":[{"nro":1,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minä viikonpäivänä kerho (ilmoitus 1) kokoontuu?","vastaus":"tiistaina"},{"nro":2,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kerho (ilmoitus 1) alkaa?","vastaus":"kello 16"},{"nro":3,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minkä värinen kadonnut kissa on?","vastaus":"musta ja valkoinen"},{"nro":4,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kahvio menee kiinni lauantaina?","vastaus":"kello 15"},{"nro":5,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Missä disko on?","vastaus":"kellarissa"},{"nro":6,"ryhma":"peruttu","tyyppi":"sanallinen","kysymys":"Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?","vastaus":"Malliesimerkki: Ei kannata, koska torstain jalkapalloharjoitus on peruttu (inställd)."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue ilmoitukset 1–5 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nVastaa suomeksi tai numeroin. Tehtävässä 6 kerro myös, miksi.\n\nUNGDOMSGÅRDEN LINDEN – ANSLAGSTAVLAN\n\n1) SPELKLUBBEN\nVi spelar brädspel varje måndag kl. 14–16 i rum 9. Alla är välkomna!\n\n2) FÖRSVUNNEN KATT!\nVår katt Tiger är brun och vit. Han har ett grönt halsband. Han är sju år. Har du sett Tiger? Ring Vilma!\n\n3) KAFÉET\nmåndag–fredag kl. 13–18\nlördag kl. 12–17\nsöndag: stängt\n\n4) DISCO för 10–12 år!\nfredag kl. 18–20 i gymnastiksalen\nPris: 4 euro\n\n5) OBS!\nFotbollsträningen på torsdag kl. 16 är inställd.\nTräningen på onsdag är som vanligt.\nVi ses! /Sami, tränare","tehtavat":[{"nro":1,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minä viikonpäivänä kerho (ilmoitus 1) kokoontuu?","vastaus":"maanantaina"},{"nro":2,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kerho (ilmoitus 1) alkaa?","vastaus":"kello 14"},{"nro":3,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minkä värinen kadonnut kissa on?","vastaus":"ruskea ja valkoinen"},{"nro":4,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kahvio menee kiinni lauantaina?","vastaus":"kello 17"},{"nro":5,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Missä disko on?","vastaus":"liikuntasalissa"},{"nro":6,"ryhma":"peruttu","tyyppi":"sanallinen","kysymys":"Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?","vastaus":"Malliesimerkki: Ei kannata, koska torstain jalkapalloharjoitus on peruttu (inställd)."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue ilmoitukset 1–5 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nVastaa suomeksi tai numeroin. Tehtävässä 6 kerro myös, miksi.\n\nUNGDOMSGÅRDEN LINDEN – ANSLAGSTAVLAN\n\n1) PYSSELKLUBBEN\nVi pysslar varje fredag kl. 16–18 i rum 2. Alla är välkomna!\n\n2) FÖRSVUNNEN KATT!\nVår katt Sigge är grå och svart. Han har ett gult halsband. Han är fyra år. Har du sett Sigge? Ring Hugo!\n\n3) KAFÉET\nmåndag–fredag kl. 14–20\nlördag kl. 12–18\nsöndag: stängt\n\n4) DISCO för 10–13 år!\nfredag kl. 17–20 i lilla salen\nPris: 3 euro\n\n5) OBS!\nTräningen på lördag är som vanligt.\nMen fotbollsträningen på torsdag kl. 17 är inställd.\nVi ses! /Sami, tränare","tehtavat":[{"nro":1,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minä viikonpäivänä kerho (ilmoitus 1) kokoontuu?","vastaus":"perjantaina"},{"nro":2,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kerho (ilmoitus 1) alkaa?","vastaus":"kello 16"},{"nro":3,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minkä värinen kadonnut kissa on?","vastaus":"harmaa ja musta"},{"nro":4,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kahvio menee kiinni lauantaina?","vastaus":"kello 18"},{"nro":5,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Missä disko on?","vastaus":"pienessä salissa"},{"nro":6,"ryhma":"peruttu","tyyppi":"sanallinen","kysymys":"Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?","vastaus":"Malliesimerkki: Ei kannata, koska torstain jalkapalloharjoitus on peruttu (inställd)."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue ilmoitukset 1–5 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nVastaa suomeksi tai numeroin. Tehtävässä 6 kerro myös, miksi.\n\nUNGDOMSGÅRDEN LINDEN – ANSLAGSTAVLAN\n\n1) LÄSKLUBBEN\nVi läser och pratar om böcker varje lördag kl. 10–12 i rum 11. Alla är välkomna!\n\n2) FÖRSVUNNEN KATT!\nVår katt Molly är svart och brun. Hon har ett rött halsband. Hon är två år. Har du sett Molly? Ring Alva!\n\n3) KAFÉET\nmåndag–fredag kl. 15–19\nlördag kl. 11–14\nsöndag: stängt\n\n4) DISCO för 11–13 år!\nfredag kl. 18–21 i matsalen\nPris: 2 euro\n\n5) OBS!\nFotbollsträningen på torsdag kl. 18 är inställd.\nTräningen på söndag är som vanligt.\nVi ses! /Sami, tränare","tehtavat":[{"nro":1,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minä viikonpäivänä kerho (ilmoitus 1) kokoontuu?","vastaus":"lauantaina"},{"nro":2,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kerho (ilmoitus 1) alkaa?","vastaus":"kello 10"},{"nro":3,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Minkä värinen kadonnut kissa on?","vastaus":"musta ja ruskea"},{"nro":4,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Mihin aikaan kahvio menee kiinni lauantaina?","vastaus":"kello 14"},{"nro":5,"ryhma":"milloin","tyyppi":"lasku","kysymys":"Missä disko on?","vastaus":"ruokasalissa"},{"nro":6,"ryhma":"peruttu","tyyppi":"sanallinen","kysymys":"Leo haluaa mennä jalkapalloon torstaina. Kannattaako hänen mennä? Miksi?","vastaus":"Malliesimerkki: Ei kannata, koska torstain jalkapalloharjoitus on peruttu (inställd)."}]}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Koe vastaa kartan näyttöä: keksityn nuorisotalon (Ungdomsgården Linden) ilmoitustaululla on viisi lyhyttä ilmoitusta samassa järjestyksessä kaikissa versioissa: 1 kerho (aika ja paikka), 2 kadonnut kissa, 3 kahvion aukioloajat, 4 disko ja 5 ilmoitus, jonka mukaan torstain jalkapalloharjoitus on peruttu (inställd). Oppilas vastaa suomeksi kuuteen kysymykseen: 1 kerhon viikonpäivä, 2 kerhon alkamisaika, 3 kissan väri, 4 kahvion sulkemisaika lauantaina, 5 diskon paikka ja 6 kartan jalkapallokysymys (Leo). Ilmoitukset ovat kokeen johdannossa.","Mittaritehtävä on tehtävä 6 (jalkapallokysymys), kuten kartassa: sen pitää aina olla oikein. Raja kartan mukaan: vähintään viisi vastausta kuudesta oikein ja tehtävä 6 oikein. Muita mittaritehtäviä ei nimetä, koska kartta määrää rajan näin. 5/6 on 83 %, joten raja täyttää 80 %:n säännön.","Tehtävä 6 on oikein, kun oppilas sanoo, ettei kannata mennä, ja perustelee sen sillä, että harjoitus on peruttu (esim. 'ei, se on peruttu', 'ei, koska inställd', 'ei, harjoitusta ei ole torstaina'). Väärin on 'kyllä', vastaus pelkän päivän, kellonajan tai paikan perusteella sekä 'ei' ilman perustelua tai väärällä perustelulla (esim. 'ei, koska se on tiistaina'). Jokaisessa versiossa ilmoituksessa 5 on myös toinen, tavalliseen tapaan pidettävä harjoituspäivä (som vanligt), joten oppilaan pitää yhdistää inställd oikeaan päivään.","Tehtävä 1: hyväksytään viikonpäivä suomeksi missä tahansa muodossa (keskiviikkona, keskiviikko, ke). Väärin on toinen viikonpäivä tai pelkkä ruotsinkielinen kopio (onsdag), koska näytössä vastataan suomeksi. Tehtävä 2: hyväksytään alkamisaika (A 15, B 16, C 14, D 16, E 10) muodossa 15, klo 15 tai 15.00. Väärin on loppumisaika tai huoneen numero.","Tehtävä 3: molemmat värit vaaditaan (A harmaa ja valkoinen, B musta ja valkoinen, C ruskea ja valkoinen, D harmaa ja musta, E musta ja ruskea), mutta värien järjestys on vapaa. Väärin on pelkkä yksi väri tai kaulapannan väri. Tehtävä 4: lauantain sulkemisaika (A 16, B 15, C 17, D 18, E 14). Väärin on arkipäivien sulkemisaika tai avaamisaika. Tehtävä 5: paikka suomeksi (A isossa salissa, B kellarissa, C liikuntasalissa, D pienessä salissa, E ruokasalissa) tai ymmärrettävä kuvaus (iso sali, alakerta kelpaa kellariksi). Pelkkä ruotsinkielinen kopio (i stora salen) ei kelpaa, koska näytössä vastataan suomeksi.","Tehtävät tarkistetaan käsin. Kirjoitusvirhe suomenkielisessä vastauksessa ei tee vastauksesta väärää, koska tässä mitataan lukemista.","Sana inställd harjoitellaan etukäteen, kuten kartan näyttö edellyttää (oppilaan sivun taulukko, harjoitukset H07 ja H15–H20). Kokeessa käytetään vain muotoa inställd (en-sanat träningen, dansen, klubben, simskolan), jotta sana on aina täsmälleen sama. Oppilaan sivu mainitsee muodot inställt ja inställda, mutta niitä ei kysytä.","Ruotsi on yleiskieltä. Tarkistettavat ilmaukset (natiivi tai ruotsin opettaja): FÖRSVUNNEN KATT (kadonneen lemmikin ilmoituksen otsikko), Alla är välkomna!, som vanligt, Vi ses! /Sami, tränare, i gymnastiksalen, Vi pysslar, Bakklubben, Spelklubben, Läsklubben ja ääntämisvinkit (måndag ≈ mondag, stängt ≈ stengt, inställd ≈ instelld, klockan ≈ klokkan). Ilmoitustaulun ruotsi on Ruotsissa ja Suomessa samaa yleiskieltä.","Kellonajat ovat tasatunteja ja luvut 0–20, kuten ytimessä (kartan oletukset). Viikonpäivät opetetaan tässä taidossa lukemisen kannalta; kuultuina ne ovat taidossa RUB6-KUU-02.","Ero edeltävään RUB6-LUE-01:een (kirjeystävähaku): siellä luettiin esittelyjä (kuka, missä asuu, ikä, mistä pitää). Nyt luetaan käyttötekstejä (ilmoitukset) ja uutta on milloin ja missä, kellonaikojen alku ja loppu sekä muutosta ilmaisevat sanat inställd ja stängt. Kysymyssanat (RUB6-SAN-03) auttavat jäsentämään kysymyksen: när, var, vad.","Kaikki henkilöt, paikat ja ilmoitukset ovat keksittyjä. Tässä taidossa ei mitata lukunopeutta eikä ajanoteta mitään."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Ilmoituksesta etsitään kolme asiaa: mitä, milloin ja missä. Ja aina luetaan loppuun asti, koska viimeinen sana voi olla inställd.","vaiheet":[{"aika":"7 min","otsikko":"Aloitus","sisalto":"Näytä oppilaan sivun kuva laulukerhon ja tanssin lapuista. Kysy: mitä tästä pitää tietää, ennen kuin lähtee mukaan? Kerää taululle mitä, milloin, missä. Osoita sitten alempaa lappua ja kysy, mikä sana muuttaa kaiken."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Lukekaa yhdessä viikonpäivät ja kl.-merkinnät taulukosta ja harjoitelkaa ääntämistä (å ≈ o, ä ≈ e). Harjoitelkaa sanat inställd, stängt ja som vanligt. Lukekaa esimerkki kahdesta tanssista: missä kohdassa selviää, ettei perjantaina kannata mennä?"},{"aika":"18 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivu ryhmä kerrallaan. Pysähdy tehtäviin H10 (tisdag vai torsdag) ja H17 (peruttu ja tavallinen päivä samassa ilmoituksessa) ja kysy perustelu ääneen. Kierrä ja katso, kuka lopettaa lukemisen heti päivän löydettyään."},{"aika":"8 min","otsikko":"Lopetus","sisalto":"Kirjoita taululle kaksi keksittyä lappua, joista toisessa on inställd lopussa. Esitä suomeksi kysymys 'Kannattaako mennä?' ja anna oppilaiden näyttää peukulla. Yksi kertoo, mikä sana ratkaisi. Koe pidetään seuraavalla tunnilla, ja siihen kuluu noin puolet oppitunnista."}],"tarvikkeet":"Oppilaan sivu laitteelta tai tulostettuna. Vapaaehtoisesti valokuvia tai tulosteita ruotsinkielisistä ilmoituksista (esim. kaksikielisen Espoon kyltit ja ilmoitukset)."},"virhesanakirja":[{"virhe":"Vastaa jalkapallokysymykseen 'kyllä' tai kertoo pelkän ajan ja paikan (koe A: 'kyllä, kello 17').","tehtava":"peruttu tapahtuma (kokeen tehtävä 6, H07, H15, H19, H20)","mita_kertoo":"Oppilas lopettaa lukemisen, kun löytää tutun päivän, eikä lue ilmoituksen loppua, jossa sana inställd on.","mita_tehda":"Harjoitellaan 'loppurivin sääntöä': oppilas osoittaa sormella jokaisen ilmoituksen viimeisen rivin ja sanoo, onko siinä inställd, stängt tai som vanligt, ennen kuin vastaa."},{"virhe":"Vastaa 'ei kannata', mutta perustelee väärällä päivällä tai liittää inställd-sanan siihen päivään, joka on som vanligt.","tehtava":"peruttu ja tavallinen päivä (kokeen tehtävä 6, H17, H19)","mita_kertoo":"Oppilas tunnistaa sanan inställd, mutta ei katso, mihin päivään se liittyy.","mita_tehda":"Alleviivataan samalla värillä päivä ja sana, joka kuuluu sen kanssa samaan virkkeeseen. Luetaan virke kerrallaan ääneen."},{"virhe":"Sekoittaa tisdagin ja torsdagin tai lördagin ja söndagin (koe B: kerho 'torstaina').","tehtava":"viikonpäivä (kokeen tehtävä 1, H01, H10)","mita_kertoo":"Oppilas lukee sanan alun ja lopun, mutta ei keskiosaa. Viikonpäivät eivät vielä ole varmoja.","mita_tehda":"Tehdään viikonpäiväkortit, joissa sanan keskiosa (tis, tors, lör, sön) on korostettu. Muistisääntö: tors- ja tor-stai."},{"virhe":"Vastaa alkamisajaksi loppumisajan tai sulkemisajaksi avaamisajan (koe A: kahvio 'kello 12').","tehtava":"kellonaika (kokeen tehtävät 2 ja 4, H02, H03, H12)","mita_kertoo":"Oppilas löytää kl.-merkinnän, mutta ei tiedä, kumpi viivan luvuista on alku ja kumpi loppu.","mita_tehda":"Piirretään aikajana: ensimmäinen luku vasemmalle (alku, öppnar), toinen oikealle (loppu, stänger). Kysytään: kumpaa kysymys hakee?"},{"virhe":"Vastaa kissan väriksi kaulapannan värin tai vain yhden kahdesta väristä.","tehtava":"yksityiskohta (kokeen tehtävä 3, H13)","mita_kertoo":"Oppilas tarttuu ensimmäiseen tuttuun värisanaan eikä katso, mihin sanaan väri liittyy (katt vai halsband).","mita_tehda":"Luetaan virkkeet Misse är … ja Hon har … erikseen. Kysytään: kumpi kertoo kissasta itsestään?"},{"virhe":"Vastaa diskon paikaksi huoneen numeron, iän tai hinnan tai kopioi koko rivin ruotsiksi.","tehtava":"paikka (kokeen tehtävä 5, H05, H11)","mita_kertoo":"Oppilas ei vielä tunnista paikan ilmaisua i … tai på … eikä paikkasanoja.","mita_tehda":"Kerrataan paikkasanat (salen, källaren, köket, rum, planen) kuvakorteilla. Ympyröidään ilmoituksesta sana i ja sen perässä oleva paikka."}],"huoltajalle":{"mista_on_kyse":"Lapsi on aloittanut ruotsin tänä vuonna. Hän harjoittelee lukemaan lyhyitä ruotsinkielisiä ilmoituksia, esimerkiksi kerhon, diskon ja kahvion ilmoituksia, ja etsimään niistä, mitä tapahtuu, milloin ja missä. Tärkeä osa taitoa on huomata, jos jokin on peruttu: ruotsiksi peruttu on inställd.","kotona":["Kun näette kaksikielisen kyltin tai ilmoituksen esimerkiksi kaupassa, kirjastossa tai pysäkillä, kysykää lapselta, mitä ruotsinkielinen teksti kertoo. Suomenkielinen teksti auttaa tarkistamaan.","Kysykää ruotsin viikonpäiviä leikin varjolla: mikä päivä on torsdag, entä tisdag? Kumpi on lördag ja kumpi söndag?","Keksikää yhdessä lyhyt ilmoitus ruotsiksi (esim. Disco på fredag kl. 18) ja lisätkää loppuun sana inställd. Kysykää: kannattaako mennä?","Jos lapsi ei ymmärrä kaikkia sanoja, se on tavallista. Kehukaa, kun hän löytää päivän, ajan tai paikan."],"milloin_huolestua":"Jos lapsi ei löydä suomenkielisestäkään ilmoituksesta päivää, aikaa tai paikkaa, vaikeus ei ehkä ole ruotsissa vaan tiedon etsimisessä yleensä. Kertokaa havainnosta opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat lukea ruotsinkielisiä ilmoituksia ja löytää niistä, mitä tapahtuu, milloin ja missä. Luet ilmoituksen loppuun asti ja huomaat, jos jokin on inställd. Taito on nyt näytetty!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

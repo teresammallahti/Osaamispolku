@@ -1,0 +1,524 @@
+<title>Turvallisen pisteen piirtäjä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"LI6-TUR-01","oppiaine":"LI","vuosiluokka":6,"taitoalue":"TUR","jakso":"J3","taso":"ydin","otsikko":"Turvallisen pisteen piirtäjä","kuvaus":"Osaan suunnitella liikuntatunnin harjoituspisteen niin, että olen ennakoinut sen vaaratilanteet.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T7","T9"],"S":["S1","S2"]},"ikoni":"turva","eyebrow":"Liikunta · 6. luokka · Turvallisuustaidot","naytto":"Saan tehtäväksi suunnitella yhden harjoituspisteen, esimerkiksi ponnistuslautahypyn tai kuntopiirin aseman. Piirrän pisteestä kuvan, johon merkitsen välineet, patjat, odotuspaikan, kulkusuunnan ja turvavälit, ja kirjoitan kolme mahdollista vaaratilannetta ja miten ne estetään. Rakennan pisteen opettajan kanssa, kerron opettajalle, mikä pitää tarkistaa ennen jokaista käyttökertaa, ja opettaja tarkistaa pisteen ennen käyttöä.","osaa_kun":"Suunnitelmassani odottajat ovat suorituspaikan ulkopuolella, kulkusuunta ei risteä toisen suorittajan kanssa ja alastulo- tai kaatumisalueella on patja. Nimeän kolme todellista vaaraa, kuten törmäyksen, liukastumisen tai putoamisen, ja jokaiselle keinon, jolla se estetään. Rakennettu piste vastaa piirrostani, ja kerron opettajalle, mikä pitää tarkistaa ennen jokaista käyttökertaa.","teksti":[{"tyyppi":"johdanto","sisalto":"Kun rakennatte pihalle lumimajaa, mietitte ennen kaivamista, mistä sisään mennään, mihin lumet kasataan ja missä kukaan ei saa seistä, jos katto romahtaa. Liikuntasalin harjoituspiste suunnitellaan samalla tavalla: hyvä piste on mietitty valmiiksi ennen kuin kukaan hyppää. Viidennellä luokalla opit etsimään vaaranpaikkoja valmiilta radalta ja kertomaan niistä. Nyt teet toisinpäin. Suunnittelet itse yhden harjoituspisteen, esimerkiksi ponnistuslautahypyn tai kuntopiirin aseman, niin että vaarat on ennakoitu jo piirroksessa. Piirrät pisteen, kirjoitat kolme mahdollista vaaratilannetta ja keinot estää ne, rakennat pisteen opettajan kanssa ja kerrot, mitä pitää tarkistaa ennen jokaista käyttökertaa."},{"tyyppi":"kappale","otsikko":"Pisteen osat","sisalto":"Jokaisessa harjoituspisteessä on samat osat, vaikka liike vaihtuu. Suorituspaikka on kohta, jossa liike tehdään, ja vauhtimatka on matka, jolla suorittaja ottaa vauhtia. Alastulo- tai kaatumisalue on koko se alue, jonne suorittaja voi tulla alas tai kaatua, myös silloin, kun liike epäonnistuu. Siksi se ulottuu myös sivuille eikä vain sinne, minne liikkeen on tarkoitus päättyä. Odotuspaikka on paikka, jossa seuraavat odottavat vuoroaan. Kulkusuunta kertoo, mihin suuntaan pisteellä liikutaan, ja paluureitti, mitä kautta palataan odottamaan. Turvaväli on tyhjä tila pisteen ja seinän, oven tai toisen pisteen välissä. Kun piirrät pisteen, piirrät nämä kaikki ja mietit jokaisen kohdalla, kuka voi osua kehen tai mihin."},{"tyyppi":"taulukko","otsikko":"Pisteen osat ja turvallinen ratkaisu","otsikkorivi":["Osa","Turvallinen ratkaisu","Mitä se estää"],"rivit":[["Odotuspaikka","Suorituspaikan ja vauhtimatkan ulkopuolella, lähdön takana tai sivussa","Suorittaja ei törmää odottajaan"],["Kulkusuunta ja paluureitti","Kaikki kulkevat samaan suuntaan. Paluu kulkee sivua pitkin, ei vauhtimatkan tai alastulon poikki","Palaava ei törmää seuraavaan suorittajaan"],["Alastulo- tai kaatumisalue","Patjat koko alueelle, jonne voi tulla alas tai kaatua, myös sivuille. Patjat vierekkäin ilman rakoa","Suorittaja ei tule alas lattialle, eikä jalka osu rakoon"],["Turvaväli","Pisteen ja seinän, oven ja toisen pisteen väliin jää tyhjää tilaa","Vauhti tai alastulo ei vie seinään tai toisen pisteen suorittajaan"],["Vauhtimatka","Suora ja tyhjä, lattia kuiva, ei irtotavaraa","Suorittaja ei liukastu tai kompastu vauhdissa"],["Välineet ja telineet","Aikuinen lukitsee ja säätää telineet. Ylimääräiset välineet viedään pois","Teline ei liiku tai kaadu, eikä kukaan kompastu välineeseen"]]},{"tyyppi":"kuva","otsikko":"Esimerkki: ponnistuslautahypyn piste ylhäältä","svg":"<svg viewBox=\"0 0 620 250\" role=\"img\" aria-label=\"Ponnistuslautahypyn piste ylhäältä: lähtö ja vauhtimatka, lauta, patjat alastuloalueena myös sivuille, turvaväli seinään, odotuspaikka lähdön takana sivussa ja paluureitti sivua pitkin odotuspaikalle.\"><line class=\"v-akseli\" x1=\"600\" y1=\"20\" x2=\"600\" y2=\"236\" style=\"stroke-width:4\" stroke-linecap=\"round\"/><text x=\"592\" y=\"34\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:12px\">seinä</text><circle class=\"v-merkki\" cx=\"100\" cy=\"120\" r=\"7\" style=\"stroke-width:1\"/><text x=\"100\" y=\"104\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">lähtö</text><line class=\"v-hyppy\" x1=\"112\" y1=\"120\" x2=\"305.0\" y2=\"120.0\" style=\"stroke-width:3\"/><polygon class=\"v-hyppy-k\" points=\"314,120 305.0,115.0 305.0,125.0\"/><text x=\"212\" y=\"110\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:13px\">vauhtimatka</text><rect class=\"v-osa v3\" x=\"318\" y=\"104\" width=\"26\" height=\"32\" rx=\"3\"/><rect class=\"v-akseli\" x=\"318\" y=\"104\" width=\"26\" height=\"32\" rx=\"3\" fill=\"none\" style=\"stroke-width:1.2\"/><text x=\"331\" y=\"156\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">lauta</text><rect class=\"v-osa v1\" x=\"350\" y=\"50\" width=\"100\" height=\"140\"/><rect class=\"v-akseli\" x=\"350\" y=\"50\" width=\"100\" height=\"140\" fill=\"none\" style=\"stroke-width:1.2\"/><rect class=\"v-osa v1\" x=\"450\" y=\"50\" width=\"100\" height=\"140\"/><rect class=\"v-akseli\" x=\"450\" y=\"50\" width=\"100\" height=\"140\" fill=\"none\" style=\"stroke-width:1.2\"/><text x=\"400\" y=\"96\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:13px\">patjat:</text><text x=\"400\" y=\"114\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:12px\">alastulo-</text><text x=\"400\" y=\"130\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:12px\">alue myös</text><text x=\"400\" y=\"146\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:12px\">sivuille</text><line class=\"v-akseli\" x1=\"575.0\" y1=\"120\" x2=\"561.0\" y2=\"120.0\" style=\"stroke-width:1.5\"/><polygon class=\"v-hyppy-k\" points=\"552,120 561.0,125.0 561.0,115.0\"/><line class=\"v-akseli\" x1=\"575.0\" y1=\"120\" x2=\"589.0\" y2=\"120.0\" style=\"stroke-width:1.5\"/><polygon class=\"v-hyppy-k\" points=\"598,120 589.0,115.0 589.0,125.0\"/><text x=\"576\" y=\"140\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">turva-</text><text x=\"576\" y=\"153\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">väli</text><rect class=\"v-osa\" x=\"16\" y=\"150\" width=\"96\" height=\"46\" rx=\"4\"/><rect class=\"v-akseli\" x=\"16\" y=\"150\" width=\"96\" height=\"46\" rx=\"4\" fill=\"none\" style=\"stroke-width:1.2\" stroke-dasharray=\"4 3\"/><text x=\"64\" y=\"170\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">odotus-</text><text x=\"64\" y=\"186\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">paikka</text><path class=\"v-hyppy\" d=\"M500 192 L500 222 L64 222\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-dasharray=\"7 5\"/><line class=\"v-hyppy\" x1=\"64\" y1=\"222\" x2=\"64.0\" y2=\"209.0\" style=\"stroke-width:2.5\" stroke-dasharray=\"7 5\"/><polygon class=\"v-hyppy-k\" points=\"64,200 59.0,209.0 69.0,209.0\"/><text x=\"282\" y=\"240\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">paluu sivua pitkin, ei vauhtimatkan poikki</text></svg>","teksti":"Odotuspaikka on lähdön takana sivussa, patjat ulottuvat myös sivuille ja paluu kulkee sivua pitkin."},{"tyyppi":"saanto","otsikko":"Näin suunnittelet pisteen","askeleet":["Mieti, mitä pisteellä tehdään ja mihin suuntaan liike menee.","Piirrä tila ylhäältä päin: lähin seinä, ovi ja viereiset pisteet.","Piirrä suorituspaikka, vauhtimatka ja välineet. Piirrä sitten alastulo- tai kaatumisalue patjoineen ja mieti, minne voi tulla alas, jos liike epäonnistuu: eteen, sivuille vai taakse.","Piirrä odotuspaikka ja paluureitti. Kulje reitti sormella: kulkeeko se suorittajan tai alastulon poikki? Jos kulkee, siirrä reittiä.","Merkitse turvavälit kaksoisnuolella.","Kirjoita kolme vaaratilannetta ja jokaiselle keino, jolla se estetään.","Kirjoita lyhyt tarkistuslista asioista, jotka katsotaan ennen jokaista käyttökertaa."]},{"tyyppi":"kuva","otsikko":"Merkit omaan piirrokseen","svg":"<svg viewBox=\"0 0 610 100\" role=\"img\" aria-label=\"Merkit omaan piirrokseen: patja, väline tai teline, odotuspaikka, lähtö, kulkusuunta, paluureitti ja turvaväli.\"><rect class=\"v-osa v1\" x=\"16\" y=\"22\" width=\"56\" height=\"34\"/><rect class=\"v-akseli\" x=\"16\" y=\"22\" width=\"56\" height=\"34\" fill=\"none\" style=\"stroke-width:1.2\"/><text x=\"44\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">patja</text><rect class=\"v-osa v3\" x=\"112\" y=\"26\" width=\"36\" height=\"26\" rx=\"3\"/><rect class=\"v-akseli\" x=\"112\" y=\"26\" width=\"36\" height=\"26\" rx=\"3\" fill=\"none\" style=\"stroke-width:1.2\"/><text x=\"130\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">väline tai</text><text x=\"130\" y=\"92\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">teline</text><rect class=\"v-osa\" x=\"188\" y=\"22\" width=\"56\" height=\"34\" rx=\"4\"/><rect class=\"v-akseli\" x=\"188\" y=\"22\" width=\"56\" height=\"34\" rx=\"4\" fill=\"none\" style=\"stroke-width:1.2\" stroke-dasharray=\"4 3\"/><text x=\"216\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">odotus-</text><text x=\"216\" y=\"92\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">paikka</text><circle class=\"v-merkki\" cx=\"302\" cy=\"39\" r=\"7\" style=\"stroke-width:1\"/><text x=\"302\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">lähtö</text><line class=\"v-hyppy\" x1=\"358\" y1=\"39\" x2=\"409.0\" y2=\"39.0\" style=\"stroke-width:3\"/><polygon class=\"v-hyppy-k\" points=\"418,39 409.0,34.0 409.0,44.0\"/><text x=\"388\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">kulku-</text><text x=\"388\" y=\"92\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">suunta</text><line class=\"v-hyppy\" x1=\"444\" y1=\"39\" x2=\"495.0\" y2=\"39.0\" style=\"stroke-width:2.5\" stroke-dasharray=\"7 5\"/><polygon class=\"v-hyppy-k\" points=\"504,39 495.0,34.0 495.0,44.0\"/><text x=\"474\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">paluu-</text><text x=\"474\" y=\"92\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">reitti</text><line class=\"v-akseli\" x1=\"560.0\" y1=\"39\" x2=\"539.0\" y2=\"39.0\" style=\"stroke-width:1.5\"/><polygon class=\"v-hyppy-k\" points=\"530,39 539.0,44.0 539.0,34.0\"/><line class=\"v-akseli\" x1=\"560.0\" y1=\"39\" x2=\"581.0\" y2=\"39.0\" style=\"stroke-width:1.5\"/><polygon class=\"v-hyppy-k\" points=\"590,39 581.0,34.0 581.0,44.0\"/><text x=\"560\" y=\"76\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">turvaväli</text></svg>","teksti":"Käytä samoja merkkejä, niin opettaja ja muut ymmärtävät piirroksesi."},{"tyyppi":"kappale","otsikko":"Todellinen vaara ja keino, joka toimii","sisalto":"Vaaratilanne kuvataan niin, että siitä näkee, mitä tapahtuu ja miksi. Joku voi loukkaantua ei ole vaaratilanne, koska siitä ei selviä, mitä pitäisi muuttaa. Parempi on: hyppääjä tulee alas patjan sivureunan yli lattialle, koska patja on kapeampi kuin alastuloalue. Liikuntapaikan vaaratilanteet ovat useimmiten jotain näistä: kaksi ihmistä törmää, joku liukastuu tai kompastuu, joku putoaa tai tulee alas kovalle alustalle tai väline liikkuu tai kaatuu. Estokeino on hyvä, kun se muuttaa jotain pisteessä: paikkaa, järjestystä, välinettä tai sääntöä. Ollaan varovaisia ei ole keino, koska piste pysyy samanlaisena ja vaara jää. Patjoja lisätään sivuille on keino, koska sen jälkeen alastulo osuu patjalle."},{"tyyppi":"taulukko","otsikko":"Esimerkki: Leon kuntopiirin asema, nousu penkille","otsikkorivi":["Vaaratilanne","Mitä tapahtuu","Miten se estetään"],"rivit":[["Penkki liikkuu","Nousija astuu penkin reunalle, penkki liukuu ja hän kaatuu","Penkki tuetaan seinää vasten, ja aikuinen tarkistaa, ettei se heilu"],["Kaksi nousijaa liian lähellä","Toisen jalka tai käsi osuu viereiseen nousijaan","Penkin kummallakin puolella on oma merkitty nousupaikka ja niiden välissä turvaväli"],["Liukastuminen penkillä","Sukkasillaan jalka lipsahtaa penkin pinnalta","Asemalla ollaan joko paljain jaloin tai sisäliikuntakengissä, ei sukkasillaan"]]},{"tyyppi":"kappale","otsikko":"Rakentaminen opettajan kanssa","sisalto":"Kun piirros on valmis, rakennat pisteen opettajan kanssa piirroksen mukaan. Kevyet välineet ja pienet patjat voit kantaa itse tai kahdestaan. Isot patjat kannetaan useamman kanssa, ei raahata. Telineiden siirto, lukitus ja säätö kuuluvat aina aikuiselle, ja ponnistuslaudan paikan tarkistaa aikuinen. Kun piste on koossa, vertaa sitä piirrokseesi: ovatko odotuspaikka, patjat ja paluureitti samoissa kohdissa? Jos jotain piti muuttaa rakentaessa, korjaa myös piirros. Opettaja tarkistaa pisteen aina ennen kuin kukaan käyttää sitä."},{"tyyppi":"saanto","otsikko":"Tarkistus ennen jokaista käyttökertaa","askeleet":["Patjat ovat paikoillaan piirroksen mukaan, vierekkäin ilman rakoa ja suorassa.","Vauhtimatka, alastuloalue ja paluureitti ovat tyhjiä: ei palloja, naruja eikä muita välineitä.","Lattia on kuiva, eikä siinä ole liukasta kohtaa.","Odotuspaikka on merkitty, ja odottajat ovat siellä.","Telineet ja välineet ovat paikoillaan. Lukituksen tarkistaa aikuinen, ja sinä kerrot, jos jokin näyttää liikkuneen.","Piste tarkistetaan aina ennen kuin sitä käytetään, myös silloin, kun se on ollut käytössä hetkeä aiemmin, koska patjat liukuvat ja välineitä jää lattialle käytön aikana."]},{"tyyppi":"kappale","otsikko":"Sama ajattelu ulkona ja talvella","sisalto":"Pisteen suunnittelu ei koske vain salia. Kun pihalle tehdään talvella liukumäki tai hiihtopiste, mietitään samat asiat: missä odotetaan, mitä kautta palataan ja mihin liuku tai lasku päättyy. Talvella alastuloalueen tilalla on pysähtymisalue, jonka pitää olla tasainen ja tyhjä. Ulkopisteen paikka valitaan niin, ettei vauhti vie tielle, pyörätielle, ojaan, puuhun tai aitaan, eikä piste koskaan ulotu järven, lammen, ojan tai meren jäälle. Jään kestävyyttä ei näe päältä."},{"tyyppi":"ansa","otsikko":"Ansa 1: odotuspaikka liian lähellä","sisalto":"Piirroksessa odotuspaikka on helppo laittaa suoraan vauhtimatkan päähän tai patjan viereen, jotta odottajat näkevät hyvin ja voivat kannustaa. Silloin suorittaja juoksee kohti jonoa tai tulee alas odottajien viereen, ja jos liike epäonnistuu, hän osuu heihin. Odotuspaikka kuuluu lähdön taakse tai sivuun niin, että odottajat ovat kokonaan suorituspaikan, vauhtimatkan ja alastuloalueen ulkopuolella."},{"tyyppi":"ansa","otsikko":"Ansa 2: paluu lyhintä reittiä","sisalto":"Hypyn jälkeen tuntuu luontevalta kävellä suoraan takaisin lähtöön, ja piirroksessakin lyhin viiva näyttää siistiltä. Lyhin reitti kulkee kuitenkin usein vauhtimatkan poikki juuri silloin, kun seuraava lähtee. Piirrä paluureitti sivua pitkin ja tarkista sormella, ettei se leikkaa vauhtimatkaa eikä alastuloa."},{"tyyppi":"ansa","otsikko":"Ansa 3: keino, joka on pelkkä toive","sisalto":"Kolmen vaaran listaan kirjoitetaan helposti keinoksi ollaan varovaisia, katsotaan eteen tai ei riehuta. Ne ovat hyviä toiveita, mutta ne eivät muuta pistettä. Kysy jokaisen keinon kohdalla: mikä tässä pisteessä on erilaista, kun keino on käytössä? Jos vastaus on ei mikään, keksi keino, joka siirtää, lisää, poistaa tai merkitsee jotain."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Piirrä ylhäältä: suorituspaikka, vauhtimatka, välineet, patjat, odotuspaikka, kulkusuunta, paluureitti ja turvavälit.","Odottajat suorituspaikan ulkopuolella, lähdön takana tai sivussa.","Paluu sivua pitkin, ei vauhtimatkan tai alastulon poikki.","Patjat koko alueelle, jonne voi tulla alas, myös sivuille, ilman rakoa.","Vaara: mitä tapahtuu ja miksi. Keino: mitä pisteessä muuttuu.","Telineet aina aikuiselle. Tarkistus ennen jokaista käyttökertaa."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Odotuspaikka puuttuu piirroksesta tai on vauhtimatkan päässä, patjan vieressä tai muuten suorituspaikalla","tehtava":"Piirros: odotuspaikka","mita_kertoo":"Oppilas ajattelee suorittajaa mutta ei muita pisteellä olevia. Odottajien paikka on kriteerin ensimmäinen vaatimus.","mita_tehda":"Pyydä oppilasta kuvittelemaan, että liike epäonnistuu: minne suorittaja voi päätyä, ja onko siellä joku? Anna hänen siirtää odotuspaikka itse ja perustella uusi paikka."},{"virhe":"Paluureitti tai kulkusuunta risteää vauhtimatkan tai alastuloalueen kanssa, tai paluureittiä ei ole piirretty","tehtava":"Piirros: kulkusuunta ja paluureitti","mita_kertoo":"Oppilas piirtää lyhimmän reitin tai ei ajattele, että pisteellä liikkuu samaan aikaan useampi ihminen.","mita_tehda":"Pyydä oppilasta kulkemaan reitti sormella piirroksessa samalla, kun toinen sormi kulkee vauhtimatkaa. Kysy, missä sormet kohtaavat. Ohjaa siirtämään paluu sivua pitkin."},{"virhe":"Alastulo- tai kaatumisalueella ei ole patjaa, patja kattaa vain liikkeen tarkoitetun päättymiskohdan, välissä on rako tai turvaväli seinään tai toiseen pisteeseen puuttuu","tehtava":"Piirros ja rakennettu piste: patjat ja turvavälit","mita_kertoo":"Oppilas suunnittelee onnistuneen suorituksen mukaan eikä ennakoi epäonnistumista, tai ei huomioi pisteen ympäristöä.","mita_tehda":"Kysy: minne voit tulla alas, jos ponnistus jää lyhyeksi tai kallistut sivulle? Minne vauhti vie, jos et pysähdy? Pyydä merkitsemään alue ja turvaväli piirrokseen ja patjoittamaan alue."},{"virhe":"Vaaratilanteet ovat yleisiä (joku voi loukkaantua) tai eivät liity pisteeseen, tai estokeino on toive (ollaan varovaisia)","tehtava":"Kirjallinen osa: kolme vaaraa ja keinot","mita_kertoo":"Oppilas tietää, että vaaroja on, mutta ei vielä erottele, mitä tarkalleen tapahtuu. Kriteeri vaatii kolme todellista vaaraa ja jokaiselle keinon, joka muuttaa pistettä.","mita_tehda":"Pyydä kertomaan vaara muodossa kuka, mihin ja miksi. Kysy keinosta: mikä pisteessä on erilaista, kun keino on käytössä? Hyväksy oppilaan omin sanoin kirjoitettu vaara, kun siitä näkee tapahtuman ja syyn."},{"virhe":"Rakennettu piste ei vastaa piirrosta, tai oppilas yrittää itse siirtää, lukita tai säätää telinettä tai kantaa ison patjan yksin","tehtava":"Pisteen rakentaminen opettajan kanssa","mita_kertoo":"Oppilas joko rakentaa muistinvaraisesti katsomatta suunnitelmaa tai ei vielä tunnista, mitkä työt kuuluvat aikuiselle. Jälkimmäinen on turvallisuusasia, joka käsiteltiin jo 5. luokalla (LI5-TUR-03).","mita_tehda":"Pysäytä heti, jos oppilas koskee telineen lukitukseen tai säätöön, ja kerro, miksi se on aikuisen työ. Pyydä vertaamaan rakennettua pistettä piirrokseen kohta kohdalta ja korjaamaan joko piste tai piirros."},{"virhe":"Ei osaa kertoa, mitä tarkistetaan ennen jokaista käyttökertaa, tai luettelee vain rakentamisen vaiheet","tehtava":"Suullinen osa: tarkistus ennen käyttöä","mita_kertoo":"Oppilas ajattelee, että piste on turvallinen, kun se on kerran rakennettu oikein. Hän ei vielä ennakoi, että patjat liukuvat ja välineitä jää lattialle käytön aikana.","mita_tehda":"Kysy: mikä tässä pisteessä voi muuttua, kun sitä on käytetty? Hyväksy vastaus, jossa on vähintään patjojen paikka ja rakojen puuttuminen, tyhjä vauhtimatka ja alastuloalue sekä telineen lukitus aikuisen tarkistamana, jos pisteessä on teline."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Odottajat ulkopuolella, paluu sivua pitkin, patjat sinne minne voi tulla alas. Vaara: mitä tapahtuu ja miksi. Keino: mitä pisteessä muuttuu.","vaiheet":[{"aika":"7 min","otsikko":"Tunti 1: aloitus","sisalto":"Kokoa ryhmä valmiiksi rakentamasi esimerkkipisteen ääreen. Kerro, että tänään suunnitellaan, ja nimeä pisteen osat: suorituspaikka, vauhtimatka, alastuloalue, odotuspaikka, kulkusuunta, paluureitti, turvaväli."},{"aika":"10 min","otsikko":"Tunti 1: yhteinen piirros","sisalto":"Piirrä esimerkkipiste taululle yhdessä ryhmän kanssa merkkien avulla. Kysy jokaisen osan kohdalla, kuka voi osua kehen tai mihin. Kirjoita yksi vaara ja yksi toimiva keino ja näytä ero toiveen ja keinon välillä."},{"aika":"20 min","otsikko":"Tunti 1: oma suunnitelma","sisalto":"Jaa jokaiselle tehtäväkortti, jossa on yksi piste: ponnistuslautahyppy, nousu penkille, kuperkeikka patjalla, puolapuuasema, naruhyppyasema tai pujottelu kartioiden välistä. Oppilas piirtää pisteen, kirjoittaa kolme vaaraa ja keinot sekä tarkistuslistan. Kierrä ja kysy, älä korjaa piirrosta oppilaan puolesta."},{"aika":"8 min","otsikko":"Tunti 1: lopetus","sisalto":"Kerää suunnitelmat. Lue ne ennen seuraavaa tuntia ja päätä, mitkä pisteet rakennetaan ensin."},{"aika":"5 min","otsikko":"Tunti 2: aloitus","sisalto":"Palauta suunnitelmat. Kertaa, mitkä työt kuuluvat aikuiselle: telineiden siirto, lukitus ja säätö."},{"aika":"25 min","otsikko":"Tunti 2: rakentaminen ja näyttö","sisalto":"Pisteet rakennetaan yksi tai kaksi kerrallaan opettajan kanssa. Oppilas ohjaa rakentamista piirroksensa mukaan ja kertoo, mitä tarkistetaan ennen jokaista käyttökertaa. Tarkista piste itse ennen käyttöä. Muut oppilaat lämmittelevät tai harjoittelevat jo tarkistetuilla pisteillä."},{"aika":"10 min","otsikko":"Tunti 2: pisteiden käyttö","sisalto":"Tarkistetuilla pisteillä harjoitellaan. Pisteen suunnittelija tekee tarkistuksen tarkistuslistansa mukaan, kun ryhmä vaihtuu."},{"aika":"5 min","otsikko":"Tunti 2: purku ja lopetus","sisalto":"Pisteet puretaan, telineet siirtää aikuinen. Kysy: mikä vaara olisi jäänyt huomaamatta ilman piirrosta?"}],"tarvikkeet":"Tehtäväkortit pisteistä, piirrospohja (A4, ruutu tai tyhjä) ja merkkien selite, kynät, valmiiksi rakennettu esimerkkipiste, patjoja, ponnistuslauta, penkkejä, kartioita, merkkinauhaa tai lattiamerkkejä odotuspaikoille."},"opettajalle":{"kesto":"2 · 45 min jakson J3 aikana. Jos ryhmä on suuri, pisteiden rakentaminen ja näyttö voidaan jakaa usealle tunnille niin, että jokainen oppilas rakentaa oman pisteensä vuorollaan.","huomiot":["Arvioinnin kohde on kriteerin kolme osaa: piirroksessa odottajat ovat suorituspaikan ulkopuolella, kulkusuunta ei risteä toisen suorittajan kanssa ja alastulo- tai kaatumisalueella on patja; kolme todellista vaaraa ja jokaiselle keino; rakennettu piste vastaa piirrosta ja oppilas kertoo, mitä tarkistetaan ennen jokaista käyttökertaa. Piirroksen siisteyttä, piirustustaitoa tai kirjoitusasua ei arvioida. Hyväksy vaarat ja keinot oppilaan omin sanoin.","Näyttö on yksilöllinen: jokainen suunnittelee oman pisteensä. Kahdella oppilaalla voi olla sama tehtäväkortti, mutta suunnitelmat tehdään erikseen.","Rakentaminen tehdään aina opettajan kanssa. Telineiden siirto, lukitus ja säätö sekä painavien välineiden paikka ovat aikuisen työtä. Tarkista jokainen piste itse ennen käyttöä, myös silloin, kun oppilaan suunnitelma on hyvä. Oppilaan suunnitelma ei korvaa koulun omaa turvallisuustarkistusta.","Varmista, että tehtäväkorttien pisteet ovat sellaisia, joita ryhmä on jo harjoitellut. Pisteelle ei suunnitella uusia, opettamattomia liikkeitä.","Ulkona ja talvella: jos oppilas suunnittelee ulkopisteen (esimerkiksi liukumäen pysähtymisalueen), tarkista paikka itse. Piste ei saa ulottua jäälle, tielle, pyörätielle tai ojaan.","Tarkistettavat asiatiedot: esimerkkien ratkaisut (odotuspaikka lähdön takana tai sivussa, patjat myös sivuille, penkin tukeminen seinää vasten) ovat yleisiä käytäntöjä. Vertaa niitä koulun liikuntatilojen omaan turvallisuusohjeeseen ja välinevalmistajan ohjeisiin, erityisesti ponnistuslaudan ja patjojen sijoittelussa.","Edeltävä: 5. luokalla (LI5-TUR-03) oppilas löysi vaaranpaikkoja valmiilta radalta ja erotti, mitä saa korjata itse ja mikä kuuluu aikuiselle. Tämän taidon uutta on ennakointi: vaarat ratkaistaan suunnitelmassa ennen rakentamista. Vahvistava LI6-TUR-02 jatkaa välineiden tarkistuksella ja huollolla."]},"huoltajalle":{"mista_on_kyse":"Lapsi suunnittelee liikuntatunnilla yhden harjoituspisteen, esimerkiksi ponnistuslautahypyn tai kuntopiirin aseman. Hän piirtää pisteen, johon merkitsee välineet, patjat, odotuspaikan, kulkusuunnan ja turvavälit, ja kirjoittaa kolme mahdollista vaaratilannetta ja keinot estää ne. Sitten hän rakentaa pisteen opettajan kanssa ja kertoo, mitä pitää tarkistaa ennen jokaista käyttökertaa. Opettaja tarkistaa pisteen aina ennen käyttöä.","kotona":["Kun lapsi leikkii pihalla tai puistossa, voitte yhdessä miettiä, missä odotetaan vuoroa esimerkiksi liukumäessä tai keinussa ja miksi juuri siellä.","Kysy lapselta, mikä ero on keinolla ja toiveella. Hyvä vastaus: keino muuttaa jotain paikassa, toive ei.","Talvella voitte puhua siitä, miksi pulkkamäen alla ei saa olla tietä, ojaa tai jäätä ja miksi mäkeen ei mennä, ennen kuin edellinen on pois alta.","Jos lapsi kertoo vaaranpaikasta koulussa tai pihalla, kiitä kertomisesta."],"milloin_huolestua":"Jos lapsi pelkää liikuntatunnin telineitä tai välineitä niin, että jättäytyy pois tunnilta, kerro siitä opettajalle. Jos lapsi kertoo vaaranpaikasta, jota koulussa ei ole korjattu, voit ottaa yhteyttä opettajaan."},"ulkoiset":{},"valmis_teksti":"Suunnittelit harjoituspisteen, jossa odottajat ovat suorituspaikan ulkopuolella, paluureitti ei risteä suorittajan kanssa ja alastulo on patjalla. Nimesit kolme todellista vaaraa ja keinot estää ne, rakensit pisteen piirroksesi mukaan ja kerroit, mitä tarkistetaan ennen jokaista käyttökertaa. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

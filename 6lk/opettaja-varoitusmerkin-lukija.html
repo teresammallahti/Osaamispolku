@@ -1,0 +1,524 @@
+<title>Varoitusmerkin lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KS6-TUR-01","oppiaine":"KS","vuosiluokka":6,"taitoalue":"TUR","jakso":"J3","taso":"ydin","otsikko":"Varoitusmerkin lukija","kuvaus":"Osaan lukea liiman ja pintakäsittelyaineen pakkauksesta varoitusmerkit ja käyttöohjeen ja toimia niiden mukaan.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T5"],"S":["S5","S3"]},"ikoni":"turva","eyebrow":"Käsityö · 6. luokka · Turvallinen työskentely","naytto":"Saan koulun puuliiman ja koulun pintakäsittelyaineen (esimerkiksi vesiohenteinen lakka tai puuöljy) pakkaukset. Kirjaan kummastakin, onko pakkauksessa varoitusmerkkiä ja mitä se tarkoittaa, mitä suojaimia ja tuuletusta käyttöohje vaatii, kuivumisajan ja miten jäte, sivellin ja rievut käsitellään. Jos kummassakaan pakkauksessa ei ole varoitusmerkkiä, opettaja näyttää kuvan pakkauksesta, jossa on, ja kerron sen merkityksen. Levitän sitten kumpaakin ainetta ohjeen mukaan koekappaleeseen: puen suojaimet, levitän ohuen kerroksen, suljen pakkauksen heti, pesen tai hävitän välineet ohjeen mukaan ja pesen kädet. Kerron, mitä teen, jos ainetta roiskuu silmään tai iholle.","osaa_kun":"Tiedän, että punareunainen salmiakkikuvio on vaaraa osoittava varoitusmerkki, ja kerron, mitä pakkauksen merkki tarkoittaa; jos pakkauksessa ei ole varoitusmerkkiä, noudatan silti käyttöohjetta; jos aine on öljy, laitan öljyiset rievut ohjeen mukaan veteen tai suljettuun astiaan ja kerron syyksi itsesyttymisvaaran; koekappaleessa on ohut tasainen kerros ilman valumia, pakkaus on suljettu ja välineet puhdistettu; kerron, että silmään roiskunut aine huuhdellaan heti runsaalla vedellä useita minuutteja ja iholta pestään vedellä ja saippualla, ja opettajalle ilmoitetaan heti.","teksti":[{"tyyppi":"johdanto","sisalto":"Puuliima on valkoista ja lähes hajutonta, ja vesiohenteinen lakka näyttää maidolta. Ne eivät näytä vaarallisilta, ja juuri siksi niiden pakkauksia luetaan harvoin. Pakkaus kertoo kuitenkin paljon muutakin kuin vaaran: kuinka paksu kerros levitetään, tarvitaanko käsineitä, kuinka kauan aine kuivuu ja mitä tehdään siveltimelle ja rievulle. Kemikaalien varoitusmerkkejä käsitellään myös ympäristöopissa. Käsityössä käytät niitä työssä: luet koulun liiman ja pintakäsittelyaineen pakkaukset, kirjaat, mitä niissä sanotaan, ja toimit niiden mukaan ennen levittämistä, levittäessä ja sen jälkeen."},{"tyyppi":"kappale","otsikko":"Mitä pakkauksessa kerrotaan","sisalto":"Jos aine on vaarallinen, pakkauksessa on <b>varoitusmerkki</b>: punareunainen vinoneliö eli salmiakkikuvio, jonka sisällä on musta kuva. Merkin lähellä on <b>huomiosana</b>. \"Vaara\" kertoo vakavammasta vaarasta kuin \"Varoitus\". <b>Vaaralauseke</b> kertoo sanoin, mikä vaara on, esimerkiksi \"Voi aiheuttaa allergisen ihoreaktion\". Jos et tunne merkin kuvaa, vaaralauseke kertoo sen merkityksen. Sen jälkeen tulevat ohjeet, joilla vaaraa vältetään: suojaimet, tuuletus ja ensiapu. Kaikissa pakkauksissa on lisäksi <b>käyttöohje</b>, jossa kerrotaan, miten ainetta levitetään, kuinka kauan se kuivuu ja miten välineet puhdistetaan."},{"tyyppi":"kuva","otsikko":"Keksitty pakkausetiketti","svg":"<svg viewBox=\"0 0 600 330\" role=\"img\" aria-label=\"Keksitty pintaöljyn pakkausetiketti, jossa on numeroituna varoitusmerkki, huomiosana, vaaralauseke, käyttöohje, suojaimet ja tuuletus sekä jätteet ja rievut\"><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"330\" height=\"310\" rx=\"8\"/><text x=\"26\" y=\"38\" class=\"v-t vahva\" style=\"font-size:15px\">PINTAÖLJY</text><text x=\"26\" y=\"56\" class=\"v-t pieni\" style=\"font-size:11px\">sisäpuun pinnoille · keksitty esimerkki</text><polygon points=\"64,70 94,100 64,130 34,100\" fill=\"#ffffff\" stroke=\"#d0021b\" stroke-width=\"4\" stroke-linejoin=\"round\"/><rect x=\"61\" y=\"84\" width=\"6\" height=\"22\" fill=\"#000000\"/><rect x=\"61\" y=\"111\" width=\"6\" height=\"6\" fill=\"#000000\"/><circle class=\"v-merkki\" cx=\"104\" cy=\"76\" r=\"9\"/><text x=\"104\" y=\"80\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">1</text><text x=\"116\" y=\"96\" class=\"v-t vahva\" style=\"font-size:13px\">VAROITUS</text><circle class=\"v-merkki\" cx=\"204\" cy=\"92\" r=\"9\"/><text x=\"204\" y=\"96\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">2</text><text x=\"116\" y=\"116\" class=\"v-t\" style=\"font-size:11px\">Voi aiheuttaa allergisen ihoreaktion.</text><circle class=\"v-merkki\" cx=\"320\" cy=\"112\" r=\"9\"/><text x=\"320\" y=\"116\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">3</text><line class=\"v-akseli\" x1=\"26\" y1=\"144\" x2=\"324\" y2=\"144\"/><text x=\"26\" y=\"164\" class=\"v-t vahva\" style=\"font-size:12px\">Käyttö</text><circle class=\"v-merkki\" cx=\"80\" cy=\"160\" r=\"9\"/><text x=\"80\" y=\"164\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">4</text><text x=\"26\" y=\"180\" class=\"v-t\" style=\"font-size:11px\">Levitä ohut kerros puhtaalle, kuivalle pinnalle.</text><text x=\"26\" y=\"195\" class=\"v-t\" style=\"font-size:11px\">Pyyhi pinnalle jäänyt öljy pois. Kuivumisaika: 12 h (+20 °C).</text><text x=\"26\" y=\"218\" class=\"v-t\" style=\"font-size:11px\">Käytä suojakäsineitä. Huolehdi tuuletuksesta.</text><circle class=\"v-merkki\" cx=\"320\" cy=\"214\" r=\"9\"/><text x=\"320\" y=\"218\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">5</text><line class=\"v-akseli\" x1=\"26\" y1=\"232\" x2=\"324\" y2=\"232\"/><text x=\"26\" y=\"252\" class=\"v-t vahva\" style=\"font-size:12px\">Jätteet</text><circle class=\"v-merkki\" cx=\"84\" cy=\"248\" r=\"9\"/><text x=\"84\" y=\"252\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">6</text><text x=\"26\" y=\"268\" class=\"v-t\" style=\"font-size:11px\">Öljyiset rievut voivat syttyä itsestään. Laita</text><text x=\"26\" y=\"283\" class=\"v-t\" style=\"font-size:11px\">käytetyt rievut veteen suljettuun astiaan.</text><text x=\"26\" y=\"298\" class=\"v-t\" style=\"font-size:11px\">Sulje pakkaus heti käytön jälkeen.</text><text x=\"360\" y=\"30\" class=\"v-t vahva\" style=\"font-size:13px\">Mistä etsit</text><circle class=\"v-merkki\" cx=\"370\" cy=\"54\" r=\"9\"/><text x=\"370\" y=\"58\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">1</text><text x=\"386\" y=\"58\" class=\"v-t\" style=\"font-size:12px\">varoitusmerkki</text><circle class=\"v-merkki\" cx=\"370\" cy=\"84\" r=\"9\"/><text x=\"370\" y=\"88\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">2</text><text x=\"386\" y=\"88\" class=\"v-t\" style=\"font-size:12px\">huomiosana: Vaara tai Varoitus</text><circle class=\"v-merkki\" cx=\"370\" cy=\"114\" r=\"9\"/><text x=\"370\" y=\"118\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">3</text><text x=\"386\" y=\"118\" class=\"v-t\" style=\"font-size:12px\">vaaralauseke: mikä vaara on</text><circle class=\"v-merkki\" cx=\"370\" cy=\"144\" r=\"9\"/><text x=\"370\" y=\"148\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">4</text><text x=\"386\" y=\"148\" class=\"v-t\" style=\"font-size:12px\">käyttöohje ja kuivumisaika</text><circle class=\"v-merkki\" cx=\"370\" cy=\"174\" r=\"9\"/><text x=\"370\" y=\"178\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">5</text><text x=\"386\" y=\"178\" class=\"v-t\" style=\"font-size:12px\">suojaimet ja tuuletus</text><circle class=\"v-merkki\" cx=\"370\" cy=\"204\" r=\"9\"/><text x=\"370\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700;fill:#fff\">6</text><text x=\"386\" y=\"208\" class=\"v-t\" style=\"font-size:12px\">jätteet, rievut, sulkeminen</text><text x=\"360\" y=\"246\" class=\"v-t pieni\" style=\"font-size:11px\">Merkki on punareunainen vinoneliö.</text><text x=\"360\" y=\"262\" class=\"v-t pieni\" style=\"font-size:11px\">Huutomerkki tarkoittaa terveyshaittaa,</text><text x=\"360\" y=\"278\" class=\"v-t pieni\" style=\"font-size:11px\">esimerkiksi ihon ärsytystä tai allergiaa.</text><text x=\"360\" y=\"300\" class=\"v-t pieni\" style=\"font-size:11px\">Oikeissa pakkauksissa järjestys vaihtelee.</text></svg>","teksti":"Tämä etiketti on keksitty harjoittelua varten. Koulusi aineiden pakkauksissa samat tiedot voivat olla eri järjestyksessä ja pienellä tekstillä."},{"tyyppi":"taulukko","otsikko":"Viisi kysymystä pakkaukselle","otsikkorivi":["Kysymys","Mistä löydät vastauksen","Mitä kirjaat"],"rivit":[["<b>Onko varoitusmerkkiä?</b>","Punareunainen vinoneliö, usein huomiosanan vieressä","Merkin nimi ja mitä se tarkoittaa, tai \"ei varoitusmerkkiä\""],["<b>Mitä suojaimia tarvitaan?</b>","Turvaohjeet tai käyttöohje: käsineet, suojalasit","Suojaimet tai \"ohje ei vaadi suojaimia\""],["<b>Tarvitaanko tuuletusta?</b>","Turvaohjeet tai käyttöohje","Mitä ohje sanoo tuuletuksesta"],["<b>Kuinka kauan aine kuivuu?</b>","Käyttöohje, usein lämpötilan kanssa","Kuivumisaika ja lämpötila, jos se on mainittu"],["<b>Mitä tehdään jätteelle, siveltimelle ja rievuille?</b>","Käyttöohjeen tai pakkauksen loppuosa","Miten välineet puhdistetaan ja mihin jäte menee"]]},{"tyyppi":"kappale","otsikko":"Ei merkkiä, silti ohje","sisalto":"Koulun puuliimassa ja vesiohenteisessa lakassa ei usein ole lainkaan varoitusmerkkiä. Se tarkoittaa, ettei ainetta ole luokiteltu vaaralliseksi. Se ei tarkoita, että ohjeen voi ohittaa. Käyttöohje kertoo esimerkiksi, että liimattavat kappaleet puristetaan yhteen ja että vesiohenteisen aineen siveltimet pestään vedellä ennen kuin aine kuivuu niihin. Lisäksi kädet pestään aina käytön jälkeen. Jos kummassakaan koulun pakkauksessa ei ole varoitusmerkkiä, harjoittelet merkin lukemista kuvasta, jonka saat opettajalta."},{"tyyppi":"kappale","otsikko":"Öljyinen riepu voi syttyä itsestään","sisalto":"Puuöljy ja monet muut öljyt kuivuvat siten, että ne reagoivat ilman hapen kanssa. Reaktiossa syntyy lämpöä. Pinnalla ohuena kerroksena lämpö haihtuu pois, mutta kun öljyinen riepu rypistetään mytyksi ja heitetään roskakoriin, lämpö jää mytyn sisään. Riepu lämpenee lämpenemistään, ja se voi syttyä palamaan itsestään, vaikka kukaan ei ole lähelläkään. Tämä voi tapahtua vasta tuntien kuluttua, kun luokka on jo tyhjä. Siksi öljyiset rievut laitetaan pakkauksen ohjeen mukaan veteen tai suljettuun astiaan, ei koskaan suoraan roskiin."},{"tyyppi":"kuva","otsikko":"Öljyinen riepu: väärin ja oikein","svg":"<svg viewBox=\"0 0 560 205\" role=\"img\" aria-label=\"Öljyinen riepu mytyssä roskakorissa lämpenee, riepu vedessä suljetussa astiassa ei\"><text x=\"20\" y=\"24\" class=\"v-t vahva\" style=\"font-size:13px\">Väärin: mytty roskakoriin</text><path class=\"v-osa\" d=\"M40 70 L150 70 L140 170 L50 170 Z\"/><path class=\"v-osa v1\" d=\"M62 150 q12 -26 34 -12 q22 -16 32 6 q-6 20 -30 16 q-24 10 -36 -10 Z\"/><path class=\"v-kayra v2\" d=\"M80 128 q5 -7 0 -14 q-5 -7 0 -14 M98 124 q5 -7 0 -14 q-5 -7 0 -14 M116 128 q5 -7 0 -14 q-5 -7 0 -14\" fill=\"none\" style=\"stroke-width:2\"/><text x=\"170\" y=\"80\" class=\"v-t pieni\" style=\"font-size:11px\">lämpö jää mytyn sisään</text><text x=\"170\" y=\"96\" class=\"v-t pieni\" style=\"font-size:11px\">ja riepu voi syttyä</text><text x=\"300\" y=\"24\" class=\"v-t vahva\" style=\"font-size:13px\">Oikein: veteen suljettuun astiaan</text><rect class=\"v-osa\" x=\"320\" y=\"66\" width=\"110\" height=\"104\" rx=\"4\"/><rect class=\"v-akseli\" x=\"314\" y=\"56\" width=\"122\" height=\"10\" rx=\"3\" fill=\"none\"/><rect class=\"v-osa v1\" x=\"322\" y=\"94\" width=\"106\" height=\"74\" style=\"opacity:0.45\"/><path class=\"v-osa v1\" d=\"M345 140 q15 -14 30 -4 q15 -10 25 6 q-10 14 -27 8 q-18 8 -28 -10 Z\"/><text x=\"326\" y=\"90\" class=\"v-t pieni\" style=\"font-size:11px\">vettä</text><text x=\"444\" y=\"90\" class=\"v-t pieni\" style=\"font-size:11px\">kansi kiinni</text><text x=\"444\" y=\"106\" class=\"v-t pieni\" style=\"font-size:11px\">riepu veden alla</text><text x=\"20\" y=\"194\" class=\"v-t pieni\" style=\"font-size:11px\">Noudata aina pakkauksen ja koulun ohjetta: ohje voi neuvoa myös muun turvallisen tavan.</text></svg>","teksti":"Kun riepu on veden alla suljetussa astiassa, se ei pääse kuumenemaan eikä syttymään."},{"tyyppi":"saanto","otsikko":"Näin levität liimaa tai pintakäsittelyainetta","askeleet":["Lue pakkaus ennen kuin avaat sen. Kirjaa viiden kysymyksen vastaukset.","Jos koekappale tarvitsee hiontaa, hio se käsin hiomapaperilla ja pyyhi pöly pois. Hiomakonetta käytetään vain opettajan luvalla ja valvonnassa, yksi kerrallaan.","Avaa ikkuna tai mene tilaan, jossa tuuletus toimii, jos ohje niin sanoo. Pue suojaimet, joita ohje vaatii.","Ota ainetta vain sen verran kuin tarvitset, esimerkiksi pieneen astiaan, ja sulje pakkaus heti.","Levitä ohut ja tasainen kerros. Siveltimellä vedetään puun syiden suuntaan, ja valumat tasoitetaan heti. Jos ohje käskee, pyyhi pinnalle jäänyt aine pois.","Puhdista välineet ohjeen mukaan: vesiohenteisen aineen sivellin vedellä heti, öljyiset rievut veteen tai suljettuun astiaan.","Riisu käsineet ja pese kädet vedellä ja saippualla. Vie koekappale kuivumaan sovittuun paikkaan."]},{"tyyppi":"saanto","otsikko":"Jos ainetta roiskuu silmään tai iholle","askeleet":["Silmä: huuhtele heti runsaalla juoksevalla vedellä useita minuutteja ja pidä silmä auki. Älä hankaa silmää. Jatka huuhtelua, kunnes opettaja sanoo, että se riittää: usein huuhdellaan pitkään, noin neljännestunti.","Iho: pese kohta heti vedellä ja saippualla.","Ilmoita opettajalle heti, vaikka kirvely loppuisi. Opettaja katsoo pakkauksesta ensiapuohjeen ja päättää, tarvitaanko lisäapua.","Jos näet, että ainetta roiskui toiselle, kerro opettajalle heti."]},{"tyyppi":"ansa","otsikko":"Ansa 1: paksu kerros suojaa paremmin","sisalto":"Tuntuu järkevältä, että paksu kerros kestää paremmin. Paksu lakka tai öljy kuitenkin valuu, kuivuu epätasaisesti ja jää tahmeaksi, eikä pakkauksen kuivumisaika enää pidä paikkaansa. Ohut kerros on ohjeen mukainen, ja jos pintaa halutaan vahvemmaksi, levitetään toinen ohut kerros, kun ensimmäinen on kuivunut."},{"tyyppi":"ansa","otsikko":"Ansa 2: kansi auki koko työn ajan","sisalto":"Kun ainetta tarvitaan vielä, kannen sulkeminen tuntuu turhalta. Avoin pakkaus kuitenkin kaatuu helposti, liima tai lakka kuivuu purkkiin, ja höyryt leviävät tilaan. Ota ainetta pieneen astiaan ja sulje pakkaus heti."},{"tyyppi":"ansa","otsikko":"Ansa 3: öljyinen riepu roskakoriin","sisalto":"Riepu näyttää tavalliselta roskalta, ja tunnin lopussa on kiire siivota. Juuri rypistetty öljyinen riepu roskakorissa on se tilanne, jossa riepu voi syttyä itsestään. Vie riepu aina veteen tai suljettuun astiaan pakkauksen ohjeen mukaan, ennen kuin teet mitään muuta."},{"tyyppi":"ansa","otsikko":"Ansa 4: ei merkkiä, joten ohjeen voi ohittaa","sisalto":"Puuliima on tuttua ja tuntuu vaarattomalta, joten pakkausta ei lueta. Silloin jää huomaamatta esimerkiksi, että kappaleet pitää puristaa, kuinka kauan liima kuivuu tai että sivellin pestään ennen kuin liima kuivuu siihen. Lue jokainen pakkaus, vaikka siinä ei olisi merkkiä."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Varoitusmerkki on punareunainen vinoneliö. Kerro, mitä pakkauksen merkki tarkoittaa.","Viisi kysymystä: merkki, suojaimet, tuuletus, kuivumisaika, jätteet ja välineet.","Ei merkkiä ei tarkoita, ettei ohjetta tarvitse lukea.","Ohut tasainen kerros, pakkaus kiinni heti, välineet puhtaiksi, kädet pestään.","Öljyiset rievut veteen tai suljettuun astiaan: ne voivat syttyä itsestään.","Silmään: huuhtele heti runsaalla vedellä useita minuutteja. Iholle: vesi ja saippua. Kerro opettajalle heti.","Hiomakone vain opettajan luvalla ja valvonnassa, yksi kerrallaan."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Oppilas ei löydä pakkauksesta varoitusmerkkiä tai pitää jotain muuta merkkiä (kierrätysmerkki, CE-merkki, roskakori, kuva) varoitusmerkkinä, tai ei osaa kertoa, mitä merkki tarkoittaa.","tehtava":"Näyttö: varoitusmerkin tunnistaminen ja merkitys","mita_kertoo":"Merkin tunnistaminen kuvasta ei ole vielä siirtynyt todelliseen pakkaukseen, jossa on paljon muita merkintöjä ja pientä tekstiä.","mita_tehda":"Kysy, minkä muotoinen ja minkä värinen varoitusmerkki on, ja anna oppilaan etsiä se uudelleen. Jos pakkauksessa ei ole merkkiä, näytä kuva pakkauksesta, jossa on, ja anna oppilaan kertoa merkin merkitys omin sanoin."},{"virhe":"Kun pakkauksessa ei ole varoitusmerkkiä, oppilas kirjaa \"ei ohjeita\" tai jättää suojaimet, tuuletuksen, kuivumisajan ja jätteet kirjaamatta.","tehtava":"Näyttö: pakkausten tietojen kirjaaminen","mita_kertoo":"Oppilas ajattelee, että pakkaus on luettava vain silloin, kun aine on vaarallinen. Kriteeri vaatii ohjeen noudattamista myös ilman merkkiä.","mita_tehda":"Anna viiden kysymyksen taulukko ja pyydä etsimään jokaiseen vastaus pakkauksesta. Jos vastausta ei ole, oppilas kirjaa sen, mitä pakkaus sanoo tai ettei asiaa mainita."},{"virhe":"Oppilas ei pue suojaimia, joita käyttöohje vaatii, tai aloittaa levityksen tilassa, jossa ohjeen vaatima tuuletus ei toteudu.","tehtava":"Näyttö: valmistautuminen levitykseen","mita_kertoo":"Oppilas on lukenut ohjeen mutta ei vielä toimi sen mukaan. Lukeminen ja tekeminen ovat erillisiä.","mita_tehda":"Pysäytä ennen levitystä ja kysy, mitä ohje sanoi suojaimista ja tuuletuksesta. Anna oppilaan korjata itse. Kriteeri täyttyy, kun oppilas toimii ohjeen mukaan ilman muistutusta."},{"virhe":"Kerros on paksu ja siinä on valumia tai kuivia kohtia, pakkaus jää auki levityksen ajaksi tai oppilas työskentelee suoraan pakkauksesta.","tehtava":"Näyttö: levitys koekappaleeseen","mita_kertoo":"Oppilas uskoo, että paksumpi on parempi, tai kiire jättää kannen auki. Ohut kerros on ohjeen ja kriteerin mukainen.","mita_tehda":"Näytä vertailupala, jossa on ohut ja paksu kerros, ja kysy, kumpi näyttää ohjeen mukaiselta. Anna oppilaan tasoittaa valumat heti. Pakkauksen sulkeminen tarkistetaan joka kerta."},{"virhe":"Öljyinen riepu menee roskakoriin, sivellin jää kuivumaan pesemättä tai pestään väärällä tavalla, tai oppilas ei osaa kertoa, miksi rievut käsitellään erikseen.","tehtava":"Näyttö: välineet, rievut ja jäte","mita_kertoo":"Oppilas pitää siivousta tavallisena roskien keräämisenä. Itsesyttymisvaara on uusi ja yllättävä asia.","mita_tehda":"Ota riepu talteen ennen kuin se päätyy roskiin ja kysy, mitä pakkaus sanoi rievuista. Pyydä kertomaan syy: öljy lämpenee kuivuessaan ja mytty voi syttyä itsestään. Kriteeri täyttyy, kun oppilas käsittelee rievut ja välineet ohjeen mukaan ja kertoo syyn."},{"virhe":"Oppilas ei osaa kertoa ensiapua roiskeeseen, tai kertoo pyyhkivänsä silmää, huuhtelevansa vain hetken tai jättävänsä kertomatta opettajalle.","tehtava":"Näyttö: roiskeen ensiapu (suullinen)","mita_kertoo":"Oppilas ei ole vielä yhdistänyt ensiapuohjetta käsityön aineisiin, tai hän ajattelee, että pieni roiske ei vaadi toimia.","mita_tehda":"Näytä luokan lähin vesipiste ja kertaa: silmä huuhdellaan heti runsaalla vedellä useita minuutteja silmä auki, iho pestään vedellä ja saippualla, ja opettajalle kerrotaan heti. Pyydä oppilasta kertomaan ne omin sanoin."}],"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Lue ennen kuin avaat. Ohut kerros, kansi kiinni. Öljyriepu veteen tai suljettuun astiaan. Silmään vettä heti ja kerro.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Näytä koulun puuliiman ja pintakäsittelyaineen pakkaukset. Kysy, kummassa on varoitusmerkki ja onko toinen siksi vaaraton. Kerää vastaukset ja kerro, että tunnin aikana jokainen lukee pakkaukset ja toimii niiden mukaan."},{"aika":"10 min","otsikko":"Ydinasia","sisalto":"Käy läpi keksitty etiketti ja viisi kysymystä. Kerro öljyisten riepujen itsesyttymisvaarasta ja näytä astia, johon rievut luokassa laitetaan. Näytä vesipiste ja kertaa roiskeen ensiapu."},{"aika":"10 min","otsikko":"Pakkausten lukeminen (näytön alku)","sisalto":"Jokainen kirjaa kummastakin pakkauksesta viiden kysymyksen vastaukset. Jos kummassakaan ei ole varoitusmerkkiä, näytä kuva pakkauksesta, jossa on, ja kysy merkitys kahden kesken. Tarkista kirjaukset ennen levitystä."},{"aika":"15 min","otsikko":"Levitys koekappaleeseen (näyttö)","sisalto":"Oppilaat levittävät kumpaakin ainetta koekappaleeseen pienissä ryhmissä tuuletetussa tilassa. Havainnoi suojaimet, ohut kerros, kannen sulkeminen, välineiden puhdistus, rievut ja käsien pesu. Kysy ensiapu kahden kesken työn lomassa."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Koekappaleet kuivumaan sovittuun paikkaan, rievut astiaan, pakkaukset kaappiin. Tarkista roskakorit ja työpöydät ennen kuin luokka lähtee."}],"tarvikkeet":"Koulun puuliima ja pintakäsittelyaine (esimerkiksi vesiohenteinen lakka tai puuöljy) alkuperäisissä pakkauksissa, kuva pakkauksesta, jossa on varoitusmerkki, koekappaleita (esimerkiksi hiottuja puupaloja), pieniä astioita aineelle, siveltimiä, riepuja, suojakäsineitä, metallinen kannellinen astia ja vettä öljyisille rievuille, vertailupala (ohut ja paksu kerros), lähin vesipiste ja saippua."},"opettajalle":{"kesto":"Yksi oppitunti jaksossa J3, ennen kuin tuotteeseen liimataan tai sitä pintakäsitellään (KS6-KOV-01). Havainnointi jatkuu liimauksessa ja pintakäsittelyssä.","huomiot":["Arvioinnin kohde: oppilas kirjaa kummastakin pakkauksesta, onko varoitusmerkkiä ja mitä se tarkoittaa, suojaimet, tuuletuksen, kuivumisajan sekä jätteen, siveltimen ja riepujen käsittelyn; tietää, että punareunainen vinoneliö on vaaraa osoittava varoitusmerkki; noudattaa käyttöohjetta myös ilman merkkiä; öljyn kohdalla laittaa rievut ohjeen mukaan veteen tai suljettuun astiaan ja kertoo syyksi itsesyttymisvaaran; koekappaleessa on ohut tasainen kerros ilman valumia, pakkaus on suljettu ja välineet puhdistettu; kertoo, että silmään roiskunut aine huuhdellaan heti runsaalla vedellä useita minuutteja ja iholta pestään vedellä ja saippualla, ja opettajalle ilmoitetaan heti. Hyväksytään mikä tahansa muotoilu, josta nämä selviävät.","Ero edeltäviin: KS4-TUR-01 ja KS5-TUR-01 koskivat välineiden kuntoa ja pellin teräviä reunoja. Varoitusmerkkien yleinen tunnistaminen ja kodin kemikaalit kuuluvat ympäristöopin taitoon YMP6-TUR-03; tässä merkkejä käytetään käsityön aineissa, eikä yhdeksän merkin luetteloa opeteta uudelleen. YMP6-TUR-03 on vahvistava taito, joten sitä ei oleteta: merkin merkitys luetaan pakkauksen vaaralausekkeesta.","Kuivumisaika kirjataan pakkauksesta tiedoksi, jotta oppilas tietää, milloin kappaletta voi käsitellä. Oppilaan työskentelyn kestoa ei mitata eikä kirjata.","Jos pintakäsittelyaine on vesiohenteinen lakka, riepukohta ei koske näyttöä, mutta oppilas kertoo öljyisten riepujen käsittelyn ja syyn suullisesti. Jos koululla on vain toinen aineista, näyttö tehdään sillä, ja toinen pakkaus käydään läpi kuvasta.","Turvallisuus: pintakäsittely tehdään tilassa, jonka tuuletus vastaa pakkauksen ohjetta, ja vain koulun hyväksymillä aineilla. Hiomakonetta koekappaleen valmisteluun käytetään vain opettajan luvalla ja välittömässä valvonnassa, yksi oppilas kerrallaan; suositus on käsin hionta. Tarkista ennen tuntia aineiden käyttöturvallisuustiedotteet ja koulun ohje öljyisten riepujen käsittelystä. Silmähuuhtelupisteen tai lähimmän vesipisteen paikka näytetään tunnin alussa. Oppilaan teksti ohjaa jatkamaan silmän huuhtelua, kunnes opettaja antaa luvan lopettaa (yleinen ohje noin 15 minuuttia); päätä kesto tuotteen ensiapuohjeen mukaan.","Tarkistettavat asiatiedot: (1) huomiosanat \"Vaara\" ja \"Varoitus\" sekä niiden järjestys CLP-asetuksen mukaan; (2) keksityn etiketin vaaralauseke \"Voi aiheuttaa allergisen ihoreaktion\" ja huutomerkkisymboli on kirjoitettu CLP-asetuksen mukaisiksi, mutta etiketti ei ole todellinen tuote; (3) öljyisten riepujen itsesyttyminen ja käsittely (veteen suljettuun astiaan tai muu pakkauksen ja koulun ohje) on tarkistettava kyseisen tuotteen ohjeesta, koska kaikki puuöljyt eivät ole yhtä alttiita; (4) silmähuuhtelun kesto: kartassa \"useita minuutteja\", ensiapuohjeissa yleensä noin 15 minuuttia ja syövyttävillä aineilla pidempään; tarkista koulun ensiapuohjeesta ja Myrkytystietokeskuksen ohjeesta; (5) väite, että ilman varoitusmerkkiä olevaa ainetta ei ole luokiteltu vaaralliseksi, koskee CLP-merkintöjä."]},"huoltajalle":{"mista_on_kyse":"Lapsi oppii käsityössä lukemaan liiman ja pintakäsittelyaineen (esimerkiksi lakan tai puuöljyn) pakkauksen ja toimimaan sen mukaan: tunnistamaan varoitusmerkin, käyttämään ohjeen vaatimia suojaimia, levittämään ohuen kerroksen, sulkemaan pakkauksen ja puhdistamaan välineet. Hän tietää, että öljyiset rievut voivat syttyä itsestään, ja osaa kertoa, miten toimitaan, jos ainetta roiskuu silmään tai iholle.","kotona":["Jos kotona on liimaa, maalia, lakkaa tai pesuainetta, katsokaa yhdessä pakkausta. Kysy lapselta, onko siinä varoitusmerkki ja mitä ohje sanoo suojaimista ja jätteestä.","Kysy lapselta, miksi öljyistä riepua ei laiteta suoraan roskiin.","Kysy, mitä tehdään, jos ainetta roiskuu silmään. Hyvä vastaus: huuhdellaan heti runsaalla vedellä pitkään ja kerrotaan aikuiselle."],"milloin_huolestua":"Jos lapsi kertoo saaneensa koulussa ainetta silmään tai iholle eikä kertonut siitä opettajalle, tai iholle tulee ihottumaa käsityötunnin jälkeen, kerro opettajalle. Jos lapsella on tiedossa oleva allergia tai herkkä iho, kerro siitä opettajalle ennen pintakäsittelytunteja."},"ulkoiset":{},"valmis_teksti":"Luit liiman ja pintakäsittelyaineen pakkaukset ja toimit niiden mukaan: tunnistit varoitusmerkin, levitit ohuen kerroksen, suljit pakkauksen ja hoidit välineet ja rievut oikein. Tiedät myös, mitä teet, jos ainetta roiskuu silmään tai iholle. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

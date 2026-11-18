@@ -1,0 +1,524 @@
+<title>Varoitusmerkkien lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"YMP6-TUR-03","oppiaine":"YMP","vuosiluokka":6,"taitoalue":"TUR","jakso":"J3","taso":"vahvistava","otsikko":"Varoitusmerkkien lukija","kuvaus":"Osaan tunnistaa kemikaalien varoitusmerkit, säilyttää kodin kemikaaleja turvallisesti ja toimia, jos joku on saanut myrkytyksen.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T8","T18"],"S":["S2"]},"ikoni":"turva","eyebrow":"Ympäristöoppi · 6. luokka · Turvallinen arki","naytto":"Saan kuusi keksittyä kotikemikaalin pakkauskuvaa (esimerkiksi viemärinavaaja, sytytysneste, tiskikonetabletti, lasinpesuneste). Nimeän jokaisen varoitusmerkin merkityksen (esimerkiksi syövyttävä, syttyvä, terveyshaitta, ympäristölle vaarallinen) ja kirjoitan kolme säilytyssääntöä. Vastaan keksittyyn tilanteeseen, jossa pikkusisarus on maistanut pesuainetta: mitä teen ja minne soitan.","osaa_kun":"Tunnistan vähintään neljä merkkiä kuudesta. Säilytyssäännöissä ovat alkuperäinen pakkaus, lasten ulottumattomissa säilyttäminen ja se, ettei kemikaaleja sekoiteta keskenään. Myrkytystilanteessa en oksennuta, soitan Myrkytystietokeskukseen ja hätänumeroon 112, jos autettava on uninen, tajuton tai hänen on vaikea hengittää.","teksti":[{"tyyppi":"johdanto","sisalto":"Lauantaina Vilja siivoaa kylpyhuonetta. Hän kaataa loput kalkinpoistoaineesta tyhjään mehupulloon, jotta saa ison kanisterin roskiin. Illalla serkku Aaro on janoinen, näkee mehupullon jääkaapin vieressä ja ottaa siitä hörpyn. Aine ei ollut mehua. Kodeissa on paljon aineita, jotka ovat vaarallisia väärin käytettyinä tai väärässä paikassa: puhdistusaineita, liimoja, maaleja, sytytysnesteitä ja torjunta-aineita. Taidossa ”Palokolmion salaisuus” opit, miten tulipalo syttyy ja sammuu. Nyt opit lukemaan pakkausten varoitusmerkit, säilyttämään kemikaalit turvallisesti ja toimimaan, jos joku on saanut myrkytyksen."},{"tyyppi":"kappale","otsikko":"Mikä varoitusmerkki on","sisalto":"Vaarallisen kemikaalin pakkauksessa on varoitusmerkki: punareunainen vinoneliö, jonka sisällä on valkoisella pohjalla musta kuva. Merkit ovat samanlaiset kaikissa Euroopan unionin maissa, joten ne ymmärtää, vaikka pakkauksen teksti olisi vieraalla kielellä. Pakkauksessa voi olla yksi tai useampia merkkejä. Merkin lisäksi pakkauksessa on huomiosana (”Vaara” tai ”Varoitus”) ja lyhyet lauseet, jotka kertovat, mitä vaaraa aine aiheuttaa ja miten sitä käsitellään. Lue nämä aina ennen kuin käytät ainetta."},{"tyyppi":"kuva","otsikko":"Kemikaalien varoitusmerkit","svg":"<svg viewBox=\"0 0 600 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"kemikaalien yhdeksän varoitusmerkkiä nimineen\"><polygon points=\"52,14 88,50 52,86 16,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(52 50) scale(1.000)\"><path fill=\"#111\" d=\"M0,-20 C9,-9 14,0 11,9 C9,15 5,17 0,17 C-7,17 -12,12 -11,5 C-10,-1 -6,-5 -4,-11 C-2,-5 2,-3 2,2 C6,-4 5,-12 0,-20 Z\"/><rect fill=\"#111\" x=\"-14\" y=\"18\" width=\"28\" height=\"3\"/></g><text class=\"v-t\" x=\"52\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">syttyvä</text><polygon points=\"151,14 187,50 151,86 115,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(151 50) scale(1.000)\"><rect fill=\"#111\" x=\"-17\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 -14 -14)\"/><rect fill=\"#111\" x=\"6\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 9 -14)\"/><circle fill=\"#111\" cx=\"-11\" cy=\"-4\" r=\"2\"/><circle fill=\"#111\" cx=\"12\" cy=\"-4\" r=\"2\"/><rect fill=\"#111\" x=\"-19\" y=\"4\" width=\"15\" height=\"4\"/><path fill=\"#111\" d=\"M-19,8 L-16,12 L-12,8 L-8,12 L-4,8 Z\"/><path fill=\"#111\" d=\"M3,4 L19,4 L19,14 L5,14 L3,10 Z\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g><text class=\"v-t\" x=\"151\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">syövyttävä</text><polygon points=\"250,14 286,50 250,86 214,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(250 50) scale(1.000)\"><line x1=\"-15\" y1=\"6\" x2=\"15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><line x1=\"15\" y1=\"6\" x2=\"-15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><circle fill=\"#111\" cx=\"0\" cy=\"-8\" r=\"11\"/><rect fill=\"#111\" x=\"-6\" y=\"0\" width=\"12\" height=\"7\" rx=\"2\"/><circle fill=\"#fff\" cx=\"-4.5\" cy=\"-9\" r=\"3.2\"/><circle fill=\"#fff\" cx=\"4.5\" cy=\"-9\" r=\"3.2\"/><path fill=\"#fff\" d=\"M0,-4 L-2,0 L2,0 Z\"/></g><text class=\"v-t\" x=\"250\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">välitön</text><text class=\"v-t\" x=\"250\" y=\"121\" text-anchor=\"middle\" style=\"font-size:12px\">myrkyllisyys</text><polygon points=\"349,14 385,50 349,86 313,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(349 50) scale(1.000)\"><rect fill=\"#111\" x=\"-3.5\" y=\"-20\" width=\"7\" height=\"27\" rx=\"2\"/><circle fill=\"#111\" cx=\"0\" cy=\"15\" r=\"4.2\"/></g><text class=\"v-t\" x=\"349\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">terveyshaitta</text><polygon points=\"448,14 484,50 448,86 412,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(448 50) scale(1.000)\"><circle fill=\"#111\" cx=\"0\" cy=\"-15\" r=\"6\"/><path fill=\"#111\" d=\"M-15,20 L-15,2 C-15,-5 -9,-8 0,-8 C9,-8 15,-5 15,2 L15,20 Z\"/><polygon fill=\"#fff\" points=\"0,-3 2.4,3.5 9,3.5 3.7,7.5 5.7,14 0,10 -5.7,14 -3.7,7.5 -9,3.5 -2.4,3.5\"/></g><text class=\"v-t\" x=\"448\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">vakava</text><text class=\"v-t\" x=\"448\" y=\"121\" text-anchor=\"middle\" style=\"font-size:12px\">terveyshaitta</text><polygon points=\"547,14 583,50 547,86 511,50\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(547 50) scale(1.000)\"><line x1=\"-10\" y1=\"18\" x2=\"-10\" y2=\"-18\" stroke=\"#111\" stroke-width=\"2.5\"/><line x1=\"-10\" y1=\"-6\" x2=\"-18\" y2=\"-14\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"-10\" x2=\"-3\" y2=\"-17\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"2\" x2=\"-3\" y2=\"-4\" stroke=\"#111\" stroke-width=\"2\"/><ellipse fill=\"#111\" cx=\"6\" cy=\"9\" rx=\"8\" ry=\"4\"/><polygon fill=\"#111\" points=\"13,9 19,4 19,14\"/><circle fill=\"#fff\" cx=\"1\" cy=\"8\" r=\"1.2\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g><text class=\"v-t\" x=\"547\" y=\"106\" text-anchor=\"middle\" style=\"font-size:12px\">ympäristölle</text><text class=\"v-t\" x=\"547\" y=\"121\" text-anchor=\"middle\" style=\"font-size:12px\">vaarallinen</text><line class=\"v-apu\" x1=\"20\" y1=\"150\" x2=\"580\" y2=\"150\"/><text class=\"v-t vahva\" x=\"300\" y=\"174\" text-anchor=\"middle\" style=\"font-size:12px\">Harvinaisempia kotona</text><polygon points=\"150,194 186,230 150,266 114,230\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(150 230) scale(1.000)\"><circle fill=\"#111\" cx=\"0\" cy=\"8\" r=\"9\"/><line x1=\"0.0\" y1=\"-6.0\" x2=\"0\" y2=\"-20\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"-5.4\" y1=\"-4.8\" x2=\"-12\" y2=\"-14\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"5.4\" y1=\"-4.8\" x2=\"12\" y2=\"-14\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"-8.1\" y1=\"-2.4\" x2=\"-18\" y2=\"-2\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"8.1\" y1=\"-2.4\" x2=\"18\" y2=\"-2\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"-3.1\" y1=\"-5.6\" x2=\"-7\" y2=\"-18\" stroke=\"#111\" stroke-width=\"2.2\"/><line x1=\"3.1\" y1=\"-5.6\" x2=\"7\" y2=\"-18\" stroke=\"#111\" stroke-width=\"2.2\"/></g><text class=\"v-t\" x=\"150\" y=\"286\" text-anchor=\"middle\" style=\"font-size:12px\">räjähtävä</text><polygon points=\"300,194 336,230 300,266 264,230\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(300 230) scale(1.000)\"><path fill=\"#111\" d=\"M0,-20 C6,-12 9,-7 7,-2 C5,1 3,2 0,2 C-4,2 -7,-1 -7,-5 C-6,-9 -3,-11 -2,-15 C0,-11 2,-9 2,-6 C4,-10 3,-15 0,-20 Z\"/><circle cx=\"0\" cy=\"11\" r=\"7\" fill=\"none\" stroke=\"#111\" stroke-width=\"3.5\"/><rect fill=\"#111\" x=\"-14\" y=\"19\" width=\"28\" height=\"3\"/></g><text class=\"v-t\" x=\"300\" y=\"286\" text-anchor=\"middle\" style=\"font-size:12px\">hapettava</text><polygon points=\"450,194 486,230 450,266 414,230\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(450 230) scale(1.000)\"><rect fill=\"#111\" x=\"-15\" y=\"-5\" width=\"28\" height=\"14\" rx=\"6\"/><rect fill=\"#111\" x=\"12\" y=\"-2\" width=\"6\" height=\"8\"/><rect fill=\"#111\" x=\"17\" y=\"-4\" width=\"3\" height=\"12\"/></g><text class=\"v-t\" x=\"450\" y=\"286\" text-anchor=\"middle\" style=\"font-size:12px\">paineen alainen kaasu</text></svg>","teksti":"Ylärivin kuusi merkkiä löytyvät kodin kemikaaleista useimmin. Alarivin merkit ovat harvinaisempia kotona."},{"tyyppi":"taulukko","otsikko":"Mitä merkki tarkoittaa ja miten varot","otsikkorivi":["Merkki","Mitä se tarkoittaa","Miten varot"],"rivit":[["Syttyvä (liekki)","Aine tai sen höyry syttyy helposti palamaan.","Pidä erossa tulesta, kipinöistä ja kuumasta. Älä käytä tulen lähellä."],["Syövyttävä (aine syövyttää kättä ja pintaa)","Aine vahingoittaa ihoa ja silmiä vakavasti ja voi syövyttää metallia.","Käytä suojakäsineitä ja tarvittaessa suojalaseja. Varo roiskeita."],["Välitön myrkyllisyys (pääkallo)","Pienikin määrä voi aiheuttaa vakavan myrkytyksen nieltynä, hengitettynä tai iholle joutuessaan.","Vain aikuinen käyttää. Ei koskaan lasten ulottuville."],["Terveyshaitta (huutomerkki)","Aine voi ärsyttää ihoa, silmiä tai hengitysteitä tai olla haitallinen nieltynä.","Vältä iho- ja silmäkosketusta. Älä hengitä höyryä tai pölyä."],["Vakava terveyshaitta (ihminen, jonka rinnassa on tähti)","Aine voi vahingoittaa elimistöä pitkällä aikavälillä, tai se voi olla hengenvaarallinen, jos se nieltäessä joutuu hengitysteihin.","Noudata käyttöohjetta tarkasti. Säilytä aina lasten ulottumattomissa."],["Ympäristölle vaarallinen (kuollut puu ja kala)","Aine on myrkyllistä vesieliöille ja luonnolle.","Älä kaada viemäriin tai luontoon. Vie jäte vaarallisen jätteen keräykseen."]]},{"tyyppi":"saanto","otsikko":"Kemikaalien turvallinen säilytys","askeleet":["Säilytä kemikaali aina alkuperäisessä pakkauksessaan. Silloin varoitusmerkit ja ohjeet pysyvät mukana, eikä kukaan luule ainetta juomaksi tai ruoaksi.","Säilytä kemikaalit lasten ulottumattomissa: korkealla tai lukitussa kaapissa, ei lattiatasolla eikä tiskipöydän alla avoimessa kaapissa.","Älä sekoita kemikaaleja keskenään. Esimerkiksi klooripitoinen valkaisuaine ja hapan kalkinpoistoaine voivat yhdessä muodostaa myrkyllistä kaasua.","Sulje pakkaus heti käytön jälkeen, myös silloin, kun jatkat työtä hetken päästä.","Pidä kemikaalit erillään ruoasta ja juomista."]},{"tyyppi":"ansa","otsikko":"Ansa 1: ”Kaadan vähän tähän pulloon”","sisalto":"Johdannon Vilja tarkoitti hyvää: hän halusi säästää tilaa. Kun kemikaali siirretään juomapulloon, purkkiin tai mukiin, varoitusmerkit jäävät pois, ja astia näyttää ruoalta tai juomalta. Juuri näin moni myrkytys tapahtuu. Kemikaalia ei siirretä toiseen astiaan, vaikka sitä olisi jäljellä vain vähän."},{"tyyppi":"ansa","otsikko":"Ansa 2: ”Kaksi ainetta tehoaa paremmin kuin yksi”","sisalto":"Jos yksi puhdistusaine ei poista likaa, toisen kaataminen sekaan tuntuu järkevältä. Kaksi ainetta voi kuitenkin reagoida keskenään, ja reaktiossa voi syntyä myrkyllistä kaasua tai lämpöä. Muistat palamisesta, että kemiallisessa reaktiossa syntyy uusia aineita. Siksi aineita ei sekoiteta, vaan käytetään yhtä ainetta kerrallaan käyttöohjeen mukaan."},{"tyyppi":"kappale","otsikko":"Kun joku on saanut myrkytyksen","sisalto":"Myrkytys voi tulla, kun ainetta niellään, hengitetään tai sitä joutuu iholle tai silmiin. Pienet lapset maistavat kaikkea, mikä on heidän ulottuvillaan. Jos joku on nielaissut kemikaalia, älä yritä saada häntä oksentamaan. Ota loput aineesta pois hänen suustaan ja anna hänen sylkäistä. Soita Myrkytystietokeskukseen numeroon 0800 147 111. Se päivystää ympäri vuorokauden ja kertoo, mitä teet. Pidä pakkaus käsillä puhelun aikana, jotta voit kertoa, mikä aine on kyseessä. Jos autettava on uninen, tajuton, hänen on vaikea hengittää tai hän kouristelee, soita heti hätänumeroon 112. Jos ainetta on roiskunut silmään, huuhtele silmää heti runsaalla vedellä pitkään ja hae apua. Jos ainetta on joutunut iholle, huuhtele iho runsaalla vedellä. Kerro aina aikuiselle."},{"tyyppi":"ansa","otsikko":"Ansa 3: ”Oksennuta, niin myrkky tulee pois”","sisalto":"Oksentaminen kuulostaa järkevältä, mutta se voi pahentaa myrkytystä. Syövyttävä aine vahingoittaa ruokatorvea ja suuta uudelleen, kun se tulee ylös. Vaahtoava pesuaine tai öljymäinen neste voi oksentaessa joutua hengitysteihin ja keuhkoihin. Siksi myrkytyksessä ei oksennuteta, vaan soitetaan ja toimitaan saatujen ohjeiden mukaan."},{"tyyppi":"ansa","otsikko":"Ansa 4: ”Ei merkkiä, ei vaaraa”","sisalto":"Kaikissa vaarallisissa aineissa ei ole varoitusmerkkiä. Esimerkiksi lääkepakkauksissa ei ole näitä merkkejä, mutta lääkkeet voivat olla lapselle vaarallisia. Lue siis aina käyttöohje ja säilytä kaikki kodin kemikaalit ja lääkkeet lasten ulottumattomissa."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Varoitusmerkki on punareunainen vinoneliö. Tunne ainakin: syttyvä, syövyttävä, välitön myrkyllisyys, terveyshaitta, vakava terveyshaitta, ympäristölle vaarallinen.","Säilytys: alkuperäinen pakkaus, lasten ulottumattomissa, ei sekoiteta keskenään.","Myrkytys: ei oksennuteta. Myrkytystietokeskus 0800 147 111.","112, jos autettava on uninen, tajuton, hänen on vaikea hengittää tai hän kouristelee.","Pakkaus mukaan puheluun. Kerro aina aikuiselle."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Tunnistaa alle neljä merkkiä kuudesta tai sekoittaa terveyshaitan ja vakavan terveyshaitan tai syövyttävän ja myrkyllisen","tehtava":"Kuusi pakkauskuvaa","mita_kertoo":"Oppilas tunnistaa merkin vaarallisuudeksi mutta ei sen merkitystä. Kriteeri vaatii vähintään neljä merkkiä kuudesta.","mita_tehda":"Käy merkkikuva läpi niin, että oppilas kertoo jokaisen kuvion ajatuksen omin sanoin (liekki palaa, aine syövyttää kättä, huutomerkki varoittaa). Anna toinen pakkaussarja."},{"virhe":"Säilytyssäännöistä puuttuu alkuperäinen pakkaus, lasten ulottumattomissa säilyttäminen tai kielto sekoittaa kemikaaleja","tehtava":"Kolme säilytyssääntöä","mita_kertoo":"Oppilas kirjoittaa yleisiä varovaisuussääntöjä (”ole varovainen”), jotka eivät ole säilytyssääntöjä. Kriteeri vaatii nämä kolme sääntöä.","mita_tehda":"Palaa johdannon mehupulloon ja ansoihin 1 ja 2. Kysy: missä aine on, kenen ulottuvilla se on ja mitä sille ei saa tehdä? Anna oppilaan täydentää säännöt."},{"virhe":"Neuvoo oksennuttamaan tai antamaan jotakin juotavaksi ennen kuin on kysynyt neuvoa","tehtava":"Myrkytystilanne","mita_kertoo":"Kotona tai muualla kuultu vanha neuvo ohittaa opetetun. Kriteeri vaatii, ettei oksennuteta.","mita_tehda":"Kysy, mitä syövyttävä aine tekee ruokatorvelle, kun se tulee ylös uudelleen. Palaa ansaan 3."},{"virhe":"Ei tiedä, minne soitetaan, tai soittaisi vain 112 tai vain Myrkytystietokeskukseen tilanteesta riippumatta","tehtava":"Myrkytystilanne","mita_kertoo":"Oppilas ei vielä erota tilannetta, jossa riittää neuvo, hätätilanteesta. Kriteeri vaatii Myrkytystietokeskuksen ja 112:n, jos autettava on uninen, tajuton tai hänen on vaikea hengittää.","mita_tehda":"Kysy, mikä tilanteen kuvauksessa kertoo, että kyse on hätätilanteesta. Kirjoita näkyviin kaksi saraketta: ”Myrkytystietokeskus” ja ”112”, ja anna oppilaan sijoittaa merkit niihin."},{"virhe":"Nimeää merkin vain yleisellä sanalla (”vaarallinen”, ”myrkyllinen”) jokaisessa pakkauksessa","tehtava":"Kuusi pakkauskuvaa","mita_kertoo":"Oppilas tietää, että vinoneliö varoittaa, mutta ei lue kuviota. Vain merkin oma merkitys kelpaa.","mita_tehda":"Pyydä oppilasta kuvailemaan, mitä kuviossa näkyy, ja päättelemään siitä vaara. Hyväksy oma muotoilu, kun se vastaa merkitystä (esimerkiksi ”syttyy palamaan” syttyvästä)."},{"virhe":"Jättäisi pakkauksen pois puhelusta tai ei kertoisi aikuiselle, tai ehdottaisi kemikaalin kaatamista viemäriin","tehtava":"Myrkytystilanne ja säilytyssäännöt","mita_kertoo":"Oppilas tietää pääsäännöt mutta ei niiden käytännön jatkoa. Asia ei ole osaa_kun-kriteerin ehdoton osa, mutta se kuuluu turvalliseen toimintaan.","mita_tehda":"Kysy, mitä Myrkytystietokeskus kysyy ensimmäiseksi ja mistä sen voi lukea. Muistuta ympäristölle vaarallisen merkistä ja vaarallisen jätteen keräyksestä."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Punareunainen vinoneliö varoittaa. Kemikaali säilytetään alkuperäisessä pakkauksessa ja lasten ulottumattomissa, eikä kemikaaleja sekoiteta. Myrkytyksessä ei oksennuteta: soita Myrkytystietokeskukseen, ja jos autettava on uninen, tajuton tai hänen on vaikea hengittää, soita 112.","vaiheet":[{"aika":"8 min","otsikko":"1. tunti: Aloitus","sisalto":"Lue johdannon tilanne. Kysy: mikä meni pieleen ja missä kohdassa? Älä kysy, mitä kemikaaleja oppilaiden kodeissa on."},{"aika":"20 min","otsikko":"Varoitusmerkit","sisalto":"Käy merkkikuva ja taulukko läpi. Oppilaat keksivät pareittain jokaiselle merkille muistisäännön kuvion perusteella. Opettaja voi näyttää koulun omia pakkauksia (esimerkiksi siivous- tai käsityöaineita), mutta ei näytön pakkauksia."},{"aika":"17 min","otsikko":"Säilytys","sisalto":"Säilytyssäännöt ja ansat 1 ja 2. Yhdistä palamisen kemialliseen reaktioon (YMP6-AIN-04): sekoittamisessa voi syntyä uusia aineita."},{"aika":"15 min","otsikko":"2. tunti: Myrkytys","sisalto":"Lukekaa kappale myrkytyksestä ja ansat 3 ja 4. Kirjoita Myrkytystietokeskuksen numero näkyviin. Käsitelkää yksi keksitty harjoitustilanne (ei näytön tilanne), esimerkiksi aikuinen saa uuninpuhdistusainetta silmään."},{"aika":"25 min","otsikko":"Näyttö","sisalto":"Oppilas saa kuusi pakkauskuvaa (sarja A tai B), nimeää jokaisen merkin merkityksen, kirjoittaa kolme säilytyssääntöä ja vastaa myrkytystilanteeseen."},{"aika":"5 min","otsikko":"Purku","sisalto":"Mikä merkeistä oli vaikein? Muistuta, että myös lääkkeet säilytetään lasten ulottumattomissa."}],"tarvikkeet":"Merkkikuva heijastettuna tai tulostettuna, pakkaussarjat A ja B tulostettuina värillisinä (opettajalle-kohdassa), tyhjiä koulun kemikaalipakkauksia esimerkeiksi (tyhjät ja huuhdellut), Myrkytystietokeskuksen numero näkyvissä."},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Vahvistava taito. Edeltäjä on YMP6-AIN-04 (palokolmio ja kemiallinen reaktio). Käsityössä KS6-TUR-01 (ydintaito käsityön kartassa) käyttää samoja varoitusmerkkejä koulun liiman ja pintakäsittelyaineen pakkauksissa ja opettaa roiskeiden ensiavun; tämä taito laajentaa kodin kemikaaleihin, säilytykseen ja myrkytyksiin. 7. luokan kemia (KE7) opettaa merkit alusta, joten tämä ei ole niiden edellytys.","Näyttö on kirjallinen tuotos: kuuden pakkauksen merkit, kolme säilytyssääntöä ja myrkytystilanne. Kokeita ei ole, koska näyttö arvioidaan tuotoksena kartan kriteerin mukaan (vähintään neljä merkkiä kuudesta, kolme nimettyä sääntöä, toiminta myrkytyksessä). Kaikki kolme osaa tarvitaan. Näytön aikana merkkikuva ja opetusteksti eivät ole esillä.","Mikä kelpaa: merkin merkitys omin sanoin, kun se vastaa merkkiä (esimerkiksi ”syttyy helposti palamaan”, ”vahingoittaa ihoa”, ”myrkky”, ”ärsyttää”, ”pitkäaikainen terveyshaitta”, ”vaarallinen luonnolle”). Pelkkä ”vaarallinen” ei kelpaa. Pääkallon kohdalla kelpaa ”myrkyllinen”. Myös pakkauksissa ja viranomaisohjeissa käytetyt rinnakkaiset nimet hyväksytään (esimerkiksi ”krooninen terveyshaitta” tai ”vakava terveysvaara” ihmishahmomerkistä ja ”ympäristövaara” puu ja kala -merkistä). Säilytyssäännöissä pitää olla nämä kolme: alkuperäinen pakkaus, lasten ulottumattomissa, ei sekoiteta; muut oikeat säännöt saavat olla lisäksi. Myrkytystilanteessa vaaditaan: ei oksennuteta, Myrkytystietokeskus, ja 112, jos autettava on uninen, tajuton tai hänen on vaikea hengittää.","Pakkaussarja A (keksityt tuotteet; avain: 1. syövyttävä, 2. syttyvä, 3. terveyshaitta, 4. ympäristölle vaarallinen, 5. välitön myrkyllisyys, 6. vakava terveyshaitta):<br><svg viewBox=\"0 0 600 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"kuusi keksittyä kemikaalipakkausta varoitusmerkkeineen\"><rect class=\"v-osa\" x=\"10\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"102\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">1. PUTKIPUHDAS</text><text class=\"v-t pieni\" x=\"102\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">viemärinavaaja</text><polygon points=\"102,63 142,103 102,143 62,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(102 103) scale(1.111)\"><rect fill=\"#111\" x=\"-17\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 -14 -14)\"/><rect fill=\"#111\" x=\"6\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 9 -14)\"/><circle fill=\"#111\" cx=\"-11\" cy=\"-4\" r=\"2\"/><circle fill=\"#111\" cx=\"12\" cy=\"-4\" r=\"2\"/><rect fill=\"#111\" x=\"-19\" y=\"4\" width=\"15\" height=\"4\"/><path fill=\"#111\" d=\"M-19,8 L-16,12 L-12,8 L-8,12 L-4,8 Z\"/><path fill=\"#111\" d=\"M3,4 L19,4 L19,14 L5,14 L3,10 Z\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g><rect class=\"v-osa\" x=\"207\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"299\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">2. GRILLITULI</text><text class=\"v-t pieni\" x=\"299\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">sytytysneste</text><polygon points=\"299,63 339,103 299,143 259,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(299 103) scale(1.111)\"><path fill=\"#111\" d=\"M0,-20 C9,-9 14,0 11,9 C9,15 5,17 0,17 C-7,17 -12,12 -11,5 C-10,-1 -6,-5 -4,-11 C-2,-5 2,-3 2,2 C6,-4 5,-12 0,-20 Z\"/><rect fill=\"#111\" x=\"-14\" y=\"18\" width=\"28\" height=\"3\"/></g><rect class=\"v-osa\" x=\"404\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"496\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">3. KIILTOTABS</text><text class=\"v-t pieni\" x=\"496\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">tiskikonetabletti</text><polygon points=\"496,63 536,103 496,143 456,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(496 103) scale(1.111)\"><rect fill=\"#111\" x=\"-3.5\" y=\"-20\" width=\"7\" height=\"27\" rx=\"2\"/><circle fill=\"#111\" cx=\"0\" cy=\"15\" r=\"4.2\"/></g><rect class=\"v-osa\" x=\"10\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"102\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">4. PUUSUOJA</text><text class=\"v-t pieni\" x=\"102\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">puunsuoja-aine</text><polygon points=\"102,225 142,265 102,305 62,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(102 265) scale(1.111)\"><line x1=\"-10\" y1=\"18\" x2=\"-10\" y2=\"-18\" stroke=\"#111\" stroke-width=\"2.5\"/><line x1=\"-10\" y1=\"-6\" x2=\"-18\" y2=\"-14\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"-10\" x2=\"-3\" y2=\"-17\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"2\" x2=\"-3\" y2=\"-4\" stroke=\"#111\" stroke-width=\"2\"/><ellipse fill=\"#111\" cx=\"6\" cy=\"9\" rx=\"8\" ry=\"4\"/><polygon fill=\"#111\" points=\"13,9 19,4 19,14\"/><circle fill=\"#fff\" cx=\"1\" cy=\"8\" r=\"1.2\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g><rect class=\"v-osa\" x=\"207\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"299\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">5. HIIRIPOIS</text><text class=\"v-t pieni\" x=\"299\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">jyrsijämyrkky</text><polygon points=\"299,225 339,265 299,305 259,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(299 265) scale(1.111)\"><line x1=\"-15\" y1=\"6\" x2=\"15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><line x1=\"15\" y1=\"6\" x2=\"-15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><circle fill=\"#111\" cx=\"0\" cy=\"-8\" r=\"11\"/><rect fill=\"#111\" x=\"-6\" y=\"0\" width=\"12\" height=\"7\" rx=\"2\"/><circle fill=\"#fff\" cx=\"-4.5\" cy=\"-9\" r=\"3.2\"/><circle fill=\"#fff\" cx=\"4.5\" cy=\"-9\" r=\"3.2\"/><path fill=\"#fff\" d=\"M0,-4 L-2,0 L2,0 Z\"/></g><rect class=\"v-osa\" x=\"404\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"496\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">6. VALOVOIMA</text><text class=\"v-t pieni\" x=\"496\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">lamppuöljy</text><polygon points=\"496,225 536,265 496,305 456,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(496 265) scale(1.111)\"><circle fill=\"#111\" cx=\"0\" cy=\"-15\" r=\"6\"/><path fill=\"#111\" d=\"M-15,20 L-15,2 C-15,-5 -9,-8 0,-8 C9,-8 15,-5 15,2 L15,20 Z\"/><polygon fill=\"#fff\" points=\"0,-3 2.4,3.5 9,3.5 3.7,7.5 5.7,14 0,10 -5.7,14 -3.7,7.5 -9,3.5 -2.4,3.5\"/></g></svg>","Pakkaussarja B uusintaan tai vierekkäisille oppilaille (keksityt tuotteet, merkit eri järjestyksessä kuin sarjassa A; avain: 1. välitön myrkyllisyys, 2. terveyshaitta, 3. syövyttävä, 4. vakava terveyshaitta, 5. syttyvä, 6. ympäristölle vaarallinen):<br><svg viewBox=\"0 0 600 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"kuusi keksittyä kemikaalipakkausta varoitusmerkkeineen\"><g transform=\"translate(-197 -162)\"><rect class=\"v-osa\" x=\"207\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"299\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">1. TORJUNTA-X</text><text class=\"v-t pieni\" x=\"299\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">tuholaistorjunta-aine</text><polygon points=\"299,225 339,265 299,305 259,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(299 265) scale(1.111)\"><line x1=\"-15\" y1=\"6\" x2=\"15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><line x1=\"15\" y1=\"6\" x2=\"-15\" y2=\"20\" stroke=\"#111\" stroke-width=\"3.5\"/><circle fill=\"#111\" cx=\"0\" cy=\"-8\" r=\"11\"/><rect fill=\"#111\" x=\"-6\" y=\"0\" width=\"12\" height=\"7\" rx=\"2\"/><circle fill=\"#fff\" cx=\"-4.5\" cy=\"-9\" r=\"3.2\"/><circle fill=\"#fff\" cx=\"4.5\" cy=\"-9\" r=\"3.2\"/><path fill=\"#fff\" d=\"M0,-4 L-2,0 L2,0 Z\"/></g></g><g transform=\"translate(-197 0)\"><rect class=\"v-osa\" x=\"404\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"496\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">2. KALKKIPOIS</text><text class=\"v-t pieni\" x=\"496\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">kalkinpoistoaine</text><polygon points=\"496,63 536,103 496,143 456,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(496 103) scale(1.111)\"><rect fill=\"#111\" x=\"-3.5\" y=\"-20\" width=\"7\" height=\"27\" rx=\"2\"/><circle fill=\"#111\" cx=\"0\" cy=\"15\" r=\"4.2\"/></g></g><g transform=\"translate(394 0)\"><rect class=\"v-osa\" x=\"10\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"102\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">3. UUNIKIRKAS</text><text class=\"v-t pieni\" x=\"102\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">uuninpuhdistusaine</text><polygon points=\"102,63 142,103 102,143 62,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(102 103) scale(1.111)\"><rect fill=\"#111\" x=\"-17\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 -14 -14)\"/><rect fill=\"#111\" x=\"6\" y=\"-20\" width=\"5\" height=\"11\" transform=\"rotate(-30 9 -14)\"/><circle fill=\"#111\" cx=\"-11\" cy=\"-4\" r=\"2\"/><circle fill=\"#111\" cx=\"12\" cy=\"-4\" r=\"2\"/><rect fill=\"#111\" x=\"-19\" y=\"4\" width=\"15\" height=\"4\"/><path fill=\"#111\" d=\"M-19,8 L-16,12 L-12,8 L-8,12 L-4,8 Z\"/><path fill=\"#111\" d=\"M3,4 L19,4 L19,14 L5,14 L3,10 Z\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g></g><g transform=\"translate(-394 0)\"><rect class=\"v-osa\" x=\"404\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"496\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">4. MAALIPOIS</text><text class=\"v-t pieni\" x=\"496\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">maalinpoistoaine</text><polygon points=\"496,225 536,265 496,305 456,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(496 265) scale(1.111)\"><circle fill=\"#111\" cx=\"0\" cy=\"-15\" r=\"6\"/><path fill=\"#111\" d=\"M-15,20 L-15,2 C-15,-5 -9,-8 0,-8 C9,-8 15,-5 15,2 L15,20 Z\"/><polygon fill=\"#fff\" points=\"0,-3 2.4,3.5 9,3.5 3.7,7.5 5.7,14 0,10 -5.7,14 -3.7,7.5 -9,3.5 -2.4,3.5\"/></g></g><g transform=\"translate(0 162)\"><rect class=\"v-osa\" x=\"207\" y=\"8\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"299\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">5. LIEKKI-PLUS</text><text class=\"v-t pieni\" x=\"299\" y=\"46\" text-anchor=\"middle\" style=\"font-size:11px\">grillin sytytysgeeli</text><polygon points=\"299,63 339,103 299,143 259,103\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(299 103) scale(1.111)\"><path fill=\"#111\" d=\"M0,-20 C9,-9 14,0 11,9 C9,15 5,17 0,17 C-7,17 -12,12 -11,5 C-10,-1 -6,-5 -4,-11 C-2,-5 2,-3 2,2 C6,-4 5,-12 0,-20 Z\"/><rect fill=\"#111\" x=\"-14\" y=\"18\" width=\"28\" height=\"3\"/></g></g><g transform=\"translate(394 0)\"><rect class=\"v-osa\" x=\"10\" y=\"170\" width=\"185\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"102\" y=\"192\" text-anchor=\"middle\" style=\"font-size:13px\">6. POHJASUOJA</text><text class=\"v-t pieni\" x=\"102\" y=\"208\" text-anchor=\"middle\" style=\"font-size:11px\">veneen pohjamaali</text><polygon points=\"102,225 142,265 102,305 62,265\" fill=\"#fff\" stroke=\"#d0021b\" stroke-width=\"5\" stroke-linejoin=\"round\"/><g transform=\"translate(102 265) scale(1.111)\"><line x1=\"-10\" y1=\"18\" x2=\"-10\" y2=\"-18\" stroke=\"#111\" stroke-width=\"2.5\"/><line x1=\"-10\" y1=\"-6\" x2=\"-18\" y2=\"-14\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"-10\" x2=\"-3\" y2=\"-17\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"-10\" y1=\"2\" x2=\"-3\" y2=\"-4\" stroke=\"#111\" stroke-width=\"2\"/><ellipse fill=\"#111\" cx=\"6\" cy=\"9\" rx=\"8\" ry=\"4\"/><polygon fill=\"#111\" points=\"13,9 19,4 19,14\"/><circle fill=\"#fff\" cx=\"1\" cy=\"8\" r=\"1.2\"/><rect fill=\"#111\" x=\"-19\" y=\"18\" width=\"38\" height=\"3\"/></g></g></svg>","Myrkytystilanne, sarja A: Pikkusisarus Elmeri on maistanut tiskikonetablettia. Hän yskii vähän mutta on hereillä ja hengittää normaalisti. Mitä teet ja minne soitat? Mitä teet, jos hän muuttuu uniseksi tai hänen on vaikea hengittää?<br>Myrkytystilanne, sarja B: Pikkusisarus Venni on maistanut pyykinpesugeeliä. Hän yskii vähän mutta on hereillä ja hengittää normaalisti. Mitä teet ja minne soitat? Mitä teet, jos hän muuttuu uniseksi tai hänen on vaikea hengittää?<br><i>Avain molempiin: en oksennuta, otan loput pois suusta ja annan sylkäistä, soitan Myrkytystietokeskukseen (0800 147 111) pakkaus käsillä ja toimin ohjeiden mukaan, kerron aikuiselle. Jos hän muuttuu uniseksi tai hänen on vaikea hengittää, soitan heti 112.</i>","Pakkaukset ja tuotenimet ovat keksittyjä, ja jokaisessa on yksi merkki, jotta arviointi on yksiselitteinen. Oikeissa tuotteissa merkkejä voi olla useita, ja saman tuoteryhmän eri tuotteissa voi olla eri merkit. Kerro tämä oppilaille näytön jälkeen.","Turvallisuus: tunnilla käytetään vain tyhjiä ja huuhdeltuja pakkauksia tai kuvia. Oppilaat eivät haistele, sekoita eivätkä kokeile aineita. Oppilaiden kotien kemikaaleja tai perheen tapoja ei kysytä.","Tarkistettavat asiatiedot ennen käyttöä (Myrkytystietokeskus https://www.myrkytystietokeskus.fi, Tukes https://tukes.fi, Terveyskirjasto https://www.terveyskirjasto.fi): 1) Myrkytystietokeskuksen numero 0800 147 111 ja ympärivuorokautinen päivystys; 2) ohje ”ota loput aineesta pois suusta ja anna sylkäistä” sekä se, annetaanko jotakin juotavaa ennen soittoa (oppilaan tekstissä ei neuvota juottamaan); 3) varoitusmerkkien viralliset suomenkieliset nimet (Tukesin ja CLP-asetuksen mukaan; tekstissä syttyvä, syövyttävä, välitön myrkyllisyys, terveyshaitta, vakava terveyshaitta, ympäristölle vaarallinen, räjähtävä, hapettava, paineen alainen kaasu; viranomaisen käyttämät nimet voivat poiketa näistä, esimerkiksi ihmishahmomerkki ”krooninen terveyshaitta” ja puu ja kala -merkki ”ympäristövaara”); 4) piirrettyjen merkkien vastaavuus virallisiin kuvasymboleihin (piirrokset ovat yksinkertaistettuja; voit käyttää Tukesin virallisia kuvia); 5) silmähuuhtelun kesto (tekstissä ”pitkään”; ohjeissa yleensä noin 15 minuuttia); 6) 112-merkkien luettelo (kartassa uninen, tajuton, hengitysvaikeus; tekstiin on lisätty kouristelu)."]},"huoltajalle":{"mista_on_kyse":"Lapsi oppii tunnistamaan kemikaalipakkausten varoitusmerkit (punareunainen vinoneliö), säilyttämään kemikaalit turvallisesti (alkuperäinen pakkaus, lasten ulottumattomissa, ei sekoiteta keskenään) ja toimimaan myrkytyksessä: ei oksennuteta, soitetaan Myrkytystietokeskukseen (0800 147 111), ja hätänumeroon 112, jos autettava on uninen, tajuton tai hänen on vaikea hengittää.","kotona":["Jos kotona on jonkin puhdistusaineen pakkaus, katsokaa sitä yhdessä. Lapsi voi kertoa, mitä varoitusmerkki tarkoittaa ja mitä pakkauksen teksti neuvoo.","Kysy, miksi kemikaalia ei kaadeta juomapulloon. Hyvä vastaus: varoitusmerkit jäävät pois ja joku voi luulla sitä juomaksi.","Tallentakaa Myrkytystietokeskuksen numero 0800 147 111 puhelimeen, jos haluatte.","Kysy, mitä lapsi tekisi, jos pieni lapsi maistaisi pesuainetta."],"milloin_huolestua":"Tämä on vahvistava taito, eikä se vaikuta siirtymiseen. Jos lapsi jakson jälkeen neuvoo oksennuttamaan myrkytyksessä tai ei tiedä, minne soittaa, kertaa asia hänen kanssaan tai kerro opettajalle."},"ulkoiset":{},"valmis_teksti":"Hienoa! Tunnistat kemikaalien varoitusmerkit, tiedät, miten kemikaalit säilytetään turvallisesti, ja osaat toimia myrkytyksessä: et oksennuta, soitat Myrkytystietokeskukseen ja tarvittaessa 112."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

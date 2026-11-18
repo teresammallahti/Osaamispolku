@@ -1,0 +1,524 @@
+<title>Työkerta kerrallaan · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KS6-DOK-01","oppiaine":"KS","vuosiluokka":6,"taitoalue":"DOK","jakso":"J2","taso":"ydin","otsikko":"Työkerta kerrallaan","kuvaus":"Osaan dokumentoida käsityöprosessia jokaisella työkerralla portfoliooni ja tehdä väliarvion, jonka perusteella muutan työskentelyäni.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T2","T7"],"S":["S6"]},"ikoni":"aikajana","eyebrow":"Käsityö · 6. luokka · Dokumentointi ja oman työn arviointi","naytto":"Jatkan 5. luokalla aloitettua portfoliota. Jokaisen vaatetyön työkerran lopuksi kirjaan päiväyksen, mitä tein, kuvan tai piirroksen siitä vaiheesta ja seuraavan askeleen. Työn puolivälissä kirjoitan väliarvion: mikä työvaihe onnistui, mikä on jäljessä tai ei onnistunut ja mitä teen toisin seuraavilla kerroilla.","osaa_kun":"Merkintöjä on jokaiselta työkerralta, jolla olin paikalla, ja jokainen on tehty sillä kerralla eikä jälkikäteen (päiväys ja kuva samasta vaiheesta); väliarvion muutos on teko (esimerkiksi harsin ennen konetta, mittaan saumanvaran ennen ompelua) ja se näkyy seuraavissa merkinnöissä. Ero 5. luokkaan: dokumentointi tehdään prosessin aikana eikä yhtenä sivuna valmiista työstä.","teksti":[{"tyyppi":"johdanto","sisalto":"Viidennellä luokalla kokosit valmiista työstä portfoliosivun: suunnitelma, vaiheet, ongelma ja valmis työ. Sivu tehtiin jälkikäteen, kun työ oli jo valmis. Vaateompelu kestää monta viikkoa, ja viikon päästä on vaikea muistaa, mitä viime kerralla tapahtui ja mistä piti jatkaa. Kuudennella luokalla portfolio kulkee työn mukana: jokaisen työkerran lopussa kirjaat siihen lyhyen merkinnän. Työn puolivälissä pysähdyt ja kirjoitat väliarvion, ja sen perusteella muutat jotain siinä, miten teet työtä loppuun. Portfoliosta näkyy silloin, mitä teit ja miten työskentelysi kehittyi työn aikana."},{"tyyppi":"kappale","otsikko":"Merkintä on muistiinpano itsellesi","sisalto":"Työkerran merkinnässä on neljä osaa: päiväys, mitä teit, kuva tai piirros siitä vaiheesta ja seuraava askel. \"Mitä teit\" kerrotaan työvaiheena, jonka toinen ompelija tunnistaa: ompelin sisäsaumat, leikkasin kuminauhan, silitin kujan käänteet. Kuva otetaan samalla kerralla siitä, mitä teit, ei valmiista vaatteesta. Selitteen kirjoittamisen osaat jo 5. luokalta, joten tässä riittää lyhyt selite. Seuraava askel on tärkein osa. Kun avaat portfolion ensi viikolla, se kertoo, mistä jatkat, eikä aikaa kulu arvailuun. Merkintä on lyhyt, ja se tehdään tunnin lopussa."},{"tyyppi":"kuva","otsikko":"Yhden työkerran merkintä","svg":"<svg viewBox=\"0 0 560 300\" role=\"img\" aria-label=\"Malli yhden työkerran portfoliomerkinnästä\"><rect class=\"v-osa\" x=\"20\" y=\"10\" width=\"520\" height=\"280\" rx=\"8\"/><text x=\"40\" y=\"38\" class=\"v-t vahva\" text-anchor=\"start\">Työkerta 4 · 21.10.</text><rect class=\"v-osa v1\" x=\"40\" y=\"52\" width=\"270\" height=\"74\" rx=\"4\"/><text x=\"54\" y=\"74\" class=\"v-t vahva\" text-anchor=\"start\">Tein tänään:</text><text x=\"54\" y=\"94\" class=\"v-t pieni\" text-anchor=\"start\">Ompelin kummankin lahkeen sisäsauman</text><text x=\"54\" y=\"109\" class=\"v-t pieni\" text-anchor=\"start\">1 cm:n saumanvaralla ja huolittelin ne.</text><rect class=\"v-osa\" x=\"330\" y=\"52\" width=\"190\" height=\"150\" rx=\"4\"/><line class=\"v-apu\" x1=\"330\" y1=\"52\" x2=\"520\" y2=\"202\"/><line class=\"v-apu\" x1=\"520\" y1=\"52\" x2=\"330\" y2=\"202\"/><text x=\"425\" y=\"222\" class=\"v-t pieni\" text-anchor=\"middle\">Kuva: lahje nurjalta,</text><text x=\"425\" y=\"237\" class=\"v-t pieni\" text-anchor=\"middle\">siksak saumanvarassa</text><rect class=\"v-osa v1\" x=\"40\" y=\"136\" width=\"270\" height=\"66\" rx=\"4\"/><text x=\"54\" y=\"158\" class=\"v-t vahva\" text-anchor=\"start\">Seuraava askel:</text><text x=\"54\" y=\"178\" class=\"v-t pieni\" text-anchor=\"start\">Pujotan lahkeen toisen sisään ja</text><text x=\"54\" y=\"193\" class=\"v-t pieni\" text-anchor=\"start\">kohdistan sisäsaumat haaraan.</text><text x=\"40\" y=\"268\" class=\"v-t pieni\" text-anchor=\"start\">Päiväys, tehty työvaihe, kuva samasta vaiheesta ja seuraava askel.</text></svg>","teksti":"Keksitty esimerkki pyjamahousujen neljänneltä työkerralta. Merkintä on lyhyt, mutta siitä näkyy, mitä tehtiin ja mistä jatketaan."},{"tyyppi":"taulukko","otsikko":"Heikko ja toimiva merkintä","otsikkorivi":["Heikko","Mitä siitä puuttuu","Toimiva"],"rivit":[["Ompelin.","Mikä työvaihe? Lukija ei tiedä, mitä on valmiina.","Ompelin haarasauman ja huolittelin sen siksakilla."],["Seuraavaksi jatkan.","Ei kerro, mistä jatketaan.","Seuraavaksi silitän saumanvarat ja taitan vyötärön kujan."],["(Kuva valmiista housuista lisätty viimeisellä tunnilla.)","Kuva ei ole samasta vaiheesta eikä samalta kerralta.","Kuva haarasaumasta nurjalta puolelta samalla tunnilla."],["Tänään meni huonosti.","Tunne, ei havaintoa.","Sisäsaumat eivät kohdanneet haarassa. Ratkoin 5 cm ja ompelin uudelleen."]]},{"tyyppi":"kappale","otsikko":"Miksi heti eikä jälkikäteen","sisalto":"Kun kirjoitat merkinnän samalla tunnilla, muistat yksityiskohdat: millä saumanvaralla ompelit, mikä meni pieleen ja mitä korjasit. Jos kirjoitat kaikki merkinnät viimeisellä tunnilla, ne ovat arvauksia, ja ne näyttävät samanlaisilta. Päiväys ja kuva samasta vaiheesta osoittavat, että merkintä on tehty sillä kerralla. Jos olit poissa, sille kerralle ei tule merkintää, eikä sitä tarvitse keksiä. Jos merkintä jäi tekemättä, älä kirjoita sitä myöhemmin muistinvaraisesti, vaan tee seuraava merkintä taas omalla kerrallaan."},{"tyyppi":"kappale","otsikko":"Väliarvio työn puolivälissä","sisalto":"Kun noin puolet työstä on tehty, esimerkiksi haarasauma on ommeltu ja kuja on vielä tekemättä, lue omat merkintäsi läpi ja kirjoita väliarvio kolmeen kysymykseen. Mikä työvaihe onnistui? Nimeä vaihe ja se, mistä onnistumisen näkee. Mikä on jäljessä tai ei onnistunut? Nimeä vaihe ja se, mitä tapahtui. Mitä teen toisin seuraavilla kerroilla? Tähän vastaat teolla, jonka voi nähdä sinun tekevän: harsin saumat käsin ennen konetta, mittaan saumanvaran ennen kuin kiinnitän, otan koneen ensimmäiseksi, kun se on vapaa, kysyn ohjetta ennen kuin ompelen enkä vasta jälkeenpäin. \"Yritän olla huolellisempi\" ei ole teko, koska kukaan ei näe, milloin yrität."},{"tyyppi":"kuva","otsikko":"Merkinnät ja väliarvio aikajanalla","svg":"<svg viewBox=\"0 0 620 220\" role=\"img\" aria-label=\"Aikajana työkerroista: väliarvio puolivälissä ja muutos näkyy sen jälkeisissä merkinnöissä\"><line class=\"v-akseli\" x1=\"30\" y1=\"90\" x2=\"600\" y2=\"90\"/><circle class=\"v-osa v1\" cx=\"60\" cy=\"90\" r=\"13\"/><text x=\"60\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">1</text><circle class=\"v-osa v1\" cx=\"125\" cy=\"90\" r=\"13\"/><text x=\"125\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">2</text><circle class=\"v-osa v1\" cx=\"190\" cy=\"90\" r=\"13\"/><text x=\"190\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">3</text><circle class=\"v-osa v1\" cx=\"255\" cy=\"90\" r=\"13\"/><text x=\"255\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">4</text><circle class=\"v-osa v1\" cx=\"375\" cy=\"90\" r=\"13\"/><text x=\"375\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">5</text><circle class=\"v-osa\" cx=\"440\" cy=\"90\" r=\"13\"/><text x=\"440\" y=\"125\" class=\"v-t pieni\" text-anchor=\"middle\">poissa</text><text x=\"440\" y=\"140\" class=\"v-t pieni\" text-anchor=\"middle\">(ei merkintää)</text><text x=\"440\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">6</text><circle class=\"v-osa v1\" cx=\"505\" cy=\"90\" r=\"13\"/><text x=\"505\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">7</text><circle class=\"v-osa v1\" cx=\"570\" cy=\"90\" r=\"13\"/><text x=\"570\" y=\"95\" class=\"v-t vahva\" text-anchor=\"middle\">8</text><rect class=\"v-osa\" x=\"292\" y=\"62\" width=\"50\" height=\"56\" rx=\"4\"/><text x=\"317\" y=\"86\" class=\"v-t pieni\" text-anchor=\"middle\">väli-</text><text x=\"317\" y=\"101\" class=\"v-t pieni\" text-anchor=\"middle\">arvio</text><text x=\"157\" y=\"40\" class=\"v-t pieni\" text-anchor=\"middle\">merkintä jokaisen työkerran lopussa</text><line class=\"v-apu\" x1=\"375\" y1=\"56\" x2=\"570\" y2=\"56\"/><text x=\"472\" y=\"40\" class=\"v-t pieni\" text-anchor=\"middle\">muutos näkyy merkinnöissä 5, 7 ja 8</text><text x=\"317\" y=\"180\" class=\"v-t pieni\" text-anchor=\"middle\">Väliarvio: mikä onnistui, mikä on jäljessä, mitä teen toisin.</text><text x=\"317\" y=\"198\" class=\"v-t pieni\" text-anchor=\"middle\">Esimerkiksi: harsin kujan käänteen käsin ennen konetta.</text></svg>","teksti":"Jokaiselta kerralta, jolla oppilas oli paikalla, on merkintä. Väliarvion muutos näkyy sen jälkeen tehdyissä merkinnöissä."},{"tyyppi":"kappale","otsikko":"Muutos näkyy seuraavissa merkinnöissä","sisalto":"Väliarvio ei ole valmis, kun se on kirjoitettu. Se on valmis, kun teet sen, mitä lupasit. Jos kirjoitit, että harsit saumat ennen konetta, seuraavissa merkinnöissä lukee esimerkiksi: \"Harsin kujan käänteen ja ompelin sen koneella.\" Voit myös lisätä merkinnän loppuun lyhyen huomion siitä, auttoiko muutos. Jos muutos ei auttanut, kirjoita se ja kokeile toista tekoa. Sekin on työskentelyn muuttamista."},{"tyyppi":"saanto","otsikko":"Näin teet työkerran merkinnän","askeleet":["Ota kuva tai piirrä vaihe, jonka teit tällä kerralla, ennen kuin pakkaat työn. Kuvassa ei näy kasvoja eikä muiden töitä.","Kirjoita päiväys ja työkerran numero.","Kirjoita, mitä teit, työvaiheen nimellä.","Kirjoita seuraava askel niin tarkasti, että tiedät ensi kerralla heti, mistä aloitat.","Jos teit väliarvion, tarkista, näkyykö muutos tämän kerran merkinnässä.","Tallenna merkintä opettajan ohjeen mukaan samaan portfolioon, jonka aloitit 5. luokalla."]},{"tyyppi":"ansa","otsikko":"Ansa 1: kaikki merkinnät viimeisellä tunnilla","sisalto":"Tunnin lopussa on kiire siivota, ja merkintä tuntuu siltä, että sen ehtii myöhemmin. Viimeisellä tunnilla merkintöjä on kuusi, ja niistä tulee lyhyitä ja samanlaisia, kuvat puuttuvat tai ne ovat valmiista vaatteesta. Silloin portfolio ei näytä prosessia. Jätä merkinnälle aikaa ennen siivousta: ensin kuva, sitten kolme lausetta, sitten siivous."},{"tyyppi":"ansa","otsikko":"Ansa 2: väliarvion muutos on toive","sisalto":"\"Keskityn paremmin\", \"yritän ommella suorempaan\" ja \"teen enemmän\" kuulostavat muutoksilta, mutta niistä ei näe, mitä teet toisin. Kysy itseltäsi: mitä käteni tekevät eri tavalla ensi kerralla? Jos et keksi vastausta, katso merkinnöistä vaihe, joka oli jäljessä, ja mieti, mikä teko olisi auttanut siinä."},{"tyyppi":"ansa","otsikko":"Ansa 3: väliarvio jää irralliseksi","sisalto":"Väliarvio kirjoitetaan, ja sen jälkeen merkinnät jatkuvat kuin sitä ei olisi ollut. Lue väliarviosi seuraavalla työkerralla ensimmäiseksi ja aloita työ tekemällä se, mitä lupasit. Kirjoita merkintään, että teit sen."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Merkintä joka kerralla, jolla olet paikalla: päiväys, mitä tein, kuva samasta vaiheesta, seuraava askel.","Merkintä tehdään samalla tunnilla, ennen siivousta.","Väliarvio puolivälissä: mikä onnistui, mikä on jäljessä, mitä teen toisin.","Muutos on teko, jonka voi nähdä: harsin, mittaan, kysyn ennen.","Muutos näkyy seuraavissa merkinnöissä.","Ei kasvoja eikä muiden töitä kuvissa."]}],"kokeet":[],"tuntirunko":{"kesto":"45 min (tunti, jolla väliarvio tehdään; muilla vaatetyön tunneilla merkintään varataan tunnin lopusta noin 5 minuuttia)","sanottava_aaneen":"Merkintä ennen siivousta: päiväys, mitä tein, kuva, seuraava askel. Väliarvion muutos on teko, ja sen pitää näkyä seuraavissa merkinnöissä.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Näytä kaksi keksittyä merkintäsarjaa: toisessa kaikki merkinnät samana päivänä ilman vaihekuvia, toisessa merkintä joka kerralta ja väliarvion muutos näkyvissä myöhemmissä merkinnöissä. Kysy, kummasta näkee, miten tekijän työskentely muuttui."},{"aika":"8 min","otsikko":"Ydinasia","sisalto":"Käy läpi väliarvion kolme kysymystä. Kirjoita taululle toivemuotoisia muutoksia (\"yritän olla huolellisempi\") ja muuttakaa ne yhdessä teoiksi."},{"aika":"12 min","otsikko":"Väliarvio (näyttö)","sisalto":"Oppilaat lukevat omat merkintänsä ja kirjoittavat väliarvion. Kierrä ja tarkista muutoskohta: onko se teko, jonka voi nähdä? Kirjaa jokaisen oppilaan muutos itsellesi, jotta voit seurata, näkyykö se seuraavissa merkinnöissä."},{"aika":"15 min","otsikko":"Työskentely","sisalto":"Oppilaat jatkavat vaatetyötä ja aloittavat muutoksen jo tällä tunnilla, jos mahdollista."},{"aika":"5 min","otsikko":"Merkintä","sisalto":"Kuva ja merkintä ennen siivousta. Muistuta, että muutoksen pitää näkyä tässä tai seuraavissa merkinnöissä."}],"tarvikkeet":"Oppilaiden portfoliot (sähköinen tai paperinen, sama kuin 5. luokalla), koulun laitteet kuvaamiseen tai kynät piirtämiseen, vaatetyöt. Opettajalle kaksi keksittyä merkintäsarjaa vertailuun ja oma seurantalista: oppilas, merkintöjen määrä suhteessa läsnäolokertoihin, väliarvion muutos ja näkyykö se."},"havainnointikriteerit":[{"virhe":"Merkinnät on kirjoitettu samana päivänä työn lopussa: päiväykset puuttuvat tai ovat samat, kuvat ovat valmiista vaatteesta tai puuttuvat.","tehtava":"Näyttö: merkinnät työkerroittain","mita_kertoo":"Oppilas tekee dokumentoinnin 5. luokan tapaan valmiista työstä. Kriteerin ero 5. luokkaan, eli dokumentointi prosessin aikana, ei täyty.","mita_tehda":"Varaa merkinnälle aika ennen siivousta ja tarkista merkintä tunnin lopussa muutaman viikon ajan. Kriteeri havainnoidaan uudelleen jäljellä olevilta työkerroilta; aiemmille kerroille ei keksitä merkintöjä."},{"virhe":"Merkinnässä lukee pelkkä \"ompelin\" tai \"jatkoin\", tai kuva ja teksti ovat eri vaiheesta.","tehtava":"Näyttö: merkinnän sisältö","mita_kertoo":"Oppilas kirjaa, että työskenteli, mutta ei mitä teki. Merkinnästä ei voi päätellä, missä työ on menossa.","mita_tehda":"Kysy: mikä työvaihe on nyt valmis, jota ei ollut tunnin alussa? Pyydä kirjoittamaan se työvaiheen nimellä ja ottamaan kuva juuri siitä kohdasta."},{"virhe":"Seuraava askel puuttuu tai on ylimalkainen (\"jatkan ensi kerralla\").","tehtava":"Näyttö: seuraava askel","mita_kertoo":"Oppilas ei vielä käytä merkintää oman työn suunnitteluun. Seuraava askel on se osa, joka tekee portfoliosta työvälineen.","mita_tehda":"Avaa seuraavan tunnin alussa oppilaan edellinen merkintä ja kysy, tietääkö hän siitä, mistä aloittaa. Pyydä kirjoittamaan seuraava askel uudelleen työohjeen vaiheen nimellä."},{"virhe":"Väliarviossa on vain onnistumiset, tai jäljessä oleva vaihe selitetään koneella, kaverilla tai ajalla nimeämättä, mitä tapahtui.","tehtava":"Näyttö: väliarvio","mita_kertoo":"Oppilas ei vielä tarkastele omaa työskentelyään vaan lopputulosta tai olosuhteita. Ilman jäljessä olevaa vaihetta muutokselle ei ole perustetta.","mita_tehda":"Käykää merkinnät yhdessä läpi ja etsikää kohta, jossa jotain ratkottiin tai jäi kesken. Kysy, mitä siinä tapahtui juuri ennen."},{"virhe":"Väliarvion muutos on toive tai luonteenpiirre (\"yritän olla huolellisempi\", \"keskityn\"), ei teko.","tehtava":"Näyttö: väliarvion muutos","mita_kertoo":"Oppilas tietää, että jotain pitää muuttaa, mutta ei vielä osaa muuttaa sitä toiminnaksi. Kriteerin mukaan muutos on teko.","mita_tehda":"Kysy: mitä kätesi tekevät ensi kerralla eri tavalla? Anna valittavaksi esimerkkejä (harsiminen, saumanvaran mittaaminen, kone heti tunnin alussa, ohjeen kysyminen ennen ompelua) ja pyydä valitsemaan se, joka sopii jäljessä olevaan vaiheeseen."},{"virhe":"Väliarvion muutos ei näy yhdessäkään sen jälkeisessä merkinnässä.","tehtava":"Näyttö: muutoksen näkyminen","mita_kertoo":"Väliarvio on jäänyt kirjoitustehtäväksi eikä ole ohjannut työskentelyä. Kriteerin viimeinen osa ei täyty.","mita_tehda":"Muistuta muutoksesta seuraavan tunnin alussa ja pyydä tekemään se ensimmäisenä. Kriteeri täyttyy, kun muutos näkyy vähintään yhdessä myöhemmässä merkinnässä. Jos muutos osoittautui hyödyttömäksi ja oppilas vaihtoi sen toiseen tekoon ja kirjasi sen, kriteeri täyttyy."}],"opettajalle":{"kesto":"Merkintä noin 5 minuuttia jokaisen vaatetyön tunnin lopussa jaksoissa J1–J2 (KS6-PEH-01 ja KS6-PEH-02) ja yksi tunti väliarviolle työn puolivälissä. Näyttö arvioidaan portfoliosta, kun vaatetyö on valmis.","huomiot":["Arvioinnin kohde: merkintä jokaiselta työkerralta, jolla oppilas oli paikalla, ja jokainen tehty sillä kerralla (päiväys ja kuva samasta vaiheesta); väliarviossa onnistunut vaihe, jäljessä oleva vaihe ja muutos tekona; muutos näkyy myöhemmissä merkinnöissä. Kirjoitusasua, kuvien laatua tai vaatteen onnistumista ei arvioida.","Poissaolot: poissaolokerroille ei tule merkintää eikä niitä lasketa puutteeksi. Kartan kriteeri ei hyväksy jälkikäteen tehtyjä merkintöjä. Jos merkintä puuttuu kerralta, jolla oppilas oli paikalla, sitä ei keksitä jälkikäteen; tarkista merkinnät tunnin lopussa, jotta puutteita ei synny. Miten yksi puuttuva merkintä vaikuttaa näyttöön, on kirjattu avoimeksi asiaksi.","Varamuodot: piirros käy kuvan sijasta, ja merkinnän voi sanella opettajalle tai tallentaa äänenä, jos kirjoittaminen on oppilaalle kohtuuttoman raskasta. Paperiportfolio on yhtä hyvä kuin sähköinen.","Tietosuoja: kuvissa ei näy kasvoja, nimilappuja eikä muiden oppilaiden töitä. Osaamispolku-järjestelmään ei tallenneta portfoliota; se säilytetään koulun portfolioalustalla tai paperisena koulun käytännön mukaan.","Taito nojaa 5. luokan portfoliotaitoon (KS5-DOK-01, selite ja ongelma tekona) eikä toista sitä. Laitteen käyttö kolmessa vaiheessa on vahvistavan taidon KS6-DOK-03 asia, ja vertaispalaute ja oman tuotteen tarkastelu tulevat taidossa KS6-DOK-02.","Tarkistettava: Espoon opetussuunnitelman 6. luokan näkökulma on \"jatketaan portfolion kokoamista\". Tarkista koulun käytäntö portfolioalustasta ja siitä, miten 5. luokalla aloitettu portfolio on tallessa."]},"huoltajalle":{"mista_on_kyse":"Lapsi dokumentoi käsityötä koko vaatetyön ajan: jokaisen työkerran lopussa hän kirjaa portfolioon päiväyksen, tekemänsä työvaiheen, kuvan tai piirroksen siitä ja seuraavan askeleen. Työn puolivälissä hän kirjoittaa väliarvion: mikä onnistui, mikä on jäljessä ja mitä hän tekee toisin. Arvioinnissa katsotaan, että merkinnät on tehty työn aikana ja että väliarvion muutos näkyy myöhemmissä merkinnöissä. Tämä on 6. luokan perustaito.","kotona":["Kysy lapselta, mihin vaatetyö jäi viime kerralla ja mistä hän jatkaa seuraavaksi.","Kysy, mitä hän päätti väliarviossa tehdä toisin ja onko hän jo tehnyt sen.","Kun jokin pitkä tekeminen on puolivälissä, esimerkiksi koulutyö tai harrastus, kysykää yhdessä: mikä on mennyt hyvin, mikä on jäljessä ja mitä voisi tehdä toisin?"],"milloin_huolestua":"Jos lapsi kertoo, että merkinnät jäävät toistuvasti tekemättä tai hän ei tiedä, mitä niihin kirjoittaisi, kerro siitä opettajalle. Opettaja voi varata tunnin lopusta enemmän aikaa tai antaa mallin."},"ulkoiset":{},"valmis_teksti":"Dokumentoit vaatetyösi jokaisella työkerralla ja teit väliarvion, jonka perusteella muutit työskentelyäsi. Portfoliostasi näkyy, miten työ eteni ja miten sinä kehityit sen aikana. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

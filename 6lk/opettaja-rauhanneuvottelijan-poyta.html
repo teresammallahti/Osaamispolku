@@ -1,0 +1,524 @@
+<title>Rauhanneuvottelijan pöytä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ET6-YHD-03","oppiaine":"ET","vuosiluokka":6,"taitoalue":"YHD","jakso":"J2","taso":"vahvistava","otsikko":"Rauhanneuvottelijan pöytä","kuvaus":"Osaan kertoa Martti Ahtisaaren rauhantyöstä, selittää hyvän neuvottelijan taitoja ja käyttää niitä keksityn kiistan sovittelussa.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T1"],"S":["S3"]},"ikoni":"keskustelu","eyebrow":"Elämänkatsomustieto · 6. luokka · Ihmisoikeudet ja yhdenvertaisuus","naytto":"Kirjallinen tehtävä. 1) Kerron kaksi esimerkkiä Martti Ahtisaaren rauhantyöstä opettajan aineiston pohjalta. 2) Selitän kolme hyvän neuvottelijan taitoa. 3) Luen keksityn kiistan (Saarelan ja Niemelän kylät kiistelevät yhteisen rannan käytöstä: toiset haluavat uimarannan, toiset venerannan) ja kirjoitan sovittelijan suunnitelman: mitä kysyn kummaltakin osapuolelta, mitkä ovat osapuolten tarpeet ja millainen ratkaisu voisi sopia molemmille.","osaa_kun":"Esimerkit ovat oikein (esim. Namibian itsenäistyminen 1990, Acehin rauhansopimus Helsingissä 2005, Nobelin rauhanpalkinto 2008). Neuvottelijan taitoihin kuuluu molempien osapuolten kuunteleminen, puolueettomuus ja ratkaisun etsiminen, jossa kumpikin saa jotain. Suunnitelmassa kysymykset selvittävät tarpeita eivätkä syyllistä, ja ratkaisu ottaa huomioon kummankin kylän tarpeen.","teksti":[{"tyyppi":"johdanto","sisalto":"Lehtolan koulun pihalle on tehty uusi asfalttikenttä. Jo ensimmäisellä viikolla siitä syntyy riita. 6A haluaa pelata kentällä jalkapalloa, ja 4B haluaa hyppiä narua ja ruutua. Molemmat ryhmät huutavat: \"Kenttä on meidän!\" Oppilaskunnan hallituksen Vilja lupaa auttaa. Hän ei päätä, kumpi ryhmä on oikeassa. Hän kysyy kummaltakin ryhmältä samat kysymykset: \"Mihin tarvitsette kenttää? Mikä siinä on teille tärkeintä?\" Vastauksista selviää, että 6A tarvitsee kuivan paikan pelata, kun nurmikenttä on märkä, ja 4B tarvitsee tasaisen alustan ja paikan, jossa pallo ei osu. Kenttä jaetaan kahtia, ja pallopelin puolelle tulee matala aita. Kumpikin ryhmä saa sen, mitä se todella tarvitsee. Samoja taitoja tarvitaan, kun sovitellaan kiistoja valtioiden ja kansojen välillä. Suomalainen Martti Ahtisaari teki tätä työtä yli 30 vuoden ajan. Tässä taidossa opit, mitä hän teki, millainen on hyvä neuvottelija ja miten sovittelija suunnittelee työnsä."},{"tyyppi":"kappale","otsikko":"Kuka oli Martti Ahtisaari","sisalto":"Martti Ahtisaari (1937–2023) oli suomalainen diplomaatti ja Suomen tasavallan presidentti vuosina 1994–2000. Diplomaatti on henkilö, joka hoitaa valtioiden välisiä suhteita ja neuvotteluja. Ahtisaari työskenteli pitkään YK:n tehtävissä ja auttoi ratkaisemaan aseellisia kiistoja eri puolilla maailmaa. Presidenttikautensa jälkeen hän perusti rauhanjärjestön, joka tunnetaan lyhenteellä CMI. Ahtisaaren työtapa oli rauhanneuvottelu ja sovittelu. Hän ei itse määrännyt, miten kiista ratkaistaan, vaan auttoi riidan osapuolia löytämään ratkaisun, johon molemmat sitoutuvat. Ahtisaaren mukaan kaikki kiistat voidaan ratkaista, kun osapuolet todella haluavat rauhaa ja kun niitä autetaan neuvottelemaan."},{"tyyppi":"taulukko","otsikko":"Kolme esimerkkiä Ahtisaaren rauhantyöstä","otsikkorivi":["Esimerkki","Mistä oli kyse","Mitä Ahtisaari teki"],"rivit":[["Namibia itsenäistyi 1990","Namibia Afrikan lounaisosassa oli pitkään naapurimaansa Etelä-Afrikan hallitsema, ja itsenäisyydestä taisteltiin vuosia.","Hän johti YK:n operaatiota, joka valvoi Namibian siirtymistä itsenäisyyteen ja maan ensimmäisiä vapaita vaaleja."],["Acehin rauhansopimus Helsingissä 2005","Indonesian Acehin maakunnassa Indonesian hallitus ja Vapaa Aceh -liike olivat taistelleet vuosikymmeniä.","Hän toimi neuvottelujen puheenjohtajana ja sovittelijana. Rauhansopimus allekirjoitettiin Helsingissä."],["Nobelin rauhanpalkinto 2008","Palkinto annetaan työstä rauhan hyväksi.","Hän sai palkinnon tärkeästä työstään kansainvälisten kiistojen ratkaisemiseksi useilla mantereilla yli 30 vuoden ajan."]]},{"tyyppi":"kuva","otsikko":"Aikajana: Ahtisaaren rauhantyö","svg":"<svg viewBox=\"0 0 620 240\" role=\"img\" aria-label=\"Aikajana vuosista 1985–2010: Namibia itsenäistyy 1990, Ahtisaari Suomen presidenttinä 1994–2000, Acehin rauhansopimus Helsingissä 2005 ja Nobelin rauhanpalkinto 2008\"><line class=\"v-akseli\" x1=\"40\" y1=\"120\" x2=\"590\" y2=\"120\"/><line class=\"v-akseli\" x1=\"40\" y1=\"114\" x2=\"40\" y2=\"126\"/><text class=\"v-t pieni\" x=\"40\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">1985</text><line class=\"v-akseli\" x1=\"150\" y1=\"114\" x2=\"150\" y2=\"126\"/><text class=\"v-t pieni\" x=\"150\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">1990</text><line class=\"v-akseli\" x1=\"260\" y1=\"114\" x2=\"260\" y2=\"126\"/><text class=\"v-t pieni\" x=\"260\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">1995</text><line class=\"v-akseli\" x1=\"370\" y1=\"114\" x2=\"370\" y2=\"126\"/><text class=\"v-t pieni\" x=\"370\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">2000</text><line class=\"v-akseli\" x1=\"480\" y1=\"114\" x2=\"480\" y2=\"126\"/><text class=\"v-t pieni\" x=\"480\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">2005</text><line class=\"v-akseli\" x1=\"590\" y1=\"114\" x2=\"590\" y2=\"126\"/><text class=\"v-t pieni\" x=\"590\" y=\"142\" text-anchor=\"middle\" style=\"font-size:11px\">2010</text><rect class=\"v-osa\" x=\"238\" y=\"152\" width=\"132\" height=\"16\" rx=\"3\"/><text class=\"v-t pieni\" x=\"304.0\" y=\"186\" text-anchor=\"middle\" style=\"font-size:11px\">Suomen presidentti 1994–2000</text><line class=\"v-apu\" x1=\"150\" y1=\"76\" x2=\"150\" y2=\"114\"/><circle class=\"v-merkki\" cx=\"150\" cy=\"120\" r=\"6\"/><text class=\"v-t vahva\" x=\"150\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">1990</text><text class=\"v-t\" x=\"150\" y=\"47\" text-anchor=\"middle\" style=\"font-size:12px\">Namibia itsenäistyy</text><text class=\"v-t\" x=\"150\" y=\"64\" text-anchor=\"middle\" style=\"font-size:12px\">YK:n operaation johtaja</text><line class=\"v-apu\" x1=\"480\" y1=\"76\" x2=\"480\" y2=\"114\"/><circle class=\"v-merkki\" cx=\"480\" cy=\"120\" r=\"6\"/><text class=\"v-t vahva\" x=\"480\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">2005</text><text class=\"v-t\" x=\"480\" y=\"47\" text-anchor=\"middle\" style=\"font-size:12px\">Acehin rauhansopimus</text><text class=\"v-t\" x=\"480\" y=\"64\" text-anchor=\"middle\" style=\"font-size:12px\">Helsingissä</text><circle class=\"v-merkki\" cx=\"546\" cy=\"120\" r=\"6\"/><line class=\"v-apu\" x1=\"546\" y1=\"126\" x2=\"546\" y2=\"196\"/><text class=\"v-t vahva\" x=\"546\" y=\"212\" text-anchor=\"middle\" style=\"font-size:12px\">2008</text><text class=\"v-t\" x=\"546\" y=\"229\" text-anchor=\"middle\" style=\"font-size:12px\">Nobelin rauhanpalkinto</text></svg>","teksti":"Aikajanalla yhden vuoden väli on yhtä pitkä kaikkialla. Rauhanpalkinto tuli kolme vuotta Acehin sopimuksen jälkeen."},{"tyyppi":"kappale","otsikko":"Neuvottelija ja sovittelija","sisalto":"Neuvottelussa riidan osapuolet keskustelevat keskenään ja etsivät ratkaisua, johon kumpikin voi suostua. Kun osapuolet eivät pääse sopuun kahdestaan, apuun kutsutaan sovittelija. Sovittelija on puolueeton kolmas osapuoli: hän ei kuulu kumpaankaan ryhmään eikä aja kummankaan etua. Sovittelija ei ole tuomari. Tuomari päättää, kumpi on oikeassa, mutta sovittelija auttaa osapuolia päättämään itse. Tästä on hyötyä: ratkaisu, jonka osapuolet ovat itse hyväksyneet, pitää yleensä paremmin kuin ratkaisu, joka on määrätty ulkopuolelta. Ahtisaari oli sovittelija. Hyvä sovittelija tarvitsee samoja taitoja kuin hyvä neuvottelija, ja vielä yhden lisää: hänen täytyy olla luotettava molempien osapuolten silmissä."},{"tyyppi":"kappale","otsikko":"Kanta ja tarve","sisalto":"Riidassa kumpikin osapuoli sanoo yleensä ääneen kantansa. Kanta on se, mitä vaaditaan: \"Koko kenttä jalkapallolle!\" Kannan takana on tarve, eli syy, miksi jotakin vaaditaan: kuiva paikka pelata. Kannat ovat usein vastakkain, koska kenttää ei voi antaa kokonaan kahdelle. Tarpeet taas voivat sopia yhteen: tasainen alue leikeille ja kuiva alue pallopelille mahtuvat samalle kentälle. Siksi hyvä sovittelija ei jää kiistelemään kannoista, vaan selvittää kysymällä, mitä kumpikin todella tarvitsee. Tarpeita voi olla monta, ja osapuoli ei aina itsekään ole sanonut niitä ääneen."},{"tyyppi":"kuva","otsikko":"Kanta näkyy, tarve on piilossa","svg":"<svg viewBox=\"0 0 620 250\" role=\"img\" aria-label=\"Kaksi ryhmää: vesirajan yläpuolella kummankin kanta, alapuolella kaksi tarvetta, jotka selittävät kannan\"><text class=\"v-t vahva\" x=\"310\" y=\"22\" text-anchor=\"middle\" style=\"font-size:13px\">Kiista pihan asfalttikentästä</text><line class=\"v-apu\" x1=\"10\" y1=\"108\" x2=\"610\" y2=\"108\"/><text class=\"v-t pieni\" x=\"14\" y=\"100\" text-anchor=\"start\" style=\"font-size:11px\">näkyy: kanta</text><text class=\"v-t pieni\" x=\"14\" y=\"124\" text-anchor=\"start\" style=\"font-size:11px\">piilossa: tarve</text><rect class=\"v-ruutu v1\" x=\"130\" y=\"40\" width=\"200\" height=\"58\" rx=\"8\"/><text class=\"v-t vahva\" x=\"230\" y=\"58\" text-anchor=\"middle\" style=\"font-size:12px\">6A</text><text class=\"v-t\" x=\"230\" y=\"76\" text-anchor=\"middle\" style=\"font-size:12px\">\"Koko kenttä</text><text class=\"v-t\" x=\"230\" y=\"93\" text-anchor=\"middle\" style=\"font-size:12px\">jalkapallolle!\"</text><rect class=\"v-osa\" x=\"130\" y=\"120\" width=\"200\" height=\"52\" rx=\"8\"/><text class=\"v-t\" x=\"230\" y=\"142\" text-anchor=\"middle\" style=\"font-size:12px\">Kuiva paikka pelata,</text><text class=\"v-t\" x=\"230\" y=\"159\" text-anchor=\"middle\" style=\"font-size:12px\">kun nurmi on märkä</text><rect class=\"v-osa\" x=\"130\" y=\"182\" width=\"200\" height=\"52\" rx=\"8\"/><text class=\"v-t\" x=\"230\" y=\"204\" text-anchor=\"middle\" style=\"font-size:12px\">Tilaa kahdelle</text><text class=\"v-t\" x=\"230\" y=\"221\" text-anchor=\"middle\" style=\"font-size:12px\">pienelle maalille</text><rect class=\"v-ruutu v1\" x=\"390\" y=\"40\" width=\"200\" height=\"58\" rx=\"8\"/><text class=\"v-t vahva\" x=\"490\" y=\"58\" text-anchor=\"middle\" style=\"font-size:12px\">4B</text><text class=\"v-t\" x=\"490\" y=\"76\" text-anchor=\"middle\" style=\"font-size:12px\">\"Koko kenttä</text><text class=\"v-t\" x=\"490\" y=\"93\" text-anchor=\"middle\" style=\"font-size:12px\">leikeille!\"</text><rect class=\"v-osa\" x=\"390\" y=\"120\" width=\"200\" height=\"52\" rx=\"8\"/><text class=\"v-t\" x=\"490\" y=\"142\" text-anchor=\"middle\" style=\"font-size:12px\">Tasainen alusta</text><text class=\"v-t\" x=\"490\" y=\"159\" text-anchor=\"middle\" style=\"font-size:12px\">narulle ja ruutuhypylle</text><rect class=\"v-osa\" x=\"390\" y=\"182\" width=\"200\" height=\"52\" rx=\"8\"/><text class=\"v-t\" x=\"490\" y=\"204\" text-anchor=\"middle\" style=\"font-size:12px\">Paikka, jossa</text><text class=\"v-t\" x=\"490\" y=\"221\" text-anchor=\"middle\" style=\"font-size:12px\">pallo ei osu</text></svg>","teksti":"Kannat ovat vastakkain, mutta tarpeet sopivat samalle kentälle."},{"tyyppi":"taulukko","otsikko":"Hyvän neuvottelijan taidot","otsikkorivi":["Taito","Mitä se tarkoittaa","Miltä se kuulostaa"],"rivit":[["Molempien kuunteleminen","Antaa kummankin kertoa asiansa loppuun ja tarkistaa, ymmärsikö oikein.","\"Ymmärsinkö oikein, että tärkeintä teille on…?\""],["Puolueettomuus","Ei asetu kummankaan puolelle. Kysyy molemmilta samat kysymykset ja puhuu molemmille samalla tavalla.","\"Kysyn teiltä saman kuin äsken heiltä.\""],["Tarpeiden selvittäminen","Kysyy, mitä varten osapuoli vaatii jotakin, eikä jää kiistelemään kannoista.","\"Mihin tarvitsette kenttää? Mikä siinä on teille tärkeää?\""],["Ratkaisu, jossa kumpikin saa jotain","Etsii yhdessä osapuolten kanssa vaihtoehtoja, jotka vastaavat molempien tarpeisiin.","\"Millainen ratkaisu sopisi teille molemmille?\""],["Luottamuksen rakentaminen","Puhuu asiallisesti, pitää lupauksensa eikä kerro toiselle osapuolelle, mitä hänelle on kerrottu luottamuksella.","\"Tämä jää meidän välillemme, ellette itse halua kertoa.\""],["Kärsivällisyys","Antaa neuvottelulle aikaa. Ei luovuta, vaikka ensimmäinen ehdotus ei kelpaa.","\"Tämä ei vielä sopinut. Mitä jos kokeillaan toista tapaa?\""]]},{"tyyppi":"kappale","otsikko":"Kysymykset, jotka selvittävät eivätkä syyllistä","sisalto":"Taidossa Katsomusdialogin taitaja opit tarkentavan, perustelua pyytävän ja avoimen kysymyksen. Sovittelija käyttää samoja kysymyksiä, mutta hänen tärkein tehtävänsä on löytää tarpeet. Hyvä sovittelijan kysymys kysyy, mitä varten, mikä on tärkeää ja mitä tapahtuisi, jos asia ei toteutuisi: \"Mitä tekisitte kentällä?\", \"Mikä nykyisessä tilanteessa on teille hankalinta?\", \"Mitä tarvitsisitte vähintään?\" Syyllistävä kysymys taas etsii syyllistä: \"Miksi te aina valtaatte koko kentän?\" Siihen ei voi vastata ilman puolustautumista, ja siksi se kiristää riitaa. Puolueeton sovittelija kysyy kummaltakin osapuolelta samat tai samanlaiset kysymykset."},{"tyyppi":"kuva","otsikko":"Sovittelun viisi vaihetta","svg":"<svg viewBox=\"0 0 620 140\" role=\"img\" aria-label=\"Sovittelun viisi vaihetta nuolin: kuuntele molempia, selvitä tarpeet, ideoi vaihtoehtoja, arvioi yhdessä, sopimus ja seuranta\"><rect class=\"v-osa\" x=\"6\" y=\"20\" width=\"104\" height=\"64\" rx=\"8\"/><text class=\"v-t\" x=\"58\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">1. Kuuntele</text><text class=\"v-t\" x=\"58\" y=\"63\" text-anchor=\"middle\" style=\"font-size:12px\">molempia</text><line class=\"v-akseli\" x1=\"112\" y1=\"52\" x2=\"120\" y2=\"52\"/><polygon class=\"v-nuoli\" points=\"128,52 120,48 120,56\"/><rect class=\"v-ruutu v1\" x=\"130\" y=\"20\" width=\"104\" height=\"64\" rx=\"8\"/><text class=\"v-t\" x=\"182\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">2. Selvitä</text><text class=\"v-t\" x=\"182\" y=\"63\" text-anchor=\"middle\" style=\"font-size:12px\">tarpeet</text><line class=\"v-akseli\" x1=\"236\" y1=\"52\" x2=\"244\" y2=\"52\"/><polygon class=\"v-nuoli\" points=\"252,52 244,48 244,56\"/><rect class=\"v-osa\" x=\"254\" y=\"20\" width=\"104\" height=\"64\" rx=\"8\"/><text class=\"v-t\" x=\"306\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">3. Ideoi</text><text class=\"v-t\" x=\"306\" y=\"63\" text-anchor=\"middle\" style=\"font-size:12px\">vaihtoehtoja</text><line class=\"v-akseli\" x1=\"360\" y1=\"52\" x2=\"368\" y2=\"52\"/><polygon class=\"v-nuoli\" points=\"376,52 368,48 368,56\"/><rect class=\"v-osa\" x=\"378\" y=\"20\" width=\"104\" height=\"64\" rx=\"8\"/><text class=\"v-t\" x=\"430\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">4. Arvioi</text><text class=\"v-t\" x=\"430\" y=\"63\" text-anchor=\"middle\" style=\"font-size:12px\">yhdessä</text><line class=\"v-akseli\" x1=\"484\" y1=\"52\" x2=\"492\" y2=\"52\"/><polygon class=\"v-nuoli\" points=\"500,52 492,48 492,56\"/><rect class=\"v-osa\" x=\"502\" y=\"20\" width=\"104\" height=\"64\" rx=\"8\"/><text class=\"v-t\" x=\"554\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">5. Sopimus</text><text class=\"v-t\" x=\"554\" y=\"63\" text-anchor=\"middle\" style=\"font-size:12px\">ja seuranta</text><text class=\"v-t pieni\" x=\"310\" y=\"112\" text-anchor=\"middle\" style=\"font-size:12px\">Sovittelija ohjaa keskustelua vaihe vaiheelta,</text><text class=\"v-t pieni\" x=\"310\" y=\"129\" text-anchor=\"middle\" style=\"font-size:12px\">mutta osapuolet itse päättävät ratkaisusta.</text></svg>","teksti":"Tarpeiden selvittäminen on vaihe, jota ilman sopimus jää helposti kannoista kiistelyksi."},{"tyyppi":"saanto","otsikko":"Näin kirjoitat sovittelijan suunnitelman","askeleet":["Kirjoita lyhyesti, mistä kiista on ja mikä on kummankin osapuolen kanta.","Kirjoita kummallekin osapuolelle kaksi tai kolme kysymystä, jotka selvittävät tarpeita. Kysy molemmilta samanlaiset kysymykset.","Tarkista jokainen kysymys: voiko siihen vastata joutumatta puolustautumaan? Jos ei, muuta se.","Kirjoita kummankin osapuolen tarpeet. Tarve kertoo, mitä varten jotakin vaaditaan, ei pelkkää vaatimusta.","Ideoi kaksi vaihtoehtoista ratkaisua.","Valitse ratkaisu ja kerro, miten se vastaa kummankin osapuolen tarpeeseen.","Lisää, miten sopimuksen pitämistä seurataan, esimerkiksi yhteinen tapaaminen kuukauden päästä."]},{"tyyppi":"taulukko","otsikko":"Esimerkki: suunnitelma pihan asfalttikentän kiistaan","otsikkorivi":["Suunnitelman osa","6A","4B"],"rivit":[["Kanta","Koko kenttä jalkapallolle","Koko kenttä leikeille"],["Kysymykset","Mitä teette kentällä? Miksi nurmikenttä ei käy? Kuinka paljon tilaa tarvitsette vähintään?","Mitä teette kentällä? Mikä nykyisessä tilanteessa on hankalinta? Kuinka paljon tilaa tarvitsette vähintään?"],["Tarpeet","Kuiva paikka pelata, kun nurmi on märkä; tilaa kahdelle pienelle maalille","Tasainen alusta narulle ja ruutuhypylle; turvallinen paikka, jossa pallo ei osu"],["Ratkaisu","Kentän toinen puoli pallopelille, väliin matala aita","Kentän toinen puoli leikeille, pallo ei lennä aidan yli"],["Seuranta","Yhteinen tapaaminen kuukauden päästä: toimiiko jako?","Sama tapaaminen: toimiiko jako?"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: sovittelija ryhtyy tuomariksi","sisalto":"\"Vilja päättää, että 6A saa kentän, koska he ovat vanhempia.\" Tämä ei ole sovittelua vaan tuomio, ja se perustuu lisäksi asiaan, jolla ei ole mitään tekemistä tarpeiden kanssa. Sovittelija ei valitse voittajaa. Hän auttaa osapuolia löytämään ratkaisun, johon molemmat suostuvat. Testi: päättivätkö osapuolet ratkaisusta itse, vai päättikö sovittelija heidän puolestaan?"},{"tyyppi":"ansa","otsikko":"Ansa 2: kysymys, joka syyllistää","sisalto":"\"Miksi te aina riitelette?\", \"Ettekö tajua, että pienet tarvitsevat tilaa?\" ja \"Kuka tämän aloitti?\" etsivät syyllistä tai kertovat kysyjän oman kannan. Ne eivät selvitä tarpeita, ja ne tekevät sovittelijasta toisen osapuolen liittolaisen. Muuta kysymys tarpeita selvittäväksi: \"Mikä tilanteessa on teille hankalinta?\" Testi: voiko kysymykseen vastata joutumatta puolustautumaan, ja kysyisitkö saman toiseltakin osapuolelta?"},{"tyyppi":"ansa","otsikko":"Ansa 3: tarpeen tilalla toistetaan kanta","sisalto":"\"6A:n tarve on saada koko kenttä.\" Tämä on sama asia kuin kanta, vain eri sanoin. Tarve kertoo, mitä varten kenttää halutaan: kuivan paikan pelata. Kun kirjoitat tarpeen, kysy itseltäsi: miksi he haluavat tätä? Vastaus on tarve."},{"tyyppi":"ansa","otsikko":"Ansa 4: puolitus ilman tarpeita","sisalto":"\"Kumpikin saa kentän joka toinen päivä.\" Ratkaisu kuulostaa reilulta, mutta tarkista, vastaako se tarpeisiin. 4B:n tarve oli paikka, jossa pallo ei osu. Jos 4B saa kentän vain joka toinen päivä, pallo osuu heihin taas muina päivinä nurmella. Hyvä ratkaisu ei ole automaattisesti puolet kummallekin. Se on ratkaisu, joka vastaa molempien tarpeisiin, ja joskus se löytyy vasta, kun tarpeet on selvitetty."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Martti Ahtisaari: YK:n operaatio Namibian itsenäistymisessä 1990, Acehin rauhansopimus Helsingissä 2005, Nobelin rauhanpalkinto 2008.","Sovittelija on puolueeton kolmas osapuoli. Hän ei ole tuomari: osapuolet päättävät itse.","Kanta on se, mitä vaaditaan. Tarve on syy, miksi sitä vaaditaan.","Hyvä neuvottelija kuuntelee molempia, on puolueeton ja etsii ratkaisun, jossa kumpikin saa jotain.","Hyvä kysymys selvittää tarpeita. Syyllistävä kysymys etsii syyllistä.","Kysy molemmilta osapuolilta samanlaiset kysymykset.","Hyvä ratkaisu vastaa kummankin tarpeeseen, ei vain jaa kaikkea puoliksi."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Ahtisaaren esimerkit ovat virheellisiä tai epämääräisiä: \"Hän lopetti kaikki sodat\", \"Hän oli YK:n pääsihteeri\", \"Acehin sopimus tehtiin Namibiassa\", tai esimerkkinä on pelkkä \"hän teki rauhaa\".","tehtava":"Osa 1: kaksi esimerkkiä Ahtisaaren rauhantyöstä","mita_kertoo":"Oppilas muistaa, että Ahtisaari teki rauhantyötä, mutta paikat, vuodet ja tehtävä ovat sekoittuneet tai jääneet yleisiksi. Kriteeri vaatii kaksi oikeaa esimerkkiä, joissa on paikka tai asia ja Ahtisaaren osuus. Vuosiluku auttaa, mutta pelkkä vuosiluvun virhe ei hylkää esimerkkiä, jos paikka ja Ahtisaaren tehtävä ovat oikein.","mita_tehda":"Anna oppilaan katsoa aineistoa uudelleen (taulukko Kolme esimerkkiä ja aikajana) ja pyydä täydentämään jokaiseen esimerkkiin kolme asiaa: missä, mitä tapahtui, mitä Ahtisaari teki. Esimerkin voi korjata ennen kuin muut osat arvioidaan."},{"virhe":"Neuvottelijan taidot ovat luonteenpiirteitä ilman selitystä (\"kiltti\", \"fiksu\", \"hyvä puhumaan\") tai tuomarin taitoja (\"päättää reilusti, kuka on oikeassa\").","tehtava":"Osa 2: kolme hyvän neuvottelijan taitoa","mita_kertoo":"Oppilas kuvaa mukavaa ihmistä tai oikeudenmukaista päättäjää, ei neuvottelijaa. Taito on jotain, mitä neuvottelija tekee ja minkä voi oppia. Kriteeriin kuuluvat molempien kuunteleminen, puolueettomuus ja ratkaisun etsiminen, jossa kumpikin saa jotain; kolmen taidon joukossa pitää olla nämä tai niitä vastaavat, ja jokainen pitää selittää.","mita_tehda":"Kysy: mitä kiltti neuvottelija tekee neuvottelussa? Pyydä muuttamaan piirre teoksi (\"kuuntelee molemmat loppuun\"). Jos oppilas kuvaa tuomaria, palaa ansaan 1 ja kysy, kuka päättää ratkaisusta sovittelussa."},{"virhe":"Suunnitelman kysymykset syyllistävät tai sisältävät oman kannan: \"Miksi te Niemelässä ette ajattele lapsia?\", \"Ettekö tajua, että veneet ovat vaarallisia?\"","tehtava":"Osa 3: mitä kysyn kummaltakin osapuolelta","mita_kertoo":"Oppilas on itse ottanut kantaa kiistassa ja kirjoittaa sen kysymyksen muotoon. Kriteerin mukaan kysymysten pitää selvittää tarpeita eikä syyllistää. Usein taustalla on se, että oppilas näkee toisen osapuolen tarpeen (esimerkiksi uimareiden turvallisuuden) tärkeämpänä, mikä on ymmärrettävää, mutta sovittelija ei voi kysyä niin.","mita_tehda":"Kysy: voisiko Niemelän edustaja vastata tähän joutumatta puolustautumaan? Pyydä muuttamaan kysymys muotoon \"Mitä varten…\", \"Mikä teille on tärkeää…\" tai \"Mikä tilanteessa on hankalinta…\". Turvallisuuden voi ottaa esiin kysymällä kummaltakin: \"Miten rannan käyttö olisi turvallista kaikille?\""},{"virhe":"Kysymykset kohdistuvat vain toiselle osapuolelle, tai toiselle esitetään avoimia ja toiselle syyllistäviä kysymyksiä.","tehtava":"Osa 3: mitä kysyn kummaltakin osapuolelta","mita_kertoo":"Puolueettomuus ei vielä näy oppilaan omassa suunnitelmassa, vaikka hän osaisi selittää sen osassa 2. Kriteeri vaatii kysymyksiä kummallekin. Tämä on yleinen ero tiedon ja soveltamisen välillä.","mita_tehda":"Pyydä asettamaan kysymykset rinnakkain kahteen sarakkeeseen ja tarkistamaan, kysyisikö saman myös toiselta. Viittaa taulukkoon Hyvän neuvottelijan taidot: \"Kysyn teiltä saman kuin äsken heiltä.\""},{"virhe":"Tarpeiden kohdalla toistetaan kanta: \"Saarelan tarve on uimaranta, Niemelän tarve on veneranta.\"","tehtava":"Osa 3: mitkä ovat osapuolten tarpeet","mita_kertoo":"Oppilas ei vielä erota kantaa ja tarvetta. Kriteeri vaatii osapuolten tarpeet, ja ilman niitä ratkaisu jää helposti valinnaksi kahden kannan välillä. Kertomuksessa on vihjeitä tarpeista (esimerkiksi matala hiekkapohja lapsille, syvempi vesi ja laituri veneille, turvallisuus).","mita_tehda":"Kysy kummastakin kylästä: miksi he haluavat tätä? Mitä he tekisivät rannalla? Pyydä etsimään kertomuksesta lauseet, jotka kertovat syyn, ja kirjoittamaan tarve niiden avulla. Kuva Kanta näkyy, tarve on piilossa auttaa."},{"virhe":"Ratkaisu antaa koko rannan toiselle kylälle, jättää toisen tarpeen huomiotta (esimerkiksi veneet ajavat uimapaikan läpi) tai sovittelija määrää ratkaisun perustelematta sitä tarpeilla.","tehtava":"Osa 3: millainen ratkaisu voisi sopia molemmille","mita_kertoo":"Oppilas ratkaisee kiistan valitsemalla voittajan tai jakamalla rannan mekaanisesti. Kriteeri vaatii, että ratkaisu ottaa huomioon kummankin kylän tarpeen. Uimareiden ja veneiden erottaminen on myös turvallisuuskysymys, joten ratkaisu, jossa veneet kulkevat uimapaikan läpi, ei vastaa Saarelan tarpeeseen.","mita_tehda":"Pyydä kirjoittamaan ratkaisun viereen kaksi lausetta: \"Tämä vastaa Saarelan tarpeeseen, koska…\" ja \"Tämä vastaa Niemelän tarpeeseen, koska…\". Jos jompaakumpaa ei voi kirjoittaa, ratkaisua pitää muuttaa. Hyväksy mikä tahansa ratkaisu, joka vastaa kumpaankin tarpeeseen; mallia ei ole."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Sovittelija ei päätä, kuka on oikeassa. Hän kysyy, mitä kumpikin todella tarvitsee, ja auttaa heitä löytämään ratkaisun itse.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: aloitus","sisalto":"Kerro johdannon tilanne pihan asfalttikentästä ilman ratkaisua. Kysy: miten tämän voisi ratkaista niin, ettei kumpikaan ryhmä häviä?"},{"aika":"15 min","otsikko":"Martti Ahtisaari","sisalto":"Käy läpi kappale Kuka oli Martti Ahtisaari, taulukko Kolme esimerkkiä ja aikajana. Näytä Namibia ja Indonesia maailmankartalta. Kysy: miksi rauhansopimus allekirjoitettiin Helsingissä eikä Acehissa? (Neuvottelut käytiin puolueettomassa paikassa.)"},{"aika":"10 min","otsikko":"Neuvottelija, sovittelija ja tuomari","sisalto":"Käy läpi kappaleet Neuvottelija ja sovittelija sekä Kanta ja tarve. Parit keksivät tutusta kiistasta (esimerkiksi kumpi elokuva katsotaan luokan juhlassa) yhden kannan ja sen takana olevan tarpeen."},{"aika":"15 min","otsikko":"Hyvän neuvottelijan taidot","sisalto":"Käy läpi taulukko Hyvän neuvottelijan taidot ja kappale Kysymykset, jotka selvittävät eivätkä syyllistä. Lue ääneen viisi kysymystä ja anna oppilaiden näyttää peukalolla, selvittääkö kysymys tarpeita vai syyllistääkö se. Muuttakaa syyllistävät yhdessä."},{"aika":"10 min","otsikko":"2. tunti: suunnitelman malli","sisalto":"Käy läpi sovittelun vaiheet, sääntö ja esimerkkisuunnitelma. Lue ansat 1–4 ja kysy jokaisen kohdalla, mitä Vilja olisi tehnyt väärin."},{"aika":"30 min","otsikko":"Näyttö: kirjallinen tehtävä","sisalto":"Jaa näytön kertomus Saarelan ja Niemelän rannasta. Oppilas kirjoittaa yksin osat 1–3. Kiertele ja havainnoi. Jos oppilas jää jumiin osassa 3, kysy: mitä Saarela tekisi rannalla?"},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Muutama vapaaehtoinen kertoo ratkaisunsa. Vertailkaa: vastasivatko eri ratkaisut samoihin tarpeisiin? Korosta, että hyviä ratkaisuja on monta."}],"tarvikkeet":"Näytön kertomus Saarelan ja Niemelän rannasta paperilla (teksti opettajan huomioissa). Maailmankartta tai karttapallo. Varakertomus uusintaa varten."},"opettajalle":{"kesto":"Kaksi oppituntia, 2 · 45 min: ensimmäisellä Ahtisaari ja neuvottelijan taidot, toisella sovittelijan suunnitelma ja näyttö.","huomiot":["Muoto: havainnointitaito, koska näyttö on kirjallinen tehtävä, jonka osa 3 on oppilaan oma suunnitelma. Sitä ei voi rinnakkaistaa viideksi koeversioksi. Kaikki kolme osaa arvioidaan saman tekstin perusteella. Näyttö on yksilötyö, joten läpäisy ei riipu toisesta oppilaasta. Varamuoto: oppilas kertoo osat suullisesti opettajalle, joka kirjaa vastaukset.","Osa 1 (kaksi esimerkkiä opettajan aineiston pohjalta): aineistoksi käyvät tämän materiaalin taulukko Kolme esimerkkiä ja aikajana. Hyväksytään mitkä tahansa kaksi oikeaa esimerkkiä, joissa on paikka tai asia ja Ahtisaaren osuus: Namibian itsenäistyminen 1990 (Ahtisaari johti YK:n operaatiota), Acehin rauhansopimus Helsingissä 2005 (neuvottelujen puheenjohtaja), Nobelin rauhanpalkinto 2008 (tunnustus pitkästä rauhantyöstä). Jos oppilas tietää muita oikeita esimerkkejä (esimerkiksi YK:n erityislähettilään työ Kosovon asemaa koskevissa neuvotteluissa), ne kelpaavat, kun ne ovat oikein.","Osa 2 (kolme taitoa): kartan kriteeri nimeää molempien kuuntelemisen, puolueettomuuden ja ratkaisun, jossa kumpikin saa jotain. Muut taulukon taidot (tarpeiden selvittäminen, luottamus, kärsivällisyys) kelpaavat kolmanneksi, jos oppilas on maininnut kaksi kriteerin taitoa. Jokainen taito selitetään: mitä neuvottelija tekee. Pelkkä luonteenpiirre (\"kiltti\") ei riitä.","Osa 3, näytön kertomus (lue ääneen ja jaa paperilla): \"Saarelan ja Niemelän kylät sijaitsevat saman järven rannalla. Kylien välissä on noin 200 metrin pituinen yhteinen ranta. Rannan eteläpäässä on hiekkapohja ja matalaa vettä. Pohjoispäässä vesi syvenee nopeasti, ja pohja on kivikkoinen. Saarelassa asuu paljon lapsiperheitä. Lapset uivat kesäisin rannalla, mutta lähin uimaranta on kymmenen kilometrin päässä, eikä sinne pääse bussilla. Saarelan kyläyhdistys haluaa koko rannan uimarannaksi, koska vanhemmat pelkäävät, että veneet ja uimarit törmäävät. Niemelässä asuu kalastajia ja veneilijöitä. Kylän venevalkama tuhoutui myrskyssä, ja nyt veneet pitää vetää rantaan, jossa ne voi kiinnittää. Niemelän kyläyhdistys haluaa koko rannan venerannaksi, koska veneille tarvitaan laituri ja syvää vettä. Kumpikin kyläyhdistys on kirjoittanut kunnalle, että ranta kuuluu sille. Kunta pyytää sinua sovittelijaksi.\" Kertomus antaa vihjeitä tarpeista mutta ei ratkaisua.","Osa 3, mikä kelpaa: kysymyksiä kummallekin kylälle (vähintään kaksi kummallekin, samanlaiset), jotka selvittävät tarpeita eivätkä syyllistä; kummankin kylän tarve (Saarela esimerkiksi turvallinen ja matala uimapaikka lähellä, lapsille; Niemelä esimerkiksi laituri, syvä vesi, paikka kiinnittää veneet); ratkaisu, joka ottaa huomioon kummankin tarpeen. Esimerkkiratkaisuja: eteläpää uimarannaksi ja pohjoispää venerannaksi, väliin poijuköysi; vuorotteluajat; yhteinen laituri, jonka toisella puolella uidaan. Mallia ei ole: hyväksytään mikä tahansa ratkaisu, joka vastaa kumpaankin tarpeeseen. Ratkaisu, jossa veneet kulkevat uimapaikan läpi, ei vastaa Saarelan tarpeeseen.","Turvallisuus: kertomuksessa veneiden ja uimareiden törmäys on yksi tarve. Käsittele uimareiden ja veneiden erottamista turvallisuusasiana, ei vain tilanjakona.","Varakertomus uusintaan: \"Kylätalon salissa harjoittelee kaksi kerhoa. Nuorten bändi haluaa salin kaikkina arki-iltoina, koska rummut ja vahvistimet ovat raskaita siirtää ja salissa on ainoa pistorasia vahvistimille. Lukupiiri haluaa salin kaikkina arki-iltoina, koska sen jäsenet ovat iäkkäitä, eikä muissa tiloissa ole hissiä. Kumpikin kerho on pyytänyt kylätalon hallitusta päättämään, että sali kuuluu sille.\" Samat kriteerit.","Katsomusneutraalius: tehtävä arvioi neuvottelu- ja sovittelutaitoa, ei oppilaan mielipidettä kylien kiistasta. Oppilas voi itse pitää jompaakumpaa tarvetta tärkeämpänä, mutta suunnitelmassa hän toimii puolueettomana. Oppilaan omia riitoja tai perheen asioita ei käytetä esimerkkeinä.","Jatkumo: 5. luokan Katsomusdialogin taitaja (kysymyslajit) ja 6. luokan Rauhan ja demokratian vartija ovat pohja. Seuraava taito Nobel-komitean vaaka jatkaa rauhanpalkinnosta. Espoon 6. luokan T1:n paikallinen tarkennus nimeää rauhankasvatuksen ja Ahtisaaren saavutukset rauhanneuvottelijana.","Lainaus: kappaleen Kuka oli Martti Ahtisaari viimeinen virke on mukaelma Ahtisaaren usein toistamasta ajatuksesta, ei suora sitaatti. Jos haluat käyttää suoraa lainausta, tarkista se lähteestä.","Tarkistettavat asiatiedot: Ahtisaari 1937–2023 ja presidenttikausi 1994–2000; CMI perustettiin presidenttikauden jälkeen (vuonna 2000); Namibia Etelä-Afrikan hallinnassa ja itsenäistyi 1990 YK:n valvoman siirtymän ja vaalien jälkeen, jota Ahtisaari johti; Acehin rauhansopimus Indonesian hallituksen ja Vapaa Aceh -liikkeen välillä allekirjoitettiin Helsingissä 2005; Nobelin rauhanpalkinto 2008 ja sen perustelu (työ kansainvälisten konfliktien ratkaisemiseksi useilla mantereilla yli kolmen vuosikymmenen ajan); Kosovo-neuvottelut YK:n erityislähettiläänä (2005–2007)."]},"huoltajalle":{"mista_on_kyse":"Lapsi tutustuu Martti Ahtisaaren rauhantyöhön (Namibia, Aceh, Nobelin rauhanpalkinto) ja oppii, millainen on hyvä neuvottelija ja sovittelija. Tärkein ajatus on kannan ja tarpeen ero: riidassa vaaditaan usein vastakkaisia asioita, mutta niiden takana olevat tarpeet voivat sopia yhteen. Näytössä lapsi kirjoittaa sovittelijan suunnitelman keksittyyn kiistaan kahden kylän yhteisestä rannasta. Arvioidaan sovittelutaitoa, ei lapsen mielipidettä kiistasta.","kotona":["Kysy, mitä lapsi oppi Martti Ahtisaaresta ja miksi rauhansopimus allekirjoitettiin Helsingissä.","Kun lapsi kertoo riidasta, kysy yhdessä: mitä kumpikin vaati, ja mitä varten kumpikin sitä halusi? Kanta ja tarve auttavat löytämään ratkaisun.","Pohtikaa jonkin uutisessa olleen kiistan kohdalla, millainen kysymys selvittäisi tarpeita ja millainen syyllistäisi.","Muistuta, että hyvä ratkaisu ei aina ole puolet kummallekin, vaan ratkaisu, joka vastaa molempien tarpeisiin."],"milloin_huolestua":"Jos lapsi pitää jokaista erimielisyyttä kilpailuna, jossa toisen on hävittävä, eikä pysty kuvittelemaan, mitä toinen osapuoli tarvitsee, keskustele asiasta opettajan kanssa. Taitoa harjoitellaan koulussa myös muissa aineissa."},"ulkoiset":{},"valmis_teksti":"Osaat kertoa Martti Ahtisaaren rauhantyöstä ja selittää, millainen on hyvä neuvottelija. Erotat kannan ja tarpeen, kysyt kysymyksiä, jotka selvittävät eivätkä syyllistä, ja etsit ratkaisun, joka sopii kummallekin osapuolelle. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

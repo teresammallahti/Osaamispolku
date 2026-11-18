@@ -1,0 +1,524 @@
+<title>Ilmoitustaulun lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA6-LUE-01","oppiaine":"ENA","vuosiluokka":6,"taitoalue":"LUE","jakso":"J1","taso":"ydin","otsikko":"Ilmoitustaulun lukija","kuvaus":"Osaan lukea lyhyitä ilmoituksia, mainoksia ja viestejä ja löytää niistä sen, mikä sopii kenellekin.","versio":"0.1","paivitetty":"2026-11-17","ops":{"T":["T10"],"S":["S3"]},"eyebrow":"Englanti · 6. luokka · Luetun ymmärtäminen","ikoni":"neula","naytto":"Paperikoe: Saan kuusi lyhyttä englanninkielistä tekstiä (esim. kerhoilmoitus, kadonneen lemmikin ilmoitus, kirjaston tapahtuma, myynti-ilmoitus, chat-viesti, juliste). Yhdistän viisi keksittyä henkilöä, joiden toiveet on kerrottu suomeksi, heille sopivaan tekstiin; yksi teksti jää yli. Sen jälkeen vastaan kolmeen kysymykseen tekstien yksityiskohdista (esim. milloin, paljonko maksaa, mihin pitää ottaa yhteyttä).","osaa_kun":"Vähintään neljä yhdistämistä viidestä on oikein ja vähintään kaksi yksityiskohtaa kolmesta. Oikeassa yhdistämisessä teksti vastaa henkilön koko toivetta (esim. aika ja ikäraja sopivat), ei vain yhtä yhteistä sanaa.","teksti":[{"tyyppi":"johdanto","sisalto":"Kuvittele, että olet viikon vierailulla keksityssä Greenbridgen kaupungissa Englannissa. Kirjaston aulassa on iso ilmoitustaulu, ja sillä on kymmeniä lappuja: kerhoja, tapahtumia, kadonneita lemmikkejä, myytäviä tavaroita ja viestejä. Kaverisi kysyy: löytyisikö täältä jotain, mitä voisi tehdä lauantaina? Kaikkea ei tarvitse lukea sana sanalta. Ilmoituksesta etsitään muutama asia: mitä, milloin, kenelle ja paljonko. Tässä taidossa opit lukemaan lyhyitä ilmoituksia, mainoksia ja viestejä ja päättämään, mikä niistä sopii kenellekin. Sopiva ilmoitus sopii henkilön koko toiveeseen, ei vain yhteen sanaan."},{"tyyppi":"kappale","otsikko":"Ilmoitusta ei lueta kuin tarinaa","sisalto":"Tarina luetaan alusta loppuun. Ilmoitus luetaan kahdessa vaiheessa. Ensin silmäilet otsikon ja isot sanat: mistä ilmoitus kertoo? Onko se kerho, tapahtuma, myynti-ilmoitus vai kadonnut lemmikki? Sitten etsit tarkasti ne kohdat, joita tarvitset: päivän, kellonajan, ikärajan, hinnan ja sen, kenelle pitää soittaa tai mitä pitää tehdä. Ilmoituksissa ei usein ole kokonaisia lauseita. Niissä on lyhenteitä, lukuja ja yksittäisiä sanoja, kuten Ages 8–11, Sat tai FREE. Kun tunnet nämä merkinnät, löydät tiedon ilman, että joudut kääntämään koko tekstiä."},{"tyyppi":"kuva","otsikko":"Ilmoituksen osat","svg":"<svg viewBox=\"0 0 600 300\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"10\" width=\"290\" height=\"280\" rx=\"6\" class=\"v-osa v-akseli\"/><circle cx=\"155\" cy=\"22\" r=\"6\" class=\"v-merkki\"/><text x=\"155\" y=\"54\" text-anchor=\"middle\" class=\"v-t vahva\" style=\"font-size:17px\">PUPPET WORKSHOP</text><text x=\"155\" y=\"80\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:13px\">Make your own puppet</text><text x=\"155\" y=\"98\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:13px\">and put on a show!</text><text x=\"155\" y=\"136\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">Saturday 5 April, 1–3 p.m.</text><text x=\"155\" y=\"170\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">Ages 8–11</text><text x=\"155\" y=\"204\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">£2 (glue and paper included)</text><text x=\"155\" y=\"238\" text-anchor=\"middle\" class=\"v-t\" style=\"font-size:14px\">Please book at the library desk.</text><text x=\"155\" y=\"268\" text-anchor=\"middle\" class=\"v-t pieni\" style=\"font-size:12px\">Greenbridge Library</text><line x1=\"290\" y1=\"86\" x2=\"340\" y2=\"70\" class=\"v-apu\"/><text x=\"348\" y=\"66\" class=\"v-t vahva\" style=\"font-size:14px\">Mitä?</text><text x=\"348\" y=\"84\" class=\"v-t\" style=\"font-size:13px\">nukketeatterityöpaja</text><line x1=\"290\" y1=\"132\" x2=\"340\" y2=\"124\" class=\"v-apu\"/><text x=\"348\" y=\"120\" class=\"v-t vahva\" style=\"font-size:14px\">Milloin?</text><text x=\"348\" y=\"138\" class=\"v-t\" style=\"font-size:13px\">la 5.4. klo 13–15</text><line x1=\"290\" y1=\"166\" x2=\"340\" y2=\"172\" class=\"v-apu\"/><text x=\"348\" y=\"168\" class=\"v-t vahva\" style=\"font-size:14px\">Kenelle?</text><text x=\"348\" y=\"186\" class=\"v-t\" style=\"font-size:13px\">8–11-vuotiaille</text><line x1=\"290\" y1=\"200\" x2=\"340\" y2=\"216\" class=\"v-apu\"/><text x=\"348\" y=\"214\" class=\"v-t vahva\" style=\"font-size:14px\">Paljonko?</text><text x=\"348\" y=\"232\" class=\"v-t\" style=\"font-size:13px\">2 puntaa</text><line x1=\"290\" y1=\"236\" x2=\"340\" y2=\"258\" class=\"v-apu\"/><text x=\"348\" y=\"258\" class=\"v-t vahva\" style=\"font-size:14px\">Mitä pitää tehdä?</text><text x=\"348\" y=\"276\" class=\"v-t\" style=\"font-size:13px\">varata paikka kirjaston tiskiltä</text></svg>","teksti":"Keksitty kirjaston ilmoitus. Oikealla ovat asiat, jotka ilmoituksesta yleensä etsitään."},{"tyyppi":"taulukko","otsikko":"Ilmoitusten lyhyet merkinnät","otsikkorivi":["Ilmoituksessa","Suomeksi","Huomaa"],"rivit":[["Ages 8–11, 8–11 yrs","8–11-vuotiaille","Myös 8- ja 11-vuotiaat saavat tulla. 12-vuotias ei."],["a.m. / p.m.","aamupäivällä / iltapäivällä tai illalla","3 p.m. on kello 15, ja 7 p.m. on kello 19."],["Mon, Tue, Wed, Thu, Fri, Sat, Sun","ma, ti, ke, to, pe, la, su","Mon–Fri tarkoittaa arkipäiviä maanantaista perjantaihin."],["£3.50, 80p","3 puntaa 50 penniä, 80 penniä","Punnassa on 100 penniä."],["FREE","ilmainen","Ilmaiseenkin tapahtumaan voi joutua varaamaan paikan."],["each, per person, a week","kappaleelta, henkeä kohden, viikossa","Hinta voi koskea yhtä tavaraa, yhtä ihmistä tai yhtä viikkoa."],["Please book / No need to book","varaa paikka / ei tarvitse varata","Book on tässä verbi, ei kirja."],["Call, Text, Email, Ask at the desk","soita, lähetä tekstiviesti, lähetä sähköpostia, kysy tiskiltä","Kerro yhteydenotosta, kenelle ja miten."],["FOR SALE / WANTED","myytävänä / halutaan ostaa","WANTED-ilmoituksen kirjoittaja ostaa, ei myy."],["LOST / FOUND / Reward","kadonnut / löytynyt / löytöpalkkio","LOST-ilmoituksen kirjoittaja etsii, FOUND-ilmoituksen kirjoittaja on löytänyt."]]},{"tyyppi":"saanto","otsikko":"Näin yhdistät henkilön ja ilmoituksen","askeleet":["Lue henkilön toive ja pilko se osiin: mitä hän haluaa, milloin, kuinka vanha hän on ja paljonko hänellä on rahaa. Kaikkia osia ei ole joka toiveessa.","Silmäile ilmoitusten otsikot. Valitse ne, joiden aihe sopii. Niitä voi olla kaksi.","Tarkista jokainen toiveen osa ilmoituksesta: päivä, kellonaika, ikäraja ja hinta.","Jos yksikin osa ei sovi, ilmoitus ei sovi, vaikka aihe olisi oikea.","Kun kaikki on yhdistetty, katso ilmoitus, joka jäi yli. Tarkista, ettei se sovi jollekulle paremmin."]},{"tyyppi":"kappale","otsikko":"Esimerkki: kaksi pyöräilmoitusta","sisalto":"Ilmoitus 1: FOR SALE. Blue bike for 10–12 year olds. Good brakes, new tyres. £45. Call Tom after 5 p.m.\nIlmoitus 2: BIKE CLUB! Ride with us every Saturday at 10 a.m. Ages 8–11. Bring your own bike and helmet. Free.\n\nOnni on 12-vuotias. Hän haluaa ostaa polkupyörän, ja hänellä on 50 puntaa. Molemmissa ilmoituksissa on sana bike, mutta vain ilmoitus 1 sopii Onnin koko toiveeseen. Ilmoitus 1 on myynti-ilmoitus (FOR SALE), pyörä on 10–12-vuotiaalle ja hinta 45 puntaa on alle 50 punnan. Ilmoitus 2 on kerho, jossa ajetaan omalla pyörällä, eikä 12-vuotias edes kuulu ikärajaan 8–11."},{"tyyppi":"ansa","otsikko":"Ansa 1: yksi yhteinen sana","sisalto":"Henkilö haluaa oppia leipomaan, ja ilmoituksessa on sana cake. Silti ilmoitus voi olla kakkukilpailu aikuisille tai kakkumyyjäiset. Sama sana ei tee ilmoituksesta sopivaa. Kysy aina: saako henkilö ilmoituksesta juuri sen, mitä hän haluaa, ja sopivatko päivä, aika, ikä ja hinta?"},{"tyyppi":"ansa","otsikko":"Ansa 2: ikäraja ja kellonaika","sisalto":"Ages 7–10 näyttää sopivalta, jos et lue lukuja tarkasti. 11-vuotias ei kuitenkaan kuulu siihen. Samoin 6 p.m. on illalla kello 18, ei aamulla kello 6. Kun toiveessa on ikä tai aika, katso ilmoituksesta luku ja sen perässä oleva merkintä (yrs, a.m., p.m.) ennen kuin päätät."},{"tyyppi":"ansa","otsikko":"Ansa 3: kaksi lukua lähekkäin","sisalto":"Ilmoituksessa voi olla monta lukua: alkamisaika ja loppumisaika, kaksi hintaa tai puhelinnumero ja palkkio. Kun kysytään, milloin jokin alkaa, vastaus on viivan ensimmäinen aika (5.15–6.30 p.m. alkaa kello 17.15). Kun kysytään hintaa, lue luvun perässä oleva sana: £5 a week on viikkohinta, £5 each on yhden tavaran hinta."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Silmäile ensin otsikot, etsi sitten tarkasti päivä, aika, ikä, hinta ja yhteystapa.","Ilmoitus sopii vain, jos se sopii henkilön koko toiveeseen.","Ages 8–11: myös 8- ja 11-vuotiaat. p.m. = iltapäivä tai ilta.","FOR SALE myy, WANTED ostaa. LOST etsii, FOUND on löytänyt.","Kun luvut ovat lähekkäin, lue luvun perässä oleva sana.","Yksi ilmoitus jää yli. Tarkista lopuksi, ettei se sovi kenellekään paremmin."]}],"harjoitusryhmat":[{"id":"merkinnat","nimi":"Ilmoitusten merkinnät","info":"Lue ilmoituksen lyhyet merkinnät: ikäraja, a.m. ja p.m., viikonpäivät ja hinnat. Punnassa on 100 penniä."},{"id":"toive","nimi":"Koko toive","info":"Pilko henkilön toive osiin ja tarkista jokainen osa ilmoituksesta. Sama aihe ei vielä riitä."},{"id":"yksityiskohdat","nimi":"Yksityiskohdat","info":"Etsi kysytty asia ja lue sen ympäriltä tarkasti. Kun lukuja on monta, lue luvun perässä oleva sana."}],"ryhmanimet":{"merkinnat":"Ilmoitusten merkinnät","toive":"Kenelle teksti sopii?","yksityiskohdat":"Yksityiskohdat"},"harjoitukset":[{"id":"H01","ryhma":"merkinnat","tyyppi":"luku","kysymys":"YOGA FOR KIDS – Ages 9–13\n\nMontako näistä lapsista saa tulla: Eeli 8 v, Sanni 9 v, Kaapo 13 v ja Iida 14 v?","vastaus":2,"vinkki":"Ikäraja 9–13 sisältää myös 9- ja 13-vuotiaat.","selitys":"Sanni (9) ja Kaapo (13) kuuluvat ikärajaan 9–13. Eeli on liian nuori ja Iida liian vanha. Siis kaksi."},{"id":"H02","ryhma":"merkinnat","tyyppi":"luku","kysymys":"Story Time: Saturday, 2 p.m.\n\nMonelta tarinatuokio alkaa 24 tunnin kellossa? Kirjoita pelkkä tunti.","vastaus":14,"vinkki":"p.m. tarkoittaa iltapäivää. Lisää tuntiin 12.","selitys":"2 p.m. on iltapäivällä kello 14."},{"id":"H03","ryhma":"merkinnat","tyyppi":"luku","kysymys":"FOOTBALL CLUB: Mon & Wed, 4–5.30 p.m.\n\nMontako päivää viikossa kerho kokoontuu?","vastaus":2,"vinkki":"Mon on maanantai ja Wed keskiviikko.","selitys":"Mon & Wed: maanantaina ja keskiviikkona, siis kaksi päivää. Luvut 4 ja 5.30 ovat kellonaikoja."},{"id":"H04","ryhma":"merkinnat","tyyppi":"luku","kysymys":"CAKE SALE: Cupcakes 80p each\n\nLotta ostaa kolme kuppikakkua. Montako penniä hän maksaa?","vastaus":240,"vinkki":"each tarkoittaa kappaleelta.","selitys":"Yksi maksaa 80 penniä, joten kolme maksaa 3 × 80 = 240 penniä eli 2 puntaa 40 penniä."},{"id":"H05","ryhma":"merkinnat","tyyppi":"luku","kysymys":"Swimming lesson: £4 per person\n\nKaksi ystävää menee uimatunnille. Montako puntaa he maksavat yhteensä?","vastaus":8,"vinkki":"per person tarkoittaa henkeä kohden.","selitys":"Jokainen maksaa 4 puntaa, joten kaksi ystävää maksaa 8 puntaa."},{"id":"H06","ryhma":"merkinnat","tyyppi":"monivalinta","kysymys":"Games Afternoon at the library. No need to book – just come along!\n\nMitä ilmoitus kertoo paikan varaamisesta?","vaihtoehdot":["Paikka pitää varata etukäteen.","Paikkaa ei tarvitse varata, voit vain tulla paikalle.","Tapahtuma on peruttu."],"vastaus":1,"vinkki":"No need to book: ei tarvitse varata.","selitys":"No need to book – just come along tarkoittaa, että paikkaa ei tarvitse varata, vaan voit vain tulla paikalle."},{"id":"H07","ryhma":"toive","tyyppi":"luku","kysymys":"1) ART CLUB – Tuesdays 3.30 p.m. Draw and paint with us! Ages 10–12. Free.\n2) ART SHOW – See pictures by local artists. Sat 10 a.m.–4 p.m. Free.\n3) DRAMA CLUB – Tuesdays 3.30 p.m. Ages 10–12. £1.\n\nVeera (11) haluaa itse piirtää ja maalata koulun jälkeen. Monesko ilmoitus sopii hänelle?","vastaus":1,"vinkki":"Missä ilmoituksessa saa itse piirtää ja maalata?","selitys":"Art Club (1): Draw and paint with us, tiistaisin iltapäivällä, 10–12-vuotiaille. Art Show (2) on näyttely, jossa katsotaan muiden kuvia. Siinäkin on sana art, mutta Veera haluaa tehdä itse."},{"id":"H08","ryhma":"toive","tyyppi":"luku","kysymys":"1) CHESS CLUB for beginners – Thursdays 6 p.m. Ages 7–10.\n2) CHESS CLUB for beginners – Saturdays 10 a.m. Ages 11–14.\n3) CARD GAMES CLUB – Saturdays 10 a.m. Ages 11–14.\n\nAleksi (12) haluaa oppia shakkia. Arki-iltaisin hänellä on jo muuta tekemistä. Monesko ilmoitus sopii hänelle?","vastaus":2,"vinkki":"Tarkista ikäraja ja päivä. Thursday on arkipäivä.","selitys":"Ilmoitus 2: shakkikerho lauantaiaamuisin 11–14-vuotiaille. Ilmoitus 1 on torstai-iltana ja 7–10-vuotiaille, joten se ei sovi 12-vuotiaalle. Ilmoitus 3 on korttipelikerho."},{"id":"H09","ryhma":"toive","tyyppi":"luku","kysymys":"1) LOST: small black cat with a white nose. Last seen in Hill Road. Please knock at 5 Hill Road.\n2) FOUND: small black dog with a red collar. He is now at the vet in Park Street.\n3) LOST: small black dog with a red collar. Last seen in the park. Reward!\n\nKaapo löysi puistosta pienen mustan koiran, jolla on punainen kaulapanta. Monesko ilmoitus on koiran omistajan ilmoitus?","vastaus":3,"vinkki":"Omistaja etsii koiraansa. Kumpi sana kertoo etsimisestä, LOST vai FOUND?","selitys":"Omistaja kirjoittaa LOST-ilmoituksen. Ilmoitus 3 kertoo kadonneesta pienestä mustasta koirasta, jolla on punainen panta. Ilmoituksen 2 kirjoittaja on itse löytänyt koiran, ja ilmoituksessa 1 on kissa."},{"id":"H10","ryhma":"toive","tyyppi":"luku","kysymys":"1) STORY TIME at the library – Saturdays 10.30 a.m. For ages 4–7. Free.\n2) STORY CLUB at the library – Saturdays 11 a.m. For ages 9–12. Free.\n3) STORY CLUB at the bookshop – Saturdays 7 p.m. For ages 9–12. £2.\n\nSiiri (10) haluaa kuunnella tarinoita englanniksi lauantaiaamupäivänä, ja se saa olla vain ilmainen. Monesko ilmoitus sopii hänelle?","vastaus":2,"vinkki":"Tarkista kolme asiaa: ikä, kellonaika ja hinta.","selitys":"Ilmoitus 2 sopii: lauantaina kello 11, 9–12-vuotiaille ja ilmainen. Ilmoitus 1 on 4–7-vuotiaille, ja ilmoitus 3 on illalla kello 19 ja maksaa 2 puntaa."},{"id":"H11","ryhma":"toive","tyyppi":"luku","kysymys":"JUNIOR TENNIS – Sundays 9 a.m. Ages 8–12. £3 per lesson. Bring your own racket.\n\nToiveet:\nEmma (13) haluaa pelata tennistä sunnuntaisin.\nJoel (9) haluaa pelata tennistä sunnuntaiaamuisin, ja hänellä on oma maila ja 5 puntaa.\nAada (10) haluaa pelata tennistä lauantaisin.\nNiilo (11) haluaa pelata tennistä sunnuntaisin, ja hänellä on oma maila ja 4 puntaa.\n\nMontako henkilöä ilmoitus sopii kokonaan?","vastaus":2,"vinkki":"Tarkista jokaiselta ikä, päivä, maila ja raha.","selitys":"Joel ja Niilo: sunnuntai, ikä 8–12, oma maila ja rahaa vähintään 3 puntaa. Emma on 13-vuotias, ja Aada haluaa pelata lauantaisin. Siis kaksi."},{"id":"H12","ryhma":"toive","tyyppi":"luku","kysymys":"1) FOR SALE: skateboard for a 12-year-old. Good condition. £20. Text Max.\n2) WANTED: skateboard for a 12-year-old. Good condition. I can pay up to £20. Text Sam.\n3) FOR SALE: skateboard helmet, size M. £8. Text Kit.\n\nLea (12) haluaa myydä vanhan, hyväkuntoisen rullalautansa. Monesko ilmoitus sopii hänelle?","vastaus":2,"vinkki":"Lea myy. Kumpi sana kertoo, että kirjoittaja haluaa ostaa: FOR SALE vai WANTED?","selitys":"WANTED-ilmoituksen (2) kirjoittaja haluaa ostaa rullalaudan, joten Lea voi myydä sen hänelle. FOR SALE -ilmoitusten (1 ja 3) kirjoittajat myyvät itse."},{"id":"H13","ryhma":"toive","tyyppi":"luku","kysymys":"Hi everyone! I'm going to the swimming pool on Saturday at 2 p.m. Who wants to come? It's £3. – Lily\n\nToiveet:\n1) Oona haluaa uimaan lauantaiaamuna.\n2) Ville haluaa uimaan lauantai-iltapäivänä, ja hänellä on 5 puntaa.\n3) Elsa haluaa uimaan lauantai-iltapäivänä, ja hänellä on 2 puntaa.\n\nMonennelle henkilölle Lilyn viesti sopii?","vastaus":2,"vinkki":"2 p.m. on iltapäivällä. Riittävätkö rahat?","selitys":"Viesti sopii Villelle (2): lauantaina kello 14, ja 5 puntaa riittää 3 punnan maksuun. Oona haluaa aamulla, ja Elsalla on vain 2 puntaa."},{"id":"H14","ryhma":"toive","tyyppi":"luku","kysymys":"1) SCHOOL FAIR – Sat 14 June, 11 a.m.–3 p.m. Games, cakes and a book sale. Entry 50p.\n2) BOOK SALE – Library hall, Fri 13 June, 4–6 p.m. All books £1.\n3) CAKE SALE – Sat 14 June, 4–6 p.m. Cakes 60p.\n\nNoa haluaa ostaa kirjoja lauantaina keskipäivällä. Monesko ilmoitus sopii hänelle?","vastaus":1,"vinkki":"Missä ilmoituksessa on kirjoja lauantaina keskipäivällä? Lue myös, mitä koulun myyjäisissä on.","selitys":"Koulun myyjäiset (1) ovat lauantaina kello 11–15, ja niissä on kirjamyynti (a book sale). Ilmoituksessa 2 on sana book sale, mutta se on perjantaina."},{"id":"H15","ryhma":"yksityiskohdat","tyyppi":"luku","kysymys":"SUMMER CAMP for ages 10–13\nMonday 21 July – Friday 25 July, 9 a.m.–3 p.m.\n£60 for the week. Lunch is £3 a day.\nAsk at the sports centre desk.\n\nMontako päivää leiri kestää?","vastaus":5,"vinkki":"Laske päivät maanantaista perjantaihin.","selitys":"Maanantaista 21.7. perjantaihin 25.7. on viisi päivää: 21, 22, 23, 24 ja 25."},{"id":"H16","ryhma":"yksityiskohdat","tyyppi":"luku","kysymys":"SUMMER CAMP for ages 10–13\nMonday 21 July – Friday 25 July, 9 a.m.–3 p.m.\n£60 for the week. Lunch is £3 a day.\nAsk at the sports centre desk.\n\nLeiriläinen syö lounaan leirillä joka päivä. Montako puntaa lounaat maksavat koko viikolta?","vastaus":15,"vinkki":"Lunch is £3 a day: lounas maksaa 3 puntaa päivässä. Montako päivää leiri kestää?","selitys":"Lounas maksaa 3 puntaa päivässä, ja leiripäiviä on viisi: 5 × 3 = 15 puntaa. 60 puntaa on itse leirin hinta."},{"id":"H17","ryhma":"yksityiskohdat","tyyppi":"luku","kysymys":"LOST: grey rabbit called Pip. He has one white ear. Lost on Tuesday near the river. Please call Mrs Shaw at the flower shop. £10 reward.\n\nMontako puntaa löytäjä saa löytöpalkkioksi?","vastaus":10,"vinkki":"Reward on löytöpalkkio. Etsi £-merkki.","selitys":"£10 reward: löytöpalkkio on 10 puntaa. Tuesday kertoo päivän, jolloin Pip katosi."},{"id":"H18","ryhma":"yksityiskohdat","tyyppi":"monivalinta","kysymys":"LOST: grey rabbit called Pip. He has one white ear. Lost on Tuesday near the river. Please call Mrs Shaw at the flower shop. £10 reward.\n\nMitä Pipin löytäjän pitää tehdä?","vaihtoehdot":["Viedä kani joelle.","Soittaa Mrs Shaw'lle.","Soittaa eläinlääkärille."],"vastaus":1,"vinkki":"Call tarkoittaa soita.","selitys":"Please call Mrs Shaw: löytäjän pitää soittaa Mrs Shaw'lle. River on paikka, jossa Pip katosi."},{"id":"H19","ryhma":"yksityiskohdat","tyyppi":"luku","kysymys":"FOR SALE: Football boots, size 36, worn only twice. £12. Text Ben after 4 p.m.\n\nMonelta (24 tunnin kellossa) Benille saa lähettää viestin aikaisintaan? Kirjoita pelkkä tunti.","vastaus":16,"vinkki":"after 4 p.m. = kello neljän jälkeen iltapäivällä.","selitys":"after 4 p.m. tarkoittaa iltapäivällä kello 16 jälkeen. Luvut 36 ja 12 ovat kengän koko ja hinta."},{"id":"H20","ryhma":"yksityiskohdat","tyyppi":"luku","kysymys":"FUN RUN – Sunday 8 June\n2 km run for ages 7–10, starts at 10 a.m.\n5 km run for ages 11–15, starts at 11.30 a.m.\nEntry £2. Every runner gets a medal!\n\nEeva on 12-vuotias. Montako kilometriä hänen juoksunsa on?","vastaus":5,"vinkki":"Kumpaan ikärajaan 12-vuotias kuuluu?","selitys":"12-vuotias kuuluu ikärajaan 11–15, joten hänen juoksunsa on 5 km. 2 km:n juoksu on 7–10-vuotiaille."}],"tulostus":{"sivuja":2,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":1,"sivunvaihto_ennen":null},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue tekstit 1–6 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nTehtävissä 1–5 kirjoitat, monesko teksti sopii henkilölle. Teksti sopii vain, jos se sopii henkilön koko toiveeseen (esimerkiksi päivä, aika, ikä ja raha). Jokainen teksti sopii vain yhdelle henkilölle, ja yksi teksti jää yli.\nTehtävissä 6–8 vastaat suomeksi tai numeroin.\n\n1) GREENBRIDGE COOKING CLUB\nLearn to make easy meals!\nWednesdays 4–5.30 p.m. at the Community Centre\nAges 10–13\n£2.50 a week. Please bring an apron.\n\n2) LOST CAT\nOur cat Ginger is orange with a white tail. She is very friendly. Lost near Elm Street on Sunday. If you see her, please call Jack on 07700 900361.\n\n3) KIDS' COOKING DAY at the Town Hall\nMake pizza and cookies!\nSaturday 9 March, 10 a.m.–1 p.m.\nAges 5–8. £4.\n\n4) FOR SALE\nKeyboard (electric piano) with 61 keys. Works well. £35. Music stand £5.\nText Holly on 07700 900248.\n\n5) GREENBRIDGE LIBRARY\nComic Workshop: draw your own comic with the artist Ruth Bell!\nSaturday 16 March, 2.30–4 p.m.\nAges 9–12. Free, but please book at the desk.\n\n6) Hi all! I'm going to the climbing wall on Friday after school. Let's meet at the bus stop at 3.45 p.m. Who wants to come? – Zoe","tehtavat":[{"nro":1,"ryhma":"toive","tyyppi":"lasku","kysymys":"Venla (11) haluaa oppia laittamaan ruokaa arkipäivänä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":1},{"nro":2,"ryhma":"toive","tyyppi":"lasku","kysymys":"Akseli näki eilen Elm Streetillä oranssin kissan, jolla on valkoinen häntä. Hän haluaa kertoa siitä kissan omistajalle. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":2},{"nro":3,"ryhma":"toive","tyyppi":"lasku","kysymys":"Iiris (10) piirtää mielellään sarjakuvia ja haluaa lauantaiksi tekemistä iltapäivällä. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":5},{"nro":4,"ryhma":"toive","tyyppi":"lasku","kysymys":"Otto haluaa ostaa soittimen, ja hänellä on 40 puntaa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":4},{"nro":5,"ryhma":"toive","tyyppi":"lasku","kysymys":"Helmi haluaa mennä kiipeilemään perjantaina koulun jälkeen yhdessä jonkun kanssa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":6},{"nro":6,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Mihin aikaan sarjakuvapaja alkaa? Kirjoita kellonaika 24 tunnin kellon mukaan tai merkitse, onko se aamu- vai iltapäivällä.","vastaus":"14.30 (myös 2.30 p.m. tai puoli kolme iltapäivällä)"},{"nro":7,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Paljonko kokkikerho maksaa viikossa?","vastaus":"£2.50 (2 puntaa 50 penniä)"},{"nro":8,"ryhma":"yksityiskohdat","tyyppi":"sanallinen","kysymys":"Kenelle pitää soittaa, jos näkee Gingerin? Kirjoita nimi tai numero.","vastaus":"Malliesimerkki: Jackille (numeroon 07700 900361)."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue tekstit 1–6 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nTehtävissä 1–5 kirjoitat, monesko teksti sopii henkilölle. Teksti sopii vain, jos se sopii henkilön koko toiveeseen (esimerkiksi päivä, aika, ikä ja raha). Jokainen teksti sopii vain yhdelle henkilölle, ja yksi teksti jää yli.\nTehtävissä 6–8 vastaat suomeksi tai numeroin.\n\n1) GREENBRIDGE LIBRARY\nBook Quiz for kids! Answer questions about books in teams of two. Small prizes for everyone!\nFriday 19 April, 4.15–5.30 p.m.\nAges 10–12. Free, but please book at the desk.\n\n2) Hey! I'm going to the ice rink on Sunday morning at 10 a.m. Does anyone want to skate with me? You can rent skates there for £2. – Noah\n\n3) GREENBRIDGE ROBOT CLUB\nBuild and program small robots!\nThursdays 3.45–5 p.m. at Greenbridge School\nAges 11–14\n£3 a week. No need to bring anything.\n\n4) LOST PARROT\nKiwi is a small green parrot. He can say 'hello' and 'good boy'. He flew away from our garden in Mill Lane on Monday. Please call Priya on 07700 900527.\n\n5) ROBOT DAY for young engineers\nBuild your first robot!\nSaturday 20 April, 10 a.m.–3 p.m.\nAges 6–9. £5.\n\n6) FOR SALE\nTent for two people, used three times. £25. Sleeping bags £8 each.\nCall Mr Doyle on 07700 900683 in the evening.","tehtavat":[{"nro":1,"ryhma":"toive","tyyppi":"lasku","kysymys":"Leevi (12) haluaa rakentaa robotteja arkipäivänä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":3},{"nro":2,"ryhma":"toive","tyyppi":"lasku","kysymys":"Sofia kuuli tänään Mill Lanella pienen vihreän linnun sanovan 'hello'. Hän haluaa kertoa siitä linnun omistajalle. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":4},{"nro":3,"ryhma":"toive","tyyppi":"lasku","kysymys":"Ella (11) lukee paljon ja pitää tietovisoista. Hän haluaa perjantaiksi tekemistä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":1},{"nro":4,"ryhma":"toive","tyyppi":"lasku","kysymys":"Jaakko haluaa ostaa teltan retkeä varten, ja hänellä on 30 puntaa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":6},{"nro":5,"ryhma":"toive","tyyppi":"lasku","kysymys":"Pinja haluaa mennä luistelemaan sunnuntaiaamuna yhdessä jonkun kanssa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":2},{"nro":6,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Mihin aikaan kirjavisa alkaa? Kirjoita kellonaika 24 tunnin kellon mukaan tai merkitse, onko se aamu- vai iltapäivällä.","vastaus":"16.15 (myös 4.15 p.m. tai varttia yli neljä iltapäivällä)"},{"nro":7,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Paljonko robottikerho maksaa viikossa?","vastaus":"£3 (3 puntaa)"},{"nro":8,"ryhma":"yksityiskohdat","tyyppi":"sanallinen","kysymys":"Kenelle pitää soittaa, jos näkee Kiwin? Kirjoita nimi tai numero.","vastaus":"Malliesimerkki: Priyalle (numeroon 07700 900527)."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue tekstit 1–6 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nTehtävissä 1–5 kirjoitat, monesko teksti sopii henkilölle. Teksti sopii vain, jos se sopii henkilön koko toiveeseen (esimerkiksi päivä, aika, ikä ja raha). Jokainen teksti sopii vain yhdelle henkilölle, ja yksi teksti jää yli.\nTehtävissä 6–8 vastaat suomeksi tai numeroin.\n\n1) FOR SALE\nGuinea pig cage, big and clean. £15. Food bowl and water bottle free with the cage.\nText Lucy on 07700 900156.\n\n2) GREENBRIDGE LIBRARY\nMagic Show and Workshop: watch a magician and learn three easy card tricks!\nSaturday 11 May, 1.30–3 p.m.\nAges 8–12. Free. No need to book.\n\n3) TEEN DANCE CAMP\nStreet dance every day for a week!\nMonday 8 July – Friday 12 July, 10 a.m.–3 p.m.\nAges 13–16. £70.\n\n4) Hi! Is anyone free on Saturday at 11 a.m.? I want to go to the park and play frisbee. Bring a drink! – Omar\n\n5) LOST TORTOISE\nShelly is a small brown tortoise. She is 30 years old and very slow! She left our garden in Oak Road on Wednesday. Please call Mr Evans on 07700 900739.\n\n6) GREENBRIDGE DANCE CLUB\nHip hop and street dance for beginners\nMondays 5–6 p.m. at the Sports Centre\nAges 9–12\n£2 a week. Please wear trainers.","tehtavat":[{"nro":1,"ryhma":"toive","tyyppi":"lasku","kysymys":"Kerttu (10) haluaa oppia katutanssia arkipäivänä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":6},{"nro":2,"ryhma":"toive","tyyppi":"lasku","kysymys":"Elias löysi Oak Roadilta pienen ruskean kilpikonnan. Hän haluaa kertoa siitä kilpikonnan omistajalle. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":5},{"nro":3,"ryhma":"toive","tyyppi":"lasku","kysymys":"Ronja (9) haluaa oppia taikatemppuja lauantai-iltapäivänä. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":2},{"nro":4,"ryhma":"toive","tyyppi":"lasku","kysymys":"Nella haluaa ostaa häkin marsulleen, ja hänellä on 20 puntaa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":1},{"nro":5,"ryhma":"toive","tyyppi":"lasku","kysymys":"Lassi haluaa pelata frisbeetä lauantaiaamupäivänä yhdessä jonkun kanssa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":4},{"nro":6,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Mihin aikaan taikuriesitys alkaa? Kirjoita kellonaika 24 tunnin kellon mukaan tai merkitse, onko se aamu- vai iltapäivällä.","vastaus":"13.30 (myös 1.30 p.m. tai puoli kaksi iltapäivällä)"},{"nro":7,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Paljonko tanssikerho maksaa viikossa?","vastaus":"£2 (2 puntaa)"},{"nro":8,"ryhma":"yksityiskohdat","tyyppi":"sanallinen","kysymys":"Kenelle pitää soittaa, jos löytää Shellyn? Kirjoita nimi tai numero.","vastaus":"Malliesimerkki: Mr Evansille (numeroon 07700 900739)."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue tekstit 1–6 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nTehtävissä 1–5 kirjoitat, monesko teksti sopii henkilölle. Teksti sopii vain, jos se sopii henkilön koko toiveeseen (esimerkiksi päivä, aika, ikä ja raha). Jokainen teksti sopii vain yhdelle henkilölle, ja yksi teksti jää yli.\nTehtävissä 6–8 vastaat suomeksi tai numeroin.\n\n1) FILM SCHOOL FOR LITTLE STARS\nMake a short film with puppets!\nSunday 2 June, 11 a.m.–2 p.m.\nAges 5–8. £6.\n\n2) LOST DOG\nBiscuit is a small brown dog with long ears and a blue collar. She ran away in Green Park on Friday. Please call Hannah on 07700 900842. Reward!\n\n3) Hello! I'm going to the bowling alley on Sunday at 3 p.m. It's £4 a game. Who wants to come with me? – Ava\n\n4) GREENBRIDGE FILM CLUB\nMake your own short films with a tablet!\nTuesdays 3.30–5 p.m. at the Youth Centre\nAges 10–14\n£1.50 a week. Tablets are free to use.\n\n5) FOR SALE\nKids' scooter, blue, good wheels. £18. Helmet £6.\nText Ryan on 07700 900963.\n\n6) GREENBRIDGE LIBRARY\nScience Fun: make slime and a paper rocket with Dr Kate!\nWednesday 29 May, 3.45–5 p.m.\nAges 9–11. Free, but please book at the desk.","tehtavat":[{"nro":1,"ryhma":"toive","tyyppi":"lasku","kysymys":"Arttu (13) haluaa tehdä omia videoita arkipäivänä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":4},{"nro":2,"ryhma":"toive","tyyppi":"lasku","kysymys":"Saga näki Green Parkissa pienen ruskean koiran, jolla on pitkät korvat ja sininen panta. Hän haluaa kertoa siitä koiran omistajalle. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":2},{"nro":3,"ryhma":"toive","tyyppi":"lasku","kysymys":"Eino (10) pitää tiedekokeista ja haluaa keskiviikoksi tekemistä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":6},{"nro":4,"ryhma":"toive","tyyppi":"lasku","kysymys":"Minea haluaa ostaa potkulaudan, ja hänellä on 20 puntaa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":5},{"nro":5,"ryhma":"toive","tyyppi":"lasku","kysymys":"Toivo haluaa mennä keilaamaan sunnuntai-iltapäivänä yhdessä jonkun kanssa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":3},{"nro":6,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Mihin aikaan Science Fun alkaa? Kirjoita kellonaika 24 tunnin kellon mukaan tai merkitse, onko se aamu- vai iltapäivällä.","vastaus":"15.45 (myös 3.45 p.m. tai varttia vaille neljä iltapäivällä)"},{"nro":7,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Paljonko elokuvakerho maksaa viikossa?","vastaus":"£1.50 (1 punta 50 penniä)"},{"nro":8,"ryhma":"yksityiskohdat","tyyppi":"sanallinen","kysymys":"Kenelle pitää soittaa, jos näkee Biscuitin? Kirjoita nimi tai numero.","vastaus":"Malliesimerkki: Hannahille (numeroon 07700 900842)."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tämä ennen kuin aloitat","johdanto":"Lue tekstit 1–6 itse. Opettaja ei lue niitä ääneen, eikä sanakirjaa käytetä. Sinun ei tarvitse ymmärtää jokaista sanaa.\nTehtävissä 1–5 kirjoitat, monesko teksti sopii henkilölle. Teksti sopii vain, jos se sopii henkilön koko toiveeseen (esimerkiksi päivä, aika, ikä ja raha). Jokainen teksti sopii vain yhdelle henkilölle, ja yksi teksti jää yli.\nTehtävissä 6–8 vastaat suomeksi tai numeroin.\n\n1) Hi everyone! I'm going to the Dinosaur Museum on Saturday at 1 p.m. It's free for kids. Who wants to come? – Leo\n\n2) GARDEN DAY for grown-ups\nLearn to grow tomatoes!\nSaturday 18 May, 9 a.m.–1 p.m.\nAges 16 and over. £5.\n\n3) GREENBRIDGE GARDEN CLUB\nGrow vegetables and flowers in the school garden!\nFridays 3.30–4.30 p.m. at Greenbridge School\nAges 8–12\n£1 a week. Please wear old clothes.\n\n4) GREENBRIDGE LIBRARY\nBoard Game Afternoon: play new and old games with friends!\nThursday 23 May, 3.15–5 p.m.\nAges 9–13. Free. No need to book.\n\n5) LOST HAMSTER\nNibbles is a small white hamster with a brown back. He got out of his cage in Class 6B at Greenbridge School on Tuesday. Please call Mr Clark on 07700 900374.\n\n6) FOR SALE\nRoller skates, size 37, pink and white. £14. Knee pads £4.\nText Grace on 07700 900428.","tehtavat":[{"nro":1,"ryhma":"toive","tyyppi":"lasku","kysymys":"Lumi (9) haluaa kasvattaa vihanneksia arkipäivänä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":3},{"nro":2,"ryhma":"toive","tyyppi":"lasku","kysymys":"Emil näki koulun käytävällä pienen valkoisen hamsterin, jolla on ruskea selkä. Hän haluaa kertoa siitä hamsterin omistajalle. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":5},{"nro":3,"ryhma":"toive","tyyppi":"lasku","kysymys":"Aarni (12) pitää lautapeleistä ja haluaa torstaiksi tekemistä koulun jälkeen. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":4},{"nro":4,"ryhma":"toive","tyyppi":"lasku","kysymys":"Vilja haluaa ostaa rullaluistimet, ja hänellä on 15 puntaa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":6},{"nro":5,"ryhma":"toive","tyyppi":"lasku","kysymys":"Hilla haluaa mennä museoon lauantai-iltapäivänä yhdessä jonkun kanssa. Monesko teksti sopii hänelle? Kirjoita numero.","vastaus":1},{"nro":6,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Mihin aikaan lautapeli-iltapäivä alkaa? Kirjoita kellonaika 24 tunnin kellon mukaan tai merkitse, onko se aamu- vai iltapäivällä.","vastaus":"15.15 (myös 3.15 p.m. tai varttia yli kolme iltapäivällä)"},{"nro":7,"ryhma":"yksityiskohdat","tyyppi":"lasku","kysymys":"Paljonko puutarhakerho maksaa viikossa?","vastaus":"£1 (1 punta)"},{"nro":8,"ryhma":"yksityiskohdat","tyyppi":"sanallinen","kysymys":"Kenelle pitää soittaa, jos löytää Nibblesin? Kirjoita nimi tai numero.","vastaus":"Malliesimerkki: Mr Clarkille (numeroon 07700 900374)."}]}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Koe vastaa kartan näyttöä: kuusi lyhyttä keksittyä tekstiä (kerhoilmoitus, kadonneen lemmikin ilmoitus, kirjaston tapahtuma, myynti-ilmoitus, chat-viesti ja juliste), viisi henkilöä, joiden toiveet on kerrottu suomeksi (tehtävät 1–5), ja kolme yksityiskohtakysymystä (tehtävä 6 milloin, 7 paljonko maksaa, 8 kenelle ottaa yhteyttä). Tekstit ovat kokeen johdannossa. Rakenne on sama kaikissa versioissa: henkilö 1 sopii kerhoon, 2 kadonneen lemmikin ilmoitukseen, 3 kirjaston tapahtumaan, 4 myynti-ilmoitukseen ja 5 chat-viestiin. Juliste jää aina yli: sen aihe on sama kuin kerhon, mutta ikäraja ja ajankohta eivät sovi henkilölle 1 (kartan 'koko toive, ei vain yksi yhteinen sana').","Ylijäävä teksti: A 3, B 5, C 3, D 1, E 2. Jos oppilas yhdistää henkilön 1 julisteeseen, hän on lukenut vain aiheen (ansa 1) tai ei ole tarkistanut ikärajaa ja päivää (ansa 2).","Raja kartan mukaan: tehtävistä 1–5 vähintään neljä oikein ja tehtävistä 6–8 vähintään kaksi oikein. Molemmat ehdot vaaditaan. Mittaritehtäviä ei nimetä yksittäin, koska raja on kartassa kirjoitettu osarajoina. Kartan raja (pienin hyväksytty 6/8, 75 %) on lievempi kuin opettajan sivun automaattinen 80 %:n lause (7/8); tässä taidossa noudatetaan kartan rajaa samoin kuin ENA5-LUE-04:ssä. Asia on viety avoimeksi kysymykseksi.","Tehtävä 6 (alkamisaika): hyväksytään 24 tunnin aika (14.30), englanninkielinen merkintä (2.30 p.m.) tai suomenkielinen ilmaus (puoli kolme iltapäivällä). Väärin on loppumisaika tai pelkkä 2.30 ilman merkintää iltapäivästä, koska oppilas ei silloin osoita ymmärtävänsä p.m.-merkintää. Jos oppilas kirjoittaa myös päivän, se ei haittaa.","Tehtävä 7 (viikkohinta): hyväksytään £2.50, 2,50 puntaa tai 2 puntaa 50 penniä (vastaavasti muissa versioissa). Pelkkä luku ilman yksikköä hyväksytään, jos se on oikein. Väärin on toisen tekstin hinta tai muu ilmoituksen luku (esimerkiksi ikäraja).","Tehtävä 8 (yhteydenotto): hyväksytään joko nimi (Jack) tai puhelinnumero; kumpikin kertoo, mihin otetaan yhteyttä. Väärin on toisen tekstin henkilö tai paikka, jossa eläin katosi. Tehtävät 6–8 tarkistetaan käsin; pieni kirjoitusvirhe ei tee vastauksesta väärää, koska tässä mitataan lukemista.","Puhelinnumerot ovat Ison-Britannian viestintäviranomaisen Ofcomin draamakäyttöön varaamalta väliltä 07700 900000–07700 900999, joten ne eivät ole kenenkään oikeita numeroita. Tarkistettava asiatieto: väli on Ofcomin julkaisema, mutta tarkista se ennen tulostusta (https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/numbers-for-drama).","Kaikki henkilöt, paikat ja ilmoitukset ovat keksittyjä (Greenbridge on sama keksitty kaupunki kuin ENA6-kartan muissa taidoissa). Tekstit ovat brittienglantia (£, p, a.m./p.m.). Hinnoissa on pennejä vain viikkohinnoissa ja ne luetaan lukuina; hinnan sanominen ääneen kuuluu taitoon ENA6-PUH-02.","Ero 5. luokkaan: ENA5-LUE-01:ssä luettiin yksi tarina ja etsittiin sen pääajatus ja yksityiskohdat. Nyt luetaan useita lyhyitä käyttötekstejä rinnakkain, ja uutta on tekstin valitseminen lukijan tarpeen mukaan (koko toive) sekä ilmoitusten lyhyet merkinnät. 4. luokan ENA4-LUE-03 (tieto taulukosta) on ensimmäinen askel samaan suuntaan.","Harjoituksissa vastaus on luku tai valinta, koska oppilaan sivu tarkistaa vain ne. Harjoitusten ilmoitukset ovat eri aiheista kuin kokeen ilmoitukset, mutta ansat ovat samat.","Tässä taidossa ei mitata lukunopeutta eikä ajanoteta mitään. Huolellisesti mutta hitaasti lukeva on näyttänyt taidon."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Ilmoitusta ei lueta kuin tarinaa. Ensin silmäillään, mistä ilmoitus kertoo, sitten etsitään päivä, aika, ikä, hinta ja yhteystapa. Ilmoitus sopii vain, jos se sopii koko toiveeseen.","vaiheet":[{"aika":"7 min","otsikko":"Aloitus","sisalto":"Näytä koulun oma ilmoitustaulu tai oppilaan sivun kuva Puppet Workshop -ilmoituksesta. Kysy: mitä tästä pitää selvittää ennen kuin lähtee mukaan? Kerää taululle sarakkeet mitä, milloin, kenelle, paljonko ja mitä pitää tehdä."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Käykää läpi merkintätaulukko (Ages, a.m./p.m., £ ja p, each, book, FOR SALE/WANTED, LOST/FOUND). Lukekaa esimerkki kahdesta pyöräilmoituksesta ja pilkkokaa Onnin toive osiin. Kysy, missä kohdassa ilmoitus 2 lakkaa sopimasta."},{"aika":"18 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivu ryhmä kerrallaan. Pysähdy tehtäviin H07 ja H10 (sama aihe, eri ikä tai aika) ja H12 (WANTED) ja kysy perustelu ääneen. Kierrä ja katso, kuka valitsee ilmoituksen pelkän aiheen perusteella."},{"aika":"8 min","otsikko":"Lopetus","sisalto":"Kirjoita taululle kaksi samanaiheista keksittyä ilmoitusta ja yksi toive. Oppilaat näyttävät sormilla, kumpi sopii, ja yksi kertoo, mikä toiveen osa ratkaisi. Koe pidetään seuraavalla tunnilla, ja siihen kuluu noin puolet oppitunnista."}],"tarvikkeet":"Oppilaan sivu laitteelta tai tulostettuna. Vapaaehtoisesti koulun ilmoitustaulu tai muutama englanninkielinen esite koulun kirjastosta."},"virhesanakirja":[{"virhe":"Yhdistää henkilön 1 julisteeseen, jossa on sama aihe mutta väärä ikäraja tai päivä (koe A: Venla kokkauspäivään, joka on 5–8-vuotiaille ja lauantaina).","tehtava":"koko toive (kokeen tehtävä 1, H07, H08, H10)","mita_kertoo":"Oppilas pysähtyy ensimmäiseen ilmoitukseen, jonka aihe sopii, eikä tarkista toiveen muita osia.","mita_tehda":"Pilkotaan toive yhdessä osiin (mitä, milloin, ikä, raha) ja merkitään jokaisen viereen rasti tai risti kummastakin samanaiheisesta ilmoituksesta."},{"virhe":"Hyväksyy ikärajan, johon henkilö ei kuulu, tai sekoittaa a.m.:n ja p.m.:n.","tehtava":"ikäraja ja kellonaika (kokeen tehtävät 1 ja 6, H01, H02, H19)","mita_kertoo":"Oppilas lukee luvun mutta ei sen merkintää. Ages 8–11 voi näyttää hänestä 'noin kymmenvuotiaille'.","mita_tehda":"Kirjoita lukusuora 7–13 ja rajaa siihen ikäraja. Kertaa a.m. ja p.m. kellotaulun avulla: p.m.-aikaan lisätään 12."},{"virhe":"Vastaa tehtävään 6 tapahtuman loppumisajan (koe A: 4 p.m.) tai pelkän 2.30.","tehtava":"alkamisaika (kokeen tehtävä 6, H03)","mita_kertoo":"Oppilas löytää kellonajan mutta ei tiedä, että viivan ensimmäinen aika on alku. Pelkkä 2.30 kertoo, ettei p.m.-merkintää ole muutettu.","mita_tehda":"Lue ääneen 2.30–4 p.m. muodossa 'from half past two to four in the afternoon' ja kysy, kumpi on alku."},{"virhe":"Yhdistää eläimen löytäjän väärään ilmoitukseen tai myyjän toiseen myynti-ilmoitukseen (FOR SALE / WANTED, LOST / FOUND sekaisin).","tehtava":"ilmoitustyypit (kokeen tehtävät 2 ja 4, H09, H12)","mita_kertoo":"Oppilas tunnistaa aiheen (koira, rullalauta) mutta ei ilmoituksen tyyppiä, joka kertoo, kuka etsii ja kuka tarjoaa.","mita_tehda":"Lajittele valmiita ilmoituksia kahteen pinoon: 'kirjoittaja tarjoaa' ja 'kirjoittaja etsii'. Kysy jokaisesta: kuka tarvitsee apua?"},{"virhe":"Vastaa tehtävään 7 väärän tekstin hinnan tai ilmoituksen muun luvun (esimerkiksi ikärajan).","tehtava":"hinta (kokeen tehtävä 7, H04, H05, H16)","mita_kertoo":"Oppilas tarttuu ensimmäiseen lukuun. Hän ei tarkista, mistä ilmoituksesta kysytään ja mihin sanaan luku liittyy (a week, each).","mita_tehda":"Pyydä ympyröimään ensin oikea ilmoitus ja sitten £-merkki. Luetaan ääneen luvun perässä oleva sana."},{"virhe":"Kääntää jokaisen ilmoituksen sana sanalta eikä jaksa enää tarkistaa toiveita.","tehtava":"lukustrategia (koko koe)","mita_kertoo":"Oppilas lukee ilmoituksia kuin tarinaa. Hän ei vielä luota siihen, että silmäily ja etsiminen riittävät.","mita_tehda":"Harjoitellaan kaksivaiheisesti: ensin vain otsikot ja ilmoituksen tyyppi, sitten yksi kysymys kerrallaan. Ajan sijaan korostetaan, että tuntemattomat sanat saa ohittaa."}],"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee lukemaan lyhyitä englanninkielisiä ilmoituksia, mainoksia ja viestejä, esimerkiksi kerhoilmoituksia, kadonneen lemmikin ilmoituksia ja myynti-ilmoituksia. Hän etsii niistä päivän, kellonajan, ikärajan, hinnan ja sen, mihin pitää ottaa yhteyttä, ja päättää, kenelle ilmoitus sopii. Tärkeintä on, että ilmoitus sopii henkilön koko toiveeseen eikä vain yhteen sanaan.","kotona":["Kun vastaan tulee ilmoitus, mainos tai juliste millä tahansa kielellä, kysykää lapselta: mitä, milloin, kenelle ja paljonko? Mikä näistä puuttuu?","Leikkikää 'sopiiko tämä?': keksikää yhdessä henkilö ja hänen toiveensa ja tarkistakaa, sopiiko jokin ilmoitus kokonaan vai vain osittain.","Jos lapsi lukee englanninkielistä ilmoitusta, älkää kääntäkö sitä hänelle. Kysykää mieluummin, mistä kohdasta hän löysi ajan tai hinnan.","Muistuttakaa, että 3 p.m. on iltapäivällä kello 15 ja että ikärajaan 8–11 kuuluvat myös 8- ja 11-vuotiaat."],"milloin_huolestua":"Jos lapsi ei löydä suomenkielisestäkään ilmoituksesta aikaa tai hintaa, vaikeus ei ehkä ole englannissa vaan tiedon etsimisessä yleensä. Kertokaa havainnosta opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat lukea englanninkielisiä ilmoituksia, mainoksia ja viestejä ja löytää niistä sen, mikä sopii kenellekin. Tarkistat päivän, ajan, ikärajan ja hinnan etkä anna yhden tutun sanan johtaa harhaan. Taito on nyt näytetty!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
