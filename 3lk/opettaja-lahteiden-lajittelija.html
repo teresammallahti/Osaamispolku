@@ -1,0 +1,619 @@
+<title>Lähteiden lajittelija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI3-TIE-02","oppiaine":"AI","vuosiluokka":3,"taitoalue":"TIE","jakso":"J4","taso":"ydin","otsikko":"Lähteiden lajittelija","kuvaus":"Osaan kertoa, mistä tunnistan luotettavan lähteen ja milloin tieto pitää tarkistaa.","versio":"0.1","paivitetty":"2026-11-21","ops":{"T":["T7"],"S":["S2"]},"eyebrow":"Äidinkieli · 3. luokka · Tiedonhaku ja medialukutaito","ikoni":"vertailu","naytto":"Paperikoe: Opettaja antaa viisi keksittyä lähdettä samasta aiheesta (esimerkiksi tietokirjan sivu, lasten tietosanakirjan artikkeli, nimetön viesti verkossa, mainos ja kaverin kertoma juttu). Lajittelen ne kahteen ryhmään: luotettava ja tarkistettava. Kirjoitan jokaisen kohdalle syyn. Lopuksi kirjoitan kaksi kysymystä, joita voin kysyä mistä tahansa lähteestä.","osaa_kun":"Lajittelen ainakin neljä lähdettä viidestä ja perustelen ne. Syyni liittyvät tekijään, julkaisijaan tai tekstin tarkoitukseen (esimerkiksi \"Tekijää ei kerrota.\" tai \"Mainos haluaa myydä.\") eivätkä ulkonäköön. Kysymykseni sopivat mihin tahansa lähteeseen (esimerkiksi \"Kuka tämän kirjoitti?\" tai \"Löytyykö sama tieto toisesta lähteestä?\").","teksti":[{"tyyppi":"johdanto","sisalto":"Välitunnilla kaveri kertoo ihmeellisen asian kissoista. Illalla näet verkossa viestin, joka väittää toista. Kirjastossa on kissakirja, jossa kerrotaan kolmas asia. Kenen tietoa kannattaa käyttää? Tässä taidossa opit lajittelemaan lähteet kahteen ryhmään: luotettava ja tarkistettava. Opit myös kysymykset, joita voit kysyä mistä tahansa lähteestä."},{"tyyppi":"kappale","otsikko":"Mikä on lähde?","sisalto":"Lähde on paikka, josta tieto tulee. Lähde voi olla kirja, lehti, verkkosivu, video, mainos tai toisen ihmisen kertoma juttu. Kaikki lähteet eivät ole yhtä hyviä. Siksi lähteeltä kannattaa aina kysyä muutama kysymys ennen kuin käyttää sen tietoa."},{"tyyppi":"saanto","otsikko":"Kolme kysymystä lähteelle","askeleet":["Kuka tämän teki? Etsi tekijän nimi tai se, kuka lähteen julkaisi, esimerkiksi museo tai kirjan kustantaja. Mieti myös, onko tekijä selvittänyt asian itse.","Miksi tämä on tehty? Haluaako lähde kertoa tietoa vai myydä sinulle jotain?","Löytyykö sama tieto toisesta lähteestä? Tällä kysymyksellä tarkistat tiedon."]},{"tyyppi":"kappale","otsikko":"Luotettava vai tarkistettava","sisalto":"Lähde on luotettava, kun kahteen ensimmäiseen kysymykseen on hyvä vastaus: tiedät, kuka lähteen teki, hän on selvittänyt asian, ja lähde kertoo tietoa eikä myy mitään. Jos jompikumpi puuttuu, lähde on tarkistettava. Tarkistettavan lähteen tietoa et käytä heti. Etsit ensin saman tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta."},{"tyyppi":"kuva","otsikko":"Näin lajittelet lähteen","svg":"<svg viewBox=\"0 0 600 300\" role=\"img\" aria-label=\"Lajittelukaavio: kaksi kysymystä erottavat luotettavan ja tarkistettavan lähteen\"><rect class=\"v-osa\" x=\"200\" y=\"8\" width=\"200\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"300\" y=\"33\" text-anchor=\"middle\">Löysit lähteen</text><line class=\"v-akseli\" x1=\"300\" y1=\"48\" x2=\"300\" y2=\"66\"/><polygon class=\"v-nuoli\" points=\"300,74 295,65 305,65\"/><rect class=\"v-osa\" x=\"150\" y=\"76\" width=\"300\" height=\"52\" rx=\"6\"/><text class=\"v-t vahva\" x=\"300\" y=\"98\" text-anchor=\"middle\">1 Kuka teki?</text><text class=\"v-t pieni\" x=\"300\" y=\"117\" text-anchor=\"middle\">Tekijä kerrotaan, ja hän on selvittänyt asian.</text><line class=\"v-akseli\" x1=\"300\" y1=\"128\" x2=\"300\" y2=\"146\"/><polygon class=\"v-nuoli\" points=\"300,154 295,145 305,145\"/><text class=\"v-t pieni\" x=\"308\" y=\"144\">kyllä</text><rect class=\"v-osa\" x=\"150\" y=\"156\" width=\"300\" height=\"52\" rx=\"6\"/><text class=\"v-t vahva\" x=\"300\" y=\"178\" text-anchor=\"middle\">2 Miksi tämä on tehty?</text><text class=\"v-t pieni\" x=\"300\" y=\"197\" text-anchor=\"middle\">Se kertoo tietoa eikä myy mitään.</text><line class=\"v-akseli\" x1=\"300\" y1=\"208\" x2=\"300\" y2=\"236\"/><polygon class=\"v-nuoli\" points=\"300,244 295,235 305,235\"/><text class=\"v-t pieni\" x=\"308\" y=\"230\">kyllä</text><rect class=\"v-osa v1\" x=\"200\" y=\"246\" width=\"200\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"300\" y=\"274\" text-anchor=\"middle\">Luotettava</text><line class=\"v-akseli\" x1=\"450\" y1=\"102\" x2=\"500\" y2=\"102\"/><line class=\"v-akseli\" x1=\"450\" y1=\"182\" x2=\"500\" y2=\"182\"/><line class=\"v-akseli\" x1=\"500\" y1=\"102\" x2=\"500\" y2=\"236\"/><polygon class=\"v-nuoli\" points=\"500,244 495,235 505,235\"/><text class=\"v-t pieni\" x=\"458\" y=\"96\">ei</text><text class=\"v-t pieni\" x=\"458\" y=\"176\">ei</text><rect class=\"v-osa\" x=\"430\" y=\"246\" width=\"160\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"510\" y=\"266\" text-anchor=\"middle\">Tarkistettava</text><text class=\"v-t pieni\" x=\"510\" y=\"283\" text-anchor=\"middle\">etsi toisesta lähteestä</text><text class=\"v-t pieni\" x=\"14\" y=\"186\">Ulkonäkö, kuvat ja</text><text class=\"v-t pieni\" x=\"14\" y=\"202\">tykkäykset eivät ole</text><text class=\"v-t pieni\" x=\"14\" y=\"218\">kaaviossa lainkaan.</text></svg>","teksti":"Kun vastaus on kahdesti kyllä, lähde on luotettava. Yksikin ei tekee lähteestä tarkistettavan."},{"tyyppi":"taulukko","otsikko":"Esimerkkejä lajittelusta","otsikkorivi":["Lähde","Kuka teki?","Miksi tehty?","Ryhmä"],"rivit":[["Tietokirja Siilin vuosi","Eläintutkija Liisa Kaarna","Kertoo tietoa","Luotettava"],["Luontomuseon lastensivu","Luontomuseo","Kertoo tietoa","Luotettava"],["Viesti verkossa","Ei kerrota","Ei tiedetä","Tarkistettava"],["Mainos","Yritys","Myy siiliruokaa","Tarkistettava"],["Kaverin kertoma juttu","Kaveri kuuli sen jostain","Ei tiedetä, mistä tieto on","Tarkistettava"]]},{"tyyppi":"kappale","otsikko":"Hyvä syy ja huono syy","sisalto":"Kun lajittelet lähteen, kerro myös syy. Hyvä syy liittyy tekijään, julkaisijaan tai siihen, miksi lähde on tehty. Hyviä syitä ovat esimerkiksi \"Tekijää ei kerrota.\", \"Kirjan on kirjoittanut eläintutkija.\" ja \"Mainos haluaa myydä.\" Huono syy liittyy ulkonäköön tai siihen, mitä muut ajattelevat: \"Sivulla on hienoja kuvia.\" tai \"Viestillä on paljon tykkäyksiä.\" Nämä eivät kerro, kuka tiedon takana on."},{"tyyppi":"ansa","otsikko":"Ansa 1: hieno ei ole sama kuin luotettava","sisalto":"Värikäs sivu, isot kuvat tai paljon tykkäyksiä tuntuvat hyviltä. Ne eivät kuitenkaan kerro, kuka tiedon teki tai miksi. Myös nimetön viesti voi olla hienon näköinen. Katso siis aina tekijää ja tarkoitusta, älä ulkonäköä."},{"tyyppi":"ansa","otsikko":"Ansa 2: tuttu kaveri ei tee jutusta luotettavaa","sisalto":"Kaveri on mukava ja tuttu, mutta jos hän kuuli jutun jostain, hän ei ole itse selvittänyt asiaa. Ei tiedetä, mistä tieto alun perin on. Siksi kaverin kertoma juttu on tarkistettava, vaikka kaveri ei valehtelisi."},{"tyyppi":"ansa","otsikko":"Ansa 3: tarkistettava ei tarkoita väärää","sisalto":"Tarkistettavan lähteen tieto voi olla oikein. Ryhmä kertoo vain sen, että tietoa ei vielä käytetä. Ensin tarkistat sen luotettavasta lähteestä. Jos luotettava lähde kertoo saman asian, voit käyttää tietoa. Jos se kertoo toisin, uskot luotettavaa lähdettä."},{"tyyppi":"kappale","otsikko":"Milloin tieto pitää tarkistaa?","sisalto":"Tarkista tieto aina, kun lähde on tarkistettava. Tarkista myös silloin, kun kaksi lähdettä kertoo samasta asiasta eri tavalla. Tarkistaminen tarkoittaa, että etsit saman asian luotettavasta lähteestä ja vertaat: kertovatko lähteet saman asian?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kysy lähteeltä: Kuka tämän teki? Miksi tämä on tehty? Löytyykö sama tieto toisesta lähteestä?","Luotettava: tekijä kerrotaan, hän on selvittänyt asian, ja lähde kertoo tietoa.","Tarkistettava: tekijää ei kerrota, lähde myy jotain tai juttu on kuultu jostain.","Hyvä syy liittyy tekijään, julkaisijaan tai tarkoitukseen, ei ulkonäköön.","Tarkistettava ei ole sama kuin väärä. Tarkista tieto ennen kuin käytät sitä."]}],"harjoitusryhmat":[{"id":"lahteet","nimi":"Luotettava vai tarkistettava","info":"Kysy jokaiselta lähteeltä: Kuka teki? Miksi tämä on tehty? Luotettavassa lähteessä molempiin on hyvä vastaus."},{"id":"syyt","nimi":"Hyvä syy","info":"Hyvä syy liittyy tekijään, julkaisijaan tai tarkoitukseen. Ulkonäkö ja tykkäykset eivät ole hyviä syitä."},{"id":"kysymykset","nimi":"Kysymykset ja tarkistaminen","info":"Hyvä kysymys sopii mihin tahansa lähteeseen. Tarkistettava tieto etsitään luotettavasta lähteestä."}],"ryhmanimet":{"lahteet":"Lähteiden lajittelu","syyt":"Hyvä syy","kysymykset":"Kysymykset ja tarkistaminen"},"harjoitukset":[{"id":"H01","ryhma":"lahteet","kysymys":"Neljä lähdettä sammakoista:\n1. Tietokirja Sammakot ja konnat. Kirjoittaja: biologi Ari Lumme.\n2. Viesti verkossa: \"Sammakosta saa syyliä!\" Kirjoittajaa ei kerrota.\n3. Mainos: \"Osta Hyppy-sammakkolelu! Vain 5 euroa.\"\n4. Luontokeskuksen lastensivu Sammakon talvi. Sivun tekijä: Kuusiston luontokeskus.\n\nMontako näistä lähteistä on luotettavia?","vastaus":2,"vinkki":"Kysy jokaiselta lähteeltä: Kuka teki? Miksi tämä on tehty?","selitys":"Luotettavia ovat tietokirja ja luontokeskuksen sivu. Niiden tekijä kerrotaan, ja ne kertovat tietoa. Viestin tekijää ei kerrota, ja mainos haluaa myydä."},{"id":"H02","ryhma":"lahteet","kysymys":"Viisi lähdettä majavista:\n1. Kaverin juttu: Jere sanoi, että majava syö kalaa. Jere kuuli sen joltakulta leirillä.\n2. Lasten luontosanakirja. Sen ovat tehneet luontotutkijat.\n3. Video verkossa: \"Hauska majava!\" Tekijää ei kerrota.\n4. Tietokirja Majavan pato. Kirjoittaja: eläintutkija Outi Saari.\n5. Mainos: \"Majava-reppu nyt tarjouksessa!\"\n\nMontako näistä lähteistä pitää tarkistaa?","vastaus":3,"vinkki":"Laske ne, joissa tekijää ei kerrota, juttu on kuultu jostain tai lähde myy jotain.","selitys":"Tarkistettavia ovat kaverin juttu, video ja mainos. Jere kuuli jutun jostain, videon tekijää ei kerrota ja mainos haluaa myydä."},{"id":"H03","ryhma":"lahteet","kysymys":"Neljä lähdettä ketuista:\n1. Tietokirja Kettu metsässä. Kirjoittaja: Mikko Rauta, eläintutkija.\n2. Lastenlehden tietojuttu Ketun pesä. Kirjoittaja: toimittaja Satu Leino.\n3. Viesti verkossa: \"Ketut nukkuvat koko talven!\" Kirjoittajaa ei kerrota.\n4. Luontomuseon lastensivu Kettu. Sivun tekijä: Kuusiston luontomuseo.\n\nMonennessako lähteessä ei kerrota, kuka sen teki?","vastaus":3,"vinkki":"Katso jokaisesta lähteestä, kerrotaanko kirjoittaja tai tekijä.","selitys":"Lähteessä 3 kirjoittajaa ei kerrota. Muissa lähteissä tekijä on kerrottu."},{"id":"H04","ryhma":"lahteet","kysymys":"Viisi lähdettä tähdistä:\n1. Tietokirja Tähtitaivas. Kirjoittaja: tähtitieteilijä Leena Halla.\n2. Mainos: \"Osta Tähtisilmä-kaukoputki! Näet joka tähden!\"\n3. Video verkossa: \"Tähdet ovat taivaan lamppuja!\" Tekijää ei kerrota. Videolla on paljon tykkäyksiä.\n4. Planetaarion lastensivu Mikä tähti on. Sivun tekijä: Kuusiston planetaario.\n5. Kaverin juttu: Iida sanoi, että tähdet sammuvat aamulla. Hän kuuli sen joltakulta.\n\nMontako näistä lähteistä on luotettavia?","vastaus":2,"vinkki":"Tykkäykset eivät kuulu kysymyksiin. Katso tekijää ja sitä, miksi lähde on tehty.","selitys":"Luotettavia ovat tietokirja ja planetaarion sivu. Videolla on paljon tykkäyksiä, mutta sen tekijää ei kerrota."},{"id":"H05","ryhma":"lahteet","kysymys":"Samat viisi lähdettä tähdistä:\n1. Tietokirja Tähtitaivas. Kirjoittaja: tähtitieteilijä Leena Halla.\n2. Mainos: \"Osta Tähtisilmä-kaukoputki! Näet joka tähden!\"\n3. Video verkossa: \"Tähdet ovat taivaan lamppuja!\" Tekijää ei kerrota. Videolla on paljon tykkäyksiä.\n4. Planetaarion lastensivu Mikä tähti on. Sivun tekijä: Kuusiston planetaario.\n5. Kaverin juttu: Iida sanoi, että tähdet sammuvat aamulla. Hän kuuli sen joltakulta.\n\nMonesko lähde haluaa myydä sinulle jotain?","vastaus":2,"vinkki":"Etsi lähde, jossa kehotetaan ostamaan.","selitys":"Lähde 2 on mainos. Se haluaa, että ostat kaukoputken. Siksi se on tarkistettava, vaikka tekijä on yritys, jonka nimi kerrotaan."},{"id":"H06","ryhma":"lahteet","kysymys":"Viisi lähdettä kaloista:\n1. Viesti verkossa: \"Kalat nukkuvat silmät auki.\" Kirjoittajaa ei kerrota.\n2. Tietokirja Järven kalat. Kirjoittaja: kalatutkija Pekka Joki.\n3. Mainos: \"Kalakaveri-akvaario, osta heti!\"\n4. Kaverin juttu: Aaro sanoi, että hauki voi syödä ankan. Hän kuuli sen joltakulta.\n5. Mainos: \"Uistin, jolla saat aina kalaa!\"\n\nMontako näistä lähteistä haluaa myydä jotain?","vastaus":2,"vinkki":"Etsi lähteet, joissa kehotetaan ostamaan.","selitys":"Lähteet 3 ja 5 ovat mainoksia. Ne haluavat, että ostat akvaarion tai uistimen."},{"id":"H07","ryhma":"lahteet","kysymys":"Neljä lähdettä kaneista:\n1. Viesti verkossa: \"Kanit tarvitsevat heinää joka päivä.\" Kirjoittaja: eläinlääkäri Mari Hovi.\n2. Viesti verkossa: \"Kanit rakastavat suklaata!\" Kirjoittajaa ei kerrota.\n3. Tietokirja Kani kotona. Kirjoittaja: eläinlääkäri Ville Ranta.\n4. Lastenlehden tietojuttu Kanin hampaat. Kirjoittaja: toimittaja Emma Koski.\n\nMontako näistä lähteistä kertoo, kuka sen kirjoitti?","vastaus":3,"vinkki":"Katso jokaisesta lähteestä riviä Kirjoittaja.","selitys":"Kolmessa lähteessä kirjoittaja kerrotaan. Vain toisen viestin kirjoittajaa ei kerrota."},{"id":"H08","ryhma":"lahteet","kysymys":"Viesti verkossa: \"Kanit tarvitsevat heinää joka päivä.\" Kirjoittaja: eläinlääkäri Mari Hovi. Viestissä ei myydä mitään.\n\nKumpaan ryhmään viesti kuuluu?","vastaus":0,"vinkki":"Älä katso, onko lähde viesti vai kirja. Kysy kaksi kysymystä: kuka teki ja miksi.","selitys":"Viesti on luotettava. Kirjoittaja kerrotaan, hän on eläinlääkäri, joka tuntee eläimet, ja viesti kertoo tietoa. Lähteen laji ei ratkaise, vaan vastaukset kysymyksiin.","tyyppi":"monivalinta","vaihtoehdot":["Luotettava, koska kirjoittaja kerrotaan, hän on eläinlääkäri ja viesti kertoo tietoa.","Tarkistettava, koska kaikki verkon viestit ovat tarkistettavia.","Tarkistettava, koska viestissä ei ole kuvia."]},{"id":"H09","ryhma":"syyt","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Tekijää ei kerrota.\n- Viesti on kirjoitettu punaisella.\n- Viestissä on hauska kuva.\n- Ei tiedetä, kuka viestin julkaisi.\n\nMontako näistä syistä on hyviä syitä?","vastaus":2,"vinkki":"Hyvä syy liittyy tekijään, julkaisijaan tai siihen, miksi lähde on tehty.","selitys":"Hyviä syitä ovat \"Tekijää ei kerrota\" ja \"Ei tiedetä, kuka viestin julkaisi\". Väri ja kuva ovat ulkonäköä."},{"id":"H10","ryhma":"syyt","kysymys":"Oppilas perustelee, miksi tietokirja on luotettava:\n- Kirjan on kirjoittanut eläintutkija.\n- Kirjan kansi on kaunis.\n- Kirja on paksu.\n- Kirja kertoo tietoa eikä myy mitään.\n- Kirjan on julkaissut tietokirjoja tekevä kustantamo.\n\nMontako näistä syistä on hyviä syitä?","vastaus":3,"vinkki":"Kansi ja paksuus ovat ulkonäköä. Laske syyt, jotka kertovat tekijästä, julkaisijasta tai tarkoituksesta.","selitys":"Kolme syytä on hyviä: kirjoittaja, julkaisija ja se, että kirja kertoo tietoa. Kaunis kansi ja paksuus eivät kerro, kuka tiedon takana on."},{"id":"H11","ryhma":"syyt","kysymys":"Oppilas perustelee, miksi mainos pitää tarkistaa:\n- Mainos haluaa, että ostat jotain.\n- Mainoksessa on iloisia värejä.\n- Mainoksen tekijä hyötyy, jos uskot sitä.\n- Mainos on lyhyt.\n\nMontako näistä syistä on hyviä syitä?","vastaus":2,"vinkki":"Mieti, mikä syy kertoo, miksi mainos on tehty.","selitys":"Hyviä syitä on kaksi: mainos haluaa myydä, ja tekijä hyötyy, jos uskot sitä. Värit ja pituus eivät kerro tarkoituksesta."},{"id":"H12","ryhma":"syyt","kysymys":"Kolme syytä, miksi sivu pitää tarkistaa:\n1. Sivun tekijää ei kerrota.\n2. Sivulla on paljon kuvia.\n3. Sivu myy leluja.\n\nMonesko syy liittyy ulkonäköön?","vastaus":2,"vinkki":"Ulkonäkö tarkoittaa sitä, miltä sivu näyttää.","selitys":"Syy 2 kertoo vain, miltä sivu näyttää. Syyt 1 ja 3 ovat hyviä: ne kertovat tekijästä ja tarkoituksesta."},{"id":"H13","ryhma":"syyt","kysymys":"Lasten tietosanakirja on luotettava lähde.\n\nMikä on paras syy?","vastaus":1,"vinkki":"Hyvä syy kertoo, kuka kirjan teki tai miksi se on tehty.","selitys":"Paras syy on se, että kirjan ovat tehneet asian selvittäneet ihmiset ja se kertoo tietoa. Kuvat ja paino eivät kerro tiedon tekijästä.","tyyppi":"monivalinta","vaihtoehdot":["Siinä on paljon värikuvia.","Sen ovat tehneet ihmiset, jotka ovat selvittäneet asiat, ja se kertoo tietoa.","Se on painava kirja."]},{"id":"H14","ryhma":"syyt","kysymys":"Viestissä lukee: \"Hämähäkit osaavat lentää.\" Viestillä on 300 tykkäystä. Kirjoittajaa ei kerrota.\n\nKolme oppilasta perustelee:\nAino: \"Viesti on tarkistettava, koska kirjoittajaa ei kerrota.\"\nOnni: \"Viesti on luotettava, koska sillä on paljon tykkäyksiä.\"\nVenla: \"Viesti on tarkistettava, koska ei tiedetä, kuka sen julkaisi.\"\n\nMontako oppilasta perustelee hyvällä syyllä?","vastaus":2,"vinkki":"Tykkäykset kertovat, mitä muut ajattelevat, eivät sitä, kuka tiedon teki.","selitys":"Aino ja Venla perustelevat tekijällä ja julkaisijalla. Onnin syy on tykkäykset, ja se ei ole hyvä syy."},{"id":"H15","ryhma":"kysymykset","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka tämän teki?\n- Montako jalkaa hämähäkillä on?\n- Miksi tämä on tehty?\n- Löytyykö sama tieto toisesta lähteestä?\n- Onko kirjassa kuvia siileistä?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen?","vastaus":3,"vinkki":"Sopiva kysymys toimii kirjassa, videossa, mainoksessa ja kaverin jutussa.","selitys":"Kolme kysymystä sopii mihin tahansa lähteeseen: kuka teki, miksi tämä on tehty ja löytyykö sama tieto muualta. Hämähäkin jalat ja siilikuvat koskevat vain yhtä aihetta."},{"id":"H16","ryhma":"kysymykset","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka tämän julkaisi?\n- Missä majava asuu?\n- Haluaako tämä myydä minulle jotain?\n- Mikä väri kirjan kannessa on?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä?","vastaus":2,"vinkki":"Kysymys auttaa, jos se kertoo jotain tekijästä, julkaisijasta tai tarkoituksesta.","selitys":"Kaksi kysymystä auttaa: kuka julkaisi ja haluaako lähde myydä jotain. Majavan koti on aiheeseen liittyvä kysymys, ja kannen väri on ulkonäköä."},{"id":"H17","ryhma":"kysymykset","kysymys":"Neljä tilannetta:\n1. Luit tiedon tietokirjasta, jonka on kirjoittanut eläintutkija.\n2. Kaveri kertoi jutun, jonka hän oli kuullut jostain.\n3. Mainos lupaa, että juoma tekee sinusta vahvan.\n4. Kaksi kirjaa kertoo samasta asiasta eri tavalla.\n\nMontako tilanteessa tieto pitää tarkistaa?","vastaus":3,"vinkki":"Tarkista, kun lähde on tarkistettava tai kun lähteet kertovat eri asiaa.","selitys":"Tieto pitää tarkistaa tilanteissa 2, 3 ja 4. Kaverin juttu ja mainos ovat tarkistettavia, ja kun kaksi lähdettä on eri mieltä, tarkistat kolmannesta."},{"id":"H18","ryhma":"kysymykset","kysymys":"Kaveri kertoo, että muurahainen jaksaa kantaa itseään painavampaa taakkaa. Hän kuuli sen joltakulta.\n\nMitä teet?","vastaus":1,"vinkki":"Kaverin juttu on tarkistettava. Mitä tarkistettavalle tiedolle tehdään?","selitys":"Etsit saman tiedon luotettavasta lähteestä. Kaverin juttu voi olla totta tai ei, mutta sen alkuperää ei tiedetä.","tyyppi":"monivalinta","vaihtoehdot":["Uskon, koska kaveri on mukava.","Etsin saman tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta.","Päätän, että juttu on valhetta."]},{"id":"H19","ryhma":"kysymykset","kysymys":"Viesti verkossa väittää: \"Orava kerää syksyllä ruokaa talveksi.\" Kirjoittajaa ei kerrota. Tarkistat väitteen kahdesta tietokirjasta. Kumpikin tietokirja kertoo saman asian kuin viesti.\n\nMontako luotettavaa lähdettä kertoo saman asian kuin viesti?","vastaus":2,"vinkki":"Laske tietokirjat, jotka kertovat saman asian.","selitys":"Molemmat tietokirjat kertovat saman asian. Viesti oli tarkistettava, mutta tarkistus näytti, että tämä tieto pitää paikkansa. Nyt voit käyttää tietoa ja kertoa, että se on tietokirjoista."},{"id":"H20","ryhma":"kysymykset","kysymys":"Kolme väitettä:\n1. Tarkistettavan lähteen tieto on aina väärää.\n2. Tarkistettavan lähteen tieto voi olla oikein.\n3. Tarkistettavan lähteen tiedon voi tarkistaa luotettavasta lähteestä.\n\nMontako näistä väitteistä on totta?","vastaus":2,"vinkki":"Muista: tarkistettava ei tarkoita väärää.","selitys":"Väitteet 2 ja 3 ovat totta. Tarkistettavan lähteen tieto voi olla oikein, mutta se tarkistetaan ennen käyttöä."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue ensin viisi lähdettä","johdanto":"Näin vastaat: Tehtävissä 1–12 kirjoitat vastaukseksi yhden luvun. Tehtävissä 13–15 kirjoitat vastauksen sanoin.\n\nOpettaja on koonnut viisi lähdettä karhuista. Lue ne. Vastaa kysymyksiin 1–5 ja 13–15 niiden avulla.\n\nLähde 1: Tietokirja Karhun vuosi\nKirjoittaja: eläintutkija Anna Tammi\nKirjassa lukee: Karhu nukkuu talviunta pesässä.\n\nLähde 2: Viesti verkossa\nKirjoittaja: ei kerrota. Viestissä on iso, värikäs karhukuva ja paljon tykkäyksiä.\nViestissä lukee: Karhut syövät vain hunajaa!\n\nLähde 3: Mainos\nTekijä: Kontio-kauppa\nMainoksessa lukee: Osta Karhunkämmen-tossut! Yhtä lämpimät kuin karhun turkki!\n\nLähde 4: Lasten luontosanakirja, sana karhu\nTekijät: joukko luontotutkijoita\nSanakirjassa lukee: Karhu syö marjoja, kasveja, muurahaisia ja lihaa.\n\nLähde 5: Kaverin juttu\nKertoja: luokkatoveri Veeti. Hän kuuli jutun joltakulta uimahallissa.\nVeeti sanoi: Karhu juoksee nopeammin kuin auto.","tehtavat":[{"nro":1,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä on luotettavia? Kirjoita luku.","vastaus":2},{"nro":2,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":3,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde haluaa myydä jotain? Kirjoita lähteen numero.","vastaus":3},{"nro":4,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on viesti, jonka kirjoittajaa ei kerrota? Kirjoita lähteen numero.","vastaus":2},{"nro":5,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on juttu, jonka kertoja kuuli joltakulta? Kirjoita lähteen numero.","vastaus":5},{"nro":6,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Viestin kirjoittajaa ei kerrota.\n- Kuva on värikäs.\n- Viestillä on paljon tykkäyksiä.\n- Viestin julkaisijasta ei ole tietoa.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":7,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi tietokirja on luotettava:\n- Kirjoittaja Anna Tammi on eläintutkija.\n- Kirjassa on kaunis kansi.\n- Kirjassa kerrotaan tietoa, ei myydä mitään.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":8,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Kolme syytä:\n1. Mainos haluaa myydä tossuja.\n2. Veeti ei ole itse selvittänyt asiaa.\n3. Viestissä on iso kuva.\n\nMonesko syy liittyy ulkonäköön? Kirjoita syyn numero.","vastaus":3},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka tämän teki?\n- Missä karhu nukkuu?\n- Mikä on tämän tarkoitus?\n- Onko kirjassa karhun kuva?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen? Kirjoita luku.","vastaus":2},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Mistä muualta löydän saman tiedon?\n- Kuka on julkaissut tämän?\n- Montako karhua Suomessa on?\n- Mitä tämä haluaa minun tekevän?\n- Onko kirja paksu?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä? Kirjoita luku.","vastaus":3},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Neljä tilannetta:\n1. Kaveri kertoi jutun, jonka oli kuullut jostain.\n2. Luit tiedon tietokirjasta, jonka on kirjoittanut tutkija.\n3. Tietokirja ja tietosanakirja kertovat samasta asiasta eri tavalla.\n4. Mainos lupaa, että tossut ovat yhtä lämpimät kuin turkki.\n\nMontako tilanteessa tieto pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kolme väitettä:\n1. Kaikki tarkistettavan lähteen tieto on väärää.\n2. Tarkistettavan lähteen tiedon voi tarkistaa tietokirjasta.\n3. Hieno kuva tekee lähteestä luotettavan.\n\nMontako näistä väitteistä on totta? Kirjoita luku.","vastaus":1},{"nro":13,"ryhma":"lahteet","tyyppi":"sanallinen","kysymys":"Lajittele lähteet. Kirjoita jokaisen lähteen numeron viereen L, jos lähde on luotettava, tai T, jos lähde pitää tarkistaa. Kirjoita jokaiseen myös syy.\nLähde 1:\nLähde 2:\nLähde 3:\nLähde 4:\nLähde 5:","vastaus":"Malliesimerkki: Lähde 1: L, koska kirjan on kirjoittanut tutkija ja se kertoo tietoa. Lähde 2: T, koska tekijää ei kerrota. Lähde 3: T, koska mainos haluaa myydä. Lähde 4: L, koska tekijä kerrotaan, se on selvittänyt asian ja lähde kertoo tietoa. Lähde 5: T, koska kertoja kuuli jutun joltakulta eikä ole itse selvittänyt asiaa."},{"nro":14,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Kirjoita kaksi kysymystä, joita voit kysyä mistä tahansa lähteestä.","vastaus":"Malliesimerkki: Kuka tämän on kirjoittanut? Löytyykö sama tieto jostain muualta?"},{"nro":15,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Lähde 2 (viesti) väittää: \"Karhut syövät vain hunajaa.\" Mitä teet ennen kuin käytät tätä tietoa? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Tarkistan tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta, ja käytän sitä vain, jos sama tieto löytyy sieltä."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue ensin viisi lähdettä","johdanto":"Näin vastaat: Tehtävissä 1–12 kirjoitat vastaukseksi yhden luvun. Tehtävissä 13–15 kirjoitat vastauksen sanoin.\n\nOpettaja on koonnut viisi lähdettä muurahaisista. Lue ne. Vastaa kysymyksiin 1–5 ja 13–15 niiden avulla.\n\nLähde 1: Kaverin juttu\nKertoja: luokkatoveri Nella. Hän kuuli jutun joltakulta välitunnilla.\nNella sanoi: Muurahaiset osaavat laskea kymmeneen.\n\nLähde 2: Luontomuseon lastensivu Muurahainen\nTekijä: Kuusiston luontomuseo\nSivulla lukee: Muurahaisella on kuusi jalkaa.\n\nLähde 3: Viesti verkossa\nKirjoittaja: ei kerrota. Viesti on kirjoitettu isoilla, kirkkailla kirjaimilla, ja sillä on paljon tykkäyksiä.\nViestissä lukee: Muurahaiset nukkuvat aina päivällä!\n\nLähde 4: Tietokirja Muurahaisten kaupunki\nKirjoittaja: hyönteistutkija Pirjo Lehto\nKirjassa lukee: Kekomuurahaiset rakentavat pesänsä havunneulasista ja risuista.\n\nLähde 5: Mainos\nTekijä: Pihapuoti\nMainoksessa lukee: Osta Muurahaispelti! Pihasi on heti puhdas!","tehtavat":[{"nro":1,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä on luotettavia? Kirjoita luku.","vastaus":2},{"nro":2,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":3,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde haluaa myydä jotain? Kirjoita lähteen numero.","vastaus":5},{"nro":4,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on viesti, jonka kirjoittajaa ei kerrota? Kirjoita lähteen numero.","vastaus":3},{"nro":5,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on juttu, jonka kertoja kuuli joltakulta? Kirjoita lähteen numero.","vastaus":1},{"nro":6,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Kirjoittajan nimeä ei ole.\n- Kirjaimet ovat isoja ja kirkkaita.\n- Kukaan ei kerro julkaisseensa viestiä.\n- Viestillä on paljon tykkäyksiä.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":7,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi luontomuseon sivu on luotettava:\n- Sivun on tehnyt luontomuseo.\n- Sivulla on hieno valikko.\n- Sivu kertoo tietoa eikä myy mitään.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":8,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Kolme syytä:\n1. Viesti on kirjoitettu isoilla kirjaimilla.\n2. Mainos haluaa myydä pellin.\n3. Nella kuuli jutun joltakulta.\n\nMonesko syy liittyy ulkonäköön? Kirjoita syyn numero.","vastaus":1},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Mikä on tämän tarkoitus?\n- Mitä muurahainen syö?\n- Kuka tämän teki?\n- Onko sivulla kuvia?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen? Kirjoita luku.","vastaus":2},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka on julkaissut tämän?\n- Montako jalkaa muurahaisella on?\n- Mitä tämä haluaa minun tekevän?\n- Mistä muualta löydän saman tiedon?\n- Onko kirjan kansi vihreä?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä? Kirjoita luku.","vastaus":3},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Neljä tilannetta:\n1. Luit tiedon luontomuseon lastensivulta.\n2. Mainos lupaa, että piha on heti puhdas.\n3. Kaveri kertoi jutun, jonka oli kuullut välitunnilla.\n4. Kaksi tietokirjaa kertoo samasta asiasta eri tavalla.\n\nMontako tilanteessa tieto pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kolme väitettä:\n1. Tarkistettavassa lähteessä voi olla oikeaa tietoa.\n2. Paljon tykkäyksiä tekee viestistä luotettavan.\n3. Kaikki tarkistettavan lähteen tieto on väärää.\n\nMontako näistä väitteistä on totta? Kirjoita luku.","vastaus":1},{"nro":13,"ryhma":"lahteet","tyyppi":"sanallinen","kysymys":"Lajittele lähteet. Kirjoita jokaisen lähteen numeron viereen L, jos lähde on luotettava, tai T, jos lähde pitää tarkistaa. Kirjoita jokaiseen myös syy.\nLähde 1:\nLähde 2:\nLähde 3:\nLähde 4:\nLähde 5:","vastaus":"Malliesimerkki: Lähde 1: T, koska kertoja kuuli jutun joltakulta eikä ole itse selvittänyt asiaa. Lähde 2: L, koska tekijä kerrotaan, se on selvittänyt asian ja lähde kertoo tietoa. Lähde 3: T, koska tekijää ei kerrota. Lähde 4: L, koska kirjan on kirjoittanut tutkija ja se kertoo tietoa. Lähde 5: T, koska mainos haluaa myydä."},{"nro":14,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Kirjoita kaksi kysymystä, joita voit kysyä mistä tahansa lähteestä.","vastaus":"Malliesimerkki: Kuka tämän on kirjoittanut? Löytyykö sama tieto jostain muualta?"},{"nro":15,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Lähde 1 (kaverin juttu) väittää: \"Muurahaiset osaavat laskea kymmeneen.\" Mitä teet ennen kuin käytät tätä tietoa? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Tarkistan tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta, ja käytän sitä vain, jos sama tieto löytyy sieltä."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue ensin viisi lähdettä","johdanto":"Näin vastaat: Tehtävissä 1–12 kirjoitat vastaukseksi yhden luvun. Tehtävissä 13–15 kirjoitat vastauksen sanoin.\n\nOpettaja on koonnut viisi lähdettä Kuusta. Lue ne. Vastaa kysymyksiin 1–5 ja 13–15 niiden avulla.\n\nLähde 1: Mainos\nTekijä: Avaruuslelu Oy\nMainoksessa lukee: Osta Kuulamppu! Saat oman Kuun kattoosi!\n\nLähde 2: Tietokirja Kuu ja tähdet\nKirjoittaja: tähtitieteilijä Jari Kallio\nKirjassa lukee: Kuu kiertää Maata.\n\nLähde 3: Kaverin juttu\nKertoja: luokkatoveri Oskari. Hän kuuli jutun joltakulta kerhossa.\nOskari sanoi: Kuu loistaa omaa valoaan.\n\nLähde 4: Viesti verkossa\nKirjoittaja: ei kerrota. Viestissä on kaunis, kimalteleva kuva Kuusta ja paljon tykkäyksiä.\nViestissä lukee: Kuu on tehty juustosta!\n\nLähde 5: Lastenlehden tietojuttu Kuun pinta\nKirjoittaja: toimittaja Leena Aho, jonka apuna oli tähtitieteilijä\nJutussa lukee: Kuun pinnalla on paljon kuoppia eli kraattereita.","tehtavat":[{"nro":1,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä on luotettavia? Kirjoita luku.","vastaus":2},{"nro":2,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":3,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde haluaa myydä jotain? Kirjoita lähteen numero.","vastaus":1},{"nro":4,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on viesti, jonka kirjoittajaa ei kerrota? Kirjoita lähteen numero.","vastaus":4},{"nro":5,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on juttu, jonka kertoja kuuli joltakulta? Kirjoita lähteen numero.","vastaus":3},{"nro":6,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Viestissä on kaunis kuva.\n- Viestin kirjoittajaa ei kerrota.\n- Viestillä on paljon tykkäyksiä.\n- Viestin julkaisijasta ei ole tietoa.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":7,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi lastenlehden juttu on luotettava:\n- Jutun on kirjoittanut toimittaja, jota auttoi tähtitieteilijä.\n- Lehden kansi on värikäs.\n- Juttu kertoo tietoa eikä myy mitään.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":8,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Kolme syytä:\n1. Oskari ei ole itse selvittänyt asiaa.\n2. Viestissä on kimalteleva kuva.\n3. Mainos haluaa myydä lampun.\n\nMonesko syy liittyy ulkonäköön? Kirjoita syyn numero.","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka tämän teki?\n- Kuinka kaukana Kuu on?\n- Onko kuva kaunis?\n- Mikä on tämän tarkoitus?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen? Kirjoita luku.","vastaus":2},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Mitä tämä haluaa minun tekevän?\n- Kuka on julkaissut tämän?\n- Mikä on Kuun väri?\n- Mistä muualta löydän saman tiedon?\n- Onko lehdessä monta sivua?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä? Kirjoita luku.","vastaus":3},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Neljä tilannetta:\n1. Mainos lupaa, että saat oman Kuun kattoosi.\n2. Kaksi tietokirjaa kertoo samasta asiasta eri tavalla.\n3. Luit tiedon tietokirjasta, jonka on kirjoittanut tähtitieteilijä.\n4. Kaveri kertoi jutun, jonka oli kuullut kerhossa.\n\nMontako tilanteessa tieto pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kolme väitettä:\n1. Kaunis kuva tekee viestistä luotettavan.\n2. Kaikki tarkistettavan lähteen tieto on väärää.\n3. Tarkistettavassa lähteessä voi olla oikeaa tietoa.\n\nMontako näistä väitteistä on totta? Kirjoita luku.","vastaus":1},{"nro":13,"ryhma":"lahteet","tyyppi":"sanallinen","kysymys":"Lajittele lähteet. Kirjoita jokaisen lähteen numeron viereen L, jos lähde on luotettava, tai T, jos lähde pitää tarkistaa. Kirjoita jokaiseen myös syy.\nLähde 1:\nLähde 2:\nLähde 3:\nLähde 4:\nLähde 5:","vastaus":"Malliesimerkki: Lähde 1: T, koska mainos haluaa myydä. Lähde 2: L, koska kirjan on kirjoittanut tutkija ja se kertoo tietoa. Lähde 3: T, koska kertoja kuuli jutun joltakulta eikä ole itse selvittänyt asiaa. Lähde 4: T, koska tekijää ei kerrota. Lähde 5: L, koska tekijä kerrotaan, se on selvittänyt asian ja lähde kertoo tietoa."},{"nro":14,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Kirjoita kaksi kysymystä, joita voit kysyä mistä tahansa lähteestä.","vastaus":"Malliesimerkki: Kuka tämän on kirjoittanut? Löytyykö sama tieto jostain muualta?"},{"nro":15,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Lähde 3 (kaverin juttu) väittää: \"Kuu loistaa omaa valoaan.\" Mitä teet ennen kuin käytät tätä tietoa? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Tarkistan tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta, ja käytän sitä vain, jos sama tieto löytyy sieltä."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue ensin viisi lähdettä","johdanto":"Näin vastaat: Tehtävissä 1–12 kirjoitat vastaukseksi yhden luvun. Tehtävissä 13–15 kirjoitat vastauksen sanoin.\n\nOpettaja on koonnut viisi lähdettä pöllöistä. Lue ne. Vastaa kysymyksiin 1–5 ja 13–15 niiden avulla.\n\nLähde 1: Lasten lintusanakirja, sana pöllö\nTekijät: joukko lintututkijoita\nSanakirjassa lukee: Pöllö kuulee hyvin.\n\nLähde 2: Kaverin juttu\nKertoja: luokkatoveri Saga. Hän kuuli jutun joltakulta bussissa.\nSaga sanoi: Pöllöt eivät näe ollenkaan päivällä.\n\nLähde 3: Tietokirja Pöllöt yössä\nKirjoittaja: lintututkija Heikki Salo\nKirjassa lukee: Useimmat pöllöt saalistavat hämärässä tai yöllä.\n\nLähde 4: Mainos\nTekijä: Yölelu-kauppa\nMainoksessa lukee: Osta Huhuu-pöllölamppu! Nuku kuin pöllö!\n\nLähde 5: Viesti verkossa\nKirjoittaja: ei kerrota. Viestissä on hieno pöllövideo ja paljon tykkäyksiä.\nViestissä lukee: Pöllö osaa kääntää päänsä ympäri monta kertaa!","tehtavat":[{"nro":1,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä on luotettavia? Kirjoita luku.","vastaus":2},{"nro":2,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":3,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde haluaa myydä jotain? Kirjoita lähteen numero.","vastaus":4},{"nro":4,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on viesti, jonka kirjoittajaa ei kerrota? Kirjoita lähteen numero.","vastaus":5},{"nro":5,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on juttu, jonka kertoja kuuli joltakulta? Kirjoita lähteen numero.","vastaus":2},{"nro":6,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Viestillä on paljon tykkäyksiä.\n- Kukaan ei kerro julkaisseensa viestiä.\n- Video on hieno.\n- Kirjoittajan nimeä ei ole.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":7,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi tietokirja on luotettava:\n- Kirjan on kirjoittanut lintututkija.\n- Kirjan kannessa on söpö pöllö.\n- Kirjassa kerrotaan tietoa, ei myydä mitään.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":8,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Kolme syytä:\n1. Mainos haluaa myydä lampun.\n2. Viestissä on hieno video.\n3. Saga ei ole itse selvittänyt asiaa.\n\nMonesko syy liittyy ulkonäköön? Kirjoita syyn numero.","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Mikä on tämän tarkoitus?\n- Mitä pöllö syö?\n- Onko video hieno?\n- Kuka tämän teki?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen? Kirjoita luku.","vastaus":2},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Mistä muualta löydän saman tiedon?\n- Montako pöllölajia on?\n- Kuka on julkaissut tämän?\n- Onko kirjassa värikuvia?\n- Mitä tämä haluaa minun tekevän?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä? Kirjoita luku.","vastaus":3},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Neljä tilannetta:\n1. Kaksi tietokirjaa kertoo samasta asiasta eri tavalla.\n2. Luit tiedon lasten lintusanakirjasta, jonka ovat tehneet lintututkijat.\n3. Kaveri kertoi jutun, jonka oli kuullut bussissa.\n4. Mainos lupaa, että nukut kuin pöllö.\n\nMontako tilanteessa tieto pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kolme väitettä:\n1. Tarkistettavan lähteen tiedon voi tarkistaa tietokirjasta.\n2. Hieno video tekee viestistä luotettavan.\n3. Kaikki tarkistettavan lähteen tieto on väärää.\n\nMontako näistä väitteistä on totta? Kirjoita luku.","vastaus":1},{"nro":13,"ryhma":"lahteet","tyyppi":"sanallinen","kysymys":"Lajittele lähteet. Kirjoita jokaisen lähteen numeron viereen L, jos lähde on luotettava, tai T, jos lähde pitää tarkistaa. Kirjoita jokaiseen myös syy.\nLähde 1:\nLähde 2:\nLähde 3:\nLähde 4:\nLähde 5:","vastaus":"Malliesimerkki: Lähde 1: L, koska tekijä kerrotaan, se on selvittänyt asian ja lähde kertoo tietoa. Lähde 2: T, koska kertoja kuuli jutun joltakulta eikä ole itse selvittänyt asiaa. Lähde 3: L, koska kirjan on kirjoittanut tutkija ja se kertoo tietoa. Lähde 4: T, koska mainos haluaa myydä. Lähde 5: T, koska tekijää ei kerrota."},{"nro":14,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Kirjoita kaksi kysymystä, joita voit kysyä mistä tahansa lähteestä.","vastaus":"Malliesimerkki: Kuka tämän on kirjoittanut? Löytyykö sama tieto jostain muualta?"},{"nro":15,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Lähde 5 (viesti) väittää: \"Pöllö osaa kääntää päänsä ympäri monta kertaa.\" Mitä teet ennen kuin käytät tätä tietoa? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Tarkistan tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta, ja käytän sitä vain, jos sama tieto löytyy sieltä."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue ensin viisi lähdettä","johdanto":"Näin vastaat: Tehtävissä 1–12 kirjoitat vastaukseksi yhden luvun. Tehtävissä 13–15 kirjoitat vastauksen sanoin.\n\nOpettaja on koonnut viisi lähdettä norpista. Lue ne. Vastaa kysymyksiin 1–5 ja 13–15 niiden avulla.\n\nLähde 1: Viesti verkossa\nKirjoittaja: ei kerrota. Viestissä on iso, söpö norppakuva ja paljon tykkäyksiä.\nViestissä lukee: Norpat syövät jäätelöä!\n\nLähde 2: Tietokirja Norppa järvessä\nKirjoittaja: eläintutkija Riikka Vesa\nKirjassa lukee: Saimaannorppa elää Saimaassa.\n\nLähde 3: Mainos\nTekijä: Pehmo-kauppa\nMainoksessa lukee: Osta Norppa-pehmo! Jokainen lapsi haluaa sellaisen!\n\nLähde 4: Kaverin juttu\nKertoja: luokkatoveri Eemil. Hän kuuli jutun joltakulta leirillä.\nEemil sanoi: Norppa nukkuu aina veden alla.\n\nLähde 5: Luontokeskuksen lastensivu Norppa\nTekijä: Kuusiston luontokeskus\nSivulla lukee: Norppa poikii lumipesään jäällä.","tehtavat":[{"nro":1,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä on luotettavia? Kirjoita luku.","vastaus":2},{"nro":2,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Montako viidestä lähteestä pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":3,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde haluaa myydä jotain? Kirjoita lähteen numero.","vastaus":3},{"nro":4,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on viesti, jonka kirjoittajaa ei kerrota? Kirjoita lähteen numero.","vastaus":1},{"nro":5,"ryhma":"lahteet","tyyppi":"lasku","kysymys":"Monesko lähde on juttu, jonka kertoja kuuli joltakulta? Kirjoita lähteen numero.","vastaus":4},{"nro":6,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi viesti pitää tarkistaa:\n- Viestin julkaisijasta ei ole tietoa.\n- Kuva on söpö.\n- Viestin kirjoittajaa ei kerrota.\n- Viestillä on paljon tykkäyksiä.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":7,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Oppilas perustelee, miksi tietokirja on luotettava:\n- Kirjoittaja Riikka Vesa tutkii eläimiä.\n- Kirjassa on paljon sivuja.\n- Kirjassa kerrotaan tietoa, ei myydä mitään.\n\nMontako näistä syistä on hyviä syitä? Kirjoita luku.","vastaus":2},{"nro":8,"ryhma":"syyt","tyyppi":"lasku","kysymys":"Kolme syytä:\n1. Eemil kuuli jutun joltakulta.\n2. Mainos haluaa myydä pehmon.\n3. Viestissä on söpö kuva.\n\nMonesko syy liittyy ulkonäköön? Kirjoita syyn numero.","vastaus":3},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka tämän teki?\n- Missä norppa asuu?\n- Mikä on tämän tarkoitus?\n- Onko kuva söpö?\n\nMontako näistä kysymyksistä sopii mihin tahansa lähteeseen? Kirjoita luku.","vastaus":2},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Oppilas keksi nämä kysymykset:\n- Kuka on julkaissut tämän?\n- Mitä tämä haluaa minun tekevän?\n- Mitä norppa syö?\n- Onko kirjassa monta sivua?\n- Mistä muualta löydän saman tiedon?\n\nMontako näistä kysymyksistä auttaa arvioimaan mitä tahansa lähdettä? Kirjoita luku.","vastaus":3},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Neljä tilannetta:\n1. Luit tiedon norppakirjasta, jonka kirjoittaja tutkii norppia.\n2. Kaveri kertoi jutun, jonka oli kuullut leirillä.\n3. Mainos lupaa, että jokainen lapsi haluaa pehmon.\n4. Kaksi tietokirjaa kertoo samasta asiasta eri tavalla.\n\nMontako tilanteessa tieto pitää tarkistaa? Kirjoita luku.","vastaus":3},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kolme väitettä:\n1. Tarkistettavassa lähteessä voi olla oikeaa tietoa.\n2. Söpö kuva tekee viestistä luotettavan.\n3. Tarkistettavan lähteen tiedon voi tarkistaa tietokirjasta.\n\nMontako näistä väitteistä on totta? Kirjoita luku.","vastaus":2},{"nro":13,"ryhma":"lahteet","tyyppi":"sanallinen","kysymys":"Lajittele lähteet. Kirjoita jokaisen lähteen numeron viereen L, jos lähde on luotettava, tai T, jos lähde pitää tarkistaa. Kirjoita jokaiseen myös syy.\nLähde 1:\nLähde 2:\nLähde 3:\nLähde 4:\nLähde 5:","vastaus":"Malliesimerkki: Lähde 1: T, koska tekijää ei kerrota. Lähde 2: L, koska kirjan on kirjoittanut tutkija ja se kertoo tietoa. Lähde 3: T, koska mainos haluaa myydä. Lähde 4: T, koska kertoja kuuli jutun joltakulta eikä ole itse selvittänyt asiaa. Lähde 5: L, koska tekijä kerrotaan, se on selvittänyt asian ja lähde kertoo tietoa."},{"nro":14,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Kirjoita kaksi kysymystä, joita voit kysyä mistä tahansa lähteestä.","vastaus":"Malliesimerkki: Kuka tämän on kirjoittanut? Löytyykö sama tieto jostain muualta?"},{"nro":15,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Lähde 1 (viesti) väittää: \"Norpat syövät jäätelöä.\" Mitä teet ennen kuin käytät tätä tietoa? Vastaa yhdellä virkkeellä.","vastaus":"Malliesimerkki: Tarkistan tiedon luotettavasta lähteestä, esimerkiksi tietokirjasta, ja käytän sitä vain, jos sama tieto löytyy sieltä."}]}],"tulostus":{"sivuja":3,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":2,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Koe on taidon näyttö. Lähteet ovat keksittyjä, ja jokaisessa versiossa on kaksi luotettavaa lähdettä (tietokirja ja tietosanakirja, museon tai luontokeskuksen sivu tai lastenlehden tietojuttu) ja kolme tarkistettavaa (nimetön viesti, mainos ja kaverin kuulema juttu). Versiot eroavat aiheen ja järjestyksen osalta.","Mittaritehtävät ovat 13 ja 14. Tehtävä 13 on kartan lajittelutehtävä: se on oikein, kun vähintään neljä lähdettä viidestä on lajiteltu oikein ja jokaisen oikein lajitellun lähteen syy liittyy tekijään, julkaisijaan tai tekstin tarkoitukseen (esimerkiksi \"Tekijää ei kerrota.\", \"Mainos haluaa myydä.\", \"Kertoja kuuli sen joltakulta.\"). Ulkonäköön, kuviin tai tykkäyksiin perustuva syy ei kelpaa. Tehtävä 14 on oikein, kun molemmat kysymykset sopivat mihin tahansa lähteeseen (esimerkiksi \"Kuka tämän kirjoitti?\", \"Miksi tämä on tehty?\", \"Löytyykö sama tieto toisesta lähteestä?\"). Aiheeseen sidottu kysymys (\"Mitä karhu syö?\") ei kelpaa.","Raja: taito on osattu, kun vähintään 12 tehtävää 15:stä on oikein ja mittaritehtävät 13 ja 14 ovat oikein. Kartan raja \"ainakin neljä lähdettä viidestä\" toteutuu tehtävässä 13.","Tehtävät 13–15 ovat malliesimerkkejä. Hyväksytään mikä tahansa oikea muotoilu. Tehtävässä 15 riittää, että oppilas sanoo tarkistavansa tiedon luotettavasta lähteestä ennen käyttöä; vastaus \"en käytä sitä, koska se on väärää\" ei kelpaa, koska tarkistettava ei tarkoita väärää.","Tehtävissä 1–12 vastaus on yksi luku. Opettaja voi lukea tehtävänannot ääneen; lähteet oppilas lukee itse.","Lajittelun sääntö tässä taidossa: luotettava, kun tekijä tai julkaisija kerrotaan, hän on selvittänyt asian ja lähde kertoo tietoa eikä myy mitään. Muuten tarkistettava. Lähteen laji ei yksin ratkaise: harjoituksessa H08 eläinlääkärin nimellä kirjoitettu verkkoviesti on luotettava. Kokeen nimettömät viestit ovat tarkistettavia, koska tekijää ei kerrota.","Kaverin kuulema juttu on tarkistettava, koska kertoja ei ole itse selvittänyt asiaa. Jos oppilas sanoo \"kaveri voi valehdella\", ohjaa syyhyn: ei tiedetä, mistä tieto alun perin on.","Mainoksen tekijä (yritys) kerrotaan, mutta mainos on tarkistettava, koska se haluaa myydä. Oppilaan syy \"tekijää ei kerrota\" mainoksesta on siis väärä syy.","Tarkistettavien lähteiden väitteet ovat tarkoituksella outoja tai vääriä (esimerkiksi \"Kuu on tehty juustosta\"). Luotettavien lähteiden lauseet ovat yleisesti tunnettuja perustietoja. Tarkistettava: kokeen D tietokirjan lause \"Useimmat pöllöt saalistavat hämärässä tai yöllä\" ja kokeen E lause \"Norppa poikii lumipesään jäällä\" ovat oikein yleisellä tasolla; vaihda ne, jos haluat käyttää luokan omaa tietokirjaa.","4. luokalla (AI4-TIE-03) lähteiden vertailu jatkuu tarkemmilla merkeillä, kuten päiväyksellä ja lähdeluettelolla. Niitä ei opeteta tässä.","Tässä taidossa ei mitata työskentelyn nopeutta eikä kerätä yrityskertoja."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Kysy lähteeltä: Kuka tämän teki? Miksi tämä on tehty? Löytyykö sama tieto toisesta lähteestä?","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Kerro kolme keksittyä väitettä samasta eläimestä ja kolme lähdettä: tietokirja, nimetön viesti ja kaverin juttu. Kysy, mihin uskotaan ja miksi. Kirjaa syyt taululle sellaisinaan."},{"aika":"15 min","otsikko":"Kolme kysymystä","sisalto":"Käy läpi oppilaan sivun kolme kysymystä ja lajittelukaavio. Palaa aloituksen syihin ja jaa ne kahteen joukkoon: tekijään tai tarkoitukseen liittyvät ja ulkonäköön tai tykkäyksiin liittyvät."},{"aika":"25 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivun harjoitukset ryhmä kerrallaan. Pysähdy harjoitukseen H08 ja kysy, miksi verkkoviesti voi olla luotettava."},{"aika":"15 min","otsikko":"Toinen tunti: lajittelu korteilla","sisalto":"Pareilla kuusi keksittyä lähdekorttia. Parit lajittelevat kortit kahteen pinoon ja kirjoittavat jokaiseen syyn. Kokoa syitä taululle."},{"aika":"25 min","otsikko":"Koe","sisalto":"Jokainen tekee kokeen itse. Opettaja voi lukea tehtävänannot ääneen."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kysy: tarkoittaako tarkistettava väärää? Kuuntele, että vastaus on ei."}],"tarvikkeet":"Tulostetut kokeet, kuusi keksittyä lähdekorttia parille. Oppilaan sivu laitteelta tai tulostettuna."},"virhesanakirja":[{"virhe":"Lajittelee hienon näköisen nimettömän viestin luotettavaksi","tehtava":"kokeen tehtävä 13, harjoitus H04","mita_kertoo":"Oppilas arvioi ulkonäköä tai tykkäyksiä eikä kysy, kuka teki.","mita_tehda":"Peitä ulkonäköä koskeva rivi ja pyydä lajittelemaan uudelleen. Kysy ääneen: kuka tämän teki?"},{"virhe":"Lajittelee kaverin jutun luotettavaksi, koska kaveri on tuttu","tehtava":"kokeen tehtävä 13, harjoitus H02","mita_kertoo":"Tuttuus sekoittuu siihen, onko kertoja selvittänyt asian.","mita_tehda":"Kysy, mistä kaveri tiedon sai. Kun vastaus on \"joltakulta\", kysy, tiedämmekö kuka se oli."},{"virhe":"Perustelee mainoksen tarkistettavaksi sanomalla \"tekijää ei kerrota\"","tehtava":"kokeen tehtävä 13","mita_kertoo":"Lajittelu on oikein, mutta syy ei vastaa lähdettä. Oppilas käyttää yhtä syytä kaikkiin.","mita_tehda":"Osoita mainoksen tekijärivi ja kysy toinen kysymys: miksi tämä on tehty?"},{"virhe":"Kirjoittaa aiheeseen sidotun kysymyksen, esimerkiksi \"Mitä karhu syö?\"","tehtava":"kokeen tehtävä 14, harjoitukset H15 ja H16","mita_kertoo":"Oppilas sekoittaa tutkimuskysymyksen ja lähteelle esitettävän kysymyksen.","mita_tehda":"Pyydä kokeilemaan kysymystä mainokseen ja tietokirjaan. Jos se ei sovi molempiin, se ei ole lähteen kysymys."},{"virhe":"Sanoo tarkistettavan lähteen tiedon vääräksi","tehtava":"kokeen tehtävät 12 ja 15, harjoitus H20","mita_kertoo":"Ryhmä tarkistettava on ymmärretty tuomioksi eikä ohjeeksi tarkistaa.","mita_tehda":"Näytä harjoitus H19: tarkistettava viesti, jonka tieto löytyi kahdesta tietokirjasta."},{"virhe":"Laskee syyksi sen, että kirja on paksu tai kansi kaunis","tehtava":"kokeen tehtävät 6–8, harjoitukset H09–H12","mita_kertoo":"Oppilas ei vielä erota tekijään ja tarkoitukseen liittyviä syitä ulkonäöstä.","mita_tehda":"Kysy jokaisesta syystä: kertooko tämä, kuka tiedon teki tai miksi? Jos ei, syy on ulkonäköä."}],"huoltajalle":{"mista_on_kyse":"Lapsi opettelee lajittelemaan tiedon lähteitä kahteen ryhmään: luotettava ja tarkistettava. Hän kysyy lähteeltä, kuka sen teki ja miksi se on tehty, ja tarkistaa epävarman tiedon toisesta lähteestä, esimerkiksi tietokirjasta.","kotona":["Kun lapsi kertoo jotain kuulemaansa, kysy uteliaasti: mistä se tieto on?","Kun näette mainoksen, kysykää yhdessä: mitä tämä haluaa meidän tekevän?","Jos lapsi lukee jotain verkosta tai kirjasta, kysy: kuka tämän on tehnyt?","Muistuta, että tarkistettava tieto ei ole väärää. Se katsotaan vielä toisesta lähteestä."],"milloin_huolestua":"Jos lapsi pitää tietoa totena vain siksi, että se on hienon näköinen, sillä on paljon tykkäyksiä tai kaveri kertoi sen, kertokaa siitä opettajalle. Taito kehittyy, kun samat kaksi kysymystä toistetaan monta kertaa."},"ulkoiset":{},"valmis_teksti":"Osaat lajitella lähteet luotettaviin ja tarkistettaviin ja kertoa syyn. Osaat myös kysyä mistä tahansa lähteestä, kuka sen teki ja löytyykö sama tieto muualta. Taito on näytetty!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

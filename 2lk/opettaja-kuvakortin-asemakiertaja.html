@@ -1,0 +1,619 @@
+<title>Kuvakortin asemakiertäjä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"LI2-OMA-02","oppiaine":"LI","vuosiluokka":2,"taitoalue":"OMA","jakso":"J4","taso":"ydin","otsikko":"Kuvakortin asemakiertäjä","kuvaus":"Osaan tehdä asemaharjoituksen itsenäisesti kuvakortin ohjeen mukaan.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T9","T6"],"S":["S3","S1"]},"ikoni":"jarjestys","eyebrow":"Liikunta · 2. luokka","naytto":"Opettaja havainnoi useilla tunneilla asemarataa, jossa jokaisella asemalla on kuvakortti tehtävästä. Kierrän asemia ryhmäni kanssa ja vaihdan asemaa merkistä.","osaa_kun":"Aloitan aseman tehtävän kuvakortin mukaan ilman, että opettajan tarvitsee neuvoa uudelleen. Teen tehtävää koko asemalla oloajan. Merkistä jätän välineet asemalle valmiiksi seuraavalle ja siirryn sovittuun suuntaan seuraavalle asemalle.","teksti":[{"tyyppi":"johdanto","sisalto":"Eetu tulee saliin. Salissa on monta asemaa. Jokaisella asemalla on kuvakortti. Kortti kertoo, mitä asemalla tehdään. Eetun ryhmä aloittaa vanteiden luota. Tässä taidossa opit tekemään asemalla kortin mukaan ilman, että aikuisen tarvitsee neuvoa uudelleen."},{"tyyppi":"kappale","otsikko":"Mikä on asema?","sisalto":"Asema on paikka, jossa tehdään yhtä tehtävää. Asemalla on välineet valmiina, esimerkiksi vanteet tai pallot. Asemalla on myös kuvakortti. Ryhmäsi on yhdellä asemalla kerrallaan. Merkistä vaihdatte seuraavalle asemalle."},{"tyyppi":"saanto","otsikko":"Näin luet kuvakortin","askeleet":["Katso kortin kuvaa.","Mitä kuvan lapsi tekee? Hyppää, heittää vai kävelee?","Mitä välinettä hän käyttää?","Mihin nuoli näyttää? Siihen suuntaan liikut.","Tee samoin kuin kuvassa."]},{"tyyppi":"kuva","otsikko":"Kaksi kuvakorttia","svg":"<svg viewBox=\"0 0 600 220\" role=\"img\" aria-label=\"Kaksi esimerkkikuvakorttia: Hypi vanteisiin, jossa lapsi hyppää vanteesta vanteeseen, ja Heitä pussi vanteeseen, jossa lapsi heittää hernepussin vanteeseen. Korteissa ei ole numeroita.\"><rect class=\"v-osa\" x=\"70\" y=\"20\" width=\"170\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"155.0\" y=\"44\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Hypi vanteisiin</text><ellipse class=\"v-osa\" cx=\"108\" cy=\"148\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"156\" cy=\"148\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"204\" cy=\"148\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><circle class=\"v-jana\" cx=\"100\" cy=\"72\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M100.0 79.0 L100.0 107.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M88.0 94.0 L100.0 90.0 L112.0 82.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M94.0 136.0 L100.0 114.0 L110.0 132.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-hyppy\" d=\"M116 106 Q 134 80 154 140\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"154,144 147,132 159,134\"/><path class=\"v-hyppy\" d=\"M162 136 Q 180 92 202 140\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"202,144 195,132 207,134\"/><rect class=\"v-osa\" x=\"360\" y=\"20\" width=\"170\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"445.0\" y=\"44\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Heitä pussi vanteeseen</text><circle class=\"v-jana\" cx=\"394\" cy=\"74\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M394.0 81.0 L394.0 109.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M394.0 92.0 L382.0 106.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M394.0 92.0 L408.0 78.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M386.0 138.0 L394.0 116.0 L402.0 138.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect class=\"v-osa v1\" x=\"404\" y=\"68\" width=\"10\" height=\"8\" rx=\"2\"/><ellipse class=\"v-osa\" cx=\"492\" cy=\"148\" rx=\"20\" ry=\"9.0\" style=\"stroke-width:2.2\"/><path class=\"v-hyppy\" d=\"M416 72 Q 460 50 490 140\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"490,144 483,132 495,134\"/><text x=\"155\" y=\"200\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:13px\">Kuva näyttää, mitä teet.</text><text x=\"445\" y=\"200\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:13px\">Nuoli näyttää, mihin.</text></svg>","teksti":"Vasemmalla hypitään vanteesta vanteeseen. Oikealla heitetään hernepussi vanteeseen. Kortissa ei ole numeroita. Ei lasketa, montako teet."},{"tyyppi":"kappale","otsikko":"Tee koko ajan","sisalto":"Aloita heti, kun olet katsonut kortin. Jatka, kunnes kuulet merkin. Kun tehtävä loppuu, aloita alusta. Jos heitit kaikki pussit, hae ne ja heitä uudelleen. Asemalla ei kilpailla. Teet omaa tehtävääsi."},{"tyyppi":"kappale","otsikko":"Jos et tiedä, mitä tehdä","sisalto":"Katso korttia uudelleen. Katso kuvaa ja nuolta tarkasti. Usein vastaus löytyy kortista. Jos et vieläkään tiedä, kysy aikuiselta."},{"tyyppi":"saanto","otsikko":"Merkistä vaihdetaan asemaa","askeleet":["Lopeta tehtävä.","Laita välineet takaisin niin kuin ne olivat alussa. Seuraava ryhmä voi aloittaa heti.","Älä ota välineitä mukaan.","Kävele nuolen suuntaan seuraavalle asemalle.","Katso uuden aseman kortti ja aloita."]},{"tyyppi":"kuva","otsikko":"Asemarata ylhäältä","svg":"<svg viewBox=\"0 0 600 290\" role=\"img\" aria-label=\"Asemarata ylhäältä: neljä asemaa, joilla on kuvakortti ja välineet. Nuolet näyttävät kiertosuunnan. Merkistä välineet jätetään paikalleen ja seuraavalle asemalle kävellään.\"><rect class=\"v-tyhja\" x=\"10\" y=\"10\" width=\"580\" height=\"270\" rx=\"8\"/><rect class=\"v-osa\" x=\"40\" y=\"40\" width=\"140\" height=\"80\" rx=\"8\"/><rect class=\"v-osa v1\" x=\"48\" y=\"48\" width=\"26\" height=\"34\" rx=\"3\"/><text x=\"61\" y=\"98\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10px\">kortti</text><text x=\"128\" y=\"66\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">1 vanteet</text><rect class=\"v-osa\" x=\"420\" y=\"40\" width=\"140\" height=\"80\" rx=\"8\"/><rect class=\"v-osa v1\" x=\"428\" y=\"48\" width=\"26\" height=\"34\" rx=\"3\"/><text x=\"441\" y=\"98\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10px\">kortti</text><text x=\"508\" y=\"66\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">2 hernepussit</text><rect class=\"v-osa\" x=\"420\" y=\"170\" width=\"140\" height=\"80\" rx=\"8\"/><rect class=\"v-osa v1\" x=\"428\" y=\"178\" width=\"26\" height=\"34\" rx=\"3\"/><text x=\"441\" y=\"228\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10px\">kortti</text><text x=\"508\" y=\"196\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">3 penkki</text><rect class=\"v-osa\" x=\"40\" y=\"170\" width=\"140\" height=\"80\" rx=\"8\"/><rect class=\"v-osa v1\" x=\"48\" y=\"178\" width=\"26\" height=\"34\" rx=\"3\"/><text x=\"61\" y=\"228\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10px\">kortti</text><text x=\"128\" y=\"196\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">4 kartiot</text><ellipse class=\"v-osa\" cx=\"104\" cy=\"98\" rx=\"12\" ry=\"5.4\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"134\" cy=\"98\" rx=\"12\" ry=\"5.4\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"164\" cy=\"98\" rx=\"12\" ry=\"5.4\" style=\"stroke-width:2.2\"/><rect class=\"v-osa v1\" x=\"464\" y=\"92\" width=\"10\" height=\"8\" rx=\"2\"/><rect class=\"v-osa v1\" x=\"480\" y=\"92\" width=\"10\" height=\"8\" rx=\"2\"/><rect class=\"v-osa v1\" x=\"496\" y=\"92\" width=\"10\" height=\"8\" rx=\"2\"/><ellipse class=\"v-osa\" cx=\"534\" cy=\"96\" rx=\"14\" ry=\"6.3\" style=\"stroke-width:2.2\"/><rect class=\"v-osa\" x=\"460\" y=\"222\" width=\"90\" height=\"12\" rx=\"2\"/><polygon class=\"v-osa v1\" points=\"100,218 92,236 108,236\" style=\"stroke-width:1.4\"/><polygon class=\"v-osa v1\" points=\"126,218 118,236 134,236\" style=\"stroke-width:1.4\"/><polygon class=\"v-osa v1\" points=\"152,218 144,236 160,236\" style=\"stroke-width:1.4\"/><path class=\"v-hyppy\" d=\"M190 80 L410 80\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"410,80 400.0,75.0 400.0,85.0\"/><path class=\"v-hyppy\" d=\"M490 128 L490 162\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"490,162 495.0,152.0 485.0,152.0\"/><path class=\"v-hyppy\" d=\"M410 210 L190 210\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"190,210 200.0,215.0 200.0,205.0\"/><path class=\"v-hyppy\" d=\"M110 162 L110 128\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"110,128 105.0,138.0 115.0,138.0\"/><text x=\"300\" y=\"68\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">kävellen</text><text x=\"300\" y=\"148\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Merkistä:</text><text x=\"300\" y=\"168\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">1. välineet paikalleen</text><text x=\"300\" y=\"186\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:13px\">2. kävele nuolen suuntaan</text></svg>","teksti":"Jokaisella asemalla on kortti ja välineet. Nuolet näyttävät, mihin suuntaan siirryt. Siirryt kävellen."},{"tyyppi":"ansa","otsikko":"Ansa 1: jäät juttelemaan","sisalto":"Tehtävä onnistui, ja tekee mieli jäädä juttelemaan. Mutta merkkiä ei ole vielä tullut. Aloita tehtävä alusta ja jatka, kunnes kuulet merkin."},{"tyyppi":"ansa","otsikko":"Ansa 2: välineet jäävät sekaisin","sisalto":"Kun merkki tulee, tekee mieli lähteä heti. Silloin pallot vierivät lattialle ja vanteet jäävät miten sattuu. Seuraava ryhmä ei voi aloittaa, ja lattialla oleva pallo voi kaataa jonkun. Laita välineet ensin paikalleen."},{"tyyppi":"ansa","otsikko":"Ansa 3: menet kaverin perässä","sisalto":"Joskus kaveri lähtee toiselle asemalle tai väärään suuntaan. Älä mene perässä. Katso nuolta ja kävele sen suuntaan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Katso kortti: mitä, millä, mihin.","Aloita heti ja tee, kunnes kuuluu merkki.","Kun tehtävä loppuu, aloita alusta.","Merkistä välineet paikalleen.","Kävele nuolen suuntaan seuraavalle asemalle.","Asemalla ei kilpailla."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Jää kortin eteen seisomaan, katsoo muita tai odottaa, että aikuinen tulee neuvomaan","tehtava":"tehtävän aloittaminen uudella asemalla","mita_kertoo":"Oppilas ei vielä lue kuvakorttia itsenäisesti tai ei luota omaan tulkintaansa. Kriteeri ‘aloitan ilman, että opettajan tarvitsee neuvoa uudelleen’ ei täyty, jos hän aloittaa vasta neuvon jälkeen.","mita_tehda":"Älä neuvo heti. Kysy kortin kysymykset: mitä kuvan lapsi tekee, millä välineellä, mihin nuoli näyttää. Harjoitelkaa korttien lukemista yhdessä ennen asemarataa."},{"virhe":"Tekee asemalla eri tehtävää kuin kortissa, esimerkiksi pomputtaa palloa, vaikka kortissa vieritetään","tehtava":"aseman tehtävän tekeminen","mita_kertoo":"Oppilas tarttuu välineeseen tutulla tavalla eikä katso korttia tarkasti. Kriteeri ‘aloitan aseman tehtävän kuvakortin mukaan’ ei täyty.","mita_tehda":"Ohjaa oppilas takaisin kortille: näytä kuva ja kysy, mitä siinä tehdään. Käytä kortteja, joissa on yksi selvä toiminta ja nuoli."},{"virhe":"Lopettaa ennen merkkiä ja jää juttelemaan, istumaan tai odottamaan","tehtava":"työskentely koko asemalla oloajan","mita_kertoo":"Oppilas pitää tehtävää valmiina, kun se on tehty kerran, eikä aloita alusta. Kriteeri ‘teen tehtävää koko asemalla oloajan’ ei täyty.","mita_tehda":"Kerro ennen rataa: kun tehtävä loppuu, aloita alusta. Kysy ‘onko merkki jo tullut?’ ja anna oppilaan jatkaa itse. Jos asemaa ei voi aloittaa alusta, vaihda tehtävä sellaiseksi, joka jatkuu."},{"virhe":"Jättää välineet sikin sokin, vie niitä mukanaan tai jättää pallon lattialle kulkureitille","tehtava":"aseman vaihto merkistä","mita_kertoo":"Oppilas siirtyy ennen kuin on palauttanut välineet. Kriteeri ‘jätän välineet asemalle valmiiksi seuraavalle’ ei täyty. Lattialle jäänyt pallo on myös kompastumisvaara.","mita_tehda":"Merkitse välineiden paikka asemalle (vanne, laatikko tai teippi). Harjoitelkaa vaihtoa: merkki – välineet paikalleen – käsi ylös – kävely seuraavalle."},{"virhe":"Siirtyy väärään suuntaan, kaverin perässä toiselle asemalle tai juoksee siirtymässä","tehtava":"siirtyminen seuraavalle asemalle","mita_kertoo":"Oppilas ei vielä hahmota radan kiertosuuntaa tai seuraa kaveria. Juokseminen siirtymässä lisää törmäyksiä.","mita_tehda":"Merkitse kiertosuunta isoilla nuolilla lattiaan tai seinään. Näytä kuva ‘Asemarata ylhäältä’. Sovi, että siirrytään kävellen."},{"virhe":"Jatkaa tehtävää merkin jälkeen tai lähtee seuraavalle asemalle ennen merkkiä","tehtava":"merkin noudattaminen","mita_kertoo":"Oppilas ei vielä kuuntele merkkiä tehtävän aikana. Ryhmät sekoittuvat, ja seuraavalla asemalla voi olla vielä edellinen ryhmä.","mita_tehda":"Käytä selvää merkkiä (pilli, rumpu tai käsimerkki) ja harjoitelkaa sitä leikkinä ennen rataa. Kehu ryhmää, joka pysähtyy heti merkistä."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Katso kortti: mitä, millä, mihin. Tee, kunnes kuuluu merkki. Merkistä välineet paikalleen ja kävellen nuolen suuntaan.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1: korttien lukeminen","sisalto":"Näytä kortit yksi kerrallaan. Oppilaat näyttävät liikkeellä, mitä kortissa tehdään. Kysy: mitä, millä välineellä, mihin nuoli näyttää?"},{"aika":"5 min","otsikko":"Tunti 1: vaihdon harjoittelu","sisalto":"Näytä kuva ‘Asemarata ylhäältä’. Harjoitelkaa merkkiä ja vaihtoa ilman tehtäviä: välineet paikalleen, kävely nuolen suuntaan."},{"aika":"25 min","otsikko":"Tunti 1: asemarata","sisalto":"4–6 asemaa, ryhmät 3–5 oppilasta. Vaihto merkistä. Opettaja kiertää asemilla eikä neuvo tehtävää uudelleen, vaan kysyy kortin kysymykset."},{"aika":"5 min","otsikko":"Tunti 1: lopetus","sisalto":"Välineet kerätään. Kysy: mistä kortista näit, mitä piti tehdä?"},{"aika":"45 min","otsikko":"Tunti 2: näyttö","sisalto":"Asemarata uusilla korteilla, joita ei ole vielä käytetty. Havainnoi yhtä ryhmää kerrallaan koko asemalla olon ajan ja vaihtoa. Kirjaa merkinnät vaihdon jälkeen."}],"tarvikkeet":"Kuvakortit (esimerkit alla), vanteet, hernepussit, pallot, kartiot, voimistelupenkki, naru tai teippi, merkki (pilli tai rumpu), nuolet kiertosuuntaan."},"opettajalle":{"kesto":"2 · 45 min. Näyttö kertyy usealla J4-jakson asematunnilla.","huomiot":["Arvioinnin kohde: oppilas aloittaa tehtävän kuvakortin mukaan ilman uutta neuvoa, työskentelee asemalla merkkiin asti, palauttaa välineet paikalleen ja siirtyy sovittuun suuntaan. Suoritusten määrää, osumia, vauhtia tai tehtävän onnistumista ei arvioida. Korteissa ei ole toistomääriä eikä kilpailua.","Mikä kelpaa: kriteeri täyttyy, kun oppilas toimii näin useimmilla asemilla usealla tunnilla. Yksittäinen tarkentava kysymys uudesta välineestä ei kaada näyttöä, jos oppilas on ensin katsonut korttia. Jos oppilas tekee tehtävää omalla tavallaan mutta kortin mukaisesti (esimerkiksi hyppii vanteisiin yhdellä jalalla, kun kortissa hypitään), se kelpaa.","Läpäisy ei riipu muista: arvioit oppilaan omaa toimintaa. Jos ryhmän toinen jäsen jättää välineet sekaisin tai lähtee väärään suuntaan, se ei ole hänen virheensä.","Kortit: käytä kuvakortteja, joissa on yksi toiminta, väline ja suuntanuoli, ei tekstiä, jota pitäisi lukea, eikä numeroita. Näytössä käytetään vähintään yhtä korttia, jota oppilas ei ole nähnyt. Tasoja ei tarvita: kolmitasoiset kortit ja tason valinta kuuluvat 3. luokan taitoon LI3-OMA-02.","Turvallisuus: asemien väliin reilusti tilaa, heittoasemalla heittosuunta seinään päin eikä toista asemaa kohti, penkki leveä puoli ylöspäin, siirtymät kävellen, pallot palautetaan laatikkoon tai vanteeseen eikä lattialle kulkureitille.","Varamuoto: oppilas, joka ei voi tehdä aseman liikettä, tekee kortin tehtävän sovelletusti (esimerkiksi istuen heittäen). Kriteeri katsoo kortin mukaista aloittamista, työskentelyä ja vaihtoa, ei liikettä.","Esimerkkikortit tulostettaviksi:<svg class=\"vis-svg\" style=\"display:block;width:100%;max-width:640px;height:auto;margin:10px 0;background:#fff\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 360\" role=\"img\" aria-label=\"Kuusi tulostettavaa esimerkkikuvakorttia ilman numeroita: Hypi vanteisiin, Heitä pussi vanteeseen, Kävele penkillä, Pujottele kartiot, Vieritä pallo seinään, Kävele narua pitkin.\"><rect class=\"v-osa\" x=\"15\" y=\"15\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"110.0\" y=\"39\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Hypi vanteisiin</text><ellipse class=\"v-osa\" cx=\"53\" cy=\"143\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"101\" cy=\"143\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><ellipse class=\"v-osa\" cx=\"149\" cy=\"143\" rx=\"16\" ry=\"7.2\" style=\"stroke-width:2.2\"/><circle class=\"v-jana\" cx=\"45\" cy=\"67\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M45.0 74.0 L45.0 102.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M33.0 89.0 L45.0 85.0 L57.0 77.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M39.0 131.0 L45.0 109.0 L55.0 127.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-hyppy\" d=\"M61 101 Q 79 75 99 135\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"99,139 92,127 104,129\"/><path class=\"v-hyppy\" d=\"M107 131 Q 125 87 147 135\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"147,139 140,127 152,129\"/><rect class=\"v-osa\" x=\"225\" y=\"15\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"320.0\" y=\"39\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Heitä pussi vanteeseen</text><circle class=\"v-jana\" cx=\"259\" cy=\"69\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M259.0 76.0 L259.0 104.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M259.0 87.0 L247.0 101.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M259.0 87.0 L273.0 73.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M251.0 133.0 L259.0 111.0 L267.0 133.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect class=\"v-osa v1\" x=\"269\" y=\"63\" width=\"10\" height=\"8\" rx=\"2\"/><ellipse class=\"v-osa\" cx=\"357\" cy=\"143\" rx=\"20\" ry=\"9.0\" style=\"stroke-width:2.2\"/><path class=\"v-hyppy\" d=\"M281 67 Q 325 45 355 135\" fill=\"none\" style=\"stroke-width:2\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"355,139 348,127 360,129\"/><rect class=\"v-osa\" x=\"435\" y=\"15\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"530.0\" y=\"41\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:15px\">Kävele penkillä</text><rect class=\"v-osa\" x=\"455\" y=\"133\" width=\"150\" height=\"10\" rx=\"2\"/><line class=\"v-akseli\" x1=\"465\" y1=\"143\" x2=\"465\" y2=\"155\"/><line class=\"v-akseli\" x1=\"595\" y1=\"143\" x2=\"595\" y2=\"155\"/><circle class=\"v-jana\" cx=\"505\" cy=\"65\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M505.0 72.0 L505.0 100.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M489.0 85.0 L505.0 83.0 L521.0 85.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M499.0 131.0 L505.0 107.0 L517.0 131.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-hyppy\" d=\"M535 119 L595 119\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"595,119 585.0,114.0 585.0,124.0\"/><rect class=\"v-osa\" x=\"15\" y=\"195\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"110.0\" y=\"221\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:15px\">Pujottele kartiot</text><polygon class=\"v-osa v1\" points=\"60,298 52,316 68,316\" style=\"stroke-width:1.4\"/><polygon class=\"v-osa v1\" points=\"105,298 97,316 113,316\" style=\"stroke-width:1.4\"/><polygon class=\"v-osa v1\" points=\"150,298 142,316 158,316\" style=\"stroke-width:1.4\"/><path class=\"v-hyppy\" d=\"M35 320 Q 60 280 83 310 Q 105 340 128 310 Q 150 280 173 305\" fill=\"none\" style=\"stroke-width:2.2\" stroke-dasharray=\"6 4\"/><circle class=\"v-jana\" cx=\"45\" cy=\"235\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M45.0 242.0 L45.0 268.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M33.0 265.0 L45.0 253.0 L57.0 265.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M37.0 295.0 L45.0 275.0 L55.0 293.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect class=\"v-osa\" x=\"225\" y=\"195\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"320.0\" y=\"221\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:15px\">Vieritä pallo seinään</text><line class=\"v-akseli\" x1=\"395\" y1=\"235\" x2=\"395\" y2=\"335\" style=\"stroke-width:4\"/><circle class=\"v-jana\" cx=\"265\" cy=\"257\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M265.0 264.0 L265.0 288.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M265.0 275.0 L287.0 297.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M265.0 275.0 L283.0 301.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M255.0 321.0 L265.0 297.0 L273.0 321.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle class=\"v-osa v1\" cx=\"297\" cy=\"315\" r=\"8\"/><path class=\"v-hyppy\" d=\"M311 319 L385 319\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"385,319 375.0,314.0 375.0,324.0\"/><path class=\"v-hyppy\" d=\"M385 331 L317 331\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"317,331 327.0,336.0 327.0,326.0\"/><rect class=\"v-osa\" x=\"435\" y=\"195\" width=\"190\" height=\"150\" rx=\"10\" style=\"stroke-width:2.2\"/><text x=\"530.0\" y=\"221\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:15px\">Kävele narua pitkin</text><path class=\"v-jana\" d=\"M455 323 Q 505 307 545 323 T 610 317\" fill=\"none\" style=\"stroke-width:3\"/><circle class=\"v-jana\" cx=\"495\" cy=\"243\" r=\"7\" fill=\"none\" style=\"stroke-width:3\"/><path class=\"v-jana\" d=\"M495.0 250.0 L495.0 278.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M479.0 263.0 L495.0 261.0 L511.0 263.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-jana\" d=\"M491.0 309.0 L495.0 285.0 L503.0 309.0\" fill=\"none\" style=\"stroke-width:3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path class=\"v-hyppy\" d=\"M535 299 L595 299\" fill=\"none\" style=\"stroke-width:2.5\" stroke-linecap=\"round\"/><polygon class=\"v-hyppy-k\" points=\"595,299 585.0,294.0 585.0,304.0\"/></svg>"]},"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee tekemään liikuntatehtävän itsenäisesti kuvakortin ohjeen mukaan. Hän katsoo kortista, mitä tehdään, tekee tehtävää merkkiin asti, laittaa välineet paikalleen ja siirtyy seuraavalle asemalle. Suoritusten määrää ei lasketa.","kotona":["Piirtäkää yhdessä kuvaohje leikistä, esimerkiksi hyppää kolmen tyynyn yli. Lapsi tekee piirroksen mukaan.","Kun lapsi leikkii, sopikaa merkki, josta leikki loppuu ja tavarat laitetaan paikalleen.","Kysy lapselta: mitä kuvakortissa oli tänään?","Kehu, kun lapsi aloittaa itse eikä jää odottamaan neuvoa."],"milloin_huolestua":"Jos lapsen on vaikea aloittaa tehtävää ilman aikuisen neuvoa myös muissa tilanteissa tai merkkien kuunteleminen on hankalaa, kerro siitä opettajalle."},"ulkoiset":{},"valmis_teksti":"Hienoa! Osaat tehdä asemalla kuvakortin mukaan ja vaihtaa asemaa merkistä. Olet kuvakortin asemakiertäjä."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

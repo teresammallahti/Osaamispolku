@@ -1,0 +1,619 @@
+<title>Tietokortin lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA3-LUE-05","oppiaine":"ENA","vuosiluokka":3,"taitoalue":"LUE","jakso":"J5","taso":"haaste","otsikko":"Tietokortin lukija","kuvaus":"Osaan lukea lyhyen englanninkielisen tietokortin eläimestä ja poimia siitä tietoja suomeksi.","versio":"0.1","paivitetty":"2026-11-21","ops":{"T":["T10"],"S":["S3"]},"eyebrow":"Englanti · 3. luokka · Luetun ymmärtäminen","ikoni":"lukeminen","naytto":"Paperikoe: Luen tietokortin, esim. Polar bears are white. They are very big. They live in the Arctic. It is very cold there. They can swim. They eat seals. Täytän suomeksi taulukon: väri, koko, millaisessa paikassa asuu ja mitä osaa. Opettaja ei lue korttia ääneen.","osaa_kun":"Täytän vähintään kolme kohtaa neljästä oikein omin sanoin suomeksi. Kortissa on uusia sanoja (esim. Arctic ja seals), mutta taulukon kohdat löytyvät tutuista sanoista: paikan voi päätellä lauseesta It is very cold there.","teksti":[{"tyyppi":"johdanto","sisalto":"Koulun kirjastossa on englanninkielinen eläinkirja. Jokaisella sivulla on pieni tietokortti: Polar bears are white. They are very big. They live in the Arctic. It is very cold there. They can swim. They eat seals. Et ehkä tunne sanoja Arctic ja seals. Silti saat kortista selville paljon: jääkarhu on valkoinen ja hyvin iso, se asuu kylmässä paikassa ja osaa uida. Tietokortin lukija ei käännä jokaista sanaa. Hän etsii kortista tutut sanat, jotka kertovat sen, mitä hän haluaa tietää."},{"tyyppi":"kappale","otsikko":"Tietokortti kertoo faktoja","sisalto":"Tietokortissa on lyhyitä lauseita yhdestä eläimestä. Eläimen nimi on ylhäällä. Sen jälkeen lauseet alkavat usein sanalla They. They tarkoittaa he tai ne, eli kortin eläimiä. Kun luet They are very big, tiedät, että eläin on hyvin iso. Their tarkoittaa niiden. Their noses are black kertoo nenistä, ei koko eläimestä."},{"tyyppi":"taulukko","otsikko":"Mistä löydät tiedon","otsikkorivi":["Mitä haluat tietää","Etsi kortista","Esimerkki"],"rivit":[["Väri","värisana: white, black, brown, grey, green, orange, pink","Polar bears are white."],["Koko","big tai small, usein myös very","They are very big."],["Millainen paikka","hot tai cold lauseessa It is … there","It is very cold there."],["Mitä osaa","can ja tekemistä kertova sana","They can swim."]]},{"tyyppi":"kuva","otsikko":"Neljä tietoa jääkarhun kortista","svg":"<svg viewBox=\"0 0 560 250\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"10\" width=\"330\" height=\"230\" rx=\"10\" class=\"v-osa v-akseli\"/><text x=\"26\" y=\"40\" class=\"v-t vahva\" style=\"font-size:17px\">Polar bears</text><line x1=\"26\" y1=\"50\" x2=\"324\" y2=\"50\" class=\"v-apu\"/><text x=\"26\" y=\"76\" class=\"v-t\" style=\"font-size:14px\">Polar bears are white.</text><text x=\"26\" y=\"100\" class=\"v-t\" style=\"font-size:14px\">Their noses are black.</text><text x=\"26\" y=\"124\" class=\"v-t\" style=\"font-size:14px\">They are very big.</text><text x=\"26\" y=\"148\" class=\"v-t\" style=\"font-size:14px\">They live in the Arctic.</text><text x=\"26\" y=\"172\" class=\"v-t\" style=\"font-size:14px\">It is very cold there.</text><text x=\"26\" y=\"196\" class=\"v-t\" style=\"font-size:14px\">They can swim.</text><text x=\"26\" y=\"220\" class=\"v-t\" style=\"font-size:14px\">They eat seals.</text><rect x=\"380\" y=\"58\" width=\"170\" height=\"28\" rx=\"6\" class=\"v-osa v1\"/><text x=\"390\" y=\"77\" class=\"v-t\" style=\"font-size:13px\">Väri: valkoinen</text><rect x=\"380\" y=\"106\" width=\"170\" height=\"28\" rx=\"6\" class=\"v-osa v1\"/><text x=\"390\" y=\"125\" class=\"v-t\" style=\"font-size:13px\">Koko: hyvin iso</text><rect x=\"380\" y=\"154\" width=\"170\" height=\"28\" rx=\"6\" class=\"v-osa v1\"/><text x=\"390\" y=\"173\" class=\"v-t\" style=\"font-size:13px\">Paikka: kylmä paikka</text><rect x=\"380\" y=\"194\" width=\"170\" height=\"28\" rx=\"6\" class=\"v-osa v1\"/><text x=\"390\" y=\"213\" class=\"v-t\" style=\"font-size:13px\">Osaa: uida</text><line x1=\"200\" y1=\"72\" x2=\"378\" y2=\"72\" class=\"v-jana\"/><line x1=\"160\" y1=\"120\" x2=\"378\" y2=\"120\" class=\"v-jana\"/><line x1=\"196\" y1=\"168\" x2=\"378\" y2=\"168\" class=\"v-jana\"/><line x1=\"140\" y1=\"192\" x2=\"378\" y2=\"208\" class=\"v-jana\"/></svg>","teksti":"Jokainen tieto löytyy tutuista sanoista. Sanoja Arctic ja seals ei tarvita."},{"tyyppi":"saanto","otsikko":"Näin luet tietokortin","askeleet":["Katso ensin eläimen nimi kortin yläreunasta.","Etsi värisana. Tarkista, kertooko lause koko eläimestä (They are …) vai jostakin sen osasta (Their noses are …).","Etsi sana big tai small. Very tarkoittaa hyvin tai tosi.","Etsi lause It is … there. Hot tarkoittaa kuumaa ja cold kylmää. Siitä tiedät, millainen paikka on, vaikka paikan nimi olisi uusi sana.","Etsi sana can. Jos sanassa on n't (can't), eläin ei osaa sitä.","Kirjoita vastaus suomeksi omin sanoin. Lyhyt vastaus riittää."]},{"tyyppi":"kappale","otsikko":"Uusi sana ei pysäytä","sisalto":"Kortissa on melkein aina sana, jota et tunne. Usein se on paikan nimi, kuten Arctic tai desert. Ohita se ja lue seuraava lause. It is very cold there tarkoittaa: siellä on hyvin kylmää. There eli siellä tarkoittaa juuri sitä paikkaa, josta edellinen lause kertoi. Nyt tiedät, että eläin asuu kylmässä paikassa, vaikka et tiedä paikan nimeä. Se riittää vastaukseksi."},{"tyyppi":"taulukko","otsikko":"Tärkeät pikkusanat","otsikkorivi":["Englanniksi","Suomeksi"],"rivit":[["they","he, ne"],["their","niiden, heidän"],["very","hyvin, tosi"],["live in","asua jossakin"],["there","siellä"],["hot","kuuma"],["cold","kylmä"],["can","osaa"],["can't","ei osaa"]]},{"tyyppi":"ansa","otsikko":"Ansa 1: osan väri ei ole eläimen väri","sisalto":"Kortissa lukee: Polar bears are white. Their noses are black. Kysytään, minkä värinen jääkarhu on. Moni vastaa musta, koska black on viimeinen värisana. Black kertoo kuitenkin vain nenästä: Their noses are black. Koko eläimen väri on lauseessa, joka alkaa eläimen nimellä tai sanalla They. Jääkarhu on valkoinen."},{"tyyppi":"ansa","otsikko":"Ansa 2: can't ei kerro osaamisesta","sisalto":"Kortissa lukee: Ostriches can't fly. They can run. Kysytään, mitä strutsi osaa. Fly on kortin ensimmäinen tekemissana, ja siksi moni vastaa lentää. Mutta can't tarkoittaa ei osaa: strutsi ei osaa lentää. Se osaa juosta, koska lauseessa They can run on pelkkä can. Katso aina, onko can-sanan perässä n't."},{"tyyppi":"ansa","otsikko":"Ansa 3: vieraan sanan kopioiminen ei ole vastaus","sisalto":"Jos kortissa lukee They live in the Arctic ja kirjoitat paikaksi Arctic, et vielä kerro, millainen paikka se on. Lue seuraava lause: It is very cold there. Kirjoita vastaukseksi suomeksi, esimerkiksi kylmässä paikassa. Näin näytät, että ymmärsit kortin."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Tietokorttia ei käännetä sana sanalta. Etsi tutut sanat.","Eläimen väri on lauseessa They are … Their … kertoo vain jostakin osasta.","Big ja small kertovat koon. Very tarkoittaa hyvin.","It is hot there tai It is cold there kertoo, millainen paikka on.","Can = osaa, can't = ei osaa.","Vastaa suomeksi omin sanoin."]}],"harjoitusryhmat":[{"id":"vari","nimi":"Väri ja koko","info":"Eläimen väri ja koko ovat lauseissa, jotka alkavat eläimen nimellä tai sanalla They. Their kertoo vain jostakin eläimen osasta."},{"id":"paikka","nimi":"Millainen paikka","info":"Paikan nimi voi olla uusi sana. Lue lause It is … there: hot on kuuma ja cold kylmä."},{"id":"osaa","nimi":"Mitä se osaa","info":"Can tarkoittaa osaa ja can't ei osaa. Laske tai valitse vain ne tekemiset, joiden edessä on pelkkä can."}],"ryhmanimet":{"vari":"Väri ja koko","paikka":"Millainen paikka","osaa":"Mitä eläin osaa"},"harjoitukset":[{"id":"H01","ryhma":"vari","tyyppi":"luku","kysymys":"Flamingos\n(1) Flamingos are pink.\n(2) Their legs are very long.\n(3) They can fly.\n(4) They can stand on one leg.\n\nMonennessako lauseessa kerrotaan, minkä värinen flamingo on? Kirjoita lauseen numero.","vastaus":1,"vinkki":"Etsi värisana.","selitys":"Lauseessa 1 lukee Flamingos are pink: flamingo on vaaleanpunainen. Muissa lauseissa ei ole värisanaa."},{"id":"H02","ryhma":"vari","tyyppi":"luku","kysymys":"Ladybirds\n(1) This ladybird is very small.\n(2) Its head is black.\n(3) It is red.\n(4) It can fly.\n\nMonennessako lauseessa kerrotaan, minkä värinen leppäkerttu on? Kirjoita lauseen numero.","vastaus":3,"vinkki":"Lauseessa 2 on värisana, mutta kenen väristä se kertoo? Head on pää.","selitys":"Lause 3 It is red kertoo koko leppäkertun värin: punainen. Lause 2 Its head is black kertoo vain pään värin."},{"id":"H03","ryhma":"vari","tyyppi":"luku","kysymys":"Zebras\n(1) Zebras are black and white.\n(2) They are big.\n(3) They live in Africa.\n(4) They can run.\n\nMontako väriä seepralla on kortin mukaan?","vastaus":2,"vinkki":"Laske värisanat lauseesta 1.","selitys":"Zebras are black and white: musta ja valkoinen, siis kaksi väriä."},{"id":"H04","ryhma":"vari","tyyppi":"luku","kysymys":"Blue whales\n(1) Blue whales are very, very big.\n(2) They are blue and grey.\n(3) They live in the sea.\n(4) They can swim.\n\nMonennessako lauseessa kerrotaan valaan koko? Kirjoita lauseen numero.","vastaus":1,"vinkki":"Etsi sana big tai small.","selitys":"Lauseessa 1 on sana big: sinivalas on hyvin, hyvin iso. Lause 2 kertoo värin."},{"id":"H05","ryhma":"vari","tyyppi":"monivalinta","kysymys":"Mice\n(1) This mouse is grey.\n(2) It is very small.\n(3) Its ears are big.\n(4) It can run.\n\nMillainen hiiri on kooltaan?","vaihtoehdot":["Hyvin pieni","Iso","Hyvin iso"],"vastaus":0,"vinkki":"Lause 3 kertoo korvista: Its ears. Mikä lause kertoo koko hiirestä?","selitys":"It is very small kertoo, että hiiri on hyvin pieni. Its ears are big kertoo vain korvista, ei koko hiirestä."},{"id":"H06","ryhma":"vari","tyyppi":"luku","kysymys":"Brown bears\n(1) Brown bears are brown.\n(2) Their noses are black.\n(3) They are very big.\n(4) They live in the forest.\n(5) They can climb trees.\n\nMontako eri väriä kortissa mainitaan?","vastaus":2,"vinkki":"Värejä ovat esimerkiksi brown, black, white ja grey. Sama väri lasketaan vain kerran.","selitys":"Kortissa mainitaan kaksi eri väriä: brown (lause 1) ja black (lause 2). Karhu on ruskea, ja black kertoo vain nenistä."},{"id":"H07","ryhma":"vari","tyyppi":"luku","kysymys":"Crows\n(1) Crows are black.\n(2) Their eyes are black too.\n(3) They are not very big.\n(4) They can fly.\n\nMonennessako lauseessa kerrotaan variksen koko? Kirjoita lauseen numero.","vastaus":3,"vinkki":"Etsi sana big tai small.","selitys":"Lauseessa 3 lukee They are not very big: varis ei ole kovin iso. Lauseet 1 ja 2 kertovat väreistä."},{"id":"H08","ryhma":"paikka","tyyppi":"luku","kysymys":"Camels\n(1) Camels are brown.\n(2) They live in the desert.\n(3) It is very hot there.\n(4) They can run.\n\nMonennessako lauseessa kerrotaan, onko paikka kuuma vai kylmä? Kirjoita lauseen numero.","vastaus":3,"vinkki":"Etsi sana hot tai cold.","selitys":"It is very hot there kertoo, että siellä on hyvin kuumaa. Desert on paikan nimi, mutta se ei kerro, onko paikka kuuma vai kylmä, jos et tunne sanaa."},{"id":"H09","ryhma":"paikka","tyyppi":"monivalinta","kysymys":"Camels\n(1) Camels are brown.\n(2) They live in the desert.\n(3) It is very hot there.\n(4) They can run.\n\nMillaisessa paikassa kamelit asuvat?","vaihtoehdot":["Kylmässä paikassa","Kuumassa paikassa","Meressä"],"vastaus":1,"vinkki":"Lue lause, jossa on sana there.","selitys":"It is very hot there: siellä on hyvin kuumaa. Kamelit asuvat kuumassa paikassa."},{"id":"H10","ryhma":"paikka","tyyppi":"luku","kysymys":"Walruses\n(1) Walruses are brown.\n(2) They are very big.\n(3) They live in the Arctic.\n(4) It is very cold there.\n(5) They can swim.\n\nMonennessako lauseessa on vihje, josta päättelet, millainen paikka Arctic on? Kirjoita lauseen numero.","vastaus":4,"vinkki":"Arctic on uusi sana. Lue lause, joka tulee sen jälkeen.","selitys":"Lause 4 It is very cold there kertoo, että siellä on hyvin kylmää. There tarkoittaa sitä paikkaa, josta lause 3 kertoi."},{"id":"H11","ryhma":"paikka","tyyppi":"luku","kysymys":"Card 1: Camels live in the desert. It is very hot there.\nCard 2: Walruses live in the Arctic. It is very cold there.\nCard 3: Snowy owls live in the tundra. It is very cold there.\n\nMontako näistä eläimistä asuu kylmässä paikassa?","vastaus":2,"vinkki":"Etsi jokaisesta kortista sana hot tai cold.","selitys":"Kortissa 2 ja kortissa 3 lukee It is very cold there. Kortissa 1 lukee hot. Kylmässä asuu siis kaksi eläintä. Tundra on uusi sana, mutta sitä ei tarvita."},{"id":"H12","ryhma":"paikka","tyyppi":"luku","kysymys":"Lizards\n(1) These lizards are small.\n(2) They are green and brown.\n(3) They live in the desert.\n(4) It is very hot there.\n(5) They can run.\n\nMontako lausetta tässä kortissa kertoo paikasta, jossa liskot asuvat?","vastaus":2,"vinkki":"Etsi lause, jossa on live in, ja lause, jossa on there.","selitys":"Lause 3 kertoo paikan nimen (the desert) ja lause 4, millainen paikka on (very hot). Paikasta kertoo kaksi lausetta."},{"id":"H13","ryhma":"paikka","tyyppi":"luku","kysymys":"Card 1: Camels live in the desert. It is very hot there.\nCard 2: Lizards live in the desert. It is very hot there.\nCard 3: Walruses live in the Arctic. It is very cold there.\nCard 4: Snowy owls live in the tundra. It is very cold there.\n\nMontako näistä eläimistä asuu kuumassa paikassa?","vastaus":2,"vinkki":"Etsi jokaisesta kortista sana hot.","selitys":"Kortit 1 ja 2 kertovat: It is very hot there. Kuumassa asuu kaksi eläintä, kameli ja lisko."},{"id":"H14","ryhma":"osaa","tyyppi":"luku","kysymys":"Ostriches\n(1) Ostriches are big birds.\n(2) Their eggs are very big.\n(3) They can't fly.\n(4) They can run.\n\nMontako asiaa strutsi osaa kortin mukaan?","vastaus":1,"vinkki":"Laske vain lauseet, joissa on pelkkä can. Can't tarkoittaa ei osaa.","selitys":"They can run: strutsi osaa juosta. They can't fly kertoo, että se ei osaa lentää. Osattavia asioita on siis yksi."},{"id":"H15","ryhma":"osaa","tyyppi":"luku","kysymys":"Dolphins\n(1) Dolphins are grey.\n(2) They live in the sea.\n(3) They can swim.\n(4) They can jump.\n(5) They can't walk.\n\nMontako asiaa delfiini osaa kortin mukaan?","vastaus":2,"vinkki":"Laske lauseet, joissa on can ilman n't-loppua.","selitys":"Delfiini osaa uida (can swim) ja hypätä (can jump). Can't walk kertoo, että se ei osaa kävellä. Osattavia asioita on kaksi."},{"id":"H16","ryhma":"osaa","tyyppi":"luku","kysymys":"Hedgehogs\n(1) Hedgehogs are brown.\n(2) They are small.\n(3) They can't fly.\n(4) They can swim.\n(5) They can run.\n\nMontako asiaa siili osaa kortin mukaan?","vastaus":2,"vinkki":"Lause 3 on can't. Laske vain pelkät can-lauseet.","selitys":"Siili osaa uida (can swim) ja juosta (can run). Lause 3 They can't fly kertoo, että se ei osaa lentää."},{"id":"H17","ryhma":"osaa","tyyppi":"luku","kysymys":"Parrots\n(1) This parrot is green.\n(2) It can fly.\n(3) It can talk.\n(4) It can't read.\n\nMonennessako lauseessa kerrotaan, mitä papukaija EI osaa? Kirjoita lauseen numero.","vastaus":4,"vinkki":"Etsi sana, jossa on n't.","selitys":"Lauseessa 4 lukee It can't read: papukaija ei osaa lukea. Lauseissa 2 ja 3 on pelkkä can."},{"id":"H18","ryhma":"osaa","tyyppi":"monivalinta","kysymys":"Kiwis\n(1) Kiwis are small birds.\n(2) They are brown.\n(3) They can't fly.\n(4) They can run.\n\nMitä kiivi osaa?","vaihtoehdot":["Lentää","Ei mitään","Juosta"],"vastaus":2,"vinkki":"Fly tulee ensin, mutta katso, onko sen edessä can vai can't.","selitys":"They can run: kiivi osaa juosta. They can't fly kertoo, että se ei osaa lentää."},{"id":"H19","ryhma":"osaa","tyyppi":"luku","kysymys":"Dolphins\n(1) Dolphins are grey.\n(2) They live in the sea.\n(3) They can swim.\n(4) They can jump.\n(5) They can't walk.\n\nMonennessako lauseessa kerrotaan, mitä delfiini EI osaa? Kirjoita lauseen numero.","vastaus":5,"vinkki":"Etsi can't.","selitys":"Lause 5 They can't walk kertoo, että delfiini ei osaa kävellä."},{"id":"H20","ryhma":"osaa","tyyppi":"luku","kysymys":"Cats\n(1) This cat is black.\n(2) It is small.\n(3) It can run.\n(4) It can't fly.\n(5) It can climb trees.\n\nMontako asiaa kissa osaa kortin mukaan?","vastaus":2,"vinkki":"Laske vain pelkät can-lauseet. Climb trees tarkoittaa kiivetä puihin.","selitys":"Kissa osaa juosta (can run) ja kiivetä puihin (can climb trees). It can't fly kertoo, että se ei osaa lentää."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Lue tietokortti","johdanto":"Lue tietokortti itse. Opettaja ei lue sitä ääneen. Kortissa on sanoja, joita et tunne. Et tarvitse niitä. Täytä taulukko: vastaa jokaiseen kohtaan suomeksi omin sanoin. Lyhyt vastaus riittää.\n\nAfrican elephants\nAfrican elephants are grey. Their tusks are white. They are very big. They live in the savanna. It is very hot there. They can't fly. They can swim.","tehtavat":[{"nro":1,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Väri: Minkä värinen eläin on?","vastaus":"Malliesimerkki: Harmaa."},{"nro":2,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Koko: Onko eläin iso vai pieni?","vastaus":"Malliesimerkki: Hyvin iso."},{"nro":3,"ryhma":"paikka","tyyppi":"sanallinen","kysymys":"Paikka: Millaisessa paikassa eläin asuu?","vastaus":"Malliesimerkki: Kuumassa paikassa (savannilla)."},{"nro":4,"ryhma":"osaa","tyyppi":"sanallinen","kysymys":"Osaa: Mitä eläin osaa tehdä?","vastaus":"Malliesimerkki: Uida."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Lue tietokortti","johdanto":"Lue tietokortti itse. Opettaja ei lue sitä ääneen. Kortissa on sanoja, joita et tunne. Et tarvitse niitä. Täytä taulukko: vastaa jokaiseen kohtaan suomeksi omin sanoin. Lyhyt vastaus riittää.\n\nSnow leopards\nSnow leopards are white and grey. Their spots are black. They are big cats. They live in the mountains. It is very cold there. They can't fly. They can jump.","tehtavat":[{"nro":1,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Väri: Minkä värinen eläin on?","vastaus":"Malliesimerkki: Valkoinen ja harmaa."},{"nro":2,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Koko: Onko eläin iso vai pieni?","vastaus":"Malliesimerkki: Iso."},{"nro":3,"ryhma":"paikka","tyyppi":"sanallinen","kysymys":"Paikka: Millaisessa paikassa eläin asuu?","vastaus":"Malliesimerkki: Kylmässä paikassa (vuorilla)."},{"nro":4,"ryhma":"osaa","tyyppi":"sanallinen","kysymys":"Osaa: Mitä eläin osaa tehdä?","vastaus":"Malliesimerkki: Hypätä."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Lue tietokortti","johdanto":"Lue tietokortti itse. Opettaja ei lue sitä ääneen. Kortissa on sanoja, joita et tunne. Et tarvitse niitä. Täytä taulukko: vastaa jokaiseen kohtaan suomeksi omin sanoin. Lyhyt vastaus riittää.\n\nRed-eyed tree frogs\nRed-eyed tree frogs are green. Their eyes are red. They are very small. They live in the rainforest. It is hot there. They can't fly. They can jump.","tehtavat":[{"nro":1,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Väri: Minkä värinen eläin on?","vastaus":"Malliesimerkki: Vihreä."},{"nro":2,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Koko: Onko eläin iso vai pieni?","vastaus":"Malliesimerkki: Hyvin pieni."},{"nro":3,"ryhma":"paikka","tyyppi":"sanallinen","kysymys":"Paikka: Millaisessa paikassa eläin asuu?","vastaus":"Malliesimerkki: Kuumassa paikassa (sademetsässä)."},{"nro":4,"ryhma":"osaa","tyyppi":"sanallinen","kysymys":"Osaa: Mitä eläin osaa tehdä?","vastaus":"Malliesimerkki: Hypätä."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Lue tietokortti","johdanto":"Lue tietokortti itse. Opettaja ei lue sitä ääneen. Kortissa on sanoja, joita et tunne. Et tarvitse niitä. Täytä taulukko: vastaa jokaiseen kohtaan suomeksi omin sanoin. Lyhyt vastaus riittää.\n\nEmperor penguins\nEmperor penguins are black and white. Their chicks are grey. They are big birds. They live in Antarctica. It is very cold there. They can't fly. They can swim.","tehtavat":[{"nro":1,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Väri: Minkä värinen eläin on?","vastaus":"Malliesimerkki: Musta ja valkoinen."},{"nro":2,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Koko: Onko eläin iso vai pieni?","vastaus":"Malliesimerkki: Iso."},{"nro":3,"ryhma":"paikka","tyyppi":"sanallinen","kysymys":"Paikka: Millaisessa paikassa eläin asuu?","vastaus":"Malliesimerkki: Kylmässä paikassa (Etelämantereella)."},{"nro":4,"ryhma":"osaa","tyyppi":"sanallinen","kysymys":"Osaa: Mitä eläin osaa tehdä?","vastaus":"Malliesimerkki: Uida."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Lue tietokortti","johdanto":"Lue tietokortti itse. Opettaja ei lue sitä ääneen. Kortissa on sanoja, joita et tunne. Et tarvitse niitä. Täytä taulukko: vastaa jokaiseen kohtaan suomeksi omin sanoin. Lyhyt vastaus riittää.\n\nBengal tigers\nBengal tigers are orange. Their stripes are black. They are very big. They live in the jungle. It is hot there. They can't fly. They can swim.","tehtavat":[{"nro":1,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Väri: Minkä värinen eläin on?","vastaus":"Malliesimerkki: Oranssi (mustin raidoin)."},{"nro":2,"ryhma":"vari","tyyppi":"sanallinen","kysymys":"Koko: Onko eläin iso vai pieni?","vastaus":"Malliesimerkki: Hyvin iso."},{"nro":3,"ryhma":"paikka","tyyppi":"sanallinen","kysymys":"Paikka: Millaisessa paikassa eläin asuu?","vastaus":"Malliesimerkki: Kuumassa paikassa (viidakossa)."},{"nro":4,"ryhma":"osaa","tyyppi":"sanallinen","kysymys":"Osaa: Mitä eläin osaa tehdä?","vastaus":"Malliesimerkki: Uida."}]}],"tulostus":{"sivuja":1,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":2,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"Yksi oppitunti tekstiin ja harjoituksiin. Koe on lyhyt (yksi kortti ja neljä kohtaa), ja sen voi pitää seuraavan tunnin alussa.","huomiot":["Koe vastaa kartan näyttöä: oppilas lukee itse uuden tietokortin (seitsemän lyhyttä lausetta), jota opettaja ei lue ääneen, ja täyttää suomeksi neljä kohtaa: väri, koko, millaisessa paikassa eläin asuu ja mitä se osaa. Lue koeohje ääneen, mutta älä korttia. Sanakirjaa ei käytetä.","Versiot A–E ovat samaa rakennetta lause lauseelta: 1) eläimen väri, 2) jonkin osan eri väri (tusks, spots, eyes, chicks, stripes), 3) koko, 4) uusi paikan nimi (savanna, mountains, rainforest, Antarctica, jungle), 5) It is (very) hot/cold there, 6) They can't fly, 7) They can + tuttu verbi (swim tai jump). Jokaisessa versiossa on samat kolme ansaa: osan väri, uusi paikan nimi ja can't ennen can-lausetta.","Raja kartan mukaan: vähintään kolme kohtaa neljästä oikein. Tehtävä 3 (paikka) on mittaritehtävä, koska kartan kriteeri korostaa juuri sitä, että paikka päätellään lauseesta It is very cold there. Huomaa: neljän tehtävän kokeessa opettajan sivun automaattinen 80 %:n lause tarkoittaisi käytännössä neljää oikeaa neljästä. Kartan raja 3/4 on tätä lievempi; ristiriita on kirjattu avoimeksi asiaksi, ja kunnes se ratkaistaan, käytä kartan rajaa.","Mikä kelpaa. Tehtävä 1: eläimen väri suomeksi; osan värin saa mainita lisäksi (oranssi, mustat raidat), mutta pelkkä osan väri on väärin (A valkoinen, B musta, C punainen, D harmaa, E musta). Versiossa B kelpaa valkoinen, harmaa tai molemmat; versiossa D musta ja valkoinen (toinen väreistä yksinään kelpaa myös). Tehtävä 2: iso tai pieni (hyvin-sanaa ei vaadita). Tehtävä 3: kuuma tai kylmä paikka missä muodossa tahansa (kuumassa, lämpimässä, siellä on kylmä); pelkkä englanninkielinen paikan nimi (savanna, the mountains) tai sen suomennos ilman tietoa lämmöstä ei riitä, koska kriteeri on päättely lauseesta It is … there. Jos oppilas kirjoittaa sekä paikan että kuuma/kylmä, se on oikein. Tehtävä 4: kortin can-verbi (uida tai hypätä); lentää on väärin, koska kortissa lukee can't fly.","Tehtävissä 1, 2 ja 4 tavallinen yleistieto voisi auttaa (norsu on harmaa ja iso), ja siksi oikea vastaus on se, mitä kortissa lukee. Kortit on laadittu niin, että kortin tieto ja yleistieto eivät ole ristiriidassa. Tehtävässä 3 yleistieto ei riitä useimmille oppilaille, koska paikan nimi on uusi sana.","Harjoituksissa vastaus on luku tai valinta, koska oppilaan sivu tarkistaa vain ne: lauseen numero, värien tai osattavien asioiden määrä. Kokeessa vastataan sanoin. Harjoitusten eläimet ja paikat (desert, Arctic, tundra) eivät ole kokeessa.","Tarkistettavat asiatiedot (kortit on kirjoitettu yksinkertaistettuina faktoina, tarkista halutessasi): afrikannorsun syöksyhampaat valkoiset ja norsu osaa uida; lumileopardi vaalean harmaa, mustat laikut, asuu Keski-Aasian vuoristossa; punasilmälehtisammakko vihreä, punaiset silmät, sademetsä; keisaripingviinin poikaset harmaita; bengalintiikeri osaa uida. Harjoituksissa: kiivin ja strutsin lentokyvyttömyys, siili osaa uida.","Ero 4. luokkaan: ENA4-LUE-03 hakee tietoa lukujärjestyksestä ja ruokalistasta ja ENA4-LUE-05 päättelee vieraan sanan merkityksen. Tässä 3. luokan haasteessa luetaan yksi lyhyt kortti, ja vieras sana ohitetaan ja tieto päätellään viereisestä lauseesta.","Kortit on kirjoitettu brittienglanniksi. Tässä taidossa ei mitata lukunopeutta eikä ajanoteta mitään. Oppilas, joka lukee kortin hitaasti ja löytää tiedot, on näyttänyt taidon."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Tietokorttia ei käännetä. Siitä etsitään neljä asiaa: väri, koko, millainen paikka ja mitä eläin osaa. Kun tulee uusi sana, lue seuraava lause.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Kirjoita taululle jääkarhun kortti (oppilaan sivun johdanto). Kysy suomeksi: minkä värinen jääkarhu on? Asuuko se kuumassa vai kylmässä paikassa? Kun vastaukset löytyvät, kysy, mitkä sanat siihen tarvittiin, ja alleviivaa ne. Kysy lopuksi, tarvittiinko sanoja Arctic ja seals."},{"aika":"12 min","otsikko":"Ydinasia","sisalto":"Käy läpi taulukko Mistä löydät tiedon ja pikkusanat they, their, very, there, can ja can't. Näytä kuva neljästä tiedosta. Peitä sitten sana Arctic ja kysy, voiko paikasta silti sanoa jotain. Käy läpi kolme ansaa: Their noses are black, can't fly ja vieraan sanan kopioiminen."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Oppilaan sivu ryhmä kerrallaan. Pyydä oppilasta näyttämään sormella lause, josta vastaus löytyy, ennen kuin hän vastaa. Pysähdy tehtäviin H02 ja H06 (osan väri), H10 (uusi paikan nimi) ja H14 (can't ensin) ja kysy perustelu ääneen."},{"aika":"8 min","otsikko":"Lopetus","sisalto":"Luokka täyttää yhdessä taululle neljän kohdan taulukon kortista, jota ei ole oppilaan sivulla: Meerkats are brown. They are small. They live in the desert. It is very hot there. They can't fly. They can run. Kysy lopuksi, mikä sana oli uusi ja miksi vastaukset löytyivät silti."}],"tarvikkeet":"Taulutila jääkarhun kortille ja lopetuksen kortille. Oppilaan sivu laitteelta tai tulostettuna. Koetta varten tulostetut koepaperit."},"virhesanakirja":[{"virhe":"Kirjoittaa väriksi osan värin, esimerkiksi norsulle valkoinen, kun kortissa lukee African elephants are grey. Their tusks are white.","tehtava":"väri (kokeen tehtävä 1)","mita_kertoo":"Oppilas poimii värisanan mutta ei lue, mistä lause kertoo. Their-lause kertoo vain jostakin eläimen osasta.","mita_tehda":"Pyydä alleviivaamaan lauseen alku: They are … vai Their … are. Väri haetaan vain lauseesta, jonka alussa on eläimen nimi tai They."},{"virhe":"Kirjoittaa paikaksi kortin englanninkielisen paikan nimen (savanna, the mountains) tai jättää kohdan tyhjäksi.","tehtava":"paikka (kokeen tehtävä 3)","mita_kertoo":"Oppilas jää kiinni uuteen sanaan eikä lue seuraavaa lausetta. Hän ei vielä tiedä, että there viittaa edellisen lauseen paikkaan.","mita_tehda":"Peitä paikan nimi sormella ja lue yhdessä It is very … there. Kysy: onko siellä kuuma vai kylmä? Harjoittele harjoituksilla H10 ja H11."},{"virhe":"Kirjoittaa osaa-kohtaan lentää, kun kortissa lukee They can't fly. They can swim.","tehtava":"mitä osaa (kokeen tehtävä 4)","mita_kertoo":"Oppilas tunnistaa tekemissanan mutta ei huomaa n't-loppua. Hän ottaa ensimmäisen tekemissanan.","mita_tehda":"Pyydä ympyröimään kortista jokainen can ja can't eri värillä. Kysy jokaisesta: osaako vai ei osaa? Kertaa ENA3-SAN-06:n can ja can't."},{"virhe":"Kirjoittaa koon väärin, kun kortissa lukee They are very small (esimerkiksi iso, koska very kuulostaa suurelta).","tehtava":"koko (kokeen tehtävä 2)","mita_kertoo":"Oppilas ei erota very-sanaa kokosanasta. Hän tietää, että very liittyy kokoon, muttei katso, mikä sana tulee sen perään.","mita_tehda":"Kirjoita very big ja very small allekkain ja peitä very. Kysy, kumpi jää jäljelle. Kertaa vastakohdat big ja small (ENA3-SAN-09)."},{"virhe":"Yrittää kääntää kortin sana sanalta ja pysähtyy ensimmäiseen uuteen sanaan, eikä täytä taulukkoa.","tehtava":"koko koe","mita_kertoo":"Oppilas uskoo, että kaikki sanat pitää ymmärtää ennen kuin voi vastata. Lukustrategia puuttuu, vaikka sanasto riittäisi.","mita_tehda":"Anna oppilaalle neljä värikynää: yksi värille, yksi koolle, yksi hot/cold-sanalle ja yksi can-sanalle. Hän alleviivaa kortista vain nämä ennen kuin kirjoittaa. Tämä on lupa ohittaa muut sanat."},{"virhe":"Vastaa yleistiedosta eikä kortista, esimerkiksi kirjoittaa pingviinin osaamiseksi kävellä tai liukua, vaikka kortissa lukee They can swim.","tehtava":"mitä osaa ja väri (kokeen tehtävät 1 ja 4)","mita_kertoo":"Oppilas tuntee eläimen ja vastaa omasta tiedostaan. Vastaus voi olla totta, mutta se ei näytä, että hän luki kortin.","mita_tehda":"Kysy: missä lauseessa tämä lukee? Pyydä näyttämään sormella kortista. Kerro, että tässä taidossa vastaus haetaan aina kortista."}],"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee lukemaan lyhyen englanninkielisen tietokortin eläimestä ja kertomaan siitä suomeksi neljä asiaa: minkä värinen eläin on, onko se iso vai pieni, asuuko se kuumassa vai kylmässä paikassa ja mitä se osaa. Kortissa on aina muutama vieras sana. Tavoite on löytää tieto tutuista sanoista, ei kääntää koko korttia. Tämä on 3. luokan haastetaito, eli se ei vaikuta luokalta siirtymiseen.","kotona":["Kirjoittakaa yhdessä lyhyt englanninkielinen eläinkortti tutuista sanoista, esimerkiksi Cats are black. They are small. They can run. They can't fly. Kysykää toisiltanne: mitä eläin osaa, entä mitä se ei osaa?","Kun lapsi kertoo kortista, kysykää, mistä sanasta hän sen tiesi. Hot ja cold, big ja small sekä can ja can't ovat tämän taidon avainsanat.","Jos kortissa on vieras sana, kehottakaa lukemaan seuraava lause ennen kuin kysytte sanan merkitystä. Usein vastaus löytyy ilman sitä.","Älkää kääntäkö korttia lapselle sana sanalta. Sanasta sanaan kääntäminen jumittuu ensimmäiseen vieraaseen sanaan, ja juuri siitä tavasta tässä taidossa opetellaan pois."],"milloin_huolestua":"Jos lapsi ei tunnista tuttuja sanoja big, small, hot, cold ja can edes silloin, kun luette kortin yhdessä ääneen, kannattaa ensin kerrata ne. Jos myös suomenkielisen lyhyen tekstin tiedon löytäminen on lapselle hyvin vaikeaa, kertokaa havainnosta opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat lukea englanninkielisen tietokortin ja kertoa siitä suomeksi eläimen värin, koon, millaisessa paikassa se asuu ja mitä se osaa, vaikka kortissa on uusia sanoja. Hienoa, tämä haastetaito on nyt näytetty!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

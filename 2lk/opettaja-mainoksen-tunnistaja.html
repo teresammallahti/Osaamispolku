@@ -1,0 +1,619 @@
+<title>Mainoksen tunnistaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI2-TIE-06","oppiaine":"AI","vuosiluokka":2,"taitoalue":"TIE","jakso":"J5","taso":"haaste","otsikko":"Mainoksen tunnistaja","kuvaus":"Osaan tunnistaa mainoksen ja kertoa, mitä se haluaa minun tekevän.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T7"],"S":["S2"]},"eyebrow":"Äidinkieli ja kirjallisuus · 2. luokka","ikoni":"lukeminen","naytto":"Paperikoe tai havainnointi: Opettaja näyttää neljä keksittyä lastenlehden sivua: mainoksen, uutisen, sarjakuvan ja tietotekstin. Kerron, mikä niistä on mainos, mistä tunnistin sen ja mitä mainos haluaa lukijan tekevän.","osaa_kun":"Tunnistan mainoksen ja kerron sen tarkoituksen (esimerkiksi saada ostamaan tai haluamaan jotain). Perustelen tunnistuksen mainoksen piirteellä, kuten tuotteen nimellä, hinnalla tai houkuttelevalla lauseella.","teksti":[{"tyyppi":"johdanto","sisalto":"Avaat lastenlehden. Yhdellä sivulla on sarjakuva. Toisella on juttu eläimestä. Kolmannella on iso kuva rummusta ja hinta. Se sivu on mainos. Tässä taidossa opit tunnistamaan mainoksen. Opit myös kertomaan, mitä mainos haluaa sinun tekevän."},{"tyyppi":"kappale","otsikko":"Mikä mainos on?","sisalto":"Mainos on teksti ja kuva, joka yrittää saada sinut ostamaan jotain. Joskus mainos haluaa, että haluat jotain tai tulet johonkin paikkaan. Mainoksen tekee yritys tai kauppa. Se haluaa myydä."},{"tyyppi":"kuva","otsikko":"Neljä lehden sivua","svg":"<svg viewBox=\"0 0 620 250\" role=\"img\" aria-label=\"Neljä lehden sivua: mainos, uutinen, sarjakuva ja tietoteksti\"><rect class=\"v-osa v1\" x=\"6\" y=\"6\" width=\"146\" height=\"200\" rx=\"6\"/><text class=\"v-t vahva\" x=\"79\" y=\"30\" text-anchor=\"middle\" style=\"font-size:14px\">PAMAUS-RUMPU</text><ellipse class=\"v-akseli\" cx=\"79\" cy=\"62\" rx=\"30\" ry=\"9\" fill=\"none\"/><path class=\"v-akseli\" d=\"M49 62 V96 A30 9 0 0 0 109 96 V62\" fill=\"none\"/><line class=\"v-akseli\" x1=\"62\" y1=\"40\" x2=\"74\" y2=\"58\"/><line class=\"v-akseli\" x1=\"98\" y1=\"40\" x2=\"86\" y2=\"58\"/><text class=\"v-t\" x=\"79\" y=\"128\" text-anchor=\"middle\" style=\"font-size:12px\">Kovin ääni</text><text class=\"v-t\" x=\"79\" y=\"143\" text-anchor=\"middle\" style=\"font-size:12px\">koko pihalla!</text><text class=\"v-t vahva\" x=\"79\" y=\"168\" text-anchor=\"middle\" style=\"font-size:14px\">18 euroa</text><text class=\"v-t\" x=\"79\" y=\"190\" text-anchor=\"middle\" style=\"font-size:12px\">Osta omasi!</text><rect class=\"v-osa\" x=\"160\" y=\"6\" width=\"146\" height=\"200\" rx=\"6\"/><text class=\"v-t vahva\" x=\"233\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">Iso kurpitsa</text><text class=\"v-t vahva\" x=\"233\" y=\"46\" text-anchor=\"middle\" style=\"font-size:13px\">koulun pihalla</text><ellipse class=\"v-akseli\" cx=\"233\" cy=\"82\" rx=\"30\" ry=\"20\" fill=\"none\"/><line class=\"v-akseli\" x1=\"233\" y1=\"62\" x2=\"236\" y2=\"54\"/><text class=\"v-t pieni\" x=\"170\" y=\"126\" style=\"font-size:11px\">Koulun puutarhaan</text><text class=\"v-t pieni\" x=\"170\" y=\"141\" style=\"font-size:11px\">kasvoi syyskuussa</text><text class=\"v-t pieni\" x=\"170\" y=\"156\" style=\"font-size:11px\">iso kurpitsa. Luokka</text><text class=\"v-t pieni\" x=\"170\" y=\"171\" style=\"font-size:11px\">punnitsi sen</text><text class=\"v-t pieni\" x=\"170\" y=\"186\" style=\"font-size:11px\">maanantaina.</text><rect class=\"v-osa\" x=\"314\" y=\"6\" width=\"146\" height=\"200\" rx=\"6\"/><rect class=\"v-akseli\" x=\"322\" y=\"16\" width=\"62\" height=\"180\" fill=\"none\"/><rect class=\"v-akseli\" x=\"390\" y=\"16\" width=\"62\" height=\"180\" fill=\"none\"/><circle class=\"v-akseli\" cx=\"353\" cy=\"150\" r=\"16\" fill=\"none\"/><circle class=\"v-merkki\" cx=\"347\" cy=\"146\" r=\"2\"/><circle class=\"v-merkki\" cx=\"359\" cy=\"146\" r=\"2\"/><path class=\"v-akseli\" d=\"M346 156 Q353 162 360 156\" fill=\"none\"/><line class=\"v-akseli\" x1=\"353\" y1=\"166\" x2=\"353\" y2=\"188\"/><circle class=\"v-akseli\" cx=\"421\" cy=\"150\" r=\"16\" fill=\"none\"/><circle class=\"v-merkki\" cx=\"415\" cy=\"146\" r=\"2\"/><circle class=\"v-merkki\" cx=\"427\" cy=\"146\" r=\"2\"/><path class=\"v-akseli\" d=\"M414 156 Q421 162 428 156\" fill=\"none\"/><line class=\"v-akseli\" x1=\"421\" y1=\"166\" x2=\"421\" y2=\"188\"/><path class=\"v-akseli\" d=\"M330 40 H378 V80 H360 L352 92 L352 80 H330 Z\" fill=\"none\"/><path class=\"v-akseli\" d=\"M396 40 H446 V80 H428 L420 92 L420 80 H396 Z\" fill=\"none\"/><text class=\"v-t pieni\" x=\"354\" y=\"64\" text-anchor=\"middle\" style=\"font-size:11px\">Hei!</text><text class=\"v-t pieni\" x=\"421\" y=\"64\" text-anchor=\"middle\" style=\"font-size:11px\">Moi!</text><rect class=\"v-osa\" x=\"468\" y=\"6\" width=\"146\" height=\"200\" rx=\"6\"/><text class=\"v-t vahva\" x=\"541\" y=\"30\" text-anchor=\"middle\" style=\"font-size:13px\">Muurahainen</text><ellipse class=\"v-akseli\" cx=\"516\" cy=\"70\" rx=\"9\" ry=\"7\" fill=\"none\"/><ellipse class=\"v-akseli\" cx=\"535\" cy=\"70\" rx=\"8\" ry=\"6\" fill=\"none\"/><ellipse class=\"v-akseli\" cx=\"560\" cy=\"70\" rx=\"15\" ry=\"10\" fill=\"none\"/><line class=\"v-akseli\" x1=\"530\" y1=\"74\" x2=\"522\" y2=\"88\"/><line class=\"v-akseli\" x1=\"535\" y1=\"76\" x2=\"535\" y2=\"90\"/><line class=\"v-akseli\" x1=\"540\" y1=\"74\" x2=\"548\" y2=\"88\"/><line class=\"v-akseli\" x1=\"527\" y1=\"73\" x2=\"515\" y2=\"84\"/><line class=\"v-akseli\" x1=\"532\" y1=\"76\" x2=\"528\" y2=\"90\"/><line class=\"v-akseli\" x1=\"543\" y1=\"73\" x2=\"555\" y2=\"84\"/><text class=\"v-t pieni\" x=\"478\" y=\"126\" style=\"font-size:11px\">Muurahaisella on</text><text class=\"v-t pieni\" x=\"478\" y=\"141\" style=\"font-size:11px\">kuusi jalkaa.</text><text class=\"v-t pieni\" x=\"478\" y=\"156\" style=\"font-size:11px\">Muurahaiset asuvat</text><text class=\"v-t pieni\" x=\"478\" y=\"171\" style=\"font-size:11px\">yhdessä pesässä.</text><text class=\"v-t vahva\" x=\"79\" y=\"234\" text-anchor=\"middle\" style=\"font-size:14px\">mainos</text><text class=\"v-t vahva\" x=\"233\" y=\"234\" text-anchor=\"middle\" style=\"font-size:14px\">uutinen</text><text class=\"v-t vahva\" x=\"387\" y=\"234\" text-anchor=\"middle\" style=\"font-size:14px\">sarjakuva</text><text class=\"v-t vahva\" x=\"541\" y=\"234\" text-anchor=\"middle\" style=\"font-size:14px\">tietoteksti</text></svg>","teksti":"Mainos myy rumpua. Uutinen kertoo, mitä tapahtui. Sarjakuvassa on ruutuja ja puhekuplia. Tietoteksti kertoo tietoa muurahaisesta."},{"tyyppi":"taulukko","otsikko":"Mistä tunnistat sivun?","otsikkorivi":["Sivu","Mistä tunnistat?"],"rivit":[["Mainos","Tuotteen nimi, hinta ja kehuva lause. Mainos sanoo: osta, tule tai kokeile."],["Uutinen","Kertoo, mitä tapahtui, missä ja milloin."],["Sarjakuva","Ruudut ja puhekuplat."],["Tietoteksti","Kertoo tietoa jostain asiasta, esimerkiksi eläimestä."]]},{"tyyppi":"kuva","otsikko":"Mainoksen osat","svg":"<svg viewBox=\"0 0 560 250\" role=\"img\" aria-label=\"Mainoksen osat: tuotteen nimi, kehuva lause, hinta ja mitä mainos haluaa sinun tekevän\"><rect class=\"v-osa v1\" x=\"180\" y=\"10\" width=\"200\" height=\"230\" rx=\"8\"/><text class=\"v-t vahva\" x=\"280\" y=\"44\" text-anchor=\"middle\" style=\"font-size:18px\">PAMAUS-RUMPU</text><text class=\"v-t\" x=\"280\" y=\"98\" text-anchor=\"middle\" style=\"font-size:14px\">Kovin ääni koko pihalla!</text><text class=\"v-t vahva\" x=\"280\" y=\"152\" text-anchor=\"middle\" style=\"font-size:18px\">18 euroa</text><text class=\"v-t\" x=\"280\" y=\"206\" text-anchor=\"middle\" style=\"font-size:14px\">Osta omasi!</text><line class=\"v-akseli\" x1=\"176\" y1=\"38\" x2=\"140\" y2=\"38\"/><text class=\"v-t vahva\" x=\"134\" y=\"36\" text-anchor=\"end\" style=\"font-size:13px\">1. Tuotteen nimi</text><text class=\"v-t pieni\" x=\"134\" y=\"52\" text-anchor=\"end\" style=\"font-size:11px\">Mitä myydään?</text><line class=\"v-akseli\" x1=\"176\" y1=\"147\" x2=\"140\" y2=\"147\"/><text class=\"v-t vahva\" x=\"134\" y=\"145\" text-anchor=\"end\" style=\"font-size:13px\">3. Hinta</text><text class=\"v-t pieni\" x=\"134\" y=\"161\" text-anchor=\"end\" style=\"font-size:11px\">Paljonko maksaa?</text><line class=\"v-akseli\" x1=\"384\" y1=\"93\" x2=\"414\" y2=\"93\"/><text class=\"v-t vahva\" x=\"420\" y=\"91\" style=\"font-size:13px\">2. Kehuva lause</text><text class=\"v-t pieni\" x=\"420\" y=\"107\" style=\"font-size:11px\">Kehuu tuotetta.</text><line class=\"v-akseli\" x1=\"384\" y1=\"201\" x2=\"414\" y2=\"201\"/><text class=\"v-t vahva\" x=\"420\" y=\"199\" style=\"font-size:13px\">4. Mitä mainos</text><text class=\"v-t vahva\" x=\"420\" y=\"215\" style=\"font-size:13px\">haluaa?</text><text class=\"v-t pieni\" x=\"420\" y=\"231\" style=\"font-size:11px\">Osta! Tule! Kokeile!</text></svg>","teksti":"Tästä mainoksesta löytyy neljä osaa. Kaikissa mainoksissa ei ole kaikkia osia."},{"tyyppi":"saanto","otsikko":"Näin tunnistat mainoksen","askeleet":["Etsi tuotteen nimi. Mitä sivulla myydään?","Etsi hinta. Lukeeko sivulla euroa?","Etsi kehuva lause. Sanooko sivu, että jokin on paras, kivoin tai hauskin?","Kysy lopuksi: mitä tämä sivu haluaa minun tekevän? Ostavan, haluavan vai tulevan johonkin?"]},{"tyyppi":"ansa","otsikko":"Ansa 1: iso kuva ei tee mainosta","sisalto":"Sarjakuvassa ja tietotekstissä on myös isoja ja värikkäitä kuvia. Kuva ei kerro, onko sivu mainos. Katso, myykö sivu jotain. Etsi tuotteen nimi, hinta tai kehuva lause."},{"tyyppi":"ansa","otsikko":"Ansa 2: sama aihe, eri sivu","sisalto":"\"Rumpua soitetaan kapuloilla.\" Tämä lause kertoo tietoa rummusta. Se ei ole mainos. \"Osta Pamaus-rumpu, 18 euroa!\" Tämä lause myy rumpua. Se on mainos. Molemmat puhuvat rummusta, mutta vain toinen myy."},{"tyyppi":"ansa","otsikko":"Ansa 3: huutomerkki ei tee mainosta","sisalto":"\"Hurraa, tänään on lumipäivä!\" Lauseessa on huutomerkki ja iloinen sana. Siinä ei silti myydä mitään. Mainoksessa on aina jotain, mitä myydään tai mihin kutsutaan."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Mainos haluaa, että ostat, haluat tai tulet.","Etsi tuotteen nimi, hinta ja kehuva lause.","Kuva ei kerro, onko sivu mainos.","Kysy: mitä tämä sivu haluaa minun tekevän?"]}],"harjoitusryhmat":[{"id":"tunnista","nimi":"Mikä on mainos?","info":"Mainos myy jotain. Etsi tuotteen nimi, hinta tai kehuva lause. Kuva ei kerro, onko sivu mainos."},{"id":"piirteet","nimi":"Mainoksen osat","info":"Mainoksessa on usein tuotteen nimi, hinta ja kehuva lause. Kehuva lause sanoo, että tuote on hyvä."},{"id":"tarkoitus","nimi":"Mitä mainos haluaa?","info":"Mainos haluaa, että ostat jotain, haluat jotain tai tulet johonkin paikkaan."}],"ryhmanimet":{"tunnista":"Mikä on mainos?","piirteet":"Mainoksen osat","tarkoitus":"Mitä mainos haluaa?"},"harjoitukset":[{"id":"H01","ryhma":"tunnista","kysymys":"1. Kettu asuu metsässä.\n2. Osta Kettu-pehmolelu, vain 10 euroa!\n3. Kettu syö hiiriä.\n\nMonesko lause on mainoksesta?","vastaus":2,"vinkki":"Etsi lause, jossa myydään jotain.","selitys":"Lause 2 on mainoksesta. Siinä on tuotteen nimi ja hinta. Lauseet 1 ja 3 kertovat tietoa ketusta."},{"id":"H02","ryhma":"tunnista","kysymys":"1. Uusi Kupla-limsa! Raikkain juoma, 2 euroa.\n2. Tänään satoi vettä.\n3. Hanki Loisto-penaali kouluun!\n4. Koira haukkuu pihalla.\n\nMontako riviä on mainoksista?","vastaus":2,"vinkki":"Laske rivit, jotka myyvät jotain.","selitys":"Rivit 1 ja 3 myyvät jotain: limsaa ja penaalia. Rivit 2 ja 4 eivät myy mitään."},{"id":"H03","ryhma":"tunnista","tyyppi":"monivalinta","kysymys":"Sivulla on kolme ruutua. Ruuduissa on kaksi pupua. Pupuilla on puhekuplat.\n\nMikä sivu on?","vaihtoehdot":["mainos","sarjakuva","uutinen"],"vastaus":1,"vinkki":"Missä on ruutuja ja puhekuplia?","selitys":"Ruudut ja puhekuplat kuuluvat sarjakuvaan. Sivulla ei myydä mitään."},{"id":"H04","ryhma":"tunnista","tyyppi":"monivalinta","kysymys":"Sivulla lukee: Kirjasto sai paljon uusia kirjoja. Kirjat tulivat tiistaina.\n\nMikä sivu on?","vaihtoehdot":["mainos","uutinen","sarjakuva"],"vastaus":1,"vinkki":"Kertooko sivu, mitä tapahtui ja milloin?","selitys":"Sivu on uutinen. Se kertoo, mitä tapahtui ja milloin. Siinä ei ole hintaa eikä myytävää tuotetta."},{"id":"H05","ryhma":"tunnista","kysymys":"Sivu 1: Otsikko: Kuu. Teksti: Kuu kiertää Maata.\nSivu 2: Kolme ruutua. Kaksi koiraa juttelee puhekuplissa.\nSivu 3: Torstaina koulun pihalla oli syysjuhla.\nSivu 4: Uusi Raketti-pyörä! 99 euroa!\n\nMonesko sivu on mainos?","vastaus":4,"vinkki":"Missä on tuotteen nimi ja hinta?","selitys":"Sivu 4 on mainos. Siinä on tuotteen nimi Raketti-pyörä ja hinta 99 euroa."},{"id":"H06","ryhma":"tunnista","kysymys":"Sivu 1: Otsikko: Kuu. Teksti: Kuu kiertää Maata.\nSivu 2: Kolme ruutua. Kaksi koiraa juttelee puhekuplissa.\nSivu 3: Torstaina koulun pihalla oli syysjuhla.\nSivu 4: Uusi Raketti-pyörä! 99 euroa!\n\nMonesko sivu on uutinen?","vastaus":3,"vinkki":"Uutinen kertoo, mitä tapahtui, missä ja milloin.","selitys":"Sivu 3 on uutinen. Se kertoo, että koulun pihalla oli syysjuhla torstaina."},{"id":"H07","ryhma":"tunnista","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva kalasta. Teksti: Hauki elää järvessä.\nSivu 2: Kuva laivasta. Teksti: Matkusta Aalto-laivalla! Lippu 20 euroa.\nSivu 3: Kuva kahdesta karhusta. Puhekupla: Onko hunajaa?\n\nMonesko sivu on mainos?","vastaus":2,"vinkki":"Kuva ei auta, sillä kaikilla sivuilla on kuva. Etsi hinta.","selitys":"Sivu 2 on mainos. Siinä myydään laivalippuja, ja siinä on hinta. Sivu 1 on tietoteksti ja sivu 3 sarjakuva."},{"id":"H08","ryhma":"piirteet","kysymys":"Mainos:\n1. Lumi-sukset\n2. Liukkaimmat sukset koko mäessä!\n3. Hinta 45 euroa\n4. Osta omat tänään!\n\nMonesko rivi kertoo tuotteen nimen?","vastaus":1,"vinkki":"Mitä mainoksessa myydään?","selitys":"Rivi 1 kertoo tuotteen nimen: Lumi-sukset."},{"id":"H09","ryhma":"piirteet","kysymys":"Mainos:\n1. Lumi-sukset\n2. Liukkaimmat sukset koko mäessä!\n3. Hinta 45 euroa\n4. Osta omat tänään!\n\nMonesko rivi kertoo hinnan?","vastaus":3,"vinkki":"Etsi sana euroa.","selitys":"Rivi 3 kertoo hinnan: 45 euroa."},{"id":"H10","ryhma":"piirteet","kysymys":"Mainos:\n1. Lumi-sukset\n2. Liukkaimmat sukset koko mäessä!\n3. Hinta 45 euroa\n4. Osta omat tänään!\n\nMonesko rivi kehuu tuotetta?","vastaus":2,"vinkki":"Kehuva lause sanoo, että tuote on hyvä tai paras.","selitys":"Rivi 2 kehuu suksia: ne ovat liukkaimmat koko mäessä."},{"id":"H11","ryhma":"piirteet","kysymys":"Mainos: Kirsikka-jogurtti. Pehmein aamupala!\n\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa?","vastaus":2,"vinkki":"Etsi nimi, hinta ja kehuva lause yksi kerrallaan.","selitys":"Mainoksessa on tuotteen nimi (Kirsikka-jogurtti) ja kehuva lause (Pehmein aamupala!). Hintaa siinä ei ole."},{"id":"H12","ryhma":"piirteet","kysymys":"Mainos: Uusi Tassu-koiranlelu. Koirasi hyppii ilosta! Vain 6 euroa.\n\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa?","vastaus":3,"vinkki":"Etsi nimi, hinta ja kehuva lause yksi kerrallaan.","selitys":"Kaikki kolme: nimi Tassu-koiranlelu, kehuva lause Koirasi hyppii ilosta! ja hinta 6 euroa."},{"id":"H13","ryhma":"piirteet","tyyppi":"monivalinta","kysymys":"Onni sanoo: Sivu on mainos, koska siinä on iso värikäs kuva.\nElla sanoo: Sivu on mainos, koska siinä on hinta.\n\nKumpi kertoo mainoksen osan?","vaihtoehdot":["Onni","Ella"],"vastaus":1,"vinkki":"Onko kuva vain mainoksissa?","selitys":"Ella. Hinta kertoo, että sivulla myydään jotain. Värikäs kuva voi olla myös sarjakuvassa tai tietotekstissä."},{"id":"H14","ryhma":"piirteet","kysymys":"Kolme lasta kertoo, mistä he tunnistivat mainoksen:\n1. Siinä on hinta.\n2. Siinä on kuva.\n3. Siinä lukee: Paras pipo ikinä!\n\nMontako lasta kertoo mainoksen osan?","vastaus":2,"vinkki":"Kuva ei ole mainoksen osa, sillä kuvia on muillakin sivuilla.","selitys":"Lapset 1 ja 3. Hinta ja kehuva lause ovat mainoksen osia. Kuva voi olla millä tahansa sivulla."},{"id":"H15","ryhma":"tarkoitus","kysymys":"Mainos: Tule Pomppulinna-puistoon! Lippu 15 euroa.\n1. Mainos haluaa, että tulet puistoon.\n2. Mainos haluaa, että siivoat huoneesi.\n3. Mainos haluaa kertoa eläimistä.\n\nMonesko lause kertoo, mitä mainos haluaa?","vastaus":1,"vinkki":"Mitä mainos käskee tekemään? Etsi sana Tule.","selitys":"Lause 1. Mainos sanoo Tule, ja siinä on lipun hinta. Se haluaa, että tulet puistoon ja ostat lipun."},{"id":"H16","ryhma":"tarkoitus","kysymys":"Mainos:\n1. Kaneli-keksit\n2. Rapeimmat keksit!\n3. Osta paketti kaupasta!\n\nMonesko rivi kertoo, mitä mainos haluaa sinun tekevän?","vastaus":3,"vinkki":"Etsi rivi, joka sanoo, mitä tehdä.","selitys":"Rivi 3 sanoo Osta. Mainos haluaa, että ostat keksit."},{"id":"H17","ryhma":"tarkoitus","kysymys":"Mainos: Uusi Kimalle-tarrakirja! Kaikki kaverisi haluavat sen!\n1. Mainos haluaa, että luet tarroista.\n2. Mainos haluaa, että haluat tarrakirjan.\n3. Mainos haluaa, että annat tarrat kaverille.\n\nMonesko lause kertoo, mitä mainos haluaa?","vastaus":2,"vinkki":"Mainos yrittää saada sinut haluamaan jotain.","selitys":"Lause 2. Mainos sanoo, että kaikki haluavat tarrakirjan. Se yrittää saada sinutkin haluamaan sen."},{"id":"H18","ryhma":"tarkoitus","kysymys":"1. Osta Tuisku-pipo!\n2. Tule Liukas-luistinradalle! Lippu 3 euroa.\n3. Maista uutta Mansikka-mehua!\n\nMontako mainosta haluaa, että tulet johonkin paikkaan?","vastaus":1,"vinkki":"Etsi sana Tule.","selitys":"Vain mainos 2 kutsuu johonkin paikkaan: luistinradalle. Mainokset 1 ja 3 haluavat, että ostat tai maistat."},{"id":"H19","ryhma":"tarkoitus","kysymys":"Lehdessä on neljä sivua: uutinen, sarjakuva, tietoteksti ja mainos.\n\nMontako sivua haluaa myydä sinulle jotain?","vastaus":1,"vinkki":"Mikä sivu myy?","selitys":"Vain mainos haluaa myydä. Uutinen, sarjakuva ja tietoteksti eivät myy mitään."},{"id":"H20","ryhma":"tarkoitus","kysymys":"Mainos: Pilvi-sadetakki! Kaikilla kavereilla on jo!\n1. Mainos haluaa, että haluat sadetakin.\n2. Mainos haluaa, että lasket kaverit.\n3. Mainos haluaa kertoa pilvistä.\n\nMonesko lause kertoo, mitä mainos haluaa?","vastaus":1,"vinkki":"Mainos yrittää saada sinut haluamaan tuotteen.","selitys":"Lause 1. Kun mainos sanoo, että kaikilla on jo, se yrittää saada sinut haluamaan saman."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Ennen kuin aloitat","johdanto":"Ohje opettajalle: Lue jokainen sivu ja jokainen tehtävä ääneen ja näytä, mistä kohdasta luet. Oppilas vastaa ympyröimällä numeron. Tehtävässä 14 oppilas ympyröi mainoksen sivulta yhden kohdan. Tehtävän 15 kysyt jokaiselta oppilaalta kahden kesken ja kirjaat vastauksen.\nOppilaalle: Kuuntele, kun opettaja lukee. Ympyröi oikea numero.\nNeljä lehden sivua:\nSivu 1:\n1. Koulun pihalle tuli uusi kiipeilyteline.\n2. Teline rakennettiin Kuusiston koululle maanantaina.\n3. Oppilaat kiipeilevät siinä välitunnilla.\nSivu 2:\n1. HYPPY-KUMISAAPPAAT\n2. Kuivat varpaat joka lätäkössä!\n3. Hinta 25 euroa\n4. Osta omasi heti!\nSivu 3:\n1. Otsikko: Siili\n2. Siilillä on selässä piikit.\n3. Siili nukkuu talviunta.\nSivu 4:\n1. Ruudussa kaksi hiirtä istuu kivellä.\n2. Puhekupla: Onko sinulla nälkä?\n3. Puhekupla: On! Etsitään juustoa!","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on mainos? Ympyröi: 1 2 3 4","vastaus":2},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on uutinen? Ympyröi: 1 2 3 4","vastaus":1},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on sarjakuva? Ympyröi: 1 2 3 4","vastaus":4},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on tietoteksti? Ympyröi: 1 2 3 4","vastaus":3},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo hinnan? Ympyröi: 1 2 3 4","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kehuu tuotetta? Ympyröi: 1 2 3 4","vastaus":2},{"nro":7,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo, mitä mainos haluaa sinun tekevän? Ympyröi: 1 2 3 4","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo tuotteen nimen? Ympyröi: 1 2 3 4","vastaus":1},{"nro":9,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Hampaat pestään aamulla ja illalla.\n2. Hammasharjaan laitetaan vähän tahnaa.\n3. Osta Raikas-hammastahna, vain 3 euroa!\nMonesko lause on mainoksesta? Ympyröi: 1 2 3","vastaus":3},{"nro":10,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Ihana kesäpäivä rannalla!\n2. Osta Aurinko-voide, nyt 8 euroa!\n3. Uimarannalla on hiekkaa.\n4. Herkullisin Jää-mehu, vain 2 euroa!\nMontako riviä on mainoksista? Ympyröi: 0 1 2 3 4","vastaus":2},{"nro":11,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva sudesta. Teksti: Susi elää laumassa.\nSivu 2: Kuva kahdesta lapsesta. Puhekupla: Mennään luistelemaan!\nSivu 3: Kuva leijasta. Teksti: Tuuli-leija, 15 euroa. Lennätä jo tänään!\nMonesko sivu on mainos? Ympyröi: 1 2 3","vastaus":3},{"nro":12,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Mainos: Tule Kukka-kauppaan lauantaina! Kaikki ruukut 5 euroa.\n1. Mainos haluaa, että tulet kauppaan ostamaan.\n2. Mainos haluaa kertoa, miten kukka kasvaa.\n3. Mainos haluaa, että kastelet kukat.\nMonesko lause kertoo, mitä mainos haluaa? Ympyröi: 1 2 3","vastaus":1},{"nro":13,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Mainos: Hassu-pingviini-peli! Hauskin peli ikinä!\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa? Ympyröi: 0 1 2 3","vastaus":2},{"nro":14,"ryhma":"piirteet","tyyppi":"sanallinen","kysymys":"Katso sivua, joka on mainos. Ympyröi siitä yksi kohta, josta tunnistit mainoksen.","vastaus":"Malliesimerkki: Oppilas ympyröi tuotteen nimen (HYPPY-KUMISAAPPAAT), hinnan (Hinta 25 euroa), kehuvan lauseen (Kuivat varpaat joka lätäkössä!) tai kehotuksen (Osta omasi heti!)."},{"nro":15,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Kerro opettajalle: Mitä mainos haluaa, että sinä teet? (Opettaja kirjoittaa vastauksen.)","vastaus":"Malliesimerkki: Mainos haluaa, että ostan kumisaappaat."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Ennen kuin aloitat","johdanto":"Ohje opettajalle: Lue jokainen sivu ja jokainen tehtävä ääneen ja näytä, mistä kohdasta luet. Oppilas vastaa ympyröimällä numeron. Tehtävässä 14 oppilas ympyröi mainoksen sivulta yhden kohdan. Tehtävän 15 kysyt jokaiselta oppilaalta kahden kesken ja kirjaat vastauksen.\nOppilaalle: Kuuntele, kun opettaja lukee. Ympyröi oikea numero.\nNeljä lehden sivua:\nSivu 1:\n1. Ruudussa kaksi lintua istuu oksalla.\n2. Puhekupla: Sataako pian?\n3. Puhekupla: Mennään pesään!\nSivu 2:\n1. Otsikko: Karhu\n2. Karhu on iso nisäkäs.\n3. Karhu nukkuu talvella pesässä.\nSivu 3:\n1. Kirjastoon tuli uusi satunurkka.\n2. Nurkka avattiin Kuusiston kirjastossa tiistaina.\n3. Siellä luetaan satuja joka viikko.\nSivu 4:\n1. PÖRRÖ-LAPASET\n2. Hinta 12 euroa\n3. Lämpimät sormet koko talven!\n4. Osta omat tänään!","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on mainos? Ympyröi: 1 2 3 4","vastaus":4},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on uutinen? Ympyröi: 1 2 3 4","vastaus":3},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on sarjakuva? Ympyröi: 1 2 3 4","vastaus":1},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on tietoteksti? Ympyröi: 1 2 3 4","vastaus":2},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo hinnan? Ympyröi: 1 2 3 4","vastaus":2},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kehuu tuotetta? Ympyröi: 1 2 3 4","vastaus":3},{"nro":7,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo, mitä mainos haluaa sinun tekevän? Ympyröi: 1 2 3 4","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo tuotteen nimen? Ympyröi: 1 2 3 4","vastaus":1},{"nro":9,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Omenat kasvavat omenapuussa.\n2. Osta Rapsakka-omenoita, 2 euroa pussi!\n3. Omenan voi syödä kuorineen.\nMonesko lause on mainoksesta? Ympyröi: 1 2 3","vastaus":2},{"nro":10,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Hei, katso, miten paljon lunta!\n2. Paras Vauhti-pulkka, nyt 20 euroa!\n3. Mäessä laskettiin pulkalla.\n4. Kokeile uutta Pakkas-kypärää! 30 euroa.\nMontako riviä on mainoksista? Ympyröi: 0 1 2 3 4","vastaus":2},{"nro":11,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva kengistä. Teksti: Juoksu-tossut, 40 euroa. Hanki omasi!\nSivu 2: Kuva oravasta. Teksti: Orava kerää käpyjä.\nSivu 3: Kuva koirasta. Puhekupla: Hau! Missä pallo on?\nMonesko sivu on mainos? Ympyröi: 1 2 3","vastaus":1},{"nro":12,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Mainos: Uusi Avaruus-peli! Lataa nyt, vain 3 euroa.\n1. Mainos haluaa, että opit tähdistä.\n2. Mainos haluaa, että lataat pelin.\n3. Mainos haluaa, että piirrät raketin.\nMonesko lause kertoo, mitä mainos haluaa? Ympyröi: 1 2 3","vastaus":2},{"nro":13,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Mainos: Pehmeä Nalle-tyyny. Nukut kuin pilvellä!\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa? Ympyröi: 0 1 2 3","vastaus":2},{"nro":14,"ryhma":"piirteet","tyyppi":"sanallinen","kysymys":"Katso sivua, joka on mainos. Ympyröi siitä yksi kohta, josta tunnistit mainoksen.","vastaus":"Malliesimerkki: Oppilas ympyröi tuotteen nimen (PÖRRÖ-LAPASET), hinnan (Hinta 12 euroa), kehuvan lauseen (Lämpimät sormet koko talven!) tai kehotuksen (Osta omat tänään!)."},{"nro":15,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Kerro opettajalle: Mitä mainos haluaa, että sinä teet? (Opettaja kirjoittaa vastauksen.)","vastaus":"Malliesimerkki: Mainos haluaa, että ostan lapaset."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Ennen kuin aloitat","johdanto":"Ohje opettajalle: Lue jokainen sivu ja jokainen tehtävä ääneen ja näytä, mistä kohdasta luet. Oppilas vastaa ympyröimällä numeron. Tehtävässä 14 oppilas ympyröi mainoksen sivulta yhden kohdan. Tehtävän 15 kysyt jokaiselta oppilaalta kahden kesken ja kirjaat vastauksen.\nOppilaalle: Kuuntele, kun opettaja lukee. Ympyröi oikea numero.\nNeljä lehden sivua:\nSivu 1:\n1. Siihen mahtuvat kaikki kirjat!\n2. TÄHTI-REPPU\n3. Hinta 30 euroa\n4. Osta omasi kaupasta!\nSivu 2:\n1. Ruudussa kaksi kissaa istuu ikkunalla.\n2. Puhekupla: Katso, lintu!\n3. Puhekupla: Se lensi jo pois!\nSivu 3:\n1. Otsikko: Sammakko\n2. Sammakko osaa uida.\n3. Sammakko munii veteen.\nSivu 4:\n1. Koulun pihalle satoi paljon lunta.\n2. Lunta satoi Kuusistossa keskiviikkona.\n3. Oppilaat tekivät välitunnilla lumilinnan.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on mainos? Ympyröi: 1 2 3 4","vastaus":1},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on uutinen? Ympyröi: 1 2 3 4","vastaus":4},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on sarjakuva? Ympyröi: 1 2 3 4","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on tietoteksti? Ympyröi: 1 2 3 4","vastaus":3},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo hinnan? Ympyröi: 1 2 3 4","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kehuu tuotetta? Ympyröi: 1 2 3 4","vastaus":1},{"nro":7,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo, mitä mainos haluaa sinun tekevän? Ympyröi: 1 2 3 4","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo tuotteen nimen? Ympyröi: 1 2 3 4","vastaus":2},{"nro":9,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Pyöräillessä päähän laitetaan kypärä.\n2. Kypärä suojaa päätä.\n3. Osta Kova-kypärä, nyt 25 euroa!\nMonesko lause on mainoksesta? Ympyröi: 1 2 3","vastaus":3},{"nro":10,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Osta Hassu-palapeli, vain 9 euroa!\n2. Mikä hieno sateenkaari!\n3. Maista uutta Kaura-muroa, 4 euroa!\n4. Lumiukolla on porkkananenä.\nMontako riviä on mainoksista? Ympyröi: 0 1 2 3 4","vastaus":2},{"nro":11,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva joutsenesta. Teksti: Joutsen on lintu.\nSivu 2: Kuva polkupyörästä. Teksti: Salama-pyörä, 150 euroa. Osta nyt!\nSivu 3: Kuva kahdesta kissasta. Puhekupla: Leikitäänkö?\nMonesko sivu on mainos? Ympyröi: 1 2 3","vastaus":2},{"nro":12,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Mainos: Herkku-leipomo: tuoreet pullat, 2 euroa kappale. Tule maistamaan!\n1. Mainos haluaa, että leivot pullaa.\n2. Mainos haluaa kertoa, miten jauhot tehdään.\n3. Mainos haluaa, että tulet ostamaan pullan.\nMonesko lause kertoo, mitä mainos haluaa? Ympyröi: 1 2 3","vastaus":3},{"nro":13,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Mainos: Pehmo-kaulahuivi! Lämpimin huivi koko talveksi!\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa? Ympyröi: 0 1 2 3","vastaus":2},{"nro":14,"ryhma":"piirteet","tyyppi":"sanallinen","kysymys":"Katso sivua, joka on mainos. Ympyröi siitä yksi kohta, josta tunnistit mainoksen.","vastaus":"Malliesimerkki: Oppilas ympyröi tuotteen nimen (TÄHTI-REPPU), hinnan (Hinta 30 euroa), kehuvan lauseen (Siihen mahtuvat kaikki kirjat!) tai kehotuksen (Osta omasi kaupasta!)."},{"nro":15,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Kerro opettajalle: Mitä mainos haluaa, että sinä teet? (Opettaja kirjoittaa vastauksen.)","vastaus":"Malliesimerkki: Mainos haluaa, että ostan repun."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Ennen kuin aloitat","johdanto":"Ohje opettajalle: Lue jokainen sivu ja jokainen tehtävä ääneen ja näytä, mistä kohdasta luet. Oppilas vastaa ympyröimällä numeron. Tehtävässä 14 oppilas ympyröi mainoksen sivulta yhden kohdan. Tehtävän 15 kysyt jokaiselta oppilaalta kahden kesken ja kirjaat vastauksen.\nOppilaalle: Kuuntele, kun opettaja lukee. Ympyröi oikea numero.\nNeljä lehden sivua:\nSivu 1:\n1. Otsikko: Kuusi\n2. Kuusi on havupuu.\n3. Kuusella on neulaset ja kävyt.\nSivu 2:\n1. Koulun puutarhaan kasvoi isoja perunoita.\n2. Oppilaat nostivat perunat Kuusiston koulun puutarhasta perjantaina.\n3. Perunat syötiin koululounaalla.\nSivu 3:\n1. LIUKU-PULKKA\n2. Osta omasi heti!\n3. Mäen vauhdikkain pulkka!\n4. Hinta 20 euroa\nSivu 4:\n1. Ruudussa hiiri ja pöllö ovat metsässä.\n2. Puhekupla: Huomenta, pöllö!\n3. Puhekupla: Nyt on minun nukkuma-aikani.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on mainos? Ympyröi: 1 2 3 4","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on uutinen? Ympyröi: 1 2 3 4","vastaus":2},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on sarjakuva? Ympyröi: 1 2 3 4","vastaus":4},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on tietoteksti? Ympyröi: 1 2 3 4","vastaus":1},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo hinnan? Ympyröi: 1 2 3 4","vastaus":4},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kehuu tuotetta? Ympyröi: 1 2 3 4","vastaus":3},{"nro":7,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo, mitä mainos haluaa sinun tekevän? Ympyröi: 1 2 3 4","vastaus":2},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo tuotteen nimen? Ympyröi: 1 2 3 4","vastaus":1},{"nro":9,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Osta Seikkailu-kirja, 15 euroa!\n2. Kirjastosta saa lainata kirjoja.\n3. Kirjaa luetaan vasemmalta oikealle.\nMonesko lause on mainoksesta? Ympyröi: 1 2 3","vastaus":1},{"nro":10,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Koulussa on tänään kevätjuhla.\n2. Upein Kimallus-kynä, vain 2 euroa!\n3. Jee, pääsimme voittoon!\n4. Osta Pomppu-trampoliini nyt!\nMontako riviä on mainoksista? Ympyröi: 0 1 2 3 4","vastaus":2},{"nro":11,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva hiirestä. Puhekupla: Missä juusto on?\nSivu 2: Kuva hirvestä. Teksti: Hirvi syö lehtiä ja oksia.\nSivu 3: Kuva jäätelöstä. Teksti: Mansikka-tuutti, 3 euroa. Maista heti!\nMonesko sivu on mainos? Ympyröi: 1 2 3","vastaus":3},{"nro":12,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Mainos: Kirjakauppa Sivu: kaikki satukirjat nyt 10 euroa!\n1. Mainos haluaa, että ostat satukirjan.\n2. Mainos haluaa, että lainaat kirjan kirjastosta.\n3. Mainos haluaa, että kirjoitat sadun.\nMonesko lause kertoo, mitä mainos haluaa? Ympyröi: 1 2 3","vastaus":1},{"nro":13,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Mainos: Rapea Ruis-näkkäri. Maukkain välipala!\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa? Ympyröi: 0 1 2 3","vastaus":2},{"nro":14,"ryhma":"piirteet","tyyppi":"sanallinen","kysymys":"Katso sivua, joka on mainos. Ympyröi siitä yksi kohta, josta tunnistit mainoksen.","vastaus":"Malliesimerkki: Oppilas ympyröi tuotteen nimen (LIUKU-PULKKA), hinnan (Hinta 20 euroa), kehuvan lauseen (Mäen vauhdikkain pulkka!) tai kehotuksen (Osta omasi heti!)."},{"nro":15,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Kerro opettajalle: Mitä mainos haluaa, että sinä teet? (Opettaja kirjoittaa vastauksen.)","vastaus":"Malliesimerkki: Mainos haluaa, että ostan pulkan."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Ennen kuin aloitat","johdanto":"Ohje opettajalle: Lue jokainen sivu ja jokainen tehtävä ääneen ja näytä, mistä kohdasta luet. Oppilas vastaa ympyröimällä numeron. Tehtävässä 14 oppilas ympyröi mainoksen sivulta yhden kohdan. Tehtävän 15 kysyt jokaiselta oppilaalta kahden kesken ja kirjaat vastauksen.\nOppilaalle: Kuuntele, kun opettaja lukee. Ympyröi oikea numero.\nNeljä lehden sivua:\nSivu 1:\n1. Otsikko: Orava\n2. Oravalla on tuuhea häntä.\n3. Orava kerää syksyllä ruokaa talveksi.\nSivu 2:\n1. Kirkkaimmat värit koko pihalla!\n2. SATEENKAARI-LIIDUT\n3. Osta omasi heti!\n4. Hinta 6 euroa\nSivu 3:\n1. Ruudussa kaksi pupua seisoo lumessa.\n2. Puhekupla: Brr, on kylmä!\n3. Puhekupla: Hypitään, niin tulee lämmin!\nSivu 4:\n1. Koulun pihalle tehtiin luistinrata.\n2. Rata jäädytettiin Kuusiston koululle torstaina.\n3. Oppilaat luistelevat siellä liikuntatunnilla.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on mainos? Ympyröi: 1 2 3 4","vastaus":2},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on uutinen? Ympyröi: 1 2 3 4","vastaus":4},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on sarjakuva? Ympyröi: 1 2 3 4","vastaus":3},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Monesko sivu on tietoteksti? Ympyröi: 1 2 3 4","vastaus":1},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo hinnan? Ympyröi: 1 2 3 4","vastaus":4},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kehuu tuotetta? Ympyröi: 1 2 3 4","vastaus":1},{"nro":7,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo, mitä mainos haluaa sinun tekevän? Ympyröi: 1 2 3 4","vastaus":3},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Katso mainosta. Monesko rivi kertoo tuotteen nimen? Ympyröi: 1 2 3 4","vastaus":2},{"nro":9,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Lumilapiolla siirretään lunta.\n2. Osta Kevyt-lapio, vain 10 euroa!\n3. Lunta sataa talvella.\nMonesko lause on mainoksesta? Ympyröi: 1 2 3","vastaus":2},{"nro":10,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"1. Tule Pallero-lelukauppaan! Kaikki nuket 10 euroa!\n2. Kylläpä tänään sataa!\n3. Uusi Hiiri-peli, lataa heti!\n4. Puussa istuu orava.\nMontako riviä on mainoksista? Ympyröi: 0 1 2 3 4","vastaus":2},{"nro":11,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Kaikilla kolmella sivulla on iso värikäs kuva.\nSivu 1: Kuva luistimista. Teksti: Terä-luistimet, 35 euroa. Osta talveksi!\nSivu 2: Kuva kalasta. Teksti: Ahven elää järvessä.\nSivu 3: Kuva pupusta. Puhekupla: Hyppää kanssani!\nMonesko sivu on mainos? Ympyröi: 1 2 3","vastaus":1},{"nro":12,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Mainos: Uimahalli Pärske: uusi liukumäki! Lippu 4 euroa.\n1. Mainos haluaa, että piirrät liukumäen.\n2. Mainos haluaa, että ostat lipun ja tulet uimahalliin.\n3. Mainos haluaa kertoa, miksi vesi on märkää.\nMonesko lause kertoo, mitä mainos haluaa? Ympyröi: 1 2 3","vastaus":2},{"nro":13,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Mainos: Kiiltävä Helmi-rannekoru. Kaunein koru ikinä!\nMainoksen osia ovat tuotteen nimi, hinta ja kehuva lause. Montako näistä osista on tässä mainoksessa? Ympyröi: 0 1 2 3","vastaus":2},{"nro":14,"ryhma":"piirteet","tyyppi":"sanallinen","kysymys":"Katso sivua, joka on mainos. Ympyröi siitä yksi kohta, josta tunnistit mainoksen.","vastaus":"Malliesimerkki: Oppilas ympyröi tuotteen nimen (SATEENKAARI-LIIDUT), hinnan (Hinta 6 euroa), kehuvan lauseen (Kirkkaimmat värit koko pihalla!) tai kehotuksen (Osta omasi heti!)."},{"nro":15,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Kerro opettajalle: Mitä mainos haluaa, että sinä teet? (Opettaja kirjoittaa vastauksen.)","vastaus":"Malliesimerkki: Mainos haluaa, että ostan liidut."}]}],"tulostus":{"sivuja":3,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":0,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: koeperustainen. Kartan näyttö alkaa sanalla \"Paperikoe\", ja tunnistaminen ja perustelu voidaan tarkistaa yksikäsitteisesti. 2. luokalla koe on opettajan ääneen lukema: opettaja lukee sivut ja tehtävät, oppilas ympyröi numeron. Kirjoittamista ei vaadita.","Kokeen johdannossa on neljä keksittyä lehden sivua tekstinä: mainos, uutinen, sarjakuva ja tietoteksti. Sivujen järjestys vaihtelee versioittain. Voit halutessasi piirtää tai tulostaa sivuista isot mallit taululle, kunhan sivujen sisältö ja numerointi pysyvät samoina.","Mittaritehtävät ovat 1, 14 ja 15. Ne vastaavat kartan kolmea osaa: mikä sivu on mainos (1), mistä tunnistin sen (14) ja mitä mainos haluaa lukijan tekevän (15).","Tehtävä 14 on oikein, kun oppilas ympyröi mainossivulta tuotteen nimen, hinnan, kehuvan lauseen tai kehotuksen (\"Osta omasi heti!\"). Jos oppilas ympyröi koko sivun, kysy, mikä kohta kertoi sen. Perustelu \"siinä on kuva\" tai \"se on värikäs\" ei kelpaa.","Tehtävä 15 kysytään kahden kesken, ettei vastaus kuulu muille. Oikein on vastaus, joka kertoo mainoksen tarkoituksen: ostaa tuote, haluta tuote tai tulla kauppaan ostamaan. Hyväksytään mikä tahansa oikea muotoilu. Vastaus \"kertoa saappaista\" tai \"näyttää kuvan\" ei kelpaa.","Raja: taito on osattu, kun vähintään 12 tehtävää 15:stä on oikein ja mittaritehtävät 1, 14 ja 15 ovat oikein.","Tehtävissä 1–13 vastaus on yksi luku. Tehtävät 1–4 ovat toisistaan riippuvaisia (neljä sivua, neljä lajia); arvioi tehtävä 1 erikseen mittarina.","Tässä taidossa kehuva lause tarkoittaa kartan houkuttelevaa lausetta: se sanoo, että tuote on hyvä, paras tai kivoin. Kehotus (osta, tule, kokeile) kertoo, mitä mainos haluaa lukijan tekevän. Erottelu on tarkoituksella yksinkertainen.","Edeltävät taidot: AI2-LUK-08 (tekstilajit, myös sarjakuva ja tietoteksti) ja AI2-TIE-03 (julisteen lukeminen). Uutinen esitellään tässä vain tunnistamisen tasolla: kertoo, mitä tapahtui, missä ja milloin.","Lähteen luotettavuutta (mainos luotettavana tai tarkistettavana lähteenä) ei opeteta tässä. Se kuuluu 3. luokan taitoon AI3-TIE-02.","Kaikki tuotteet, kaupat ja nimet ovat keksittyjä. Tietotekstien lauseet ovat yleisiä perustietoja (siili ja karhu nukkuvat talviunta, kuusi on havupuu, sammakko munii veteen, orava kerää ruokaa talveksi).","Tässä taidossa ei mitata työskentelyn kestoa eikä kerätä yrityskertoja."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Mainos haluaa, että ostat, haluat tai tulet. Etsi tuotteen nimi, hinta ja kehuva lause. Kuva ei kerro, onko sivu mainos.","vaiheet":[{"aika":"10 min","otsikko":"Aloitus: myykö tämä?","sisalto":"Lue ääneen kolme keksittyä lausetta samasta tavarasta (esimerkiksi rummusta): tietolause, sarjakuvan puhekupla ja mainoslause. Oppilaat nostavat käden, kun lause myy jotain. Kysy, mistä sen kuuli."},{"aika":"15 min","otsikko":"Ydinasia","sisalto":"Käykää läpi oppitunnin kuva neljästä lehden sivusta ja mainoksen osat. Etsikää Pamaus-rummun mainoksesta nimi, kehuva lause, hinta ja kehotus. Näytä ansat 1 ja 3: värikäs kuva ja huutomerkki eivät tee mainosta."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Lue tehtävät ääneen niille, jotka sitä tarvitsevat. Pysähdy harjoitukseen H13 ja kysy, miksi kuva ei ole hyvä perustelu."},{"aika":"10 min","otsikko":"Toinen tunti: mainosetsivät","sisalto":"Näytä keksitty mainos, josta puuttuu hinta. Kysy: onko tämä silti mainos? Mistä tiedät? Kertaa muistilapun kohdat."},{"aika":"30 min","otsikko":"Koe","sisalto":"Lue koe ääneen sivu ja tehtävä kerrallaan. Oppilaat ympyröivät vastaukset. Kysy tehtävä 15 jokaiselta kahden kesken, kun muut tekevät hiljaista tehtävää."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kysy: mitä mainos haluaa sinun tekevän? Kuuntele, että vastauksissa on ostaa, haluta tai tulla."}],"tarvikkeet":"Tulostetut kokeet. Oppitunnin kuvat näytöltä tai taululle piirrettyinä. Keksitty mainos ilman hintaa toisen tunnin aloitukseen."},"virhesanakirja":[{"virhe":"Valitsee mainokseksi sivun, jossa on isoin tai värikkäin kuva","tehtava":"kokeen tehtävät 1 ja 11, harjoitus H07","mita_kertoo":"Oppilas katsoo sivun ulkonäköä eikä sitä, myydäänkö sivulla jotain.","mita_tehda":"Peitä kuvat paperilla ja lue pelkät tekstit ääneen. Kysy jokaisesta: myydäänkö tässä jotain? Mistä sen kuulet?"},{"virhe":"Pitää mainoksena tietolausetta, joka kertoo samasta tavarasta (esimerkiksi hammastahnasta tai kypärästä)","tehtava":"kokeen tehtävä 9, harjoitus H01","mita_kertoo":"Oppilas tunnistaa aiheen, mutta ei vielä erota tietoa ja myymistä.","mita_tehda":"Lue kaksi lausetta samasta tavarasta peräkkäin: toinen kertoo tietoa, toinen myy. Kysy: kumpi haluaa, että ostat? Etsikää yhdessä hinta tai sana osta."},{"virhe":"Laskee huudahduksen tai iloisen lauseen mainokseksi (\"Hurraa, lumipäivä!\")","tehtava":"kokeen tehtävä 10, harjoitus H02","mita_kertoo":"Oppilas pitää huutomerkkiä tai innostunutta sävyä mainoksen merkkinä.","mita_tehda":"Kysy: mitä tämä lause myy? Jos myytävää ei löydy, lause ei ole mainos. Kertaa muistilapun kohta: mainoksessa on aina jotain, mitä myydään tai mihin kutsutaan."},{"virhe":"Sekoittaa kehuvan lauseen ja kehotuksen (vastaa \"Osta omasi heti!\", kun kysytään kehuvaa lausetta)","tehtava":"kokeen tehtävät 6 ja 7, harjoitukset H10 ja H16","mita_kertoo":"Oppilas tunnistaa, että molemmat lauseet kuuluvat mainokseen, mutta ei erota, kumpi kehuu tuotetta ja kumpi kertoo, mitä tehdä.","mita_tehda":"Kysy kahdella kysymyksellä: Mikä lause sanoo, että tuote on hyvä? Mikä lause sanoo, mitä sinun pitää tehdä? Alleviivatkaa kehu yhdellä ja käsky toisella viivalla."},{"virhe":"Perustelee mainoksen kuvalla, värillä tai sillä, että sivu \"näyttää mainokselta\"","tehtava":"kokeen tehtävä 14, harjoitukset H13 ja H14","mita_kertoo":"Oppilas tunnistaa mainoksen kokonaisuutena, mutta ei vielä nimeä piirrettä, josta tunnistus tehdään.","mita_tehda":"Pyydä osoittamaan sormella kohta, jossa myydään jotain. Nimeä kohta yhdessä: tuotteen nimi, hinta tai kehuva lause."},{"virhe":"Kertoo mainoksen tarkoitukseksi \"kertoa saappaista\" tai \"näyttää kuvan\"","tehtava":"kokeen tehtävät 12 ja 15, harjoitukset H15 ja H17","mita_kertoo":"Oppilas sekoittaa mainoksen tietotekstiin: hän näkee, mistä mainos puhuu, mutta ei vielä, mitä se haluaa lukijalta.","mita_tehda":"Kysy: mitä tämä mainos haluaa, että SINÄ teet? Etsikää mainoksesta sana osta, tule tai kokeile. Jos sellaista ei ole, kysy: kuka saa rahat, jos ostat?"}],"huoltajalle":{"mista_on_kyse":"Lapsi harjoittelee tunnistamaan mainoksen ja kertomaan, mitä mainos haluaa hänen tekevän. Mainoksen tunnistaa esimerkiksi tuotteen nimestä, hinnasta tai lauseesta, joka kehuu tuotetta. Mainos haluaa, että ostamme, haluamme jotain tai tulemme johonkin paikkaan.","kotona":["Kun näette kadulla, kaupassa tai bussipysäkillä mainoksen, kysykää vuorotellen: mitä tämä mainos myy? Mistä sen huomaa?","Leikkikää mainosleikkiä: keksikää yhdessä mainos jollekin tavaralle, esimerkiksi kengälle tai lusikalle. Siihen tulee nimi, hinta ja kehuva lause.","Kun lapsi sanoo haluavansa jotain mainoksessa näkemäänsä, kysy uteliaasti: mitä mainos sanoi siitä? Mitä se halusi meidän tekevän?","Jos käsillä on lehti tai mainospostia, etsikää yhdeltä sivulta, onko se mainos vai juttu."],"milloin_huolestua":"Jos lapsi ei toisen luokan lopulla juttelunkaan avulla erota mainosta tavallisesta jutusta, tai jos hän ei pysty kertomaan, mitä mainos myy, kannattaa jutella opettajan kanssa."},"ulkoiset":{},"valmis_teksti":"Hienoa! Tunnistat mainoksen ja osaat kertoa, mitä se haluaa sinun tekevän. Olet oikea mainosetsivä!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
