@@ -1,0 +1,619 @@
+<title>Palveluiden kartoittaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KO7-ASU-07","oppiaine":"KO","vuosiluokka":7,"taitoalue":"ASU","jakso":"J3","taso":"ydin","otsikko":"Palveluiden kartoittaja","kuvaus":"Osaan kuvailla kotitalouksien käyttämiä palveluita, kuten ruoan kotiinkuljetusta, pesulaa, kotisiivousta, jätehuoltoa ja kuluttajaneuvontaa, ja kertoa, missä arjen tilanteessa kukin auttaa.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T12"],"S":["S2","S3"]},"eyebrow":"Kotitalous · 7. luokka","ikoni":"kartta","naytto":"Valitsen KO7-ASU-05:n keksitylle kotitaloudelle kolme palvelua sen arjen tarpeiden mukaan ja kerron kirjallisesti, mitä kukin palvelu tekee, kuka sen tarjoaa (yritys, kunta tai muu julkinen toimija tai järjestö) ja mitä sen käyttö maksaa tai säästää verrattuna siihen, että työ tehdään itse.","osaa_kun":"Jokainen valinta perustuu kotitalouden kuvauksessa mainittuun tarpeeseen, erotan maksullisen yrityspalvelun ja yhteiskunnan järjestämän palvelun ainakin yhdellä esimerkillä, ja käytän käsitteitä palvelu ja kustannus oikein.","teksti":[{"tyyppi":"johdanto","sisalto":"Kotitalouden arki ei pyöri pelkästään kotona tehdyllä työllä. Jäteauto tyhjentää pihan astiat, taloyhtiön pesutuvassa pestään pyykkiä, kuljettaja tuo ruokaostokset ovelle ja kuluttajaneuvoja auttaa, kun verkosta ostettu laite hajoaa. Nämä ovat palveluita. Osasta maksetaan suoraan, osa rahoitetaan veroilla tai yhteisillä maksuilla. Tässä taidossa opit kuvailemaan kotitalouksien käyttämiä palveluita, kertomaan, kuka niitä tarjoaa, ja vertaamaan, mitä palvelu maksaa tai säästää verrattuna siihen, että työ tehdään itse. Jatkat samoista keksityistä kotitalouksista, joille laadit viikkokellon taidossa Arjen viikkokello."},{"tyyppi":"kappale","otsikko":"Palvelu, hinta ja kustannus","sisalto":"Palvelu on toisen tekemää työtä, apua tai neuvontaa, jonka kotitalous ostaa tai saa. Palvelua ei voi viedä kotiin kaappiin niin kuin tavaraa: kun ostat pesuainetta, ostat tavaran, mutta kun pesula pesee pyykkisi, ostat palvelun. Hinta on se rahasumma, jonka palvelusta maksaa. Kustannus on laajempi käsite: se tarkoittaa kaikkea, mitä jostakin joutuu käyttämään tai antamaan, eli rahaa, aikaa, vaivaa ja välineitä. Siksi myös itse tehdyllä työllä on kustannus. Kun pyykki pestään itse, kustannuksia ovat esimerkiksi pesuaine, sähkö, vesi, pesukone ja oma aika. Säästö on se, mitä jää käyttämättä, kun valitaan edullisempi tai vähemmän aikaa vievä tapa."},{"tyyppi":"kappale","otsikko":"Kuka palvelun tarjoaa","sisalto":"Kotitalouden palveluita tarjoavat yritykset, julkiset toimijat, järjestöt ja taloyhtiöt. Yritys myy palvelua ja tavoittelee sillä voittoa, ja käyttäjä maksaa hinnan. Julkinen toimija, kuten kunta, hyvinvointialue tai valtion virasto, järjestää palveluita, joista on säädetty laissa ja jotka ovat kaikkien saatavilla. Ne rahoitetaan pääosin veroilla, ja osasta peritään lisäksi maksu. Järjestö eli yhdistys toimii jonkin yhteisen asian puolesta eikä tavoittele voittoa. Taloyhtiön yhteiset palvelut, kuten pesutupa ja jätekatos, maksetaan asukkaiden vastikkeessa tai vuokrassa. Erota kaksi asiaa: kuka palvelun järjestää ja kuka sen käytännössä tekee. Esimerkiksi kerrostalon jätteet hakee usein yrityksen jäteauto, mutta jätehuollon järjestää kunta tai kuntien yhteinen jätelaitos, ja jätemaksun maksaa kiinteistö."},{"tyyppi":"kuva","otsikko":"Neljä palvelun tarjoajaa","svg":"<svg viewBox=\"0 0 620 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kaavio: kotitalouden palvelujen neljä tarjoajaa: yritys, julkinen toimija, järjestö ja taloyhtiö, ja kuka niiden palvelun maksaa.\"><circle class=\"v-osa v1\" cx=\"310\" cy=\"150\" r=\"52\"/><text class=\"v-t vahva\" x=\"310\" y=\"146\" text-anchor=\"middle\" style=\"font-size:14px\">Kotitalous</text><text class=\"v-t pieni\" x=\"310\" y=\"164\" text-anchor=\"middle\" style=\"font-size:11.5px\">ja sen tarve</text><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"250\" height=\"112\" rx=\"10\"/><text class=\"v-t vahva\" x=\"22\" y=\"34\" style=\"font-size:13.5px\">Yritys</text><text class=\"v-t\" x=\"22\" y=\"56\" style=\"font-size:12px\">Myy palvelua ja tavoittelee voittoa.</text><text class=\"v-t\" x=\"22\" y=\"76\" style=\"font-size:12px\">Käyttäjä maksaa hinnan.</text><text class=\"v-t pieni\" x=\"22\" y=\"100\" style=\"font-size:11.5px\">pesula, kotisiivous, ruoan kotiinkuljetus,</text><text class=\"v-t pieni\" x=\"22\" y=\"115\" style=\"font-size:11.5px\">kodinkoneiden korjaus</text><rect class=\"v-osa\" x=\"360\" y=\"10\" width=\"250\" height=\"112\" rx=\"10\"/><text class=\"v-t vahva\" x=\"372\" y=\"34\" style=\"font-size:13.5px\">Julkinen toimija</text><text class=\"v-t\" x=\"372\" y=\"56\" style=\"font-size:12px\">Kunta, hyvinvointialue tai valtio.</text><text class=\"v-t\" x=\"372\" y=\"76\" style=\"font-size:12px\">Rahoitus veroista ja maksuista.</text><text class=\"v-t pieni\" x=\"372\" y=\"100\" style=\"font-size:11.5px\">jätehuollon järjestäminen, kirjasto,</text><text class=\"v-t pieni\" x=\"372\" y=\"115\" style=\"font-size:11.5px\">kuluttajaneuvonta, kotihoito</text><rect class=\"v-osa\" x=\"10\" y=\"178\" width=\"250\" height=\"112\" rx=\"10\"/><text class=\"v-t vahva\" x=\"22\" y=\"202\" style=\"font-size:13.5px\">Järjestö</text><text class=\"v-t\" x=\"22\" y=\"224\" style=\"font-size:12px\">Yhdistys, ei tavoittele voittoa.</text><text class=\"v-t\" x=\"22\" y=\"244\" style=\"font-size:12px\">Usein maksuton tai pieni maksu.</text><text class=\"v-t pieni\" x=\"22\" y=\"268\" style=\"font-size:11.5px\">kierrätys- ja lahjoituspisteet,</text><text class=\"v-t pieni\" x=\"22\" y=\"283\" style=\"font-size:11.5px\">vapaaehtoinen asiointiapu</text><rect class=\"v-osa\" x=\"360\" y=\"178\" width=\"250\" height=\"112\" rx=\"10\"/><text class=\"v-t vahva\" x=\"372\" y=\"202\" style=\"font-size:13.5px\">Taloyhtiö</text><text class=\"v-t\" x=\"372\" y=\"224\" style=\"font-size:12px\">Asukkaiden yhteiset palvelut.</text><text class=\"v-t\" x=\"372\" y=\"244\" style=\"font-size:12px\">Maksetaan vastikkeessa tai vuokrassa.</text><text class=\"v-t pieni\" x=\"372\" y=\"268\" style=\"font-size:11.5px\">pesutupa, jätekatos, kiinteistöhuolto,</text><text class=\"v-t pieni\" x=\"372\" y=\"283\" style=\"font-size:11.5px\">kuivaushuone</text><line class=\"v-akseli\" x1=\"260\" y1=\"100\" x2=\"268\" y2=\"120\"/><line class=\"v-akseli\" x1=\"360\" y1=\"100\" x2=\"352\" y2=\"120\"/><line class=\"v-akseli\" x1=\"260\" y1=\"200\" x2=\"268\" y2=\"180\"/><line class=\"v-akseli\" x1=\"360\" y1=\"200\" x2=\"352\" y2=\"180\"/></svg>","teksti":"Kun kerrot, kuka palvelun tarjoaa, kerro myös, kumpaan ryhmään se kuuluu: maksullinen yrityspalvelu vai yhteiskunnan järjestämä palvelu."},{"tyyppi":"taulukko","otsikko":"Kotitalouden palveluita","otsikkorivi":["Palvelu","Mitä se tekee","Tarjoaja","Missä arjen tilanteessa auttaa"],"rivit":[["Ruoan kotiinkuljetus ja kauppakassipalvelu","kokoaa verkossa tilatut ostokset tai valmiin ruoan ja tuo ne kotiin","yritys; tilaaja maksaa tuotteet ja toimitusmaksun","kun kauppaan ei ehdi tai ostoksia ei jaksa kantaa"],["Pesula","pesee, kuivaa tai kemiallisesti puhdistaa pyykin ja tekstiilit","yritys","kun kotona ei ole pesukonetta tai tekstiili ei kestä kotipesua"],["Pesutupa","talon yhteinen tila, jossa on pesukone ja kuivausmahdollisuus","taloyhtiö; usein varausmaksu tai maksu vastikkeessa","kun asunnossa ei ole omaa pesukonetta"],["Kotisiivous","siivooja siivoaa kodin sovitulla tavalla","yritys","kun aikaa tai voimia ei riitä siivoukseen"],["Jätehuolto","tyhjentää jäteastiat ja huolehtii jätteiden käsittelystä ja kierrätyksestä","kunta tai kuntien jätelaitos järjestää; maksu jätemaksuna","joka viikko; isot jätteet, kuten huonekalut, vaativat oman ratkaisun"],["Kuluttajaneuvonta","neuvoo, kun ostoksessa tai sopimuksessa on ongelma, ja auttaa sovittelussa","valtio (Kilpailu- ja kuluttajavirasto); maksuton","kun ostettu tuote on viallinen eikä myyjä vastaa"],["Kotihoito ja ateriapalvelu","auttaa ikääntynyttä tai sairasta kotona selviytymisessä, esimerkiksi tuo aterian","hyvinvointialue; asiakasmaksu","kun ihminen ei terveytensä vuoksi selviydy kaikista arjen töistä"],["Kirjasto","lainaa kirjoja ja osin myös esineitä, kuten työkaluja tai liikuntavälineitä","kunta; maksuton","kun tarvitsee välinettä vain hetken"]]},{"tyyppi":"kappale","otsikko":"Valinta lähtee tarpeesta","sisalto":"Palvelua ei valita siksi, että se on olemassa, vaan siksi, että kotitaloudella on tarve, jonka palvelu ratkaisee. Lue kotitalouden kuvaus ja etsi siitä kohdat, joissa arki on hankalaa: puuttuva väline, kiireinen päivä, raskas työ, terveyden rajoitus tai ongelma, jota ei osaa ratkaista yksin. Kirjoita tarve näkyviin kuvauksen sanoin ja vasta sitten palvelu, joka siihen auttaa. Esimerkiksi Salot ovat eläkeläispariskunta, ja toisen heistä, Veikon, polvi on juuri leikattu, joten hän ei saa nousta tikkaille. Tarve: ikkunat pitää pestä, mutta tikkailla ei voi työskennellä. Palvelu: ikkunanpesu. Ruokapalveluissa muista erityisruokavaliot: jos kotitaloudessa on allergia tai keliakia, tarkista tilatun ruoan tuoteseloste. Kauppakassipalvelu voi korvata loppuneen tuotteen toisella, ja korvaavassa tuotteessa voi olla allergeeni. Monessa palvelussa voi kieltää korvaavat tuotteet tai merkitä tilaukseen erityisruokavalion."},{"tyyppi":"kappale","otsikko":"Mitä palvelu maksaa tai säästää","sisalto":"Vertaa palvelun kustannusta siihen, että työ tehdään itse. Laske ensin rahaa vaativat kulut kummassakin tavassa samalta ajalta, esimerkiksi vuodelta, ja vähennä pienempi isommasta. Kirjaa sitten, paljonko omaa aikaa ja vaivaa kuluu tai säästyy. Esimerkissä Salot pesevät ikkunat kahdesti vuodessa. Itse tehtynä välineet maksavat 25 € kerran ja pesuaine 5 € pesukerralta, joten ensimmäisenä vuonna rahaa kuluu 25 € + 2 × 5 € = 35 € (seuraavina vuosina vain 10 €), ja työtä on 2 × 4 h = 8 h. Palveluna pesu maksaa 120 € kerralta eli 240 € vuodessa. Ensimmäisenä vuonna palvelu maksaa siis 205 € enemmän, mutta säästää 8 tuntia työtä ja poistaa putoamisvaaran. Kumpikaan ei ole automaattisesti parempi: päätös riippuu kotitalouden tilanteesta. Salojen kohdalla terveys ratkaisee."},{"tyyppi":"kuva","otsikko":"Itse vai palvelu: Salojen ikkunanpesu","svg":"<svg viewBox=\"0 0 620 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Vertailu: ikkunanpesu itse tehtynä maksaa ensimmäisenä vuonna 35 euroa ja 8 tuntia työtä, palveluna 240 euroa ja ei omaa työaikaa.\"><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"290\" height=\"184\" rx=\"10\"/><text class=\"v-t vahva\" x=\"155\" y=\"36\" text-anchor=\"middle\" style=\"font-size:14px\">Itse tehtynä (1. vuosi)</text><text class=\"v-t\" x=\"26\" y=\"64\" style=\"font-size:12.5px\">Välineet, ostetaan kerran</text><text class=\"v-t\" x=\"284\" y=\"64\" text-anchor=\"end\" style=\"font-size:12.5px\">25 €</text><text class=\"v-t\" x=\"26\" y=\"88\" style=\"font-size:12.5px\">Pesuaine 2 × 5 €</text><text class=\"v-t\" x=\"284\" y=\"88\" text-anchor=\"end\" style=\"font-size:12.5px\">10 €</text><line class=\"v-apu\" x1=\"26\" y1=\"100\" x2=\"284\" y2=\"100\"/><text class=\"v-t vahva\" x=\"26\" y=\"122\" style=\"font-size:12.5px\">Rahaa yhteensä</text><text class=\"v-t vahva\" x=\"284\" y=\"122\" text-anchor=\"end\" style=\"font-size:12.5px\">35 €</text><text class=\"v-t\" x=\"26\" y=\"150\" style=\"font-size:12.5px\">Omaa työtä 2 × 4 h</text><text class=\"v-t\" x=\"284\" y=\"150\" text-anchor=\"end\" style=\"font-size:12.5px\">8 h</text><text class=\"v-t pieni\" x=\"26\" y=\"176\" style=\"font-size:11.5px\">+ tikkailla työskentely: putoamisvaara</text><rect class=\"v-osa v1\" x=\"320\" y=\"10\" width=\"290\" height=\"184\" rx=\"10\"/><text class=\"v-t vahva\" x=\"465\" y=\"36\" text-anchor=\"middle\" style=\"font-size:14px\">Palveluna (vuodessa)</text><text class=\"v-t\" x=\"336\" y=\"64\" style=\"font-size:12.5px\">Ikkunanpesu 2 × 120 €</text><text class=\"v-t\" x=\"594\" y=\"64\" text-anchor=\"end\" style=\"font-size:12.5px\">240 €</text><line class=\"v-apu\" x1=\"336\" y1=\"100\" x2=\"594\" y2=\"100\"/><text class=\"v-t vahva\" x=\"336\" y=\"122\" style=\"font-size:12.5px\">Rahaa yhteensä</text><text class=\"v-t vahva\" x=\"594\" y=\"122\" text-anchor=\"end\" style=\"font-size:12.5px\">240 €</text><text class=\"v-t\" x=\"336\" y=\"150\" style=\"font-size:12.5px\">Omaa työtä</text><text class=\"v-t\" x=\"594\" y=\"150\" text-anchor=\"end\" style=\"font-size:12.5px\">0 h</text><text class=\"v-t pieni\" x=\"336\" y=\"176\" style=\"font-size:11.5px\">+ ammattilaisella välineet ja kokemus</text><text class=\"v-t vahva\" x=\"310\" y=\"222\" text-anchor=\"middle\" style=\"font-size:13px\">Palvelu maksaa 240 € − 35 € = 205 € enemmän 1. vuonna ja säästää 8 tuntia työtä.</text><text class=\"v-t pieni\" x=\"310\" y=\"242\" text-anchor=\"middle\" style=\"font-size:11.5px\">(Keksityt esimerkkihinnat.)</text></svg>","teksti":"Laske raha samalta ajalta molemmille tavoille ja kirjaa erikseen aika, vaiva ja turvallisuus."},{"tyyppi":"saanto","otsikko":"Näin kartoitat kotitalouden palvelut","askeleet":["Etsi kotitalouden kuvauksesta tarpeet ja kirjoita ne kuvauksen sanoin.","Valitse jokaiseen tarpeeseen yksi palvelu. Kolme palvelua kolmeen eri tarpeeseen.","Kerro, mitä palvelu tekee: mikä työ tai apu siirtyy kotitaloudelta palvelulle.","Kerro, kuka palvelun tarjoaa: yritys, kunta tai muu julkinen toimija, järjestö tai taloyhtiö.","Vertaa kustannusta itse tekemiseen: raha samalta ajalta sekä aika, vaiva ja turvallisuus.","Tarkista, että vähintään yksi valinta on maksullinen yrityspalvelu ja yksi yhteiskunnan järjestämä palvelu, ja että erotat ne toisistaan."]},{"tyyppi":"ansa","otsikko":"Ansa 1: ilmainen palvelu ilman kustannusta","sisalto":"Kuluttajaneuvonta ja kirjasto ovat käyttäjälle maksuttomia, mutta niillä on kustannus: ne rahoitetaan veroilla. Jätehuolto ei ole ilmaista, vaikka siitä ei saa erillistä laskua kotiin, koska jätemaksu sisältyy kerrostalossa vastikkeeseen tai vuokraan. Kirjoita siis \"maksuton käyttäjälle, rahoitetaan veroilla\" äläkä \"ei maksa mitään\"."},{"tyyppi":"ansa","otsikko":"Ansa 2: palvelu ilman tarvetta","sisalto":"\"Kotitalous voisi tilata siivouksen\" ei ole perusteltu valinta, jos kuvauksessa ei kerrota mitään, mikä tekisi siivouksesta hankalaa. Jokaisen valinnan pitää osoittaa kuvauksen kohtaan: \"Koska kuvauksen mukaan …, kotitalous tarvitsee …\". Kolme samaan tarpeeseen liittyvää palvelua (kolme ruokapalvelua) ei myöskään kata kotitalouden arkea."},{"tyyppi":"ansa","otsikko":"Ansa 3: tekijä sekoitetaan järjestäjään","sisalto":"Jäteauton kyljessä voi olla yrityksen nimi, mutta jätehuollon järjestää kunta tai kuntien yhteinen jätelaitos. Samoin kotihoidon työntekijä voi olla yrityksestä, mutta palvelun järjestää hyvinvointialue. Kun kerrot tarjoajan, kerro, kuka palvelusta vastaa ja kenelle maksu menee."},{"tyyppi":"ansa","otsikko":"Ansa 4: palvelun käyttäjä on laiska","sisalto":"Palvelun käyttö ei kerro ihmisen luonteesta mitään. Kiireinen, yksin asuva, liikkumisrajoitteinen tai vuorotyötä tekevä voi käyttää palvelua, koska se sopii hänen tilanteeseensa. Arvioi, sopiiko palvelu kotitalouden tarpeeseen ja kannattaako se, älä ihmistä."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Palvelu = toisen tekemä työ, apu tai neuvonta. Tavara = esine, jonka ostat.","Hinta = rahasumma. Kustannus = kaikki, mitä käytät: raha, aika, vaiva, välineet.","Tarjoajat: yritys, julkinen toimija (kunta, hyvinvointialue, valtio), järjestö, taloyhtiö.","Järjestäjä ja tekijä voivat olla eri tahoja.","Valinta lähtee kuvauksen tarpeesta, ja jokainen palvelu ratkaisee eri tarpeen.","Vertaa itse tekemiseen samalta ajalta: raha erikseen, aika ja vaiva erikseen.","Ruokapalveluissa tarkista erityisruokavaliot ja korvaavat tuotteet."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Valinta ei perustu kotitalouden kuvaukseen: palvelu on valittu yleisesti (\"kaikki voivat tilata siivouksen\"), tarvetta ei mainita tai tarve on keksitty, tai kolme palvelua ratkaisee saman tarpeen.","tehtava":"Näyttö: kolmen palvelun perustelu kuvauksen tarpeella","mita_kertoo":"Oppilas tuntee palveluita, mutta ei vielä lähde liikkeelle kotitalouden tilanteesta. T12:n soveltaminen edellyttää, että tieto palveluista yhdistetään tiettyyn arjen tarpeeseen.","mita_tehda":"Anna oppilaan alleviivata kuvauksesta kolme kohtaa, joissa arki on hankalaa, ja kirjoittaa jokaisen viereen tarve omin sanoin ennen palvelun valintaa. Lauserunko: \"Koska kuvauksen mukaan …, kotitalous tarvitsee …\"."},{"virhe":"Kuvaus siitä, mitä palvelu tekee, on epämääräinen tai toistaa nimen (\"pesula on pesupalvelu\"), tai palvelu sekoittuu tavaraan (\"palveluna uusi pesukone\").","tehtava":"Näyttö: mitä palvelu tekee","mita_kertoo":"Oppilas tunnistaa palvelun nimen, mutta ei vielä kuvaile, mikä työ siirtyy kotitaloudelta palvelulle. Palvelun ja tavaran ero on vielä epäselvä.","mita_tehda":"Kysy: kuka tekee työn, ennen ja jälkeen palvelun? Mitä kotitalouden ei enää tarvitse tehdä? Palaa kappaleeseen Palvelu, hinta ja kustannus ja pesuaineen ja pesulan esimerkkiin."},{"virhe":"Tarjoaja puuttuu tai on väärä, tai maksullista yrityspalvelua ja yhteiskunnan järjestämää palvelua ei eroteta yhdelläkään esimerkillä (esimerkiksi kaikki kolme valintaa ovat yritysten palveluita eikä eroa kommentoida).","tehtava":"Näyttö: tarjoaja ja yritys- ja yhteiskunnan palvelun erottaminen","mita_kertoo":"Oppilas ei vielä hahmota, että palveluita tuotetaan eri tavoin rahoitettuina. Arvosanan 8 kuvaus edellyttää erilaisten palveluiden kuvailua, ei pelkkiä yrityspalveluita.","mita_tehda":"Käy kuva Neljä palvelun tarjoajaa läpi oppilaan valintojen kanssa. Pyydä häntä lisäämään tai vaihtamaan yksi valinta julkiseksi palveluksi (esimerkiksi kuluttajaneuvonta Nooralle tai jätehuolto Mäkelöille) ja kertomaan, kuka sen maksaa."},{"virhe":"Kustannus on pelkkä hinta ilman vertailua itse tekemiseen, laskelmassa verrataan eri ajanjaksoja (yksi palvelukerta vs. vuoden välineet), lasku on väärin tai aikaa ja vaivaa ei mainita lainkaan.","tehtava":"Näyttö: mitä palvelu maksaa tai säästää verrattuna itse tekemiseen","mita_kertoo":"Oppilas ymmärtää, että palvelu maksaa, mutta ei vielä vertaa sitä vaihtoehtoon. Kustannus ymmärretään pelkkänä rahana.","mita_tehda":"Näytä kuva Itse vai palvelu: Salojen ikkunanpesu. Anna oppilaan tehdä sama kahden sarakkeen vertailu yhdestä valinnastaan hintalistan luvuilla: ensin raha samalta ajalta, sitten aika ja vaiva."},{"virhe":"Käsitteet palvelu ja kustannus ovat väärin tai sekaisin: kustannukseksi kirjataan vain myyjän hinta, maksuton palvelu kuvataan \"ilmaiseksi, ei kustannusta\" tai palveluksi kutsutaan tavaraa.","tehtava":"Näyttö: käsitteiden käyttö","mita_kertoo":"Oppilas käyttää sanoja arkikielen mukaan. Kotitalouden käsitteiden käyttö tilanteessa on arvosanan 8 kuvauksen ydin T12:ssa.","mita_tehda":"Anna oppilaan selittää omin sanoin hinta, kustannus ja palvelu ja etsiä tekstistään kohta, jossa käyttää kutakin. Ansa 1 auttaa maksuttoman palvelun kustannuksen kanssa."},{"virhe":"Ruokapalvelun valinnassa Mäkelöiden keliakia tai muu kuvauksen erityisruokavalio unohtuu, tai teksti arvottaa palvelun käyttäjää (\"laiska\", \"ei osaa itse\").","tehtava":"Näyttö: kotitalouden tilanteen huomioiminen kokonaisuutena","mita_kertoo":"Oppilas tekee teknisesti oikean valinnan mutta ei vielä katso kotitalouden tilannetta kokonaisuutena, tai sekoittaa palvelun arvioinnin ihmisen arviointiin.","mita_tehda":"Kysy: mitä kuvauksessa sanotaan ruokavaliosta, ja miten se pitää ottaa huomioon tilauksessa? Ohjaa ansaan 4 ja kappaleeseen Valinta lähtee tarpeesta (korvaavat tuotteet)."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: havainnointitaito, ei paperikoetta. Näyttö alkaa \"Valitsen…\", ja osaa_kun-kohdan tuotos on perusteltu kirjallinen kartoitus: kolme valintaa, niiden kuvaus, tarjoaja ja kustannusvertailu. Valinnat ja perustelut vaihtelevat oppilaittain, eikä niitä voi tarkistaa yksikäsitteisesti, joten taito arvioidaan kuudella havainnointikriteerillä. Yksilötyö koulussa.","Näytön aineisto: samat kolme keksittyä kotitaloutta kuin taidossa KO7-ASU-05 (Arjen viikkokello). Oppilas käyttää kotitaloutta, jolle hän laati viikkokellon, tai valitsee toisen. Oppilaan sivun esimerkit (Salot ja Kaarnat) eivät ole näytössä.","<b>Kotitalous 1: Noora Lehto (20), yksin asuva opiskelija.</b> Noora asuu yksin 26 neliön vuokrayksiössä kerrostalossa Rantakylässä. Hän opiskelee ammattikorkeakoulussa arkisin noin kello 8–16 ja tekee osa-aikatyötä kahvilassa tiistai- ja torstai-iltaisin kello 17–21 sekä lauantaisin kello 10–18. Asunnossa ei ole pesukonetta; talon kellarissa on pesutupa, jonka vuoron voi varata taloyhtiön varauslistasta. Nooralla ei ole autoa: hän kulkee pyörällä ja bussilla, ja lähin ruokakauppa on kilometrin päässä. Jäteastiat (seka-, bio-, kartonki-, lasi-, metalli- ja muovijäte) ovat pihan jätekatoksessa. Sunnuntaisin Noora valmistaa isomman ruoka-annoksen ja jakaa sen rasioihin arkipäiviksi. Kahvilaillat ovat raskaita, eikä hän silloin jaksa enää kokata. Noora tilasi kuukausi sitten verkkokaupasta pölynimurin, joka lakkasi toimimasta kahden viikon käytön jälkeen; myyjä ei ole vastannut hänen viesteihinsä.","<b>Kotitalous 2: Virtasen perhe, jossa toinen vanhempi tekee vuorotyötä.</b> Perheeseen kuuluvat Sanna (42), Antti (45), Onni (15), Ella (11) ja Vilho (4). Sanna on sairaanhoitaja ja tekee kolmivuorotyötä: aamu-, ilta- ja yövuorot vaihtelevat viikoittain, ja joka kolmas viikonloppu on työviikonloppu. Yövuoron jälkeen Sanna nukkuu päivällä, jolloin kotona pitää olla hiljaista. Antti tekee päivätyötä toimistossa kello 8–16 ja hakee Vilhon päiväkodista. Onnilla on jalkapalloharjoitukset maanantaina, keskiviikkona ja perjantaina kello 17–19, ja Ella käy partiossa torstaisin. Perhe asuu omakotitalossa, jossa on oma pesukone ja kuivausrumpu, ja perheellä on auto. Talon jäteastiat (seka-, bio- ja kartonkijäte) tyhjennetään jäteauton kierroksella; lasit, metallit ja muovit viedään kaupan yhteydessä olevaan keräyspisteeseen. Perhe pitää tärkeänä, että ainakin yksi ateria päivässä syödään yhdessä, mutta arkisin ruokailuajat vaihtelevat Sannan vuorojen mukaan. Ruokaostokset ovat isoja, ja arki-iltaisin kauppareissuun ei aina ole aikaa.","<b>Kotitalous 3: Mäkelän monen sukupolven perhe.</b> Samassa neljän huoneen kerrostaloasunnossa asuvat Jari (52), hänen puolisonsa Linh (49), heidän lapsensa Tuomas (16) ja Iida (13) sekä Jarin äiti Raili (79). Jari työskentelee rakennusalalla arkisin kello 7–15.30. Linh on ravintolan kokki ja tekee iltavuoroja tiistaista lauantaihin kello 14–22. Raili on eläkkeellä ja kulkee rollaattorin kanssa; hän ei pysty kantamaan raskaita kasseja eikä nousemaan jakkaralle, mutta hän mielellään kuorii kasviksia istuen, viikkaa pyykkiä ja lukee Iidan kanssa. Railin keliakian vuoksi kaikki perheen yhteiset ruoat valmistetaan gluteenittomina, ja gluteenittomia tuotteita saa vain osasta lähikaupoista. Perheen tapana on syödä päivän lämmin pääateria yhdessä myöhään illalla, kun kaikki ovat kotona, ja sunnuntaisin valmistetaan yhdessä isompi ateria, johon tulee myös sukulaisia. Asunnossa on pesukone mutta ei kuivausrumpua; pyykki kuivatetaan parvekkeella ja telineellä. Talon jätekatoksessa on kaikki tavalliset jäteastiat. Perhe on vaihtanut sohvan, ja vanha, rikkinäinen sohva on varastossa odottamassa poisvientiä.","Näytön hintalista (keksityt esimerkkihinnat, tulosta tai heijasta; oppilas voi käyttää myös itse etsimäänsä todellista hintaa, kun lähde mainitaan): <b>Kauppakassipalvelu</b> toimitusmaksu 7,90 € kerralta (tuotteet kaupan hinnoin). <b>Valmiin ruoan kotiinkuljetus</b> toimitusmaksu 4,90 € kerralta, annos 12–15 €. <b>Pesula</b> 4 € pyykkikilolta (pesu ja kuivaus), yksi koneellinen noin 4 kg. <b>Taloyhtiön pesutupa</b> 2 € varauskerralta, siihen sisältyy pesu ja kuivausrumpu. <b>Kotisiivous</b> 45 € tunnilta, kerran kahdessa viikossa noin 3 tuntia. <b>Suurten jätteiden noutopalvelu</b> (yritys) 50 € noudolta; vaihtoehto: kuljetus itse jäteasemalle, vastaanottomaksu 15 € sohvasta, lisäksi peräkärryn vuokra 25 €. <b>Kuluttajaneuvonta</b> käyttäjälle maksuton. <b>Kirjaston esinelaina</b> maksuton. <b>Kotihoito ja ateriapalvelu</b> (hyvinvointialue) asiakasmaksu tulojen ja palvelun määrän mukaan. Itse tekemisen kuluja: oma pesukone noin 450 €, pesuaine ja sähkö noin 0,50 € koneelliselta; kauppareissu autolla noin 3 € polttoainetta ja noin 1 h; bussilippu 3,20 € suuntaansa.","Kuvauksiin kirjoitetut tarpeet (opettajan tiedoksi, ei jaeta oppilaille): Noora – ei pesukonetta (pesutupa tai pesula), kahvilaillat ilman voimia kokata (valmiin ruoan kotiinkuljetus, tai perusteltu päätös jatkaa rasiaruokaa), ostosten kantaminen ilman autoa (kauppakassipalvelu), viallinen pölynimuri ja vastaamaton myyjä (kuluttajaneuvonta). Virtaset – isot ostokset ja kiireiset arki-illat (kauppakassipalvelu), Sannan päiväunet ja kotitöiden kasautuminen vuorotyöviikoilla (kotisiivous), jätteiden lajittelu ja keräyspisteet (jätehuolto). Mäkelät – Raili ei kanna eikä nouse jakkaralle, gluteenittomat tuotteet vain osasta kauppoja (kauppakassipalvelu, jossa korvaavat tuotteet kielletään tai keliakia merkitään), rikkinäinen sohva (suurten jätteiden nouto tai jäteasema), pyykin kuivatus ilman kuivausrumpua (pesula tai taloyhtiön kuivaushuone), Railin tarpeen kasvaessa kotihoito tai ateriapalvelu. Muukin kuvaukseen perustuva valinta kelpaa.","Mikä kelpaa. (1) Kolme palvelua kolmeen eri tarpeeseen, ja jokainen tarve on osoitettavissa kuvauksesta. (2) Jokaisesta kerrotaan, mitä palvelu tekee, eli mikä työ siirtyy palvelulle. (3) Jokaisen tarjoaja (yritys, kunta tai muu julkinen toimija, järjestö tai taloyhtiö) ja vähintään yhdessä kohdassa erotus maksullisen yrityspalvelun ja yhteiskunnan järjestämän palvelun välillä. (4) Jokaisesta kustannusvertailu itse tekemiseen: rahassa samalta ajalta tai sanallisesti, jos palvelu on maksuton tai tulosidonnainen, sekä aika ja vaiva. (5) Käsitteet palvelu ja kustannus oikein. Laskuvirhe, joka ei muuta johtopäätöstä, ei hylkää työtä, mutta väärin rakennettu vertailu (eri ajanjaksot) hylkää kyseisen kohdan. Hyväksytään mikä tahansa oikea muotoilu.","Mallilaskelmia hintalistasta (tarkistettu): Noora, pesula vs. pesutupa, 4 koneellista kuukaudessa: pesula 4 × 4 kg × 4 € = 64 € kuukaudessa, pesutupa 4 × 2 € = 8 € kuukaudessa; pesula maksaa 56 € enemmän kuukaudessa, mutta säästää pesutuvan varaamisen ja pyykin kantamisen. Noora, kuluttajaneuvonta: maksuton käyttäjälle (rahoitetaan veroilla); vaihtoehtona uuden imurin ostaminen tai pelkkä odottaminen. Virtaset, kauppakassipalvelu kerran viikossa: 4 × 7,90 € = 31,60 € kuukaudessa vs. omat kauppareissut 4 × 3 € = 12 € polttoainetta ja 4 tuntia; palvelu maksaa 19,60 € enemmän kuukaudessa ja säästää noin 4 tuntia. Mäkelät, sohva: noutopalvelu 50 € vs. itse 15 € + 25 € = 40 € ja kantaminen ja kuljetus; palvelu maksaa 10 € enemmän ja säästää raskaan kantamisen. Virtaset, kotisiivous kerran kahdessa viikossa: 3 h × 45 € = 135 € kerralta, 270 € kuukaudessa; säästää noin 6 tuntia kuukaudessa.","Mikä ei kelpaa: palvelu ilman kuvauksen tarvetta; pelkkä palvelun nimi; tarjoaja puuttuu; kaikki valinnat samaa tyyppiä eikä eroa yrityspalvelun ja julkisen palvelun välillä esitetä; kustannukseksi pelkkä hinta ilman vertailua; \"ilmainen, ei kustannusta\".","Jatkumo ja rajaus: Taito jatkaa KO7-ASU-05:stä samoilla kotitalouksilla. Kuluttajan oikeudet ja reklamaatio on opetettu taidossa KO7-KUL-03 (J3); tässä kuluttajaneuvonta on vain palveluna, eikä reklamaation sisältöä arvioida. Sosiaaliturva ja hyvinvointipalveluiden vastuunjako (Kela, hyvinvointialue, kunta) ovat 9. luokan yhteiskuntaopissa (YH9-TAL-07), ja kotitalouden budjetti YH9-TAL-02:ssa; niitä ei opeteta tässä. Arvosanan 9 taso (palveluiden arviointi ja merkityksen perustelu) ei ole ydinkriteeri.","Herkkä aihe ja kotitausta: Oppilaan perheen palveluiden käyttöä, taloutta tai kotihoitoa ei kysytä. Hinnat ovat keksittyjä, jotta kenenkään ei tarvitse tuoda tietoa kotoa. Jos laitteita on, oppilas saa etsiä todellisen hinnan, kun kertoo lähteen. Palvelun käyttäjää ei arvoteta (ansa 4).","Tarkistettavat asiatiedot: (1) Kuluttajaneuvonta on Kilpailu- ja kuluttajaviraston maksuton palvelu (https://www.kkv.fi). (2) Asumisessa syntyvän yhdyskuntajätteen jätehuollon järjestäminen on jätelain mukaan kunnan vastuulla; pääkaupunkiseudulla sitä hoitaa kuntayhtymä HSY (https://www.hsy.fi). Jätteenkuljetuksen järjestämistapa (kunnan järjestämä tai kiinteistön haltijan järjestämä) vaihtelee alueittain; tarkista koulun alueen käytäntö, jos se tulee puheeksi. (3) Säännöllisen kotihoidon ja tukipalveluiden (esim. ateriapalvelu) järjestäjä on hyvinvointialue, ja asiakasmaksu määräytyy tulojen ja palvelun määrän mukaan; Espoossa järjestäjä on Länsi-Uudenmaan hyvinvointialue (https://www.luvn.fi). (4) Kotitalousvähennyksestä (verotuksessa vähennettävä osa kotitalous- ja siivoustyön kustannuksista) ei ole oppilaan materiaalissa lukuja, koska prosentit ja rajat ovat muuttuneet viime vuosina; voit mainita sen tarkistettuasi ajantasaiset tiedot Verohallinnon sivuilta (https://www.vero.fi). (5) Esineiden lainaus vaihtelee kirjastoittain (Helmet-kirjastot https://www.helmet.fi). (6) Kaikki hinnat ovat keksittyjä esimerkkejä."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Palvelu on toisen tekemää työtä, apua tai neuvontaa. Valinta lähtee kotitalouden tarpeesta. Kerro, mitä palvelu tekee, kuka sen tarjoaa ja mitä se maksaa tai säästää verrattuna siihen, että työ tehdään itse. Kustannus on enemmän kuin hinta: raha, aika, vaiva ja välineet.","tarvikkeet":"Tulostetut kotitalouskuvaukset 1–3 (samat kuin taidossa KO7-ASU-05) ja oppilaiden niistä laatimat viikkokellot, tulostettu hintalista, laskimet.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Lukekaa johdanto. Kysy: mitä palveluita tavallinen kerrostalo tarvitsee, jotta arki toimii? Kerätkää esimerkit ilman omien kotien kertomista."},{"aika":"10 min","otsikko":"Palvelu, hinta ja kustannus","sisalto":"Kappale Palvelu, hinta ja kustannus. Erotelkaa yhdessä, onko kukin esimerkki tavara vai palvelu ja mitä kustannuksia itse tekemiseen liittyy."},{"aika":"15 min","otsikko":"Tarjoajat ja palvelut","sisalto":"Kappale Kuka palvelun tarjoaa, kuva Neljä palvelun tarjoajaa ja taulukko Kotitalouden palveluita. Parit sijoittavat aloituksen esimerkit neljään ryhmään. Ansat 1 ja 3."},{"aika":"15 min","otsikko":"Tarve ja kustannusvertailu","sisalto":"Kappaleet Valinta lähtee tarpeesta ja Mitä palvelu maksaa tai säästää sekä Salojen ikkunanpesun kuva. Laskekaa vertailu yhdessä ja keskustelkaa, miksi terveys ratkaisee Salojen kohdalla. Ansat 2 ja 4."},{"aika":"10 min","otsikko":"2. tunti: Näytön ohje","sisalto":"Jaa kuvaukset ja hintalista. Oppilaat ottavat esiin viikkokellonsa. Kerro, mitä palautetaan: kolme palvelua kolmeen tarpeeseen, mitä kukin tekee, tarjoaja ja kustannusvertailu, ja vähintään yksi yrityspalvelun ja yhteiskunnan palvelun erotus."},{"aika":"30 min","otsikko":"Näyttö: palvelukartoitus","sisalto":"Oppilaat kirjoittavat kartoituksen ja laskevat vertailut. Havainnoi kriteerejä 1 ja 4 työn aikana: osoittaako valinta kuvaukseen, ja onko vertailussa sama ajanjakso? Anna palaute heti."},{"aika":"5 min","otsikko":"Palautus ja lopetus","sisalto":"Työt palautetaan. Halukkaat kertovat yhden palvelun, jonka kustannus yllätti."}]},"huoltajalle":{"mista_on_kyse":"Nuori opettelee kuvailemaan kotitalouksien käyttämiä palveluita, kuten ruoan kotiinkuljetusta, pesulaa, kotisiivousta, jätehuoltoa ja kuluttajaneuvontaa. Hän valitsee keksitylle kotitaloudelle kolme palvelua sen arjen tarpeiden mukaan, kertoo, kuka palvelun tarjoaa (yritys, kunta tai muu julkinen toimija, järjestö tai taloyhtiö), ja vertaa, mitä palvelu maksaa tai säästää verrattuna siihen, että työ tehdään itse. Perheen omaa palveluiden käyttöä tai taloutta ei kysytä.","kotona":["Kun näette jäteauton, pesulan tai ruokalähetin, kysykää, kuka palvelun järjestää ja kuka sen maksaa.","Pyytäkää nuorta selittämään, mitä eroa on hinnalla ja kustannuksella.","Kysykää, miksi maksuton palvelu, kuten kirjasto tai kuluttajaneuvonta, ei silti ole ilman kustannusta.","Jos jokin ostos joskus menee pieleen, voitte katsoa yhdessä, mistä kuluttajaneuvontaa saa."],"milloin_huolestua":"Jos nuori ei erota palvelua tavarasta tai hänen on vaikea yhdistää palvelua siihen tarpeeseen, jota varten se on olemassa, kertokaa siitä kotitalouden opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat valita kotitaloudelle sen tarpeisiin sopivat palvelut, kertoa, kuka ne tarjoaa, ja verrata niiden kustannusta itse tekemiseen. Palveluiden kartoittaja on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

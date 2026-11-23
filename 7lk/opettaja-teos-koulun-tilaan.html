@@ -1,0 +1,619 @@
+<title>Teos koulun tilaan · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KU7-MUO-03","oppiaine":"KU","vuosiluokka":7,"taitoalue":"MUO","jakso":"J4","taso":"ydin","otsikko":"Teos koulun tilaan","kuvaus":"Osaan suunnitella koulun tilaan tila- tai ympäristöteoksen, joka käsittelee kestävää kehitystä tai kulttuurista moninaisuutta, ja kertoa, miten se voi vaikuttaa katsojaan.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T11","T10","T5"],"S":["S2","S3"]},"ikoni":"muotoilu","eyebrow":"Kuvataide · 7. luokka","naytto":"Valitsen koulusta paikan (esimerkiksi aula, portaikko, pihan nurkka) ja valokuvaan tai piirrän sen. Rakennan teoksesta pienoismallin kierrätysmateriaaleista ja sijoitan sen paikan kuvaan tai mittakaavassa tehtyyn pahvitilaan; leikkaan pahvia veitsellä alustaa vasten ja käytän kuumaliimaa opettajan ohjeen mukaan. Kirjoitan suunnitelman: teoksen aihe ja miten se liittyy kestävään kehitykseen tai kulttuuriseen moninaisuuteen, materiaalien valinta ja sen ekologinen perustelu, miten katsoja kohtaa teoksen tilassa ja mitä toivon hänen huomaavan tai tekevän. Nimeän yhden nykytaiteilijan tai teostyypin, josta sain ajatuksen.","osaa_kun":"Pienoismallista näkyy, miten teos sijoittuu juuri valittuun paikkaan ja miten katsoja kulkee tai toimii sen kanssa. Aiheen yhteys kestävään kehitykseen tai kulttuuriseen moninaisuuteen näkyy teoksen muodossa tai materiaalissa eikä vain selitystekstissä. Vaikutus katsojaan on kuvattu tekona tai havaintona (esimerkiksi kulkija joutuu kiertämään jätepinon), ja materiaalivalinta on perusteltu. Teoksen aihetta varten ei kysytä oppilaan omaa taustaa. (Uusi sisältö; vastaa T11:n arvosanan 8 kuvausta.)","teksti":[{"tyyppi":"johdanto","sisalto":"Koulun aulassa kuljet joka päivä saman reitin: ovesta sisään, naulakon ohi, portaisiin. Et enää näe tilaa, koska se on tuttu. Tilateos tai ympäristöteos katkaisee tämän tottumuksen. Se voi saada kulkijan kiertämään, pysähtymään, katsomaan ylös tai koskemaan johonkin. Tässä taidossa suunnittelet koulun todelliseen paikkaan teoksen, joka käsittelee kestävää kehitystä tai kulttuurista moninaisuutta. Rakennat siitä pienoismallin kierrätysmateriaaleista ja kirjoitat suunnitelman, jossa kerrot, mitä katsoja teoksen luona tekee tai huomaa. Julisteessa, jonka teit aiemmin, viesti oli kuvassa ja tekstissä. Nyt viesti on tilassa, materiaalissa ja katsojan liikkeessä."},{"tyyppi":"kappale","otsikko":"Tilateos ja ympäristöteos","sisalto":"<b>Tilateos</b> eli installaatio on teos, joka rakennetaan tilaan ja jonka katsoja kokee liikkumalla sen luona tai sisällä. Se ei ole yksittäinen esine jalustalla, vaan teoksen osat ja ympäröivä tila toimivat yhdessä. <b>Ympäristöteos</b> tehdään tiettyyn paikkaan, usein ulos, ja se käyttää paikan muotoja, valoa tai materiaaleja. Kummassakin tapauksessa paikka kuuluu teokseen: jos teoksen siirtää toiseen paikkaan, se muuttuu. Siksi suunnittelu alkaa paikasta eikä esineestä. Tätä kutsutaan <b>paikkasidonnaisuudeksi</b>."},{"tyyppi":"kappale","otsikko":"Katsoja liikkuu, teos vaikuttaa","sisalto":"Taulua katsotaan seisten sen edessä. Tilateoksen katsoja kulkee, ja hänen reittinsä on osa teosta. Kun suunnittelet vaikutusta, kirjoita se <b>tekona tai havaintona</b>, jonka joku muu voisi nähdä: kulkija joutuu kiertämään jätepinon, oppilas kumartuu lukemaan lattiaan kirjoitettua sanaa, portaissa kulkija näkee joka askelmalla uuden värin. Lause \"teos saa katsojan ajattelemaan ympäristöä\" ei kerro vielä mitään, koska kukaan ei näe ajattelua. Kysy itseltäsi: mitä katsoja tekee kehollaan, ja mitä hän huomaa sen jälkeen?"},{"tyyppi":"taulukko","otsikko":"Aihe näkyy muodossa ja materiaalissa","otsikkorivi":["Aihe","Pelkkä selitys (ei riitä)","Aihe teoksen muodossa tai materiaalissa"],"rivit":[["Kertakäyttö","Pahvilaatikko, jonka kyljessä lukee \"Älä tuhlaa\"","Aulan keskellä katonkorkuinen pino samanlaisia kertakäyttömukeja; kulkija joutuu kiertämään sen, ja pino on rakennettu yhden viikon kahvilan mukeista"],["Vesi","Sininen pallo ja teksti \"Säästä vettä\"","Portaikon seinän vieressä lattialla pullorivi, jossa jokaisen pullon vesimäärä vastaa yhtä arjen toimintaa; kulkija näkee rivin pitenevän portaita noustessa"],["Kulttuurinen moninaisuus","Juliste, jossa lukee \"Olemme erilaisia\"","Ovensuussa kehä, jossa sana \"tervetuloa\" on kirjoitettu monella kielellä eri korkeuksille; lukija kiertää kehän ja kumartuu tai kurkottaa löytääkseen sanat"],["Luonnon monimuotoisuus","Kuva mehiläisestä seinällä","Pihan nurkkaan pienten ruukkujen spiraali, jonka keskelle kuljetaan kapeaa polkua; jokaisessa ruukussa eri kasvi"]]},{"tyyppi":"kappale","otsikko":"Aihe ilman omaa taustaa","sisalto":"Kulttuurinen moninaisuus on yhteinen aihe, ei henkilökohtainen kysymys. Sinun ei tarvitse kertoa omasta tai perheesi taustasta, kielestä tai uskonnosta, eikä teoksesi kerro niistä. Voit käsitellä aihetta yleisesti: tervehdykset, kirjoitusjärjestelmät, kuviot, ruoka-astiat, juhlien valot tai vaikkapa se, miten sama esine näyttää eri puolilla maailmaa. Samoin kestävän kehityksen teos ei kysy, mitä kotonanne ostetaan tai syödään. Se näyttää ilmiön, jonka kaikki voivat nähdä koulussa."},{"tyyppi":"kappale","otsikko":"Mittakaava ja mittakaavahahmo","sisalto":"Pienoismalli tehdään <b>mittakaavassa</b>, eli kaikki mitat pienennetään samassa suhteessa. Mittakaavassa 1:20 yksi senttimetri mallissa on 20 senttimetriä todellisuudessa. Silloin 8 metriä pitkä aula on mallissa 40 cm ja 170 cm pitkä ihminen 8,5 cm. Tee malliin aina <b>mittakaavahahmo</b>, esimerkiksi taitettu pahvihahmo. Se näyttää heti, onko teos polven, vyötärön vai katon korkuinen, ja mihin katsoja mahtuu kulkemaan. Jos teet mallin valokuvan päälle, piirrä hahmo kuvaan samaan kohtaan, jossa ihminen todellisuudessa seisoisi."},{"tyyppi":"kuva","otsikko":"Pienoismallin pohjapiirros","svg":"<svg viewBox=\"0 0 600 330\" role=\"img\" aria-label=\"Pienoismalli ylhäältä: aula mittakaavassa 1:20, keskellä teos, katkoviivana kulkijan reitti teoksen ympäri ja vapaaksi jätetty kulku ulko-ovelta käytävälle\"><text x=\"300\" y=\"20\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12.5px\">Pahvitila ylhäältä: aula 8 m × 5 m, mittakaava 1:20 (malli 40 cm × 25 cm)</text><rect x=\"60\" y=\"40\" width=\"400\" height=\"250\" class=\"v-osa\"/><rect x=\"210\" y=\"284\" width=\"80\" height=\"12\" class=\"v-osa v1\"/><text x=\"250\" y=\"312\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">ulko-ovi</text><rect x=\"454\" y=\"90\" width=\"12\" height=\"70\" class=\"v-osa v1\"/><text x=\"472\" y=\"128\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">käytävä</text><rect x=\"54\" y=\"60\" width=\"12\" height=\"80\" class=\"v-osa v1\"/><text x=\"48\" y=\"104\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">portaat</text><rect x=\"250\" y=\"150\" width=\"90\" height=\"60\" rx=\"6\" class=\"v-osa v1\"/><text x=\"295\" y=\"184\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">teos</text><path d=\"M250,280 C245,240 220,215 225,170 C230,130 300,120 360,125 C400,128 430,125 452,125\" class=\"v-apu\" style=\"fill:none;stroke-width:2;stroke-dasharray:6 4\"/><polygon points=\"460,125 448,119 448,131\" class=\"v-nuoli\"/><text x=\"165\" y=\"205\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">kulkijan reitti</text><line x1=\"80\" y1=\"100\" x2=\"80\" y2=\"270\" class=\"v-akseli\" style=\"stroke-width:1\"/><text x=\"118\" y=\"250\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">vapaa kulku</text><text x=\"118\" y=\"263\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">portaille</text><circle cx=\"380\" cy=\"235\" r=\"6\" class=\"v-merkki\"/><line x1=\"380\" y1=\"241\" x2=\"380\" y2=\"262\" class=\"v-akseli\" style=\"stroke-width:2\"/><text x=\"372\" y=\"252\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:10.5px\">mittakaavahahmo</text><line x1=\"500\" y1=\"270\" x2=\"550\" y2=\"270\" class=\"v-akseli\" style=\"stroke-width:3\"/><line x1=\"500\" y1=\"264\" x2=\"500\" y2=\"276\" class=\"v-akseli\"/><line x1=\"550\" y1=\"264\" x2=\"550\" y2=\"276\" class=\"v-akseli\"/><text x=\"525\" y=\"292\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">1 m = 5 cm</text></svg>","teksti":"Esimerkki: teos on aulan keskellä niin, että kulkija kiertää sen matkalla ulko-ovelta käytävälle. Portaille johtava kulku jää vapaaksi."},{"tyyppi":"taulukko","otsikko":"Materiaali ja sen ekologinen perustelu","otsikkorivi":["Materiaali mallissa","Mitä se tarkoittaisi todellisessa teoksessa","Perustelu"],"rivit":[["Pakkauspahvi, munakennot","Koulun omat pakkaukset, kerätty viikon ajan","Materiaalia ei osteta uutena; teoksen jälkeen se menee kartonkikeräykseen"],["Puhtaat muovipullot ja korkit","Kahvilan tai juhlan jälkeen kerätyt pullot","Materiaali on itse aiheen todiste: määrä näyttää kulutuksen"],["Kangas- ja lankajämät","Käsityöluokan ylijäämät","Jämät käytetään, ja teos puretaan osiksi, jotka voi käyttää uudelleen"],["Oksat, kävyt, lehdet","Pihalta maasta kerätyt, ei elävistä puista","Palaa luontoon teoksen jälkeen; kerätään vain maasta"]]},{"tyyppi":"saanto","otsikko":"Näin teet näytön","askeleet":["Valitse paikka koulusta (esimerkiksi aula, portaikko, ruokalan ovi, pihan nurkka). Valokuvaa tai piirrä se niin, että kulkureitit, ovet ja ikkunat näkyvät. Kuvaa tilaa, ei ihmisiä.","Mittaa tai arvioi paikan päämitat ja päätä mittakaava (esimerkiksi 1:20). Rakenna pahvitila tai käytä paikan kuvaa mallin taustana.","Valitse aihe: kestävä kehitys tai kulttuurinen moninaisuus. Kirjoita yksi lause siitä, mitä teos näyttää.","Luonnostele kaksi tapaa sijoittaa teos paikkaan. Piirrä kumpaankin kulkijan reitti nuolilla. Valitse se, jossa katsoja joutuu toimimaan teoksen kanssa.","Rakenna pienoismalli kierrätysmateriaaleista ja lisää mittakaavahahmo. Leikkaa ja liimaa turvallisuusohjeiden mukaan.","Kirjoita suunnitelma: aihe ja sen yhteys teoksen muotoon tai materiaaliin, materiaalit ja niiden ekologinen perustelu, katsojan kulku ja teko teoksen luona, mitä toivot hänen huomaavan. Nimeä yksi nykytaiteilija tai teostyyppi, josta sait ajatuksen.","Tarkista lopuksi: jäävätkö ovet, portaat ja kulkureitit todellisessa paikassa vapaiksi?"]},{"tyyppi":"kappale","otsikko":"Mistä ajatus tulee: teostyyppejä","sisalto":"Suunnitelmaan nimeät yhden nykytaiteilijan tai teostyypin, josta sait ajatuksen. Teostyyppi riittää, kunhan kerrot, mitä otit siitä. Esimerkkejä: <b>tilateos</b> (katsoja kulkee teoksen sisällä tai ympäri), <b>ympäristöteos</b> (teos tehdään paikan omista aineksista ja paikan muotoon), <b>kertymäteos</b> (samanlaisia esineitä kootaan niin paljon, että määrä itse kertoo jotain), <b>osallistava teos</b> (katsoja lisää, siirtää tai kirjoittaa jotain, ja teos muuttuu). Jos olet nähnyt teoksen museossa, kaupungilla tai kirjassa, voit kertoa sen tekijän ja kuvailla teosta sanoin. Älä jäljennä toisen teosta: ota siitä toimintatapa, ei ulkonäköä."},{"tyyppi":"kappale","otsikko":"Turvallisesti veitsen ja kuumaliiman kanssa","sisalto":"Pahvi leikataan askarteluveitsellä aina leikkuualustan päällä ja metalliviivainta vasten. Pidä viivainta paikallaan sormilla viivaimen toisella puolella, kaukana terästä, ja vedä terää itsestäsi poispäin. Leikkaa monella kevyellä vedolla; kun painat voimalla, terä luiskahtaa. Työnnä terä sisään heti leikkauksen jälkeen ja laske veitsi pöydälle, älä taskuun. Katkaise tai vaihda terä vain opettajan ohjeen mukaan. Kuumaliimapistoolin suutin ja sula liima ovat niin kuumia, että ne polttavat ihon. Pidä pistooli telineessä, kun et käytä sitä, älä koske suuttimeen äläkä liimaan ennen kuin se on jäähtynyt, ja painele liimattavia osia puutikulla, ei sormella. Jos liimaa tulee iholle, pidä kohta viileän juoksevan veden alla ja kerro opettajalle. Kierrätysmateriaalien pitää olla puhtaita ja kuivia; tölkit ja muut terävät metalliosat jätetään pois."},{"tyyppi":"kuva","otsikko":"Pahvin leikkaaminen","svg":"<svg viewBox=\"0 0 600 300\" role=\"img\" aria-label=\"Pahvin leikkaaminen ylhäältä: leikkuualusta, pahvi, metalliviivain, sormet viivaimen takana ja terän kulkusuunta itsestä poispäin\"><rect x=\"40\" y=\"20\" width=\"420\" height=\"200\" rx=\"6\" class=\"v-osa\"/><text x=\"52\" y=\"36\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">leikkuualusta</text><rect x=\"90\" y=\"50\" width=\"320\" height=\"150\" class=\"v-osa v1\" style=\"fill-opacity:.35\"/><text x=\"130\" y=\"190\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">pahvi</text><rect x=\"225\" y=\"42\" width=\"26\" height=\"170\" class=\"v-osa v1\"/><text x=\"160\" y=\"214\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">metalliviivain</text><ellipse cx=\"208\" cy=\"105\" rx=\"16\" ry=\"8\" class=\"v-osa\"/><ellipse cx=\"208\" cy=\"125\" rx=\"16\" ry=\"8\" class=\"v-osa\"/><ellipse cx=\"208\" cy=\"145\" rx=\"16\" ry=\"8\" class=\"v-osa\"/><text x=\"150\" y=\"75\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">sormet viivaimen</text><text x=\"150\" y=\"88\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">takana, kaukana terästä</text><line x1=\"256\" y1=\"195\" x2=\"256\" y2=\"70\" class=\"v-akseli\" style=\"stroke-width:2.5\"/><polygon points=\"256,58 250,72 262,72\" class=\"v-nuoli\"/><text x=\"268\" y=\"125\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">terä kulkee</text><text x=\"268\" y=\"138\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">viivainta pitkin</text><text x=\"268\" y=\"151\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">itsestä poispäin</text><path d=\"M190,300 L190,270 Q190,248 212,248 L300,248 Q322,248 322,270 L322,300\" class=\"v-osa\"/><text x=\"256\" y=\"280\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">sinä</text><text x=\"530\" y=\"90\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">Monta kevyttä vetoa,</text><text x=\"530\" y=\"104\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">ei yhtä voimalla.</text><text x=\"530\" y=\"130\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">Terä sisään heti</text><text x=\"530\" y=\"144\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:10.5px\">leikkauksen jälkeen.</text></svg>","teksti":"Viivain on terän ja sormien välissä, ja terä kulkee itsestä poispäin."},{"tyyppi":"ansa","otsikko":"Ansa 1: teos, joka sopisi mihin tahansa","sisalto":"Malli on hieno esine, mutta sen voisi siirtää aulasta ruokalaan tai pihalle, eikä mikään muuttuisi. Silloin paikka on vain tausta. Kysy: mitä tämän paikan muoto, valo tai kulku tekee teokselle? Portaikossa teos voi muuttua askel askeleelta, ovensuussa jokainen kulkee sen läpi, pihan nurkassa sade ja vuodenaika muuttavat sitä."},{"tyyppi":"ansa","otsikko":"Ansa 2: aihe on vain kyltissä","sisalto":"Teoksen viereen kirjoitetaan \"kierrätys\" tai \"monikulttuurisuus\", mutta itse teos voisi kertoa mistä tahansa. Peitä kyltti kädellä ja katso mallia: näkyykö aihe yhä? Jos ei, muuta muotoa, määrää tai materiaalia niin, että aihe näkyy niissä."},{"tyyppi":"ansa","otsikko":"Ansa 3: vaikutus on toive, ei teko","sisalto":"\"Toivon, että katsoja alkaa ajatella luontoa\" ei ole vielä vaikutuksen kuvaus. Kirjoita, mitä katsoja tekee tai näkee: \"Kulkija joutuu kiertämään pinon ja näkee sen kolmelta sivulta, jolloin hän huomaa, että kaikki mukit ovat samanlaisia.\" Teko ja havainto voidaan tarkistaa mallista, ajatusta ei."},{"tyyppi":"ansa","otsikko":"Ansa 4: teos tukkii kulun","sisalto":"Kiertäminen on hyvä keino, mutta todellisessa koulussa teos ei saa sulkea ovea, portaita tai poistumisreittiä. Merkitse malliin, mikä kulku jää vapaaksi, ja sijoita teos niin, että se ohjaa kulkijaa ilman että kukaan jää jumiin."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Aloita paikasta: teos kuuluu juuri tähän kohtaan koulua.","Mittakaavahahmo näyttää teoksen koon ja kulkijan reitin.","Aihe näkyy muodossa tai materiaalissa, ei vain kyltissä.","Vaikutus kirjoitetaan tekona tai havaintona: mitä katsoja tekee ja huomaa.","Materiaalivalinta perustellaan: mistä se tulee ja minne se menee teoksen jälkeen.","Veitsi alustaa ja viivainta vasten itsestä poispäin, kuumaliima telineeseen, ovet ja portaat vapaiksi."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Teos on irrallinen esine, joka on asetettu mallin keskelle; paikan muoto, valo tai kulkureitit eivät vaikuta siihen, ja sen voisi siirtää mihin tahansa.","tehtava":"Paikan valinta ja sijoittaminen","mita_kertoo":"Oppilas ajattelee teosta veistoksena jalustalla eikä vielä paikkasidonnaisena. Osaa_kun-kohdan ensimmäinen ehto, sijoittuminen juuri valittuun paikkaan, jää täyttymättä.","mita_tehda":"Pyydä oppilasta kertomaan, mitä muuttuisi, jos teos siirrettäisiin ruokalaan. Jos vastaus on \"ei mitään\", ohjaa hänet piirtämään paikan kulkureitit nuolilla ja luonnostelemaan uusi sijoitus, jossa reitti kulkee teoksen ohi, läpi tai ympäri."},{"virhe":"Mallista ei näe, miten katsoja kulkee tai toimii: mittakaavahahmo puuttuu, tai teoksen koko suhteessa ihmiseen on epäselvä.","tehtava":"Pienoismalli: mittakaava ja katsojan reitti","mita_kertoo":"Oppilas on rakentanut teoksen, mutta ei ole vielä ajatellut sitä ihmisen kokoisena kokemuksena. Ilman hahmoa ja reittiä vaikutusta ei voi tarkistaa mallista.","mita_tehda":"Anna oppilaalle mittakaavahahmo (esimerkiksi 8,5 cm pahvihahmo mittakaavassa 1:20) ja pyydä häntä kuljettamaan sitä mallissa ovelta toiselle. Kysy, missä kohdassa hahmo pysähtyy, kiertää tai katsoo ylös, ja pyydä merkitsemään reitti."},{"virhe":"Aihe näkyy vain kyltissä, otsikossa tai suunnitelman tekstissä; teoksen muoto ja materiaali voisivat kertoa mistä tahansa.","tehtava":"Aiheen yhteys muotoon tai materiaaliin","mita_kertoo":"Oppilas tuntee aiheen ja osaa kirjoittaa siitä, mutta ei vielä käännä sitä kuvalliseksi ratkaisuksi. Tämä on osaa_kun-kohdan keskeinen raja: selitysteksti ei riitä.","mita_tehda":"Peitä kyltti ja kysy, mistä katsoja tunnistaa aiheen. Ehdota kolmea keinoa: määrä (monta samanlaista), materiaali (aiheen omat esineet) tai muoto (esimerkiksi kehä, jonka ympäri kuljetaan). Oppilas valitsee yhden ja muuttaa mallia."},{"virhe":"Vaikutus katsojaan on kirjoitettu toiveena tai tunteena (\"katsoja alkaa miettiä\", \"teos herättää ajatuksia\") ilman tekoa tai havaintoa.","tehtava":"Suunnitelma: vaikutus katsojaan","mita_kertoo":"Oppilas tietää, että teoksen pitää vaikuttaa, mutta ei vielä erota tavoitetta keinosta. Kuvilla vaikuttamisen mahdollisuuksien tunnistaminen (T11) edellyttää keinon nimeämistä.","mita_tehda":"Kysy kaksi kysymystä: mitä katsoja tekee kehollaan teoksen luona, ja mitä hän näkee tai huomaa sen jälkeen? Pyydä kirjoittamaan vastaukset yhdeksi lauseeksi muodossa \"Kulkija joutuu …, jolloin hän huomaa …\"."},{"virhe":"Materiaalit on valittu, mutta perustelu puuttuu tai on yleinen (\"kierrätys on hyvä\"); ei kerrota, mistä materiaali tulee ja mitä sille tapahtuu teoksen jälkeen.","tehtava":"Suunnitelma: materiaalin ekologinen perustelu","mita_kertoo":"Oppilas käyttää kierrätysmateriaalia ohjeen mukaan, mutta ei vielä ajattele materiaalin elinkaarta todellisessa teoksessa.","mita_tehda":"Kysy, mistä todellisen teoksen materiaali saataisiin ja minne se menisi, kun teos puretaan. Pyydä lisäämään suunnitelmaan yksi lause kummastakin. Ekologisuutta ei vaadita täydelliseksi, vaan valinnan perusteleminen riittää."},{"virhe":"Askarteluveistä käytetään ilman alustaa tai viivainta, sormet ovat terän kulkulinjalla, terä jää auki, kuumaliimapistooli jätetään pöydälle tai liimaa painellaan sormin; tai teos tukkii mallissa oven, portaat tai poistumisreitin.","tehtava":"Työturvallisuus ja kulun turvallisuus","mita_kertoo":"Oppilas keskittyy lopputulokseen ja unohtaa välineen käytön järjestyksen. Kulun tukkiminen kertoo, ettei oppilas vielä ajattele teosta todellisessa käytössä olevassa tilassa.","mita_tehda":"Keskeytä työ heti, näytä oikea ote uudelleen ja seuraa yksi leikkaus tai liimaus loppuun. Mallin kulkuongelmassa pyydä merkitsemään vapaaksi jäävä kulku ja siirtämään teosta. Turvallinen työtapa on näytön ehto; ilman sitä näyttö jatkuu seuraavalla tunnilla."}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Arvioinnin kohde (kartan osaa_kun): pienoismallista näkyy, miten teos sijoittuu juuri valittuun paikkaan ja miten katsoja kulkee tai toimii sen kanssa; aiheen yhteys kestävään kehitykseen tai kulttuuriseen moninaisuuteen näkyy teoksen muodossa tai materiaalissa eikä vain selitystekstissä; vaikutus on kuvattu tekona tai havaintona; materiaalivalinta on perusteltu. Mallin viimeistelyä, käsityön tarkkuutta, ideoiden omaperäisyyttä, lahjakkuutta tai makua ei arvioida. Kerro tämä oppilaille ennen työn alkua.","Mikä kelpaa: mittakaava voi olla mikä tahansa johdonmukainen (1:10, 1:20, 1:25); jos oppilas tekee mallin paikan valokuvan päälle, mittakaavahahmo piirretään tai asetetaan kuvaan. Paikan voi myös piirtää. Teostyypiksi riittää yksi nimetty tyyppi (tilateos, ympäristöteos, kertymäteos, osallistava teos tai muu perusteltu) ja lause siitä, mitä oppilas otti siitä; taiteilijan nimeä ei vaadita. Suunnitelma voi olla kirjoitettu tai sanella opettajalle, jos kirjoittaminen on oppilaalle este; sisältövaatimukset ovat samat.","Ei taustakysymyksiä: aiheen valinta ei edellytä, että oppilas kertoo omasta, perheensä tai kotinsa kielestä, kulttuurista, uskonnosta tai kulutuksesta. Jos oppilas haluaa käsitellä omaa kokemustaan, se on hänen valintansa, mutta sitä ei pyydetä eikä arvioida. Varmista, ettei luokan yhteinen keskustelu painosta ketään kertomaan taustastaan.","Läpäisy on yksilöllinen: jos mallit tehdään pareittain, kumpikin kirjoittaa oman suunnitelmansa ja nimeää oman osuutensa mallista; havainnoit kummankin perusteluja erikseen.","Turvallisuus: askarteluveitsiä käytetään vain leikkuualustan päällä ja metalliviivainta vasten; terä sisään joka leikkauksen jälkeen; veitset jaetaan ja kerätään lasketusti. Kuumaliimapistooleille oma pöytä tai telineet, pistorasia ja johto eivät ole kulkureitillä, ja pistoolit irrotetaan sähköstä tunnin lopussa ja jäähtyvät telineessä. Palovammaan viileää juoksevaa vettä; vakavammissa koulun ensiapukäytäntö. Kylmäliima tai teippi on varavaihtoehto oppilaalle, jolle kuumaliima ei sovi. Kierrätysmateriaalit puhtaiksi ja kuiviksi; ei tölkkejä tai muita teräviä metalliosia, ei elintarvikejäämiä (allergiat).","Valokuvaus koulussa: paikasta kuvataan tila, ei ihmisiä. Jos joku sattuu kuvaan, kuva otetaan uudelleen. Kuvia ei julkaista ilman koulun käytäntöjen mukaista lupaa.","Kulun turvallisuus todellisessa tilassa: jos jokin malleista toteutetaan oikeasti, tarkista sijoitus koulun pelastus- tai poistumisturvallisuussuunnitelmasta (ovet, portaat, poistumisreitit, paloovet) ja kiinteistön ohjeista. Näyttö ei edellytä toteutusta.","Ero edeltäviin: KU7-KUV-03:ssa (juliste) mielipide välittyi kuvalla ja tekstillä; nyt vaikutus syntyy tilasta ja katsojan liikkeestä. KU7-TYO-02:n kokeilusarja näkyy vaiheessa, jossa oppilas luonnostelee kaksi sijoitusta ja valitsee perustellen. Nykytaiteen muotojen tarkempi luokittelu ja katsojan roolien vertailu kuuluvat myöhempään taitoon KU7-TAI-06, joten tässä riittää yksi teostyyppi lähteenä.","Tarkistettavat asiatiedot: ei epävarmoja asiatietoja. Mittakaavalaskut: 8 m : 20 = 40 cm, 5 m : 20 = 25 cm, 170 cm : 20 = 8,5 cm, 1 m : 20 = 5 cm."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Teos kuuluu yhteen paikkaan koulussa, ja sen pitää saada katsoja tekemään tai huomaamaan jotain. Arvioin, näkyykö se mallista, en sitä, kuinka siisti malli on.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1: aloitus","sisalto":"Kävelkää luokan kanssa yksi koulun reitti (esimerkiksi aula ja portaat) ja pysähtykää kolmeen kohtaan. Kysy, mihin kulkija katsoo, missä hän pysähtyy ja mihin hän ei koskaan katso. Esittele tilateos ja ympäristöteos sanoin: paikka kuuluu teokseen."},{"aika":"15 min","otsikko":"Tunti 1: paikka ja aihe","sisalto":"Oppilaat valitsevat paikan, valokuvaavat tai piirtävät sen (ei ihmisiä) ja merkitsevät ovet ja kulkureitit. He valitsevat aiheen ja kirjoittavat siitä yhden lauseen. Käykää läpi taulukko \"Aihe näkyy muodossa ja materiaalissa\"."},{"aika":"15 min","otsikko":"Tunti 1: kaksi luonnosta","sisalto":"Oppilaat luonnostelevat kaksi sijoitusta ja piirtävät kulkijan reitin nuolilla. Kierrä ja kysy kultakin: mitä katsoja tekee teoksen luona? Valinta jatkoon kirjataan yhdellä perustelulla."},{"aika":"5 min","otsikko":"Tunti 1: mittakaava","sisalto":"Näytä mittakaavan lasku (8 m → 40 cm mittakaavassa 1:20) ja mittakaavahahmo. Oppilaat merkitsevät paikan päämitat."},{"aika":"10 min","otsikko":"Tunti 2: turvallisuus","sisalto":"Näytä askarteluveitsen käyttö alustaa ja metalliviivainta vasten sekä kuumaliimapistoolin teline, suutin ja puutikku. Jokainen tekee yhden harjoitusleikkauksen, jonka seuraat."},{"aika":"35 min","otsikko":"Tunti 2: rakentaminen","sisalto":"Oppilaat rakentavat pahvitilan tai kuvapohjan ja teoksen pienoismallin sekä mittakaavahahmon. Havainnoi työturvallisuutta ja kysy jokaiselta, miten hahmo kulkee mallissa. Lopuksi pistoolit irti sähköstä ja telineisiin, veitset lasketaan."},{"aika":"20 min","otsikko":"Tunti 3: viimeistely","sisalto":"Mallit valmiiksi. Oppilaat tekevät peitetestin: peittävät kyltin ja tarkistavat, näkyykö aihe yhä."},{"aika":"20 min","otsikko":"Tunti 3: suunnitelma (näyttö)","sisalto":"Oppilaat kirjoittavat suunnitelman: aihe ja sen yhteys muotoon tai materiaaliin, materiaalien perustelu, katsojan kulku ja teko, mitä hän huomaa, teostyyppi. Havainnoi mallia ja suunnitelmaa yhdessä kuuden kriteerin avulla; kysy tarvittaessa suullisesti."},{"aika":"5 min","otsikko":"Tunti 3: lopetus","sisalto":"Mallit asetetaan riviin. Oppilaat kuljettavat hahmoa toisen mallissa ja kertovat, mitä hahmo joutui tekemään. Siivous ja materiaalien lajittelu kierrätykseen."}],"tarvikkeet":"Kierrätysmateriaalit (puhdas pakkauspahvi, munakennot, pullot ja korkit, kangas- ja lankajämät, maasta kerätyt luonnonmateriaalit), leikkuualustat, metalliviivaimet, askarteluveitset, kuumaliimapistoolit telineineen ja puutikut, kylmäliima ja teippi, sakset, lyijykynät, mittanauha, koulun kamera tai tabletti tai paperi paikan piirtämiseen."},"huoltajalle":{"mista_on_kyse":"Nuori suunnittelee koulun todelliseen paikkaan, esimerkiksi aulaan tai portaikkoon, tilateoksen, joka käsittelee kestävää kehitystä tai kulttuurista moninaisuutta. Hän rakentaa siitä pienoismallin kierrätysmateriaaleista ja kirjoittaa suunnitelman siitä, mitä katsoja teoksen luona tekee ja huomaa. Mallin siisteyttä tai lahjakkuutta ei arvioida, eikä nuoren omaa tai perheen taustaa kysytä.","kotona":["Kun kuljette yhdessä jossakin julkisessa tilassa, esimerkiksi kauppakeskuksessa, asemalla tai kirjastossa, kysy, mihin kohtaan siellä voisi sijoittaa teoksen, jonka ohi jokainen kulkee.","Kysy, miten hänen teoksensa saa ohikulkijan tekemään jotain: kiertämään, pysähtymään tai katsomaan ylös.","Jos nuori tekee mallia kotona, puhtaat pakkaukset käyvät hyvin. Askarteluveitsellä leikataan alustan päällä ja viivainta vasten, ja kuumaliimapistooli jäähtyy telineessä."],"milloin_huolestua":"Tämä on ydintaito, joten se tarvitaan siirtymiseen. Jos nuori kertoo, ettei keksi aihetta tai paikkaa useamman tunnin jälkeenkään, tai jos veitsen tai kuumaliiman käyttö pelottaa häntä, ota yhteyttä opettajaan: aiheen voi valita valmiista listasta, ja liimauksen voi tehdä kylmäliimalla."},"ulkoiset":{},"valmis_teksti":"Osaat suunnitella koulun paikkaan teoksen, jonka aihe näkyy sen muodossa ja materiaalissa ja joka saa katsojan tekemään ja huomaamaan jotain. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

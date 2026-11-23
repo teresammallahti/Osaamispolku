@@ -1,0 +1,619 @@
+<title>Kesken jäänyt hetki · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA7-SAN-02","oppiaine":"ENA","vuosiluokka":7,"taitoalue":"SAN","jakso":"J2","taso":"ydin","otsikko":"Kesken jäänyt hetki","kuvaus":"Osaan käyttää imperfektin kestomuotoa kertoakseni, mitä oli meneillään, kun jotain tapahtui.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T10"],"S":["S3"]},"eyebrow":"Englanti · 7. luokka","ikoni":"aikajana","naytto":"Paperikoe: 1) Täydennän kymmeneen lauseeseen verbin imperfektin perus- tai kestomuodon (esim. I was reading when the lights went out.). 2) Yhdistän kolme lauseparia yhdeksi lauseeksi when- tai while-sanalla. 3) Korjaan valmiista tekstistä kolme virhettä (esim. I was read, While I watched TV the phone was ringing, We was playing).","osaa_kun":"Vähintään 12 kohtaa kuudestatoista on oikein. Kestomuodossa was tai were on tekijän mukaan oikein ja verbissä on -ing-pääte. Erotan, kumpi tapahtuma oli meneillään (kestomuoto) ja kumpi keskeytti sen (perusmuoto).","teksti":[{"tyyppi":"johdanto","sisalto":"Keksitty Noora kertoo kaverilleen: I read a book when the lights went out. Kaveri ymmärtää, että Noora alkoi lukea vasta, kun valot sammuivat, siis pimeässä. Noora tarkoitti kuitenkin, että lukeminen oli kesken, kun sähköt katkesivat: I was reading a book when the lights went out. Englannissa menneestä ajasta on kaksi muotoa. Imperfektin perusmuoto (read, went) kertoo tapahtuneesta asiasta, ja imperfektin kestomuoto (was reading) kertoo, mikä oli käynnissä tietyllä hetkellä. Tässä taidossa opit muodostamaan kestomuodon ja päättelemään, kumpi tapahtuma oli käynnissä ja kumpi keskeytti sen."},{"tyyppi":"kappale","otsikko":"Muoto: was tai were ja -ing","sisalto":"Imperfektin kestomuoto muodostetaan be-verbin menneellä muodolla ja pääverbin -ing-muodolla. Tekijä ratkaisee be-verbin: I, he, she ja it saavat muodon was, we, you ja they muodon were. Rakenne on sama kuin preesensin kestomuodossa (I am reading), mutta be-verbi on menneessä ajassa (I was reading). Kun tekijä on nimi tai substantiivi, korvaa se mielessäsi pronominilla: Mila and Jon → they → were. -ing-muodon kirjoitusasu muuttuu samoin kuin preesensin kestomuodossa: lyhyen, painollisen vokaalin jälkeinen loppukonsonantti kahdentuu (sit → sitting), äänetön loppu-e putoaa (ride → riding) ja ie muuttuu y:ksi (lie → lying)."},{"tyyppi":"taulukko","otsikko":"Kestomuoto, kielto ja kysymys","otsikkorivi":["Tekijä","Väite","Kielto","Kysymys ja lyhyt vastaus"],"rivit":[["I","I was cooking.","I wasn't cooking.","Was I cooking? Yes, I was."],["he, she, it","She was cooking.","She wasn't cooking.","Was she cooking? No, she wasn't."],["we, you, they","They were cooking.","They weren't cooking.","Were they cooking? Yes, they were."]]},{"tyyppi":"kappale","otsikko":"Käyttö: tausta ja keskeytys","sisalto":"Kestomuoto kertoo toiminnasta, joka oli käynnissä, kun jotain muuta tapahtui. Tämä toinen tapahtuma on lyhyt ja tapahtui yhdessä kohdassa, joten se on perusmuodossa: We were having dinner when the doorbell rang. Ovikello soi kesken ruokailun. Kestomuoto on siis pitkä jana, ja perusmuoto on piste, joka osuu janalle. Kestomuoto kertoo myös, mitä joku oli tekemässä tiettyyn aikaan: At nine o'clock I was doing my homework. Lause ei kerro, milloin läksyjen tekeminen alkoi tai loppui, vaan sen, että se oli kesken kello yhdeksältä. Katso kuvaa."},{"tyyppi":"kuva","otsikko":"Jana ja piste","svg":"<svg viewBox=\"0 0 640 215\" role=\"img\" aria-label=\"Aikajana. Pitkä palkki kuvaa toimintaa I was reading a book, joka oli käynnissä. Palkin keskelle osuu piste the lights went out, joka keskeytti lukemisen.\"><text x=\"320\" y=\"20\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:14px\">Kestomuoto on jana, perusmuoto on piste</text><line x1=\"30\" y1=\"120\" x2=\"600\" y2=\"120\" class=\"v-akseli\"/><polygon points=\"600,114 612,120 600,126\" class=\"v-merkki\"/><text x=\"30\" y=\"165\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:12px\">aiemmin</text><text x=\"610\" y=\"165\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:12px\">myöhemmin</text><rect x=\"90\" y=\"95\" width=\"420\" height=\"22\" rx=\"6\" class=\"v-osa\"/><text x=\"220\" y=\"111\" class=\"v-t\" text-anchor=\"middle\" style=\"font-size:14px\">I was reading a book.</text><text x=\"200\" y=\"145\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:12px\">jana: oli käynnissä (was + -ing)</text><line x1=\"400\" y1=\"60\" x2=\"400\" y2=\"128\" class=\"v-jana\"/><circle cx=\"400\" cy=\"106\" r=\"7\" class=\"v-osa v1\"/><text x=\"400\" y=\"52\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:13px\">the lights went out</text><text x=\"412\" y=\"145\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:12px\">piste: keskeytti (perusmuoto)</text><text x=\"90\" y=\"188\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:12px\">Palkin alku ja loppu eivät ole tiedossa. Lause kertoo vain, että lukeminen oli kesken,</text><text x=\"90\" y=\"204\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:12px\">kun valot sammuivat.</text></svg>","teksti":"Kestomuoto (was reading) on käynnissä ollut toiminta eli jana. Perusmuoto (went out) on lyhyt tapahtuma eli piste, joka keskeyttää sen."},{"tyyppi":"kappale","otsikko":"When ja while","sisalto":"Kaksi tapahtumaa liitetään usein toisiinsa sanoilla when (kun) ja while (sillä aikaa kun). While-sanan jälkeen tulee käynnissä ollut toiminta eli kestomuoto: While Ari was cycling to school, he saw a deer. When-sanan jälkeen tulee usein lyhyt, keskeyttävä tapahtuma eli perusmuoto: Ari was cycling to school when he saw a deer. Molemmat lauseet kertovat saman asian. Lauseen voi aloittaa kummasta osasta tahansa, mutta kun when- tai while-osa on lauseen alussa, sen jälkeen tulee yleensä pilkku."},{"tyyppi":"saanto","otsikko":"Kumpi muoto? Kysy itseltäsi","askeleet":["Oliko toiminta käynnissä, kun jotain muuta tapahtui, tai tiettyyn kellonaikaan? → kestomuoto: was tai were + -ing.","Tapahtuiko asia yhdessä kohdassa ja keskeyttikö se toisen toiminnan? → perusmuoto: rang, saw, came.","Tapahtuiko kaksi asiaa peräkkäin, ensin toinen ja sitten toinen? → molemmat perusmuodossa: When the bus stopped, we got off and walked to the museum.","Onko verbi tilaverbi, kuten know, like, want tai need? → perusmuoto silloinkin, kun asia jatkui: I knew the answer, ei I was knowing the answer."]},{"tyyppi":"ansa","otsikko":"Ansa 1: She was play ja I reading","sisalto":"Kestomuodossa on aina kaksi osaa: was tai were ja -ing-muoto. Pelkkä was ja perusmuoto (She was play, I was eat) ei ole englantia, eikä myöskään pelkkä -ing-muoto ilman be-verbiä (I reading). Tarkista kestomuodosta molemmat osat."},{"tyyppi":"ansa","otsikko":"Ansa 2: Keskeytys kestomuodossa","sisalto":"While Kim had a shower, the doorbell was ringing kääntää tapahtumat väärin päin. Suihkussa käyminen oli pitkä, käynnissä ollut toiminta, ja ovikellon soiminen oli lyhyt tapahtuma, joka keskeytti sen. Oikein: While Kim was having a shower, the doorbell rang. Kysy: kumpi oli jana ja kumpi piste? Jana saa kestomuodon, piste perusmuodon."},{"tyyppi":"ansa","otsikko":"Ansa 3: Kaikki ei ole kesken","sisalto":"Kaikki when-lauseet eivät tarvitse kestomuotoa. Vertaa: When the teacher came in, the students stood up. Opettaja tuli, ja sen jälkeen oppilaat nousivat seisomaan. When the teacher came in, the students were talking. Oppilaat olivat jo puhumassa, kun opettaja tuli. Jos tapahtumat seuraavat toisiaan, molemmat ovat perusmuodossa. Kestomuoto tarvitaan vain, kun toiminta oli jo käynnissä."},{"tyyppi":"ansa","otsikko":"Ansa 4: We was ja you was","sisalto":"Was kuuluu vain tekijöille I, he, she ja it. Monikon tekijät ja you saavat aina muodon were, myös silloin, kun puhuttelet yhtä ihmistä: Were you sleeping? Kun tekijässä on and (my cousins and I, Mila and Jon), tekijöitä on useampi, ja be-verbi on were."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kestomuoto: was tai were + -ing (I was reading, they were reading).","Was: I, he, she, it. Were: we, you, they.","Kielto: wasn't tai weren't + -ing. Kysymys: Was she reading? Were you reading?","Kestomuoto = käynnissä ollut toiminta (jana). Perusmuoto = lyhyt tapahtuma, joka keskeyttää (piste).","While + kestomuoto, when + usein keskeyttävä perusmuoto.","Peräkkäiset tapahtumat ja tilaverbit (know, like, want) ovat perusmuodossa."]}],"harjoitusryhmat":[{"id":"muoto","nimi":"Muoto: was tai were ja -ing","info":"Kestomuodossa on kaksi osaa: was (I, he, she, it) tai were (we, you, they) ja verbin -ing-muoto."},{"id":"valinta","nimi":"Kesken vai keskeytys","info":"Käynnissä ollut toiminta on kestomuodossa. Lyhyt tapahtuma, joka keskeyttää sen, on perusmuodossa. Peräkkäiset tapahtumat ovat molemmat perusmuodossa."},{"id":"korjaus","nimi":"Virheiden etsiminen","info":"Tarkista jokaisesta verbistä: onko kestomuodossa sekä was tai were että -ing, sopiiko was tai were tekijään ja onko keskeyttävä tapahtuma perusmuodossa?"}],"harjoitukset":[{"id":"H01","ryhma":"muoto","kysymys":"I ___ playing.\nThe dogs ___ barking.\nMia ___ sleeping.\nYou ___ laughing.\nIt ___ raining.\nMy parents ___ working.\n\nAukkoon tulee was tai were. Montaan aukkoon tulee were?","vastaus":3,"vinkki":"Korvaa nimet ja substantiivit pronominilla. Mikä muoto kuuluu you-sanalle?","selitys":"The dogs were, You were ja My parents were. I, Mia (she) ja It saavat muodon was."},{"id":"H02","ryhma":"muoto","kysymys":"swim → swiming\nwrite → writing\nsit → sitting\nlie → lieing\nstop → stoping\ndance → dancing\nmake → making\n\nMontako -ing-muodoista on kirjoitettu oikein?","vastaus":4,"vinkki":"Kahdentuuko loppukonsonantti, putoaako e ja muuttuuko ie y:ksi?","selitys":"Writing, sitting, dancing ja making ovat oikein. Oikeat muodot ovat swimming, lying ja stopping."},{"id":"H03","ryhma":"muoto","tyyppi":"monivalinta","vaihtoehdot":["was watch","was watching","were watching"],"kysymys":"At ten o'clock last night, Sam ___ a film.\n\nMikä vaihtoehto aukkoon tulee?","vastaus":1,"vinkki":"Sam on yksi henkilö (he). Kestomuodossa on kaksi osaa.","selitys":"Sam was watching: he-tekijä saa muodon was, ja verbissä on -ing. Was watch on vajaa, ja were ei sovi yhdelle henkilölle."},{"id":"H04","ryhma":"muoto","kysymys":"1. She was singing.\n2. They was running.\n3. I were reading.\n4. We were cooking.\n5. He was study.\n6. You were talking.\n\nMontako lauseista on oikein?","vastaus":3,"vinkki":"Tarkista jokaisesta lauseesta be-verbi ja -ing-pääte.","selitys":"Lauseet 1, 4 ja 6 ovat oikein. Oikein olisi They were running, I was reading ja He was studying."},{"id":"H05","ryhma":"muoto","kysymys":"1. Jon was smiling.\n2. The girls were dancing.\n3. I was waiting.\n4. You were listening.\n5. Our teachers were talking.\n\nMuutat lauseet kielteisiksi lyhyillä muodoilla. Montaan lauseeseen tulee wasn't?","vastaus":2,"vinkki":"Kielto tehdään be-verbiin: was → wasn't, were → weren't.","selitys":"Jon wasn't smiling ja I wasn't waiting. Muihin tulee weren't."},{"id":"H06","ryhma":"muoto","kysymys":"1. Were you sleeping?\n2. Was they playing?\n3. Was the bus coming?\n4. Were she reading?\n5. Were your friends waiting?\n\nMontako kysymyksistä on oikein?","vastaus":3,"vinkki":"Kysymyksessä be-verbi siirtyy tekijän eteen, mutta se valitaan yhä tekijän mukaan.","selitys":"Kysymykset 1, 3 ja 5 ovat oikein. Oikein olisi Were they playing? ja Was she reading?"},{"id":"H07","ryhma":"muoto","kysymys":"Kysymys: Were the boys playing football?\n\nVastaukset:\n1. Yes, they were.\n2. Yes, they was.\n3. No, they weren't.\n4. No, they didn't.\n5. Yes, they did.\n\nMontako vastauksista on oikeita lyhyitä vastauksia?","vastaus":2,"vinkki":"Lyhyt vastaus toistaa kysymyksen be-verbin.","selitys":"Yes, they were ja No, they weren't. Was ei sovi they-tekijälle, ja did kuuluu did-kysymykseen."},{"id":"H08","ryhma":"valinta","kysymys":"1. We ___ (walk) home when it started to snow.\n2. When the bus stopped, we ___ (get) off and walked to the museum.\n3. While Mum ___ (paint) the fence, a bird landed on her head.\n4. The baby ___ (sleep) when the doorbell rang.\n5. I ___ (find) a coin while I was cleaning my room.\n\nMontaan aukkoon tulee kestomuoto?","vastaus":3,"vinkki":"Etsi toiminnat, jotka olivat käynnissä, kun jotain muuta tapahtui.","selitys":"1 were walking, 3 was painting ja 4 was sleeping. Lauseessa 2 tapahtumat seuraavat toisiaan (got off ja walked), ja lauseessa 5 kolikon löytäminen keskeytti siivoamisen (found)."},{"id":"H09","ryhma":"valinta","tyyppi":"monivalinta","vaihtoehdot":["Veli tuli keittiöön, ja sen jälkeen Mira alkoi tehdä voileipää.","Mira oli tekemässä voileipää, kun veli tuli keittiöön.","Mira teki voileivän valmiiksi ennen kuin veli tuli."],"kysymys":"Mira: I was making a sandwich when my brother came into the kitchen.\n\nMitä Mira kertoo?","vastaus":1,"vinkki":"Kumpi on jana ja kumpi piste?","selitys":"Voileivän tekeminen oli käynnissä (was making), kun veli tuli keittiöön (came)."},{"id":"H10","ryhma":"valinta","kysymys":"1. While I ___ (do) my homework, my cousin called.\n2. When Leo opened the door, the cat ___ (run) out.\n3. We ___ (sit) on the beach when a big wave came.\n4. The lights went out while we ___ (have) dinner.\n5. When I heard the news, I ___ (call) my friend.\n6. You ___ (sing) in the shower when I knocked.\n\nMontaan aukkoon tulee perusmuoto (esim. ran)?","vastaus":2,"vinkki":"Perusmuoto tulee peräkkäisiin tapahtumiin ja keskeyttäjään.","selitys":"2 ran ja 5 called: ensin avattiin ovi tai kuultiin uutinen, sitten tapahtui toinen asia. Muihin tulee kestomuoto: was doing, were sitting, were having ja were singing."},{"id":"H11","ryhma":"valinta","kysymys":"1. ___ we were swimming, it started to rain.\n2. ___ the film ended, we went home.\n3. ___ Tom was cooking, he burnt his hand.\n4. ___ the phone rang, I answered it.\n5. ___ the children were playing outside, it got dark.\n\nMontaan aukkoon sana While sopii?","vastaus":3,"vinkki":"While tarkoittaa sillä aikaa kun, ja sen jälkeen tulee käynnissä ollut toiminta.","selitys":"Lauseisiin 1, 3 ja 5 sopii While, koska niissä on kestomuoto. Niihin sopisi myös When. Lauseissa 2 ja 4 on lyhyt tapahtuma, joten niihin sopii vain When."},{"id":"H12","ryhma":"valinta","kysymys":"Kello 19 eilen:\nEmma – cook dinner\nJon and Ali – play basketball\nI – do homework\nGrandpa – sleep on the sofa\n\nKirjoitat jokaisesta lauseen siitä, mitä he olivat tekemässä kello 19. Montaan lauseeseen tulee were?","vastaus":1,"vinkki":"Montako tekijää on monikossa?","selitys":"Vain Jon and Ali were playing basketball. Emma was cooking, I was doing ja Grandpa was sleeping."},{"id":"H13","ryhma":"valinta","kysymys":"1. I was knowing the answer.\n2. She was wanting a new phone.\n3. We were waiting for the bus.\n4. He liked the film.\n5. They were needing help.\n\nMontako lauseista on oikein?","vastaus":2,"vinkki":"Tilaverbit know, want, like ja need ovat perusmuodossa.","selitys":"Lauseet 3 ja 4 ovat oikein. Oikein olisi I knew the answer, She wanted a new phone ja They needed help."},{"id":"H14","ryhma":"valinta","tyyppi":"monivalinta","vaihtoehdot":["When the teacher arrived, the students sat down.","When the teacher arrived, the students were sitting quietly.","When the teacher arrived, the students sit quietly."],"kysymys":"Valitse lause, joka kertoo, että oppilaat istuivat jo hiljaa paikoillaan, kun opettaja saapui.","vastaus":1,"vinkki":"Kestomuoto kertoo, että toiminta oli jo käynnissä.","selitys":"Were sitting kertoo, että istuminen oli käynnissä opettajan saapuessa. Sat down tarkoittaa, että oppilaat istuutuivat vasta opettajan tultua, ja sit on nykyajan muoto."},{"id":"H15","ryhma":"korjaus","kysymys":"Yesterday I was walk to school when I saw an old friend. We talked for a moment. Then I runned to class.\n\nMontako virhettä verbeissä on?","vastaus":2,"vinkki":"Tarkista kestomuodon -ing ja epäsäännölliset menneet muodot.","selitys":"I was walk → I was walking ja runned → ran. Saw ja talked ovat oikein."},{"id":"H16","ryhma":"korjaus","kysymys":"While Sanna and Eeva was skating on the rink, Sanna fell. They was both laughing, and nobody got hurt.\n\nMontako virhettä verbeissä on?","vastaus":2,"vinkki":"Sanna and Eeva ja they ovat monikkoa.","selitys":"Sanna and Eeva was skating → were skating ja They was laughing → They were laughing. Fell ja got ovat oikein."},{"id":"H17","ryhma":"korjaus","kysymys":"1. While Pia was reading, she fell asleep.\n2. While we played cards, the window was breaking.\n3. I was cycling home when I saw a rainbow.\n4. When the alarm rang, Sam got up.\n5. While Ella talked on the phone, her bag was falling off the table.\n\nMontako lausetta pitää korjata?","vastaus":2,"vinkki":"Kumpi tapahtuma on lyhyt ja keskeyttää toisen?","selitys":"Lauseet 2 ja 5: While we were playing cards, the window broke. While Ella was talking on the phone, her bag fell off the table. Lauseessa 4 tapahtumat seuraavat toisiaan, joten molemmat ovat perusmuodossa."},{"id":"H18","ryhma":"korjaus","kysymys":"Last summer my cousins and I was camping by a lake. One night we were sitting by the fire when we heard a strange noise. My cousin Aino was point her torch at the trees. It was only an owl!\n\nMontako virhettä verbeissä on?","vastaus":2,"vinkki":"My cousins and I on monikko. Onko jokaisessa kestomuodossa -ing?","selitys":"My cousins and I was → were camping ja Aino was point → Aino pointed. Were sitting ja heard ovat oikein."},{"id":"H19","ryhma":"korjaus","kysymys":"At six o'clock the twins were siting on the sofa. Their dad was makeing pizza, and their dog was lying on the floor. Outside, it was geting dark.\n\nMontako -ing-muotoa on kirjoitettu väärin?","vastaus":3,"vinkki":"Muista kirjoitusasun kolme sääntöä: kahdentuminen, e:n putoaminen ja ie → y.","selitys":"Siting → sitting, makeing → making ja geting → getting. Lying on oikein."},{"id":"H20","ryhma":"korjaus","kysymys":"Ari: What was you doing at eight last night?\nNea: I was watching a film with my sister. Why?\nAri: I called you, but you didn't answer.\nNea: Sorry! My phone were in my bag.\n\nMontako virhettä keskustelussa on?","vastaus":2,"vinkki":"Tarkista jokainen was ja were tekijän mukaan.","selitys":"What was you doing → What were you doing ja My phone were → My phone was. Muut ovat oikein."}],"ryhmanimet":{"muoto":"Imperfektin perus- vai kestomuoto","valinta":"Lauseiden yhdistäminen","korjaus":"Tekstin virheet"},"tulostus":{"sivuja":2,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":1,"sivunvaihto_ennen":null},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa ja muistiinpanoja. Tehtävät 1–10: kirjoita aukkoon sulkeissa olevan verbin imperfektin perusmuoto (esim. went) tai kestomuoto (esim. was going). Tehtävässä 9 täytä molemmat aukot. Tehtävät 11–13: yhdistä kaksi lausetta yhdeksi lauseeksi annetulla sanalla (when tai while) ja kirjoita sulkeissa olevat verbit oikeassa muodossa. Tehtävät 14–16: tehtävän 14 tekstissä on kolme virhettä verbeissä. Kirjoita jokaiseen tehtävään 14–16 yksi virheellinen kohta ja sen korjaus, esimerkiksi I were → I was. Järjestyksellä ei ole väliä. Saat käyttää lyhyitä muotoja (wasn't) tai pitkiä (was not).","tehtavat":[{"nro":1,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kaisa ___ (wash) her hair when the water suddenly went cold.","vastaus":"was washing"},{"nro":2,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The players ___ (train) when the storm began.","vastaus":"were training"},{"nro":3,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"I was looking for my keys when my sister ___ (come) home.","vastaus":"came"},{"nro":4,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While we ___ (wait) at the station, we met our old teacher.","vastaus":"were waiting"},{"nro":5,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While Petra was jogging in the park, she ___ (see) a hedgehog.","vastaus":"saw"},{"nro":6,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Lauri ___ (swim) in the lake when he heard a loud boat.","vastaus":"was swimming"},{"nro":7,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"My grandparents ___ (drive) to the cottage when the car broke down.","vastaus":"were driving"},{"nro":8,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the guests arrived, the twins ___ (not sleep). They were still reading comics in bed.","vastaus":"weren't sleeping"},{"nro":9,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"___ you ___ (sleep) when I knocked on your door this morning?","vastaus":"Were … sleeping (Were you sleeping)"},{"nro":10,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the concert ended, the audience ___ (get) up and clapped.","vastaus":"got"},{"nro":11,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Aleksi (play) a video game. His mum (call) him for dinner.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"Aleksi was playing a video game when his mum called him for dinner. (myös toisessa järjestyksessä)"},{"nro":12,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"The girls (ski) down the hill. Their teacher (call) them.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"The girls were skiing down the hill when their teacher called them. (myös toisessa järjestyksessä)"},{"nro":13,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"I (make) breakfast. The smoke alarm (start) to beep.\n\nYhdistä lauseet yhdeksi lauseeksi while-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"While I was making breakfast, the smoke alarm started to beep. (myös toisessa järjestyksessä)"},{"nro":14,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Teksti:\nLast Friday our class was on a trip to a museum. While we was looking at old coins, our guide told us a funny story. Later, Elias was buy a postcard in the shop. While Mira looked at the dinosaurs, she was dropping her water bottle. It was a great day!\n\nTekstissä on kolme virhettä verbeissä. Ensimmäinen löytämäsi virhe ja sen korjaus:","vastaus":"we was looking → we were looking (virheet voivat olla missä järjestyksessä tahansa)"},{"nro":15,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Toinen löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"Elias was buy → Elias bought (myös Elias was buying)"},{"nro":16,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Kolmas löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"While Mira looked …, she was dropping → While Mira was looking …, she dropped"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa ja muistiinpanoja. Tehtävät 1–10: kirjoita aukkoon sulkeissa olevan verbin imperfektin perusmuoto (esim. went) tai kestomuoto (esim. was going). Tehtävässä 9 täytä molemmat aukot. Tehtävät 11–13: yhdistä kaksi lausetta yhdeksi lauseeksi annetulla sanalla (when tai while) ja kirjoita sulkeissa olevat verbit oikeassa muodossa. Tehtävät 14–16: tehtävän 14 tekstissä on kolme virhettä verbeissä. Kirjoita jokaiseen tehtävään 14–16 yksi virheellinen kohta ja sen korjaus, esimerkiksi I were → I was. Järjestyksellä ei ole väliä. Saat käyttää lyhyitä muotoja (wasn't) tai pitkiä (was not).","tehtavat":[{"nro":1,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Oskar ___ (fix) his bike when his friend arrived.","vastaus":"was fixing"},{"nro":2,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"My classmates ___ (laugh) when the head teacher walked in.","vastaus":"were laughing"},{"nro":3,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Noel was carrying a big box when his neighbour ___ (say) hello.","vastaus":"said"},{"nro":4,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While the boys ___ (play) basketball, a dog ran onto the court.","vastaus":"were playing"},{"nro":5,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While Ilona was brushing her teeth, she ___ (see) a spider in the sink.","vastaus":"saw"},{"nro":6,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Our cat ___ (sit) on the fence when a big dog walked by.","vastaus":"was sitting"},{"nro":7,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The students ___ (write) their essays when the fire alarm rang.","vastaus":"were writing"},{"nro":8,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When Mum looked into the room, Ville ___ (not study). He was still playing a game on his phone.","vastaus":"wasn't studying"},{"nro":9,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"___ Sara ___ (wait) for you when you got to the cinema?","vastaus":"Was … waiting (Was Sara waiting)"},{"nro":10,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the lesson ended, we ___ (take) our bags and went outside.","vastaus":"took"},{"nro":11,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Jasmin (walk) the dog. She (find) a wallet.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"Jasmin was walking the dog when she found a wallet. (myös toisessa järjestyksessä)"},{"nro":12,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"My friends (have) a picnic. Some ducks (come) to their blanket.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"My friends were having a picnic when some ducks came to their blanket. (myös toisessa järjestyksessä)"},{"nro":13,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"We (watch) a film. Our neighbour (knock) on the door.\n\nYhdistä lauseet yhdeksi lauseeksi while-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"While we were watching a film, our neighbour knocked on the door. (myös toisessa järjestyksessä)"},{"nro":14,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Teksti:\nOn Saturday I was at my aunt's house. While she was baking bread, I was help her. Then my cousins arrived. They was talking about their new puppy. Later, while we sat in the garden, my cousin was dropping a cup.\n\nTekstissä on kolme virhettä verbeissä. Ensimmäinen löytämäsi virhe ja sen korjaus:","vastaus":"I was help → I was helping (myös I helped) (virheet voivat olla missä järjestyksessä tahansa)"},{"nro":15,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Toinen löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"They was talking → They were talking"},{"nro":16,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Kolmas löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"while we sat …, my cousin was dropping → while we were sitting …, my cousin dropped"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa ja muistiinpanoja. Tehtävät 1–10: kirjoita aukkoon sulkeissa olevan verbin imperfektin perusmuoto (esim. went) tai kestomuoto (esim. was going). Tehtävässä 9 täytä molemmat aukot. Tehtävät 11–13: yhdistä kaksi lausetta yhdeksi lauseeksi annetulla sanalla (when tai while) ja kirjoita sulkeissa olevat verbit oikeassa muodossa. Tehtävät 14–16: tehtävän 14 tekstissä on kolme virhettä verbeissä. Kirjoita jokaiseen tehtävään 14–16 yksi virheellinen kohta ja sen korjaus, esimerkiksi I were → I was. Järjestyksellä ei ole väliä. Saat käyttää lyhyitä muotoja (wasn't) tai pitkiä (was not).","tehtavat":[{"nro":1,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Henna ___ (paint) her room when she found an old photo behind the shelf.","vastaus":"was painting"},{"nro":2,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"We ___ (pick) berries in the forest when we saw a moose.","vastaus":"were picking"},{"nro":3,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Aaron was tidying his room when his little brother ___ (come) in with a drawing.","vastaus":"came"},{"nro":4,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While my parents ___ (shop) for food, they met our neighbour.","vastaus":"were shopping"},{"nro":5,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While Roni was sleeping on the train, someone ___ (take) his hat.","vastaus":"took"},{"nro":6,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The dog ___ (dig) a hole in the garden when Dad saw it.","vastaus":"was digging"},{"nro":7,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The children ___ (ride) their bikes when the rain began.","vastaus":"were riding"},{"nro":8,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the teacher checked the room, Ella and Ida ___ (not work). They were still talking about the weekend.","vastaus":"weren't working"},{"nro":9,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"___ your brothers ___ (play) outside when the storm started?","vastaus":"Were … playing (Were your brothers playing)"},{"nro":10,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the music stopped, the dancers ___ (sit) down and drank some water.","vastaus":"sat"},{"nro":11,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Pekka (cook) pasta. His friend (call) him.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"Pekka was cooking pasta when his friend called him. (myös toisessa järjestyksessä)"},{"nro":12,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"The tourists (take) photos. A squirrel (jump) onto their bench.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"The tourists were taking photos when a squirrel jumped onto their bench. (myös toisessa järjestyksessä)"},{"nro":13,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"I (jog) by the river. I (see) a swan.\n\nYhdistä lauseet yhdeksi lauseeksi while-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"While I was jogging by the river, I saw a swan. (myös toisessa järjestyksessä)"},{"nro":14,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Teksti:\nYesterday was a strange day. In the morning I was eat breakfast when I noticed a mouse in the kitchen. My brothers was still asleep, so I woke them up. Later, while we walked to school, my brother was finding a ten-euro note.\n\nTekstissä on kolme virhettä verbeissä. Ensimmäinen löytämäsi virhe ja sen korjaus:","vastaus":"I was eat → I was eating (virheet voivat olla missä järjestyksessä tahansa)"},{"nro":15,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Toinen löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"My brothers was → My brothers were"},{"nro":16,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Kolmas löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"while we walked …, my brother was finding → while we were walking …, my brother found"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa ja muistiinpanoja. Tehtävät 1–10: kirjoita aukkoon sulkeissa olevan verbin imperfektin perusmuoto (esim. went) tai kestomuoto (esim. was going). Tehtävässä 9 täytä molemmat aukot. Tehtävät 11–13: yhdistä kaksi lausetta yhdeksi lauseeksi annetulla sanalla (when tai while) ja kirjoita sulkeissa olevat verbit oikeassa muodossa. Tehtävät 14–16: tehtävän 14 tekstissä on kolme virhettä verbeissä. Kirjoita jokaiseen tehtävään 14–16 yksi virheellinen kohta ja sen korjaus, esimerkiksi I were → I was. Järjestyksellä ei ole väliä. Saat käyttää lyhyitä muotoja (wasn't) tai pitkiä (was not).","tehtavat":[{"nro":1,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Jere ___ (clean) the kitchen when his friends came over.","vastaus":"was cleaning"},{"nro":2,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The fans ___ (sing) loudly when their team scored.","vastaus":"were singing"},{"nro":3,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"I was feeding the ducks when one of them ___ (take) the bread from my hand.","vastaus":"took"},{"nro":4,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While you ___ (sleep), your phone rang three times.","vastaus":"were sleeping"},{"nro":5,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While Tiina was skating, she ___ (find) a lost glove on the ice.","vastaus":"found"},{"nro":6,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Mikko ___ (run) for the bus when he dropped his wallet.","vastaus":"was running"},{"nro":7,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"My sisters ___ (dance) in the living room when the lamp fell over.","vastaus":"were dancing"},{"nro":8,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When I came home, my parents ___ (not watch) TV. They were still working in the garden.","vastaus":"weren't watching"},{"nro":9,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"___ Eino ___ (sit) next to you when the film started?","vastaus":"Was … sitting (Was Eino sitting)"},{"nro":10,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the plane landed, the passengers ___ (get) up and took their bags.","vastaus":"got"},{"nro":11,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Lotta (read) a comic. Her little sister (take) it from her.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"Lotta was reading a comic when her little sister took it from her. (myös toisessa järjestyksessä)"},{"nro":12,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"The kids (build) a sandcastle. A big dog (run) through it.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"The kids were building a sandcastle when a big dog ran through it. (myös toisessa järjestyksessä)"},{"nro":13,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Dad (drive) to work. He (see) a fox.\n\nYhdistä lauseet yhdeksi lauseeksi while-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"While Dad was driving to work, he saw a fox. (myös toisessa järjestyksessä)"},{"nro":14,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Teksti:\nLast winter my family was on holiday in Lapland. One day my brother and I was sledging when our dog ran after a hare. Mum was call us back to the cabin. While we drank hot chocolate, my brother was spilling his drink.\n\nTekstissä on kolme virhettä verbeissä. Ensimmäinen löytämäsi virhe ja sen korjaus:","vastaus":"my brother and I was sledging → my brother and I were sledging (virheet voivat olla missä järjestyksessä tahansa)"},{"nro":15,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Toinen löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"Mum was call → Mum called (myös Mum was calling)"},{"nro":16,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Kolmas löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"While we drank …, my brother was spilling → While we were drinking …, my brother spilt (tai spilled) his drink"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa ja muistiinpanoja. Tehtävät 1–10: kirjoita aukkoon sulkeissa olevan verbin imperfektin perusmuoto (esim. went) tai kestomuoto (esim. was going). Tehtävässä 9 täytä molemmat aukot. Tehtävät 11–13: yhdistä kaksi lausetta yhdeksi lauseeksi annetulla sanalla (when tai while) ja kirjoita sulkeissa olevat verbit oikeassa muodossa. Tehtävät 14–16: tehtävän 14 tekstissä on kolme virhettä verbeissä. Kirjoita jokaiseen tehtävään 14–16 yksi virheellinen kohta ja sen korjaus, esimerkiksi I were → I was. Järjestyksellä ei ole väliä. Saat käyttää lyhyitä muotoja (wasn't) tai pitkiä (was not).","tehtavat":[{"nro":1,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Mrs Lind ___ (water) the plants when a parcel arrived.","vastaus":"was watering"},{"nro":2,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The twins ___ (argue) about the TV when their dad came home.","vastaus":"were arguing"},{"nro":3,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Anni was climbing the stairs when her shoe ___ (come) off.","vastaus":"came"},{"nro":4,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While the boys ___ (fish) on the pier, a seagull stole their sandwich.","vastaus":"were fishing"},{"nro":5,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"While Joel was waiting for the train, he ___ (get) a message from his coach.","vastaus":"got"},{"nro":6,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Olli ___ (shop) for shoes when he met his teacher.","vastaus":"was shopping"},{"nro":7,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"The children ___ (make) a snowman when their friends came out.","vastaus":"were making"},{"nro":8,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the bus arrived, my friends ___ (not wait) at the stop. They were still buying snacks in the shop.","vastaus":"weren't waiting"},{"nro":9,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"___ the dogs ___ (bark) when you came home?","vastaus":"Were … barking (Were the dogs barking)"},{"nro":10,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"When the game finished, the players ___ (say) goodbye and went to the dressing room.","vastaus":"said"},{"nro":11,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Max (cycle) to the library. His friend (wave) to him.\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"Max was cycling to the library when his friend waved to him. (myös toisessa järjestyksessä)"},{"nro":12,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"My cousins (decorate) the room. The guests (arrive).\n\nYhdistä lauseet yhdeksi lauseeksi when-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"My cousins were decorating the room when the guests arrived. (myös toisessa järjestyksessä)"},{"nro":13,"ryhma":"valinta","tyyppi":"sanallinen","kysymys":"Alma (study) for the test. Her phone (beep).\n\nYhdistä lauseet yhdeksi lauseeksi while-sanalla ja kirjoita verbit oikeassa muodossa.","vastaus":"While Alma was studying for the test, her phone beeped. (myös toisessa järjestyksessä)"},{"nro":14,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Teksti:\nLast Sunday my friends and I was at the beach. Leo was build a sandcastle when his little sister jumped on it. We all laughed. Later, while we swam, a big wave was taking Leo's cap.\n\nTekstissä on kolme virhettä verbeissä. Ensimmäinen löytämäsi virhe ja sen korjaus:","vastaus":"my friends and I was → my friends and I were (virheet voivat olla missä järjestyksessä tahansa)"},{"nro":15,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Toinen löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"Leo was build → Leo was building"},{"nro":16,"ryhma":"korjaus","tyyppi":"sanallinen","kysymys":"Kolmas löytämäsi virhe tehtävän 14 tekstistä ja sen korjaus:","vastaus":"while we swam, a big wave was taking → while we were swimming, a big wave took"}]}],"virhesanakirja":[{"virhe":"Kirjoittaa 'She was play' tai 'I was eat'.","tehtava":"muoto (H04, H15, H18, kokeen tehtävät 1–9 ja 14–16)","mita_kertoo":"Oppilas tietää, että kestomuotoon kuuluu was tai were, mutta -ing-pääte unohtuu. Usein hän kääntää suomen 'oli lukemassa' kahdeksi sanaksi ajattelematta päätettä.","mita_tehda":"Pyydä alleviivaamaan kestomuodosta kaksi osaa: be-verbi ja -ing. Jos jompikumpi puuttuu, muoto on vajaa. Vertaa preesensin kestomuotoon: She is playing → She was playing."},{"virhe":"Kirjoittaa 'we was', 'they was' tai 'you was'.","tehtava":"was vai were (H01, H04, H16, H20, kokeen tehtävät 2, 4, 7 ja 14–16)","mita_kertoo":"Oppilas valitsee be-verbin kuulostelemalla. Erityisesti and-sanalla yhdistetyt tekijät (my cousins and I) ja you hämäävät.","mita_tehda":"Korvatkaa tekijä pronominilla ennen be-verbin valintaa: my cousins and I → we → were. Kertaa, että you on aina were, vaikka puhuteltava on yksi ihminen."},{"virhe":"Laittaa keskeyttävän tapahtuman kestomuotoon ja taustan perusmuotoon ('While I cooked, the phone was ringing').","tehtava":"jana ja piste (H09, H10, H17, kokeen tehtävät 3, 5, 11–13 ja 14–16)","mita_kertoo":"Oppilas tietää, että lauseessa pitää olla yksi kestomuoto, mutta ei vielä päättele, kumpi tapahtuma oli käynnissä.","mita_tehda":"Piirtäkää lauseesta jana ja piste kuten opetustekstin kuvassa. Kysy: kumpi kesti kauemmin ja oli jo käynnissä? Se saa kestomuodon. Näytä toiminta luokassa: opettaja kirjoittaa taululle, oppilas koputtaa oveen, ja luokka sanoo, mitä opettaja oli tekemässä."},{"virhe":"Käyttää kestomuotoa peräkkäisissä tapahtumissa ('When the film ended, we were standing up and left').","tehtava":"peräkkäiset tapahtumat (H08, H10, H14, kokeen tehtävä 10)","mita_kertoo":"Oppilas yleistää säännön 'when-lauseessa on kestomuoto' kaikkiin when-lauseisiin.","mita_tehda":"Vertaa kahta lausetta: When the teacher came in, the students stood up / were talking. Kysy, kumpi tapahtui ensin. Jos tapahtumat seuraavat toisiaan, molemmat ovat perusmuodossa."},{"virhe":"Kirjoittaa 'swiming', 'makeing', 'lieing' tai 'diging'.","tehtava":"-ing-kirjoitusasu (H02, H19, kokeen tehtävät 6 ja 7)","mita_kertoo":"Muoto ja käyttö ovat hallussa, mutta preesensin kestomuodossa opitut kirjoitusasun säännöt eivät ole vielä vakiintuneet.","mita_tehda":"Kertaa kolme sääntöä esimerkkipareilla (sit → sitting, ride → riding, lie → lying). Anna oppilaan lajitella kymmenen verbiä kolmeen sääntöön ja sääntöä vaatimattomiin."},{"virhe":"Kirjoittaa tilaverbin kestomuotoon ('I was knowing', 'She was wanting').","tehtava":"tilaverbit (H13)","mita_kertoo":"Oppilas on omaksunut kestomuodon hyvin ja käyttää sitä kaikkeen, mikä jatkui. Tilaverbit opittiin preesensissä, mutta sääntöä ei vielä siirretä menneeseen aikaan.","mita_tehda":"Muistuta, että know, like, want ja need kuvaavat tilaa eivätkä toimintaa, joten ne ovat perusmuodossa kaikissa aikamuodoissa: I know → I knew."}],"opettajalle":{"kesto":"2 · 45 min: ensimmäinen oppitunti tekstiin ja harjoituksiin, toinen kertaukseen ja kokeeseen jakson J2 aikana.","huomiot":["Koe vastaa kartan näyttöä: 1) tehtävissä 1–10 täydennetään imperfektin perus- tai kestomuoto, 2) tehtävissä 11–13 yhdistetään kolme lauseparia when- tai while-sanalla, 3) tehtävissä 14–16 korjataan valmiin tekstin kolme virhettä. Kohtia on 10 + 3 + 3 = 16.","Rakenne on sama kaikissa versioissa A–E. Tehtävä 1 = yksikön tekijä, was + -ing, keskeyttäjä when-osassa; 2 = monikon tekijä, were + -ing; 3 = keskeyttävä perusmuoto (epäsäännöllinen verbi); 4 = while + were + -ing; 5 = while-osa annettu, päälauseeseen keskeyttävä perusmuoto; 6 = -ing ja konsonantin kahdentuminen (swim, sit, dig, run, shop); 7 = -ing ja e:n putoaminen (drive, write, ride, dance, make); 8 = kielto wasn't tai weren't + -ing, jota seuraava lause tukee (They were still …); 9 = kysymys Was tai Were + tekijä + -ing; 10 = peräkkäiset tapahtumat, molemmat perusmuodossa (rinnakkainen and-verbi ratkaisee). Tehtävät 11–12 yhdistetään when-sanalla (11 yksikön, 12 monikon tekijä), tehtävä 13 while-sanalla. Tekstin kolme virhettä ovat aina samaa lajia: be-verbi väärin tekijään nähden (we was), was + perusmuoto (was buy) ja keskeytys kestomuodossa sekä tausta perusmuodossa (While … looked, … was dropping).","Raja: kartan mukaan vähintään 12 kohtaa kuudestatoista on oikein (75 %). Opettajan sivun automaattinen 80 %:n oletusraja olisi 13/16. Tässä taidossa noudatetaan kartan rajaa samoin kuin ENA6-LUE-01:ssä; ristiriita on viety avoimeksi asiaksi.","Mittaritehtävät: 2 (were tekijän mukaan ja -ing), 11 ja 13 (oppilas erottaa, kumpi tapahtuma oli käynnissä ja kumpi keskeytti sen). Ne mittaavat kartan kahta erityisehtoa.","Tarkistus, tehtävät 1–10: kohta on oikein, kun be-verbi sopii tekijään, -ing-muoto on kirjoitettu oikein (swiming, writeing ja diging ovat vääriä) ja muoto (perus- tai kestomuoto) on oikea. Tehtävässä 9 molemmat aukot on täytettävä oikein. Lyhyet ja pitkät muodot hyväksytään (weren't, were not). Tehtävässä 10 kestomuoto on väärin, koska rinnakkainen and-verbi (clapped, went, drank, took, went) osoittaa, että tapahtumat seurasivat toisiaan.","Tarkistus, tehtävät 11–13: kohta on oikein, kun käynnissä ollut toiminta on kestomuodossa, keskeyttävä tapahtuma perusmuodossa ja annettu sana on käytetty. Kumpikin järjestys kelpaa (When his mum called him for dinner, Aleksi was playing … on oikein). Puuttuva pilkku, pronominin käyttö nimen sijaan tai pieni kirjoitusvirhe muualla lauseessa ei kaada kohtaa, mutta väärä be-verbi tai puuttuva -ing kaataa.","Tarkistus, tehtävät 14–16: jokainen löydetty ja oikein korjattu virhe on yksi kohta. Riittää, että oppilas kirjoittaa korjatun kohdan. Was + perusmuoto -virheessä hyväksytään sekä kestomuoto että perusmuoto, jos lause on silloin oikein (Elias bought tai Elias was buying). Keskeytysvirheessä molemmat verbit on korjattava (While Mira was looking …, she dropped …); jos oppilas korjaa vain toisen, kohta on väärin. Oikean verbin merkitseminen virheeksi ei vähennä muita kohtia, mutta ei korvaa löytämättä jäänyttä virhettä.","Verbit: keskeyttävät ja perusmuodossa kirjoitettavat verbit ovat säännöllisiä tai ENA6-SAN-02:n 20 verbin listalta (come, see, get, take, find, say, sit, run). Kestomuotoon tulevat verbit voivat olla mitä tahansa, koska -ing liitetään perusmuotoon. Jos luokan lista on eri, tarkista kokeen perusmuodot ennen koetta.","Ero edeltäviin taitoihin: ENA6-SAN-02 opetti epäsäännölliset menneet muodot ja did-kysymyksen, ENA7-SAN-01 preesensin kestomuodon, sen kirjoitusasun ja tilaverbit. Tässä taidossa samat -ing-säännöt ja tilaverbit siirretään menneeseen aikaan, ja uutta on tapahtumien suhde (tausta ja keskeytys, when ja while). Pluskvamperfekti (had done) kuuluu 8. luokalle (ENA8-SAN-05), joten sitä ei käytetä.","Materiaali käyttää brittienglantia (Mum, torch, spilt). Johdonmukainen amerikkalainen muoto hyväksytään (spilled, flashlight). Koe tehdään yksin ja valvotusti, eikä mitään ajanoteta."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Kestomuoto kertoo, mikä oli käynnissä: was tai were ja -ing. Perusmuoto kertoo lyhyestä tapahtumasta, joka keskeytti sen. Ajatelkaa janaa ja pistettä: I was reading when the lights went out. Jos tapahtumat seuraavat toisiaan, molemmat ovat perusmuodossa.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Kirjoita taululle johdannon lauseet I read a book when the lights went out ja I was reading a book when the lights went out. Kysy, missä järjestyksessä asiat tapahtuivat kummassakin lauseessa."},{"aika":"15 min","otsikko":"Muoto ja jana","sisalto":"Käy läpi muodon taulukko ja kuva. Näytä toiminta: aloita kirjoittaa taululle, ja pyydä yhtä oppilasta koputtamaan oveen. Kysy: What was I doing when Aino knocked? Toista kolmella toiminnalla ja kirjoita lauseet taululle. Käy läpi when ja while sekä kirjoitusasun säännöt."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Pysähdy tehtäviin H08 ja H10 (peräkkäiset tapahtumat) sekä H13 (tilaverbit). Ansa 3 kannattaa käydä yhdessä: miten were talking ja stood up muuttavat lauseen merkitystä?"},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Jokainen kirjoittaa yhden when-lauseen keksitystä sattumuksesta ja merkitsee siihen janan ja pisteen. Tätä ei kirjata."},{"aika":"15 min","otsikko":"2. tunti: Kertaus","sisalto":"Kertaa muistilapun avulla. Korjatkaa yhdessä taululla lyhyt keksitty teksti, jossa on kolme erilaista virhettä (be-verbi, puuttuva -ing, keskeytys kestomuodossa)."},{"aika":"30 min","otsikko":"Näyttö: koe","sisalto":"Koe (versio A–E) tehdään yksin ja valvotusti. Muistilappu ja harjoitukset eivät ole esillä kokeen aikana."}],"tarvikkeet":"Harjoitukset laitteelta tai tulostettuna. Koe tulostettuna."},"huoltajalle":{"mista_on_kyse":"Nuori oppii kertomaan englanniksi, mikä oli käynnissä, kun jotain tapahtui: I was reading when the lights went out (olin lukemassa, kun valot sammuivat). Rakenne on was tai were ja verbin -ing-muoto. Tärkeintä on erottaa, kumpi tapahtuma oli käynnissä ja kumpi keskeytti sen.","kotona":["Kysykää englanniksi keksitystä tilanteesta, esimerkiksi What was the cat doing when the dog came in? Nuori saa keksiä vastauksen vapaasti.","Jos katsotte tai luette jotain englanniksi, etsikää yhdessä lause, jossa on was tai were ja -ing-muoto, ja miettikää, mikä keskeytti toiminnan.","Pyytäkää nuorta selittämään, miksi I was reading when the lights went out ja I read a book when the lights went out tarkoittavat eri asiaa.","Kun nuori harjoittelee, kehukaa oikeaa was- tai were-muotoa: we was ja they was ovat tavallisia virheitä."],"milloin_huolestua":"Kestomuodon ja perusmuodon ero vakiintuu vähitellen, ja puheessa siitä saa erehtyä. Kerro opettajalle, jos nuori ei jakson lopussa muodosta kirjoitettuna rakennetta was tai were + -ing tai jos mennyt aika ylipäätään tuntuu vielä vieraalta."},"ulkoiset":{},"valmis_teksti":"Osaat kertoa englanniksi, mikä oli käynnissä, kun jotain tapahtui: I was reading when the lights went out. Erotat taustan ja keskeytyksen ja valitset was tai were tekijän mukaan. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,619 @@
+<title>Kouluruokalan kulisseissa · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KO7-ATE-08","oppiaine":"KO","vuosiluokka":7,"taitoalue":"ATE","jakso":"J3","taso":"haaste","otsikko":"Kouluruokalan kulisseissa","kuvaus":"Osaan kertoa, miten kouluruokailu suunnitellaan ja järjestetään, ja tehdä siitä perustellun kehittämisehdotuksen.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T12","T10"],"S":["S1","S3"]},"eyebrow":"Kotitalous · 7. luokka","ikoni":"tutkimus","naytto":"Tutustun koulun ruokapalvelun kanssa sovitulla tavalla (vierailu, haastattelu tai ruokapalvelun aineisto) ruokalistan suunnitteluun, erityisruokavalioiden järjestämiseen ja hävikin seurantaan. Kirjoitan tai esitän tiivistelmän ja yhden kehittämisehdotuksen, jonka voisi viedä oppilaskunnalle tai ruokapalvelulle.","osaa_kun":"Tiivistelmässä on ainakin kolme tosiasiaa kouluruokailun järjestämisestä lähteineen, ja ehdotus on toteutettavissa: siinä kerrotaan, ketä se koskee, mitä se maksaisi tai säästäisi ja miten se huomioi erityisruokavaliot.","teksti":[{"tyyppi":"johdanto","sisalto":"Joka koulupäivä koulun ruokalassa syödään satoja aterioita. Ruoka on tarjolla samaan aikaan joka päivä, erityisannokset ovat valmiina ja kasvisvaihtoehto löytyy linjastosta. Kaikki tämä on suunniteltu kuukausia etukäteen. Tässä haastetaidossa tutustut siihen, miten kouluruokailu suunnitellaan ja järjestetään: miten ruokalista syntyy, miten erityisruokavaliot hoidetaan ja miten hävikkiä seurataan. Kokoat tiivistelmän, jossa on tosiasioita lähteineen, ja teet yhden perustellun kehittämisehdotuksen, jonka voisi viedä oppilaskunnalle tai ruokapalvelulle. Tieto hankitaan koulun ruokapalvelun kanssa sovitulla tavalla: vierailulla, haastattelulla tai ruokapalvelun aineistosta."},{"tyyppi":"kappale","otsikko":"Kouluruokailu on lakisääteinen ja osa koulupäivää","sisalto":"Perusopetuslain mukaan jokaisena koulupäivänä on tarjottava maksuton, tarkoituksenmukaisesti järjestetty ja ohjattu täysipainoinen ateria. Ateriasta vastaa opetuksen järjestäjä eli useimmiten kunta. Ruoan voi valmistaa kunnan oma ruokapalvelu tai palvelua ostetaan yritykseltä. Kouluruokailua ohjaa kansallinen kouluruokailusuositus, jonka mukaan aterian tulisi kattaa noin kolmannes päivän energiantarpeesta ja koostua lautasmallin mukaisesti lämpimästä ruoasta, kasviksista, leivästä, levitteestä ja juomasta. Kouluruokailu on myös osa opetusta: siinä opitaan ruokailutapoja ja ravitsemusta ja syödään yhdessä. Suomessa kouluruoka on ollut kaikille maksutonta jo vuosikymmenien ajan."},{"tyyppi":"kuva","otsikko":"Kouluaterian kierto","svg":"<svg viewBox=\"0 0 620 290\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kouluaterian kierto viidessä vaiheessa: ruokalistan suunnittelu, hankinnat, valmistus, tarjolle ja seuranta ja palaute, josta palataan suunnitteluun.\"><ellipse class=\"v-apu\" cx=\"310\" cy=\"145\" rx=\"215\" ry=\"100\" fill=\"none\"/><rect class=\"v-osa v1\" x=\"218\" y=\"16\" width=\"184\" height=\"48\" rx=\"10\"/><text class=\"v-t vahva\" x=\"310\" y=\"36\" text-anchor=\"middle\" style=\"font-size:12.5px\">1 Ruokalistan suunnittelu</text><text class=\"v-t pieni\" x=\"310\" y=\"53\" text-anchor=\"middle\" style=\"font-size:11px\">kiertävä lista, ravitsemus, hinta</text><rect class=\"v-osa v1\" x=\"426\" y=\"96\" width=\"184\" height=\"48\" rx=\"10\"/><text class=\"v-t vahva\" x=\"518\" y=\"116\" text-anchor=\"middle\" style=\"font-size:12.5px\">2 Hankinnat</text><text class=\"v-t pieni\" x=\"518\" y=\"133\" text-anchor=\"middle\" style=\"font-size:11px\">kilpailutetut toimittajat</text><rect class=\"v-osa v1\" x=\"378\" y=\"214\" width=\"184\" height=\"48\" rx=\"10\"/><text class=\"v-t vahva\" x=\"470\" y=\"234\" text-anchor=\"middle\" style=\"font-size:12.5px\">3 Valmistus</text><text class=\"v-t pieni\" x=\"470\" y=\"251\" text-anchor=\"middle\" style=\"font-size:11px\">keittiö, hygienia, omavalvonta</text><rect class=\"v-osa v1\" x=\"58\" y=\"214\" width=\"184\" height=\"48\" rx=\"10\"/><text class=\"v-t vahva\" x=\"150\" y=\"234\" text-anchor=\"middle\" style=\"font-size:12.5px\">4 Tarjolle</text><text class=\"v-t pieni\" x=\"150\" y=\"251\" text-anchor=\"middle\" style=\"font-size:11px\">linjasto, erityisannokset</text><rect class=\"v-osa v1\" x=\"10\" y=\"96\" width=\"184\" height=\"48\" rx=\"10\"/><text class=\"v-t vahva\" x=\"102\" y=\"116\" text-anchor=\"middle\" style=\"font-size:12.5px\">5 Seuranta ja palaute</text><text class=\"v-t pieni\" x=\"102\" y=\"133\" text-anchor=\"middle\" style=\"font-size:11px\">hävikki, ruokaraati, kyselyt</text><text class=\"v-t vahva\" x=\"310\" y=\"140\" text-anchor=\"middle\" style=\"font-size:13px\">Kouluateria</text><text class=\"v-t pieni\" x=\"310\" y=\"158\" text-anchor=\"middle\" style=\"font-size:11.5px\">joka koulupäivä, maksuton</text><text class=\"v-t pieni\" x=\"310\" y=\"284\" text-anchor=\"middle\" style=\"font-size:11px\">Seurannasta ja palautteesta palataan suunnitteluun: kehittämisehdotus tulee tähän kohtaan.</text></svg>","teksti":"Jokaisessa vaiheessa on oma tekijänsä ja omat sääntönsä. Tiivistelmän tosiasiat voivat tulla mistä tahansa vaiheesta, mutta näytössä kysytään ainakin ruokalistan suunnittelua, erityisruokavalioita ja hävikin seurantaa."},{"tyyppi":"taulukko","otsikko":"Mitä selvität ja keneltä","otsikkorivi":["Aihe","Esimerkkikysymyksiä","Mistä tieto löytyy"],"rivit":[["Ruokalistan suunnittelu","Kuinka monen viikon välein lista toistuu? Mitä listaa tehdessä otetaan huomioon? Miten oppilaiden toiveet päätyvät listalle?","ruokapalvelun esimies tai keittiön henkilökunta, koulun julkaistu ruokalista, ruokapalvelun verkkosivu"],["Erityisruokavaliot","Miten erityisruokavaliosta ilmoitetaan? Miten keittiö estää allergeenin pääsyn annokseen? Miten annos merkitään?","keittiön henkilökunta, ruokapalvelun ohje erityisruokavalioista"],["Hävikin seuranta","Mitä hävikkiä punnitaan: valmistus-, tarjoilu- vai lautashävikkiä? Kuinka usein? Mitä luvuilla tehdään?","keittiön henkilökunta, ruokapalvelun hävikkiseuranta"],["Palaute ja vaikuttaminen","Onko koulussa ruokaraati tai ruokalistatoiveiden keräys? Mihin palaute menee?","oppilaskunta, ruokapalvelu, rehtori"]]},{"tyyppi":"kappale","otsikko":"Erityisruokavaliot kouluruokailussa","sisalto":"Terveydellinen erityisruokavalio, kuten ruoka-aineallergia, keliakia tai diabetes, ilmoitetaan koululle ruokapalvelun ohjeen mukaan, ja keittiö valmistaa sen mukaisen annoksen. Lisäksi moni noudattaa kasvisruokavaliota tai katsomukseen perustuvaa ruokavaliota, ja niihinkin tarjotaan vaihtoehto. Keittiön tehtävä on varmistaa, ettei allergeeni päädy erityisannokseen raaka-aineista, välineistä tai tarjoilusta, ja että annos on merkitty niin, että oikea ruokailija saa oikean annoksen. Ruokavalio on terveystieto, joten sitä ei kerrota muille. Tiivistelmässä ja ehdotuksessa ei siksi koskaan mainita, kenellä on mikäkin ruokavalio. Kun teet ehdotuksen, kerro, miten muutos toimii erityisruokavaliota noudattavalle: saako hän saman asian kuin muut, ja onko vaihtoehto aina tarjolla."},{"tyyppi":"kappale","otsikko":"Hävikki ja sen seuranta koulussa","sisalto":"Ruokahävikki on ruokaa, joka valmistettiin syötäväksi mutta päätyy roskiin. Koulukeittiössä se jaetaan yleensä kolmeen osaan: valmistushävikki syntyy keittiössä (esimerkiksi palanut erä), tarjoiluhävikki linjastolle jääneestä ruoasta, jota ei voi enää tarjota, ja lautashävikki ruokailijoiden lautasille jääneestä ruoasta. Monessa koulussa hävikkiä punnitaan säännöllisesti. Kun hävikki muutetaan kiloiksi ja euroiksi, siitä tulee mitattava asia, jota voi verrata ennen ja jälkeen muutoksen. Esimerkiksi keksityssä Kuusiston koulussa, jossa on 600 ruokailijaa, lautashävikkiä kertyi 15 kg päivässä. 190 koulupäivässä se on 15 kg × 190 = 2 850 kg vuodessa."},{"tyyppi":"saanto","otsikko":"Tosiasia lähteineen","askeleet":["Tosiasia on väite, jonka voi tarkistaa: \"Ruokalista toistuu kuuden viikon välein.\" Mielipide on arvio: \"Kouluruoka on hyvää.\" Tiivistelmään tulee tosiasioita.","Kerro jokaisen tosiasian lähde: kuka kertoi tai julkaisi ja milloin. Esimerkiksi \"ruokapalvelun esimies, haastattelu 12.2.\" tai \"koulun ruokalista, verkkosivu, luettu 3.2.\" tai \"perusopetuslaki\".","Kirjaa luvut tarkasti ja yksikön kanssa (kg päivässä, viikkoa, annosta).","Jos kaksi lähdettä kertoo eri asiaa, kirjaa molemmat ja kerro, kumpaa pidät ajantasaisempana ja miksi.","Älä nimeä ruokailijoita äläkä kerro kenenkään ruokavaliota."]},{"tyyppi":"kuva","otsikko":"Toteutettavan ehdotuksen neljä osaa","svg":"<svg viewBox=\"0 0 620 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Toteutettavan kehittämisehdotuksen neljä osaa: mitä muutetaan, ketä koskee, mitä maksaa tai säästää ja miten erityisruokavaliot huomioidaan.\"><rect class=\"v-osa v1\" x=\"10\" y=\"10\" width=\"600\" height=\"40\" rx=\"8\"/><text class=\"v-t vahva\" x=\"310\" y=\"35\" text-anchor=\"middle\" style=\"font-size:14px\">Mitä muutetaan? Yksi selvä muutos ja kenelle se viedään</text><rect class=\"v-osa\" x=\"10\" y=\"66\" width=\"190\" height=\"110\" rx=\"8\"/><text class=\"v-t vahva\" x=\"105\" y=\"92\" text-anchor=\"middle\" style=\"font-size:13px\">Ketä koskee</text><text class=\"v-t\" x=\"105\" y=\"116\" text-anchor=\"middle\" style=\"font-size:11.5px\">ruokailijat, keittiö,</text><text class=\"v-t\" x=\"105\" y=\"134\" text-anchor=\"middle\" style=\"font-size:11.5px\">opettajat, oppilaskunta;</text><text class=\"v-t\" x=\"105\" y=\"152\" text-anchor=\"middle\" style=\"font-size:11.5px\">kuinka moni</text><rect class=\"v-osa\" x=\"215\" y=\"66\" width=\"190\" height=\"110\" rx=\"8\"/><text class=\"v-t vahva\" x=\"310\" y=\"92\" text-anchor=\"middle\" style=\"font-size:13px\">Maksaa tai säästää</text><text class=\"v-t\" x=\"310\" y=\"116\" text-anchor=\"middle\" style=\"font-size:11.5px\">laskelma tai arvio</text><text class=\"v-t\" x=\"310\" y=\"134\" text-anchor=\"middle\" style=\"font-size:11.5px\">aineiston luvuista,</text><text class=\"v-t\" x=\"310\" y=\"152\" text-anchor=\"middle\" style=\"font-size:11.5px\">myös työ ja aika</text><rect class=\"v-osa\" x=\"420\" y=\"66\" width=\"190\" height=\"110\" rx=\"8\"/><text class=\"v-t vahva\" x=\"515\" y=\"92\" text-anchor=\"middle\" style=\"font-size:13px\">Erityisruokavaliot</text><text class=\"v-t\" x=\"515\" y=\"116\" text-anchor=\"middle\" style=\"font-size:11.5px\">miten muutos toimii</text><text class=\"v-t\" x=\"515\" y=\"134\" text-anchor=\"middle\" style=\"font-size:11.5px\">allergiselle, keliaakikolle,</text><text class=\"v-t\" x=\"515\" y=\"152\" text-anchor=\"middle\" style=\"font-size:11.5px\">kasvissyöjälle</text><text class=\"v-t pieni\" x=\"310\" y=\"204\" text-anchor=\"middle\" style=\"font-size:11.5px\">Jos jokin neljästä puuttuu, ehdotus on toive eikä vielä toteutettava ehdotus.</text></svg>","teksti":"Ehdotus on toteutettavissa, kun siinä on muutos, kohderyhmä, kustannus tai säästö ja erityisruokavalioiden huomioiminen."},{"tyyppi":"taulukko","otsikko":"Toive vai toteutettava ehdotus (keksitty Kuusiston koulu)","otsikkorivi":["Osa","Toive (ei vielä riitä)","Toteutettava ehdotus"],"rivit":[["Mitä muutetaan","Vähemmän hävikkiä!","Linjaston alkuun kyltti \"Ota ensin vähän, hae lisää\" ja pienempi ruokakauha, ja lautashävikki punnitaan joka päivä kahden viikon ajan ennen muutosta ja sen jälkeen."],["Ketä koskee","kaikkia","kaikkia 600 ruokailijaa; keittiö vaihtaa kauhat ja punnitsee, oppilaskunta tekee kyltit ja kertoo tuloksista"],["Maksaa tai säästää","säästää varmasti paljon","Hävikki 2 850 kg vuodessa. Jos se pienenee kolmanneksella, säästyy 950 kg ruokaa. Ruokapalvelun arvion mukaan hävikkikilo maksaa noin 3 € (keksitty), joten säästö on 950 × 3 € = 2 850 € vuodessa. Kulut: kauhat ja kyltit noin 60 € ja punnitsemisen lisätyö."],["Erityisruokavaliot","ei mainittu","Erityisannokset annostellaan edelleen keittiössä valmiiksi, joten muutos ei koske niitä. Kyltti koskee myös kasvisvaihtoehtoa, ja lisää saa hakea kaikista vaihtoehdoista."]]},{"tyyppi":"kappale","otsikko":"Hygienia ja turvallisuus vierailulla","sisalto":"Ammattikeittiöön mennään vain henkilökunnan luvalla ja heidän ohjeidensa mukaan. Kädet pestään ennen sisään menoa, hiukset kootaan ja tarvittaessa puetaan suojatakki ja päähine. Sairaana, esimerkiksi vatsataudin tai kuumeen aikana, keittiöön ei mennä lainkaan. Keittiössä on suuria kuumia kattiloita, höyryä, teräviä välineitä ja koneita, joihin ei kosketa, ja lattia voi olla märkä ja liukas. Seisokaa sovitussa paikassa, jotta ette ole henkilökunnan kulkureitillä. Ruokaa ja raaka-aineita ei maistella ilman lupaa, ja allergeenien vuoksi omia eväitä ei viedä keittiöön."},{"tyyppi":"ansa","otsikko":"Ansa 1: mielipide tosiasiana","sisalto":"\"Lasagne on suosituin ruoka\" kuulostaa tosiasialta, mutta se on tosiasia vain, jos joku on sen mitannut, esimerkiksi ruokapalvelun kyselyssä tai menekin seurannassa. Jos tieto perustuu omaan tai kaverin käsitykseen, se on mielipide. Kirjoita siis: \"Ruokapalvelun mukaan lasagnea kuluu eniten (haastattelu 12.2.).\""},{"tyyppi":"ansa","otsikko":"Ansa 2: ehdotus ilman hintaa","sisalto":"\"Ruokalaan pitäisi saada joka päivä kolme vaihtoehtoa\" voi olla hyvä ajatus, mutta ilman arviota siitä, mitä se maksaisi raaka-aineina, työnä ja hävikkinä, ruokapalvelu ei voi ottaa kantaa. Laske tai arvioi kustannus aineiston luvuilla. Jos tarkkaa lukua ei saa, kerro, mitkä kulut muutos lisää tai vähentää."},{"tyyppi":"ansa","otsikko":"Ansa 3: erityisruokavaliot unohtuvat","sisalto":"Ehdotus voi toimia useimmille ja silti sulkea jonkun ulos. Teemapäivän leivonnainen, jossa on vehnää ja maitoa, ei sovi keliaakikolle eikä maitoallergiselle. Ratkaisu ei ole \"he voivat jättää sen ottamatta\", vaan vaihtoehto, joka on tarjolla jokaiselle. Kerro ehdotuksessa aina, miten erityisruokavaliot on huomioitu."},{"tyyppi":"ansa","otsikko":"Ansa 4: ryhmän muistiinpanot omana työnä","sisalto":"Vierailu tai haastattelu voidaan tehdä ryhmänä, mutta tiivistelmä ja ehdotus ovat jokaisen oma työ. Jos kirjoitat puhtaaksi toisen muistiinpanot, et näytä omaa osaamistasi. Tee omat muistiinpanot ja valitse itse kolme tosiasiaa ja ehdotus."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kouluateria on maksuton, ja se tarjotaan jokaisena koulupäivänä.","Selvitä ainakin ruokalistan suunnittelu, erityisruokavaliot ja hävikin seuranta.","Tiivistelmään vähintään kolme tosiasiaa, jokaisella lähde ja päivämäärä.","Tosiasian voi tarkistaa, mielipide on arvio.","Ehdotuksessa: mitä muutetaan, ketä koskee, mitä maksaa tai säästää, miten erityisruokavaliot huomioidaan.","Kenenkään ruokavaliota ei kerrota, eikä ruokailijoita nimetä.","Keittiöön vain luvalla, puhtain käsin ja terveenä."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Tiivistelmän \"tosiasiat\" ovat mielipiteitä tai yleistyksiä (\"ruoka on hyvää\", \"kaikki inhoavat kalaa\"), tai tosiasioita on alle kolme.","tehtava":"Näyttö: vähintään kolme tosiasiaa kouluruokailun järjestämisestä","mita_kertoo":"Oppilas on kerännyt tietoa, mutta ei vielä erota tarkistettavaa väitettä arviosta. T10:n luotettavan tiedon käyttö edellyttää tätä erottelua.","mita_tehda":"Anna oppilaan merkitä jokaisen lauseen viereen T (tosiasia) tai M (mielipide) ja kysyä itseltään: miten tämän voisi tarkistaa? Ohjaa täydentämään puuttuvat tosiasiat taulukon Mitä selvität ja keneltä aiheista."},{"virhe":"Tosiasioilta puuttuu lähde tai lähde on epämääräinen (\"netistä\", \"joku sanoi\", \"opettaja\"), tai päivämäärä puuttuu.","tehtava":"Näyttö: tosiasioiden lähteet","mita_kertoo":"Oppilas tuntee asian, mutta ei vielä ymmärrä, että lähteen avulla lukija voi tarkistaa tiedon. Haastattelukin on lähde, kun se kirjataan.","mita_tehda":"Näytä säännön Tosiasia lähteineen kolme esimerkkiä ja anna oppilaan täydentää jokaiseen tosiasiaan: kuka kertoi tai julkaisi, missä ja milloin."},{"virhe":"Ehdotus on toive tai yleinen vaatimus: kohderyhmä puuttuu, kustannus tai säästö puuttuu tai on pelkkä \"halvempi\", tai laskelma on väärin rakennettu (esimerkiksi päivän luku kerrotaan väärällä päivien määrällä).","tehtava":"Näyttö: ehdotuksen toteutettavuus (ketä koskee, mitä maksaa tai säästää)","mita_kertoo":"Oppilas osaa ideoida, mutta ei vielä muuta ideaa päätöksentekijälle käyttökelpoiseksi ehdotukseksi. Toteutettavuus on haastetason ydin (T12, luova ongelmanratkaisu).","mita_tehda":"Anna oppilaan täyttää kuvan Toteutettavan ehdotuksen neljä osaa ruudut omalle ehdotukselleen. Kustannukseen: mitkä luvut aineistossa on, ja mitä niistä voi laskea? Pelkkä sanallinen arvio kelpaa, kun siinä nimetään lisääntyvät tai vähenevät kulut."},{"virhe":"Ehdotus ei kerro, miten erityisruokavaliot huomioidaan, tai ehdottaa, että erityisruokavaliota noudattava jättää ruoan ottamatta.","tehtava":"Näyttö: erityisruokavaliot ehdotuksessa","mita_kertoo":"Oppilas ajattelee ehdotusta tavallisen ruokailijan näkökulmasta. Vaihtoehto jokaiselle on kouluruokailun lähtökohta ja osaa_kun-kriteerin vaatimus.","mita_tehda":"Palaa ansaan 3. Kysy: mitä keliaakikko, maitoallergikko tai kasvissyöjä saa, kun ehdotus toteutuu? Pyydä lisäämään ehdotukseen yksi virke siitä."},{"virhe":"Tiivistelmässä tai ehdotuksessa mainitaan nimeltä tai tunnistettavasti joku, jolla on erityisruokavalio, tai tietoa on kerätty kysymällä luokkatovereiden ruokatottumuksia.","tehtava":"Näyttö: tietosuoja ja hienotunteisuus","mita_kertoo":"Oppilas ei vielä tunnista, että ruokavalio on terveystietoa. Asia on tärkeämpi kuin yksittäinen kriteeri: tunnistettava tieto poistetaan aina.","mita_tehda":"Poista tunnistettava tieto oppilaan kanssa heti ja selitä syy kahden kesken. Ohjaa käyttämään ruokapalvelun yleisiä lukuja (esimerkiksi erityisannosten määrä päivässä) henkilötietojen sijaan."},{"virhe":"Vierailulla oppilas ei noudata keittiön hygienia- tai turvallisuusohjetta (kädet, hiukset, liikkuminen kulkureitillä, koskee välineisiin), tai ryhmätyössä hänen tiivistelmänsä on kopio toisen muistiinpanoista.","tehtava":"Havainnointi vierailulla ja palautetun työn vertailu","mita_kertoo":"Oppilas ei vielä siirrä opittua keittiöhygieniaa (KO7-TUR-01) vieraaseen ympäristöön tai nojaa ryhmään. Näyttö arvioidaan aina oman työn perusteella.","mita_tehda":"Kertaa ennen vierailua kappale Hygienia ja turvallisuus vierailulla ja sovi pysähtymispaikka. Jos tiivistelmä on kopio, pyydä oppilasta valitsemaan omat kolme tosiasiaa ja kertomaan suullisesti, mistä hän ne sai."}],"opettajalle":{"kesto":"2 · 45 min + vierailu tai haastattelu","huomiot":["Muoto: havainnointitaito, ei paperikoetta. Näyttö on tiivistelmä ja kehittämisehdotus (kirjoitettu tai esitetty), eli oppilaan oma perusteltu tuotos, joka arvioidaan kuudella havainnointikriteerillä. Tiedonhankinta voi olla ryhmässä, mutta jokainen palauttaa tai esittää oman tiivistelmän ja oman ehdotuksen; läpäisy ei riipu ryhmästä.","Sopimus ruokapalvelun kanssa (avoimet-KO7.md #4): Espoon näkökulman mukaan yhteistyö tehdään sovitulla tavalla. Sovi etukäteen, tehdäänkö vierailu keittiöön, haastatteleeko pieni ryhmä ruokapalvelun esimiestä tai saadaanko kirjallinen aineisto (ruokalistan kierto, erityisruokavalio-ohje, hävikkiseurannan luvut). Pyydä ruokapalvelulta valmiiksi kolme lukua, joita oppilaat voivat käyttää laskelmissa: ruokailijoiden määrä, päivittäinen lautashävikki kilogrammoina ja arvio hävikkikilon hinnasta. Kouluruoan kustannusrakennetta ei tarvitse avata tässä; se kuuluu taitoon KO7-KUL-05.","Varamuoto, jos vierailua tai aineistoa ei saada: oppilas hankkii tosiasiat julkisista lähteistä: koulun julkaistu ruokalista (kiertävä lista, kasvisvaihtoehto), ruokapalvelun verkkosivu (erityisruokavalioista ilmoittaminen), perusopetuslain 31 § (https://www.finlex.fi/fi/laki/ajantasa/1998/19980628) ja kouluruokailusuositus (Ruokavirasto, https://www.ruokavirasto.fi). Hävikkiluvuiksi opettaja antaa koulun omat tai keksityt, keksityiksi merkityt luvut.","Mikä kelpaa. Tiivistelmä: vähintään kolme tarkistettavaa tosiasiaa kouluruokailun järjestämisestä (mieluiten ruokalistan suunnittelusta, erityisruokavalioista ja hävikin seurannasta, mutta kolme eri asiaa riittää), jokaisella lähde (kuka, missä, milloin). Ehdotus: yksi konkreettinen muutos ja vastaanottaja (oppilaskunta tai ruokapalvelu), kohderyhmä (ketä ja montako), kustannus tai säästö (laskelma aineiston luvuilla tai sanallinen arvio, jossa nimetään lisääntyvät ja vähenevät kulut) ja erityisruokavalioiden huomioiminen niin, että vaihtoehto on jokaiselle. Hyväksytään mikä tahansa oikea muotoilu; esitys suullisesti kelpaa, kun samat osat tulevat esiin.","Mikä ei kelpaa: mielipiteet tosiasioina; tosiasiat ilman lähdettä; toive ilman kohderyhmää tai kustannusta; ehdotus, jossa erityisruokavaliota noudattava jää ilman vaihtoehtoa; tunnistettava tieto kenenkään ruokavaliosta; ryhmän yhteinen teksti ilman omaa osuutta.","Esimerkkejä toteutettavista ehdotuksista (oppilaan sivun Kuusiston esimerkkiä ei hyväksytä sellaisenaan, mutta hävikin vähentäminen omin keinoin ja koulun luvuin käy): oppilaiden ruokaraati, joka kokoontuu kerran jaksossa ja tekee kaksi toivetta kiertävälle listalle (kustannus: henkilökunnan aika; erityisruokavaliot: toiveista tehdään myös erityisruokavaliovaihtoehto); kasvisvaihtoehdon nostaminen linjaston alkuun; ruokalistan ruokien nimiin allergeenimerkinnät näkyviin myös ruokalan näytölle; teemapäivä, jonka jälkiruoka on valmiiksi gluteeniton ja maidoton, jolloin erillisannoksia ei tarvita. Laskelma Kuusiston esimerkistä (tarkistettu): 15 kg × 190 = 2 850 kg; kolmannes 950 kg; 950 × 3 € = 2 850 €.","Turvallisuus ja hygienia: keittiövierailu vain ruokapalvelun luvalla ja ohjeiden mukaan; kädet pestään, hiukset kootaan, tarvittaessa suojavaatetus; sairaana ei keittiöön; ei kosketa kuumiin laitteisiin, veitsiin tai koneisiin; märkä lattia. Pieni ryhmä kerrallaan. Keittiön omavalvonta saattaa rajoittaa vierailua, jolloin haastattelu tehdään ruokalan puolella.","Herkkä aihe: oppilaiden omia ruokatottumuksia, ruokavalioita tai mieltymyksiä ei kysytä, eikä luokkatovereille tehdä ruokatottumuskyselyä. Jos oppilas haluaa selvittää ehdotuksensa kannatusta, se tehdään nimettömästi ja vain ehdotuksesta (\"kannatatko kylttiä?\"), ei kenenkään syömisestä. Ruokapalvelulta ei pyydetä tietoa, josta yksittäisen oppilaan ruokavalion voisi päätellä.","Taso ja jatkumo: haaste. Taito nojaa lautasmalliin (KO7-ATE-01) ja jatkaa sitä ruokapalvelun mittakaavaan. Hävikkiä käsitellään tässä koulukeittiön seurannan näkökulmasta; kodin ruokahävikin vähentäminen ja jätteiden lajittelu ovat ydintaidossa KO7-ASU-04 (J4), eikä niitä opeteta tässä. Allergeenin siirtymisen estäminen omassa ruoanvalmistuksessa on KO7-ATE-03:ssa (J4). Valinnaisen kotitalouden 8.–9. luokalla tämä toimii siltana (muutokset-KO7.md).","Tarkistettavat asiatiedot: (1) Perusopetuslain 31 §: oppilaalle on annettava jokaisena työpäivänä tarkoituksenmukaisesti järjestetty ja ohjattu, täysipainoinen maksuton ateria. (2) Kouluruokailusuositus \"Syödään ja opitaan yhdessä\" (Valtion ravitsemusneuvottelukunta ja Opetushallitus, 2017): koululounaan tulisi kattaa noin kolmannes päivän energiantarpeesta; tarkista ajantasainen versio. (3) Erityisruokavalion ilmoituskäytäntö (lomake, lääkärin- tai terveydenhoitajan selvitys) vaihtelee ruokapalveluittain; oppilaan materiaalissa sanotaan vain \"ruokapalvelun ohjeen mukaan\". (4) Johdannon \"vuosikymmenien ajan\" on tarkoituksella ylimalkainen; yleinen tieto on, että Suomessa maksuton kouluateria on ollut lakisääteinen 1940-luvulta lähtien, mutta tarkka vuosi kannattaa tarkistaa ennen kuin sitä käyttää. (5) Kuusiston koulun luvut ja hävikkikilon hinta 3 € ovat keksittyjä."]},"tuntirunko":{"kesto":"2 · 45 min + vierailu tai haastattelu","sanottava_aaneen":"Kouluateria on maksuton, ja sen takana on suunnittelu, hankinnat, valmistus, tarjoilu ja seuranta. Kerää kolme tosiasiaa lähteineen ja tee yksi ehdotus, jossa kerrot, ketä se koskee, mitä se maksaa tai säästää ja miten erityisruokavaliot huomioidaan. Kenenkään ruokavaliota ei kerrota.","tarvikkeet":"Koulun ruokalista, ruokapalvelun aineisto tai vierailusopimus, muistiinpanovälineet, laskimet; vierailulle hiuslenkit ja tarvittaessa suojatakit ja päähineet ruokapalvelun ohjeen mukaan.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Lukekaa johdanto. Kysy: mitä kaikkea pitää tapahtua, ennen kuin tämän päivän ateria on linjastolla? Kerätkää vaiheet."},{"aika":"10 min","otsikko":"Laki, suositus ja kierto","sisalto":"Kappale Kouluruokailu on lakisääteinen ja kuva Kouluaterian kierto. Sijoittakaa aloituksen vaiheet kuvaan."},{"aika":"10 min","otsikko":"Erityisruokavaliot ja hävikki","sisalto":"Kappaleet Erityisruokavaliot kouluruokailussa ja Hävikki ja sen seuranta koulussa. Korosta, ettei kenenkään ruokavaliota kerrota."},{"aika":"15 min","otsikko":"Kysymykset ja lähteet","sisalto":"Taulukko Mitä selvität ja keneltä ja sääntö Tosiasia lähteineen. Jokainen kirjoittaa omat 4–6 kysymystä vierailulle tai haastatteluun. Ansat 1 ja 4."},{"aika":"5 min","otsikko":"Hygienia ja turvallisuus","sisalto":"Kappale Hygienia ja turvallisuus vierailulla. Sovikaa ryhmät, pysähtymispaikka ja vierailun säännöt."},{"aika":"sovitusti","otsikko":"Vierailu, haastattelu tai aineisto","sisalto":"Tiedonhankinta ruokapalvelun kanssa sovitulla tavalla. Jokainen tekee omat muistiinpanot. Havainnoi kriteeriä 6 vierailun aikana."},{"aika":"10 min","otsikko":"2. tunti: Ehdotuksen rakenne","sisalto":"Kuva Toteutettavan ehdotuksen neljä osaa ja Kuusiston esimerkkitaulukko. Ansat 2 ja 3. Laskekaa Kuusiston säästö yhdessä."},{"aika":"30 min","otsikko":"Näyttö: tiivistelmä ja ehdotus","sisalto":"Oppilaat kirjoittavat tiivistelmän ja ehdotuksen (tai valmistelevat esityksen). Havainnoi kriteerejä 2 ja 3 työn aikana ja anna palaute heti."},{"aika":"5 min","otsikko":"Palautus ja lopetus","sisalto":"Työt palautetaan. Sopikaa, viedäänkö parhaat ehdotukset oppilaskunnalle tai ruokapalvelulle."}]},"huoltajalle":{"mista_on_kyse":"Tämä on haastetaito. Nuori tutustuu koulun ruokapalvelun kanssa sovitulla tavalla siihen, miten kouluruokailu suunnitellaan ja järjestetään: ruokalistan suunnitteluun, erityisruokavalioiden järjestämiseen ja hävikin seurantaan. Hän kirjoittaa tai esittää tiivistelmän, jossa on tosiasioita lähteineen, ja yhden kehittämisehdotuksen, jossa kerrotaan, ketä se koskee, mitä se maksaisi tai säästäisi ja miten erityisruokavaliot huomioidaan. Kenenkään ruokavaliota tai syömistä ei kysytä.","kotona":["Jos koulun ruokalista on nähtävillänne, katsokaa sitä yhdessä ja kysykää, miten nuoren mielestä lista on suunniteltu.","Kysykää, mitä eroa on tosiasialla ja mielipiteellä, ja pyytäkää esimerkki kouluruoasta kummastakin.","Pyytäkää nuorta kertomaan kehittämisehdotuksensa ja kysykää, mitä se maksaisi ja ketä se koskee.","Kysykää, miksi kenenkään ruokavaliota ei kerrota muille."],"milloin_huolestua":"Haastetaito ei ole siirtymisen edellytys. Jos nuori haluaa tehdä sen mutta tiedonhankinta tai kirjoittaminen tuntuu ylivoimaiselta, ottakaa yhteyttä kotitalouden opettajaan."},"ulkoiset":{},"valmis_teksti":"Osaat kertoa tosiasioiden ja lähteiden avulla, miten kouluruokailu järjestetään, ja tehdä toteutettavan kehittämisehdotuksen. Kouluruokalan kulisseissa on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

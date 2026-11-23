@@ -1,0 +1,619 @@
+<title>Koti ohjelmoituu · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KS7-KOV-09","oppiaine":"KS","vuosiluokka":7,"taitoalue":"KOV","jakso":"J5","taso":"haaste","otsikko":"Koti ohjelmoituu","kuvaus":"Osaan laajentaa ohjelmoitavaa tuotettani toisella syötteellä tai tilalla ja arvioida kodin automaation hyötyjä ja riskejä.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T3","T6","T8"],"S":["S3","S8"]},"eyebrow":"Käsityö · 7. luokka","ikoni":"ajattelu","naytto":"Lisään tuotteeni ohjelmaan toisen syötteen (esimerkiksi painike, joka ohittaa automatiikan, tai liike- tai lämpötila-anturi) tai tilan (esimerkiksi himmennys), testaan kaikki yhdistelmät ja kirjaan ne taulukkoon. Kerron yhden energiaa säästävän hyödyn ja yhden riskin (esimerkiksi tietoturva tai vika, joka jättää laitteen päälle) kodin automaatiossa.","osaa_kun":"Taulukon jokainen syöteyhdistelmä toimii odotetusti; ohjelman ehdot on jäsennelty niin, että ohitus toimii myös pimeässä; hyöty ja riski liittyvät kodin automaatioon konkreettisesti.","teksti":[{"tyyppi":"johdanto","sisalto":"Yövalosi syttyy, kun huone pimenee. Hyvä, kunnes haluat nukkua: huone on pimeä, joten valo palaa koko yön. Tarvitaan tapa ohittaa automatiikka. Sama ongelma on kodin automaatiossa kaikkialla: liiketunnistimella syttyvä valo, termostaatti tai ajastettu ulkovalo toimii hyvin tavallisena päivänä, mutta ihmisen pitää voida ohittaa se. Tässä taidossa lisäät tuotteesi ohjelmaan toisen syötteen tai tilan, testaat kaikki yhdistelmät järjestelmällisesti ja arvioit, mitä kodin automaatiolla voittaa ja mitä se voi viedä. Edellisessä taidossa ohjelmassa oli yksi anturi ja yksi ehto. Nyt ehtoja on useampi, ja niiden järjestyksellä on väliä."},{"tyyppi":"kappale","otsikko":"Käsitteet","sisalto":"<b>Syöte</b> on tieto, jonka ohjain saa ulkomaailmasta: anturin lukema tai painikkeen painallus. <b>Tila</b> on muuttuja, jonka arvon ohjain muistaa silmukan kierroksesta toiseen, esimerkiksi ohitus = 1 (päällä) tai 0 (pois) tai kirkkaustaso 1, 2 tai 3. <b>Ohitus</b> tarkoittaa, että ihmisen valinta menee automatiikan edelle. <b>Ehto</b> on lauseke, joka on joko tosi tai epätosi, ja <b>sisäkkäinen ehto</b> on jos-lohko toisen jos-lohkon muuten-haarassa. <b>Syöteyhdistelmä</b> on yksi mahdollinen tilanne, jossa jokaisella syötteellä ja tilalla on jokin arvo. <b>Testitaulukko</b> luettelee kaikki yhdistelmät, odotetun tuloksen ja todellisen tuloksen."},{"tyyppi":"kuva","otsikko":"Kaksi syötettä ja muistettu tila","svg":"<svg viewBox=\"0 0 640 246\" role=\"img\" aria-label=\"Kaavio: valoanturi ja painike ovat syötteitä ohjaimelle. Ohjaimessa on ohjelman ehdot ja muisti, jossa on tila ohitus 0 tai 1; painallus vaihtaa tilaa. Ohjain ohjaa LEDiä, joka on toimilaite.\"><text class=\"v-t vahva\" x=\"20\" y=\"22\" style=\"font-size:14px\">Kaksi syötettä, yksi muistettu tila</text><rect class=\"v-osa\" x=\"20\" y=\"44\" width=\"150\" height=\"54\" rx=\"6\"/><text class=\"v-t vahva\" x=\"95\" y=\"66\" style=\"font-size:13px\" text-anchor=\"middle\">Valoanturi</text><text class=\"v-t\" x=\"95\" y=\"86\" style=\"font-size:11px\" text-anchor=\"middle\">syöte 1: valoisuus</text><rect class=\"v-osa\" x=\"20\" y=\"130\" width=\"150\" height=\"54\" rx=\"6\"/><text class=\"v-t vahva\" x=\"95\" y=\"152\" style=\"font-size:13px\" text-anchor=\"middle\">Painike</text><text class=\"v-t\" x=\"95\" y=\"172\" style=\"font-size:11px\" text-anchor=\"middle\">syöte 2: painallus</text><rect class=\"v-osa v1\" x=\"236\" y=\"44\" width=\"180\" height=\"140\" rx=\"8\"/><text class=\"v-t vahva\" x=\"326\" y=\"68\" style=\"font-size:13px\" text-anchor=\"middle\">Ohjain</text><text class=\"v-t\" x=\"326\" y=\"88\" style=\"font-size:11px\" text-anchor=\"middle\">ohjelman ehdot</text><rect class=\"v-osa\" x=\"256\" y=\"104\" width=\"140\" height=\"62\" rx=\"4\"/><text class=\"v-t vahva\" x=\"326\" y=\"126\" style=\"font-size:12px\" text-anchor=\"middle\">muisti: tila</text><text class=\"v-t\" x=\"326\" y=\"144\" style=\"font-size:11px\" text-anchor=\"middle\">ohitus = 0 tai 1</text><text class=\"v-t pieni\" x=\"326\" y=\"158\" style=\"font-size:10px\" text-anchor=\"middle\">painallus vaihtaa</text><rect class=\"v-osa\" x=\"482\" y=\"88\" width=\"138\" height=\"54\" rx=\"6\"/><text class=\"v-t vahva\" x=\"551\" y=\"110\" style=\"font-size:13px\" text-anchor=\"middle\">LED</text><text class=\"v-t\" x=\"551\" y=\"130\" style=\"font-size:11px\" text-anchor=\"middle\">toimilaite</text><line class=\"v-akseli\" x1=\"170\" y1=\"71\" x2=\"226\" y2=\"90\" style=\"stroke-width:2\"/><polygon class=\"v-merkki\" points=\"236,93 226,85 224,96\"/><line class=\"v-akseli\" x1=\"170\" y1=\"157\" x2=\"226\" y2=\"138\" style=\"stroke-width:2\"/><polygon class=\"v-merkki\" points=\"236,135 224,132 226,143\"/><line class=\"v-akseli\" x1=\"416\" y1=\"115\" x2=\"472\" y2=\"115\" style=\"stroke-width:2\"/><polygon class=\"v-merkki\" points=\"482,115 473,110 473,120\"/><text class=\"v-t\" x=\"20\" y=\"214\" style=\"font-size:12px\">Ohjain päättää kahden asian perusteella: mitä anturi mittaa nyt ja mikä tila on muistissa.</text><text class=\"v-t\" x=\"20\" y=\"232\" style=\"font-size:12px\">Painallus ei sytytä tai sammuta LEDiä suoraan, vaan vaihtaa tilan.</text></svg>","teksti":"Anturi, ohjain ja toimilaite ovat tuttuja edellisestä taidosta. Uutta on toinen syöte ja muisti, joka säilyttää tilan."},{"tyyppi":"taulukko","otsikko":"Montako yhdistelmää testataan","otsikkorivi":["Laajennus","Syötteet ja tilat (arvojen määrä)","Yhdistelmiä"],"rivit":[["Ohituspainike","valoisuus: valoisa tai pimeä (2), ohitus: päällä tai pois (2)","2 × 2 = 4"],["Himmennys","valoisuus (2), kirkkaustaso 1, 2 tai 3 (3)","2 × 3 = 6"],["Liiketunnistin ja ohitus","valoisuus (2), liike: on tai ei (2), ohitus (2)","2 × 2 × 2 = 8"]]},{"tyyppi":"kappale","otsikko":"Painallus vaihtaa tilan","sisalto":"Painike on pohjassa vain hetken, mutta ohituksen pitää jäädä päälle, kunnes painat uudelleen. Siksi painallus ei ohjaa LEDiä suoraan vaan vaihtaa tilan: <b>ohitus = 1 − ohitus</b> muuttaa nollan ykköseksi ja ykkösen nollaksi. Ohjelma ehtii kiertää silmukan monta kertaa yhden painalluksen aikana, joten yksi painallus näkyisi monella kierroksella ja tila vaihtuisi edestakaisin. Siksi ohjelma odottaa tilan vaihdon jälkeen, kunnes painike vapautetaan."},{"tyyppi":"kappale","otsikko":"Aadan ensimmäinen versio","sisalto":"Keksitty oppilas Aada mittasi valoanturista valoisassa 620 ja peitettynä 90 ja valitsi raja-arvoksi 300. Hän lisäsi ohituksen omaksi jos-lohkokseen valoehdon perään. Lue ohjelma ja mieti, mitä LED tekee, kun on pimeää ja ohitus on päällä."},{"tyyppi":"kuva","otsikko":"Versio 1: ehdot peräkkäin","svg":"<svg viewBox=\"0 0 379 614\" role=\"img\" aria-label=\"Aadan ensimmäinen versio: valoehto ja ohitusehto ovat peräkkäin erillisinä jos-lohkoina\"><style>.lt{font:bold 13px Arial,sans-serif;fill:#1d1d1b}.at{font:12px Arial,sans-serif;fill:#1d1d1b}.au{fill:#fff;stroke:#1d1d1b;stroke-width:1}.au.op{fill:#66cc66;stroke:#3d993d}.au.op.o2{fill:#c8efc8;stroke:#2f7a2f}</style><path d=\"M2 18 q28.470000000000002 -18 66.43 0 H185.8 q6 0 6 6 V52 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ffd84d\" stroke=\"#a88900\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"43.0\" class=\"lt\">kun ohjelma käynnistyy</text><path d=\"M2 64 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H213.8 q6 0 6 6 V92 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"83.0\" class=\"lt\">aseta</text><rect x=\"56.0\" y=\"67.0\" width=\"60.4\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"86.2\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"123.4\" y=\"83.0\" class=\"lt\">arvoon</text><rect x=\"174.8\" y=\"67.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"188.8\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">0</text><path d=\"M2 104 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H141.4 q6 0 6 6 V132 q0 6 -6 6 H60 l-6 6 h-16 l-6 -6 H26 v6 H2 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"123.0\" class=\"lt\">toista ikuisesti</text><path d=\"M24 144 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H257.20000000000005 q6 0 6 6 V172 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"163.0\" class=\"lt\">jos</text><path d=\"M63.2 158.0 l10 -11 h126.4 l10 11 l-10 11 h-126.4 z\" class=\"au\"/><text x=\"136.4\" y=\"163.0\" class=\"at\" text-anchor=\"middle\">painike painettu</text><text x=\"216.6\" y=\"163.0\" class=\"lt\">niin</text><path d=\"M46 184 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H362.6 q6 0 6 6 V212 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"203.0\" class=\"lt\">aseta</text><rect x=\"100.0\" y=\"187.0\" width=\"60.4\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"130.2\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"167.4\" y=\"203.0\" class=\"lt\">arvoon</text><rect x=\"218.8\" y=\"187.0\" width=\"132.8\" height=\"22\" rx=\"11\" class=\"au op\"/><rect x=\"226.8\" y=\"187.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"240.8\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">1</text><text x=\"261.8\" y=\"203.0\" class=\"lt\">−</text><rect x=\"276.2\" y=\"187.0\" width=\"60.4\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"306.4\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><path d=\"M46 224 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H324.0 q6 0 6 6 V252 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"243.0\" class=\"lt\">odota kunnes</text><path d=\"M151.8 238.0 l10 -11 h141.2 l10 11 l-10 11 h-141.2 z\" class=\"au\"/><text x=\"232.4\" y=\"243.0\" class=\"at\" text-anchor=\"middle\">painike vapautettu</text><rect x=\"24\" y=\"178\" width=\"24\" height=\"81\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"177\" width=\"21.6\" height=\"83\" fill=\"#ffaa33\"/><path d=\"M24 258 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V258 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><path d=\"M24 290 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H276.0 q6 0 6 6 V318 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"309.0\" class=\"lt\">jos</text><path d=\"M63.2 304.0 l10 -11 h145.2 l10 11 l-10 11 h-145.2 z\" class=\"au op\"/><rect x=\"71.2\" y=\"293.0\" width=\"82.6\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"112.5\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">valoisuus</text><text x=\"160.8\" y=\"309.0\" class=\"lt\">&lt;</text><rect x=\"175.2\" y=\"293.0\" width=\"38.2\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"194.3\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">300</text><text x=\"235.4\" y=\"309.0\" class=\"lt\">niin</text><path d=\"M46 330 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H160 q6 0 6 6 V358 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"349.0\" class=\"lt\">sytytä LED</text><rect x=\"24\" y=\"324\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"323\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M24 364 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v28 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"58\" y=\"389.0\" class=\"lt\">muuten</text><path d=\"M46 410 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H160 q6 0 6 6 V438 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"429.0\" class=\"lt\">sammuta LED</text><rect x=\"24\" y=\"404\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"403\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M24 444 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V444 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><path d=\"M24 476 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H243.6 q6 0 6 6 V504 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"495.0\" class=\"lt\">jos</text><path d=\"M63.2 490.0 l10 -11 h112.8 l10 11 l-10 11 h-112.8 z\" class=\"au op\"/><rect x=\"71.2\" y=\"479.0\" width=\"60.4\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"101.4\" y=\"495.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"138.6\" y=\"495.0\" class=\"lt\">=</text><rect x=\"153.0\" y=\"479.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"167.0\" y=\"495.0\" class=\"at\" text-anchor=\"middle\">1</text><text x=\"203.0\" y=\"495.0\" class=\"lt\">niin</text><path d=\"M46 516 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H160 q6 0 6 6 V544 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"535.0\" class=\"lt\">sammuta LED</text><rect x=\"24\" y=\"510\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"509\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M24 550 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V550 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"2\" y=\"138\" width=\"24\" height=\"439\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"3.2\" y=\"137\" width=\"21.6\" height=\"441\" fill=\"#ffaa33\"/><path d=\"M2 576 h24 h6 l6 6 h16 l6 -6 H136 q6 0 6 6 v14 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 V576 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/></svg>","teksti":"Kun on pimeää ja ohitus on päällä, ohjelma sytyttää LEDin ja heti perään sammuttaa sen, joka kierroksella."},{"tyyppi":"taulukko","otsikko":"Aadan testitaulukko versiosta 1","otsikkorivi":["Nro","Ohitus","Valoisuus","Odotettu LED","Todellinen LED","OK?"],"rivit":[["1","pois (0)","valoisa","pois","pois","kyllä"],["2","pois (0)","pimeä","päällä","päällä","kyllä"],["3","päällä (1)","valoisa","pois","pois","kyllä"],["4","päällä (1)","pimeä","pois","välkkyy himmeänä","<b>ei</b>"]]},{"tyyppi":"kappale","otsikko":"Virhe löytyi rivillä 4","sisalto":"Jos Aada olisi testannut ohitusta vain valoisassa, ohjelma olisi näyttänyt toimivan. Rivillä 4 kaksi erillistä ehtoa kilpailevat: valoehto sytyttää LEDin ja ohitusehto sammuttaa sen, ja tämä toistuu jokaisella kierroksella. Korjaus on jäsentää ehdot: ensin tarkistetaan ohitus, ja vasta sen muuten-haarassa valoisuus. Silloin ohjelma ei koskaan sytytä LEDiä, kun ohitus on päällä. Korjauksen jälkeen Aada testasi kaikki neljä riviä uudelleen, koska korjaus voi rikkoa toisen rivin."},{"tyyppi":"kuva","otsikko":"Versio 2: ohitus ensin","svg":"<svg viewBox=\"0 0 379 654\" role=\"img\" aria-label=\"Aadan korjattu versio: ohitusehto ensin, valoehto sen muuten-haarassa\"><style>.lt{font:bold 13px Arial,sans-serif;fill:#1d1d1b}.at{font:12px Arial,sans-serif;fill:#1d1d1b}.au{fill:#fff;stroke:#1d1d1b;stroke-width:1}.au.op{fill:#66cc66;stroke:#3d993d}.au.op.o2{fill:#c8efc8;stroke:#2f7a2f}</style><path d=\"M2 18 q28.470000000000002 -18 66.43 0 H185.8 q6 0 6 6 V52 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ffd84d\" stroke=\"#a88900\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"43.0\" class=\"lt\">kun ohjelma käynnistyy</text><path d=\"M2 64 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H213.8 q6 0 6 6 V92 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"83.0\" class=\"lt\">aseta</text><rect x=\"56.0\" y=\"67.0\" width=\"60.4\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"86.2\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"123.4\" y=\"83.0\" class=\"lt\">arvoon</text><rect x=\"174.8\" y=\"67.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"188.8\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">0</text><path d=\"M2 104 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H141.4 q6 0 6 6 V132 q0 6 -6 6 H60 l-6 6 h-16 l-6 -6 H26 v6 H2 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"123.0\" class=\"lt\">toista ikuisesti</text><path d=\"M24 144 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H257.20000000000005 q6 0 6 6 V172 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"163.0\" class=\"lt\">jos</text><path d=\"M63.2 158.0 l10 -11 h126.4 l10 11 l-10 11 h-126.4 z\" class=\"au\"/><text x=\"136.4\" y=\"163.0\" class=\"at\" text-anchor=\"middle\">painike painettu</text><text x=\"216.6\" y=\"163.0\" class=\"lt\">niin</text><path d=\"M46 184 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H362.6 q6 0 6 6 V212 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"203.0\" class=\"lt\">aseta</text><rect x=\"100.0\" y=\"187.0\" width=\"60.4\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"130.2\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"167.4\" y=\"203.0\" class=\"lt\">arvoon</text><rect x=\"218.8\" y=\"187.0\" width=\"132.8\" height=\"22\" rx=\"11\" class=\"au op\"/><rect x=\"226.8\" y=\"187.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"240.8\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">1</text><text x=\"261.8\" y=\"203.0\" class=\"lt\">−</text><rect x=\"276.2\" y=\"187.0\" width=\"60.4\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"306.4\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><path d=\"M46 224 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H324.0 q6 0 6 6 V252 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"243.0\" class=\"lt\">odota kunnes</text><path d=\"M151.8 238.0 l10 -11 h141.2 l10 11 l-10 11 h-141.2 z\" class=\"au\"/><text x=\"232.4\" y=\"243.0\" class=\"at\" text-anchor=\"middle\">painike vapautettu</text><rect x=\"24\" y=\"178\" width=\"24\" height=\"81\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"177\" width=\"21.6\" height=\"83\" fill=\"#ffaa33\"/><path d=\"M24 258 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V258 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><path d=\"M24 290 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H243.6 q6 0 6 6 V318 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"309.0\" class=\"lt\">jos</text><path d=\"M63.2 304.0 l10 -11 h112.8 l10 11 l-10 11 h-112.8 z\" class=\"au op\"/><rect x=\"71.2\" y=\"293.0\" width=\"60.4\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"101.4\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">ohitus</text><text x=\"138.6\" y=\"309.0\" class=\"lt\">=</text><rect x=\"153.0\" y=\"293.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"167.0\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">1</text><text x=\"203.0\" y=\"309.0\" class=\"lt\">niin</text><path d=\"M46 330 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H160 q6 0 6 6 V358 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"349.0\" class=\"lt\">sammuta LED</text><rect x=\"24\" y=\"324\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"323\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M24 364 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v28 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"58\" y=\"389.0\" class=\"lt\">muuten</text><path d=\"M46 410 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H298.0 q6 0 6 6 V438 q0 6 -6 6 H104 l-6 6 h-16 l-6 -6 H70 v6 H46 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"429.0\" class=\"lt\">jos</text><path d=\"M85.2 424.0 l10 -11 h145.2 l10 11 l-10 11 h-145.2 z\" class=\"au op\"/><rect x=\"93.2\" y=\"413.0\" width=\"82.6\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"134.5\" y=\"429.0\" class=\"at\" text-anchor=\"middle\">valoisuus</text><text x=\"182.8\" y=\"429.0\" class=\"lt\">&lt;</text><rect x=\"197.2\" y=\"413.0\" width=\"38.2\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"216.3\" y=\"429.0\" class=\"at\" text-anchor=\"middle\">300</text><text x=\"257.4\" y=\"429.0\" class=\"lt\">niin</text><path d=\"M68 450 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H182 q6 0 6 6 V478 q0 6 -6 6 H110 l-6 6 h-16 l-6 -6 H74 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"78.0\" y=\"469.0\" class=\"lt\">sytytä LED</text><rect x=\"46\" y=\"444\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"47.2\" y=\"443\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M46 484 h24 h6 l6 6 h16 l6 -6 H180 q6 0 6 6 v28 q0 6 -6 6 H104 l-6 6 h-16 l-6 -6 H70 v6 H46 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"80\" y=\"509.0\" class=\"lt\">muuten</text><path d=\"M68 530 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H182 q6 0 6 6 V558 q0 6 -6 6 H110 l-6 6 h-16 l-6 -6 H74 q-6 0 -6 -6 z\" fill=\"#a98bf2\" stroke=\"#7356c7\" stroke-width=\"1.6\"/><text x=\"78.0\" y=\"549.0\" class=\"lt\">sammuta LED</text><rect x=\"46\" y=\"524\" width=\"24\" height=\"41\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"47.2\" y=\"523\" width=\"21.6\" height=\"43\" fill=\"#ffaa33\"/><path d=\"M46 564 h24 h6 l6 6 h16 l6 -6 H180 q6 0 6 6 v14 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 V564 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"24\" y=\"404\" width=\"24\" height=\"187\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"403\" width=\"21.6\" height=\"189\" fill=\"#ffaa33\"/><path d=\"M24 590 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V590 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"2\" y=\"138\" width=\"24\" height=\"479\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"3.2\" y=\"137\" width=\"21.6\" height=\"481\" fill=\"#ffaa33\"/><path d=\"M2 616 h24 h6 l6 6 h16 l6 -6 H136 q6 0 6 6 v14 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 V616 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/></svg>","teksti":"Sisäkkäinen ehto: valoisuutta katsotaan vain, jos ohitus ei ole päällä."},{"tyyppi":"kuva","otsikko":"Sama ohjelma tekstinä","svg":"<svg viewBox=\"0 0 456 274\" role=\"img\" aria-label=\"Korjattu ohjelma tekstinä: Python-tyylinen malli\"><rect class=\"v-osa\" x=\"0\" y=\"0\" width=\"456\" height=\"274\" rx=\"6\"/><text class=\"v-t pieni\" x=\"22\" y=\"25\" text-anchor=\"end\" style=\"font-size:11px\">1</text><text class=\"v-t\" x=\"34\" y=\"25\" style=\"font:13px monospace\" xml:space=\"preserve\">RAJA = 300</text><text class=\"v-t pieni\" x=\"22\" y=\"45\" text-anchor=\"end\" style=\"font-size:11px\">2</text><text class=\"v-t\" x=\"34\" y=\"45\" style=\"font:13px monospace\" xml:space=\"preserve\">ohitus = 0</text><text class=\"v-t pieni\" x=\"22\" y=\"65\" text-anchor=\"end\" style=\"font-size:11px\">3</text><text class=\"v-t\" x=\"34\" y=\"65\" style=\"font:13px monospace\" xml:space=\"preserve\">while True:</text><text class=\"v-t pieni\" x=\"22\" y=\"85\" text-anchor=\"end\" style=\"font-size:11px\">4</text><text class=\"v-t\" x=\"34\" y=\"85\" style=\"font:13px monospace\" xml:space=\"preserve\">    if painike_painettu():</text><text class=\"v-t pieni\" x=\"22\" y=\"105\" text-anchor=\"end\" style=\"font-size:11px\">5</text><text class=\"v-t\" x=\"34\" y=\"105\" style=\"font:13px monospace\" xml:space=\"preserve\">        ohitus = 1 - ohitus</text><text class=\"v-t pieni\" x=\"22\" y=\"125\" text-anchor=\"end\" style=\"font-size:11px\">6</text><text class=\"v-t\" x=\"34\" y=\"125\" style=\"font:13px monospace\" xml:space=\"preserve\">        while painike_painettu():</text><text class=\"v-t pieni\" x=\"22\" y=\"145\" text-anchor=\"end\" style=\"font-size:11px\">7</text><text class=\"v-t\" x=\"34\" y=\"145\" style=\"font:13px monospace\" xml:space=\"preserve\">            pass                # odota vapautusta</text><text class=\"v-t pieni\" x=\"22\" y=\"165\" text-anchor=\"end\" style=\"font-size:11px\">8</text><text class=\"v-t\" x=\"34\" y=\"165\" style=\"font:13px monospace\" xml:space=\"preserve\">    if ohitus == 1:</text><text class=\"v-t pieni\" x=\"22\" y=\"185\" text-anchor=\"end\" style=\"font-size:11px\">9</text><text class=\"v-t\" x=\"34\" y=\"185\" style=\"font:13px monospace\" xml:space=\"preserve\">        sammuta_led()</text><text class=\"v-t pieni\" x=\"22\" y=\"205\" text-anchor=\"end\" style=\"font-size:11px\">10</text><text class=\"v-t\" x=\"34\" y=\"205\" style=\"font:13px monospace\" xml:space=\"preserve\">    elif lue_valoisuus() &lt; RAJA:</text><text class=\"v-t pieni\" x=\"22\" y=\"225\" text-anchor=\"end\" style=\"font-size:11px\">11</text><text class=\"v-t\" x=\"34\" y=\"225\" style=\"font:13px monospace\" xml:space=\"preserve\">        sytyta_led()</text><text class=\"v-t pieni\" x=\"22\" y=\"245\" text-anchor=\"end\" style=\"font-size:11px\">12</text><text class=\"v-t\" x=\"34\" y=\"245\" style=\"font:13px monospace\" xml:space=\"preserve\">    else:</text><text class=\"v-t pieni\" x=\"22\" y=\"265\" text-anchor=\"end\" style=\"font-size:11px\">13</text><text class=\"v-t\" x=\"34\" y=\"265\" style=\"font:13px monospace\" xml:space=\"preserve\">        sammuta_led()</text></svg>","teksti":"Komentojen nimet ovat malleja. Koulusi ympäristössä painikkeen, anturin ja LEDin komennot ovat toisenlaiset, mutta rakenne on sama."},{"tyyppi":"saanto","otsikko":"Näin laajennat ja testaat","askeleet":["Valitse laajennus: ohituspainike, toinen anturi (liike tai lämpötila) tai uusi tila (esimerkiksi himmennys). Kirjoita yhdellä lauseella, mitä sen pitää tehdä.","Jos lisäät painikkeen tai anturin, kytke se virta irrotettuna opettajan ohjeen mukaan. Juottaminen vain opettajan luvalla ja valvonnassa.","Luettele syötteet ja tilat ja niiden arvot. Laske yhdistelmien määrä kertomalla arvojen määrät.","Kirjoita testitaulukkoon jokainen yhdistelmä ja odotettu tulos ennen kuin ajat ohjelman.","Ohjelmoi. Päätä ehtojen järjestys: mikä menee minkäkin edelle? Käytä sisäkkäisiä ehtoja, kun yksi ehto ratkaisee ennen muita.","Testaa jokainen rivi ja kirjaa todellinen tulos. Testaa myös painike pohjassa.","Korjaa virhe ja testaa kaikki rivit uudelleen. Kirjaa virhe ja korjaus."]},{"tyyppi":"taulukko","otsikko":"Kodin automaatio: hyötyjä ja riskejä","otsikkorivi":["Esimerkki","Hyöty energiankulutukselle","Riski"],"rivit":[["Liiketunnistimella syttyvä eteisen tai portaiden valo","Valo ei pala tyhjässä tilassa","Anturin vika: valo palaa jatkuvasti tai ei syty pimeissä portaissa"],["Termostaatti ja aikaohjelma","Lämpötilaa lasketaan yöksi tai poissaolon ajaksi","Väärä ohjelma tai vika: lämmitys jää täysille tai asunto jäähtyy"],["Hämäräkytkimellä toimiva ulkovalo","Valo palaa vain pimeällä","Likainen tai varjossa oleva anturi: valo palaa päivälläkin"],["Sovelluksella ohjattava pistorasia","Laitteet voi sammuttaa valmiustilasta","Tietoturva: oletussalasana tai päivittämätön laite voi päästää ulkopuolisen ohjaamaan laitteita; ohjausyksikkö kuluttaa itsekin sähköä"]]},{"tyyppi":"kappale","otsikko":"Hyöty ja riski konkreettisesti","sisalto":"\"Automaatio säästää energiaa\" ja \"automaatio voi olla vaarallinen\" ovat totta, mutta ne eivät kerro mitään tietystä laitteesta. Konkreettinen hyöty nimeää laitteen ja sen, milloin energiaa jää käyttämättä: \"liiketunnistin sammuttaa eteisen valon, kun kukaan ei ole siellä\". Konkreettinen riski nimeää, mitä tapahtuu ja kenelle: \"jos tunnistin rikkoutuu, valo voi jäädä päälle koko yöksi\" tai \"jos laitteen salasana on tehtaan oletus, joku ulkopuolinen voi ohjata sitä verkon kautta\". Arvioi myös oma tuotteesi: mitä tapahtuu, jos sen anturi tai painike rikkoutuu?"},{"tyyppi":"ansa","otsikko":"Ansa 1: ehdot peräkkäin","sisalto":"Ohituksen lisääminen omaksi jos-lohkokseen tuntuu luontevalta, koska vanha ohjelma toimi. Peräkkäiset erilliset ehdot voivat kuitenkin ohjata samaa LEDiä vastakkaisiin suuntiin samalla kierroksella. Päätä, kumpi ehto ratkaisee, ja sijoita toinen sen muuten-haaraan."},{"tyyppi":"ansa","otsikko":"Ansa 2: painike pohjassa","sisalto":"Painallus tuntuu yhdeltä tapahtumalta, mutta silmukka ehtii kiertää monta kertaa sen aikana. Ilman odotusta tila vaihtuu monta kertaa, ja lopputulos riippuu sattumasta. Odota painikkeen vapautusta ennen kuin jatkat."},{"tyyppi":"ansa","otsikko":"Ansa 3: testaan sen, mitä muutin","sisalto":"Uutta ominaisuutta on luontevaa kokeilla siinä tilanteessa, jota varten se tehtiin, ja usein se on valoisa luokka. Virhe piilee kuitenkin usein yhdistelmässä, jota et ajatellut. Testaa jokainen taulukon rivi, myös ne, jotka toimivat ennen muutosta."},{"tyyppi":"ansa","otsikko":"Ansa 4: automaatio säästää aina","sisalto":"Automaatio sammuttaa valoja ja laskee lämpöjä, joten se tuntuu aina säästävän. Ohjausyksikkö, anturit ja verkkoyhteys kuluttavat kuitenkin itsekin sähköä koko ajan, ja vika voi jättää laitteen päälle. Hyöty syntyy vain, jos laite oikeasti sammuttaa jotain, mikä muuten jäisi päälle."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Syöte tulee ulkomaailmasta, tila on muistissa.","Painallus vaihtaa tilan: ohitus = 1 − ohitus. Odota vapautusta.","Yhdistelmiä = arvojen määrät kerrottuina, esimerkiksi 2 × 2 = 4.","Kirjoita odotettu tulos ennen testiä, todellinen testin jälkeen.","Ohitus ensin, automatiikka sen muuten-haarassa.","Korjauksen jälkeen testaa kaikki rivit uudelleen.","Hyöty ja riski: nimeä laite ja mitä tapahtuu.","Kytkennät virta irrotettuna, juottaminen vain opettajan luvalla ja valvonnassa."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Toinen syöte tai tila ei vaikuta ohjelmaan, painallus vaihtaa tilan monta kertaa (ei odotusta vapautukseen), tai tila unohtuu seuraavalla kierroksella, koska muuttuja nollataan silmukan sisällä.","tehtava":"Näyttö: toinen syöte tai tila toimii","mita_kertoo":"Oppilas ei vielä erota syötettä (hetkellinen) ja tilaa (muistettu) tai ei hahmota, että silmukka kiertää monta kertaa painalluksen aikana.","mita_tehda":"Pyydä näyttämään muuttujan arvo ruudulla tai sarjamonitorissa ja painamaan painiketta. Kysy: monellako kierroksella painike on pohjassa? Kriteeri täyttyy, kun yksi painallus vaihtaa tilan täsmälleen kerran ja tila säilyy."},{"virhe":"Ehdot ovat peräkkäin niin, että ne ohjaavat toimilaitetta vastakkain (LED välkkyy tai palaa himmeänä), tai ohitus toimii vain valoisassa.","tehtava":"Näyttö: ehtojen jäsentely","mita_kertoo":"Oppilas lisää uuden toiminnon vanhan perään eikä vielä mieti, mikä ehto ratkaisee ensin.","mita_tehda":"Pyydä lukemaan ohjelma ääneen rivi 4:n tilanteessa (pimeä, ohitus päällä): mitä LEDille tapahtuu yhden kierroksen aikana? Kriteeri täyttyy, kun ohitus toimii myös pimeässä ja oppilas selittää, miksi ehdot ovat tässä järjestyksessä."},{"virhe":"Testitaulukosta puuttuu yhdistelmiä, yhdistelmien määrä on laskettu väärin, tai odotettu tulos on kirjoitettu vasta testin jälkeen tai puuttuu.","tehtava":"Näyttö: testitaulukon kattavuus","mita_kertoo":"Oppilas testaa sen, mitä muutti, eikä vielä käy kaikkia tilanteita läpi järjestelmällisesti.","mita_tehda":"Pyydä luettelemaan syötteet ja tilat ja niiden arvot ja laskemaan yhdistelmät kertomalla. Kriteeri täyttyy, kun taulukossa on jokainen yhdistelmä, odotettu ja todellinen tulos, ja jokainen rivi toimii odotetusti."},{"virhe":"Oppilas korjaa virheen mutta testaa vain korjatun rivin, tai ei kirjaa virhettä ja korjausta.","tehtava":"Näyttö: korjaus ja uusintatesti","mita_kertoo":"Oppilas pitää korjausta paikallisena eikä vielä ota huomioon, että muutos voi rikkoa toisen rivin.","mita_tehda":"Kysy: voiko tämä muutos vaikuttaa riviin 2? Pyydä testaamaan kaikki rivit uudelleen. Kriteeri täyttyy, kun virhe ja korjaus on kirjattu ja kaikki rivit on testattu korjauksen jälkeen. Virheiden määrää ei arvioida."},{"virhe":"Hyöty ja riski ovat yleisiä (\"säästää energiaa\", \"voi olla vaarallinen\"), eivät liity kodin automaatioon tai eivät nimeä laitetta ja seurausta.","tehtava":"Näyttö: kodin automaation hyöty ja riski","mita_kertoo":"Oppilas toistaa yleisiä väitteitä eikä vielä yhdistä niitä tiettyyn laitteeseen ja tilanteeseen.","mita_tehda":"Kysy: mikä laite, milloin ja mitä tapahtuu? Pyydä käyttämään oman tuotteen vikatilannetta esimerkkinä. Kriteeri täyttyy, kun oppilas nimeää yhden energiaa säästävän hyödyn ja yhden riskin (esimerkiksi tietoturva tai vika, joka jättää laitteen päälle) konkreettisesti laite ja seuraus mainiten."},{"virhe":"Oppilas kytkee komponentteja virran ollessa päällä, juottaa ilman lupaa tai ehdottaa tuotteen liittämistä verkkojännitteeseen (esimerkiksi 230 V:n valaisimen ohjaamista).","tehtava":"Näyttö: turvallinen kytkentä","mita_kertoo":"Oppilas siirtää kodin automaation idean suoraan omaan laitteeseensa eikä vielä erota pienoisjännitettä ja verkkojännitettä.","mita_tehda":"Keskeytä ja kerro, että verkkojännitteisiä laitteita ei kytketä itse; kodin sähköasennukset tekee sähköalan ammattilainen. Kriteeri täyttyy, kun oppilas kytkee virta irrotettuna, pyytää luvan juottamiseen ja pitää tuotteen paristo- tai USB-virrassa."}],"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Syöte tulee ulkoa, tila on muistissa. Laske yhdistelmät ja testaa jokainen. Ohitus ensin. Korjauksen jälkeen kaikki rivit uudelleen. Kytkennät virta irti.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Kysy, miten yövalon saa pois yöksi, kun huone on pimeä. Kerää ehdotuksia: painike, ajastin, liiketunnistin."},{"aika":"15 min","otsikko":"Ydinasia","sisalto":"Käy läpi syöte, tila, ohitus ja yhdistelmien laskeminen. Näytä Aadan versio 1 ja anna oppilaiden ennustaa rivin 4 tulos ennen kuin näytät taulukon. Näytä korjattu versio ja painalluksen odotus."},{"aika":"22 min","otsikko":"Suunnitelma ja ohjelmointi","sisalto":"Oppilaat valitsevat laajennuksen, kirjoittavat testitaulukon odotettuine tuloksineen ja näyttävät sen sinulle. Lisäkomponentit kytketään virta irti. Ohjelmointi alkaa."},{"aika":"3 min","otsikko":"Lopetus","sisalto":"Ohjelmat tallennetaan. Laitteet irti virrasta."},{"aika":"25 min","otsikko":"2. tunti: Testaus ja korjaus (näyttö)","sisalto":"Oppilaat testaavat jokaisen rivin, korjaavat ja testaavat uudelleen. Kierrä ja pyydä kutakin lukemaan ehtonsa ääneen ja näyttämään ohitus pimeässä. Tarkista taulukon kattavuus."},{"aika":"15 min","otsikko":"Kodin automaatio (näyttö)","sisalto":"Käy läpi hyöty- ja riskitaulukko. Jokainen kirjoittaa testitaulukon alle yhden energiaa säästävän hyödyn ja yhden riskin konkreettisesti, myös oman tuotteensa vikatilanteen."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Testitaulukko ja ohjelma portfolioon. Laitteet irti virrasta ja säilytykseen."}],"tarvikkeet":"Oppilaiden tuotteet ja KS7-KOV-03:n ohjelmat, mikrokontrollerit ja ohjelmointiympäristö (lohko- tai tekstiohjelmointi) tai sen simulaattori, painikkeita ja tarvittaessa liike- tai lämpötila-antureita, kytkentäjohtimet tai kytkentälevy, tarvittaessa juotospiste kohdepoistoineen, tulostettu testitaulukko."},"opettajalle":{"kesto":"2 · 45 min jaksossa J5, kun tuotteen perusohjelma (KS7-KOV-03) toimii.","huomiot":["Arvioinnin kohde: oppilas lisää ohjelmaan toisen syötteen tai tilan, testaa kaikki syöteyhdistelmät ja kirjaa ne taulukkoon; taulukon jokainen yhdistelmä toimii odotetusti; ohjelman ehdot on jäsennelty niin, että ohitus toimii myös pimeässä; hyöty ja riski liittyvät kodin automaatioon konkreettisesti. Kriteerit 1 ja 4 (tilan toiminta, korjaus ja uusintatesti) ovat kartan kohdan \"jokainen syöteyhdistelmä toimii\" osia; kriteeri 6 on turvallisuusehto. Ohjelman ulkoasua, ympäristöä tai virheiden määrää ei arvioida.","Muoto: havainnointitaito. Näyttö on oppilaan oma ohjelma, testitaulukko ja kirjallinen hyöty ja riski; tuotosta ei voi rinnakkaistaa viideksi koeversioksi. Jos oppilas valitsee toisen anturin tai himmennyksen ohituspainikkeen sijaan, kriteeri 2 arvioidaan vastaavasti: \"ohitus toimii myös pimeässä\" tarkoittaa, että ehto, jonka pitää ratkaista ensin, ratkaisee kaikissa valoisuuksissa (esimerkiksi himmennys toimii myös pimeässä, liiketunnistin ei sytytä valoa valoisassa).","Testitaulukko (tulosta yksi oppilasta kohden). Kahdeksan riviä riittää kolmelle kaksiarvoiselle syötteelle.<br><svg class=\"vis-svg\" style=\"max-width:640px\" viewBox=\"0 0 640 426\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Tulostettava testitaulukko: kahdeksan riviä syöteyhdistelmille, odotettu ja todellinen LEDin tila, painikkeen testi, korjaus sekä kodin automaation hyöty ja riski\"><text class=\"v-t vahva\" x=\"16\" y=\"26\" style=\"font-size:15px\">Testitaulukko: kaikki syöteyhdistelmät</text><text class=\"v-t pieni\" x=\"430\" y=\"26\" style=\"font-size:11px\">Nimi: __________________</text><text class=\"v-t\" x=\"16\" y=\"48\" style=\"font-size:11px\">Syötteet ja niiden arvot: ___________________________________   Yhdistelmiä: ___ × ___ (× ___) = ____</text><rect class=\"v-osa\" x=\"16\" y=\"62\" width=\"40\" height=\"26\"/><text class=\"v-t vahva\" x=\"22\" y=\"79\" style=\"font-size:11px\">Nro</text><rect class=\"v-osa\" x=\"56\" y=\"62\" width=\"130\" height=\"26\"/><text class=\"v-t vahva\" x=\"62\" y=\"79\" style=\"font-size:11px\">Tila tai syöte 1</text><rect class=\"v-osa\" x=\"186\" y=\"62\" width=\"120\" height=\"26\"/><text class=\"v-t vahva\" x=\"192\" y=\"79\" style=\"font-size:11px\">Syöte 2</text><rect class=\"v-osa\" x=\"306\" y=\"62\" width=\"110\" height=\"26\"/><text class=\"v-t vahva\" x=\"312\" y=\"79\" style=\"font-size:11px\">Odotettu LED</text><rect class=\"v-osa\" x=\"416\" y=\"62\" width=\"110\" height=\"26\"/><text class=\"v-t vahva\" x=\"422\" y=\"79\" style=\"font-size:11px\">Todellinen LED</text><rect class=\"v-osa\" x=\"526\" y=\"62\" width=\"66\" height=\"26\"/><text class=\"v-t vahva\" x=\"532\" y=\"79\" style=\"font-size:11px\">OK?</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"88\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"88\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"88\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"88\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"88\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"88\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"105\" style=\"font-size:11px\">1</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"114\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"114\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"114\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"114\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"114\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"114\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"131\" style=\"font-size:11px\">2</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"140\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"140\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"140\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"140\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"140\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"140\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"157\" style=\"font-size:11px\">3</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"166\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"166\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"166\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"166\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"166\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"166\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"183\" style=\"font-size:11px\">4</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"192\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"192\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"192\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"192\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"192\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"192\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"209\" style=\"font-size:11px\">5</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"218\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"218\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"218\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"218\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"218\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"218\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"235\" style=\"font-size:11px\">6</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"244\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"244\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"244\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"244\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"244\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"244\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"261\" style=\"font-size:11px\">7</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"270\" width=\"40\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"56\" y=\"270\" width=\"130\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"186\" y=\"270\" width=\"120\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"306\" y=\"270\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"416\" y=\"270\" width=\"110\" height=\"26\"/><rect class=\"v-jana\" fill=\"none\" x=\"526\" y=\"270\" width=\"66\" height=\"26\"/><text class=\"v-t\" x=\"30\" y=\"287\" style=\"font-size:11px\">8</text><text class=\"v-t\" x=\"16\" y=\"320\" style=\"font-size:11px\">Painikkeen testi: pidän painiketta pohjassa. Tila vaihtuu kerran / monta kertaa.</text><text class=\"v-t\" x=\"16\" y=\"342\" style=\"font-size:11px\">Löytämäni virhe ja korjaus: ________________________________________________</text><text class=\"v-t\" x=\"16\" y=\"364\" style=\"font-size:11px\">Uusi testi korjauksen jälkeen (rivit): ________   Opettajan kuittaus: ____________</text><text class=\"v-t\" x=\"16\" y=\"390\" style=\"font-size:11px\">Kodin automaatio: hyöty energiankulutukselle _____________________________________</text><text class=\"v-t\" x=\"16\" y=\"412\" style=\"font-size:11px\">Riski ________________________________________________________________________</text></svg>","Ympäristö: lohko- tai tekstiohjelmointi koulun mikrokontrollerin mukaan; materiaali ei nimeä tuotetta. Oppilaan sivun ohjelmakuvat ovat yleisiä malleja (\"sytytä LED\", \"lue_valoisuus()\"), ja komentojen nimet poikkeavat koulun ympäristöstä. Haastetaitona tekstiohjelmointi on suositeltava, mutta lohko-ohjelma kelpaa, jos ehtojen jäsentely ja testaus täyttyvät. Varamuoto: jos laitteita ei riitä, oppilas ohjelmoi ja testaa ympäristön simulaattorissa (painike ja valoanturi simuloituina) ja ajaa lopullisen version opettajan laitteella.","Turvallisuus: tuote toimii paristo- tai USB-virralla. Lisäkomponentit kytketään virta irrotettuna. Juottaminen vain opettajan luvalla ja valvonnassa KS7-KOV-02:n mukaisesti (kohdepoisto, suojalasit, kolvi telineessä). Verkkojännitteisiä laitteita (230 V) ei kytketä mikrokontrolleriin eikä releisiin tässä taidossa; jos oppilas ehdottaa sitä, kerro, että kiinteät sähköasennukset ja verkkojännitteiset kytkennät kuuluvat sähköalan ammattilaiselle.","Ero edeltäviin: KS7-KOV-03:ssa ohjelmassa oli yksi anturi, yksi raja-arvo ja yksi ehtolause, ja kodin automaatiosta riitti ketjun (anturi, ohjain, toimilaite) jaottelu. Tässä uutta ovat muistettu tila, sisäkkäiset ehdot ja niiden järjestys, järjestelmällinen testaus kaikilla yhdistelmillä sekä kodin automaation hyötyjen ja riskien arviointi. Painalluksen odotus vapautukseen on yksinkertainen tapa estää moninkertainen vaihto; jos oppilas käyttää ympäristön valmista \"kun painiketta painetaan\" -tapahtumaa, se kelpaa.","Tarkistettavat asiatiedot: (1) kodin automaation energiansäästöt ja ohjausyksiköiden valmiustilan kulutus vaihtelevat laitteittain; materiaali ei esitä lukuja. Jos haluat käyttää lukuja, hae ne esimerkiksi Motivan sivuilta (https://www.motiva.fi); (2) älylaitteiden tietoturvasuositukset (oletussalasanan vaihto, päivitykset): Kyberturvallisuuskeskus (https://www.kyberturvallisuuskeskus.fi); (3) sähkötöiden rajat maallikolle: Tukes (https://tukes.fi)."]},"huoltajalle":{"mista_on_kyse":"Nuori laajentaa käsityössä tekemänsä ohjelmoitavan tuotteen ohjelmaa: lisää siihen esimerkiksi painikkeen, joka ohittaa automatiikan, testaa järjestelmällisesti kaikki tilanteet ja korjaa löytämänsä virheet. Lisäksi hän arvioi kodin automaation hyötyjä ja riskejä, kuten energian säästöä ja tietoturvaa. Tämä on haastetaito, jota kaikkien ei tarvitse näyttää.","kotona":["Pyydä nuorta kertomaan, miksi ohjelmassa ohitus tarkistetaan ennen valoisuutta.","Kun näette arjessa automaattisesti toimivan laitteen (esimerkiksi liiketunnistimella syttyvä valo tai liukuovi), kysy, mitkä ovat sen syötteet ja mitä tapahtuu, jos anturi rikkoutuu.","Kysy, montako tilannetta pitää testata, jos laitteessa on kaksi painiketta, joilla kummallakin on kaksi asentoa. Hyvä vastaus: 2 × 2 = 4.","Kysy, miksi älylaitteen oletussalasana kannattaa vaihtaa."],"milloin_huolestua":"Jos nuori aikoo kytkeä itse tekemänsä laitteen verkkovirtaan tai pistorasiaan tai avata verkkovirtalaitteita, keskustelkaa siitä: verkkojännitteiset kytkennät kuuluvat ammattilaiselle. Jos ohjelmointi tuntuu nuoresta ylivoimaiselta, muistakaa, että tämä on haastetaito."},"ulkoiset":{},"valmis_teksti":"Laajensit tuotteesi ohjelmaa toisella syötteellä tai tilalla, jäsensit ehdot niin, että ohitus toimii kaikissa tilanteissa, ja testasit jokaisen yhdistelmän. Osaat myös punnita kodin automaation hyötyjä ja riskejä konkreettisesti. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

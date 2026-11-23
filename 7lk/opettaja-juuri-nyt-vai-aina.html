@@ -1,0 +1,619 @@
+<title>Juuri nyt vai aina · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA7-SAN-01","oppiaine":"ENA","vuosiluokka":7,"taitoalue":"SAN","jakso":"J1","taso":"ydin","otsikko":"Juuri nyt vai aina","kuvaus":"Osaan käyttää preesensin kestomuotoa ja erottaa sen perusmuodosta: mitä joku tekee juuri nyt ja mitä hän tekee yleensä.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T10"],"S":["S3"]},"eyebrow":"Englanti · 7. luokka","ikoni":"aikajana","naytto":"Paperikoe: 1) Täydennän kahteentoista lauseeseen verbin preesensin perus- tai kestomuodon ajanilmauksen ja yhteyden mukaan (esim. now, at the moment, usually, every Monday); mukana on kolme tilaverbiä (like, know, want) ja kolme kirjoitusasun muutosta (run - running, make - making, lie - lying). 2) Muutan kaksi lausetta kielteisiksi ja kaksi kysymyksiksi (esim. Is she working? Does she work?). 3) Kirjoitan kuvan perusteella neljä lausetta siitä, mitä keksityt henkilöt tekevät juuri nyt, ja kaksi lausetta siitä, mitä he tekevät yleensä.","osaa_kun":"Kohdista 1 ja 2 vähintään 13 kohtaa kuudestatoista on oikein. Tilaverbit ovat perusmuodossa vähintään kahdessa tapauksessa kolmesta (I know, ei I am knowing), ja kirjoitusasun muutoksista vähintään kaksi kolmesta on oikein. Kohdan 3 lauseissa kestomuodossa on be-verbi ja -ing-muoto ja perusmuodossa 3. persoonan -s, ja vähintään viisi lausetta kuudesta on oikein.","teksti":[{"tyyppi":"johdanto","sisalto":"Keksitty kaverisi Jay lähettää viestin Lontoosta: Hi! I'm sitting on the bus and I'm listening to music. I usually walk to school, but it's raining today. What are you doing? Jay kertoo kahdenlaisista asioista. Osa on käynnissä juuri nyt (I'm sitting, I'm listening), osa on hänen tapansa (I usually walk). Suomessa molempiin käy sama preesens: istun bussissa, kävelen kouluun. Englannissa valitaan kahdesta muodosta. Tässä taidossa opit muodostamaan preesensin kestomuodon, valitsemaan sen ja perusmuodon välillä, tunnistamaan verbit, joita ei käytetä kestomuodossa, ja kirjoittamaan -ing-muodon oikein."},{"tyyppi":"kappale","otsikko":"Kaksi preesensiä","sisalto":"Preesensin perusmuoto (present simple) kertoo tavasta, toistuvasta asiasta tai asiasta, joka on aina totta: Jay walks to school. Water boils at 100 degrees. Kolmannessa persoonassa (he, she, it, nimi) verbi saa -s-päätteen, kuten opit jo viidennellä luokalla. Preesensin kestomuoto (present continuous) kertoo asiasta, joka on käynnissä juuri puhehetkellä: Jay is sitting on the bus. Kestomuodossa on aina kaksi osaa: be-verbi tekijän mukaan (am, is, are) ja pääverbin -ing-muoto. Kumpikaan osa ei saa puuttua. Lause I sitting on the bus on väärin, koska am puuttuu, ja lause I am sit on the bus on väärin, koska -ing puuttuu."},{"tyyppi":"kuva","otsikko":"Toistuu vai käynnissä nyt","svg":"<svg viewBox=\"0 0 640 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kaksi aikajanaa. Ylemmällä perusmuoto: Jay walks to school every day, merkit toistuvat joka päivä ennen nykyhetkeä ja sen jälkeen. Alemmalla kestomuoto: Jay is sitting on the bus right now, korostettu jakso on käynnissä juuri nyt.\"><text class=\"v-t vahva\" x=\"10\" y=\"24\" style=\"font-size:13px\">Perusmuoto: toistuu, on tapana tai on aina totta</text><line class=\"v-akseli\" x1=\"20\" y1=\"70\" x2=\"610\" y2=\"70\"/><polygon class=\"v-merkki\" points=\"610,65 620,70 610,75\"/><circle class=\"v-merkki\" cx=\"70\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"150\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"230\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"310\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"390\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"470\" cy=\"70\" r=\"7\"/><circle class=\"v-merkki\" cx=\"550\" cy=\"70\" r=\"7\"/><text class=\"v-t\" x=\"320\" y=\"118\" text-anchor=\"middle\" style=\"font-size:14px\">Jay walks to school every day.</text><text class=\"v-t vahva\" x=\"10\" y=\"150\" style=\"font-size:13px\">Kestomuoto: on käynnissä juuri nyt</text><line class=\"v-akseli\" x1=\"20\" y1=\"196\" x2=\"610\" y2=\"196\"/><polygon class=\"v-merkki\" points=\"610,191 620,196 610,201\"/><rect class=\"v-osa v1\" x=\"300\" y=\"184\" width=\"100\" height=\"24\" rx=\"5\"/><line class=\"v-apu\" x1=\"350\" y1=\"42\" x2=\"350\" y2=\"86\"/><line class=\"v-apu\" x1=\"350\" y1=\"172\" x2=\"350\" y2=\"214\"/><text class=\"v-t vahva\" x=\"350\" y=\"36\" text-anchor=\"middle\" style=\"font-size:12px\">nyt</text><text class=\"v-t\" x=\"350\" y=\"236\" text-anchor=\"middle\" style=\"font-size:14px\">Jay is sitting on the bus right now.</text></svg>","teksti":"Perusmuodon asia toistuu: se tapahtui eilen, tapahtuu tänään ja tapahtuu huomenna. Kestomuodon asia on käynnissä nyt ja loppuu joskus."},{"tyyppi":"taulukko","otsikko":"Kestomuoto tekijän mukaan","otsikkorivi":["Tekijä","Myönteinen","Kielteinen","Kysymys"],"rivit":[["I","I'm reading.","I'm not reading.","Am I reading?"],["he, she, it","She's reading.","She isn't reading.","Is she reading?"],["you","You're reading.","You aren't reading.","Are you reading?"],["we","We're reading.","We aren't reading.","Are we reading?"],["they","They're reading.","They aren't reading.","Are they reading?"]]},{"tyyppi":"taulukko","otsikko":"Vihjesanat","otsikkorivi":["Kestomuoto: juuri nyt","Perusmuoto: tapa tai toistuva asia"],"rivit":[["now, right now","usually, often, sometimes, never"],["at the moment","every day, every Monday, every summer"],["Look! Listen! Shh!","on Saturdays, in the evenings"],["What are you doing?","once a week, twice a month"]]},{"tyyppi":"saanto","otsikko":"Näin kirjoitat -ing-muodon","askeleet":["Useimmat verbit saavat pelkän -ing-päätteen: read → reading, play → playing, cook → cooking.","Jos verbi päättyy äänettömään e-kirjaimeen, e putoaa pois: make → making, ride → riding.","Jos verbi päättyy kirjaimiin ie, ne muuttuvat y:ksi: lie → lying, tie → tying. Tällaisia verbejä on vain muutama.","Jos lyhyt, yksitavuinen verbi päättyy yhteen vokaaliin ja yhteen konsonanttiin, konsonantti kahdentuu: run → running, sit → sitting. W, x ja y eivät kahdennu: snowing, fixing, playing.","Y-loppuinen verbi säilyttää y:n aina: study → studying, cry → crying. Tämä on eri sääntö kuin menneen ajan studied.","Ääntäminen: -ing lausutaan nenä-äänteellä kuten suomen sanan kengät ng-kohta. Loppuun ei lausuta erillistä g-äännettä."]},{"tyyppi":"kappale","otsikko":"Tilaverbit eivät ole kestomuodossa","sisalto":"Osa verbeistä kertoo tilasta, ajatuksesta tai tunteesta eikä toiminnasta. Niitä kutsutaan tilaverbeiksi, ja ne ovat perusmuodossa silloinkin, kun asia on totta juuri nyt: I know the answer, ei I am knowing. She wants a new bike, ei she is wanting. Tavallisimmat tilaverbit ovat like, love, hate, want, need, know, understand, remember, believe, mean ja belong. Muutama verbi voi olla kestomuodossa, kun se tarkoittaa toimintaa: I have a dog (omistan) mutta I'm having lunch (syön lounasta). Tässä taidossa harjoitellaan tilaverbeistä vain varmoja tapauksia: like, know ja want ovat aina perusmuodossa."},{"tyyppi":"kappale","otsikko":"Kielto ja kysymys kummassakin muodossa","sisalto":"Kestomuodossa kielto ja kysymys tehdään be-verbillä, kuten taulukossa: She isn't reading. Is she reading? Yes, she is. No, she isn't. Perusmuodossa tarvitaan apuverbi do tai does, ja pääverbi on silloin perusmuodossa ilman -s-päätettä: She doesn't read comics. Does she read comics? Yes, she does. No, she doesn't. Älä sekoita muotoja: Does she reading? ja Is she read? ovat kumpikin väärin. Tarkista ensin, kumpi muoto lauseessa on, ja valitse sen mukaan be tai do."},{"tyyppi":"kuva","otsikko":"Kumpi muoto?","svg":"<svg viewBox=\"0 0 640 270\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Valintakaavio. 1. Onko verbi tilaverbi kuten like, know tai want? Kyllä: perusmuoto, She knows. 2. Onko asia käynnissä juuri nyt, vihjeinä now, at the moment, Look tai Listen? Kyllä: kestomuoto, She is reading. 3. Muuten tapa, toistuva asia tai tosiasia, vihjeinä usually, often, every day: perusmuoto, She reads every day.\"><rect class=\"v-osa\" x=\"8\" y=\"14\" width=\"330\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"20\" y=\"40\" style=\"font-size:13px\">1. Onko verbi tilaverbi?</text><text class=\"v-t pieni\" x=\"20\" y=\"62\" style=\"font-size:12px\">(like, know, want, need …)</text><line class=\"v-akseli\" x1=\"338\" y1=\"45\" x2=\"392\" y2=\"45\"/><polygon class=\"v-merkki\" points=\"392,40 402,45 392,50\"/><text class=\"v-t pieni\" x=\"366\" y=\"38\" text-anchor=\"middle\" style=\"font-size:11px\">kyllä</text><rect class=\"v-osa v1\" x=\"406\" y=\"14\" width=\"226\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"418\" y=\"40\" style=\"font-size:13px\">Perusmuoto</text><text class=\"v-t\" x=\"418\" y=\"62\" style=\"font-size:13px\">She knows the answer.</text><line class=\"v-akseli\" x1=\"60\" y1=\"76\" x2=\"60\" y2=\"100\"/><polygon class=\"v-merkki\" points=\"55,94 60,100 65,94\"/><text class=\"v-t pieni\" x=\"68\" y=\"93\" style=\"font-size:11px\">ei</text><rect class=\"v-osa\" x=\"8\" y=\"100\" width=\"330\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"20\" y=\"126\" style=\"font-size:13px\">2. Onko asia käynnissä juuri nyt?</text><text class=\"v-t pieni\" x=\"20\" y=\"148\" style=\"font-size:12px\">(now, at the moment, Look!, Listen!)</text><line class=\"v-akseli\" x1=\"338\" y1=\"131\" x2=\"392\" y2=\"131\"/><polygon class=\"v-merkki\" points=\"392,126 402,131 392,136\"/><text class=\"v-t pieni\" x=\"366\" y=\"124\" text-anchor=\"middle\" style=\"font-size:11px\">kyllä</text><rect class=\"v-osa v1\" x=\"406\" y=\"100\" width=\"226\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"418\" y=\"126\" style=\"font-size:13px\">Kestomuoto</text><text class=\"v-t\" x=\"418\" y=\"148\" style=\"font-size:13px\">She is reading.</text><line class=\"v-akseli\" x1=\"60\" y1=\"162\" x2=\"60\" y2=\"186\"/><polygon class=\"v-merkki\" points=\"55,180 60,186 65,180\"/><text class=\"v-t pieni\" x=\"68\" y=\"179\" style=\"font-size:11px\">ei</text><rect class=\"v-osa\" x=\"8\" y=\"186\" width=\"330\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"20\" y=\"212\" style=\"font-size:13px\">3. Muuten: tapa, toistuva asia, tosiasia</text><text class=\"v-t pieni\" x=\"20\" y=\"234\" style=\"font-size:12px\">(usually, often, every day, never)</text><line class=\"v-akseli\" x1=\"338\" y1=\"217\" x2=\"392\" y2=\"217\"/><polygon class=\"v-merkki\" points=\"392,212 402,217 392,222\"/><text class=\"v-t pieni\" x=\"366\" y=\"210\" text-anchor=\"middle\" style=\"font-size:11px\"></text><rect class=\"v-osa v1\" x=\"406\" y=\"186\" width=\"226\" height=\"62\" rx=\"6\"/><text class=\"v-t vahva\" x=\"418\" y=\"212\" style=\"font-size:13px\">Perusmuoto</text><text class=\"v-t\" x=\"418\" y=\"234\" style=\"font-size:13px\">She reads every day.</text></svg>","teksti":"Kysy kysymykset tässä järjestyksessä. Tilaverbi ratkaisee ensin: vaikka lauseessa olisi now, like, know ja want pysyvät perusmuodossa."},{"tyyppi":"ansa","otsikko":"Ansa 1: I watching ja She is watch","sisalto":"Suomen preesensissä on vain yksi sana (katson), joten kestomuodosta jää helposti osa pois. I watching TV on väärin, koska be-verbi puuttuu. She is watch TV on väärin, koska -ing puuttuu. Oikein on I'm watching TV ja She's watching TV. Tarkista jokaisesta kestomuodosta kaksi osaa: am, is tai are ja -ing."},{"tyyppi":"ansa","otsikko":"Ansa 2: I am knowing","sisalto":"Kun lauseessa on now tai at the moment, kestomuoto tuntuu varmalta valinnalta. Tilaverbi ei kuitenkaan taivu kestomuotoon: At the moment I know the answer. Right now Leo wants a snack. Ennen kuin kirjoitat -ing, kysy: onko verbi like, know, want tai jokin muu tilaverbi?"},{"tyyppi":"ansa","otsikko":"Ansa 3: runing, makeing ja lieing","sisalto":"Kolme kirjoitusasun sääntöä unohtuvat helposti. Run on lyhyt ja päättyy vokaaliin ja konsonanttiin, joten running. Make päättyy e-kirjaimeen, joka putoaa: making. Lie päättyy ie-kirjaimiin, jotka muuttuvat y:ksi: lying. Toisaalta kahdennusta ei tehdä, jos lopussa on kaksi vokaalia (raining) tai kaksi konsonanttia (helping)."},{"tyyppi":"ansa","otsikko":"Ansa 4: Does she working? ja She doesn't plays","sisalto":"Do ja does kuuluvat perusmuotoon, be kestomuotoon. Does she working? on väärin: kestomuodon kysymys on Is she working? She doesn't plays on väärin: doesn't vie -s-päätteen, joten She doesn't play. Kun does on lauseessa, pääverbi on aina ilman päätettä."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kestomuoto = am, is tai are + -ing: I'm reading. She's reading. They're reading.","Juuri nyt: now, at the moment, Look!, Listen! → kestomuoto.","Tapa: usually, often, never, every day → perusmuoto, ja he, she, it saavat -s-päätteen.","Tilaverbit like, know ja want ovat aina perusmuodossa: I know. She wants.","-ing: make → making, lie → lying, run → running, play → playing.","Kestomuodon kielto ja kysymys be-verbillä: isn't, Is she …? Perusmuodon do- tai does-verbillä: doesn't play, Does she play?"]}],"harjoitusryhmat":[{"id":"muoto","nimi":"Kestomuodon muoto ja kirjoitusasu","info":"Kestomuodossa on am, is tai are ja -ing-muoto. Kirjoitusasussa e putoaa, ie muuttuu y:ksi ja lyhyen verbin konsonantti kahdentuu."},{"id":"valinta","nimi":"Juuri nyt vai yleensä","info":"Vihjesanat kertovat, onko asia käynnissä nyt vai tapa. Tilaverbit like, know ja want ovat aina perusmuodossa."},{"id":"kielto","nimi":"Kielto, kysymys ja teksti","info":"Kestomuodon kielto ja kysymys tehdään be-verbillä, perusmuodon do- tai does-verbillä. Lopuksi tarkistat kokonaisen tekstin."}],"ryhmanimet":{"valinta":"Perus- vai kestomuoto","kielto":"Kielto ja kysymys","muoto":"Mitä kuvassa tapahtuu"},"harjoitukset":[{"id":"H01","ryhma":"muoto","kysymys":"Verbit: read, write, swim, play, ride, sit\n\nMontaanko näistä tulee -ing-muodossa kaksi samaa konsonanttia peräkkäin?","vastaus":2,"vinkki":"Kahdennus tulee lyhyeen verbiin, joka päättyy yhteen vokaaliin ja yhteen konsonanttiin.","selitys":"Swimming ja sitting. Read ja play saavat pelkän -ing-päätteen, ja write ja ride pudottavat e-kirjaimen (writing, riding)."},{"id":"H02","ryhma":"muoto","kysymys":"Verbit: dance, smile, cook, take, open, come\n\nMonestako näistä putoaa e pois, kun lisäät -ing-päätteen?","vastaus":4,"vinkki":"Etsi verbit, jotka päättyvät e-kirjaimeen.","selitys":"Dancing, smiling, taking ja coming. Cook ja open eivät pääty e-kirjaimeen: cooking, opening."},{"id":"H03","ryhma":"muoto","kysymys":"Verbit: lie, tie, try, die, fly, buy\n\nMonessako näistä ie muuttuu y:ksi ennen -ing-päätettä?","vastaus":3,"vinkki":"Sääntö koskee vain verbejä, jotka päättyvät kirjaimiin ie.","selitys":"Lying, tying ja dying. Try, fly ja buy päättyvät y-kirjaimeen, joka säilyy: trying, flying, buying."},{"id":"H04","ryhma":"muoto","kysymys":"runing, swimming, makeing, lying, shopping, writting\n\nMontako muodoista on kirjoitettu oikein?","vastaus":3,"vinkki":"Käy jokainen sana läpi: putoaako e, muuttuuko ie, kahdentuuko konsonantti?","selitys":"Swimming, lying ja shopping ovat oikein. Oikeat muodot ovat running (kahdennus), making (e putoaa) ja writing (e putoaa, ei kahdennusta)."},{"id":"H05","ryhma":"muoto","kysymys":"Verbit: snow, fix, stop, get, rain, jog\n\nMontaanko näistä kirjoitetaan -ing-muodossa kaksi samaa konsonanttia?","vastaus":3,"vinkki":"W ja x eivät kahdennu. Katso myös, montako vokaalia on ennen viimeistä konsonanttia.","selitys":"Stopping, getting ja jogging. Snowing ja fixing eivät kahdennu, ja rain päättyy kahteen vokaaliin ja konsonanttiin: raining."},{"id":"H06","ryhma":"muoto","kysymys":"I ___ reading. You ___ listening. My sister ___ sleeping. The boys ___ laughing. It ___ snowing.\n\nMontaan aukkoon tulee is?","vastaus":2,"vinkki":"Korvaa tekijä mielessä pronominilla: my sister on she, the boys on they.","selitys":"My sister is ja it is. I saa am-muodon, you ja the boys (they) are-muodon."},{"id":"H07","ryhma":"muoto","tyyppi":"monivalinta","vaihtoehdot":["She is play football.","She playing football.","She is playing football."],"kysymys":"Mikä lauseista on oikein?","vastaus":2,"vinkki":"Kestomuodossa tarvitaan kaksi osaa.","selitys":"She is playing football. Ensimmäisestä puuttuu -ing, toisesta be-verbi is."},{"id":"H08","ryhma":"valinta","kysymys":"Ilmaukset: now, every Saturday, at the moment, usually, Look!, never, right now, on Sundays\n\nMontako näistä vihjaa kestomuotoon?","vastaus":4,"vinkki":"Mitkä ilmaukset kertovat, että asia on käynnissä juuri nyt?","selitys":"Now, at the moment, Look! ja right now. Every Saturday, usually, never ja on Sundays kertovat tavasta tai toistuvasta asiasta."},{"id":"H09","ryhma":"valinta","kysymys":"1. Listen! Someone ___ (knock) on the door.\n2. The sun ___ (rise) in the east.\n3. We ___ (have) maths every Tuesday.\n4. Shh! The baby ___ (sleep).\n5. Leo ___ (walk) to school every morning.\n\nMonessako lauseessa verbi tulee kestomuotoon?","vastaus":2,"vinkki":"Etsi vihjesanat Listen!, Shh!, now ja at the moment.","selitys":"Lauseet 1 (is knocking) ja 4 (is sleeping). Lause 2 on tosiasia (rises), lauseet 3 ja 5 kertovat toistuvasta asiasta (have, walks)."},{"id":"H10","ryhma":"valinta","kysymys":"Verbit: know, run, like, want, eat, understand, play, need\n\nMontako näistä on tilaverbejä, joita ei käytetä kestomuodossa?","vastaus":5,"vinkki":"Tilaverbi kertoo tiedosta, tunteesta tai halusta, ei toiminnasta.","selitys":"Know, like, want, understand ja need ovat tilaverbejä. Run, eat ja play ovat toimintaa, joten niitä voi käyttää kestomuodossa."},{"id":"H11","ryhma":"valinta","kysymys":"1. I am knowing his name.\n2. Mia wants a new bike.\n3. They are liking the new teacher.\n4. Look! Tom is wearing a funny hat.\n5. We are understanding the rule now.\n\nMontako lauseista on oikein?","vastaus":2,"vinkki":"Tarkista jokaisesta lauseesta: onko verbi tilaverbi?","selitys":"Lauseet 2 ja 4 ovat oikein. Oikein olisi I know his name, They like the new teacher ja We understand the rule now."},{"id":"H12","ryhma":"valinta","tyyppi":"monivalinta","vaihtoehdot":["is wanting","wants","want"],"kysymys":"At the moment Leo ___ a new phone.\n\nMikä muoto aukkoon tulee?","vastaus":1,"vinkki":"Want on tilaverbi, ja Leo on he.","selitys":"Wants. Want ei taivu kestomuotoon, vaikka lauseessa on at the moment, ja kolmas persoona saa -s-päätteen."},{"id":"H13","ryhma":"valinta","kysymys":"Every morning Sara ___ (get) up at seven. She usually ___ (eat) porridge. But today is Saturday, and right now she ___ (sleep). Her parents ___ (drink) coffee in the kitchen at the moment.\n\nMonessako aukossa on kestomuoto?","vastaus":2,"vinkki":"Etsi jokaisen virkkeen vihjesana.","selitys":"She is sleeping (right now) ja her parents are drinking (at the moment). Gets ja eats kertovat tavasta (every morning, usually)."},{"id":"H14","ryhma":"valinta","kysymys":"Kim ___ (play) the guitar every evening. Now he ___ (play) a new song. He ___ (know) the chords well. His dog ___ (sit) next to him at the moment.\n\nMonessako aukossa verbi on perusmuodossa?","vastaus":2,"vinkki":"Every evening on tapa, know on tilaverbi.","selitys":"Plays (every evening) ja knows (tilaverbi). Now ja at the moment vaativat kestomuodon: is playing, is sitting."},{"id":"H15","ryhma":"kielto","kysymys":"1. She doesn't working today.\n2. They aren't watching TV now.\n3. He isn't like fish.\n4. I'm not sleeping.\n5. Ben doesn't play tennis.\n\nMontako lauseista on oikein?","vastaus":3,"vinkki":"Be kuuluu kestomuotoon, do ja does perusmuotoon.","selitys":"Lauseet 2, 4 ja 5 ovat oikein. Oikein olisi She isn't working today ja He doesn't like fish."},{"id":"H16","ryhma":"kielto","kysymys":"1. Are you listening?\n2. Does she working now?\n3. Is he play the piano?\n4. Do they live in Espoo?\n5. Is it raining?\n\nMontako kysymyksistä on oikein?","vastaus":3,"vinkki":"Kestomuodon kysymys alkaa be-verbillä ja siinä on -ing. Perusmuodon kysymys alkaa do- tai does-sanalla, ja verbi on ilman päätettä.","selitys":"Kysymykset 1, 4 ja 5 ovat oikein. Oikein olisi Is she working now? ja Does he play the piano? (tai Is he playing the piano?)."},{"id":"H17","ryhma":"kielto","tyyppi":"monivalinta","vaihtoehdot":["Is your cousin living in York?","Does your cousin live in York?","Does your cousin lives in York?"],"kysymys":"Muutat lauseen kysymykseksi niin, että aikamuoto säilyy: Your cousin lives in York.\n\nMikä kysymys on oikein?","vastaus":1,"vinkki":"Lause on perusmuodossa, ja tekijä on he tai she.","selitys":"Does your cousin live in York? Ensimmäinen vaihtoehto vaihtaa aikamuodon kestomuodoksi, ja kolmannessa on -s-pääte, vaikka does on jo lauseessa."},{"id":"H18","ryhma":"kielto","kysymys":"Kysymys: Are your friends playing outside?\n\nVastaukset:\n1. Yes, they are.\n2. Yes, they do.\n3. No, they aren't.\n4. No, they don't.\n\nMontako vastauksista on oikeita lyhyitä vastauksia?","vastaus":2,"vinkki":"Lyhyt vastaus toistaa kysymyksen apuverbin.","selitys":"Yes, they are ja No, they aren't. Kysymys alkaa are-sanalla, joten do ja don't eivät sovi vastaukseen."},{"id":"H19","ryhma":"kielto","kysymys":"Hi Jay! I'm siting on the train now. I usually cycle to school, but today it's raining. My friend Ada is makeing a video for her vlog. She is knowing the conductor. We doesn't have a test today, so we are chatting.\n\nMontako virhettä tekstissä on?","vastaus":4,"vinkki":"Tarkista jokaisesta verbistä muoto, kirjoitusasu ja tilaverbit.","selitys":"Siting → sitting, makeing → making, is knowing → knows ja we doesn't → we don't. Muut muodot ovat oikein."},{"id":"H20","ryhma":"kielto","kysymys":"I like jazz.\nTom is running.\nThey play chess.\nShe is lying on the beach.\nOur cat eats fish.\n\nMuutat lauseet kielteisiksi. Montaan kieltolauseeseen tulee don't tai doesn't?","vastaus":3,"vinkki":"Do ja does tulevat vain perusmuodon lauseisiin.","selitys":"I don't like jazz, they don't play chess ja our cat doesn't eat fish. Tom isn't running ja she isn't lying saavat kiellon be-verbiin."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Tehtävät 1–12: kirjoita aukkoon sulkeissa olevan verbin preesensin perusmuoto tai kestomuoto. Valitse muoto vihjesanan ja verbin mukaan, ja tarkista -ing-muodon kirjoitusasu. Kestomuotoon kirjoitetaan myös am, is tai are. Tehtävät 13–14: kirjoita lause kielteisenä. Tehtävät 15–16: kirjoita lause kysymyksenä. Aikamuoto pysyy samana. Tehtävä 17: kirjoita kuusi kokonaista lausetta kuvan vihjeistä. Kirjoita tehtävän 17 lauseet tehtävän alle tai kokeen kääntöpuolelle. Saat käyttää lyhyitä muotoja (isn't, doesn't, I'm) tai pitkiä (is not, does not, I am). Sanakirjaa ei käytetä. Kaikki henkilöt ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Mr Lee ___ (paint) his fence.","vastaus":"is painting"},{"nro":2,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Aino usually ___ (help) at the animal shelter on Saturdays.","vastaus":"helps"},{"nro":3,"ryhma":"valinta","tyyppi":"lasku","kysymys":"At the moment the twins ___ (build) a snowman.","vastaus":"are building"},{"nro":4,"ryhma":"valinta","tyyppi":"lasku","kysymys":"We ___ (visit) the library every Friday.","vastaus":"visit"},{"nro":5,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ella is hungry. At the moment she ___ (want) a sandwich.","vastaus":"wants"},{"nro":6,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ask us about the bus. We ___ (know) the timetable.","vastaus":"know"},{"nro":7,"ryhma":"valinta","tyyppi":"lasku","kysymys":"These days my cousin ___ (like) old films.","vastaus":"likes"},{"nro":8,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The dog ___ (dig) a hole in the garden.","vastaus":"is digging"},{"nro":9,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Right now Grandpa ___ (bake) bread.","vastaus":"is baking"},{"nro":10,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The cat ___ (lie) on the warm floor.","vastaus":"is lying"},{"nro":11,"ryhma":"valinta","tyyppi":"lasku","kysymys":"My brother often ___ (forget) his keys.","vastaus":"forgets"},{"nro":12,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sorry, I can't talk now. I ___ (cook) dinner.","vastaus":"am cooking"},{"nro":13,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Leo is sleeping.","vastaus":"Leo isn't sleeping."},{"nro":14,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Mia plays the drums.","vastaus":"Mia doesn't play the drums."},{"nro":15,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: The boys are swimming.","vastaus":"Are the boys swimming?"},{"nro":16,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your sister works in a shop.","vastaus":"Does your sister work in a shop?"},{"nro":17,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kuva: keksitty kesäpäivä rannalla. Kuvan sijasta on vihjeet.\nJuuri nyt kuvassa:\n1. Oona – read – a magazine\n2. Eino and Ville – play – volleyball\n3. a man – swim – in the sea\n4. two girls – eat – ice cream\nHenkilöiden tavat (kuvan alla oleva kalenteri):\n5. Oona – play – tennis – every Sunday\n6. Eino – work – at the kiosk – on Saturdays\n\nKirjoita kuusi lausetta: neljä siitä, mitä henkilöt tekevät juuri nyt (1–4), ja kaksi siitä, mitä he tekevät yleensä (5–6).","vastaus":"Malliesimerkki: Oona is reading a magazine. Eino and Ville are playing volleyball. A man is swimming in the sea. Two girls are eating ice cream. Oona plays tennis every Sunday. Eino works at the kiosk on Saturdays."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Tehtävät 1–12: kirjoita aukkoon sulkeissa olevan verbin preesensin perusmuoto tai kestomuoto. Valitse muoto vihjesanan ja verbin mukaan, ja tarkista -ing-muodon kirjoitusasu. Kestomuotoon kirjoitetaan myös am, is tai are. Tehtävät 13–14: kirjoita lause kielteisenä. Tehtävät 15–16: kirjoita lause kysymyksenä. Aikamuoto pysyy samana. Tehtävä 17: kirjoita kuusi kokonaista lausetta kuvan vihjeistä. Kirjoita tehtävän 17 lauseet tehtävän alle tai kokeen kääntöpuolelle. Saat käyttää lyhyitä muotoja (isn't, doesn't, I'm) tai pitkiä (is not, does not, I am). Sanakirjaa ei käytetä. Kaikki henkilöt ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Ms Ray ___ (wash) her car.","vastaus":"is washing"},{"nro":2,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Leo usually ___ (walk) his dog in the evening.","vastaus":"walks"},{"nro":3,"ryhma":"valinta","tyyppi":"lasku","kysymys":"At the moment the girls ___ (watch) a match on TV.","vastaus":"are watching"},{"nro":4,"ryhma":"valinta","tyyppi":"lasku","kysymys":"They ___ (play) badminton every Wednesday.","vastaus":"play"},{"nro":5,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Max is cold. At the moment he ___ (want) a warm jacket.","vastaus":"wants"},{"nro":6,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ask me about the game. I ___ (know) the rules.","vastaus":"know"},{"nro":7,"ryhma":"valinta","tyyppi":"lasku","kysymys":"These days my sister ___ (like) rap music.","vastaus":"likes"},{"nro":8,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The chef ___ (cut) onions.","vastaus":"is cutting"},{"nro":9,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Right now Aunt Mari ___ (skate) on the rink.","vastaus":"is skating"},{"nro":10,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Dad ___ (tie) his shoelaces.","vastaus":"is tying"},{"nro":11,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Our teacher never ___ (shout) at us.","vastaus":"shouts"},{"nro":12,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sorry, I can't talk now. I ___ (eat) lunch.","vastaus":"am eating"},{"nro":13,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Ella is running.","vastaus":"Ella isn't running."},{"nro":14,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Tom eats fish.","vastaus":"Tom doesn't eat fish."},{"nro":15,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: The girls are dancing.","vastaus":"Are the girls dancing?"},{"nro":16,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your uncle drives a taxi.","vastaus":"Does your uncle drive a taxi?"},{"nro":17,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kuva: keksitty lauantai puistossa. Kuvan sijasta on vihjeet.\nJuuri nyt kuvassa:\n1. Noora – feed – the ducks\n2. Aaro and Jaakko – fly – a kite\n3. a woman – jog – along the path\n4. two boys – kick – a ball\nHenkilöiden tavat (kuvan alla oleva kalenteri):\n5. Noora – visit – the park – every Saturday\n6. Aaro – play – the drums – on Fridays\n\nKirjoita kuusi lausetta: neljä siitä, mitä henkilöt tekevät juuri nyt (1–4), ja kaksi siitä, mitä he tekevät yleensä (5–6).","vastaus":"Malliesimerkki: Noora is feeding the ducks. Aaro and Jaakko are flying a kite. A woman is jogging along the path. Two boys are kicking a ball. Noora visits the park every Saturday. Aaro plays the drums on Fridays."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Tehtävät 1–12: kirjoita aukkoon sulkeissa olevan verbin preesensin perusmuoto tai kestomuoto. Valitse muoto vihjesanan ja verbin mukaan, ja tarkista -ing-muodon kirjoitusasu. Kestomuotoon kirjoitetaan myös am, is tai are. Tehtävät 13–14: kirjoita lause kielteisenä. Tehtävät 15–16: kirjoita lause kysymyksenä. Aikamuoto pysyy samana. Tehtävä 17: kirjoita kuusi kokonaista lausetta kuvan vihjeistä. Kirjoita tehtävän 17 lauseet tehtävän alle tai kokeen kääntöpuolelle. Saat käyttää lyhyitä muotoja (isn't, doesn't, I'm) tai pitkiä (is not, does not, I am). Sanakirjaa ei käytetä. Kaikki henkilöt ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Mr Hill ___ (clean) the windows.","vastaus":"is cleaning"},{"nro":2,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sara usually ___ (read) before bed.","vastaus":"reads"},{"nro":3,"ryhma":"valinta","tyyppi":"lasku","kysymys":"At the moment the boys ___ (climb) the wall at the climbing centre.","vastaus":"are climbing"},{"nro":4,"ryhma":"valinta","tyyppi":"lasku","kysymys":"I ___ (go) to the gym every Monday.","vastaus":"go"},{"nro":5,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Mia is tired. At the moment she ___ (want) a break.","vastaus":"wants"},{"nro":6,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ask them about the film. They ___ (know) the ending.","vastaus":"know"},{"nro":7,"ryhma":"valinta","tyyppi":"lasku","kysymys":"These days our neighbour ___ (like) gardening.","vastaus":"likes"},{"nro":8,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Tom ___ (chat) with his friends outside.","vastaus":"is chatting"},{"nro":9,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Right now Uncle Olli ___ (share) photos online.","vastaus":"is sharing"},{"nro":10,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The little boy ___ (untie) his shoes.","vastaus":"is untying"},{"nro":11,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Mr Brown often ___ (sing) in the shower.","vastaus":"sings"},{"nro":12,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sorry, I can't talk now. I ___ (help) my neighbour.","vastaus":"am helping"},{"nro":13,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Aino is smiling.","vastaus":"Aino isn't smiling."},{"nro":14,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Ben drinks coffee.","vastaus":"Ben doesn't drink coffee."},{"nro":15,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: The kids are laughing.","vastaus":"Are the kids laughing?"},{"nro":16,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your friend speaks Spanish.","vastaus":"Does your friend speak Spanish?"},{"nro":17,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kuva: keksitty kesäilta järven rannalla. Kuvan sijasta on vihjeet.\nJuuri nyt kuvassa:\n1. Helmi – paint – a picture\n2. Otto and Iida – build – a sandcastle\n3. a girl – sit – on a bench\n4. two men – push – a boat\nHenkilöiden tavat (kuvan alla oleva kalenteri):\n5. Helmi – draw – comics – every evening\n6. Otto – visit – the library – on Thursdays\n\nKirjoita kuusi lausetta: neljä siitä, mitä henkilöt tekevät juuri nyt (1–4), ja kaksi siitä, mitä he tekevät yleensä (5–6).","vastaus":"Malliesimerkki: Helmi is painting a picture. Otto and Iida are building a sandcastle. A girl is sitting on a bench. Two men are pushing a boat. Helmi draws comics every evening. Otto visits the library on Thursdays."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Tehtävät 1–12: kirjoita aukkoon sulkeissa olevan verbin preesensin perusmuoto tai kestomuoto. Valitse muoto vihjesanan ja verbin mukaan, ja tarkista -ing-muodon kirjoitusasu. Kestomuotoon kirjoitetaan myös am, is tai are. Tehtävät 13–14: kirjoita lause kielteisenä. Tehtävät 15–16: kirjoita lause kysymyksenä. Aikamuoto pysyy samana. Tehtävä 17: kirjoita kuusi kokonaista lausetta kuvan vihjeistä. Kirjoita tehtävän 17 lauseet tehtävän alle tai kokeen kääntöpuolelle. Saat käyttää lyhyitä muotoja (isn't, doesn't, I'm) tai pitkiä (is not, does not, I am). Sanakirjaa ei käytetä. Kaikki henkilöt ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Mrs Kay ___ (water) her plants.","vastaus":"is watering"},{"nro":2,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ben usually ___ (ride) his bike to school.","vastaus":"rides"},{"nro":3,"ryhma":"valinta","tyyppi":"lasku","kysymys":"At the moment the players ___ (warm) up on the field.","vastaus":"are warming"},{"nro":4,"ryhma":"valinta","tyyppi":"lasku","kysymys":"You ___ (call) your grandma every Sunday.","vastaus":"call"},{"nro":5,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Leo is bored. At the moment he ___ (want) something to do.","vastaus":"wants"},{"nro":6,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ask my parents. They ___ (know) the way.","vastaus":"know"},{"nro":7,"ryhma":"valinta","tyyppi":"lasku","kysymys":"These days my friend ___ (like) chess.","vastaus":"likes"},{"nro":8,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The baby ___ (clap) her hands.","vastaus":"is clapping"},{"nro":9,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Right now Grandma ___ (drive) to the shop.","vastaus":"is driving"},{"nro":10,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The dog ___ (lie) under the table.","vastaus":"is lying"},{"nro":11,"ryhma":"valinta","tyyppi":"lasku","kysymys":"My little sister never ___ (eat) carrots.","vastaus":"eats"},{"nro":12,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sorry, I can't talk now. I ___ (wait) for the bus.","vastaus":"am waiting"},{"nro":13,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Max is reading.","vastaus":"Max isn't reading."},{"nro":14,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Sara likes horror films.","vastaus":"Sara doesn't like horror films."},{"nro":15,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: The players are training.","vastaus":"Are the players training?"},{"nro":16,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your neighbour keeps chickens.","vastaus":"Does your neighbour keep chickens?"},{"nro":17,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kuva: keksitty kesäpäivä mökin pihalla. Kuvan sijasta on vihjeet.\nJuuri nyt kuvassa:\n1. Venla – write – a postcard\n2. Elias and Lauri – wash – the car\n3. a boy – run – to the shop\n4. two women – drink – tea\nHenkilöiden tavat (kuvan alla oleva kalenteri):\n5. Venla – cook – dinner – every Friday\n6. Elias – clean – his room – on Sundays\n\nKirjoita kuusi lausetta: neljä siitä, mitä henkilöt tekevät juuri nyt (1–4), ja kaksi siitä, mitä he tekevät yleensä (5–6).","vastaus":"Malliesimerkki: Venla is writing a postcard. Elias and Lauri are washing the car. A boy is running to the shop. Two women are drinking tea. Venla cooks dinner every Friday. Elias cleans his room on Sundays."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Tehtävät 1–12: kirjoita aukkoon sulkeissa olevan verbin preesensin perusmuoto tai kestomuoto. Valitse muoto vihjesanan ja verbin mukaan, ja tarkista -ing-muodon kirjoitusasu. Kestomuotoon kirjoitetaan myös am, is tai are. Tehtävät 13–14: kirjoita lause kielteisenä. Tehtävät 15–16: kirjoita lause kysymyksenä. Aikamuoto pysyy samana. Tehtävä 17: kirjoita kuusi kokonaista lausetta kuvan vihjeistä. Kirjoita tehtävän 17 lauseet tehtävän alle tai kokeen kääntöpuolelle. Saat käyttää lyhyitä muotoja (isn't, doesn't, I'm) tai pitkiä (is not, does not, I am). Sanakirjaa ei käytetä. Kaikki henkilöt ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Mr Park ___ (push) a heavy trolley.","vastaus":"is pushing"},{"nro":2,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Emma usually ___ (visit) her grandparents in July.","vastaus":"visits"},{"nro":3,"ryhma":"valinta","tyyppi":"lasku","kysymys":"At the moment the kids ___ (play) in the park.","vastaus":"are playing"},{"nro":4,"ryhma":"valinta","tyyppi":"lasku","kysymys":"My parents ___ (work) from home every Tuesday.","vastaus":"work"},{"nro":5,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ali is sleepy. At the moment he ___ (want) a nap.","vastaus":"wants"},{"nro":6,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Ask the guides. They ___ (know) the museum well.","vastaus":"know"},{"nro":7,"ryhma":"valinta","tyyppi":"lasku","kysymys":"These days my uncle ___ (like) jazz.","vastaus":"likes"},{"nro":8,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! The bird ___ (hop) on the grass.","vastaus":"is hopping"},{"nro":9,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Right now Uncle Jussi ___ (hide) the presents.","vastaus":"is hiding"},{"nro":10,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Look! Sara ___ (tie) a ribbon on the gift.","vastaus":"is tying"},{"nro":11,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Our dog often ___ (bark) at the postman.","vastaus":"barks"},{"nro":12,"ryhma":"valinta","tyyppi":"lasku","kysymys":"Sorry, I can't talk now. I ___ (clean) my room.","vastaus":"am cleaning"},{"nro":13,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Ada is singing.","vastaus":"Ada isn't singing."},{"nro":14,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kielteisenä: Leo wears glasses.","vastaus":"Leo doesn't wear glasses."},{"nro":15,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your parents are working.","vastaus":"Are your parents working?"},{"nro":16,"ryhma":"kielto","tyyppi":"sanallinen","kysymys":"Kirjoita lause kysymyksenä: Your teacher lives near the school.","vastaus":"Does your teacher live near the school?"},{"nro":17,"ryhma":"muoto","tyyppi":"sanallinen","kysymys":"Kuva: keksitty kevätpäivä kaupungin torilla. Kuvan sijasta on vihjeet.\nJuuri nyt kuvassa:\n1. Pihla – take – photos\n2. Niko and Aleksi – plant – flowers\n3. a man – shop – for vegetables\n4. two children – look – at the fish\nHenkilöiden tavat (kuvan alla oleva kalenteri):\n5. Pihla – walk – her dog – every morning\n6. Niko – play – football – on Tuesdays\n\nKirjoita kuusi lausetta: neljä siitä, mitä henkilöt tekevät juuri nyt (1–4), ja kaksi siitä, mitä he tekevät yleensä (5–6).","vastaus":"Malliesimerkki: Pihla is taking photos. Niko and Aleksi are planting flowers. A man is shopping for vegetables. Two children are looking at the fish. Pihla walks her dog every morning. Niko plays football on Tuesdays."}]}],"tulostus":{"sivuja":2,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":1,"sivunvaihto_ennen":null},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Englannissa on kaksi preesensiä. Kun asia on käynnissä juuri nyt, käytä kestomuotoa: am, is tai are ja -ing. Kun asia on tapa tai toistuu, käytä perusmuotoa, ja muista he-, she- ja it-tekijän -s. Like, know ja want ovat aina perusmuodossa, vaikka lauseessa olisi now.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Lue Jayn viesti (johdanto) ääneen. Kysy, mitkä asiat ovat käynnissä nyt ja mikä on Jayn tapa. Kirjoita taululle I'm sitting ja I usually walk ja kysy, miten ne eroavat muodoltaan."},{"aika":"15 min","otsikko":"Ydinasia","sisalto":"Käy läpi aikajanakuva, kestomuototaulukko ja vihjesanat. Lajitelkaa taululla kymmenen verbiä -ing-sääntöjen mukaan (mukana rain, snow ja help, jotta väärä kahdennus tulee näkyviin). Esittele tilaverbit valintakaavion avulla: kirjoita taululle At the moment I ___ (know) the answer ja anna luokan päättää."},{"aika":"20 min","otsikko":"Harjoittelu","sisalto":"Harjoitukset ryhmä kerrallaan. Pysähdy tehtäviin H05 (milloin kahdennetaan), H11 (tilaverbit) ja H16 (be vai does kysymyksessä). Tehtävän H19 virheet kannattaa purkaa yhdessä."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Jokainen kirjoittaa kaksi lausetta keksitystä henkilöstä: mitä hän tekee juuri nyt ja mitä hän tekee yleensä. Oppilas tarkistaa omista lauseistaan be-verbin, -ing-muodon ja -s-päätteen muistilapun avulla. Tätä ei kirjata."},{"aika":"45 min","otsikko":"Toinen tunti: kertaus ja näyttö","sisalto":"Kertaa 10 minuuttia ansojen ja muistilapun avulla: muodosta yhdessä yksi kielto ja yksi kysymys kummastakin muodosta. Sen jälkeen koe (versio A–E). Kaaviot ja muistilappu eivät ole näkyvillä kokeen aikana."}],"tarvikkeet":"Taulutila verbien lajitteluun, aikajanakuva ja valintakaavio näkyville ensimmäisellä tunnilla. Harjoitukset laitteelta tai tulostettuna. Koe tulostettuna."},"virhesanakirja":[{"virhe":"Kirjoittaa 'Look! Mr Lee painting his fence.' tai 'Mr Lee is paint his fence.'","tehtava":"kestomuodon kaksi osaa (H06, H07, kokeen tehtävät 1, 3, 12 ja 17)","mita_kertoo":"Oppilas kääntää suomen yhden sanan preesensin (maalaa) ja jättää kestomuodosta toisen osan pois. Hän tunnistaa tilanteen oikein, mutta muoto ei ole vielä kokonainen.","mita_tehda":"Pyydä oppilasta ympyröimään jokaisesta kestomuodosta be-verbi ja alleviivaamaan -ing. Jos jompaakumpaa ei löydy, kysy: kuka tekee, ja mikä am-, is- tai are-muoto hänelle kuuluu?"},{"virhe":"Kirjoittaa 'is wanting', 'are knowing' tai 'is liking'.","tehtava":"tilaverbit (H10, H11, H12, kokeen tehtävät 5–7)","mita_kertoo":"Oppilas on oppinut vihjesanan (now, at the moment) ja soveltaa sitä mekaanisesti. Hän ei vielä tarkista verbin merkitystä ennen muodon valintaa.","mita_tehda":"Näytä valintakaavio ja pyydä oppilasta kysymään ensimmäinen kysymys ääneen: onko verbi tilaverbi? Tehkää lista like, know, want, need, understand, ja pyydä keksimään kustakin lause, jossa on now."},{"virhe":"Kirjoittaa 'diging', 'cuting', 'chating' tai toisaalta 'snowwing', 'rainning'.","tehtava":"kahdennus (H01, H04, H05, kokeen tehtävä 8)","mita_kertoo":"Oppilas ei vielä tunnista lyhyttä verbiä, joka päättyy yhteen vokaaliin ja yhteen konsonanttiin, tai yleistää kahdennuksen verbeihin, joihin se ei kuulu.","mita_tehda":"Pyydä merkitsemään verbin kolme viimeistä kirjainta (konsonantti, vokaali, konsonantti). Lajitelkaa kymmenen verbiä kahteen sarakkeeseen ja ottakaa mukaan rain, snow ja help."},{"virhe":"Kirjoittaa 'bakeing', 'skateing', 'lieing' tai 'tieing'.","tehtava":"e putoaa ja ie → y (H02, H03, H04, kokeen tehtävät 9 ja 10)","mita_kertoo":"Oppilas lisää päätteen sanan perään muuttamatta vartaloa. Ie-verbejä on vähän, joten muoto ei ole vielä tuttu.","mita_tehda":"Kirjoita rinnakkain make – making ja lie – lying ja kysy, mitkä kirjaimet katosivat tai muuttuivat. Muistuta, että ie-verbejä on käytännössä kolme: lie, tie ja die."},{"virhe":"Kirjoittaa 'Does she working?', 'She doesn't plays' tai 'Is he play?'.","tehtava":"kielto ja kysymys (H15–H17, kokeen tehtävät 13–16)","mita_kertoo":"Oppilas tietää, että kieltoon ja kysymykseen tarvitaan apuverbi, mutta yhdistää perusmuodon ja kestomuodon osia. Does-kysymyksessä -s jää helposti myös pääverbiin.","mita_tehda":"Tee kaksi saraketta: be + -ing ja do/does + perusmuoto. Pyydä oppilasta päättämään ensin, kummassa sarakkeessa alkuperäinen lause on, ja tekemään kiellon tai kysymyksen vain sen sarakkeen osilla."},{"virhe":"Kirjoittaa kuvan tavoista 'Oona is going to the beach every Sunday.' tai 'Eino work at the kiosk on Saturdays.'","tehtava":"kuvan lauseet (H13, H14, kokeen tehtävä 17)","mita_kertoo":"Oppilas käyttää yhtä muotoa kaikkiin lauseisiin eikä vielä erota tapaa ja käynnissä olevaa asiaa, tai unohtaa kolmannen persoonan -s-päätteen perusmuodossa.","mita_tehda":"Pyydä oppilasta alleviivaamaan jokaisesta vihjeestä aikaa kertova osa (juuri nyt tai every Sunday) ja valitsemaan muoto sen mukaan. Tarkistakaa sitten, että he- ja she-lauseissa on -s."}],"opettajalle":{"kesto":"2 · 45 min: ensimmäinen oppitunti tekstiin ja harjoituksiin, toinen kertaukseen ja kokeeseen jakson J1 aikana.","huomiot":["Muoto: koeperustainen, koska kartan näyttö alkaa sanalla Paperikoe ja vastaukset ovat yksiselitteisiä verbimuotoja. Koe vastaa näyttöä: 1) tehtävissä 1–12 täydennetään preesensin perus- tai kestomuoto ajanilmauksen ja yhteyden mukaan, 2) tehtävissä 13–14 tehdään kaksi kieltoa ja tehtävissä 15–16 kaksi kysymystä, 3) tehtävässä 17 kirjoitetaan kuvan vihjeistä neljä lausetta siitä, mitä henkilöt tekevät juuri nyt, ja kaksi siitä, mitä he tekevät yleensä.","Rakenne on sama kaikissa versioissa A–E: 1 Look! + yksikön 3. persoona kestomuodossa, 2 usually + 3. persoonan -s, 3 at the moment + monikko kestomuodossa, 4 every + perusmuoto ilman -s-päätettä, 5 want (3. persoona, lauseessa at the moment), 6 know (monikko tai I), 7 like (3. persoona, these days), 8 kahdennus (dig, cut, chat, clap, hop), 9 e putoaa (bake, skate, share, drive, hide), 10 ie → y (lie, tie, untie, lie, tie), 11 often tai never + 3. persoonan -s, 12 Sorry, I can't talk now + am + -ing, 13 kestomuodon kielto, 14 perusmuodon kielto doesn't-sanalla, 15 kestomuodon kysymys, 16 perusmuodon kysymys Does-sanalla, 17 kuusi lausetta.","Raja kartan mukaan: tehtävistä 1–16 vähintään 13 oikein, tilaverbitehtävistä 5–7 vähintään kaksi oikein, kirjoitusasutehtävistä 8–10 vähintään kaksi oikein ja tehtävä 17 oikein. Tehtävä 17 on yksi kohta, joka on oikein, kun vähintään viisi lausetta kuudesta on oikein. Pienin hyväksytty tulos on siis 13/16 + tehtävä 17 = 14/17, mikä on yli opettajan sivun 80 %:n oletusrajan (13,6/17), joten rajat eivät ole ristiriidassa.","Mittaritehtävät: 17 (oikea muoto omissa lauseissa: kestomuodossa be-verbi ja -ing, perusmuodossa 3. persoonan -s), tilaverbit 5–7 (vähintään kaksi kolmesta) ja kirjoitusasu 8–10 (vähintään kaksi kolmesta). Nämä mittaavat taidon ydintä, jota ei voi arvata pelkän vihjesanan perusteella.","Tarkistus tehtävissä 1–12: kestomuodossa be-verbin ja -ing-muodon on oltava oikein ja tekijän mukaan. Lyhyet muodot ('s painting, 'm cooking) hyväksytään. Tehtävässä 3 versiossa D vastaus are warming (up on jo valmiina). Kirjoitusasun on oltava oikein: diging, bakeing, lieing ja tieing ovat vääriä. Väärä aikamuoto on väärin, vaikka kirjoitusasu olisi oikein.","Tehtävät 13–16: koko lause kirjoitetaan, mutta arvioidaan vain verbiosa. Hyväksytään isn't ja is not, doesn't ja does not. Kysymysmerkin puuttuminen tai pieni alkukirjain ei kaada kohtaa. Aikamuodon vaihtaminen (Is your sister working in a shop?) on väärin, koska ohje pyytää säilyttämään aikamuodon.","Tehtävä 17: hyväksytään mikä tahansa oikea muotoilu, ei vain malliesimerkki. Lause on oikein, kun juuri nyt -lauseessa on be-verbi tekijän mukaan ja -ing-muoto (myös kirjoitusasu oikein: swimming, jogging, sitting, running, shopping) ja tapalauseessa perusmuoto, jossa he- tai she-tekijällä on -s-pääte (plays, visits, draws). Artikkeli- tai prepositiovirhe ei kaada lausetta. Kuvan sijasta kokeessa on vihjeet; jos haluat, piirrä taululle yksinkertainen kohtaus ilman englanninkielisiä sanoja.","Laajuus: preesensin kestomuoto myönteisenä, kieltona ja kysymyksenä, sen erottaminen perusmuodosta ja kolme tilaverbiä (like, know, want). Kestomuoto sovituista menoista (I'm meeting Sam tomorrow) kuuluu taitoon ENA7-SAN-03 ja imperfektin kestomuoto taitoon ENA7-SAN-02, joten niitä ei ole tehtävissä. Kaksitavuiset verbit, joiden kahdennus vaihtelee (begin, travel), ja verbit, joilla on kaksi merkitystä (have, think, see), on jätetty kokeesta pois, jotta vastaus on yksiselitteinen. Always-sanaa ei käytetä, koska always + kestomuoto ilmaisee ärtymystä ja tekisi tehtävästä monitulkintaisen.","Kopiotesti: kokeen lauseet eivät toista opetustekstin eikä harjoitusten lauseita. Tehtävän 10 verbit (lie, tie, untie) esiintyvät myös opetustekstissä ja harjoituksessa H03, koska ie-loppuisia verbejä on käytännössä vain kolme; lauseet ovat eri. Tehtävien 8 ja 9 verbejä ei ole taivutettu opetustekstissä eikä harjoituksissa.","Ero edeltäviin: ENA5-SAN-02 opetti preesensin perusmuodon, -s-päätteen sekä do- ja does-kiellot ja -kysymykset. Tässä taidossa ne kerrataan, ja uutta on kestomuoto, valinta kahden muodon välillä ja tilaverbit. Taito on pohja taidoille ENA7-SAN-02 (imperfektin kestomuoto) ja ENA7-SAN-03 (sovitut menot).","Kieli: materiaali käyttää brittienglantia (neighbour, centre). Johdonmukainen amerikkalainen muoto hyväksytään. Henkilöt ovat keksittyjä. Tarkistettava asiatieto: veden kiehumispiste 100 astetta normaalipaineessa (opetustekstin esimerkki, varma). Vastausaikaa ei mitata eikä kirjata."]},"huoltajalle":{"mista_on_kyse":"Nuori opettelee englannin kaksi preesensiä. Kestomuoto kertoo, mitä joku tekee juuri nyt: She is reading (hän lukee parhaillaan). Perusmuoto kertoo tavasta: She reads every day (hän lukee joka päivä). Lisäksi opitaan, että like, know ja want ovat aina perusmuodossa (I know, ei I am knowing), ja -ing-muodon kirjoitusasu (making, lying, running).","kotona":["Kysykää toisiltanne englanniksi: What are you doing? Vastatkaa kestomuodolla: I'm cooking. I'm reading.","Kuvailkaa ikkunasta tai kuvasta näkyvää tilannetta englanniksi: A man is walking a dog. Two birds are sitting on the roof.","Kun nuori kirjoittaa -ing-muodon, kysykää: putoaako e, muuttuuko ie, kahdentuuko konsonantti? Hän voi näyttää säännön materiaalista.","Keksikää yhdessä kuvitteellinen henkilö ja kertokaa vuorotellen, mitä hän tekee yleensä ja mitä juuri nyt."],"milloin_huolestua":"Kirjoitusasun virheet ja tilaverbien kestomuodot ovat tavallisia vielä pitkään. Kertokaa opettajalle, jos nuori ei jakson lopussakaan erota, milloin tarvitaan am, is tai are ja -ing, tai jos englannin lauseiden kirjoittaminen tuntuu kokonaan vieraalta, vaikka hän saa apua."},"ulkoiset":{},"valmis_teksti":"Osaat valita, kerrotko englanniksi juuri nyt käynnissä olevasta asiasta vai tavasta, ja muodostaa preesensin kestomuodon oikein myös kieltona ja kysymyksenä. Tämä taito on nyt näytetty!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

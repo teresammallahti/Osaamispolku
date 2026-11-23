@@ -1,0 +1,619 @@
+<title>Sointu vaihtaa tunnelman · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KU7-VAR-01","oppiaine":"KU","vuosiluokka":7,"taitoalue":"VAR","jakso":"J1","taso":"ydin","otsikko":"Sointu vaihtaa tunnelman","kuvaus":"Osaan valita kuvaan värisoinnun, joka herättää haluamani tunnelman, ja perustella valinnan väriympyrän avulla.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T4"],"S":["S1","S2"]},"ikoni":"sivellin","eyebrow":"Kuvataide · 7. luokka","naytto":"Maalaan saman pienen sommitelman (esimerkiksi keksityn kirjan kansi tai julisteen kuva-aihe) kahdesti eri värisoinnulla niin, että versiot herättävät kaksi opettajan antamaa vastakkaista tunnelmaa (esimerkiksi turvallinen ja uhkaava). Käytän kahta seuraavista: vastavärisointu, lähivärisointu, yksivärisointu, lämmin tai kylmä sointu. Merkitsen kummankin version paletin väriympyrän kopioon, nimeän soinnun ja kirjoitan, mikä värivalinta (sävy, valööri tai puhtaus) tuottaa tunnelman.","osaa_kun":"Kummankin version värit vastaavat nimeämääni sointua väriympyrän kopiossa, ja versiot eroavat toisistaan väreiltä eivätkä vain yksityiskohdiltaan. Perustelen tunnelman värin ominaisuudella (esimerkiksi tummat, murretut kylmät sävyt ja yksi kirkas vastaväri luovat jännitettä) enkä sillä, mistä väristä pidän. (Ero KU4-VAR-04:ään ja KU6-VAR-01:een: yksittäisen keinon sijaan kokonainen värisointu valitaan katsojaan vaikuttamiseksi.)","teksti":[{"tyyppi":"johdanto","sisalto":"Kustantamo on tilannut samasta kansikuvasta kaksi versiota: toisen kirjan kovakantiseen painokseen, toisen elokuvaversion julisteeseen. Kuvan aihe ei muutu, mutta tunnelman pitää muuttua. Kuvittaja ei piirrä uutta kuvaa, vaan vaihtaa värisoinnun. Tässä taidossa opit valitsemaan värisoinnun, joka herättää haluamasi tunnelman, ja perustelemaan valinnan väriympyrän avulla niin, että perustelu kestää muunkin katsojan silmissä kuin omassasi."},{"tyyppi":"kappale","otsikko":"Mikä on värisointu","sisalto":"Värisointu tarkoittaa kuvan värejä yhtenä kokonaisuutena: mitkä värit on valittu ja millainen suhde niillä on toisiinsa. Suhteen näkee väriympyrästä. Ympyrässä on kaksitoista väriä järjestyksessä keltaisesta oranssin, punaisen, violetin, sinisen ja vihreän kautta takaisin keltaiseen. Väriympyrä ei kerro, mikä väri on kaunis, vaan missä värit ovat toisiinsa nähden: vierekkäin, vastakkain vai samalla puolella. Kun merkitset kuvasi värit ympyrään, näet heti, mihin sointuun ne kuuluvat. Kuudennella luokalla tutkit värin vaaleutta eli valööriä. Nyt valööri on yksi kolmesta keinosta, joilla sointua säädetään."},{"tyyppi":"kuva","otsikko":"Väriympyrä ja neljä sointua","svg":"<svg viewBox=\"0 0 660 330\" role=\"img\" aria-label=\"Perinteinen 12-osainen väriympyrä ja neljä värisointua pieninä ympyröinä\"><path d=\"M150.3,68.9 A84,84 0 0 1 193.7,68.9 L182.9,109.4 A42,42 0 0 0 161.1,109.4 Z\" fill=\"#f5d000\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M193.7,68.9 A84,84 0 0 1 231.4,90.6 L201.7,120.3 A42,42 0 0 0 182.9,109.4 Z\" fill=\"#f7a600\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M231.4,90.6 A84,84 0 0 1 253.1,128.3 L212.6,139.1 A42,42 0 0 0 201.7,120.3 Z\" fill=\"#f07c12\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M253.1,128.3 A84,84 0 0 1 253.1,171.7 L212.6,160.9 A42,42 0 0 0 212.6,139.1 Z\" fill=\"#e5501b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M253.1,171.7 A84,84 0 0 1 231.4,209.4 L201.7,179.7 A42,42 0 0 0 212.6,160.9 Z\" fill=\"#d7261e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M231.4,209.4 A84,84 0 0 1 193.7,231.1 L182.9,190.6 A42,42 0 0 0 201.7,179.7 Z\" fill=\"#a3195b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M193.7,231.1 A84,84 0 0 1 150.3,231.1 L161.1,190.6 A42,42 0 0 0 182.9,190.6 Z\" fill=\"#6a2c8c\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M150.3,231.1 A84,84 0 0 1 112.6,209.4 L142.3,179.7 A42,42 0 0 0 161.1,190.6 Z\" fill=\"#3f3c97\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M112.6,209.4 A84,84 0 0 1 90.9,171.7 L131.4,160.9 A42,42 0 0 0 142.3,179.7 Z\" fill=\"#1f5fae\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M90.9,171.7 A84,84 0 0 1 90.9,128.3 L131.4,139.1 A42,42 0 0 0 131.4,160.9 Z\" fill=\"#138b8b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M90.9,128.3 A84,84 0 0 1 112.6,90.6 L142.3,120.3 A42,42 0 0 0 131.4,139.1 Z\" fill=\"#2e9a3e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M112.6,90.6 A84,84 0 0 1 150.3,68.9 L161.1,109.4 A42,42 0 0 0 142.3,120.3 Z\" fill=\"#9cc51f\" class=\"v-akseli\" style=\"stroke-width:1\"/><text x=\"172\" y=\"54\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">keltainen</text><text x=\"222\" y=\"67\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">keltaoranssi</text><text x=\"259\" y=\"104\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">oranssi</text><text x=\"272\" y=\"154\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">punaoranssi</text><text x=\"259\" y=\"204\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">punainen</text><text x=\"222\" y=\"241\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">punavioletti</text><text x=\"172\" y=\"254\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">violetti</text><text x=\"122\" y=\"241\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">sinivioletti</text><text x=\"85\" y=\"204\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">sininen</text><text x=\"72\" y=\"154\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">sinivihreä</text><text x=\"85\" y=\"104\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">vihreä</text><text x=\"122\" y=\"67\" class=\"v-t pieni\" text-anchor=\"end\" style=\"font-size:11px\">keltavihreä</text><text x=\"172\" y=\"146\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">perinteinen</text><text x=\"172\" y=\"160\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">väriympyrä</text><path d=\"M381.6,21.4 A40,40 0 0 1 402.4,21.4 L396.1,44.5 A16,16 0 0 0 387.9,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M402.4,21.4 A40,40 0 0 1 420.3,31.7 L403.3,48.7 A16,16 0 0 0 396.1,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M420.3,31.7 A40,40 0 0 1 430.6,49.6 L407.5,55.9 A16,16 0 0 0 403.3,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M430.6,49.6 A40,40 0 0 1 430.6,70.4 L407.5,64.1 A16,16 0 0 0 407.5,55.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M430.6,70.4 A40,40 0 0 1 420.3,88.3 L403.3,71.3 A16,16 0 0 0 407.5,64.1 Z\" fill=\"#d7261e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M420.3,88.3 A40,40 0 0 1 402.4,98.6 L396.1,75.5 A16,16 0 0 0 403.3,71.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M402.4,98.6 A40,40 0 0 1 381.6,98.6 L387.9,75.5 A16,16 0 0 0 396.1,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M381.6,98.6 A40,40 0 0 1 363.7,88.3 L380.7,71.3 A16,16 0 0 0 387.9,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M363.7,88.3 A40,40 0 0 1 353.4,70.4 L376.5,64.1 A16,16 0 0 0 380.7,71.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M353.4,70.4 A40,40 0 0 1 353.4,49.6 L376.5,55.9 A16,16 0 0 0 376.5,64.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M353.4,49.6 A40,40 0 0 1 363.7,31.7 L380.7,48.7 A16,16 0 0 0 376.5,55.9 Z\" fill=\"#2e9a3e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M363.7,31.7 A40,40 0 0 1 381.6,21.4 L387.9,44.5 A16,16 0 0 0 380.7,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><text x=\"392\" y=\"118\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">vastavärisointu</text><text x=\"392\" y=\"133\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">ympyrän vastakkaiset</text><text x=\"392\" y=\"147\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">puolet</text><path d=\"M491.6,21.4 A40,40 0 0 1 512.4,21.4 L506.1,44.5 A16,16 0 0 0 497.9,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M512.4,21.4 A40,40 0 0 1 530.3,31.7 L513.3,48.7 A16,16 0 0 0 506.1,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M530.3,31.7 A40,40 0 0 1 540.6,49.6 L517.5,55.9 A16,16 0 0 0 513.3,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M540.6,49.6 A40,40 0 0 1 540.6,70.4 L517.5,64.1 A16,16 0 0 0 517.5,55.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M540.6,70.4 A40,40 0 0 1 530.3,88.3 L513.3,71.3 A16,16 0 0 0 517.5,64.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M530.3,88.3 A40,40 0 0 1 512.4,98.6 L506.1,75.5 A16,16 0 0 0 513.3,71.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M512.4,98.6 A40,40 0 0 1 491.6,98.6 L497.9,75.5 A16,16 0 0 0 506.1,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M491.6,98.6 A40,40 0 0 1 473.7,88.3 L490.7,71.3 A16,16 0 0 0 497.9,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M473.7,88.3 A40,40 0 0 1 463.4,70.4 L486.5,64.1 A16,16 0 0 0 490.7,71.3 Z\" fill=\"#1f5fae\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M463.4,70.4 A40,40 0 0 1 463.4,49.6 L486.5,55.9 A16,16 0 0 0 486.5,64.1 Z\" fill=\"#138b8b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M463.4,49.6 A40,40 0 0 1 473.7,31.7 L490.7,48.7 A16,16 0 0 0 486.5,55.9 Z\" fill=\"#2e9a3e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M473.7,31.7 A40,40 0 0 1 491.6,21.4 L497.9,44.5 A16,16 0 0 0 490.7,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><text x=\"502\" y=\"118\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">lähivärisointu</text><text x=\"502\" y=\"133\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">2–4 vierekkäistä</text><text x=\"502\" y=\"147\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">väriä</text><path d=\"M381.6,186.4 A40,40 0 0 1 402.4,186.4 L396.1,209.5 A16,16 0 0 0 387.9,209.5 Z\" fill=\"#f5d000\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M402.4,186.4 A40,40 0 0 1 420.3,196.7 L403.3,213.7 A16,16 0 0 0 396.1,209.5 Z\" fill=\"#f7a600\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M420.3,196.7 A40,40 0 0 1 430.6,214.6 L407.5,220.9 A16,16 0 0 0 403.3,213.7 Z\" fill=\"#f07c12\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M430.6,214.6 A40,40 0 0 1 430.6,235.4 L407.5,229.1 A16,16 0 0 0 407.5,220.9 Z\" fill=\"#e5501b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M430.6,235.4 A40,40 0 0 1 420.3,253.3 L403.3,236.3 A16,16 0 0 0 407.5,229.1 Z\" fill=\"#d7261e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M420.3,253.3 A40,40 0 0 1 402.4,263.6 L396.1,240.5 A16,16 0 0 0 403.3,236.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M402.4,263.6 A40,40 0 0 1 381.6,263.6 L387.9,240.5 A16,16 0 0 0 396.1,240.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M381.6,263.6 A40,40 0 0 1 363.7,253.3 L380.7,236.3 A16,16 0 0 0 387.9,240.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M363.7,253.3 A40,40 0 0 1 353.4,235.4 L376.5,229.1 A16,16 0 0 0 380.7,236.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M353.4,235.4 A40,40 0 0 1 353.4,214.6 L376.5,220.9 A16,16 0 0 0 376.5,229.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M353.4,214.6 A40,40 0 0 1 363.7,196.7 L380.7,213.7 A16,16 0 0 0 376.5,220.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M363.7,196.7 A40,40 0 0 1 381.6,186.4 L387.9,209.5 A16,16 0 0 0 380.7,213.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><text x=\"392\" y=\"283\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">lämmin sointu</text><text x=\"392\" y=\"298\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">keltaisen ja punaisen</text><text x=\"392\" y=\"312\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">puoli</text><path d=\"M491.6,186.4 A40,40 0 0 1 512.4,186.4 L506.1,209.5 A16,16 0 0 0 497.9,209.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M512.4,186.4 A40,40 0 0 1 530.3,196.7 L513.3,213.7 A16,16 0 0 0 506.1,209.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M530.3,196.7 A40,40 0 0 1 540.6,214.6 L517.5,220.9 A16,16 0 0 0 513.3,213.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M540.6,214.6 A40,40 0 0 1 540.6,235.4 L517.5,229.1 A16,16 0 0 0 517.5,220.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M540.6,235.4 A40,40 0 0 1 530.3,253.3 L513.3,236.3 A16,16 0 0 0 517.5,229.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M530.3,253.3 A40,40 0 0 1 512.4,263.6 L506.1,240.5 A16,16 0 0 0 513.3,236.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M512.4,263.6 A40,40 0 0 1 491.6,263.6 L497.9,240.5 A16,16 0 0 0 506.1,240.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M491.6,263.6 A40,40 0 0 1 473.7,253.3 L490.7,236.3 A16,16 0 0 0 497.9,240.5 Z\" fill=\"#3f3c97\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M473.7,253.3 A40,40 0 0 1 463.4,235.4 L486.5,229.1 A16,16 0 0 0 490.7,236.3 Z\" fill=\"#1f5fae\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M463.4,235.4 A40,40 0 0 1 463.4,214.6 L486.5,220.9 A16,16 0 0 0 486.5,229.1 Z\" fill=\"#138b8b\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M463.4,214.6 A40,40 0 0 1 473.7,196.7 L490.7,213.7 A16,16 0 0 0 486.5,220.9 Z\" fill=\"#2e9a3e\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M473.7,196.7 A40,40 0 0 1 491.6,186.4 L497.9,209.5 A16,16 0 0 0 490.7,213.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><text x=\"502\" y=\"283\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">kylmä sointu</text><text x=\"502\" y=\"298\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">sinisen ja vihreän</text><text x=\"502\" y=\"312\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">puoli</text><path d=\"M581.7,88.3 A40,40 0 0 1 571.4,70.4 L594.5,64.1 A16,16 0 0 0 598.7,71.3 Z\" fill=\"#1f5fae\" class=\"v-akseli\" style=\"stroke-width:1\"/><path d=\"M599.6,21.4 A40,40 0 0 1 620.4,21.4 L614.1,44.5 A16,16 0 0 0 605.9,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M620.4,21.4 A40,40 0 0 1 638.3,31.7 L621.3,48.7 A16,16 0 0 0 614.1,44.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M638.3,31.7 A40,40 0 0 1 648.6,49.6 L625.5,55.9 A16,16 0 0 0 621.3,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M648.6,49.6 A40,40 0 0 1 648.6,70.4 L625.5,64.1 A16,16 0 0 0 625.5,55.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M648.6,70.4 A40,40 0 0 1 638.3,88.3 L621.3,71.3 A16,16 0 0 0 625.5,64.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M638.3,88.3 A40,40 0 0 1 620.4,98.6 L614.1,75.5 A16,16 0 0 0 621.3,71.3 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M620.4,98.6 A40,40 0 0 1 599.6,98.6 L605.9,75.5 A16,16 0 0 0 614.1,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M599.6,98.6 A40,40 0 0 1 581.7,88.3 L598.7,71.3 A16,16 0 0 0 605.9,75.5 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M571.4,70.4 A40,40 0 0 1 571.4,49.6 L594.5,55.9 A16,16 0 0 0 594.5,64.1 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M571.4,49.6 A40,40 0 0 1 581.7,31.7 L598.7,48.7 A16,16 0 0 0 594.5,55.9 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><path d=\"M581.7,31.7 A40,40 0 0 1 599.6,21.4 L605.9,44.5 A16,16 0 0 0 598.7,48.7 Z\" class=\"v-osa v-akseli\" style=\"stroke-width:0.6;opacity:0.35\"/><rect x=\"570\" y=\"118\" width=\"16\" height=\"12\" fill=\"#c9d9ef\" class=\"v-akseli\" style=\"stroke-width:0.6\"/><rect x=\"586\" y=\"118\" width=\"16\" height=\"12\" fill=\"#7fa3d4\" class=\"v-akseli\" style=\"stroke-width:0.6\"/><rect x=\"602\" y=\"118\" width=\"16\" height=\"12\" fill=\"#1f5fae\" class=\"v-akseli\" style=\"stroke-width:0.6\"/><rect x=\"618\" y=\"118\" width=\"16\" height=\"12\" fill=\"#163f75\" class=\"v-akseli\" style=\"stroke-width:0.6\"/><rect x=\"634\" y=\"118\" width=\"16\" height=\"12\" fill=\"#0b2240\" class=\"v-akseli\" style=\"stroke-width:0.6\"/><text x=\"610\" y=\"148\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">yksivärisointu</text><text x=\"610\" y=\"163\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">yksi väri, vaaleus-</text><text x=\"610\" y=\"177\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">ja tummuusportaat</text></svg>","teksti":"Pienissä ympyröissä soinnun värit näkyvät, muut ovat himmennettyjä. Lämpimän ja kylmän rajalla olevat keltavihreä ja violetti voivat kuulua kumpaan tahansa sen mukaan, mihin niitä verrataan. Näytön värit ovat suuntaa antavia."},{"tyyppi":"taulukko","otsikko":"Neljä sointua ja niiden tavallinen vaikutus","otsikkorivi":["Sointu","Miten löydät sen ympyrästä","Tavallinen vaikutus","Huomaa"],"rivit":[["<b>Vastavärisointu</b>","Kaksi väriä ympyrän vastakkaisilta puolilta, esimerkiksi sininen ja oranssi.","Jännite, voima, huomio. Vastavärit korostavat toisiaan, kun ne ovat vierekkäin.","Kaksi yhtä suurta kirkasta vastaväriä riitelevät. Usein toinen on pääväri ja toinen pieni korostus."],["<b>Lähivärisointu</b>","Kahdesta neljään vierekkäistä väriä, esimerkiksi sininen, sinivihreä ja vihreä.","Yhtenäisyys, rauha, harmonia.","Jos kaikki värit ovat samaa valööriä, kuva voi muuttua tasaiseksi. Valöörierot tuovat rakenteen."],["<b>Yksivärisointu</b>","Yksi väri ja sen vaaleammat ja tummemmat versiot valkoisella ja mustalla tai vedellä ohennettuna.","Keskittynyt, hillitty, joskus yksinäinen tai juhlallinen.","Pelkkä musta ja valkoinen ei ole yksivärisointu. Tunnelma syntyy valööreistä."],["<b>Lämmin tai kylmä sointu</b>","Värit ympyrän keltaisen ja punaisen puolelta tai sinisen ja vihreän puolelta.","Lämmin: läheisyys, energia, kuumuus. Kylmä: etäisyys, rauha, kylmyys.","Kylmä ei ole aina surullinen eikä lämmin aina iloinen. Valööri ja puhtaus ratkaisevat paljon."]]},{"tyyppi":"kappale","otsikko":"Kolme säädintä: sävy, valööri ja puhtaus","sisalto":"Sointu kertoo, mistä kohtaa ympyrää värit otetaan. Tunnelma syntyy kuitenkin vasta, kun päätät, millaisina ne maalataan. Värillä on kolme ominaisuutta, joita voit säätää. Sävy on värin nimi ja paikka ympyrässä, esimerkiksi sinivihreä. Valööri on värin vaaleus: sama sinivihreä voi olla lähes valkoinen tai lähes musta. Puhtaus kertoo, kuinka kirkas väri on. Puhdas väri on voimakas kuin suoraan purkista, murrettu väri on hillitty, koska siihen on sekoitettu vähän vastaväriä tai harmaata. Samalla soinnulla saa siis eri tunnelmia: vaaleat, murretut kylmät sävyt tuntuvat usein seesteisiltä, tummat murretut kylmät sävyt raskailta tai uhkaavilta. Kun perustelet tunnelman, nimeä sointu ja lisäksi se säädin, joka tunnelman tekee."},{"tyyppi":"kuva","otsikko":"Sama kansi, kaksi sointua","svg":"<svg viewBox=\"0 0 600 290\" role=\"img\" aria-label=\"Sama keksitty kirjan kansi kahdella värisoinnulla\"><rect x=\"15\" y=\"30\" width=\"270\" height=\"190\" fill=\"#cfe6ef\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><circle cx=\"230\" cy=\"70\" r=\"18\" fill=\"#f1f6f8\"/><path d=\"M15,170 Q105,120 185,150 T285,140 L285,220 L15,220 Z\" fill=\"#8cc7b5\"/><path d=\"M135,220 Q150,185 133,150\" fill=\"none\" stroke=\"#a9d2c4\" style=\"stroke-width:7\"/><rect x=\"107\" y=\"110\" width=\"52\" height=\"38\" fill=\"#bcd3e8\"/><polygon points=\"101,112 133,86 165,112\" fill=\"#5f9fb0\"/><rect x=\"119\" y=\"120\" width=\"12\" height=\"12\" fill=\"#e8f2f6\"/><rect x=\"215\" y=\"112\" width=\"6\" height=\"32\" fill=\"#5f9fb0\"/><circle cx=\"218\" cy=\"104\" r=\"17\" fill=\"#6fae8a\"/><text x=\"15\" y=\"20\" class=\"v-t vahva\" style=\"font-size:13px\">Versio 1: rauhallinen</text><text x=\"15\" y=\"240\" class=\"v-t\" style=\"font-size:12px\">Lähivärisointu: sininen, sinivihreä, vihreä.</text><text x=\"15\" y=\"255\" class=\"v-t\" style=\"font-size:12px\">Vaaleat valöörit, pehmeät erot.</text><rect x=\"315\" y=\"30\" width=\"270\" height=\"190\" fill=\"#1d3f45\" class=\"v-akseli\" style=\"stroke-width:1.2\"/><circle cx=\"530\" cy=\"70\" r=\"18\" fill=\"#f07c12\"/><path d=\"M315,170 Q405,120 485,150 T585,140 L585,220 L315,220 Z\" fill=\"#0f5e5b\"/><path d=\"M435,220 Q450,185 433,150\" fill=\"none\" stroke=\"#3b1a10\" style=\"stroke-width:7\"/><rect x=\"407\" y=\"110\" width=\"52\" height=\"38\" fill=\"#e5501b\"/><polygon points=\"401,112 433,86 465,112\" fill=\"#7a1f0b\"/><rect x=\"419\" y=\"120\" width=\"12\" height=\"12\" fill=\"#ffd23a\"/><rect x=\"515\" y=\"112\" width=\"6\" height=\"32\" fill=\"#7a1f0b\"/><circle cx=\"518\" cy=\"104\" r=\"17\" fill=\"#127a78\"/><text x=\"315\" y=\"20\" class=\"v-t vahva\" style=\"font-size:13px\">Versio 2: levoton</text><text x=\"315\" y=\"240\" class=\"v-t\" style=\"font-size:12px\">Vastavärisointu: sinivihreä ja punaoranssi.</text><text x=\"315\" y=\"255\" class=\"v-t\" style=\"font-size:12px\">Tumma pohja, kirkkaat vastavärit.</text></svg>","teksti":"Keksitty kansikuva. Muodot ovat samat, vain värit vaihtuvat. Version 1 värit ovat ympyrässä vierekkäin ja vaaleita. Version 2 tumma pohja ja kaksi kirkasta vastaväriä tekevät kuvasta levottoman."},{"tyyppi":"taulukko","otsikko":"Perustelu: mieltymys vai värin ominaisuus","otsikkorivi":["Ei käy perusteluksi","Käy perusteluksi"],"rivit":[["Version 2 on parempi, koska tykkään oranssista.","Versio 2 on levoton, koska tumman sinivihreän keskellä on kirkas punaoranssi, sen vastaväri, ja suuri valööriero vetää katseen ikkunaan."],["Sininen on rauhallinen väri.","Versio 1 on rauhallinen, koska värit ovat ympyrässä vierekkäin (lähivärisointu) ja kaikki ovat vaaleita, joten mikään kohta ei hyppää esiin."],["Versio 1 näyttää kivalta.","Version 1 vaaleat, murretut värit tekevät kuvasta utuisen. Yksikään väri ei ole puhdas."]]},{"tyyppi":"saanto","otsikko":"Näin teet kaksi versiota","askeleet":["Luonnostele pieni sommitelma kevyesti, esimerkiksi kirjan kansi tai julisteen kuva-aihe. Siirrä sama luonnos kahdelle paperille, esimerkiksi ikkunaa vasten tai hiilipaperilla, jotta muodot ovat samat.","Lue opettajan antamat kaksi tunnelmaa. Valitse kummallekin sointu listasta: vastavärisointu, lähivärisointu, yksivärisointu, lämmin tai kylmä sointu. Kahden version soinnut ovat eri sointuja.","Tee paletille tai luonnospaperille koeläiskät. Päätä kummassakin versiossa myös valööri ja puhtaus: vaaleat vai tummat, puhtaat vai murretut.","Maalaa versiot. Pidä muodot samoina äläkä lisää toiseen versioon uusia esineitä, sillä tunnelman pitää syntyä väreistä.","Merkitse kummankin version paletti omaan väriympyrän kopioon: rengasta tai väritä ne kohdat, joista värisi ovat. Kirjoita soinnun nimi ympyrän alle.","Kirjoita kummastakin versiosta yksi tai kaksi virkettä: mikä värivalinta (sävy, valööri tai puhtaus) tuottaa tunnelman ja miksi."]},{"tyyppi":"kappale","otsikko":"Turvallisesti ja siististi","sisalto":"Pese sivellin vedellä ennen kuin vaihdat väriä äläkä laita sivellintä suuhun. Akryyliväri kuivuu vedenkestäväksi, joten suojaa vaatteet ja pese sivellin heti työn jälkeen. Jos maalaat digitaalisesti, valitse värit väriympyrän tai värinvalitsimen avulla ja tallenna kumpikin versio omaksi tiedostokseen."},{"tyyppi":"ansa","otsikko":"Ansa 1: perustelu on oma mieltymys","sisalto":"Lause tykkään sinisestä tai tämä on kivempi ei kerro, miksi kuva vaikuttaa katsojaan. Toinen katsoja voi pitää eri väristä. Kun huomaat kirjoittavasi tykkään, kivempi tai kaunis, vaihda lauseeseen värin ominaisuus: mikä sävy, mikä valööri, kuinka puhdas, ja missä kohtaa ympyrää värit ovat."},{"tyyppi":"ansa","otsikko":"Ansa 2: versiot eroavat yksityiskohdilta eivätkä väreiltä","sisalto":"Uhkaavaan versioon on houkuttelevaa lisätä salama, rikkinäinen ikkuna tai varjohahmo. Silloin tunnelman tekee lisätty esine eikä värisointu. Pidä muodot samoina. Jos peität molemmista versioista värit ja jäljelle jää sama piirros, olet onnistunut."},{"tyyppi":"ansa","otsikko":"Ansa 3: nimetty sointu ei vastaa värejä","sisalto":"Lähivärisointuun ei mahdu ympyrän vastakkaiselta puolelta tullut väri, eikä vastavärisointu synny kahdesta väristä, joiden välissä on ympyrässä vain kaksi askelta. Merkitse värit ympyrään ennen kuin kirjoitat soinnun nimen. Jos kuvassa on yksi pieni korostusväri soinnun ulkopuolelta, kerro se perustelussa."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Värisointu on kuvan värien suhde väriympyrässä: vastakkain, vierekkäin, yksi väri tai lämmin tai kylmä puoli.","Tunnelma syntyy soinnusta ja kolmesta säätimestä: sävy, valööri ja puhtaus.","Murrettu väri on hillitty, koska siihen on sekoitettu vastaväriä tai harmaata.","Perustele värin ominaisuudella, älä sillä, mistä väristä pidät.","Samat muodot, eri värit: tunnelman pitää syntyä väreistä.","Merkitse paletti väriympyrään ennen kuin nimeät soinnun."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Perustelussa on vain mieltymys tai yleinen väite: tykkään violetista, sininen on rauhallinen väri, tämä on kauniimpi.","tehtava":"Näyttö: kirjallinen perustelu","mita_kertoo":"Oppilas tunnistaa tunnelman mutta ei vielä erota omaa makuaan kuvan keinoista. Kriteeri vaatii perustelun värin ominaisuudella (sävy, valööri tai puhtaus).","mita_tehda":"Kysy: mikä tässä värissä tekee sen, että joku toinenkin katsoja kokisi tunnelman? Ohjaa täydentämään lauseen muotoon: väri on tumma, vaalea, murrettu tai puhdas, ja se on ympyrässä vierekkäin tai vastakkain toisen kanssa."},{"virhe":"Versiot eroavat ennen kaikkea lisätyistä esineistä tai yksityiskohdista (salama, varjohahmo, kyynel), ja värit ovat lähes samat.","tehtava":"Näyttö: kaksi maalausta","mita_kertoo":"Oppilas rakentaa tunnelman sisällöllä eikä värillä. Kriteerin mukaan versiot eroavat väreiltä eivätkä vain yksityiskohdiltaan.","mita_tehda":"Peitä lisätyt yksityiskohdat paperilla ja kysy, eroavatko tunnelmat vielä. Ohjaa maalaamaan toinen versio uudelleen samoin muodoin ja vaihtamaan sointu."},{"virhe":"Väriympyrän kopioon merkityt värit eivät vastaa nimettyä sointua: lähivärisoinnussa on vastakkaisen puolen väri tai vastavärisoinnun värit ovat ympyrässä lähekkäin.","tehtava":"Näyttö: väriympyrän merkinnät","mita_kertoo":"Oppilas tuntee soinnun nimen mutta ei vielä lue ympyrää. Kriteeri vaatii, että värit vastaavat nimettyä sointua ympyrässä.","mita_tehda":"Pyydä osoittamaan maalauksesta jokainen väri ja etsimään se ympyrästä. Kysy, mikä sointu syntyy näistä kohdista, ja anna korjata joko nimi tai värit. Yksi pieni korostusväri hyväksytään, jos oppilas mainitsee sen."},{"virhe":"Molemmat versiot on maalattu samalla soinnulla (esimerkiksi kaksi lähivärisointua eri kohdista ympyrää) tai toinen versio on toisen vaaleampi kopio.","tehtava":"Näyttö: soinnun valinta","mita_kertoo":"Oppilas säätää vain yhtä keinoa. Näyttö edellyttää kahta eri sointua listasta.","mita_tehda":"Näytä ympyrästä listan neljä sointua ja kysy, kumpi niistä sopisi vastakkaiseen tunnelmaan. Hyväksy, kun soinnut ovat eri tyyppiä ja oppilas nimeää ne."},{"virhe":"Perustelu nimeää soinnun mutta ei sitä säädintä, joka tunnelman tekee: tämä on kylmä sointu, joten se on uhkaava.","tehtava":"Näyttö: kirjallinen perustelu","mita_kertoo":"Oppilas käyttää sointua sääntönä (kylmä = uhkaava). Sama kylmä sointu voi olla myös seesteinen, joten kriteeri vaatii valinnan nimeämistä: sävy, valööri tai puhtaus.","mita_tehda":"Näytä oppilaan sivun kansiesimerkki ja kysy, miksi kylmät värit ovat versiossa 1 rauhallisia. Pyydä lisäämään perusteluun, ovatko värit tummia vai vaaleita ja puhtaita vai murrettuja."},{"virhe":"Ympyrän kopiossa on merkitty koko soinnun alue, mutta maalauksen todelliset värit ovat murrettuja tai tummia eikä oppilas osaa sanoa, mihin kohtaan ympyrää ne kuuluvat.","tehtava":"Näyttö: paletin merkitseminen","mita_kertoo":"Oppilas sekoittaa sävyn ja valöörin: tumma sininen on silti sininen. Tämä on käsitteellinen kompastus, ei maalaustaidon puute.","mita_tehda":"Kysy: jos tästä väristä poistettaisiin tummuus ja harmaus, mikä väri jäisi jäljelle? Näytä, että ympyrään merkitään sävy ja valööri ja puhtaus kerrotaan sanoin."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Arvioinnin kohteet (osaa_kun): kummankin version värit vastaavat nimettyä sointua väriympyrän kopiossa, versiot eroavat väreiltä eivätkä vain yksityiskohdiltaan, ja tunnelma perustellaan värin ominaisuudella (sävy, valööri tai puhtaus), ei mieltymyksellä. Lahjakkuutta, maalausjälkeä, piirrostaitoa, siisteyttä tai kuvan kauneutta ei arvioida, eikä oppilaan värimakua. Kerro tämä ennen näyttöä.","Tuntien jako: Ensimmäisellä tunnilla soinnut, koeläiskät ja luonnoksen siirto, toisella maalaus, ympyrämerkinnät ja perustelu.","Tunnelmaparit: anna jokaiselle oppilaalle tai pöytäryhmälle kaksi vastakkaista tunnelmaa, esimerkiksi turvallinen ja uhkaava, iloinen ja haikea, juhlava ja arkinen tai kuuma ja kylmä. Älä käytä oppilaan sivun esimerkkiparia rauhallinen ja levoton. Kansiesimerkki on keksitty.","Väriympyrä: oppilaan sivulla on perinteinen kaksitoistaosainen maalarin väriympyrä (pääväreinä keltainen, punainen ja sininen), jossa esimerkiksi punainen ja vihreä sekä sininen ja oranssi ovat vastavärejä. Jos koulussa käytetään toista ympyrää (esimerkiksi näytön RGB- tai painovärien CMY-ympyrä, jossa vastavärit ovat eri pareja), hyväksy merkinnät, kun ne ovat johdonmukaisia käytetyn ympyrän kanssa. Tulosta jokaiselle kaksi tyhjää ympyräkopiota.","Lämmin ja kylmä: raja on sopimus. Keltavihreä ja violetti, joskus myös punavioletti, ovat rajatapauksia; hyväksy oppilaan luokittelu, jos hän perustelee sen vertailulla kuvan muihin väreihin.","Varamuodot: maalaus guassilla, temperalla, akryylilla tai vesiväreillä; digitaalinen versio kuvankäsittelyohjelmassa, jossa sama piirros kopioidaan kahdelle tasolle. Kokoa ei tarvitse vaatia suureksi: A5 riittää. Värikynät käyvät, jos maalaus ei onnistu esimerkiksi motoriikan vuoksi.","Värinäön poikkeama: oppilas voi nimetä värit purkkien tai värinvalitsimen nimistä ja tarkistaa ympyrän merkinnät niiden avulla. Perustelu valööristä ja puhtaudesta onnistuu ilman värien erottamista. Älä tee asiasta numeroa luokan kuullen.","Turvallisuus: sivellintä ei laiteta suuhun, akryylitahrat pestään heti, roiskeet pyyhitään lattialta liukastumisen estämiseksi. Luonnoksen siirto ikkunaa vasten tehdään seisten, ei pöydälle nousten.","Ero edeltäviin: KU6-VAR-01:ssä opittiin valööri ja pääkohteen erottaminen taustasta, KU5-VAR-01:ssä värin ominaisuudet. Nyt koko värisointu valitaan katsojaan vaikuttamiseksi. KU7-VAR-02 (haaste) jatkaa värin ja musiikin yhteyteen.","Tarkistettavat asiatiedot: värien tunnevaikutukset ovat kulttuurisidonnaisia taipumuksia eivätkä luonnonlakeja; oppilaan sivu puhuu tavallisesta vaikutuksesta. Ympyrän värisävyt näytöllä ovat suuntaa antavia."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Sointu kertoo, mistä kohtaa ympyrää värit ovat. Tunnelman tekevät sävy, valööri ja puhtaus. Perustele värillä, ei mieltymyksellä.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1: aloitus","sisalto":"Näytä sama yksinkertainen kuva kahdella värityksellä (oma tai itse tehty digitaalinen versio, ei oppilaan sivun kansiesimerkki). Kysy, kumpi on turvallisempi ja miksi. Kirjaa vastaukset kahteen sarakkeeseen: mieltymys ja värin ominaisuus."},{"aika":"15 min","otsikko":"Tunti 1: ydinasia","sisalto":"Käy läpi väriympyrä ja neljä sointua. Näytä murretun värin sekoitus: puhdas sininen, siihen vähän oranssia. Anna oppilaiden etsiä ympyrästä kunkin soinnun esimerkki ja kertoa, millä säätimellä samasta soinnusta saisi kaksi eri tunnelmaa."},{"aika":"20 min","otsikko":"Tunti 1: luonnos ja koeläiskät","sisalto":"Jaa tunnelmaparit. Oppilaat luonnostelevat sommitelman ja siirtävät sen kahdelle paperille, valitsevat soinnut ja tekevät koeläiskät. Kysy jokaiselta, mitkä soinnut hän valitsi ja mikä säädin tekee tunnelman."},{"aika":"5 min","otsikko":"Tunti 2: aloitus","sisalto":"Muistuta kolmesta ansasta: mieltymysperustelu, lisätyt yksityiskohdat ja ympyrän kanssa ristiriitainen soinnun nimi."},{"aika":"30 min","otsikko":"Tunti 2: näyttö, maalaus ja merkinnät","sisalto":"Oppilaat maalaavat versiot, merkitsevät paletit ympyrän kopioihin ja kirjoittavat perustelut. Kulje luokassa ja kysy, mihin kohtaan ympyrää kukin väri kuuluu. Kirjaa havainnot kriteereistä."},{"aika":"10 min","otsikko":"Tunti 2: lopetus","sisalto":"Asettakaa muutama versiopari vierekkäin ilman tekijän nimeä. Muut arvaavat tunnelmaparin ja nimeävät värin ominaisuuden, joka sen tekee. Kirjaa näyttö, kun maalaukset, ympyrät ja perustelut ovat valmiina."}],"tarvikkeet":"Peitevärit tai akryylit (keltainen, punainen, sininen, valkoinen, musta ja mieluiten myös oranssi, vihreä ja violetti), siveltimet, vesiastiat, paletit, talouspaperia, A5-paperia kaksi arkkia oppilasta kohden, luonnospaperi, hiilipaperi tai ikkuna siirtoon, kaksi tulostettua väriympyräkopiota oppilasta kohden, tunnelmaparit lapuilla. Digitaalinen varamuoto: tabletti tai tietokone ja kuvankäsittelyohjelma."},"huoltajalle":{"mista_on_kyse":"Nuori opettelee valitsemaan kuvaan värisoinnun, joka herättää halutun tunnelman, ja perustelemaan valinnan väriympyrän avulla. Hän maalaa saman pienen kuvan kahdesti eri soinnuilla, merkitsee värit väriympyrään ja kirjoittaa, mikä värivalinta tunnelman tekee: värin sävy, vaaleus tai puhtaus. Maalaustaitoa tai värimakua ei arvioida.","kotona":["Katsokaa yhdessä elokuvan julistetta, kirjan kantta tai mainosta ja arvatkaa, millaista tunnelmaa värit hakevat. Kysy, mikä väreissä sen tekee: ovatko ne tummia vai vaaleita, kirkkaita vai hillittyjä.","Jos nuori sanoo jotain väriä iloiseksi tai surulliseksi, voi kysyä: entä jos sama väri olisi hyvin tumma tai hyvin vaalea?","Kodin tai lähiympäristön esineistä voi etsiä värejä, jotka ovat väriympyrässä vierekkäin, ja värejä, jotka ovat vastakkain."],"milloin_huolestua":"Jos nuori sekoittaa toistuvasti punaisen ja vihreän tai muita värejä, kannattaa kertoa siitä opettajalle. Värinäön poikkeama on melko yleinen, eikä se estä tämän taidon näyttämistä, koska väreillä on nimet ja perustelu voi nojata vaaleuteen ja puhtauteen."},"ulkoiset":{},"valmis_teksti":"Osaat valita kuvaan värisoinnun, joka herättää haluamasi tunnelman, ja perustella sen väriympyrällä ja värin ominaisuuksilla. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

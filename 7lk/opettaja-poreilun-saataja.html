@@ -1,0 +1,619 @@
+<title>Poreilun säätäjä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KE7-TUT-01","oppiaine":"KE","vuosiluokka":7,"taitoalue":"TUT","jakso":"J5","taso":"ydin","otsikko":"Poreilun säätäjä","kuvaus":"Osaan tutkia, miten yksi tekijä vaikuttaa reaktionopeuteen: muotoilen täsmällisen kysymyksen, rajaan muuttujat, mittaan, esitän tulokset ja arvioin, kuinka luotettavia ne ovat.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T5","T6","T7","T9","T13","T14"],"S":["S1","S6"]},"eyebrow":"Kemia · 7. luokka","ikoni":"tutkimus","naytto":"Valitsen yhden tekijän, jonka vaikutusta tutkin poretabletin ja veden reaktiossa: veden lämpötila (kylmä, huoneenlämpöinen, lämmin enintään 50 astetta) tai tabletin hienojakoisuus (kokonainen, paloiteltu, murskattu). Kirjoitan täsmennetyn tutkimuskysymyksen ja suunnitelman, jossa nimeän muutettavan, mitattavan ja vakiona pidettävät muuttujat. Teen kokeen pareittain, mittaan kellolla, kuinka kauan poreilu kestää, toistan jokaisen mittauksen vähintään kahdesti ja kirjaan tulokset omaan taulukkooni. Teen tuloksista taulukkolaskentaohjelmalla tai käsin diagrammin ja kirjoitan lyhyen raportin: kysymys, työn kulku, tulokset, johtopäätös, kaksi luotettavuuteen vaikuttavaa tekijää ja yksi parannus tutkimukseen.","osaa_kun":"Tutkimuskysymyksessäni on yksi muutettava ja yksi mitattava muuttuja (esimerkiksi: miten veden lämpötila vaikuttaa siihen, kuinka kauan tabletin poreilu kestää?), ja pidän vakiona vähintään kaksi muuta tekijää (veden määrä, tabletin koko tai lämpötila). Diagrammissa on otsikko, nimetyt akselit ja yksiköt. Johtopäätös vastaa kysymykseen ja nojaa omiin tuloksiini, ja selitän sen hiukkasmallilla (lämpimässä hiukkaset liikkuvat enemmän ja törmäävät useammin; murskatussa tabletissa on enemmän pintaa). Luotettavuuden arvioinnissa nimeän konkreettisia tekijöitä (esimerkiksi poreilun loppuhetken arviointi, lämpötilan muuttuminen kokeen aikana, toistojen erot) ja ehdotan niihin perustellun parannuksen. Käytän suojalaseja, lämmitän veden turvallisesti ja siivoan työpisteen. Pari voi auttaa mittaamisessa, mutta suunnitelma, taulukko, diagrammi ja raportti ovat omiani.","teksti":[{"tyyppi":"johdanto","sisalto":"Kaksi samanlaista poretablettia pudotetaan samaan aikaan kahteen lasiin. Toisessa lasissa poreilu on ohi selvästi ennen toista. Mikä teki eron: veden lämpötila, tabletin koko, vai jokin muu? Ympäristöopissa suunnittelit reilun kokeen, jossa muutetaan vain yhtä asiaa, ja teit pienen tutkimuksen diagrammeineen. Nyt tutkit reaktionopeutta: muotoilet täsmällisen tutkimuskysymyksen, rajaat muuttujat, mittaat toistoin, esität tulokset diagrammina, selität ne hiukkasmallilla ja arvioit, kuinka luotettavia tuloksesi ovat."},{"tyyppi":"kappale","otsikko":"Mitä poreilussa tapahtuu","sisalto":"Poretabletissa on yleensä kiinteää happoa, esimerkiksi sitruunahappoa, ja ruokasoodaa eli natriumvetykarbonaattia. Kuivana ne eivät reagoi keskenään. Kun tabletti joutuu veteen, aineet liukenevat ja pääsevät kosketuksiin, ja niiden välillä tapahtuu kemiallinen reaktio. Reaktiossa syntyy uusi aine, hiilidioksidikaasu, joka nousee kuplina pintaan. Poreilu loppuu, kun lähtöaineet on käytetty. Tarkista tutkimuksesi tabletin ainesosat pakkauksesta, sillä ne vaihtelevat merkin mukaan."},{"tyyppi":"kappale","otsikko":"Reaktionopeus ja hiukkasmalli","sisalto":"Reaktionopeus kertoo, kuinka paljon lähtöainetta kuluu tai tuotetta syntyy tietyssä ajassa. Kun käytät aina samanlaista tablettia ja samaa vesimäärää, reaktiossa syntyy sama määrä hiilidioksidia. Silloin poreilun kesto kertoo nopeudesta: mitä lyhyemmän ajan poreilu kestää, sitä nopeampi reaktio on. Reaktio tapahtuu, kun lähtöaineiden hiukkaset törmäävät toisiinsa riittävän voimakkaasti. Lämpimässä vedessä hiukkaset liikkuvat enemmän, joten ne törmäävät useammin ja voimakkaammin, ja reaktio nopeutuu. Kun tabletti murskataan, samasta ainemäärästä tulee enemmän pintaa veden kosketukseen. Pinnalla hiukkaset pääsevät törmäämään, joten pintaa lisäämällä törmäyksiä tapahtuu samassa ajassa enemmän."},{"tyyppi":"kuva","otsikko":"Sama aine, eri määrä pintaa","svg":"<svg viewBox=\"0 0 620 230\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kokonainen, paloiteltu ja murskattu tabletti: sama aine, eri määrä pintaa\"><rect class=\"v-ruutu v1\" x=\"50\" y=\"50\" width=\"100\" height=\"100\"/><text class=\"v-t vahva\" x=\"100\" y=\"180\" text-anchor=\"middle\" style=\"font-size:13px\">kokonainen</text><text class=\"v-t pieni\" x=\"100\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">vain ulkopinta</text><text class=\"v-t pieni\" x=\"100\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">koskettaa vettä</text><rect class=\"v-ruutu v1\" x=\"240\" y=\"50\" width=\"48\" height=\"48\"/><rect class=\"v-ruutu v1\" x=\"296\" y=\"50\" width=\"48\" height=\"48\"/><rect class=\"v-ruutu v1\" x=\"240\" y=\"106\" width=\"48\" height=\"48\"/><rect class=\"v-ruutu v1\" x=\"296\" y=\"106\" width=\"48\" height=\"48\"/><text class=\"v-t vahva\" x=\"292\" y=\"180\" text-anchor=\"middle\" style=\"font-size:13px\">paloiteltu</text><text class=\"v-t pieni\" x=\"292\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">myös leikkauspinnat</text><text class=\"v-t pieni\" x=\"292\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">koskettavat vettä</text><rect class=\"v-ruutu v1\" x=\"432\" y=\"51\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"433\" y=\"64\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"430\" y=\"82\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"430\" y=\"94\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"434\" y=\"106\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"434\" y=\"121\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"430\" y=\"134\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"448\" y=\"53\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"445\" y=\"65\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"445\" y=\"82\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"448\" y=\"92\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"449\" y=\"106\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"446\" y=\"124\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"445\" y=\"138\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"464\" y=\"53\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"460\" y=\"65\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"460\" y=\"82\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"461\" y=\"94\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"463\" y=\"107\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"464\" y=\"120\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"464\" y=\"136\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"479\" y=\"51\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"475\" y=\"68\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"479\" y=\"79\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"477\" y=\"92\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"479\" y=\"106\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"479\" y=\"120\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"479\" y=\"135\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"493\" y=\"54\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"493\" y=\"66\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"493\" y=\"82\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"493\" y=\"94\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"492\" y=\"107\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"491\" y=\"121\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"490\" y=\"138\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"507\" y=\"54\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"508\" y=\"66\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"508\" y=\"80\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"509\" y=\"92\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"505\" y=\"110\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"508\" y=\"121\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"507\" y=\"135\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"523\" y=\"53\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"520\" y=\"64\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"524\" y=\"82\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"522\" y=\"94\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"522\" y=\"110\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"523\" y=\"124\" width=\"10\" height=\"9\"/><rect class=\"v-ruutu v1\" x=\"523\" y=\"134\" width=\"10\" height=\"9\"/><text class=\"v-t vahva\" x=\"484\" y=\"180\" text-anchor=\"middle\" style=\"font-size:13px\">murskattu</text><text class=\"v-t pieni\" x=\"484\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">eniten pintaa:</text><text class=\"v-t pieni\" x=\"484\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">eniten törmäyksiä kerralla</text><text class=\"v-t\" x=\"20\" y=\"26\" text-anchor=\"start\" style=\"font-size:12px\">Sama määrä ainetta. Mitä pienempinä paloina, sitä enemmän pintaa vettä vasten.</text></svg>","teksti":"Mallilasku: 2 cm:n kuution pinta-ala on 6 · 2 cm · 2 cm = 24 cm². Kun se jaetaan kahdeksaksi 1 cm:n kuutioksi, pinta-ala on 8 · 6 · 1 cm · 1 cm = 48 cm², kaksinkertainen."},{"tyyppi":"kappale","otsikko":"Täsmällinen tutkimuskysymys","sisalto":"Kysymys ”Vaikuttaako vesi poretablettiin?” ei kerro, mitä muutat tai mitä mittaat. Täsmällisessä kysymyksessä on yksi muutettava ja yksi mitattava muuttuja: ”Miten veden lämpötila vaikuttaa siihen, kuinka kauan yhden poretabletin poreilu kestää 200 millilitrassa vettä?” tai ”Miten tabletin hienojakoisuus vaikuttaa siihen, kuinka kauan poreilu kestää huoneenlämpöisessä vedessä?” Valitse yksi tekijä: veden lämpötila (kylmä, huoneenlämpöinen ja lämmin, enintään 50 °C) tai tabletin hienojakoisuus (kokonainen, paloiteltu ja murskattu). Kirjoita ennen koetta ennuste ja perustele se hiukkasmallilla. Ennusteen osuminen ei ratkaise mitään, mutta perustelu näyttää, mitä odotat ja miksi."},{"tyyppi":"taulukko","otsikko":"Muuttujat kahdessa tutkimuksessa","otsikkorivi":["Muuttuja","Lämpötilatutkimus","Hienojakoisuustutkimus"],"rivit":[["Muutettava (sinä muutat)","veden lämpötila (°C)","tabletin hienojakoisuus: kokonainen, paloiteltu, murskattu"],["Mitattava (sinä mittaat)","poreilun kesto (s)","poreilun kesto (s)"],["Vakiona pidettävät (samat joka kerralla)","veden määrä, tabletin merkki ja koko (kokonainen), astia, ei sekoitusta","veden määrä, veden lämpötila, tabletin merkki ja koko (sama massa), astia, ei sekoitusta"]]},{"tyyppi":"saanto","otsikko":"Suunnitelma ennen kokeen aloittamista","askeleet":["Tutkimuskysymys: yksi muutettava ja yksi mitattava muuttuja.","Ennuste ja sen perustelu hiukkasmallilla.","Muuttujat: muutettava, mitattava ja vähintään kaksi vakiona pidettävää.","Välineet: esimerkiksi suojalasit, kolme samanlaista lasia tai keitinlasia, mittalasi, lämpömittari, poretabletit, sekuntikello ja tarvittaessa huhmar.","Työn kulku numeroituina vaiheina niin, että joku toinen voisi toistaa kokeen.","Loppuhetken määritelmä: milloin kello pysäytetään.","Toistot: jokainen olosuhde vähintään kahdesti.","Tyhjä tulostaulukko: olosuhde, toistot, keskiarvo ja yksiköt sarakkeiden otsikoissa."]},{"tyyppi":"kappale","otsikko":"Milloin poreilu on loppunut","sisalto":"Mittauksen vaikein kohta on loppuhetki. Poreilun lopussa yksittäisiä kuplia nousee vielä pitkään, ja jokainen arvioi lopun vähän eri kohdassa. Päätä siksi ennen koetta yksi selvä määritelmä ja kirjoita se suunnitelmaan, esimerkiksi: ”Kello pysäytetään, kun tablettia ei enää näy ja pohjalta ei nouse kuplia.” Sama henkilö arvioi loppuhetken jokaisessa mittauksessa, ja kello käynnistetään aina samalla tavalla, kun tabletti koskettaa vettä. Kirjaa jokainen tulos heti taulukkoon yksikön kanssa. Mittaat reaktion kestoa, et omaa tai parisi suoritusta."},{"tyyppi":"saanto","otsikko":"Turvallisesti","askeleet":["Suojalasit päässä koko työn ajan. Kuplista voi roiskua pisaroita.","Lämmin vesi enintään 50 °C. Opettaja kertoo, otetaanko vesi lämpimästä hanasta vai lämmitetäänkö se lämpölevyllä. Mittaa lämpötila lämpömittarilla. Kuumaa lasia käsitellään pihdeillä tai suojakäsineellä.","Tabletteja ei syödä eikä maisteta kemian luokassa, eikä lasista juoda.","Lasia ei peitetä kannella tai kalvolla: syntyvä hiilidioksidi tarvitsee tilaa, ja suljetussa astiassa paine nousee.","Tabletti murskataan huhmareessa tai paperin välissä lusikalla, ei veitsellä.","Lopuksi liuokset kaadetaan viemäriin opettajan ohjeen mukaan, roiskeet kuivataan ja välineet pestään."]},{"tyyppi":"taulukko","otsikko":"Esimerkki: tulostaulukko (keksityt tulokset, vesi 200 ml, yksi kokonainen tabletti)","otsikkorivi":["Veden lämpötila (°C)","Kesto, 1. toisto (s)","Kesto, 2. toisto (s)","Keskiarvo (s)"],"rivit":[["10","62","58","60"],["20","41","45","43"],["45","24","22","23"]]},{"tyyppi":"kuva","otsikko":"Esimerkkidiagrammi","svg":"<svg viewBox=\"0 0 560 320\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Pylväsdiagrammi: poreilun kesto veden lämpötilan mukaan, keksityt tulokset\"><text class=\"v-t vahva\" x=\"280\" y=\"24\" text-anchor=\"middle\" style=\"font-size:13px\">Veden lämpötilan vaikutus poreilun kestoon (keksityt tulokset)</text><line class=\"v-apu\" x1=\"90\" y1=\"250.0\" x2=\"490\" y2=\"250.0\"/><text class=\"v-t pieni\" x=\"82\" y=\"254.0\" text-anchor=\"end\" style=\"font-size:11px\">0</text><line class=\"v-apu\" x1=\"90\" y1=\"224.3\" x2=\"490\" y2=\"224.3\"/><text class=\"v-t pieni\" x=\"82\" y=\"228.28571428571428\" text-anchor=\"end\" style=\"font-size:11px\">10</text><line class=\"v-apu\" x1=\"90\" y1=\"198.6\" x2=\"490\" y2=\"198.6\"/><text class=\"v-t pieni\" x=\"82\" y=\"202.57142857142858\" text-anchor=\"end\" style=\"font-size:11px\">20</text><line class=\"v-apu\" x1=\"90\" y1=\"172.9\" x2=\"490\" y2=\"172.9\"/><text class=\"v-t pieni\" x=\"82\" y=\"176.85714285714286\" text-anchor=\"end\" style=\"font-size:11px\">30</text><line class=\"v-apu\" x1=\"90\" y1=\"147.1\" x2=\"490\" y2=\"147.1\"/><text class=\"v-t pieni\" x=\"82\" y=\"151.14285714285717\" text-anchor=\"end\" style=\"font-size:11px\">40</text><line class=\"v-apu\" x1=\"90\" y1=\"121.4\" x2=\"490\" y2=\"121.4\"/><text class=\"v-t pieni\" x=\"82\" y=\"125.42857142857142\" text-anchor=\"end\" style=\"font-size:11px\">50</text><line class=\"v-apu\" x1=\"90\" y1=\"95.7\" x2=\"490\" y2=\"95.7\"/><text class=\"v-t pieni\" x=\"82\" y=\"99.71428571428572\" text-anchor=\"end\" style=\"font-size:11px\">60</text><line class=\"v-apu\" x1=\"90\" y1=\"70.0\" x2=\"490\" y2=\"70.0\"/><text class=\"v-t pieni\" x=\"82\" y=\"74.0\" text-anchor=\"end\" style=\"font-size:11px\">70</text><line class=\"v-akseli\" x1=\"90\" y1=\"250\" x2=\"490\" y2=\"250\"/><line class=\"v-akseli\" x1=\"90\" y1=\"250\" x2=\"90\" y2=\"60\"/><rect class=\"v-pylvas\" x=\"130\" y=\"95.7\" width=\"60\" height=\"154.3\"/><text class=\"v-t\" x=\"160\" y=\"89.71428571428572\" text-anchor=\"middle\" style=\"font-size:12px\">60</text><text class=\"v-t\" x=\"160\" y=\"268\" text-anchor=\"middle\" style=\"font-size:12px\">10</text><rect class=\"v-pylvas\" x=\"260\" y=\"139.4\" width=\"60\" height=\"110.6\"/><text class=\"v-t\" x=\"290\" y=\"133.42857142857142\" text-anchor=\"middle\" style=\"font-size:12px\">43</text><text class=\"v-t\" x=\"290\" y=\"268\" text-anchor=\"middle\" style=\"font-size:12px\">20</text><rect class=\"v-pylvas\" x=\"390\" y=\"190.9\" width=\"60\" height=\"59.1\"/><text class=\"v-t\" x=\"420\" y=\"184.85714285714286\" text-anchor=\"middle\" style=\"font-size:12px\">23</text><text class=\"v-t\" x=\"420\" y=\"268\" text-anchor=\"middle\" style=\"font-size:12px\">45</text><text class=\"v-t akseli\" x=\"290\" y=\"294\" text-anchor=\"middle\" style=\"font-size:12px\">Veden lämpötila (°C)</text><text class=\"v-t akseli\" x=\"30\" y=\"160.0\" text-anchor=\"middle\" style=\"font-size:12px\" transform=\"rotate(-90 30 160)\">Poreilun kesto, keskiarvo (s)</text><text class=\"v-t pieni\" x=\"20\" y=\"312\" text-anchor=\"start\" style=\"font-size:11px\">Muutettava vaaka-akselilla, mitattava pystyakselilla. Luku on kahden toiston keskiarvo.</text></svg>","teksti":"Diagrammissa on otsikko, nimetyt akselit ja yksiköt. Tulokset ovat keksittyjä esimerkkejä, eivät oikea vastaus tutkimukseesi."},{"tyyppi":"kappale","otsikko":"Tuloksista diagrammiksi","sisalto":"Laske jokaiselle olosuhteelle toistojen keskiarvo: laske tulokset yhteen ja jaa toistojen määrällä, esimerkiksi (62 s + 58 s) : 2 = 60 s. Piirrä diagrammi käsin tai taulukkolaskentaohjelmalla. Muutettava muuttuja tulee vaaka-akselille ja mitattava pystyakselille. Diagrammiin tarvitaan otsikko, joka kertoo, mitä tutkittiin, ja kummankin akselin nimi yksikköineen, esimerkiksi Poreilun kesto (s). Pystyakselin asteikon välit ovat tasaiset ja alkavat nollasta. Kun muutettava on luokka, kuten kokonainen, paloiteltu ja murskattu, käytä pylväsdiagrammia."},{"tyyppi":"kappale","otsikko":"Johtopäätös ja selitys","sisalto":"Raportin rakenne on kysymys, työn kulku, tulokset, johtopäätös, luotettavuuden arviointi ja parannusehdotus. Johtopäätös vastaa tutkimuskysymykseen omien tulostesi perusteella: ”Mitä lämpimämpää vesi oli, sitä lyhyemmän ajan poreilu kesti, eli reaktio oli nopeampi.” Mainitse luvut, joihin päätelmä nojaa. Selitä tulos hiukkasmallilla: lämpimässä hiukkaset liikkuvat enemmän ja törmäävät useammin, tai murskatussa tabletissa on enemmän pintaa, jolla törmäyksiä tapahtuu. Jos omat tuloksesi poikkeavat odotetusta, kirjoita johtopäätös niiden mukaan ja pohdi luotettavuuden arvioinnissa, mistä ero voi johtua."},{"tyyppi":"kappale","otsikko":"Kuinka luotettavia tulokset ovat","sisalto":"Luotettavuuden arvioinnissa nimeät konkreettisia tekijöitä, jotka ovat voineet vaikuttaa tuloksiin, ja ehdotat niihin perustellun parannuksen. Esimerkkejä: loppuhetken arviointi on epätarkkaa, joten sama henkilö arvioi sen aina ja määritelmä kirjoitetaan etukäteen; lämmin vesi jäähtyy kokeen aikana, joten lämpötila mitataan alussa ja lopussa ja lasit tehdään valmiiksi vasta juuri ennen mittausta; kahden toiston erot ovat suuria, joten tehdään kolmas toisto; murskatun tabletin palat jäävät kiinni astian reunaan, joten murska kaadetaan paperilta suoraan veden keskelle. Ylimalkainen lause ”virheitä saattoi tulla” ei ole arviointi, koska siitä ei selviä, mikä tulokseen vaikutti ja miten."},{"tyyppi":"ansa","otsikko":"Ansa 1: kaksi asiaa muuttuu yhtä aikaa","sisalto":"Lämpimään veteen kaadetaan enemmän vettä kuin kylmään, tai murskattuna käytetään puolikas tabletti ja kokonaisena koko tabletti. Silloin et tiedä, johtuiko ero lämpötilasta, vesimäärästä vai tabletin määrästä. Käy suunnitelma läpi rivi riviltä ja kysy jokaisesta vakiona pidettävästä: onko tämä varmasti sama joka mittauksessa?"},{"tyyppi":"ansa","otsikko":"Ansa 2: diagrammi ilman nimiä ja yksiköitä","sisalto":"Pylväät voivat olla oikein, mutta jos akseleilla ei ole nimiä ja yksiköitä, lukija ei tiedä, ovatko luvut sekunteja vai asteita. Toinen yleinen virhe on panna mitattava vaaka-akselille ja muutettava pystyakselille. Tarkista lopuksi: otsikko, vaaka-akselin nimi, pystyakselin nimi ja yksikkö, tasavälinen asteikko nollasta."},{"tyyppi":"ansa","otsikko":"Ansa 3: johtopäätös ilman omia tuloksia tai selitystä","sisalto":"”Lämpö nopeuttaa reaktioita” voi olla totta, mutta se ei ole sinun tutkimuksesi johtopäätös, ellei siinä viitata omiin lukuihisi. Toinen sudenkuoppa on selitys ”lämpö antaa enemmän energiaa”, joka ei kerro, mitä hiukkasille tapahtuu. Kirjoita johtopäätös omista tuloksistasi ja selitys hiukkasten liikkeen ja törmäysten avulla."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kysymyksessä yksi muutettava ja yksi mitattava muuttuja. Vakiona vähintään kaksi muuta tekijää.","Lyhyempi poreilu = nopeampi reaktio, kun tabletti ja vesimäärä ovat samat.","Loppuhetken määritelmä kirjoitetaan etukäteen, ja sama henkilö arvioi sen joka kerta.","Jokainen mittaus vähintään kahdesti, keskiarvo taulukkoon.","Diagrammi: otsikko, akselien nimet ja yksiköt, muutettava vaaka-akselille.","Johtopäätös omista tuloksista, selitys hiukkasmallilla: liike ja törmäykset tai pinta.","Luotettavuus: konkreettiset tekijät ja perusteltu parannus.","Suojalasit, vesi enintään 50 °C, ei kantta, ei maistamista."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Tutkimuskysymys on yleinen (”vaikuttaako vesi tablettiin?”) tai siinä on kaksi muutettavaa, tai mitattavaa ei ole nimetty","tehtava":"Näyttö: tutkimuskysymys ja ennuste suunnitelmassa","mita_kertoo":"Oppilas tuntee aiheen, mutta ei vielä muotoile kysymystä niin, että siihen voi vastata yhdellä mittauksella. Kriteeri vaatii yhden muutettavan ja yhden mitattavan muuttujan.","mita_tehda":"Kysy: mitä sinä muutat ja mitä luet kellosta? Pyydä kirjoittamaan kysymys muotoon ”Miten [muutettava] vaikuttaa [mitattavaan]?” ja tarkista, että ennusteella on hiukkasmalliin nojaava perustelu."},{"virhe":"Suunnitelmassa on vähemmän kuin kaksi vakiona pidettävää muuttujaa, tai suunnitelma muuttaa huomaamatta toista tekijää (esimerkiksi eri vesimäärä tai puolikas tabletti)","tehtava":"Näyttö: muuttujat ja työn kulku suunnitelmassa","mita_kertoo":"Reilun kokeen ajatus on tuttu ympäristöopista, mutta se ei vielä siirry uuteen tilanteeseen. Ilman vakiointia tuloksesta ei voi päätellä syytä.","mita_tehda":"Käy taulukko Muuttujat kahdessa tutkimuksessa yhdessä läpi ja kysy jokaisesta: pysyykö tämä samana joka mittauksessa? Hyväksy suunnitelma vasta, kun vähintään kaksi vakioitavaa on kirjoitettu ja ne pitävät."},{"virhe":"Mittaa ilman ennalta sovittua loppuhetkeä, jättää toistot tekemättä, kirjaa tuloksia ilman yksikköä tai jälkikäteen muistista, tai laiminlyö suojalasit tai lämpörajan","tehtava":"Näyttö: koe pareittain ja oma tulostaulukko","mita_kertoo":"Mittaamisen tarkkuus ja turvallisuus ovat vielä kesken. Turvallisuuden laiminlyönti keskeyttää työn kartan mukaisesti, ja näyttö tehdään uudelleen.","mita_tehda":"Pysäytä työ, jos suojalasit puuttuvat tai vesi on yli 50-asteista. Pyydä kirjoittamaan loppuhetken määritelmä ennen seuraavaa mittausta ja täydentämään taulukkoon toistot ja yksiköt heti mittauksen jälkeen."},{"virhe":"Diagrammista puuttuu otsikko, akselin nimi tai yksikkö, asteikko ei ala nollasta tai ei ole tasavälinen, tai muuttujat ovat väärillä akseleilla","tehtava":"Näyttö: diagrammi (käsin tai taulukkolaskentaohjelmalla)","mita_kertoo":"Oppilas osaa piirtää pylväät, mutta ei vielä ajattele lukijaa. Kriteeri vaatii otsikon, nimetyt akselit ja yksiköt.","mita_tehda":"Pyydä parin lukemaan diagrammi ilman selityksiä ja kertomaan, mitä siinä on mitattu. Tarkistakaa yhdessä ansan 2 lista."},{"virhe":"Johtopäätös toistaa vain luvun tai yleisen totuuden, ei vastaa kysymykseen tai ei nojaa omiin tuloksiin, tai selitys puuttuu tai on ”lämpö antaa energiaa” ilman hiukkasia","tehtava":"Näyttö: raportin johtopäätös","mita_kertoo":"Oppilas erottaa tuloksen, mutta ei vielä yhdistä sitä kysymykseen ja hiukkasmalliin. Kriteeri vaatii omiin tuloksiin nojaavan johtopäätöksen ja selityksen hiukkasten liikkeellä ja törmäyksillä tai pinnan määrällä.","mita_tehda":"Kysy: mitä kysyit, ja mitä sinun lukusi vastaavat? Mitä hiukkaset tekevät lämpimässä tai murskatussa tabletissa? Pyydä lisäämään johtopäätökseen omat keskiarvot ja yksi hiukkasmallin virke."},{"virhe":"Luotettavuuden arviointi on ylimalkainen (”virheitä saattoi tulla”), nimeää vain yhden tekijän tai ehdottaa parannusta, joka ei liity nimettyyn tekijään","tehtava":"Näyttö: luotettavuus ja parannus raportissa","mita_kertoo":"Oppilas tietää, että mittauksissa on epävarmuutta, mutta ei vielä osaa paikantaa sitä. Kriteeri vaatii kaksi konkreettista tekijää ja perustellun parannuksen.","mita_tehda":"Näytä oppilaan omasta taulukosta kahden toiston ero ja kysy: mistä ero voi johtua? Mitä tekisit toisin, jotta ero pienenisi? Pyydä kirjoittamaan tekijä ja parannus samaan virkkeeseen."}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: havainnointitaito. Kartan näyttö alkaa sanalla Valitsen ja tuottaa suunnitelman, tulostaulukon, diagrammin ja raportin; osaa kun -kriteeri arvioi perusteltua tekstiä ja omaa mittausaineistoa, joita ei voi rinnakkaistaa viideksi koeversioksi. Arvioitavat tuotokset ovat oppilaan oma suunnitelma, tulostaulukko, diagrammi ja raportti sekä havainnointi kokeen aikana (mittaaminen ja turvallisuus).","Mikä kelpaa. Kysymys: yksi muutettava (veden lämpötila tai tabletin hienojakoisuus) ja yksi mitattava (poreilun kesto). Vakiona vähintään kaksi muuta tekijää (esimerkiksi veden määrä, tabletin merkki ja koko, astia, sekoittamatta jättäminen; hienojakoisuustutkimuksessa myös veden lämpötila). Mittaukset: kolme olosuhdetta, kukin vähintään kahdesti, yksiköt taulukossa; keskiarvon laskeminen on suositeltavaa mutta ei vaatimus, jos diagrammissa esitetään kaikki toistot. Diagrammi: otsikko, akselien nimet ja yksiköt, tasavälinen asteikko; saa piirtää käsin tai taulukkolaskentaohjelmalla. Johtopäätös: vastaa kysymykseen, viittaa omiin tuloksiin ja selittää hiukkasmallilla. Luotettavuus: kaksi konkreettista tekijää ja yksi niihin liittyvä perusteltu parannus. Hyväksytään mikä tahansa oikea muotoilu.","Mikä ei kelpaa: kysymys, jossa muuttuu kaksi asiaa; suunnitelma ilman kahta vakioitavaa; tulokset ilman toistoja; diagrammi ilman akselien nimiä tai yksikköä; johtopäätös, joka ei nojaa omiin tuloksiin; luotettavuuden arviointi ilman konkreettista tekijää. Tulosten suuruutta tai ennusteen osumista ei arvioida. Jos oppilaan tulokset poikkeavat odotetusta (esimerkiksi veden jäähtymisen vuoksi), kelpaa omien tulosten mukainen johtopäätös, kun luotettavuuden arviointi pohtii eroa.","Mitattava suure on reaktion kesto, ei oppilaan suoritus: oppilaan työskentelyn kestoa ei mitata eikä kirjata, eikä tuloksia verrata parien kesken paremmuusjärjestykseen. Kartan mukaisesti pari voi auttaa mittaamisessa, mutta suunnitelma, taulukko, diagrammi ja raportti ovat jokaisen omia; parin suoritus ei ratkaise läpäisyä. Jos oppilas on poissa koetunnilta, hän voi tehdä mittaukset opettajan kanssa tai käyttää opettajan antamaa valmista tulostaulukkoa, jolloin arvioidaan suunnitelma, diagrammi ja raportti ja mittaaminen havainnoidaan erikseen myöhemmin.","Turvallisuus: suojalasit koko työn ajan. Vesi enintään 50 °C (kartan raja); lämmin vesi lämpimästä hanasta tai opettajan lämmittämänä lämpölevyllä, lämpötila tarkistetaan lämpömittarilla. Vedenkeittimen kiehuvaa vettä ei anneta oppilaille. Lasia ei peitetä, koska hiilidioksidi nostaa painetta suljetussa astiassa. Tabletteja ei syödä eikä maisteta; käytä kemian luokan omia tabletteja, jotka säilytetään merkityssä rasiassa. Murskaus huhmareessa tai paperin välissä lusikalla. Liuokset voi kaataa viemäriin runsaan veden kanssa, jos tabletin pakkaus ei muuta ohjeista; tarkista. Turvallisuuden laiminlyönti keskeyttää työn, ja näyttö tehdään uudelleen (kartan oletus).","Välineet ja varamuodot: kolme samanlaista lasia tai keitinlasia, mittalasi, lämpömittari, sekuntikello tai puhelimen sekuntikello, samanlaiset poretabletit (yksi merkki), huhmar tai paperi ja lusikka. Jos lämmintä vettä ei voi järjestää turvallisesti, oppilas valitsee hienojakoisuuden. Taulukkolaskentaohjelma on vaihtoehto, ei vaatimus.","Jatkumo: ympäristöopin Koeasetelman arkkitehti (YMP5-TUT-01, muuttujat) ja Pihan mittausretki (YMP6-TUT-01, oma tutkimus ja diagrammi) ovat pohja; kemiassa uutta ovat reaktionopeus, hiukkasmallin selitys ja luotettavuuden arviointi konkreettisin tekijöin. Edeltävät: Uusien aineiden synty (KE7-REA-01), Öljy ja vesi (KE7-AIN-03) ja Suojalasit silmille (KE7-TUR-01). Seuraaja: Naulojen ruostekoe (KE8-TUT-02), jossa vakioidaan vähintään kolme tekijää ja perustellaan hypoteesi kemialla.","Tarkistettavat asiatiedot: (1) Poretablettien ainesosat vaihtelevat merkin mukaan; yleisesti happo (esimerkiksi sitruunahappo) ja natriumvetykarbonaatti. Tarkista käytettävän tabletin pakkauksesta. (2) Lämpötilan ja hienojakoisuuden vaikutuksen suunta (reaktio nopeutuu) ja törmäysmalliin nojaava selitys ovat vakiintunutta koulukemiaa. Lämpimässä vedessä myös hiilidioksidi liukenee huonommin, mikä voi vaikuttaa kuplien näkymiseen; tätä ei vaadita. (3) Esimerkkitaulukon ja diagrammin luvut ovat keksittyjä."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Tutkit yhtä tekijää kerrallaan. Kirjoita ennen koetta, mitä muutat, mitä mittaat ja mitkä pidät samoina, ja päätä etukäteen, milloin poreilu on loppunut. Mittaat reaktion kestoa, et sitä, kuinka ripeästi itse työskentelet.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus (1. tunti): kaksi lasia","sisalto":"Pudota opettajana kaksi tablettia kylmään ja lämpimään veteen. Oppilaat kirjaavat havainnon ja kysymyksen, jonka se herättää."},{"aika":"10 min","otsikko":"Reaktio ja hiukkasmalli","sisalto":"Käy läpi kappaleet Mitä poreilussa tapahtuu ja Reaktionopeus ja hiukkasmalli sekä kuva Sama aine, eri määrä pintaa."},{"aika":"10 min","otsikko":"Kysymys ja muuttujat","sisalto":"Käy läpi kappale Täsmällinen tutkimuskysymys ja muuttujataulukko. Oppilaat valitsevat tutkittavan tekijän."},{"aika":"20 min","otsikko":"Näyttö, osa 1: oma suunnitelma","sisalto":"Jokainen kirjoittaa oman suunnitelman saannon mukaan, myös loppuhetken määritelmän ja tyhjän tulostaulukon. Tarkista suunnitelmat (kriteerit 1 ja 2) ennen kokeen aloittamista; puutteellinen suunnitelma korjataan ennen mittauksia."},{"aika":"5 min","otsikko":"Turvallisuus (2. tunti)","sisalto":"Kertaa saanto Turvallisesti. Näytä veden lämpötilan tarkistus ja murskaus."},{"aika":"30 min","otsikko":"Näyttö, osa 2: koe pareittain","sisalto":"Parit mittaavat molempien suunnitelmien olosuhteet vähintään kahdesti. Jokainen kirjaa tulokset omaan taulukkoonsa. Havainnoi mittaamista ja turvallisuutta (kriteeri 3)."},{"aika":"10 min","otsikko":"Siivous ja keskiarvot","sisalto":"Liuokset pois ohjeen mukaan, välineet pestään. Oppilaat laskevat keskiarvot."},{"aika":"15 min","otsikko":"Näyttö, osa 3 (3. tunti): diagrammi","sisalto":"Oppilaat piirtävät diagrammin käsin tai taulukkolaskentaohjelmalla ja tarkistavat sen ansan 2 listalla (kriteeri 4)."},{"aika":"30 min","otsikko":"Näyttö, osa 4: raportti","sisalto":"Oppilaat kirjoittavat raportin: kysymys, työn kulku, tulokset, johtopäätös hiukkasmallin selityksineen, kaksi luotettavuuteen vaikuttavaa tekijää ja parannus (kriteerit 5 ja 6). Palautus tunnin lopussa tai sovitusti."}],"tarvikkeet":"Suojalasit kaikille, kolme samanlaista lasia tai keitinlasia per pari, mittalasi, lämpömittari, sekuntikello (myös puhelimen sekuntikello käy), samanmerkkiset poretabletit (vähintään kuusi per oppilas), huhmar tai paperi ja lusikka, lämmintä vettä hanasta tai lämpölevyltä (enintään 50 °C), talouspaperia. Taulukkolaskentaohjelma tai ruutupaperi diagrammiin."},"huoltajalle":{"mista_on_kyse":"Nuori tekee oman pienen tutkimuksen siitä, miten veden lämpötila tai tabletin hienojakoisuus vaikuttaa poretabletin ja veden reaktion nopeuteen. Hän kirjoittaa tutkimuskysymyksen ja suunnitelman, mittaa toistoin, piirtää diagrammin ja kirjoittaa raportin, jossa hän selittää tuloksen hiukkasmallilla ja arvioi tulosten luotettavuutta.","kotona":["Pyytäkää nuorta kertomaan tutkimuskysymyksensä ja sen, mitkä asiat hän piti samoina ja miksi.","Pohtikaa yhdessä arjen esimerkkiä: miksi maito säilyy jääkaapissa pidempään kuin pöydällä? Hyvä vastaus kertoo, että kylmässä reaktiot hidastuvat.","Pyytäkää nuorta näyttämään diagramminsa ja kertomaan, mitä siitä voi lukea ilman hänen selityksiään.","Kysykää, mikä hänen mittauksessaan oli epätarkinta ja miten hän parantaisi sitä."],"milloin_huolestua":"Tämä on ydintaito, joka vaaditaan siirtymiseen. Jos nuori ei osaa kertoa, mitä hän muutti ja mitä mittasi, tai raportti jää kesken, ottakaa yhteyttä opettajaan hyvissä ajoin ennen lukuvuoden loppua."},"ulkoiset":{},"valmis_teksti":"Teit oman tutkimuksen reaktionopeudesta: täsmällinen kysymys, reilu koe toistoineen, diagrammi, hiukkasmalliin nojaava johtopäätös ja perusteltu arvio tulosten luotettavuudesta. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

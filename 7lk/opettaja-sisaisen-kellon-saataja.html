@@ -1,0 +1,619 @@
+<title>Sisäisen kellon säätäjä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"TT7-TOT-01","oppiaine":"TT","vuosiluokka":7,"taitoalue":"TOT","jakso":"J4","taso":"ydin","otsikko":"Sisäisen kellon säätäjä","kuvaus":"Osaan selittää, miten uni, ateriat, liikkuminen, ruutuaika ja puhtaudesta huolehtiminen muodostavat arkirytmin ja miten arkirytmi vaikuttaa nuoren terveyteen ja opiskelukykyyn.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T5","T8","T10"],"S":["S2","S3"]},"eyebrow":"Terveystieto · 7. luokka","ikoni":"syke","naytto":"Valvottu paperikoe. Saan keksityn arkiviikon kuvauksen seitsemäsluokkalaisesta Eliaksesta: hän pelaa iltaisin myöhään verkossa kavereiden kanssa, pitää puhelinta yöllä sängyn vieressä ilmoitukset päällä, nukkuu arkiöinä noin kuusi tuntia, jättää aamupalan väliin, nukahtelee tunneilla ja on lakannut käymästä suihkussa treenien jälkeen. Selitän, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi, miten ilta-ruutuaika vaikuttaa nukahtamiseen ja paljonko yläkouluikäinen tarvitsee unta. Erittelen kolme tekijää, jotka selittävät, miksi Eliaksen tapa on syntynyt ja pysyy. Laadin hänelle kolmen muutoksen suunnitelman, joka on realistinen hänen tilanteessaan, ja perustelen, miten se tukee opiskelukykyä. Kerron, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","osaa_kun":"Kerron, että murrosiässä unihormoni melatoniinin eritys alkaa illalla myöhemmin, minkä vuoksi nukahtaminen siirtyy, ja että kirkas ruudun valo ja virittävä sisältö viivästyttävät nukahtamista lisää. Tiedän, että yläkouluikäinen tarvitsee unta noin 8-10 tuntia yössä. Tavan syntymisessä erittelen ainakin yhden sosiaalisen tekijän (esimerkiksi kaverit pelaavat illalla) ja yhden ympäristön tekijän (esimerkiksi puhelin vieressä ja ilmoitukset päällä). Suunnitelman muutokset ovat konkreettisia, kohdistuvat kuvauksen ongelmiin ja liittyvät opiskelukykyyn (esimerkiksi keskittyminen, muisti, mieliala). Puhtauden perustelu liittyy hiki- ja talirauhasten toiminnan lisääntymiseen murrosiässä. 4. luokalla tiesin, miten uni ja ravinto vaikuttavat vointiin; nyt selitän rytmin muutoksen syyn ja tapojen muodostumisen. Omaa unta, ruokailua, ruutuaikaa tai puhtautta ei kysytä eikä arvioida.","teksti":[{"tyyppi":"johdanto","sisalto":"Keksitty seitsemäsluokkalainen Aatu huomaa syyslomalla, ettei häntä väsytä illalla ennen puoltayötä ja että hän nukkuu aamulla pitkälle aamupäivään. Kun koulu taas alkaa ja herätys on aikaisin, ensimmäinen viikko on raskas. Ilmiö on tavallinen: murrosiässä elimistön sisäinen kello siirtyy. Tässä taidossa opit, mistä arkirytmi koostuu, miksi nuoren vuorokausirytmi siirtyy myöhäisemmäksi, miten iltaruutu vaikuttaa nukahtamiseen, miksi tavat syntyvät ja pysyvät ja miksi puhtaudesta huolehtiminen on murrosiässä tärkeämpää kuin ennen. 4. luokalla tutkit, miten uni, ruoka ja liikkuminen vaikuttavat vointiin. Nyt selität syitä. Taidon henkilöt ovat keksittyjä, eikä omista tavoistasi kysytä."},{"tyyppi":"kappale","otsikko":"Arkirytmi on päivän runko","sisalto":"Arkirytmi tarkoittaa sitä, miten päivän toistuvat asiat asettuvat vuorokauteen: uni, ateriat, liikkuminen, ruutuaika ja peseytyminen. Kun ne toistuvat suunnilleen samaan aikaan, elimistö oppii ennakoimaan: väsymys tulee illalla, nälkä ateria-aikaan ja vireys aamulla. Säännöllinen arkirytmi tukee opiskelukykyä eli nuoren voimavaroja opiskella. Ne näkyvät koulussa vireytenä, keskittymisenä, muistina ja mielialana. Kun yksi osa rytmistä horjuu, se vetää usein muita mukanaan: myöhäinen ilta lyhentää unta, väsynyt aamu vie ruokahalun, ja väsyneenä liikkuminen jää helposti väliin."},{"tyyppi":"kappale","otsikko":"Sisäinen kello ja melatoniini","sisalto":"Aivoissa on sisäinen kello, joka säätelee vuorokausirytmiä noin vuorokauden mittaisina jaksoina. Valo on kellon tärkein tahdistaja: aamun valo silmiin kertoo aivoille, että päivä on alkanut. Kun ilta hämärtyy, aivojen käpylisäke alkaa erittää melatoniinia, jota kutsutaan unihormoniksi. Melatoniini ei nukuta kuin lääke, vaan se viestii elimistölle, että on yö, ja nukahtaminen helpottuu. Murrosiässä melatoniinin eritys alkaa illalla myöhemmin kuin lapsuudessa. Siksi nuorta ei väsytä illalla yhtä aikaisin kuin ennen, ja aamulla herääminen on raskasta. Kyse on kehon muutoksesta, ei laiskuudesta."},{"tyyppi":"kuva","otsikko":"Melatoniinin eritys siirtyy","svg":"<svg viewBox=\"0 0 620 254\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"melatoniinin eritys illalla ja yöllä lapsella ja murrosikäisellä\"><line class=\"v-akseli\" x1=\"60\" y1=\"190\" x2=\"600\" y2=\"190\"/><line class=\"v-akseli\" x1=\"60\" y1=\"190\" x2=\"60\" y2=\"40\"/><line class=\"v-tikki\" x1=\"60.0\" y1=\"190\" x2=\"60.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"60.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">18</text><line class=\"v-tikki\" x1=\"120.0\" y1=\"190\" x2=\"120.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"120.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">20</text><line class=\"v-tikki\" x1=\"180.0\" y1=\"190\" x2=\"180.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"180.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">22</text><line class=\"v-tikki\" x1=\"240.0\" y1=\"190\" x2=\"240.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"240.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">24</text><line class=\"v-tikki\" x1=\"300.0\" y1=\"190\" x2=\"300.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"300.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">2</text><line class=\"v-tikki\" x1=\"360.0\" y1=\"190\" x2=\"360.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"360.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">4</text><line class=\"v-tikki\" x1=\"420.0\" y1=\"190\" x2=\"420.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"420.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">6</text><line class=\"v-tikki\" x1=\"480.0\" y1=\"190\" x2=\"480.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"480.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">8</text><line class=\"v-tikki\" x1=\"540.0\" y1=\"190\" x2=\"540.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"540.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">10</text><line class=\"v-tikki\" x1=\"600.0\" y1=\"190\" x2=\"600.0\" y2=\"195\"/><text class=\"v-t pieni\" x=\"600.0\" y=\"209\" text-anchor=\"middle\" style=\"font-size:11px\">12</text><text class=\"v-t akseli\" x=\"330\" y=\"228\" text-anchor=\"middle\" style=\"font-size:11px\">kellonaika illasta seuraavaan päivään</text><text class=\"v-t akseli\" x=\"22\" y=\"115\" text-anchor=\"middle\" transform=\"rotate(-90 22 115)\" style=\"font-size:11px\">melatoniinin määrä</text><polyline class=\"v-kayra v1\" points=\"60.0,190.0 63.0,190.0 66.0,190.0 69.0,190.0 72.0,190.0 75.0,190.0 78.0,190.0 81.0,190.0 84.0,190.0 87.0,190.0 90.0,190.0 93.0,190.0 96.0,190.0 99.0,190.0 102.0,190.0 105.0,190.0 108.0,190.0 111.0,190.0 114.0,190.0 117.0,190.0 120.0,190.0 123.0,190.0 126.0,190.0 129.0,190.0 132.0,190.0 135.0,190.0 138.0,189.9 141.0,189.7 144.0,189.3 147.0,188.7 150.0,188.0 153.0,187.1 156.0,186.0 159.0,184.8 162.0,183.5 165.0,182.0 168.0,180.3 171.0,178.5 174.0,176.6 177.0,174.6 180.0,172.4 183.0,170.1 186.0,167.8 189.0,165.3 192.0,162.7 195.0,160.0 198.0,157.2 201.0,154.4 204.0,151.5 207.0,148.5 210.0,145.5 213.0,142.5 216.0,139.4 219.0,136.3 222.0,133.1 225.0,130.0 228.0,126.9 231.0,123.7 234.0,120.6 237.0,117.5 240.0,114.5 243.0,111.5 246.0,108.5 249.0,105.6 252.0,102.8 255.0,100.0 258.0,97.3 261.0,94.7 264.0,92.2 267.0,89.9 270.0,87.6 273.0,85.4 276.0,83.4 279.0,81.5 282.0,79.7 285.0,78.0 288.0,76.5 291.0,75.2 294.0,74.0 297.0,72.9 300.0,72.0 303.0,71.3 306.0,70.7 309.0,70.3 312.0,70.1 315.0,70.0 318.0,70.1 321.0,70.6 324.0,71.3 327.0,72.3 330.0,73.6 333.0,75.2 336.0,77.0 339.0,79.1 342.0,81.5 345.0,84.0 348.0,86.8 351.0,89.9 354.0,93.1 357.0,96.4 360.0,100.0 363.0,103.7 366.0,107.5 369.0,111.5 372.0,115.5 375.0,119.6 378.0,123.7 381.0,127.9 384.0,132.1 387.0,136.3 390.0,140.4 393.0,144.5 396.0,148.5 399.0,152.5 402.0,156.3 405.0,160.0 408.0,163.6 411.0,166.9 414.0,170.1 417.0,173.2 420.0,176.0 423.0,178.5 426.0,180.9 429.0,183.0 432.0,184.8 435.0,186.4 438.0,187.7 441.0,188.7 444.0,189.4 447.0,189.9 450.0,190.0 453.0,190.0 456.0,190.0 459.0,190.0 462.0,190.0 465.0,190.0 468.0,190.0 471.0,190.0 474.0,190.0 477.0,190.0 480.0,190.0 483.0,190.0 486.0,190.0 489.0,190.0 492.0,190.0 495.0,190.0 498.0,190.0 501.0,190.0 504.0,190.0 507.0,190.0 510.0,190.0 513.0,190.0 516.0,190.0 519.0,190.0 522.0,190.0 525.0,190.0 528.0,190.0 531.0,190.0 534.0,190.0 537.0,190.0 540.0,190.0 543.0,190.0 546.0,190.0 549.0,190.0 552.0,190.0 555.0,190.0 558.0,190.0 561.0,190.0 564.0,190.0 567.0,190.0 570.0,190.0 573.0,190.0 576.0,190.0 579.0,190.0 582.0,190.0 585.0,190.0 588.0,190.0 591.0,190.0 594.0,190.0 597.0,190.0 600.0,190.0\"/><polyline class=\"v-kayra v2\" points=\"60.0,190.0 63.0,190.0 66.0,190.0 69.0,190.0 72.0,190.0 75.0,190.0 78.0,190.0 81.0,190.0 84.0,190.0 87.0,190.0 90.0,190.0 93.0,190.0 96.0,190.0 99.0,190.0 102.0,190.0 105.0,190.0 108.0,190.0 111.0,190.0 114.0,190.0 117.0,190.0 120.0,190.0 123.0,190.0 126.0,190.0 129.0,190.0 132.0,190.0 135.0,190.0 138.0,190.0 141.0,190.0 144.0,190.0 147.0,190.0 150.0,190.0 153.0,190.0 156.0,190.0 159.0,190.0 162.0,190.0 165.0,190.0 168.0,190.0 171.0,190.0 174.0,190.0 177.0,190.0 180.0,190.0 183.0,190.0 186.0,190.0 189.0,190.0 192.0,190.0 195.0,190.0 198.0,189.9 201.0,189.7 204.0,189.3 207.0,188.7 210.0,188.0 213.0,187.1 216.0,186.0 219.0,184.8 222.0,183.5 225.0,182.0 228.0,180.3 231.0,178.5 234.0,176.6 237.0,174.6 240.0,172.4 243.0,170.1 246.0,167.8 249.0,165.3 252.0,162.7 255.0,160.0 258.0,157.2 261.0,154.4 264.0,151.5 267.0,148.5 270.0,145.5 273.0,142.5 276.0,139.4 279.0,136.3 282.0,133.1 285.0,130.0 288.0,126.9 291.0,123.7 294.0,120.6 297.0,117.5 300.0,114.5 303.0,111.5 306.0,108.5 309.0,105.6 312.0,102.8 315.0,100.0 318.0,97.3 321.0,94.7 324.0,92.2 327.0,89.9 330.0,87.6 333.0,85.4 336.0,83.4 339.0,81.5 342.0,79.7 345.0,78.0 348.0,76.5 351.0,75.2 354.0,74.0 357.0,72.9 360.0,72.0 363.0,71.3 366.0,70.7 369.0,70.3 372.0,70.1 375.0,70.0 378.0,70.1 381.0,70.6 384.0,71.3 387.0,72.3 390.0,73.6 393.0,75.2 396.0,77.0 399.0,79.1 402.0,81.5 405.0,84.0 408.0,86.8 411.0,89.9 414.0,93.1 417.0,96.4 420.0,100.0 423.0,103.7 426.0,107.5 429.0,111.5 432.0,115.5 435.0,119.6 438.0,123.7 441.0,127.9 444.0,132.1 447.0,136.3 450.0,140.4 453.0,144.5 456.0,148.5 459.0,152.5 462.0,156.3 465.0,160.0 468.0,163.6 471.0,166.9 474.0,170.1 477.0,173.2 480.0,176.0 483.0,178.5 486.0,180.9 489.0,183.0 492.0,184.8 495.0,186.4 498.0,187.7 501.0,188.7 504.0,189.4 507.0,189.9 510.0,190.0 513.0,190.0 516.0,190.0 519.0,190.0 522.0,190.0 525.0,190.0 528.0,190.0 531.0,190.0 534.0,190.0 537.0,190.0 540.0,190.0 543.0,190.0 546.0,190.0 549.0,190.0 552.0,190.0 555.0,190.0 558.0,190.0 561.0,190.0 564.0,190.0 567.0,190.0 570.0,190.0 573.0,190.0 576.0,190.0 579.0,190.0 582.0,190.0 585.0,190.0 588.0,190.0 591.0,190.0 594.0,190.0 597.0,190.0 600.0,190.0\" stroke-dasharray=\"7 4\"/><text class=\"v-t kayra v1\" x=\"180.0\" y=\"62\" text-anchor=\"end\" style=\"font-size:12px\">lapsi</text><text class=\"v-t kayra v2\" x=\"438.0\" y=\"62\" style=\"font-size:12px\">murrosikäinen</text><text class=\"v-t pieni\" x=\"330\" y=\"246\" text-anchor=\"middle\" style=\"font-size:11px\">Kaaviokuva, ei mittaustulos: murrosiässä erityksen alku ja loppu siirtyvät myöhemmäksi.</text></svg>","teksti":"Kaaviokuva: murrosikäisellä melatoniinin eritys alkaa ja loppuu myöhemmin kuin lapsella. Kellonajat vaihtelevat yksilöllisesti."},{"tyyppi":"kappale","otsikko":"Iltaruutu ja nukahtaminen","sisalto":"Ruutu illalla vaikeuttaa nukahtamista kolmella tavalla. Ensinnäkin kirkas, erityisesti sinertävä valo lähellä silmiä viivästyttää melatoniinin eritystä, jolloin aivot luulevat, että on vielä päivä. Toiseksi virittävä sisältö, kuten jännittävä peli, kiihkeä keskustelu tai uusi video toisensa perään, pitää aivot valppaina, ja aika kuluu huomaamatta. Kolmanneksi sängyn vieressä oleva puhelin houkuttelee tarkistamaan viestejä, ja ilmoitukset voivat herättää kesken unen. Yövalotila vähentää sinistä valoa, mutta se ei poista virittävää sisältöä eikä ilmoituksia. Koska murrosikäisen rytmi on jo valmiiksi siirtynyt, iltaruutu siirtää nukahtamista vielä myöhemmäksi."},{"tyyppi":"kappale","otsikko":"Paljonko unta tarvitaan","sisalto":"Yläkouluikäinen tarvitsee unta noin 8–10 tuntia yössä. Tarve on yksilöllinen, mutta useimmille alle 8 tuntia on liian vähän. Unen pituus lasketaan nukahtamisesta heräämiseen. Esimerkki: jos herätys on klo 7.00 ja tavoitteena on 9 tunnin uni, pitää nukahtaa klo 22.00. Jos arkiöinä nukkuu toistuvasti liian vähän, syntyy univajetta. Pitkät viikonloppuaamut eivät korjaa sitä kokonaan, ja ne siirtävät rytmiä entisestään myöhemmäksi, joten maanantaiaamu on taas raskas."},{"tyyppi":"taulukko","otsikko":"Arkirytmin osat ja opiskelukyky","otsikkorivi":["Rytmin osa","Mikä auttaa","Miten se näkyy koulussa"],"rivit":[["Uni","Säännöllinen nukkumaanmeno ja herääminen myös viikonloppuna; riittävästi unta","Vireys, keskittyminen ja opitun muistaminen"],["Ateriat","Aamupala ja säännölliset ateriat päivän mittaan, myös kouluruoka","Jaksaminen aamupäivän tunneilla, tasaisempi mieliala"],["Liikkuminen","Liikkumista päivän aikana, esimerkiksi koulumatkalla ja välitunneilla","Virkistää, ja päivän liikkuminen auttaa nukahtamaan illalla"],["Ruutuaika","Ruudut sivuun hyvissä ajoin ennen nukkumaanmenoa, puhelin pois sängyn vierestä","Nukahtaminen helpottuu, uni ei katkea"],["Peseytyminen","Päivittäinen peseytyminen ja puhtaat vaatteet, erityisesti liikunnan jälkeen","Hyvä olo omassa kehossa ja muiden seurassa"]]},{"tyyppi":"kappale","otsikko":"Miksi tavat syntyvät ja pysyvät","sisalto":"Tapa on toistuva toiminta, joka alkaa sujua lähes ajattelematta. Tapa syntyy toistosta, ja se pysyy, kun siitä saa jonkin palkkion, kuten mielihyvää, rentoutumista tai kavereiden hyväksyntää. Tavan syntyyn ja pysymiseen vaikuttavat kolmenlaiset tekijät. Yksilön tekijät ovat ihmisen omassa kehossa ja mielessä: esimerkiksi murrosiän rytmin siirtyminen, jännitys tai se, että jokin tuntuu hyvältä. Sosiaaliset tekijät tulevat muista ihmisistä: kaverit, joukkue, ryhmächatin odotukset ja se, mikä porukassa on tavallista. Ympäristön tekijät ovat tiloja, laitteita, sovelluksia, valoa ja aikatauluja: esimerkiksi puhelin tyynyn vieressä tai sovellus, joka käynnistää seuraavan videon itsestään. Kun ymmärtää, mitkä tekijät pitävät tapaa yllä, muutoksen voi kohdistaa juuri niihin."},{"tyyppi":"ansa","otsikko":"Ansa 1: ”Nuori on laiska, kun ei mene ajoissa nukkumaan”","sisalto":"Myöhäinen väsymys ei johdu laiskuudesta. Murrosiässä melatoniinin eritys alkaa illalla myöhemmin, joten uni ei tule entiseen aikaan. Hyvä selitys mainitsee kaksi asiaa: kehon muutoksen (melatoniini, sisäinen kello) ja sen, että iltaruudun valo ja virittävä sisältö siirtävät nukahtamista vielä lisää."},{"tyyppi":"kuva","otsikko":"Iltaruudun noidankehä","svg":"<svg viewBox=\"0 0 620 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"iltaruudun noidankehä\"><rect class=\"v-ruutu v1\" x=\"225\" y=\"22\" width=\"170\" height=\"46\" rx=\"6\"/><text class=\"v-t\" x=\"310.0\" y=\"49.2\" text-anchor=\"middle\" style=\"font-size:12px\">Ruutu pitkälle iltaan</text><rect class=\"v-ruutu\" x=\"429\" y=\"95\" width=\"170\" height=\"46\" rx=\"6\"/><text class=\"v-t\" x=\"514.0\" y=\"114.7\" text-anchor=\"middle\" style=\"font-size:12px\">Nukahtaminen</text><text class=\"v-t\" x=\"514.0\" y=\"129.7\" text-anchor=\"middle\" style=\"font-size:12px\">viivästyy</text><rect class=\"v-ruutu\" x=\"351\" y=\"212\" width=\"170\" height=\"46\" rx=\"6\"/><text class=\"v-t\" x=\"436.0\" y=\"231.7\" text-anchor=\"middle\" style=\"font-size:12px\">Uni jää</text><text class=\"v-t\" x=\"436.0\" y=\"246.7\" text-anchor=\"middle\" style=\"font-size:12px\">lyhyeksi</text><rect class=\"v-ruutu\" x=\"99\" y=\"212\" width=\"170\" height=\"46\" rx=\"6\"/><text class=\"v-t\" x=\"184.0\" y=\"231.7\" text-anchor=\"middle\" style=\"font-size:12px\">Väsymys ja huono</text><text class=\"v-t\" x=\"184.0\" y=\"246.7\" text-anchor=\"middle\" style=\"font-size:12px\">keskittyminen koulussa</text><rect class=\"v-ruutu\" x=\"21\" y=\"95\" width=\"170\" height=\"46\" rx=\"6\"/><text class=\"v-t\" x=\"106.0\" y=\"114.7\" text-anchor=\"middle\" style=\"font-size:12px\">Illalla tarve</text><text class=\"v-t\" x=\"106.0\" y=\"129.7\" text-anchor=\"middle\" style=\"font-size:12px\">rentoutua ruudulla</text><line class=\"v-akseli\" x1=\"378.6\" y1=\"69.3\" x2=\"439.3\" y2=\"90.9\"/><polygon class=\"v-nuoli\" points=\"445.9,93.2 438.1,94.3 440.5,87.5\"/><line class=\"v-akseli\" x1=\"497.0\" y1=\"143.9\" x2=\"457.8\" y2=\"202.8\"/><polygon class=\"v-nuoli\" points=\"453.9,208.6 454.8,200.8 460.8,204.8\"/><line class=\"v-akseli\" x1=\"347.4\" y1=\"234.9\" x2=\"279.6\" y2=\"234.9\"/><polygon class=\"v-nuoli\" points=\"272.6,234.9 279.6,231.3 279.6,238.5\"/><line class=\"v-akseli\" x1=\"166.1\" y1=\"208.6\" x2=\"126.9\" y2=\"149.7\"/><polygon class=\"v-nuoli\" points=\"123.0,143.9 129.9,147.7 123.9,151.7\"/><line class=\"v-akseli\" x1=\"174.1\" y1=\"93.2\" x2=\"234.8\" y2=\"71.7\"/><polygon class=\"v-nuoli\" points=\"241.4,69.3 236.0,75.1 233.6,68.3\"/><text class=\"v-t vahva\" x=\"310\" y=\"146\" text-anchor=\"middle\" style=\"font-size:12px\">Noidankehän voi katkaista</text><text class=\"v-t vahva\" x=\"310\" y=\"163\" text-anchor=\"middle\" style=\"font-size:12px\">mistä kohdasta tahansa.</text></svg>","teksti":"Myöhäinen ruutu, lyhyt uni ja väsymys ruokkivat toisiaan. Kehän voi katkaista esimerkiksi siirtämällä puhelimen yöksi pois sängyn vierestä."},{"tyyppi":"kappale","otsikko":"Muutos, joka toimii","sisalto":"Hyvä muutos on konkreettinen: siitä näkee, mitä tehdään ja milloin. Se on realistinen eli toteutettavissa juuri tämän henkilön tilanteessa, ja se kohdistuu tekijään, joka pitää ongelmaa yllä. ”Nuku enemmän” on yleinen ohje, ei suunnitelma. ”Puhelin latautumaan eteiseen arki-iltaisin klo 22” on konkreettinen ja kohdistuu ympäristön tekijään. ”Sovin kaverien kanssa, että arki-illan peli päättyy klo 21.30” kohdistuu sosiaaliseen tekijään. ”En pelaa enää koskaan” on konkreettinen mutta harvoin realistinen. Kun perustelet muutosta, kerro, mitä se korjaa ja miten se näkyy koulussa: esimerkiksi pidempi uni parantaa keskittymistä ja opitun muistamista."},{"tyyppi":"ansa","otsikko":"Ansa 2: viikonloppuna nukutaan univaje pois","sisalto":"Pitkät viikonloppuaamut tuntuvat korjaavan väsymyksen, mutta ne eivät poista koko arkiviikon univajetta. Lisäksi ne siirtävät sisäistä kelloa myöhemmäksi, joten sunnuntai-iltana uni ei tule ja maanantaiaamuna väsyttää entistä enemmän. Rytmi pysyy parhaiten, kun heräämisaika ei viikonloppuna eroa arkiaamusta paljon."},{"tyyppi":"kappale","otsikko":"Puhtaus murrosiässä","sisalto":"Murrosiän hormonit lisäävät hikirauhasten ja talirauhasten toimintaa. Hikeä erittyy enemmän, erityisesti kainaloissa, ja iho ja hiukset rasvoittuvat. Tuore hiki on lähes hajutonta. Haju syntyy, kun ihon bakteerit hajottavat hikeä, ja hiki imeytyy myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin lapsena. Deodorantti vähentää hajua, mutta se ei korvaa peseytymistä. Finnit eivät johdu liasta, mutta kasvojen pesu miedolla pesuaineella auttaa ihoa. Puhtaus vaikuttaa kaikkiin terveyden osa-alueisiin: iho voi paremmin, olo on raikas, ja muiden seurassa on helpompi olla. Jos koulun yhteinen suihku jännittää, vaihtoehdoista voi kysyä opettajalta tai kouluterveydenhoitajalta."},{"tyyppi":"ansa","otsikko":"Ansa 3: yleinen ohje ei ole suunnitelma","sisalto":"”Nuku enemmän”, ”ole terveellisempi” ja ”vähennä ruutuaikaa” kuulostavat oikeilta, mutta niistä ei näe, mitä tehdään ja milloin. Tarkista jokainen muutos kolmella kysymyksellä: Mitä tarkalleen tehdään ja milloin? Onnistuuko se tämän henkilön tilanteessa? Mihin kuvauksen ongelmaan tai tekijään se kohdistuu?"},{"tyyppi":"saanto","otsikko":"Näin erittelet tapauksen ja teet suunnitelman","askeleet":["Lue kuvaus ja merkitse ongelmat: milloin henkilö nukahtaa, paljonko hän nukkuu ja miten väsymys näkyy koulussa.","Laske unen pituus nukahtamisesta heräämiseen ja vertaa sitä 8–10 tunnin tarpeeseen.","Etsi tekijät, jotka pitävät tapaa yllä, ja nimeä kukin: yksilön, sosiaalinen vai ympäristön tekijä.","Valitse kolme muutosta, jotka ovat konkreettisia, realistisia ja kohdistuvat löytämiisi tekijöihin.","Perustele, miten muutokset tukevat opiskelukykyä: vireys, keskittyminen, muisti tai mieliala."]},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Arkirytmi = uni, ateriat, liikkuminen, ruutuaika ja peseytyminen vuorokauden rytmissä.","Murrosiässä melatoniinin eritys alkaa illalla myöhemmin, joten väsymys tulee myöhemmin.","Iltaruudun kirkas valo ja virittävä sisältö siirtävät nukahtamista vielä lisää.","Yläkouluikäinen tarvitsee unta noin 8–10 tuntia yössä.","Tapaa ylläpitävät yksilön, sosiaaliset ja ympäristön tekijät. Muutos kohdistetaan niihin.","Hiki- ja talirauhaset vilkastuvat murrosiässä: päivittäinen peseytyminen ja puhtaat vaatteet."]}],"harjoitusryhmat":[{"id":"rytmi","nimi":"Sisäinen kello ja uni","info":"Melatoniini, iltaruutu ja unen pituus. Laske unen pituus nukahtamisesta heräämiseen."},{"id":"tavat","nimi":"Tapojen synty ja muutos","info":"Yksilön, sosiaalinen vai ympäristön tekijä? Millainen muutos on konkreettinen ja realistinen?"},{"id":"arki","nimi":"Arkirytmi, opiskelukyky ja puhtaus","info":"Miten arkirytmi näkyy koulussa, ja miksi puhtaus on murrosiässä tärkeämpää?"}],"harjoitukset":[{"id":"H01","ryhma":"rytmi","tyyppi":"luku","kysymys":"Keksitty Aatu nukahtaa arki-iltana klo 23.45 ja herää klo 6.30.\n\nMontako minuuttia hänen unestaan puuttuu, jotta hän nukkuisi 8 tuntia?","vastaus":75,"vinkki":"Laske ensin unen pituus kahdessa osassa: keskiyöhön ja keskiyöstä aamuun.","selitys":"Uni kestää 15 min + 6 h 30 min = 6 h 45 min. Kahdeksaan tuntiin puuttuu 75 minuuttia."},{"id":"H02","ryhma":"rytmi","tyyppi":"luku","kysymys":"Keksitty Sanni herää klo 6.45 ja tarvitsee noin 9 tuntia unta. Hän nukahtaa klo 22.15.\n\nMontako minuuttia liian vähän hän nukkuu?","vastaus":30,"vinkki":"Laske unen pituus ja vertaa 9 tuntiin.","selitys":"Uni kestää 8 h 30 min. Yhdeksään tuntiin puuttuu 30 minuuttia."},{"id":"H03","ryhma":"rytmi","tyyppi":"luku","kysymys":"Väitteet:\n1. Melatoniinia alkaa erittyä, kun ilta hämärtyy.\n2. Murrosiässä melatoniinin eritys alkaa illalla aiemmin kuin lapsena.\n3. Aamun valo auttaa sisäistä kelloa tahdistumaan.\n4. Melatoniini viestii elimistölle, että on yö.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Mihin suuntaan rytmi murrosiässä siirtyy?","selitys":"Totta ovat 1, 3 ja 4. Murrosiässä melatoniinin eritys alkaa myöhemmin, ei aiemmin."},{"id":"H04","ryhma":"rytmi","tyyppi":"monivalinta","kysymys":"Keksitty Oona nukahti 10-vuotiaana helposti klo 21, mutta nyt 13-vuotiaana häntä ei väsytä ennen puoltayötä. Mikä selittää muutoksen parhaiten?","vastaus":0,"vinkki":"Mieti unihormonia.","selitys":"Murrosiässä melatoniinin eritys alkaa illalla myöhemmin, joten väsymys tulee myöhemmin. Nuori tarvitsee silti edelleen paljon unta.","vaihtoehdot":["Murrosiässä melatoniinin eritys alkaa illalla myöhemmin, joten väsymys tulee myöhemmin.","Oona on tottunut laiskuuteen.","Nuoret tarvitsevat vähemmän unta kuin lapset, joten väsymystä ei tule."]},{"id":"H05","ryhma":"rytmi","tyyppi":"luku","kysymys":"Väitteet ruudusta illalla:\n1. Kirkas ruudun valo voi viivästyttää melatoniinin eritystä.\n2. Jännittävä peli pitää aivot valppaina.\n3. Yövalotila poistaa kaikki ruudun vaikutukset uneen.\n4. Yöllä tulevat ilmoitukset voivat katkaista unen.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Mitä yövalotila ei muuta?","selitys":"Totta ovat 1, 2 ja 4. Yövalotila vähentää sinistä valoa, mutta virittävä sisältö ja ilmoitukset vaikuttavat silti."},{"id":"H06","ryhma":"rytmi","tyyppi":"luku","kysymys":"Keksitty Iiro nukkuu arkiöinä 7 tuntia viitenä yönä peräkkäin. Hänen unentarpeensa on 9 tuntia.\n\nMontako tuntia unta jää vajaaksi näiden viiden yön aikana?","vastaus":10,"vinkki":"Laske yhden yön vaje ja kerro viidellä.","selitys":"Yhden yön vaje on 9 − 7 = 2 tuntia. Viidessä yössä vajetta kertyy 5 · 2 = 10 tuntia."},{"id":"H07","ryhma":"rytmi","tyyppi":"luku","kysymys":"Lauantaina Iiro nukkuu klo 3.00–12.00 ja sunnuntaina klo 2.00–11.00. Maanantaina herätys on klo 6.30.\n\nMontako tuntia aiemmin maanantain herätys on kuin sunnuntain herääminen? Vastaa desimaalilukuna.","vastaus":4.5,"vinkki":"Laske kellosta 6.30 kelloon 11.00.","selitys":"Kellosta 6.30 kelloon 11.00 on 4 h 30 min eli 4,5 tuntia. Näin suuri ero siirtää sisäistä kelloa, ja maanantaiaamu on raskas."},{"id":"H08","ryhma":"tavat","tyyppi":"luku","kysymys":"Tekijät:\n1. Kaverit pitävät pelaamista iltaisin itsestäänselvänä.\n2. Puhelin on yöllä tyynyn vieressä.\n3. Murrosiän vuoksi väsymys tulee illalla myöhään.\n4. Televisio on päällä makuuhuoneessa.\n\nMontako tekijöistä on ympäristön tekijöitä?","vastaus":2,"vinkki":"Ympäristön tekijä on tila, laite, sovellus, valo tai aikataulu.","selitys":"Ympäristön tekijöitä ovat puhelin tyynyn vieressä (2) ja makuuhuoneen televisio (4). Kaverit ovat sosiaalinen ja murrosiän rytmi yksilön tekijä."},{"id":"H09","ryhma":"tavat","tyyppi":"luku","kysymys":"Tekijät:\n1. Kaverit lähettävät iltaisin videoita ryhmächattiin.\n2. Kokeen jännitys pyörii mielessä.\n3. Ilmoitusäänet ovat päällä.\n4. Kaveriporukassa pidetään noloina niitä, jotka lähtevät pelistä ensimmäisinä.\n\nMontako tekijöistä on sosiaalisia?","vastaus":2,"vinkki":"Sosiaalinen tekijä tulee muista ihmisistä.","selitys":"Sosiaalisia ovat kaverien videot (1) ja porukan odotus (4). Jännitys on yksilön ja ilmoitusäänet ympäristön tekijä."},{"id":"H10","ryhma":"tavat","tyyppi":"monivalinta","kysymys":"Mikä muutos on konkreettisin?","vastaus":1,"vinkki":"Konkreettisesta muutoksesta näkee, mitä tehdään ja milloin.","selitys":"Puhelimen siirtäminen eteiseen klo 22 kertoo, mitä tehdään ja milloin, ja se on realistinen. ”Yritän nukkua paremmin” on yleinen toive, ja täydellinen pelikielto on harvoin realistinen.","vaihtoehdot":["Yritän nukkua paremmin.","Laitan puhelimen latautumaan eteiseen arki-iltaisin klo 22.","En pelaa enää koskaan."]},{"id":"H11","ryhma":"tavat","tyyppi":"luku","kysymys":"Muutosehdotukset keksitylle Aatulle, joka pelaa iltaisin myöhään ja jättää aamupalan väliin:\n1. Nuku enemmän.\n2. Sovi kavereiden kanssa, että arki-illan peli päättyy klo 21.30.\n3. Lopeta pelaaminen kokonaan.\n4. Syö aamulla jotain pientä, esimerkiksi leipä tai hedelmä, jos iso aamupala ei maistu.\n\nMontako ehdotuksista on konkreettisia ja Aatun tilanteessa realistisia?","vastaus":2,"vinkki":"Yksi ehdotus on yleinen ohje ja yksi liian jyrkkä.","selitys":"Ehdotukset 2 ja 4 ovat konkreettisia ja toteutettavissa. ”Nuku enemmän” on yleinen ohje, ja pelaamisen lopettaminen kokonaan on harvoin realistista."},{"id":"H12","ryhma":"tavat","tyyppi":"luku","kysymys":"Keksitty Ella selaa videoita sängyssä joka ilta. Tekijät:\n1. Videopalvelu käynnistää aina seuraavan videon itsestään.\n2. Ellan mielestä selaaminen rentouttaa.\n3. Kaverit kommentoivat videoita iltaisin.\n\nMonesko tekijä on ympäristön tekijä?","vastaus":1,"vinkki":"Sovellus ja laite kuuluvat ympäristöön.","selitys":"Sovelluksen automaattinen toisto (1) on ympäristön tekijä. Rentoutumisen tunne (2) on yksilön ja kaverien kommentit (3) sosiaalinen tekijä."},{"id":"H13","ryhma":"tavat","tyyppi":"luku","kysymys":"Väitteet tavoista:\n1. Tapa syntyy toistosta.\n2. Tavan muuttaminen helpottuu, kun muuttaa ympäristöä, esimerkiksi siirtää puhelimen toiseen huoneeseen.\n3. Tapa pysyy, jos siitä saa palkkion, kuten mielihyvää tai kavereiden hyväksyntää.\n4. Tapa muuttuu aina, kun joku sanoo kerran, että se on huono.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Riittääkö yksi huomautus?","selitys":"Totta ovat 1, 2 ja 3. Pelkkä huomautus harvoin muuttaa tapaa, koska tekijät, jotka pitävät sitä yllä, ovat yhä olemassa."},{"id":"H14","ryhma":"tavat","tyyppi":"luku","kysymys":"Keksitty Aatu suunnittelee kolme muutosta:\n1. Puhelin latautumaan eteiseen klo 22.\n2. Kerron kavereille, että lähden arki-iltoina pelistä klo 21.30.\n3. Himmennän huoneen valot klo 21.\n\nMontako muutoksista kohdistuu sosiaaliseen tekijään?","vastaus":1,"vinkki":"Missä muutoksessa ovat mukana muut ihmiset?","selitys":"Vain muutos 2 kohdistuu kavereihin eli sosiaaliseen tekijään. Puhelin ja valot ovat ympäristön tekijöitä."},{"id":"H15","ryhma":"arki","tyyppi":"luku","kysymys":"Väitteet univajeesta:\n1. Univaje heikentää keskittymistä.\n2. Univaje vaikeuttaa opitun muistamista.\n3. Univaje voi tehdä ärtyisäksi.\n4. Univaje parantaa reaktiokykyä.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Väsymys vaikuttaa sekä kehoon että ajatteluun.","selitys":"Totta ovat 1, 2 ja 3. Univaje heikentää reaktiokykyä eikä paranna sitä."},{"id":"H16","ryhma":"arki","tyyppi":"monivalinta","kysymys":"Miksi hiki alkaa haista murrosiässä?","vastaus":0,"vinkki":"Mieti, mitä hielle tapahtuu iholla.","selitys":"Murrosiän hormonit lisäävät hikirauhasten toimintaa. Tuore hiki on lähes hajutonta, mutta ihon bakteerit hajottavat sitä, ja silloin syntyy hajua.","vaihtoehdot":["Hormonit lisäävät hikirauhasten toimintaa, ja ihon bakteerit hajottavat hikeä, jolloin syntyy hajua.","Hiki haisee aina samalla tavalla, mutta lapset eivät haista sitä.","Haju johtuu siitä, että nuori juo liian vähän vettä."]},{"id":"H17","ryhma":"arki","tyyppi":"luku","kysymys":"Väitteet:\n1. Talirauhasten toiminta lisääntyy murrosiässä.\n2. Deodorantti korvaa suihkun.\n3. Hikiset vaatteet kannattaa vaihtaa puhtaisiin.\n4. Finnit johtuvat aina likaisuudesta.\n\nMontako väitteistä on totta?","vastaus":2,"vinkki":"Deodorantti vähentää hajua, mutta poistaako se hien ja bakteerit?","selitys":"Totta ovat 1 ja 3. Deodorantti ei korvaa peseytymistä, eivätkä finnit johdu liasta."},{"id":"H18","ryhma":"arki","tyyppi":"luku","kysymys":"Arkirytmin osat: uni, ateriat, liikkuminen, ruutuaika, peseytyminen.\nKeksityn Mintun päivä: hän syö aamupalan, kävelee kouluun, käy suihkussa treenien jälkeen ja lopettaa ruudun käytön klo 21.\n\nMontako arkirytmin osaa kuvauksessa mainitaan?","vastaus":4,"vinkki":"Käy osat läpi yksi kerrallaan.","selitys":"Kuvauksessa mainitaan ateriat (aamupala), liikkuminen (kävely), peseytyminen (suihku) ja ruutuaika. Unta ei mainita."},{"id":"H19","ryhma":"arki","tyyppi":"luku","kysymys":"Väitteet aamupalan väliin jättämisestä:\n1. Aamupäivä voi tuntua pitkältä, ja keskittyminen voi herpaantua.\n2. Aamupala on päivän ainoa ateria, jolla on merkitystä.\n3. Säännölliset ateriat auttavat jaksamaan koulupäivän.\n\nMontako väitteistä on totta?","vastaus":2,"vinkki":"Ateriarytmissä tärkeää on säännöllisyys.","selitys":"Totta ovat 1 ja 3. Aamupala on tärkeä, mutta myös muut säännölliset ateriat, kuten kouluruoka, tukevat jaksamista."},{"id":"H20","ryhma":"arki","tyyppi":"luku","kysymys":"Keksitty Leevi nukkuu 6,5 tuntia yössä.\n\nMontako tuntia hänen pitäisi nukkua lisää, jotta hän pääsisi yläkouluikäisen unentarpeen alarajalle? Vastaa desimaalilukuna.","vastaus":1.5,"vinkki":"Yläkouluikäisen unentarve on noin 8–10 tuntia.","selitys":"Alaraja on 8 tuntia: 8 − 6,5 = 1,5 tuntia."}],"ryhmanimet":{"rytmi":"Sisäinen kello ja uni","tavat":"Tapojen synty ja muutos","arki":"Arkirytmi, opiskelukyky ja puhtaus"},"tulostus":{"sivuja":6,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":5,"sivunvaihto_ennen":null},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään unen pituutta tai aikaa, merkitse tunnit ja minuutit (esimerkiksi 7 h 30 min), ja kun kysytään kellonaikaa, kirjoita kellonaika (esimerkiksi klo 21.15). Tehtävissä 8–12 kirjoita yksi sana: yksilö, sosiaalinen tai ympäristö. Kun kysytään montako, vastaa luvulla. Selitä ja perustele omin sanoin kokonaisin virkkein. Kaikki kokeen henkilöt ovat keksittyjä. Omista tavoistasi ei kysytä.","tehtavat":[{"nro":1,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Minkä hormonin eritys alkaa murrosiässä illalla myöhemmin kuin lapsena?","vastaus":"melatoniini"},{"nro":2,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Paljonko unta yläkouluikäinen tarvitsee yössä?","vastaus":"noin 8–10 tuntia"},{"nro":3,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty seitsemäsluokkalainen Elias nukahtaa arki-iltana klo 0.45 ja herää klo 6.45. Kuinka pitkään hän nukkuu?","vastaus":"6 h"},{"nro":4,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Kuinka paljon Eliaksen unesta (tehtävä 3) puuttuu yläkouluikäisen unentarpeen alarajasta?","vastaus":"2 h"},{"nro":5,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty Aino herää arkiaamuisin klo 6.40 ja haluaa nukkua 9 tuntia. Mihin aikaan hänen pitää nukahtaa?","vastaus":"klo 21.40"},{"nro":6,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Väitteet ruudusta ja nukahtamisesta:\n1. Kiihdyttävä sisältö, kuten jännittävä ottelu tai riitaisa viestiketju, voi vaikeuttaa nukahtamista.\n2. Ruudun valo vaikuttaa uneen vain, jos ruutua katsoo yli kolme tuntia.\n3. Kun ruutu laitetaan sivuun hyvissä ajoin ennen nukkumaanmenoa, nukahtaminen usein helpottuu.\n4. Melatoniinia erittyy eniten kirkkaassa valossa.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"rytmi","tyyppi":"sanallinen","kysymys":"Selitä, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi ja miten ruudun käyttö illalla vaikuttaa nukahtamiseen. Mainitse kaksi tapaa, joilla ruutu vaikuttaa.","vastaus":"Malliesimerkki: Murrosiässä aivojen käpylisäke alkaa erittää unihormoni melatoniinia illalla myöhemmin kuin lapsena, joten väsymys tulee myöhemmin ja nukahtaminen siirtyy. Ruudun kirkas valo viivästyttää melatoniinin eritystä lisää, ja virittävä sisältö, kuten peli tai viestit, pitää aivot valppaina, joten nukahtaminen siirtyy vielä myöhemmäksi."},{"nro":8,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tapaus: keksitty seitsemäsluokkalainen Elias\nElias pelaa iltaisin myöhään verkossa kavereiden kanssa ja pitää puhelinta yöllä sängyn vieressä ilmoitukset päällä. Hän nukkuu arkiöinä noin kuusi tuntia, jättää aamupalan väliin ja nukahtelee tunneilla. Hän on lakannut käymästä suihkussa treenien jälkeen.\n\nTekijöitä, jotka pitävät tapaa yllä:\n1. Kaverit aloittavat yhteisen pelin vasta klo 22, kun kaikki ovat ehtineet kotiin.\n2. Puhelin on yöllä sängyn vieressä, ja ilmoitukset ovat päällä.\n3. Murrosiän vuoksi Eliasta ei väsytä illalla ennen puoltayötä.\n4. Huoneessa ei ole verhoja, ja katulamppu valaisee ikkunasta.\n5. Voittaminen tuntuu Eliaksesta niin hyvältä, että hän haluaa pelata vielä yhden erän.\n\nOnko tapauksen tekijä 1 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":9,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 2 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":10,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 3 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":11,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 4 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":12,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 5 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":13,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Muutosehdotuksia Eliaksen tilanteeseen:\n1. Ole illalla vähemmän ruudulla.\n2. Kerro peliporukalle, että lopetat arki-iltaisin ennen muita, klo 22.\n3. Lataa puhelin yöllä työpöydällä huoneen toisella puolella ja käytä herätyskelloa.\n4. Mene tästä lähtien joka ilta nukkumaan klo 19.\n\nMontako ehdotuksista on konkreettisia ja Eliaksen tilanteessa realistisia?","vastaus":2},{"nro":14,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Erittele kolme tekijää, jotka selittävät, miksi Eliaksen tapa on syntynyt ja miksi se pysyy. Ainakin yhden tekijän pitää olla sosiaalinen ja yhden ympäristön tekijä. Kerro jokaisesta, miten se pitää tapaa yllä.","vastaus":"Malliesimerkki: Sosiaalinen tekijä: kaverit aloittavat pelin vasta klo 22, ja Elias haluaa olla mukana, joten peli venyy yöhön. Ympäristön tekijä: puhelin on sängyn vieressä ilmoitukset päällä, joten viestit houkuttelevat ja herättävät. Yksilön tekijä: murrosiän vuoksi Eliasta ei väsytä ennen puoltayötä, eikä uni tule, vaikka hän menisi sänkyyn."},{"nro":15,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Laadi Eliakselle kolmen muutoksen suunnitelma, joka on realistinen hänen tilanteessaan. Älä käytä tehtävän 13 ehdotuksia. Perustele, miten suunnitelma tukee hänen opiskelukykyään.","vastaus":"Malliesimerkki: 1) Elias pimentää huoneen illaksi, esimerkiksi verhoilla, jotta katulamppu ei valaise. 2) Hän ottaa aamulla jotain pientä syötävää ennen koulua. 3) Hän käy suihkussa heti treenien jälkeen ja pitää treenikassissa puhtaat vaatteet. Kun uni on pidempi ja yhtenäisempi ja aamupäivään on energiaa, Elias pysyy hereillä tunneilla, keskittyy paremmin ja muistaa opitun."},{"nro":16,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet univajeesta:\n1. Univaje heikentää tarkkaavaisuutta oppitunnilla.\n2. Energiajuoma korvaa unen kokonaan.\n3. Väsyneenä uuden asian painaminen mieleen on vaikeampaa.\n4. Yksi pitkä viikonloppuaamu korjaa koko arkiviikon univajeen.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":17,"ryhma":"arki","tyyppi":"lasku","kysymys":"Minkä kahden rauhasen toiminta lisääntyy murrosiässä niin, että hikeä erittyy enemmän ja iho ja hiukset rasvoittuvat?","vastaus":"hikirauhaset ja talirauhaset"},{"nro":18,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet puhtaudesta:\n1. Tuore hiki on lähes hajutonta; haju syntyy, kun ihon bakteerit hajottavat hikeä.\n2. Kun käyttää hajustetta, peseytymistä ei tarvita.\n3. Hikeen kastuneisiin vaatteisiin jää hajua, joten ne kannattaa pestä.\n4. Hien haju johtuu siitä, että nuori syö väärin.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":19,"ryhma":"arki","tyyppi":"sanallinen","kysymys":"Selitä, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","vastaus":"Malliesimerkki: Murrosiässä hormonit lisäävät hikirauhasten ja talirauhasten toimintaa, joten hikeä tulee enemmän ja iho ja hiukset rasvoittuvat. Kun ihon bakteerit hajottavat hikeä, syntyy hajua, ja hiki jää myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat nyt tärkeämpiä kuin lapsena."},{"nro":20,"ryhma":"arki","tyyppi":"lasku","kysymys":"Keksitty Lotta kokeilee näitä keinoja:\n1. Himmentää valot illalla.\n2. Juo energiajuoman illalla.\n3. Laittaa puhelimen yöksi toiseen huoneeseen.\n4. Nukkuu koulun jälkeen kolmen tunnin päiväunet.\n\nMontako keinoista auttaa nukahtamaan illalla aiemmin?","vastaus":2}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään unen pituutta tai aikaa, merkitse tunnit ja minuutit (esimerkiksi 7 h 30 min), ja kun kysytään kellonaikaa, kirjoita kellonaika (esimerkiksi klo 21.15). Tehtävissä 8–12 kirjoita yksi sana: yksilö, sosiaalinen tai ympäristö. Kun kysytään montako, vastaa luvulla. Selitä ja perustele omin sanoin kokonaisin virkkein. Kaikki kokeen henkilöt ovat keksittyjä. Omista tavoistasi ei kysytä.","tehtavat":[{"nro":1,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Mikä on sen hormonin nimi, jota kutsutaan unihormoniksi?","vastaus":"melatoniini"},{"nro":2,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Paljonko unta yläkouluikäinen tarvitsee yössä?","vastaus":"noin 8–10 tuntia"},{"nro":3,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty seitsemäsluokkalainen Saga nukahtaa arki-iltana klo 0.15 ja herää klo 6.30. Kuinka pitkään hän nukkuu?","vastaus":"6 h 15 min"},{"nro":4,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Kuinka paljon Sagan unesta (tehtävä 3) puuttuu yläkouluikäisen unentarpeen alarajasta?","vastaus":"1 h 45 min"},{"nro":5,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty Eino herää arkiaamuisin klo 7.10 ja haluaa nukkua 9 tuntia. Mihin aikaan hänen pitää nukahtaa?","vastaus":"klo 22.10"},{"nro":6,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Väitteet ruudusta ja nukahtamisesta:\n1. Illalla ruudun kirkas valo saa aivot tulkitsemaan, että on vielä päivä.\n2. Äänettömälle jätetty puhelin sängyn vieressä houkuttelee silti tarkistamaan viestejä.\n3. Peli auttaa nukahtamaan, koska se väsyttää silmät.\n4. Kirkas ruutu lähellä silmiä vaikuttaa sisäiseen kelloon enemmän kuin himmeä valo kauempana.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"rytmi","tyyppi":"sanallinen","kysymys":"Selitä, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi ja miten ruudun käyttö illalla vaikuttaa nukahtamiseen. Mainitse kaksi tapaa, joilla ruutu vaikuttaa.","vastaus":"Malliesimerkki: Murrosiässä aivojen käpylisäke alkaa erittää unihormoni melatoniinia illalla myöhemmin kuin lapsena, joten väsymys tulee myöhemmin ja nukahtaminen siirtyy. Ruudun kirkas valo viivästyttää melatoniinin eritystä lisää, ja virittävä sisältö, kuten peli tai viestit, pitää aivot valppaina, joten nukahtaminen siirtyy vielä myöhemmäksi."},{"nro":8,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tapaus: keksitty seitsemäsluokkalainen Saga\nSaga selaa iltaisin sängyssä lyhyitä videoita ja vastaa joukkueen viesteihin. Puhelin on yöllä sängyssä. Hän nukkuu arkiöinä noin kuusi tuntia, ei syö aamulla mitään, koska ei ehdi, ja on väsynyt ja ärtyisä aamupäivän tunneilla. Treenivaatteet jäävät kassiin pesemättä.\n\nTekijöitä, jotka pitävät tapaa yllä:\n1. Videoiden selaaminen rauhoittaa Sagaa jännittävän päivän jälkeen.\n2. Sovellus näyttää loputonta videovirtaa, jossa uusi video alkaa heti edellisen jälkeen.\n3. Kaveriporukan chatissa sovitaan iltaisin seuraavan päivän asioista, ja muut odottavat Sagan vastaavan.\n4. Puhelin on yöllä sängyssä, ja ruutu syttyy jokaisesta viestistä.\n5. Joukkueen kaverit lähettävät treenien jälkeen myöhään videoita, joihin odotetaan vastausta.\n\nOnko tapauksen tekijä 1 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":9,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 2 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":10,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 3 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":11,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 4 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":12,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 5 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":13,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Muutosehdotuksia Sagan tilanteeseen:\n1. Ole terveellisempi.\n2. Siirrä puhelin illaksi työpöydälle ja käytä herätyskelloa.\n3. Pakkaa illalla laukkuun eväs, jonka ehdit syödä ennen ensimmäistä tuntia.\n4. Laita treenivaatteet pesuun heti kotiin tultua.\n\nMontako ehdotuksista on konkreettisia ja Sagan tilanteessa realistisia?","vastaus":3},{"nro":14,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Erittele kolme tekijää, jotka selittävät, miksi Sagan tapa on syntynyt ja miksi se pysyy. Ainakin yhden tekijän pitää olla sosiaalinen ja yhden ympäristön tekijä. Kerro jokaisesta, miten se pitää tapaa yllä.","vastaus":"Malliesimerkki: Sosiaalinen tekijä: joukkueen kaverit odottavat vastausta myöhään illalla, joten Saga pysyy puhelimella. Ympäristön tekijä: puhelin on sängyssä ja sovelluksen videovirta jatkuu loputtomiin, joten selaaminen jatkuu. Yksilön tekijä: selaaminen rauhoittaa Sagaa, joten hän hakee siitä rentoutumista."},{"nro":15,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Laadi Sagalle kolmen muutoksen suunnitelma, joka on realistinen hänen tilanteessaan. Älä käytä tehtävän 13 ehdotuksia. Perustele, miten suunnitelma tukee hänen opiskelukykyään.","vastaus":"Malliesimerkki: 1) Saga kertoo joukkueen chatissa, ettei vastaa viesteihin klo 22 jälkeen. 2) Hän kytkee sovelluksen automaattisen toiston pois ja laittaa ilmoitukset hiljaiseksi klo 22–7. 3) Hän herää viikonloppuna enintään pari tuntia arkiaamua myöhemmin. Kun uni pitenee ja rytmi pysyy samana, väsymys ja ärtyisyys vähenevät ja Saga jaksaa keskittyä aamupäivän tunneilla."},{"nro":16,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet univajeesta:\n1. Väsymys vaikuttaa vain kehoon, ei ajatteluun.\n2. Univaje voi lisätä alakuloa ja ärtymystä.\n3. Väsyneenä tapaturmien riski kasvaa, esimerkiksi pyöräillessä.\n4. Univaje parantaa luovuutta aina.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":17,"ryhma":"arki","tyyppi":"lasku","kysymys":"Minkä kahden rauhasen toiminta lisääntyy murrosiässä niin, että hikeä erittyy enemmän ja iho ja hiukset rasvoittuvat?","vastaus":"hikirauhaset ja talirauhaset"},{"nro":18,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet puhtaudesta:\n1. Hiusten rasvoittuminen murrosiässä johtuu talirauhasten toiminnan lisääntymisestä.\n2. Murrosiässä hikirauhasten toiminta vähenee.\n3. Suihku liikunnan jälkeen poistaa hien ja vähentää hajua.\n4. Iho rasvoittuu, koska kasvoja pestään liian harvoin.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":19,"ryhma":"arki","tyyppi":"sanallinen","kysymys":"Selitä, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","vastaus":"Malliesimerkki: Murrosiässä hormonit lisäävät hikirauhasten ja talirauhasten toimintaa, joten hikeä tulee enemmän ja iho ja hiukset rasvoittuvat. Kun ihon bakteerit hajottavat hikeä, syntyy hajua, ja hiki jää myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat nyt tärkeämpiä kuin lapsena."},{"nro":20,"ryhma":"arki","tyyppi":"lasku","kysymys":"Keksitty Kalle kokeilee näitä keinoja:\n1. Katsoo jännittävää sarjaa sängyssä nukahtamiseen asti.\n2. Herää viikonloppunakin enintään tunnin tai kaksi arkiaamua myöhemmin.\n3. Käy aamulla ulkona valoisaan aikaan.\n4. Nukkuu viikonloppuna puoleenpäivään.\n\nMontako keinoista auttaa nukahtamaan illalla aiemmin?","vastaus":2}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään unen pituutta tai aikaa, merkitse tunnit ja minuutit (esimerkiksi 7 h 30 min), ja kun kysytään kellonaikaa, kirjoita kellonaika (esimerkiksi klo 21.15). Tehtävissä 8–12 kirjoita yksi sana: yksilö, sosiaalinen tai ympäristö. Kun kysytään montako, vastaa luvulla. Selitä ja perustele omin sanoin kokonaisin virkkein. Kaikki kokeen henkilöt ovat keksittyjä. Omista tavoistasi ei kysytä.","tehtavat":[{"nro":1,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Minkä hormonin erityksen siirtyminen myöhemmäksi selittää, miksi murrosikäistä ei väsytä illalla?","vastaus":"melatoniini"},{"nro":2,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Paljonko unta yläkouluikäinen tarvitsee yössä?","vastaus":"noin 8–10 tuntia"},{"nro":3,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty seitsemäsluokkalainen Miro nukahtaa arki-iltana klo 23.50 ja herää klo 6.20. Kuinka pitkään hän nukkuu?","vastaus":"6 h 30 min"},{"nro":4,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Kuinka paljon Miron unesta (tehtävä 3) puuttuu yläkouluikäisen unentarpeen alarajasta?","vastaus":"1 h 30 min"},{"nro":5,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty Aino herää arkiaamuisin klo 6.55 ja haluaa nukkua 9 tuntia. Mihin aikaan hänen pitää nukahtaa?","vastaus":"klo 21.55"},{"nro":6,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Väitteet ruudusta ja nukahtamisesta:\n1. Ruutu ei vaikuta nukahtamiseen, jos sisältö on hauskaa.\n2. Kiihdyttävä sisältö, kuten jännittävä ottelu tai riitaisa viestiketju, voi vaikeuttaa nukahtamista.\n3. Äänettömälle jätetty puhelin sängyn vieressä houkuttelee silti tarkistamaan viestejä.\n4. Kun puhelimen äänet ovat pois päältä, puhelin ei voi mitenkään vaikuttaa uneen.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"rytmi","tyyppi":"sanallinen","kysymys":"Selitä, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi ja miten ruudun käyttö illalla vaikuttaa nukahtamiseen. Mainitse kaksi tapaa, joilla ruutu vaikuttaa.","vastaus":"Malliesimerkki: Murrosiässä aivojen käpylisäke alkaa erittää unihormoni melatoniinia illalla myöhemmin kuin lapsena, joten väsymys tulee myöhemmin ja nukahtaminen siirtyy. Ruudun kirkas valo viivästyttää melatoniinin eritystä lisää, ja virittävä sisältö, kuten peli tai viestit, pitää aivot valppaina, joten nukahtaminen siirtyy vielä myöhemmäksi."},{"nro":8,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tapaus: keksitty seitsemäsluokkalainen Miro\nMiro katsoo iltaisin sarjoja tabletilta sängyssä usein puolenyön yli. Hän nukkuu arkiöinä noin kuusi ja puoli tuntia, jättää aamupalan väliin ja unohtelee läksyjään. Liikuntatunnin jälkeen hän vaihtaa vaatteet peseytymättä.\n\nTekijöitä, jotka pitävät tapaa yllä:\n1. Tabletti on yöllä yöpöydällä sängyn vieressä.\n2. Miron sisäinen kello on siirtynyt myöhemmäksi, joten uni ei tule ennen puoltayötä.\n3. Paras kaveri haluaa katsoa saman jakson samaan aikaan ja kommentoida sitä viestein.\n4. Suoratoistopalvelu näyttää laskurin, joka käynnistää seuraavan jakson.\n5. Miro kokee, että sarja auttaa unohtamaan kokeiden jännityksen.\n\nOnko tapauksen tekijä 1 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":9,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 2 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":10,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 3 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":11,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 4 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":12,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 5 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":13,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Muutosehdotuksia Miron tilanteeseen:\n1. Vähennä ruutuaikaa.\n2. Laita tabletti latautumaan olohuoneeseen arki-iltaisin klo 22.\n3. Sovi kaverin kanssa, että katsotte jaksot yhdessä viikonloppuna.\n4. Katso iltaisin vain yksi jakso ja kytke automaattinen toisto pois.\n\nMontako ehdotuksista on konkreettisia ja Miron tilanteessa realistisia?","vastaus":3},{"nro":14,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Erittele kolme tekijää, jotka selittävät, miksi Miron tapa on syntynyt ja miksi se pysyy. Ainakin yhden tekijän pitää olla sosiaalinen ja yhden ympäristön tekijä. Kerro jokaisesta, miten se pitää tapaa yllä.","vastaus":"Malliesimerkki: Sosiaalinen tekijä: paras kaveri haluaa katsoa jaksot samaan aikaan, joten Miro valvoo hänen tahdissaan. Ympäristön tekijä: tabletti on sängyn vieressä ja seuraava jakso alkaa itsestään. Yksilön tekijä: Miron sisäinen kello on siirtynyt myöhemmäksi, ja sarja vie ajatukset pois jännityksestä."},{"nro":15,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Laadi Mirolle kolmen muutoksen suunnitelma, joka on realistinen hänen tilanteessaan. Älä käytä tehtävän 13 ehdotuksia. Perustele, miten suunnitelma tukee hänen opiskelukykyään.","vastaus":"Malliesimerkki: 1) Miro laittaa ruudut sivuun tuntia ennen nukkumaanmenoa ja lukee tilalle kirjaa. 2) Hän syö aamulla jotain pientä. 3) Hän käy suihkussa liikuntatunnin jälkeen ja pakkaa mukaan puhtaat vaatteet. Kun Miro nukkuu enemmän, hän muistaa läksynsä ja opitun paremmin ja jaksaa keskittyä."},{"nro":16,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet univajeesta:\n1. Univaje voi heikentää koesuoritusta, vaikka asian olisi lukenut.\n2. Yksi pitkä viikonloppuaamu korjaa koko arkiviikon univajeen.\n3. Väsyneenä uuden asian painaminen mieleen on vaikeampaa.\n4. Energiajuoma korvaa unen kokonaan.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":17,"ryhma":"arki","tyyppi":"lasku","kysymys":"Minkä kahden rauhasen toiminta lisääntyy murrosiässä niin, että hikeä erittyy enemmän ja iho ja hiukset rasvoittuvat?","vastaus":"hikirauhaset ja talirauhaset"},{"nro":18,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet puhtaudesta:\n1. Kun käyttää hajustetta, peseytymistä ei tarvita.\n2. Hikeen kastuneisiin vaatteisiin jää hajua, joten ne kannattaa pestä.\n3. Murrosiässä hikirauhasten toiminta vähenee.\n4. Hiusten rasvoittuminen murrosiässä johtuu talirauhasten toiminnan lisääntymisestä.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":19,"ryhma":"arki","tyyppi":"sanallinen","kysymys":"Selitä, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","vastaus":"Malliesimerkki: Murrosiässä hormonit lisäävät hikirauhasten ja talirauhasten toimintaa, joten hikeä tulee enemmän ja iho ja hiukset rasvoittuvat. Kun ihon bakteerit hajottavat hikeä, syntyy hajua, ja hiki jää myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat nyt tärkeämpiä kuin lapsena."},{"nro":20,"ryhma":"arki","tyyppi":"lasku","kysymys":"Keksitty Lotta kokeilee näitä keinoja:\n1. Lopettaa pelaamisen hyvissä ajoin ennen nukkumaanmenoa.\n2. Nukkuu koulun jälkeen kolmen tunnin päiväunet.\n3. Katsoo jännittävää sarjaa sängyssä nukahtamiseen asti.\n4. Himmentää valot illalla.\n\nMontako keinoista auttaa nukahtamaan illalla aiemmin?","vastaus":2}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään unen pituutta tai aikaa, merkitse tunnit ja minuutit (esimerkiksi 7 h 30 min), ja kun kysytään kellonaikaa, kirjoita kellonaika (esimerkiksi klo 21.15). Tehtävissä 8–12 kirjoita yksi sana: yksilö, sosiaalinen tai ympäristö. Kun kysytään montako, vastaa luvulla. Selitä ja perustele omin sanoin kokonaisin virkkein. Kaikki kokeen henkilöt ovat keksittyjä. Omista tavoistasi ei kysytä.","tehtavat":[{"nro":1,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Mitä hormonia aivojen käpylisäke alkaa erittää, kun ilta hämärtyy?","vastaus":"melatoniini"},{"nro":2,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Paljonko unta yläkouluikäinen tarvitsee yössä?","vastaus":"noin 8–10 tuntia"},{"nro":3,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty seitsemäsluokkalainen Iina nukahtaa arki-iltana klo 0.30 ja herää klo 6.50. Kuinka pitkään hän nukkuu?","vastaus":"6 h 20 min"},{"nro":4,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Kuinka paljon Iinan unesta (tehtävä 3) puuttuu yläkouluikäisen unentarpeen alarajasta?","vastaus":"1 h 40 min"},{"nro":5,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty Eino herää arkiaamuisin klo 6.35 ja haluaa nukkua 9 tuntia. Mihin aikaan hänen pitää nukahtaa?","vastaus":"klo 21.35"},{"nro":6,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Väitteet ruudusta ja nukahtamisesta:\n1. Kun ruutu laitetaan sivuun hyvissä ajoin ennen nukkumaanmenoa, nukahtaminen usein helpottuu.\n2. Melatoniinia erittyy eniten kirkkaassa valossa.\n3. Illalla ruudun kirkas valo saa aivot tulkitsemaan, että on vielä päivä.\n4. Peli auttaa nukahtamaan, koska se väsyttää silmät.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"rytmi","tyyppi":"sanallinen","kysymys":"Selitä, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi ja miten ruudun käyttö illalla vaikuttaa nukahtamiseen. Mainitse kaksi tapaa, joilla ruutu vaikuttaa.","vastaus":"Malliesimerkki: Murrosiässä aivojen käpylisäke alkaa erittää unihormoni melatoniinia illalla myöhemmin kuin lapsena, joten väsymys tulee myöhemmin ja nukahtaminen siirtyy. Ruudun kirkas valo viivästyttää melatoniinin eritystä lisää, ja virittävä sisältö, kuten peli tai viestit, pitää aivot valppaina, joten nukahtaminen siirtyy vielä myöhemmäksi."},{"nro":8,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tapaus: keksitty seitsemäsluokkalainen Iina\nIina pelaa iltaisin mobiilipeliä, jossa pelikaverit kokoontuvat myöhäiselle iltakierrokselle. Hän nukkuu arkiöinä noin kuusi tuntia, ei syö aamupalaa ja nukahtelee aamupäivän tunneilla. Liikuntatunnin jälkeen hän jättää suihkun väliin.\n\nTekijöitä, jotka pitävät tapaa yllä:\n1. Pelin päivittäinen palkinto vaihtuu keskiyöllä.\n2. Pelikaverit odottavat, että Iina on mukana iltakierroksella.\n3. Iina pelkää menettävänsä pelisarjansa, jos jättää päivän väliin.\n4. Iinan huoneen kattovalo on kirkas ja päällä myöhään.\n5. Kaveriporukassa kehutaan sitä, joka pysyy pisimpään hereillä.\n\nOnko tapauksen tekijä 1 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":9,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 2 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":10,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 3 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":11,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 4 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":12,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 5 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":13,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Muutosehdotuksia Iinan tilanteeseen:\n1. Lopeta peli heti koulun jälkeen ja älä koskaan pelaa iltaisin.\n2. Ehdota pelikavereille arki-iltojen kierrosta klo 20.\n3. Vaihda illaksi kattovalo himmeään pöytälamppuun.\n4. Mene nukkumaan aikaisemmin.\n\nMontako ehdotuksista on konkreettisia ja Iinan tilanteessa realistisia?","vastaus":2},{"nro":14,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Erittele kolme tekijää, jotka selittävät, miksi Iinan tapa on syntynyt ja miksi se pysyy. Ainakin yhden tekijän pitää olla sosiaalinen ja yhden ympäristön tekijä. Kerro jokaisesta, miten se pitää tapaa yllä.","vastaus":"Malliesimerkki: Sosiaalinen tekijä: pelikaverit odottavat Iinaa iltakierrokselle, ja porukassa kehutaan valvomista. Ympäristön tekijä: pelin palkinto vaihtuu vasta keskiyöllä, joten peli houkuttelee valvomaan. Yksilön tekijä: Iina pelkää menettävänsä pelisarjansa."},{"nro":15,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Laadi Iinalle kolmen muutoksen suunnitelma, joka on realistinen hänen tilanteessaan. Älä käytä tehtävän 13 ehdotuksia. Perustele, miten suunnitelma tukee hänen opiskelukykyään.","vastaus":"Malliesimerkki: 1) Iina laittaa puhelimen yöksi huoneen ulkopuolelle. 2) Hän kytkee pelin ilmoitukset pois klo 21 jälkeen. 3) Hän syö aamupalaksi edes jotain pientä. Kun uni pitenee eikä katkea, Iina pysyy hereillä tunneilla, keskittyy paremmin ja mieliala on tasaisempi."},{"nro":16,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet univajeesta:\n1. Väsyneenä tapaturmien riski kasvaa, esimerkiksi pyöräillessä.\n2. Univaje parantaa luovuutta aina.\n3. Väsymys vaikuttaa vain kehoon, ei ajatteluun.\n4. Univaje heikentää tarkkaavaisuutta oppitunnilla.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":17,"ryhma":"arki","tyyppi":"lasku","kysymys":"Minkä kahden rauhasen toiminta lisääntyy murrosiässä niin, että hikeä erittyy enemmän ja iho ja hiukset rasvoittuvat?","vastaus":"hikirauhaset ja talirauhaset"},{"nro":18,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet puhtaudesta:\n1. Suihku liikunnan jälkeen poistaa hien ja vähentää hajua.\n2. Hien haju johtuu siitä, että nuori syö väärin.\n3. Tuore hiki on lähes hajutonta; haju syntyy, kun ihon bakteerit hajottavat hikeä.\n4. Iho rasvoittuu, koska kasvoja pestään liian harvoin.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":19,"ryhma":"arki","tyyppi":"sanallinen","kysymys":"Selitä, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","vastaus":"Malliesimerkki: Murrosiässä hormonit lisäävät hikirauhasten ja talirauhasten toimintaa, joten hikeä tulee enemmän ja iho ja hiukset rasvoittuvat. Kun ihon bakteerit hajottavat hikeä, syntyy hajua, ja hiki jää myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat nyt tärkeämpiä kuin lapsena."},{"nro":20,"ryhma":"arki","tyyppi":"lasku","kysymys":"Keksitty Kalle kokeilee näitä keinoja:\n1. Käy aamulla ulkona valoisaan aikaan.\n2. Juo energiajuoman illalla.\n3. Nukkuu viikonloppuna puoleenpäivään.\n4. Laittaa puhelimen yöksi toiseen huoneeseen.\n\nMontako keinoista auttaa nukahtamaan illalla aiemmin?","vastaus":2}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään unen pituutta tai aikaa, merkitse tunnit ja minuutit (esimerkiksi 7 h 30 min), ja kun kysytään kellonaikaa, kirjoita kellonaika (esimerkiksi klo 21.15). Tehtävissä 8–12 kirjoita yksi sana: yksilö, sosiaalinen tai ympäristö. Kun kysytään montako, vastaa luvulla. Selitä ja perustele omin sanoin kokonaisin virkkein. Kaikki kokeen henkilöt ovat keksittyjä. Omista tavoistasi ei kysytä.","tehtavat":[{"nro":1,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Minkä hormonin eritystä ruudun kirkas valo illalla viivästyttää?","vastaus":"melatoniini"},{"nro":2,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Paljonko unta yläkouluikäinen tarvitsee yössä?","vastaus":"noin 8–10 tuntia"},{"nro":3,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty seitsemäsluokkalainen Daniel nukahtaa arki-iltana klo 23.40 ja herää klo 6.25. Kuinka pitkään hän nukkuu?","vastaus":"6 h 45 min"},{"nro":4,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Kuinka paljon Danielin unesta (tehtävä 3) puuttuu yläkouluikäisen unentarpeen alarajasta?","vastaus":"1 h 15 min"},{"nro":5,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Keksitty Aino herää arkiaamuisin klo 7.05 ja haluaa nukkua 9 tuntia. Mihin aikaan hänen pitää nukahtaa?","vastaus":"klo 22.05"},{"nro":6,"ryhma":"rytmi","tyyppi":"lasku","kysymys":"Väitteet ruudusta ja nukahtamisesta:\n1. Kirkas ruutu lähellä silmiä vaikuttaa sisäiseen kelloon enemmän kuin himmeä valo kauempana.\n2. Kun puhelimen äänet ovat pois päältä, puhelin ei voi mitenkään vaikuttaa uneen.\n3. Kiihdyttävä sisältö, kuten jännittävä ottelu tai riitaisa viestiketju, voi vaikeuttaa nukahtamista.\n4. Kun ruutu laitetaan sivuun hyvissä ajoin ennen nukkumaanmenoa, nukahtaminen usein helpottuu.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"rytmi","tyyppi":"sanallinen","kysymys":"Selitä, miksi murrosikäisen vuorokausirytmi siirtyy myöhäisemmäksi ja miten ruudun käyttö illalla vaikuttaa nukahtamiseen. Mainitse kaksi tapaa, joilla ruutu vaikuttaa.","vastaus":"Malliesimerkki: Murrosiässä aivojen käpylisäke alkaa erittää unihormoni melatoniinia illalla myöhemmin kuin lapsena, joten väsymys tulee myöhemmin ja nukahtaminen siirtyy. Ruudun kirkas valo viivästyttää melatoniinin eritystä lisää, ja virittävä sisältö, kuten peli tai viestit, pitää aivot valppaina, joten nukahtaminen siirtyy vielä myöhemmäksi."},{"nro":8,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Tapaus: keksitty seitsemäsluokkalainen Daniel\nDaniel juttelee iltaisin videopuhelussa kaverinsa kanssa ja käyttää läppäriä sängyssä. Hän nukkuu arkiöinä alle seitsemän tuntia, jättää aamupalan väliin ja hänen on vaikea keskittyä kokeissa. Hän ei ole käynyt suihkussa jalkapallotreenien jälkeen.\n\nTekijöitä, jotka pitävät tapaa yllä:\n1. Danielin kaveri soittaa joka ilta videopuhelun klo 23, eikä Daniel halua loukata häntä kieltäytymällä.\n2. Daniel tuntee itsensä illalla virkeimmäksi.\n3. Läppäri on sängyssä, ja sen näyttö on täysin kirkkaalla.\n4. Joukkueen ryhmächatissa jaetaan iltaisin treenivideoita, ja niistä keskustellaan yöhön.\n5. Daniel stressaa vähemmän, kun ajatukset ovat ruudussa.\n\nOnko tapauksen tekijä 1 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":9,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 2 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":10,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 3 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"ympäristö"},{"nro":11,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 4 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"sosiaalinen"},{"nro":12,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Onko tapauksen tekijä 5 yksilön, sosiaalinen vai ympäristön tekijä?","vastaus":"yksilö"},{"nro":13,"ryhma":"tavat","tyyppi":"lasku","kysymys":"Muutosehdotuksia Danielin tilanteeseen:\n1. Sovi kaverin kanssa, että videopuhelut ovat arki-iltaisin ennen klo 21.30.\n2. Jätä läppäri yöksi työpöydälle ja säädä näyttö illalla himmeämmäksi.\n3. Älä stressaa.\n4. Mykistä joukkueen ryhmächat klo 22 jälkeen.\n\nMontako ehdotuksista on konkreettisia ja Danielin tilanteessa realistisia?","vastaus":3},{"nro":14,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Erittele kolme tekijää, jotka selittävät, miksi Danielin tapa on syntynyt ja miksi se pysyy. Ainakin yhden tekijän pitää olla sosiaalinen ja yhden ympäristön tekijä. Kerro jokaisesta, miten se pitää tapaa yllä.","vastaus":"Malliesimerkki: Sosiaalinen tekijä: kaveri soittaa klo 23, eikä Daniel halua loukata häntä. Ympäristön tekijä: läppäri on sängyssä täysin kirkkaalla näytöllä. Yksilön tekijä: Daniel tuntee itsensä illalla virkeäksi ja rentoutuu ruudulla, kun stressaa."},{"nro":15,"ryhma":"tavat","tyyppi":"sanallinen","kysymys":"Laadi Danielille kolmen muutoksen suunnitelma, joka on realistinen hänen tilanteessaan. Älä käytä tehtävän 13 ehdotuksia. Perustele, miten suunnitelma tukee hänen opiskelukykyään.","vastaus":"Malliesimerkki: 1) Daniel kirjoittaa illalla huolensa paperille ja kuuntelee musiikkia ilman ruutua, kun stressi painaa. 2) Hän syö aamulla jotain pientä. 3) Hän käy suihkussa treenien jälkeen. Pidempi uni ja aamupala auttavat keskittymään kokeissa ja muistamaan opitun."},{"nro":16,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet univajeesta:\n1. Yksi pitkä viikonloppuaamu korjaa koko arkiviikon univajeen.\n2. Univaje voi lisätä alakuloa ja ärtymystä.\n3. Univaje voi heikentää koesuoritusta, vaikka asian olisi lukenut.\n4. Energiajuoma korvaa unen kokonaan.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":17,"ryhma":"arki","tyyppi":"lasku","kysymys":"Minkä kahden rauhasen toiminta lisääntyy murrosiässä niin, että hikeä erittyy enemmän ja iho ja hiukset rasvoittuvat?","vastaus":"hikirauhaset ja talirauhaset"},{"nro":18,"ryhma":"arki","tyyppi":"lasku","kysymys":"Väitteet puhtaudesta:\n1. Hikeen kastuneisiin vaatteisiin jää hajua, joten ne kannattaa pestä.\n2. Iho rasvoittuu, koska kasvoja pestään liian harvoin.\n3. Suihku liikunnan jälkeen poistaa hien ja vähentää hajua.\n4. Kun käyttää hajustetta, peseytymistä ei tarvita.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":19,"ryhma":"arki","tyyppi":"sanallinen","kysymys":"Selitä, miksi päivittäinen peseytyminen ja puhtaat vaatteet ovat murrosiässä tärkeämpiä kuin ennen.","vastaus":"Malliesimerkki: Murrosiässä hormonit lisäävät hikirauhasten ja talirauhasten toimintaa, joten hikeä tulee enemmän ja iho ja hiukset rasvoittuvat. Kun ihon bakteerit hajottavat hikeä, syntyy hajua, ja hiki jää myös vaatteisiin. Siksi päivittäinen peseytyminen, suihku liikunnan jälkeen ja puhtaat vaatteet ovat nyt tärkeämpiä kuin lapsena."},{"nro":20,"ryhma":"arki","tyyppi":"lasku","kysymys":"Keksitty Lotta kokeilee näitä keinoja:\n1. Herää viikonloppunakin enintään tunnin tai kaksi arkiaamua myöhemmin.\n2. Katsoo jännittävää sarjaa sängyssä nukahtamiseen asti.\n3. Lopettaa pelaamisen hyvissä ajoin ennen nukkumaanmenoa.\n4. Nukkuu koulun jälkeen kolmen tunnin päiväunet.\n\nMontako keinoista auttaa nukahtamaan illalla aiemmin?","vastaus":2}]}],"virhesanakirja":[{"virhe":"Selittää myöhäisen väsymyksen laiskuudella, tottumuksella tai pelkällä ruudulla mainitsematta melatoniinia tai sisäistä kelloa","tehtava":"1, 7","mita_kertoo":"Nuori ei vielä tunne murrosiän rytmin biologista syytä. Kriteeri vaatii, että melatoniinin eritys alkaa illalla myöhemmin.","mita_tehda":"Näytä kuva Melatoniinin eritys siirtyy ja ansa 1. Pyydä nuorta selittämään ensin kehon muutos ja vasta sitten ruudun vaikutus."},{"virhe":"Laskee unen pituuden yli keskiyön väärin (esimerkiksi vähentää kellonajat suoraan toisistaan) tai sekoittaa tunnit ja minuutit","tehtava":"3, 4, 5","mita_kertoo":"Kellonaikojen laskeminen keskiyön yli on 4. luokan taito, joka ei ole vielä varma. Virhe vie pohjan tapauksen arvioinnilta.","mita_tehda":"Laske kahdessa osassa: nukahtamisesta keskiyöhön ja keskiyöstä heräämiseen. Nukahtamisajan voi laskea taaksepäin herätyksestä tunti kerrallaan."},{"virhe":"Väittää unentarpeeksi 6–7 tuntia tai yli 12 tuntia, tai pitää viikonlopun pitkiä aamuja univajeen korjaajana","tehtava":"2, 16","mita_kertoo":"Nuori arvioi unentarvetta aikuisten tai lasten mukaan. Kriteeri vaatii tiedon noin 8–10 tunnista.","mita_tehda":"Palaa kappaleeseen Paljonko unta tarvitaan ja ansaan 2. Kysy: mitä viikonlopun pitkä aamu tekee sisäiselle kellolle?"},{"virhe":"Luokittelee tekijät väärin, esimerkiksi sovelluksen automaattisen toiston tai puhelimen paikan yksilön tekijäksi tai kaverien odotukset ympäristöksi","tehtava":"8–12, 14","mita_kertoo":"Nuori ei vielä erota, tuleeko tekijä omasta kehosta ja mielestä, muista ihmisistä vai tiloista ja laitteista. Kriteeri vaatii vähintään yhden sosiaalisen ja yhden ympäristön tekijän.","mita_tehda":"Käytä kolmea kysymystä: onko tekijä minussa, muissa ihmisissä vai ympärilläni olevissa tiloissa ja laitteissa? Palaa kappaleeseen Miksi tavat syntyvät ja pysyvät."},{"virhe":"Suunnitelman muutokset ovat yleisiä ohjeita (”nuku enemmän”), epärealistisia (”älä pelaa koskaan”) tai eivät liity kuvauksen ongelmiin, tai opiskelukyvyn perustelu puuttuu","tehtava":"13, 15","mita_kertoo":"Nuori tietää, mikä on terveellistä, mutta ei vielä kohdista muutosta tapaa ylläpitäviin tekijöihin eikä yhdistä sitä kouluun.","mita_tehda":"Palaa ansaan 3 ja kappaleeseen Muutos, joka toimii. Pyydä kirjoittamaan jokaiseen muutokseen mitä, milloin ja mihin tekijään se kohdistuu sekä yksi lause siitä, miten se näkyy koulussa."},{"virhe":"Perustelee puhtauden yleisesti (”puhtaus on tärkeää”) mainitsematta hiki- ja talirauhasten toiminnan lisääntymistä tai bakteerien osuutta hajuun","tehtava":"17, 18, 19","mita_kertoo":"Nuori tuntee hygieniaohjeet mutta ei vielä niiden syytä murrosiässä. Kriteeri vaatii yhteyden rauhasten toimintaan.","mita_tehda":"Palaa kappaleeseen Puhtaus murrosiässä. Kysy: mikä muuttuu iholla murrosiässä, ja mistä haju syntyy?"}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: koeperustainen (kartan näyttö alkaa ”Valvottu paperikoe”). Kokeet A–E, 20 tehtävää: 16 yksikäsitteistä (hormoni, unentarve, unen pituus, vaje, nukahtamisaika, viisi tekijän luokittelua ja viisi lukua) ja neljä sanallista (7, 14, 15, 19). Kartan näytön kohdat ovat kokeessa näin: rytmin siirtymä, iltaruutu ja unentarve 1, 2 ja 7; tapauksen tekijät 8–12 ja 14 (versio A on kartan Elias); kolmen muutoksen suunnitelma ja opiskelukyky 15; puhtaus 17–19.","Raja ja mittarit: oletusraja 16/20, ja mittaritehtävät 7 (melatoniinin eritys alkaa illalla myöhemmin; ruudun valo ja virittävä sisältö viivästyttävät nukahtamista), 14 (kolme tekijää, joista vähintään yksi sosiaalinen ja yksi ympäristön tekijä, ja selitys, miten kukin pitää tapaa yllä), 15 (kolme konkreettista, tapaukseen kohdistuvaa muutosta ja yhteys opiskelukykyyn: keskittyminen, muisti tai mieliala) ja 19 (hiki- ja talirauhasten toiminnan lisääntyminen) ovat oikein. Tehtävä 2 kuuluu kriteeriin (unentarve noin 8–10 tuntia), mutta se on mukana 80 %:n rajassa; jos haluat, voit pitää sitä viidentenä mittarina.","Mikä kelpaa. Tehtävät 3–4: tunnit ja minuutit (myös 6,25 h muodossa 6 h 15 min; desimaalitunti kelpaa, jos se on oikein). Tehtävä 5: kellonaika (myös muoto 21:40). Tehtävät 8–12: yksilö (myös yksilön tekijä, oma keho tai mieli), sosiaalinen tai ympäristö. Tehtävä 7: kehon muutos ja kaksi ruudun vaikutustapaa (valo, virittävä sisältö, ilmoitukset tai houkutus tarkistaa viestejä); pelkkä ”ruutu pitää hereillä” ei riitä. Tehtävä 14: tekijät tapauksesta tai omin sanoin, jos ne nojaavat kuvaukseen. Tehtävä 15: tehtävän 13 ehdotuksia ei hyväksytä sellaisinaan; muutoksessa pitää näkyä mitä ja milloin. Tehtävä 19: rauhasten toiminta ja bakteerien osuus tai hien imeytyminen vaatteisiin. Hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Vastausavain lyhyesti (kaikissa versioissa 1 → melatoniini, 2 → noin 8–10 tuntia, 17 → hikirauhaset ja talirauhaset). A: 3 → 6 h, 4 → 2 h, 5 → klo 21.40, 6 → 2; 8–12 sosiaalinen, ympäristö, yksilö, ympäristö, yksilö; 13 → 2; 16 → 2, 18 → 2, 20 → 2 · B: 3 → 6 h 15 min, 4 → 1 h 45 min, 5 → klo 22.10, 6 → 3; 8–12 yksilö, ympäristö, sosiaalinen, ympäristö, sosiaalinen; 13 → 3; 16 → 2, 18 → 2, 20 → 2 · C: 3 → 6 h 30 min, 4 → 1 h 30 min, 5 → klo 21.55, 6 → 2; 8–12 ympäristö, yksilö, sosiaalinen, ympäristö, yksilö; 13 → 3; 16 → 2, 18 → 2, 20 → 2 · D: 3 → 6 h 20 min, 4 → 1 h 40 min, 5 → klo 21.35, 6 → 2; 8–12 ympäristö, sosiaalinen, yksilö, ympäristö, sosiaalinen; 13 → 2; 16 → 2, 18 → 2, 20 → 2 · E: 3 → 6 h 45 min, 4 → 1 h 15 min, 5 → klo 22.05, 6 → 3; 8–12 sosiaalinen, yksilö, ympäristö, sosiaalinen, yksilö; 13 → 3; 16 → 2, 18 → 2, 20 → 2.","Herkkä aihe: oppilaan omaa unta, ruokailua, ruutuaikaa, peseytymistä tai kodin tapoja ei kysytä eikä arvioida, eikä niitä pyydetä kirjaamaan. Kaikki tapaukset ovat keksittyjä. Puhtaudesta puhutaan yleisesti ja asiallisesti; yksittäisen oppilaan hygieniaa ei kommentoida luokassa. Koulun yhteinen suihku voi jännittää (keho, uskonto, sukupuoli-identiteetti, aiemmat kokemukset): kerro, että vaihtoehdoista voi kysyä opettajalta tai kouluterveydenhoitajalta. Jos oppilaan väsymys tai uni huolettaa, ohjaa kouluterveydenhoitajalle.","Tarkistettavat asiatiedot ennen käyttöä: yläkouluikäisen unentarve noin 8–10 tuntia (kartan mukaan; osa suomalaisista lähteistä sanoo 13–18-vuotiaille noin 8–10 tuntia, osa nuorille 9–10 tuntia); melatoniinin erityksen alkamisen siirtyminen myöhemmäksi murrosiässä; käpylisäke melatoniinin erittäjänä; ruudun sinertävän valon vaikutus melatoniiniin ja yövalotilan rajallinen vaikutus; aamun valon tahdistava vaikutus; tuoreen hien hajuttomuus ja bakteerien osuus hajuun. Lähteitä: Terveyskirjasto https://www.terveyskirjasto.fi, Mannerheimin Lastensuojeluliiton Nuortennetti https://www.nuortennetti.fi, Terveyskylä (Unitalo) https://www.terveyskyla.fi.","Suhde muihin taitoihin: 4. luokan Arjen hyvinvointi (YMP4-IHM-02) laski unen pituuksia ja etsi yhteyksiä vointiin; 5. luokan Murrosiän kartta (YMP5-IHM-03) antoi hygieniaohjeet. Ne oletetaan, ja tässä selitetään syyt. Unen tehtävät (mitä unen aikana tapahtuu) ovat 8. luokalla (TT8-TOT-03), ravintoaineet ja ateriarytmin analyysi TT8-TOT-01:ssä, liikuntasuositus TT8-TOT-02:ssa ja opiskelukyvyn käsite tarkemmin 9. luokalla (TT9-YHT-05); tässä ateriat ja liikkuminen ovat vain arkirytmin osina ilman ravitsemussuosituksia. Ravinto on myös kotitaloudessa (KO7).","tulostus.sivuja 4 on arvio; mitataan rakennuksen jälkeen (tapausteksti tehtävässä 8 pidentää koetta)."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Murrosiässä unihormoni melatoniinin eritys alkaa illalla myöhemmin, joten väsymys tulee myöhemmin. Iltaruudun valo ja virittävä sisältö siirtävät nukahtamista lisää. Yläkouluikäinen tarvitsee unta noin 8–10 tuntia. Tapaa ylläpitävät yksilön, sosiaaliset ja ympäristön tekijät, ja hyvä muutos kohdistuu niihin.","tarvikkeet":"Kuvat Melatoniinin eritys siirtyy ja Iltaruudun noidankehä heijastettuina, tekijäkortit lajitteluun (yksilö, sosiaalinen, ympäristö), kopioidut kokeet A–E.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Lukekaa johdanto Aatun syyslomasta. Kysy: miksi ensimmäinen kouluviikko on raskas? Kerro, että omia tapoja ei kysytä."},{"aika":"15 min","otsikko":"Sisäinen kello","sisalto":"Kappaleet Arkirytmi ja Sisäinen kello ja melatoniini, kuva Melatoniinin eritys siirtyy ja ansa 1. Iltaruutu ja nukahtaminen: parit listaavat kolme tapaa, joilla ruutu vaikuttaa."},{"aika":"10 min","otsikko":"Unentarve ja laskut","sisalto":"Kappale Paljonko unta tarvitaan ja ansa 2. Laskekaa yhdessä nukahtamisaika taaksepäin herätyksestä."},{"aika":"15 min","otsikko":"Harjoitukset","sisalto":"Harjoitusryhmät Sisäinen kello ja uni sekä Arkirytmi, opiskelukyky ja puhtaus."},{"aika":"15 min","otsikko":"2. tunti: Tavat ja muutos","sisalto":"Kappale Miksi tavat syntyvät ja pysyvät, kuva Iltaruudun noidankehä. Parit lajittelevat tekijäkortit kolmeen pinoon. Kappale Muutos, joka toimii ja ansa 3; harjoitusryhmä Tapojen synty ja muutos."},{"aika":"5 min","otsikko":"Puhtaus","sisalto":"Kappale Puhtaus murrosiässä: miksi rauhasten toiminta muuttuu ja mistä haju syntyy. Mainitse, että suihkun vaihtoehdoista voi kysyä."},{"aika":"25 min","otsikko":"Näyttö: valvottu paperikoe","sisalto":"Koe yhtenä versioista A–E. Kirjoittamisen kestoa ei rajata; kesken jäänyt jatketaan seuraavalla kerralla. Uusintaan eri versio."}]},"huoltajalle":{"mista_on_kyse":"Nuori oppii selittämään, mistä arkirytmi koostuu (uni, ateriat, liikkuminen, ruutuaika ja peseytyminen) ja miten se vaikuttaa jaksamiseen ja koulunkäyntiin. Hän oppii, että murrosiässä unihormoni melatoniinin eritys alkaa illalla myöhemmin, minkä vuoksi nuorta ei väsytä illalla yhtä aikaisin kuin ennen, ja että iltaruutu siirtää nukahtamista lisää. Hän erittelee keksityn nuoren tapoja ylläpitäviä tekijöitä ja laatii realistisen muutossuunnitelman. Nuoren omia tapoja ei kysytä eikä arvioida.","kotona":["Kysykää, miksi murrosikäistä ei väsytä illalla yhtä aikaisin kuin lapsena, ja mitä ruudun valo illalla tekee.","Pyytäkää nuorta kertomaan, paljonko yläkouluikäinen tarvitsee unta ja miksi viikonlopun pitkät aamut eivät korjaa univajetta.","Keskustelkaa, mikä erottaa konkreettisen muutoksen yleisestä ohjeesta (”nuku enemmän”).","Muistakaa, että myöhäinen väsymys on murrosiässä kehon muutos, ei laiskuutta."],"milloin_huolestua":"Tämä on ydintaito, jonka varaan 8. luokan ravinto-, liikunta- ja palautumistaidot rakentuvat. Jos nuori ei jakson jälkeen osaa selittää rytmin siirtymistä tai unentarvetta, ottakaa yhteyttä opettajaan; asiaa voi harjoitella ennen uusintanäyttöä. Jos nuoren väsymys, nukahtamisvaikeudet tai jaksaminen huolettavat, voitte kääntyä kouluterveydenhoitajan puoleen."},"ulkoiset":{},"valmis_teksti":"Osaat selittää, miksi murrosikäisen sisäinen kello siirtyy, miten iltaruutu vaikuttaa uneen ja mitkä tekijät pitävät tapoja yllä, ja laatia realistisen muutossuunnitelman. Sisäisen kellon säätäjä on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

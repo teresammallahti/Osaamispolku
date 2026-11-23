@@ -1,0 +1,619 @@
+<title>Retkieväiden rakentaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KO7-RUO-08","oppiaine":"KO","vuosiluokka":7,"taitoalue":"RUO","jakso":"J5","taso":"vahvistava","otsikko":"Retkieväiden rakentaja","kuvaus":"Osaan valmistaa ja pakata kylmänä syötävät eväät niin, että ne pysyvät turvallisina ja pakkausjätettä syntyy vähän.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T3","T5","T13"],"S":["S1"]},"eyebrow":"Kotitalous · 7. luokka","ikoni":"turva","naytto":"Valmistan eväspiknikille täytetyt leivät tai tortillat ja salaatin, pakkaan ne uudelleenkäytettäviin rasioihin ja kirjoitan, miten ne pidetään kylmänä siihen asti, kun ne syödään (kylmälaukku, kylmäkalle tai jääkaappi).","osaa_kun":"Kosteat ja kuivat osat on pakattu niin, ettei leipä vetty, herkästi pilaantuvat täytteet (esimerkiksi kana, kananmuna tai majoneesi) pidetään kylmänä, ja vertaan pakkausratkaisuani kertakäyttöpakkaukseen syntyvän jätteen määrällä.","teksti":[{"tyyppi":"johdanto","sisalto":"Kevään retkipäivänä eväät ovat repussa monta tuntia ennen kuin ne syödään. Kun repun avaa, leipä voi olla märkä ja lässähtänyt, ja kananmunatäyte on ehtinyt lämmetä. Lämmennyt eväs ei välttämättä haise tai maistu oudolta, mutta siinä voi olla jo niin paljon bakteereja, että siitä tulee vatsatauti. Kylmäketjun vartijana opit pitämään ruoan kylmänä keittiössä. Nyt jääkaappia ei ole: valmistat kylmänä syötävät eväät, pakkaat ne niin, ettei leipä vety, suunnittelet, miten herkästi pilaantuvat osat pysyvät kylmänä perille asti, ja vertaat pakkausratkaisusi jätettä kertakäyttöpakkauksiin."},{"tyyppi":"kappale","otsikko":"Miksi eväs on riskiruoka","sisalto":"Herkästi pilaantuva ruoka on ruokaa, jossa bakteerit lisääntyvät helposti, jos se ei ole kylmässä. Tällaisia ovat esimerkiksi kypsä kana ja liha, leikkeleet, kala, keitetty kananmuna, majoneesi ja majoneesipohjaiset kastikkeet, maitotuotteet sekä keitetty riisi ja pasta. Helposti pilaantuva ruoka säilytetään enintään +6 asteessa. Noin +6 ja +60 asteen välillä bakteerit voivat lisääntyä, ja mitä lämpimämpää ja mitä pidempään ruoka on lämpimässä, sitä enemmän niitä ehtii syntyä. Kylmä ei tapa bakteereja, se vain hidastaa niiden lisääntymistä. Siksi kylmänä syötävä eväs pidetään kylmänä koko ajan: valmistuksesta jääkaappiin, jääkaapista kylmälaukkuun ja kylmälaukusta suoraan syötäväksi. Aurinkoisella paikalla tai lämpimässä bussissa reppu lämpenee nopeasti, joten pelkkä reppu ei riitä."},{"tyyppi":"saanto","otsikko":"Kylmänä perille","askeleet":["Jäähdytä kaikki kypsennetty ennen kuin se laitetaan eväisiin. Kypsä kana ja keitetty kananmuna jäähdytetään ensin jääkaapissa. Lämmin täyte lämmittää koko rasian.","Pakkaa eväät kylmistä raaka-aineista ja laita valmis rasia heti jääkaappiin. Eväs otetaan jääkaapista vasta lähtiessä.","Matkalla eväät ovat kylmälaukussa tai kylmäkassissa, jossa on kylmävaraaja eli kylmäkalle. Kylmävaraaja laitetaan eväiden päälle, koska kylmä ilma laskeutuu alaspäin. Kylmävaraajan voi korvata jäädytetyllä vesipullolla, joka sulaa matkalla juotavaksi; jätä pulloon tilaa, koska jää vie enemmän tilaa kuin vesi.","Pidä kylmälaukku varjossa ja suljettuna. Ota eväs esiin vasta, kun syöt.","Herkästi pilaantuvaa evästä, joka on ollut lämpimässä, ei säästetä seuraavaan päivään.","Jos kylmälaukkua tai kylmävaraajaa ei ole, valitse täytteeksi sellaista, joka kestää paremmin: esimerkiksi kasvikset, papu- tai linssitahna, joka pidetään kylmässä viimeiseen asti, tai pelkkä levite ja kasvikset. Tämä ei silti tee mistään evästä huoletonta."]},{"tyyppi":"kuva","otsikko":"Leipä ei vety, eväs pysyy kylmänä","svg":"<svg viewBox=\"0 0 640 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"kaavio: täytetyn leivän kerrokset ja kylmälaukun pakkausjärjestys\"><text class=\"v-t vahva\" x=\"20\" y=\"26\" style=\"font-size:14px\">Täytetty leipä poikkileikkauksena</text><rect class=\"v-osa\" x=\"24\" y=\"52\" width=\"150\" height=\"26\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"65.0\" x2=\"196\" y2=\"65.0\"/><text class=\"v-t pieni\" x=\"200\" y=\"69.0\" style=\"font-size:11px\">leipä</text><rect class=\"v-osa v1\" x=\"24\" y=\"86\" width=\"150\" height=\"7\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"89.5\" x2=\"196\" y2=\"89.5\"/><text class=\"v-t pieni\" x=\"200\" y=\"93.5\" style=\"font-size:11px\">levite reunoja myöten</text><rect class=\"v-osa\" x=\"24\" y=\"101\" width=\"150\" height=\"10\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"106.0\" x2=\"196\" y2=\"106.0\"/><text class=\"v-t pieni\" x=\"200\" y=\"110.0\" style=\"font-size:11px\">salaatinlehti</text><rect class=\"v-osa v1\" x=\"24\" y=\"119\" width=\"150\" height=\"22\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"130.0\" x2=\"196\" y2=\"130.0\"/><text class=\"v-t pieni\" x=\"200\" y=\"134.0\" style=\"font-size:11px\">täyte: kypsä kana tai hummus</text><rect class=\"v-osa\" x=\"24\" y=\"149\" width=\"150\" height=\"10\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"154.0\" x2=\"196\" y2=\"154.0\"/><text class=\"v-t pieni\" x=\"200\" y=\"158.0\" style=\"font-size:11px\">salaatinlehti</text><rect class=\"v-osa v1\" x=\"24\" y=\"167\" width=\"150\" height=\"7\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"170.5\" x2=\"196\" y2=\"170.5\"/><text class=\"v-t pieni\" x=\"200\" y=\"174.5\" style=\"font-size:11px\">levite reunoja myöten</text><rect class=\"v-osa\" x=\"24\" y=\"182\" width=\"150\" height=\"26\" rx=\"3\"/><line class=\"v-apu\" x1=\"176\" y1=\"195.0\" x2=\"196\" y2=\"195.0\"/><text class=\"v-t pieni\" x=\"200\" y=\"199.0\" style=\"font-size:11px\">leipä</text><text class=\"v-t pieni\" x=\"24\" y=\"238\" style=\"font-size:11px\">Tomaatti ja kurkku eivät ole tässä:</text><text class=\"v-t pieni\" x=\"24\" y=\"254\" style=\"font-size:11px\">ne pakataan omaan rasiaansa tai</text><text class=\"v-t pieni\" x=\"24\" y=\"270\" style=\"font-size:11px\">kahden salaatinlehden väliin.</text><text class=\"v-t vahva\" x=\"392\" y=\"26\" style=\"font-size:14px\">Kylmälaukku</text><rect class=\"v-akseli\" fill=\"none\" x=\"392\" y=\"40\" width=\"232\" height=\"250\" rx=\"10\" style=\"stroke-width:2\"/><rect class=\"v-osa v1\" x=\"402\" y=\"50\" width=\"212\" height=\"30\" rx=\"4\"/><text class=\"v-t\" x=\"508\" y=\"70\" text-anchor=\"middle\" style=\"font-size:12px\">kylmävaraaja ylimpänä</text><rect class=\"v-osa\" x=\"402\" y=\"92\" width=\"126\" height=\"86\" rx=\"6\"/><text class=\"v-t\" x=\"465\" y=\"132\" text-anchor=\"middle\" style=\"font-size:12px\">leipärasia</text><text class=\"v-t pieni\" x=\"465\" y=\"150\" text-anchor=\"middle\" style=\"font-size:11px\">(kuiva)</text><rect class=\"v-osa\" x=\"538\" y=\"92\" width=\"76\" height=\"86\" rx=\"6\"/><text class=\"v-t\" x=\"576\" y=\"132\" text-anchor=\"middle\" style=\"font-size:12px\">salaatti</text><rect class=\"v-osa\" x=\"538\" y=\"188\" width=\"76\" height=\"40\" rx=\"6\"/><text class=\"v-t pieni\" x=\"576\" y=\"206\" text-anchor=\"middle\" style=\"font-size:11px\">kastike</text><text class=\"v-t pieni\" x=\"576\" y=\"220\" text-anchor=\"middle\" style=\"font-size:11px\">erikseen</text><rect class=\"v-osa v1\" x=\"402\" y=\"188\" width=\"126\" height=\"40\" rx=\"6\"/><text class=\"v-t pieni\" x=\"465\" y=\"206\" text-anchor=\"middle\" style=\"font-size:11px\">jäädytetty</text><text class=\"v-t pieni\" x=\"465\" y=\"220\" text-anchor=\"middle\" style=\"font-size:11px\">vesipullo</text><text class=\"v-t pieni\" x=\"508\" y=\"258\" text-anchor=\"middle\" style=\"font-size:11px\">Kylmä ilma laskeutuu alaspäin,</text><text class=\"v-t pieni\" x=\"508\" y=\"274\" text-anchor=\"middle\" style=\"font-size:11px\">joten kylmävaraaja kuuluu päälle.</text><line class=\"v-jana\" x1=\"380\" y1=\"66\" x2=\"380\" y2=\"210\"/><path class=\"v-jana\" fill=\"none\" d=\"M374,200 L380,212 L386,200\"/></svg>","teksti":"Vasemmalla täytetyn leivän kerrokset: levite ja salaatinlehti suojaavat leipää täytteen kosteudelta. Oikealla kylmälaukku: kylmävaraaja päällä, kuivat ja kosteat osat omissa rasioissaan ja kastike erikseen."},{"tyyppi":"saanto","otsikko":"Näin rakennat leivän tai tortillan, joka ei vety","askeleet":["Levitä levite ohuelti koko leivän tai tortillan pinnalle reunoja myöten. Rasvainen levite muodostaa kalvon, joka hidastaa kosteuden imeytymistä leipään. Maidottomaksi levitteeksi käy kasvirasvalevite tai esimerkiksi hummus.","Laita leivän ja kostean täytteen väliin salaatinlehti. Kuivaa lehdet pesun jälkeen talouspaperilla.","Pakkaa kosteimmat osat, kuten tomaatti- ja kurkkuviipaleet, omaan rasiaansa tai kahden salaatinlehden väliin keskelle leipää.","Kastikkeet ja salaattikastike kulkevat omassa pienessä rasiassaan, ja ne lisätään vasta syödessä.","Tortillassa täyte laitetaan keskelle, ei reunoille. Taita päädyt sisään ja kääri tortilla tiukaksi rullaksi. Liian runsas kastike valuu ulos ja kastelee tortillan.","Leikkaa leipä tai tortillarulla puoliksi vasta leikkuulaudalla, ei kädessä. Kasvikset leikataan kissan tassu -otteella: sormenpäät taivutettuina terästä poispäin."]},{"tyyppi":"kappale","otsikko":"Salaatti, joka kestää matkan","sisalto":"Lehtisalaatti nahistuu ja vetistyy, jos se on kastikkeessa tunteja. Retkisalaatin pohjaksi sopivat paremmin kestävät kasvikset, kuten raastettu tai suikaloitu kaali ja porkkana, paprika, herneet ja maissi, sekä pavut, linssit, kypsä pasta tai ohrasuurimot. Kypsä pasta, riisi ja suurimot ovat herkästi pilaantuvia: ne jäähdytetään jääkaapissa ennen salaattiin sekoittamista ja pidetään kylmänä. Salaattikastike pakataan erikseen. Jos salaatissa on kypsää kanaa tai kananmunaa, ne ovat salaatin herkimmät osat ja ratkaisevat, miten kylmänä salaatti on pidettävä."},{"tyyppi":"taulukko","otsikko":"Kun raaka-aine ei sovi: korvaajat","otsikkorivi":["Raaka-aine","Esimerkkikorvaaja","Tarkista"],"rivit":[["Kananmuna ja majoneesi","Papu- tai kikhernetahna, kananmunaton levite","Hummuksessa on usein seesamia, joka on yleinen allergeeni."],["Kypsä kana tai kinkku","Kypsät pavut tai kikherneet, tofu","Tofu on soijaa. Myös kasviproteiini pidetään kylmänä."],["Vehnäleipä tai vehnätortilla","Gluteeniton leipä tai tortilla","Pakkauksessa on merkintä gluteeniton. Gluteeniton osa tehdään ensin puhtailla välineillä."],["Juusto, maitopohjainen levite","Maidoton levite tai kasvipohjainen tuote","Laktoositon ei ole maidoton: maitoallergiselle se ei sovi."],["Pähkinät ja siemenet","Jätetään pois tai korvataan kasviksilla","Pähkinät jätetään yhteisistä eväistä pois, jos ryhmässä on pähkinäallergia."]]},{"tyyppi":"kappale","otsikko":"Rasia vai kertakäyttö: vertaa määrällä","sisalto":"Pakkausratkaisun voi perustella vertaamalla, kuinka paljon kertakäyttöistä jätettä kumpikin tapa tuottaa. Laske jokaisesta tavasta kertakäyttöiset osat, eli osat, jotka menevät käytön jälkeen jätteeksi, ja punnitse ne keittiövaa'alla, jos voit. Esimerkki keksityin luvuin: neljän hengen piknikillä jokainen leipä on muovipussissa, salaatti kertakäyttörasiassa kansineen, kastike annospussissa ja jokaisella on muovihaarukka. Kertakäyttöisiä osia (pussit, rasiat, kannet, annospussit ja haarukat) on 4 + 4 + 4 + 4 + 4 = 20. Sekamallissa salaatti ja kastike ovat uudelleenkäytettävissä rasioissa, haarukat ovat omia ja vain leivät on kääritty leivinpaperiin, joten kertakäyttöisiä osia on 4. Kun kaikki on uudelleenkäytettävissä rasioissa, kertakäyttöisiä osia ei ole. Vertailu on reilu, kun kerrot myös toisen puolen: rasiat pestään, mikä kuluttaa vettä ja energiaa, ja rasian valmistus kuormittaa ympäristöä enemmän kuin yhden pussin. Uudelleenkäytettävä rasia kannattaa siksi silloin, kun sitä käytetään monta kertaa."},{"tyyppi":"pylvaat","otsikko":"Kertakäyttöiset osat neljän hengen piknikillä (keksityt luvut)","pylvaat":[{"nimi":"Kertakäyttö","arvo":20},{"nimi":"Sekamalli","arvo":4},{"nimi":"Rasiat","arvo":0,"korosta":true}],"yksikko":"kpl","teksti":"Esimerkin kolme pakkaustapaa. Omassa vertailussasi lasket oman ratkaisusi osat itse."},{"tyyppi":"ansa","otsikko":"Ansa 1: kylmälaukku ei kylmennä","sisalto":"Kylmälaukku on eriste: se hidastaa lämpenemistä, mutta ei tuota kylmää. Ilman kylmävaraajaa huoneenlämpöinen eväs on kylmälaukussakin huoneenlämpöinen, ja jääkaappikylmäkin eväs lämpenee hiljalleen. Kylmävaraaja kuuluu suunnitelmaan aina, kun eväässä on herkästi pilaantuvaa."},{"tyyppi":"ansa","otsikko":"Ansa 2: tomaatti suoraan leivälle","sisalto":"Tomaatissa ja kurkussa on paljon vettä, ja leikattu pinta päästää sen ulos. Suoraan leivän päällä ne kastelevat leivän muutamassa tunnissa. Levite, salaatinlehti ja erillinen rasia ovat keinot, joilla kostea ja kuiva pysyvät erillään."},{"tyyppi":"ansa","otsikko":"Ansa 3: ”haistan kyllä, jos se on pilalla”","sisalto":"Monet ruokamyrkytyksiä aiheuttavat bakteerit eivät muuta ruoan hajua, makua tai ulkonäköä. Haju kertoo vain osan pilaantumisesta. Turvallisuus ratkeaa siitä, miten kylmänä ruoka on pidetty, ei siitä, miltä se haisee."},{"tyyppi":"ansa","otsikko":"Ansa 4: ”rasia on parempi” ilman lukuja","sisalto":"Väite ilman vertailua jää mielipiteeksi. Kerro, montako kertakäyttöistä osaa tai montako grammaa jätettä kummastakin tavasta syntyy, ja laske ero. Mainitse myös, mitä uudelleenkäytettävä tapa vaatii: pesu ja se, että rasioita käytetään monta kertaa."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Herkästi pilaantuva eväs enintään +6 asteessa koko matkan: jääkaappi, kylmälaukku ja kylmävaraaja päällä.","Kypsä täyte jäähdytetään ennen pakkaamista.","Levite reunoja myöten ja salaatinlehti suojaksi. Kosteat osat ja kastike erikseen.","Haju ei kerro, onko eväs turvallinen.","Vertaa pakkaustapoja määrällä: kappaleet tai grammat ja niiden ero.","Korvaaja aina, kun raaka-aine ei sovi: tarkista pakkausmerkinnät ja tee erityisannos ensin puhtailla välineillä."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Jättää kypsän kanan, keitetyt kananmunat tai muun herkästi pilaantuvan täytteen pöydälle koko työn ajaksi, pakkaa lämpimän täytteen tai jättää valmiin rasian pöydälle jääkaapin sijaan","tehtava":"Valmistus ja pakkaaminen","mita_kertoo":"Oppilas ajattelee kylmäketjun koskevan vain raakaa lihaa. Eväiden riski on kuitenkin kypsissä ja valmiissa täytteissä, jotka syödään kuumentamatta.","mita_tehda":"Kysy, missä kohtaa täyte on ollut lämpimässä ja kauanko eväs on repussa. Ohjaa ottamaan täyte jääkaapista vasta tarvittaessa ja laittamaan valmis rasia heti kylmään. Kriteeri täyttyy, kun oppilas toimii näin pyytämättä."},{"virhe":"Leikkaa kasviksia tai leipää kädessä tai sormet suorina terän edessä, jättää veitsen pöydän reunalle tai jatkaa raastamista sormet terän lähellä","tehtava":"Kasvisten ja leivän leikkaaminen","mita_kertoo":"Veitsen ja raastimen turvallinen käyttö ei vielä ole automaattista, kun huomio on pakkaamisessa. Turvallinen työtapa on osa näyttöä.","mita_tehda":"Keskeytä ja näytä kissan tassu -ote ja leikkuulaudan käyttö. Oppilas jatkaa, kun ote on oikea. Raastamisen lopetus ennen kuin sormet ovat terän lähellä; loppupala käytetään muuhun."},{"virhe":"Laittaa tomaatin tai kurkun suoraan leivälle, kaataa kastikkeen salaatin päälle tai pakkaa kostean ja kuivan samaan rasiaan ilman suojaa","tehtava":"Leivän tai tortillan ja salaatin pakkaaminen","mita_kertoo":"Oppilas pakkaa eväät kuten heti syötävän aterian eikä ennakoi, mitä tunnit repussa tekevät kosteudelle.","mita_tehda":"Palaa kuvaan ja ansaan 2. Kysy, mikä osa kastelee leivän ja miten sen voi pitää erillään. Oppilas korjaa pakkauksen; kriteeri täyttyy, kun kosteat osat ja kastike on erotettu leivästä levitteellä, salaatinlehdellä tai omalla rasialla."},{"virhe":"Kirjoittaa kylmänäpidosta vain ”laukussa” tai ”viileässä” nimeämättä kylmälaukkua, kylmävaraajaa tai jääkaappia, tai suunnitelma ei kata koko matkaa valmistuksesta syömiseen","tehtava":"Kirjallinen suunnitelma kylmänä pitämisestä","mita_kertoo":"Oppilas tietää, että eväs pitää pitää kylmänä, mutta ei vielä erota eristystä ja kylmänlähdettä eikä hahmota ketjua.","mita_tehda":"Pyydä kirjoittamaan ketju kolmena kohtana: missä eväs on ennen lähtöä, matkalla ja ennen syömistä. Ansa 1 auttaa erottamaan kylmälaukun ja kylmävaraajan. Kriteeri täyttyy, kun herkästi pilaantuvat osat on nimetty ja jokaiselle vaiheelle on kylmänä pitämisen keino."},{"virhe":"Vertaa pakkausratkaisua kertakäyttöpakkaukseen ilman määrää (”vähemmän roskaa”) tai laskee vain toisen tavan osat","tehtava":"Jätevertailu","mita_kertoo":"Oppilas tuntee kestävän valinnan suunnan, mutta perustelu jää mielipiteeksi. Kriteeri edellyttää vertailua jätteen määrällä.","mita_tehda":"Anna oppilaan laskea pöydälle kummankin tavan kertakäyttöiset osat tai punnita ne. Hyväksy kappalemäärä tai grammat, kunhan molemmat tavat on laskettu samalla tavalla ja ero on kerrottu."},{"virhe":"Tekee korvaavan annoksen samoilla välineillä yhteisen jälkeen, sekoittaa korvaajan (esimerkiksi laktoositon maidottoman tilalle) tai jättää erityisannoksen merkitsemättä","tehtava":"Erityisannos ja korvaajat","mita_kertoo":"Oppilas tietää, että korvaaja tarvitaan, mutta ei vielä hahmota, että pienikin määrä allergeenia voi riittää oireisiin ja että merkintä on osa turvallisuutta.","mita_tehda":"Palaa taulukkoon korvaajista. Erityisannos tehdään ensin puhtailla välineillä, pakataan omaan rasiaansa ja merkitään. Kriteeri koskee työtapaa: oppilaan ei tarvitse maistaa eikä syödä mitään."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: havainnointitaito. Kartan näyttö alkaa ”Valmistan eväspiknikille…”, ja osaa_kun koskee valmistettua ja pakattua evästä sekä kirjallista suunnitelmaa ja vertailua. Tuotosta ei voi rinnakkaistaa viideksi paperikokeeksi, joten kokeita ei ole ja arviointi tehdään kuudella havainnointikriteerillä.","Taito on osattu, kun (1) leivän tai tortillan ja salaatin kosteat ja kuivat osat on pakattu erilleen (levite, salaatinlehti, oma rasia, kastike erikseen); (2) suunnitelmassa herkästi pilaantuvat täytteet on nimetty ja jokaiselle vaiheelle (ennen lähtöä, matkalla, ennen syömistä) on kylmänä pitämisen keino: jääkaappi, kylmälaukku tai kylmäkassi ja kylmävaraaja; ”viileässä” ei riitä; (3) oppilas vertaa omaa ratkaisuaan kertakäyttöpakkaukseen jätteen määrällä (kappaleet tai grammat molemmista tavoista ja ero); (4) työ tehdään hygieenisesti ja turvallisesti (valmis eväs kylmään, kissan tassu -ote). Suunnitelma ja vertailu hyväksytään omin sanoin. Alla tulostettava lomake.","Ryhmätyö: keittiöryhmä voi valmistaa salaatin yhdessä, mutta jokainen tekee ja pakkaa oman leipänsä tai tortillansa, pakkaa oman salaattiannoksensa ja kirjoittaa oman suunnitelmansa ja vertailunsa. Läpäisy ratkeaa oppilaan omasta pakkauksesta, omasta toiminnasta ja omasta kirjallisesta osuudesta, ei ryhmän lopputuloksesta.","Allergiat ja ruokavaliot: tarkista ryhmän allergiat ennen raaka-ainetilausta. Jätä pähkinät pois. Jos raaka-aine on oppilaalle allergeeni tai hän ei käsittele sitä vakaumuksen tai muun syyn vuoksi, hän tekee saman työvaiheen korvaajalla (taulukko oppilaan sivulla). Kriteeri koskee työtapaa. Maistaminen tai syöminen ei ole näytön ehto, eikä oppilaan omaa ruokavaliota kysytä.","Turvallisuus: kana kannattaa hankkia valmiiksi kypsänä ja kylmänä tai kypsentää ja jäähdyttää edellisellä tunnilla. Jos kananmunat keitetään tunnilla, käsittele kuumaa vettä varovasti ja jäähdytä munat kylmässä vedessä ja sen jälkeen jääkaapissa. Veitset ja raastin kuten Juuresten leikkuupöydässä.","Piknik: jos ulkona syöminen ei sää- tai aikataulusyistä onnistu, eväät säilytetään jääkaapissa ja syödään koulussa. Näyttö ei riipu piknikin toteutumisesta, koska suunnitelma koskee matkaa. Kylmälaukut ja kylmävaraajat ovat koulun; ilman niitä oppilas kirjoittaa suunnitelman niiden varaan.","Kotitehtäviä ei käytetä näyttönä, eikä mikään osa edellytä tietoa kodin tavoista tai välineistä.","Tarkistettavat asiatiedot: helposti pilaantuvan ruoan säilytys enintään +6 °C ja bakteerien lisääntymisen lämpötila-alue noin +6…+60 °C (kartan KO7-TUR-03 mukaisesti; tarkista Ruokaviraston ajantasainen ohje); kylmävaraajan sijoitus päälle; keitetyn riisin ja pastan jäähdyttäminen; hummuksen seesami (tahini). Oppilaan sivulla ei anneta tuntimäärää sille, kauanko eväs saa olla lämpimässä; jos koulu käyttää Ruokaviraston ohjetta, sen voi kertoa suullisesti.","Evässuunnitelman lomake (tulosta tai kopioi vihkoon):<br><svg class=\"vis-svg\" style=\"max-width:640px\" viewBox=\"0 0 640 480\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"tulostettava evässuunnitelman lomake\"><text class=\"v-t vahva\" x=\"20\" y=\"28\" style=\"font-size:16px\">Evässuunnitelma</text><text class=\"v-t pieni\" x=\"420\" y=\"28\" style=\"font-size:11px\">Nimi: ____________________</text><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"46\" width=\"608\" height=\"76\" rx=\"4\"/><text class=\"v-t\" x=\"26\" y=\"64\" style=\"font-size:12px\">1. Mitä valmistin (leivät tai tortillat ja salaatti) ja kenelle tein erityisannoksen</text><line class=\"v-apu\" x1=\"26\" y1=\"84\" x2=\"614\" y2=\"84\"/><line class=\"v-apu\" x1=\"26\" y1=\"106\" x2=\"614\" y2=\"106\"/><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"132\" width=\"608\" height=\"76\" rx=\"4\"/><text class=\"v-t\" x=\"26\" y=\"150\" style=\"font-size:12px\">2. Miten kostea ja kuiva on pidetty erillään (leipä, salaatti, kastike)</text><line class=\"v-apu\" x1=\"26\" y1=\"170\" x2=\"614\" y2=\"170\"/><line class=\"v-apu\" x1=\"26\" y1=\"192\" x2=\"614\" y2=\"192\"/><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"218\" width=\"608\" height=\"98\" rx=\"4\"/><text class=\"v-t\" x=\"26\" y=\"236\" style=\"font-size:12px\">3. Herkästi pilaantuvat osat ja miten ne pidetään kylmänä: ennen lähtöä · matkalla · ennen syömistä</text><line class=\"v-apu\" x1=\"26\" y1=\"256\" x2=\"614\" y2=\"256\"/><line class=\"v-apu\" x1=\"26\" y1=\"278\" x2=\"614\" y2=\"278\"/><line class=\"v-apu\" x1=\"26\" y1=\"300\" x2=\"614\" y2=\"300\"/><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"326\" width=\"608\" height=\"76\" rx=\"4\"/><text class=\"v-t\" x=\"26\" y=\"344\" style=\"font-size:12px\">4. Jätevertailu: kertakäyttö ___ kpl tai ___ g · oma ratkaisu ___ kpl tai ___ g · ero ___</text><line class=\"v-apu\" x1=\"26\" y1=\"364\" x2=\"614\" y2=\"364\"/><line class=\"v-apu\" x1=\"26\" y1=\"386\" x2=\"614\" y2=\"386\"/><rect class=\"v-jana\" fill=\"none\" x=\"16\" y=\"412\" width=\"608\" height=\"54\" rx=\"4\"/><text class=\"v-t\" x=\"26\" y=\"430\" style=\"font-size:12px\">5. Mitä uudelleenkäytettävä ratkaisu vaatii (pesu, käyttökerrat)</text><line class=\"v-apu\" x1=\"26\" y1=\"450\" x2=\"614\" y2=\"450\"/></svg>"]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Herkästi pilaantuva eväs pidetään enintään kuudessa asteessa koko matkan: jääkaapista kylmälaukkuun, kylmävaraaja päälle. Kostea ja kuiva erilleen. Pakkaustapoja verrataan määrällä.","tarvikkeet":"Täysjyväleipää ja tortilloja sekä gluteenittomat vaihtoehdot, levitteet (myös maidoton), kypsä ja kylmä kana tai kananmunat, papu- tai kikhernetahna, salaatinlehtiä, tomaatteja, kurkkua, kaalia, porkkanaa, paprikaa, kypsää pastaa tai papuja, salaattikastikkeen ainekset; uudelleenkäytettävät rasiat ja pienet kastikerasiat, vertailua varten kertakäyttöpusseja, -rasioita ja -haarukoita (näytekappaleet, voi käyttää uudelleen), leivinpaperia; kylmälaukut tai kylmäkassit ja kylmävaraajat, keittiövaaka, merkintätarrat, tulostettu evässuunnitelma.","vaiheet":[{"aika":"10 min","otsikko":"1. tunti: Aloitus","sisalto":"Johdanto. Kysy, mitä repussa tapahtuu leivälle ja kananmunatäytteelle neljän tunnin aikana. Kappale Miksi eväs on riskiruoka ja ansa 3."},{"aika":"15 min","otsikko":"Kylmänä perille ja pakkaaminen","sisalto":"Saanto Kylmänä perille, kuva ja ansa 1. Näytä opettajan pöydällä yksi leipä kerroksittain ja tortillan kääriminen. Ansa 2."},{"aika":"15 min","otsikko":"Jätevertailu ja korvaajat","sisalto":"Kappale Rasia vai kertakäyttö ja pylväskuva. Näytä kertakäyttöosat pöydällä ja laske ne yhdessä. Taulukko korvaajista; sovi erityisannokset ryhmittäin."},{"aika":"5 min","otsikko":"Suunnitelman alku","sisalto":"Oppilaat täyttävät evässuunnitelman kohdat 1 ja 5 ja sopivat ryhmässä, kuka tekee salaatin minkäkin osan."},{"aika":"30 min","otsikko":"2. tunti: Näyttö: valmistus ja pakkaus","sisalto":"Erityisannokset ensin puhtailla välineillä. Jokainen valmistaa ja pakkaa oman leipänsä tai tortillansa ja salaattiannoksensa. Havainnoi kriteerit 1–3 ja 6 työn aikana. Valmiit rasiat merkitään ja laitetaan jääkaappiin."},{"aika":"15 min","otsikko":"Suunnitelma ja vertailu","sisalto":"Oppilaat laskevat tai punnitsevat oman ratkaisunsa ja kertakäyttöversion osat ja täyttävät kohdat 2–4. Siivous ja tiskit. Lomakkeet palautetaan. Eväät syödään piknikillä tai koulussa sovitusti."}]},"huoltajalle":{"mista_on_kyse":"Nuori valmistaa kotitaloustunnilla kylmänä syötävät eväät, täytetyn leivän tai tortillan ja salaatin, ja pakkaa ne niin, ettei leipä vety ja että herkästi pilaantuvat täytteet, kuten kana, kananmuna tai majoneesi, pysyvät kylmänä siihen asti, kun eväät syödään. Lisäksi hän vertaa, kuinka paljon kertakäyttöistä jätettä syntyy uudelleenkäytettävillä rasioilla ja kertakäyttöpakkauksilla. Raaka-aineet ja välineet ovat koulun.","kotona":["Kysykää, miksi tomaatti pakataan erilleen leivästä ja mihin levitettä tarvitaan.","Kysykää, mihin kohtaan kylmälaukkua kylmävaraaja kuuluu ja miksi.","Kysykää, miksi haju ei kerro, onko eväs turvallinen syödä.","Jos nuorella on ruoka-allergia, varmistakaa, että koulu tietää siitä ennen evästuntia."],"milloin_huolestua":"Taito on vahvistava, eli se ei ole edellytys perusopetuksen kotitalouden hyväksytylle suoritukselle. Jos nuori kertoo, ettei tiedä, miten eväs pidetään kylmänä, kannattaa kerrata Kylmäketjun vartija -taitoa yhdessä opettajan kanssa."},"ulkoiset":{},"valmis_teksti":"Hienoa! Osaat tehdä eväät, joissa leipä pysyy kuivana ja herkästi pilaantuva täyte kylmänä koko matkan, ja perustelet pakkausratkaisusi luvuilla."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

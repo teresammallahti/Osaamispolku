@@ -1,0 +1,619 @@
+<title>Joustaako vai rispaako · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KS7-MAT-01","oppiaine":"KS","vuosiluokka":7,"taitoalue":"MAT","jakso":"J1","taso":"ydin","otsikko":"Joustaako vai rispaako","kuvaus":"Osaan tutkia kokeillen neuloksen ja kudoksen ominaisuuksia ja valita niiden perusteella tuotteelle kankaan, langan, neulan ja ompeleen.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T3","T4"],"S":["S3"]},"ikoni":"tutkimus","eyebrow":"Käsityö · 7. luokka","naytto":"Saan neljä nimettyä kangasnäytettä: puuvillatrikoo ja collegekangas (neuloksia) sekä puuvillapalttina ja farkkukangas (kudoksia). Venytän jokaista pitkittäin, poikittain ja vinottain, hankaan leikattua reunaa ja katson, rullautuuko reuna. Kirjaan havainnot taulukkoon. Venytän myös kahta ompelulankaa (puuvillalanka ja polyesterilanka) katkeamiseen asti ja kirjaan, kumpi joustaa enemmän. Ompelen trikoon koetilkkuun suoran ompeleen ja joustavan ompeleen (kapea siksak tai joustotikki) ja venytän molemmat. Lopuksi saan kaksi käyttötarkoitusta (esimerkiksi pipo ja ostoskassi), valitsen kumpaankin kankaan, langan, neulan ja ompeleen ja perustelen valinnat taulukkoni havainnoilla.","osaa_kun":"Kirjaan, että neulos venyy eniten poikittain eli silmukkarivien suuntaan ja palautuu, sileän trikoon reunat rullautuvat mutta eivät juuri rispaannu; kudos ei veny langansuunnissa mutta antaa periksi vinottain, ja sen leikattu reuna rispaantuu. Koetilkussa suora ommel katkeaa venytettäessä ja joustava ei, ja valitsen neulokselle joustavan ompeleen tai saumurin, polyesterilangan (joustaa enemmän kuin puuvillalanka eikä katkea saumaa venytettäessä) ja trikoo- tai stretch-neulan (pyöristetty kärki ei riko silmukoita). Kerron, että kaava asetetaan neulokselle niin, että suurin venyvyys kulkee kehon ympäri. Ero 6. luokkaan: vertailen kankaan rakennetta ja valitsen sen mukaan työtavan, en vain kuitua.","teksti":[{"tyyppi":"johdanto","sisalto":"T-paidan voi vetää pään yli, vaikka pääntie näyttää kapealta. Farkkujen lahjetta et saa venytettyä juuri lainkaan, vaikka molemmat voivat olla sataprosenttista puuvillaa. Ero ei ole kuidussa vaan siinä, miten langat on rakennettu kankaaksi. Tänä vuonna ompelet tuotteen joustavasta neuloksesta, ja neulos käyttäytyy koneessa ja käytössä eri tavalla kuin kudos, jota olet ommellut aiemmin. Tässä taidossa tutkit kokeilemalla neljää kangasta, kahta ompelulankaa ja kahta ommelta. Havaintojesi perusteella valitset tuotteelle kankaan, langan, neulan ja ompeleen ja perustelet valinnan niin, että perustelu nojaa siihen, mitä itse näit."},{"tyyppi":"kappale","otsikko":"Kaksi tapaa rakentaa kangas","sisalto":"<b>Neulos</b> syntyy, kun lanka muodostaa silmukoita, jotka kiertyvät toistensa läpi. Sileän trikoon oikealla puolella silmukat näkyvät pieninä V-kirjaimina, jotka ovat päällekkäin pystyriveissä. Vaakasuora silmukoiden rivi on <b>silmukkarivi</b>, ja pystysuora rivi, jossa silmukat ovat päällekkäin, on <b>silmukkapylväs</b> eli silmukkajono. Kun neulosta venytetään poikittain eli silmukkarivien suuntaan, silmukoiden lenkit muuttavat muotoaan, ja kun veto loppuu, ne palautuvat. Siksi neulos joustaa. <b>Kudos</b> syntyy, kun kaksi lankasarjaa risteää suorassa kulmassa. <b>Loimilangat</b> kulkevat kankaan pituussuunnassa samansuuntaisesti kuin <b>hulpio</b> eli kankaan valmis, purkautumaton reuna, ja <b>kudelangat</b> kulkevat poikittain. Palttinassa kude kulkee vuorotellen loimilangan yli ja ali. Suorat langat eivät juuri veny, mutta vinottain ruudut voivat muuttua vinoneliöiksi, ja kangas antaa periksi. Tämän <b>vinosuunnan</b> vuoksi kudoksesta leikattu kaitale laskeutuu ja taipuu eri tavalla kuin langansuuntainen."},{"tyyppi":"kuva","otsikko":"Neulos ja kudos lähikuvana","svg":"<svg viewBox=\"0 0 620 270\" role=\"img\" aria-label=\"Neuloksen silmukat ja kudoksen loimi ja kude sekä venymisen suunnat\"><text x=\"150\" y=\"22\" class=\"v-t vahva\" text-anchor=\"middle\">Neulos (sileä trikoo)</text><path class=\"v-jana\" fill=\"none\" d=\"M62 48 L73 68 L84 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M92 48 L103 68 L114 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M122 48 L133 68 L144 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M152 48 L163 68 L174 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M182 48 L193 68 L204 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M212 48 L223 68 L234 48\"/><path class=\"v-jana\" fill=\"none\" d=\"M62 72 L73 92 L84 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M92 72 L103 92 L114 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M122 72 L133 92 L144 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M152 72 L163 92 L174 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M182 72 L193 92 L204 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M212 72 L223 92 L234 72\"/><path class=\"v-jana\" fill=\"none\" d=\"M62 96 L73 116 L84 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M92 96 L103 116 L114 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M122 96 L133 116 L144 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M152 96 L163 116 L174 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M182 96 L193 116 L204 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M212 96 L223 116 L234 96\"/><path class=\"v-jana\" fill=\"none\" d=\"M62 120 L73 140 L84 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M92 120 L103 140 L114 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M122 120 L133 140 L144 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M152 120 L163 140 L174 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M182 120 L193 140 L204 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M212 120 L223 140 L234 120\"/><path class=\"v-jana\" fill=\"none\" d=\"M62 144 L73 164 L84 144\"/><path class=\"v-jana\" fill=\"none\" d=\"M92 144 L103 164 L114 144\"/><path class=\"v-jana\" fill=\"none\" d=\"M122 144 L133 164 L144 144\"/><path class=\"v-jana\" fill=\"none\" d=\"M152 144 L163 164 L174 144\"/><path class=\"v-jana\" fill=\"none\" d=\"M182 144 L193 164 L204 144\"/><path class=\"v-jana\" fill=\"none\" d=\"M212 144 L223 164 L234 144\"/><line class=\"v-akseli\" x1=\"60\" y1=\"186\" x2=\"244\" y2=\"186\"/><polygon class=\"v-merkki\" points=\"244.0,186.0 235.0,181.5 235.0,190.5\"/><polygon class=\"v-merkki\" points=\"60.0,186.0 69.0,190.5 69.0,181.5\"/><text x=\"152\" y=\"204\" class=\"v-t pieni\" text-anchor=\"middle\">poikittain eli silmukkarivien suuntaan:</text><text x=\"152\" y=\"219\" class=\"v-t pieni\" text-anchor=\"middle\">venyy eniten ja palautuu</text><line class=\"v-akseli\" x1=\"262\" y1=\"46\" x2=\"262\" y2=\"168\"/><polygon class=\"v-merkki\" points=\"262.0,168.0 266.5,159.0 257.5,159.0\"/><polygon class=\"v-merkki\" points=\"262.0,46.0 257.5,55.0 266.5,55.0\"/><text x=\"270\" y=\"100\" class=\"v-t pieni\" text-anchor=\"start\">pitkittäin</text><text x=\"270\" y=\"115\" class=\"v-t pieni\" text-anchor=\"start\">(silmukat</text><text x=\"270\" y=\"130\" class=\"v-t pieni\" text-anchor=\"start\">pystyriveissä)</text><text x=\"150\" y=\"250\" class=\"v-t pieni\" text-anchor=\"middle\">Silmukat näkyvät oikealla puolella V-kirjaimina.</text><text x=\"470\" y=\"22\" class=\"v-t vahva\" text-anchor=\"middle\">Kudos (palttina)</text><rect class=\"v-osa v1\" x=\"404\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"421\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"438\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"455\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"472\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"489\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"506\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"523\" y=\"48\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"404\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"421\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"438\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"455\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"472\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"489\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"506\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"523\" y=\"65\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"404\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"421\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"438\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"455\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"472\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"489\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"506\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"523\" y=\"82\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"404\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"421\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"438\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"455\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"472\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"489\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"506\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"523\" y=\"99\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"404\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"421\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"438\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"455\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"472\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"489\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"506\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"523\" y=\"116\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"404\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"421\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"438\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"455\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"472\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"489\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"506\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"523\" y=\"133\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"404\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"421\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"438\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"455\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"472\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"489\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa v1\" x=\"506\" y=\"150\" width=\"17\" height=\"17\"/><rect class=\"v-osa\" x=\"523\" y=\"150\" width=\"17\" height=\"17\"/><line class=\"v-akseli\" x1=\"404\" y1=\"48\" x2=\"404\" y2=\"167\" style=\"stroke-width:4\"/><text x=\"396\" y=\"108\" class=\"v-t pieni\" text-anchor=\"end\">hulpio</text><line class=\"v-akseli\" x1=\"556\" y1=\"48\" x2=\"556\" y2=\"167\"/><polygon class=\"v-merkki\" points=\"556.0,167.0 560.5,158.0 551.5,158.0\"/><polygon class=\"v-merkki\" points=\"556.0,48.0 551.5,57.0 560.5,57.0\"/><text x=\"564\" y=\"98\" class=\"v-t pieni\" text-anchor=\"start\">loimi:</text><text x=\"564\" y=\"113\" class=\"v-t pieni\" text-anchor=\"start\">ei veny</text><line class=\"v-akseli\" x1=\"404\" y1=\"185\" x2=\"540\" y2=\"185\"/><polygon class=\"v-merkki\" points=\"540.0,185.0 531.0,180.5 531.0,189.5\"/><polygon class=\"v-merkki\" points=\"404.0,185.0 413.0,189.5 413.0,180.5\"/><text x=\"472\" y=\"203\" class=\"v-t pieni\" text-anchor=\"middle\">kude: ei juuri veny</text><line class=\"v-jana\" x1=\"416\" y1=\"157\" x2=\"528\" y2=\"58\" stroke-dasharray=\"5 4\"/><polygon class=\"v-merkki\" points=\"528.0,58.0 518.3,60.6 524.2,67.3\"/><polygon class=\"v-merkki\" points=\"416.0,157.0 425.7,154.4 419.8,147.7\"/><text x=\"470\" y=\"250\" class=\"v-t pieni\" text-anchor=\"middle\">Vinottain (katkoviiva) kudos antaa periksi.</text></svg>","teksti":"Kaaviokuva, ei mittakaavassa. Neuloksessa suurin venyvyys on poikittain. Kudos ei veny langansuunnissa, mutta antaa periksi vinottain."},{"tyyppi":"taulukko","otsikko":"Kolme koetta jokaiselle kankaalle","otsikkorivi":["Koe","Miten teet","Mitä kirjaat"],"rivit":[["<b>Venytys kolmeen suuntaan</b>","Ota näytteestä kiinni kahdella kädellä noin kymmenen sentin päästä ja vedä tasaisesti, ensin pitkittäin (hulpion tai silmukkapylväiden suuntaan), sitten poikittain ja lopuksi vinottain. Päästä irti ja katso.","Venyikö: ei / vähän / paljon. Palautuiko näyte entiseen mittaansa vai jäikö se pidemmäksi?"],["<b>Reunan hankaus</b>","Hankaa leikattua reunaa peukalolla edestakaisin kymmenkunta kertaa.","Irtoaako reunasta lankoja (rispaantuu) vai pysyykö se koossa?"],["<b>Rullautuminen</b>","Laita näyte pöydälle ja katso leikattuja reunoja. Venytä reunaa hieman ja päästä irti.","Kääntyykö reuna rullalle itsestään vai pysyykö se suorana?"]]},{"tyyppi":"kappale","otsikko":"Mitä kokeista yleensä näkyy","sisalto":"Puuvillatrikoo ja collegekangas ovat neuloksia. Ne venyvät eniten poikittain ja palautuvat, pitkittäin selvästi vähemmän. Sileän trikoon leikatut reunat rullautuvat, mutta niistä ei juuri irtoa lankoja. Collegekankaan nurjalla puolella on pehmeä, nukkainen pinta, ja se on paksumpaa ja tukevampaa kuin trikoo. Puuvillapalttina ja farkkukangas ovat kudoksia. Ne eivät veny loimen eivätkä kuteen suuntaan, mutta vinottain ne antavat periksi. Niiden leikattu reuna rispaantuu hangattaessa, koska irtonaiset langanpäät pääsevät liukumaan pois risteyksistä. Farkkukankaassa langat risteävät vinoina raitoina (toimikas), mutta venymisen suunnat ovat samat kuin palttinassa. Kirjaa silti se, mitä omassa näytteessäsi tapahtuu: kankaat eroavat paksuudeltaan ja viimeistelyltään, ja oma havainto on perustelusi pohja."},{"tyyppi":"kappale","otsikko":"Lanka ja ommel joustavat tai katkeavat","sisalto":"Kun neulossauma venyy käytössä, myös ompelulangan pitää kestää venytys. Vertaat kahta ompelulankaa: puuvillalankaa ja polyesterilankaa. Kiinnitä noin 30 senttimetrin langan päät kahteen kynään kiertämällä ja vedä kynistä tasaisesti, kunnes lanka katkeaa. Älä kiedo lankaa sormiesi ympärille, sillä kireä lanka voi viiltää ihoon. Kirjaa, kumpi lanka ehti venyä enemmän ennen katkeamista. Polyesterilanka joustaa yleensä selvästi enemmän kuin puuvillalanka. Sitten ompeleet: <b>suorassa ompeleessa</b> lanka kulkee kankaassa lähes suorana, eikä sitä ole varalla, joten kun kangas venyy, lanka katkeaa. <b>Kapeassa siksak-ompeleessa</b> ja <b>joustotikissä</b> lanka kulkee mutkitellen tai edestakaisin, ja mutkat oikenevat, kun kangas venyy. Saumuri tekee venyvän sauman samalla periaatteella, koska sen langat kiertävät reunan silmukoina."},{"tyyppi":"kuva","otsikko":"Suora ja joustava ommel venytettynä","svg":"<svg viewBox=\"0 0 620 250\" role=\"img\" aria-label=\"Suora ommel katkeaa venytettäessä, siksak-ommel oikenee\"><text x=\"150\" y=\"22\" class=\"v-t vahva\" text-anchor=\"middle\">Suora ommel</text><text x=\"470\" y=\"22\" class=\"v-t vahva\" text-anchor=\"middle\">Kapea siksak</text><text x=\"10\" y=\"62\" class=\"v-t pieni\" text-anchor=\"start\">levossa</text><rect class=\"v-osa\" x=\"70\" y=\"44\" width=\"170\" height=\"30\" rx=\"3\"/><line class=\"v-jana\" x1=\"78\" y1=\"59\" x2=\"232\" y2=\"59\" stroke-dasharray=\"9 4\"/><rect class=\"v-osa\" x=\"390\" y=\"44\" width=\"170\" height=\"30\" rx=\"3\"/><polyline class=\"v-jana\" fill=\"none\" points=\"398,53 405,65 412,53 419,65 426,53 433,65 440,53 447,65 454,53 461,65 468,53 475,65 482,53 489,65 496,53 503,65 510,53 517,65 524,53 531,65 538,53 545,65 552,53\"/><text x=\"10\" y=\"142\" class=\"v-t pieni\" text-anchor=\"start\">venytetty</text><rect class=\"v-osa\" x=\"70\" y=\"124\" width=\"204\" height=\"30\" rx=\"3\"/><line class=\"v-jana\" x1=\"78\" y1=\"139\" x2=\"146\" y2=\"139\" stroke-dasharray=\"9 4\"/><line class=\"v-jana\" x1=\"166\" y1=\"139\" x2=\"266\" y2=\"139\" stroke-dasharray=\"9 4\"/><line class=\"v-akseli\" x1=\"150\" y1=\"131\" x2=\"162\" y2=\"147\"/><line class=\"v-akseli\" x1=\"162\" y1=\"131\" x2=\"150\" y2=\"147\"/><text x=\"172\" y=\"176\" class=\"v-t pieni\" text-anchor=\"middle\">lanka katkeaa: suorassa ompeleessa</text><text x=\"172\" y=\"191\" class=\"v-t pieni\" text-anchor=\"middle\">ei ole lankaa varalla</text><rect class=\"v-osa\" x=\"390\" y=\"124\" width=\"204\" height=\"30\" rx=\"3\"/><polyline class=\"v-jana\" fill=\"none\" points=\"398.0,133 406.5,139 415.0,133 423.5,139 432.0,133 440.5,139 449.0,133 457.5,139 466.0,133 474.5,139 483.0,133 491.5,139 500.0,133 508.5,139 517.0,133 525.5,139 534.0,133 542.5,139 551.0,133 559.5,139 568.0,133 576.5,139 585.0,133\"/><text x=\"492\" y=\"176\" class=\"v-t pieni\" text-anchor=\"middle\">mutkat oikenevat, lanka</text><text x=\"492\" y=\"191\" class=\"v-t pieni\" text-anchor=\"middle\">ei katkea</text><line class=\"v-akseli\" x1=\"70\" y1=\"214\" x2=\"274\" y2=\"214\"/><polygon class=\"v-merkki\" points=\"274.0,214.0 265.0,209.5 265.0,218.5\"/><polygon class=\"v-merkki\" points=\"70.0,214.0 79.0,218.5 79.0,209.5\"/><line class=\"v-akseli\" x1=\"390\" y1=\"214\" x2=\"594\" y2=\"214\"/><polygon class=\"v-merkki\" points=\"594.0,214.0 585.0,209.5 585.0,218.5\"/><polygon class=\"v-merkki\" points=\"390.0,214.0 399.0,218.5 399.0,209.5\"/><text x=\"310\" y=\"238\" class=\"v-t pieni\" text-anchor=\"middle\">Molempia tilkkuja venytetään saman verran poikittain.</text></svg>","teksti":"Kaaviokuva. Suorassa ompeleessa ei ole lankaa varalla. Siksak-ompeleen mutkat oikenevat, kun kangas venyy."},{"tyyppi":"taulukko","otsikko":"Neula kankaan rakenteen mukaan","otsikkorivi":["Neula","Kärki","Mihin"],"rivit":[["<b>Yleisneula</b>","Kärki on vain hieman pyöristetty, ja se pistää langan läpi tai lankojen välistä.","Kudokset, kuten palttina. Paksuun farkkuun valitaan paksumpi neula tai farkkuneula."],["<b>Trikooneula</b>","Pyöristetty kärki, joka työntää silmukan sivuun eikä riko lankaa.","Neulokset, kuten trikoo ja collegekangas."],["<b>Stretch-neula</b>","Pyöristetty kärki ja muotoilu, joka vähentää hyppääviä tikkejä.","Hyvin joustavat neulokset, joissa on elastaania."]]},{"tyyppi":"saanto","otsikko":"Näin valitset kankaan, langan, neulan ja ompeleen","askeleet":["Kirjoita käyttötarkoituksesta, mitä tuotteen pitää tehdä: pitääkö sen venyä käytössä (mennä pään yli, kiertää kehoa) vai pysyä muodossaan (kantaa painoa, pysyä suorana)?","Valitse rakenne havaintojesi perusteella: venymistä tarvitaan, joten neulos; muodossa pysymistä tarvitaan, joten kudos. Kirjoita perusteluun havainto lomakkeestasi.","Valitse ommel sen mukaan, venyykö sauma käytössä: venyvään saumaan saumuri tai joustava ommel (kapea siksak, joustotikki), venymättömään saumaan suora ommel käy.","Valitse lanka: venyvään saumaan polyesterilanka, koska se joustaa venytyskokeessasi enemmän kuin puuvillalanka.","Valitse neula kankaan rakenteen mukaan: neulokseen trikoo- tai stretch-neula, kudokseen yleisneula.","Kun leikkaat neuloksesta, aseta kaava niin, että suurin venyvyys eli poikittaissuunta kulkee kehon ympäri."]},{"tyyppi":"taulukko","otsikko":"Esimerkki: säärystimet ja työkalurulla","otsikkorivi":["Valinta","Säärystimet","Työkalurulla"],"rivit":[["Mitä tuotteen pitää tehdä","Mennä jalkaan venyen ja pysyä paikallaan.","Pysyä muodossaan, kun taskuissa on painavia työkaluja."],["Kangas ja peruste","Collegekangas: venyi poikittain paljon ja palautui.","Farkkukangas: ei venynyt langansuunnissa."],["Ommel","Saumuri tai kapea siksak, koska sauma venyy jalan ympäri.","Suora ommel, koska sauma ei veny. Leikatut reunat huolitellaan, koska kudos rispaantui."],["Lanka ja neula","Polyesterilanka, trikooneula.","Polyesterilanka (kestävä), paksu yleisneula tai farkkuneula."],["Kaavan suunta","Venymissuunta kulkee säären ympäri.","Langansuunta tuotteen pituussuuntaan, jotta rulla ei vinoudu."]]},{"tyyppi":"saanto","otsikko":"Ompelukone turvallisesti","askeleet":["Ompelet koetilkut koneella vasta, kun opettaja on antanut luvan, ja hänen valvonnassaan.","Katkaise virta pääkytkimestä ennen kuin vaihdat neulan tai paininjalan tai avaat koneen luukkuja. Pelkkä jalkapolkimesta irrottaminen ei riitä.","Pidä sormet neulan ja paininjalan edestä poissa. Ohjaa kangasta molemmin käsin neulan sivuilta.","Poista nuppineulat ennen kuin ne tulevat paininjalan kohdalle. Neulaan osuva nuppineula voi katkaista neulan.","Venytä lankoja vain kynien avulla ja leikkaa langat saksilla. Sakset pöydälle kärki poispäin itsestä."]},{"tyyppi":"ansa","otsikko":"Ansa 1: venytät vain yhteen suuntaan","sisalto":"Trikoo venyy pitkittäin vähän, joten jos kokeilet vain sitä suuntaa, voit kirjata, että trikoo ei juuri jousta. Palttina taas tuntuu vinottain joustavalta, ja voit luulla sitä neulokseksi. Venytä jokaista näytettä kaikkiin kolmeen suuntaan ja kirjaa jokainen suunta erikseen. Suunta, johon kangas venyy eniten, ratkaisee, miten kaava asetetaan."},{"tyyppi":"ansa","otsikko":"Ansa 2: suora ommel näyttää hyvältä","sisalto":"Trikooseen ommeltu suora ommel näyttää valmiina siistiltä, ja se on helpoin ommel. Ero näkyy vasta, kun saumaa venytetään: langat napsahtavat poikki, ja sauma aukeaa ensimmäisellä pukemisella. Venytä jokaista koetilkkua ennen kuin päätät ompeleesta, ja kirjaa, mitä tapahtui."},{"tyyppi":"ansa","otsikko":"Ansa 3: yleisneula neulokseen","sisalto":"Koneessa on valmiina yleisneula, ja sen vaihtaminen tuntuu turhalta. Neuloksessa terävä kärki voi rikkoa silmukan langan, jolloin saumaan tulee pieniä reikiä tai kone hyppää tikkien yli. Vaihda trikoo- tai stretch-neula virta katkaistuna aina, kun ompelet neulosta."},{"tyyppi":"ansa","otsikko":"Ansa 4: kaava väärään suuntaan","sisalto":"Kaavan voi asettaa neulokselle kahteen suuntaan, ja kangas säästyisi joskus toisessa suunnassa. Jos pipon kaava asetetaan niin, että vähän venyvä pituussuunta kulkee pään ympäri, pipo ei mene päähän. Tarkista ennen leikkaamista, että suurin venyvyys kulkee kehon ympäri."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Neulos: silmukat, venyy eniten poikittain ja palautuu, reuna rullautuu mutta ei juuri rispaannu.","Kudos: loimi ja kude, ei veny langansuunnissa, antaa periksi vinottain, reuna rispaantuu.","Venyvään saumaan saumuri tai joustava ommel ja polyesterilanka. Suora ommel katkeaa venytettäessä.","Neulokseen trikoo- tai stretch-neula: pyöristetty kärki ei riko silmukoita.","Neuloksen suurin venyvyys kulkee kehon ympäri.","Perustele valinta omalla havainnolla. Ompelukone vain luvalla ja valvonnassa, virta pois neulaa vaihdettaessa."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Venyttää näytettä vain yhteen suuntaan tai kirjaa venymisen yhdellä merkinnällä koko näytteelle, eikä lomakkeesta näe, mihin suuntaan kangas venyy eniten.","tehtava":"Näyttö: venytyskokeet ja havaintolomake","mita_kertoo":"Oppilas pitää venymistä kankaan yhtenä ominaisuutena eikä vielä suunnasta riippuvana. Silloin kaavan asettelukaan ei perustu havaintoon.","mita_tehda":"Anna trikoonäyte käteen ja pyydä venyttämään pitkittäin ja poikittain peräkkäin. Kysy, kumpaan suuntaan se venyi enemmän ja mihin suuntaan se pitäisi asettaa pipossa. Oppilas täydentää lomakkeen jokaisesta suunnasta."},{"virhe":"Luokittelee kankaan neulokseksi tai kudokseksi tuntuman tai paksuuden perusteella, esimerkiksi pitää farkkua vinottaisen joustonsa vuoksi neuloksena tai collegekangasta paksuutensa vuoksi kudoksena.","tehtava":"Näyttö: neulos vai kudos","mita_kertoo":"Oppilas ei vielä yhdistä rakennetta havaittavaan tuntomerkkiin: silmukoihin, langansuuntaiseen venymättömyyteen ja rispaantumiseen.","mita_tehda":"Pyydä katsomaan näytettä läheltä tai suurennuslasilla: näkyykö V-kirjaimia vai risteäviä lankoja? Pyydä sitten venyttämään langansuuntaan ja hankaamaan reunaa. Hyväksy luokittelu, jonka oppilas perustelee vähintään yhdellä näistä tuntomerkeistä."},{"virhe":"Ei venytä koetilkun ompeleita tai kirjaa suoran ompeleen kestäneen, koska se näytti valmiina hyvältä, ja valitsee venyvään saumaan suoran ompeleen.","tehtava":"Näyttö: ompeleiden vertailu ja valinta","mita_kertoo":"Oppilas arvioi ommelta ulkonäöstä eikä toiminnasta. Kriteeri edellyttää, että suora ommel katkeaa ja joustava kestää, ja että valinta seuraa siitä.","mita_tehda":"Pyydä venyttämään molempia ompeleita poikittain saman verran ja katsomaan langat läheltä. Kysy, mitä pukemisessa tapahtuisi saumalle. Oppilas korjaa valintansa ja kirjaa havainnon."},{"virhe":"Valitsee langan tai neulan ilman perustetta tai väärin: puuvillalanka venyvään saumaan, yleisneula neulokseen, tai ei osaa sanoa, mitä trikooneulan pyöristetty kärki tekee.","tehtava":"Näyttö: langan ja neulan valinta","mita_kertoo":"Kankaan valinta on hallussa, mutta oppilas ei vielä ulota rakenteen ajattelua tarvikkeisiin. Juuri lanka ja neula ratkaisevat, kestääkö neulossauma.","mita_tehda":"Palaa lankojen venytyskokeeseen: kumpi lanka venyi enemmän? Näytä yleisneulan ja trikooneulan kärjet suurennuslasilla ja kysy, kumpi työntää silmukan sivuun. Hyväksy perustelu omin sanoin."},{"virhe":"Perustelee valinnan tuntumalla, värillä tai tottumuksella (\"pehmeä\", \"näyttää kivalta\", \"pipot ovat aina trikoota\") eikä viittaa omaan havaintolomakkeeseensa, tai valitsee ostoskassiin neuloksen ilman perustetta.","tehtava":"Näyttö: kaksi käyttötarkoitusta ja perustelut","mita_kertoo":"Oppilas tietää valmiin tuotteen tavallisen materiaalin, mutta valinnan ja tutkimuksen yhteys puuttuu. 7. luokan kriteeri vaatii perustelun havainnoista.","mita_tehda":"Pyydä kirjoittamaan, mitä tuotteen pitää tehdä (venyä vai pysyä muodossaan), ja osoittamaan lomakkeesta havainto, joka kertoo siitä. Hyväksy myös epätavallinen valinta, jos se on perusteltu havainnolla eikä ole ristiriidassa havaintojen kanssa."},{"virhe":"Ompelee koetilkkuja ilman lupaa, vaihtaa neulan virta päällä, pitää sormia paininjalan edessä, ompelee nuppineulojen yli tai kiertää lankaa sormien ympärille venytyskokeessa.","tehtava":"Työturvallisuus koko näytön ajan","mita_kertoo":"Oppilas ei vielä noudata koneen ja välineiden turvaohjetta. Tämä on turvallisuusasia eikä pelkkä arvioinnin kohta.","mita_tehda":"Pysäytä työ heti ja käy ohje läpi kohta kohdalta koneen äärellä. Oppilas jatkaa vasta, kun hän on näyttänyt virran katkaisun ja kertonut, miksi nuppineulat poistetaan. Lankakoe tehdään kynien avulla. Kriteeri täyttyy, kun loppunäyttö tehdään ohjeen mukaan."}],"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Venytä kolmeen suuntaan, kirjaa, mitä näit. Rakenne ratkaisee, ei kuitu. Ompelukone vain luvalla, virta pois neulaa vaihtaessa.","vaiheet":[{"aika":"10 min","otsikko":"Aloitus (1. tunti)","sisalto":"Venytä luokan nähden puuvillaista T-paitaa ja farkkukangasta. Kysy, miksi sama kuitu käyttäytyy eri tavalla. Kerro, että tänään tutkitaan rakennetta ja valitaan sen mukaan neulostuotteen kangas, lanka, neula ja ommel."},{"aika":"10 min","otsikko":"Neulos ja kudos","sisalto":"Käy läpi silmukka, silmukkarivi, loimi, kude, hulpio ja vinosuunta. Näytä näytteet suurennuslasilla. Jaa havaintolomakkeet (tulostettava pohja huomioissa)."},{"aika":"20 min","otsikko":"Venytys, hankaus ja rullautuminen","sisalto":"Jokainen tutkii neljä näytettä ja kirjaa havainnot lomakkeeseen suunta kerrallaan. Kierrä ja kysy: mihin suuntaan tämä venyi eniten?"},{"aika":"5 min","otsikko":"Lopetus (1. tunti)","sisalto":"Kaksi oppilasta kertoo, mikä yllätti. Lomakkeet ja näytteet talteen."},{"aika":"10 min","otsikko":"Lankakoe (2. tunti)","sisalto":"Näytä lankakoe kynien avulla ja kerro, miksi lankaa ei kierretä sormiin. Oppilaat vertaavat puuvilla- ja polyesterilankaa ja kirjaavat tuloksen."},{"aika":"10 min","otsikko":"Ompeleet ja neulat, turvaohje","sisalto":"Näytä yleis- ja trikooneulan kärjet. Käy ompelukoneen turvaohje läpi ja näytä neulan vaihto virta katkaistuna."},{"aika":"20 min","otsikko":"Koetilkut","sisalto":"Oppilaat ompelevat luvalla ja valvonnassa trikoon koetilkkuun suoran ja joustavan ompeleen trikooneulalla ja venyttävät ne. Kirjaus lomakkeeseen."},{"aika":"5 min","otsikko":"Lopetus (2. tunti)","sisalto":"Koneiden virrat pois, koetilkut nidotaan lomakkeeseen."},{"aika":"10 min","otsikko":"Kertaus (3. tunti)","sisalto":"Käy läpi valintaketju ja esimerkki (säärystimet ja työkalurulla). Korosta, että perustelu viittaa omaan lomakkeeseen."},{"aika":"30 min","otsikko":"Näyttö","sisalto":"Jokainen saa kaksi käyttötarkoitusta (eri kuin esimerkin), valitsee kankaan, langan, neulan ja ompeleen ja perustelee kirjallisesti tai suullisesti. Kysy jokaiselta: mihin suuntaan asettaisit kaavan neulokselle?"},{"aika":"5 min","otsikko":"Lopetus (3. tunti)","sisalto":"Kerro, että seuraavaksi valinnat siirtyvät oman neulostuotteen suunnitelmaan (KS7-SUU-01)."}],"tarvikkeet":"Jokaiselle neljä nimettyä näytettä (noin 15 × 15 cm, leikatut reunat): puuvillatrikoo, collegekangas, puuvillapalttina ja farkkukangas ilman elastaania. Puuvilla- ja polyesteriompelulankaa, kaksi kynää per oppilas, trikoopaloja koetilkuiksi, trikoo- ja yleisneuloja, suurennuslaseja, ompelukoneet kapealla siksakilla tai joustotikillä, havaintolomake tulostettuna."},"opettajalle":{"kesto":"Kolme oppituntia, 3 · 45 min, jaksolla J1 ennen suunnitelmaa (KS7-SUU-01). Ensimmäisellä tunnilla kankaiden kokeet, toisella langat ja ompeleet, kolmannella valinta ja perustelu.","huomiot":["Arvioinnin kohde: havaintolomake, jossa neljän näytteen venyminen kolmeen suuntaan, rispaantuminen ja rullautuminen sekä lankojen ja ompeleiden vertailu; kahden käyttötarkoituksen valinnat (kangas, lanka, neula, ommel) ja niiden perustelu lomakkeen havainnoilla; tieto, että neuloksen suurin venyvyys asetetaan kulkemaan kehon ympäri. Perustelu suullisesti tai kirjallisesti; kirjoitusasua ja koetilkun siisteyttä ei arvioida.","Käyttötarkoitukset näyttöön (eri kuin tekstin säärystimet ja työkalurulla): kartan esimerkkipari pipo (neulos: trikoo tai college, saumuri tai joustava ommel, polyesterilanka, trikooneula, venymissuunta pään ympäri) ja ostoskassi (kudos: palttina tai farkku, suora ommel, huolitellut reunat, yleisneula tai farkkuneula). Muita pareja: urheilupaidan hiha ja esiliina, kaulaputki ja kynäpenaali. Hyväksy perusteltu poikkeava valinta, jos se ei ole ristiriidassa havaintojen kanssa (esimerkiksi collegekassi on mahdollinen, jos oppilas kertoo, että kassi venyy ja ottaa sen huomioon).","Turvallisuus: ompelukonetta käytetään vain opettajan luvalla ja valvonnassa; virta katkaistaan pääkytkimestä ennen neulan tai paininjalan vaihtoa; sormet pois neulan ja paininjalan edestä; nuppineulat poistetaan ennen paininjalkaa. Lankakoe tehdään kynien tai puikkojen avulla, ei sormien ympärille kierrettynä, koska kireä polyesterilanka voi viiltää. Koneen säätöjä ei vielä opeteta (saumuri ja differentiaalisyöttö kuuluvat taitoon KS7-PEH-02). Jos koulun ohje ei salli oppilaiden käyttää konetta tässä vaiheessa, opettaja ompelee koetilkut näytöksenä ja oppilas venyttää ja kirjaa ne itse; kirjaa varamuoto.","Näytteet: farkkukangas ilman elastaania (stretch-farkku venyy ja sekoittaa kokeen). Tarkista trikoon ja collegekankaan kuitusisältö; elastaanipitoinen trikoo käy, mutta silloin stretch-neula on perusteltu valinta. Näytteiden leikatut reunat jätetään huolittelematta.","Taito jatkaa taitoja KS5-MAT-02 (neuloksen ja kudoksen rakenne) ja KS6-MAT-01 (kuitujen vertailu) eikä toista niitä: kuidun ja rakenteen ero kerrataan yhdellä lauseella. Uutta on suuntiin perustuva vertailu, rispaantuminen ja rullautuminen sekä langan, neulan ja ompeleen valinta. Espoon T3:n \"erilaisia lankoja\" katetaan ompelulankojen vertailulla (KS7:n avoin asia 11).","Tarkistettavat asiatiedot: silmukkarivi- ja silmukkapylväs-termien (silmukkapylväs = silmukkajono, jota KS7-PEH-01 käyttää langansuunnasta) käyttö koulun oppikirjan mukaisesti; polyesteriompelulangan suurempi venymä puuvillalankaan verrattuna (riippuu langan valmistuksesta, esimerkiksi merseroitu puuvillalanka); stretch-neulan kuvaus (vähentää hyppääviä tikkejä elastaanipitoisissa kankaissa) neulavalmistajan ohjeen mukaan; collegekankaan rullautuminen vaihtelee laadun mukaan.","<b>Tulostettava havaintolomake</b> (yksi jokaiselle oppilaalle; koetilkut nidotaan lomakkeeseen):<br><svg class=\"vis-svg\" style=\"max-width:640px;width:100%\" viewBox=\"0 0 620 340\" role=\"img\" aria-label=\"Tulostettava havaintolomake\"><text x=\"10\" y=\"20\" class=\"v-t vahva\" text-anchor=\"start\">Havaintolomake: neulos ja kudos</text><text x=\"10\" y=\"38\" class=\"v-t pieni\" text-anchor=\"start\">Kirjaa venymiseen: ei veny / vähän / paljon, ja palautuuko.</text><rect class=\"v-osa\" x=\"10\" y=\"50\" width=\"120\" height=\"30\"/><text x=\"14\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Kangas</text><rect class=\"v-osa\" x=\"130\" y=\"50\" width=\"80\" height=\"30\"/><text x=\"134\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Neulos vai</text><text x=\"134\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">kudos</text><rect class=\"v-osa\" x=\"210\" y=\"50\" width=\"72\" height=\"30\"/><text x=\"214\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Venyy</text><text x=\"214\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">pitkittäin</text><rect class=\"v-osa\" x=\"282\" y=\"50\" width=\"72\" height=\"30\"/><text x=\"286\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Venyy</text><text x=\"286\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">poikittain</text><rect class=\"v-osa\" x=\"354\" y=\"50\" width=\"72\" height=\"30\"/><text x=\"358\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Venyy</text><text x=\"358\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">vinottain</text><rect class=\"v-osa\" x=\"426\" y=\"50\" width=\"92\" height=\"30\"/><text x=\"430\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Hankaus:</text><text x=\"430\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">rispaako?</text><rect class=\"v-osa\" x=\"518\" y=\"50\" width=\"92\" height=\"30\"/><text x=\"522\" y=\"63\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">Rullautuuko</text><text x=\"522\" y=\"75\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10px\">reuna?</text><rect class=\"v-tyhja\" x=\"10\" y=\"80\" width=\"120\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><text x=\"14\" y=\"100\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">puuvillatrikoo</text><rect class=\"v-tyhja\" x=\"130\" y=\"80\" width=\"80\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"210\" y=\"80\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"282\" y=\"80\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"354\" y=\"80\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"426\" y=\"80\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"518\" y=\"80\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"10\" y=\"112\" width=\"120\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><text x=\"14\" y=\"132\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">collegekangas</text><rect class=\"v-tyhja\" x=\"130\" y=\"112\" width=\"80\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"210\" y=\"112\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"282\" y=\"112\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"354\" y=\"112\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"426\" y=\"112\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"518\" y=\"112\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"10\" y=\"144\" width=\"120\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><text x=\"14\" y=\"164\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">puuvillapalttina</text><rect class=\"v-tyhja\" x=\"130\" y=\"144\" width=\"80\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"210\" y=\"144\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"282\" y=\"144\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"354\" y=\"144\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"426\" y=\"144\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"518\" y=\"144\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"10\" y=\"176\" width=\"120\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><text x=\"14\" y=\"196\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:10.5px\">farkkukangas</text><rect class=\"v-tyhja\" x=\"130\" y=\"176\" width=\"80\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"210\" y=\"176\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"282\" y=\"176\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"354\" y=\"176\" width=\"72\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"426\" y=\"176\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><rect class=\"v-tyhja\" x=\"518\" y=\"176\" width=\"92\" height=\"32\" style=\"fill:none;stroke:currentColor;stroke-width:0.8\"/><text x=\"10\" y=\"230\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">Langat: kumpi venyi enemmän ennen katkeamista?  puuvillalanka / polyesterilanka</text><text x=\"10\" y=\"254\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">Trikoon koetilkku: suora ommel venytettynä ____________   joustava ommel venytettynä ____________</text><text x=\"10\" y=\"278\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">Käyttötarkoitus 1: ________  kangas ______  lanka ______  neula ______  ommel ______</text><text x=\"10\" y=\"302\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">Käyttötarkoitus 2: ________  kangas ______  lanka ______  neula ______  ommel ______</text><text x=\"10\" y=\"326\" class=\"v-t pieni\" text-anchor=\"start\" style=\"font-size:11px\">Perustelu (viittaa lomakkeen havaintoon) kääntöpuolelle.</text></svg>"]},"huoltajalle":{"mista_on_kyse":"Nuori tutkii käsityössä neljää kangasta: kahta neulosta (trikoo ja collegekangas) ja kahta kudosta (palttina ja farkku). Hän venyttää niitä kolmeen suuntaan, katsoo, rispaantuuko tai rullautuuko reuna, vertaa kahta ompelulankaa ja ompelee koetilkkuun suoran ja joustavan ompeleen. Havaintojen perusteella hän valitsee tuotteelle kankaan, langan, neulan ja ompeleen. Tämä on 7. luokan perustaito ja pohja oman neulostuotteen suunnittelulle.","kotona":["Kysy, miksi T-paidan pääntie menee pään yli, mutta farkut eivät veny, vaikka molemmat voivat olla puuvillaa.","Pyydä näyttämään jostakin vaatteesta, mihin suuntaan se venyy eniten, ja kertomaan, miksi se on leikattu niin.","Kysy, miksi trikoota ei ommella suoralla ompeleella ja mitä trikooneula tekee eri tavalla kuin tavallinen neula.","Kotona ei tarvita välineitä eikä ompelukonetta: keskustelu ja vaatteiden katsominen riittävät."],"milloin_huolestua":"Tähän taitoon ei yleensä liity huolta. Jos nuori kertoo, ettei uskalla käyttää ompelukonetta, kerro siitä opettajalle: koetilkut voi ommella opettajan vierellä tai opettaja voi ommella ne näytöksenä."},"ulkoiset":{},"valmis_teksti":"Tutkit neulosta ja kudosta kolmeen suuntaan, vertasit lankoja ja ompeleita ja valitsit havaintojesi perusteella kankaan, langan, neulan ja ompeleen kahteen tuotteeseen. Tiedät nyt, miksi neulossauma ommellaan joustavasti ja miten kaava asetetaan. Taito on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,619 @@
+<title>Pakkausmerkintöjen lukija · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KO7-KUL-01","oppiaine":"KO","vuosiluokka":7,"taitoalue":"KUL","jakso":"J2","taso":"ydin","otsikko":"Pakkausmerkintöjen lukija","kuvaus":"Osaan lukea elintarvikepakkauksesta ainesosaluettelon, allergeenit, ravintoarvot, päiväysmerkinnän ja alkuperän ja käyttää tietoja valinnassa.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T11","T10","T3"],"S":["S1","S3"]},"eyebrow":"Kotitalous · 7. luokka","ikoni":"lukeminen","naytto":"Saan kolme elintarvikepakkausta tai niiden kuvat. Paperikokeessa etsin jokaisesta allergeenit, kerron ainesosaluettelon perusteella, mitä tuotteessa on eniten, vertailen kahden tuotteen sokeri- tai suolamäärää, etsin yhdestä pakkauksesta alkuperämaan ja selitän, mitä tuotteelle saa tehdä viimeisen käyttöpäivän ja mitä parasta ennen -päiväyksen jälkeen.","osaa_kun":"Tiedän, että ainesosat luetellaan suurimmasta määrästä pienimpään ja allergeenit on korostettu luettelossa esimerkiksi lihavoinnilla, vertailen ravintoarvoja samasta määrästä (100 g) enkä eri kokoisista annoksista, ja erotan, että viimeisen käyttöpäivän jälkeen tuotetta ei käytetä, kun taas parasta ennen -päiväyksen ylittäneen tuotteen voi arvioida aistein.","teksti":[{"tyyppi":"johdanto","sisalto":"Luokka valmistaa välipalan retkelle. Ryhmän keksitty jäsen Saana on maitoallerginen, ja kaupan hyllyssä on kolme melkein samannäköistä keksipakettia. Kuvan perusteella et tiedä, mikä niistä sopii hänelle, mutta pakkauksen takapuoli kertoo sen. Tässä taidossa opit lukemaan elintarvikepakkauksesta viisi asiaa: ainesosaluettelon, allergeenit, ravintoarvot, päiväysmerkinnän ja alkuperän. Edellisessä taidossa (Kylmäketjun vartija) opit, miksi helposti pilaantuva ruoka pidetään kylmänä. Nyt opit, mitä pakkauksen päiväys siitä kertoo."},{"tyyppi":"kappale","otsikko":"Mitä pakkauksessa on pakko kertoa","sisalto":"Pakatun elintarvikkeen merkinnät määrää EU:n elintarviketietoasetus, ja Suomessa niitä valvoo Ruokavirasto. Pakkauksessa on oltava ainakin tuotteen nimi, <b>ainesosaluettelo</b> ja siinä korostetut allergeenit, nettomäärä (esimerkiksi 500 g), <b>päiväysmerkintä</b>, säilytysohje, kun tuote vaatii erityistä säilytystä, valmistajan tai pakkaajan nimi ja osoite sekä <b>ravintoarvoilmoitus</b>. Alkuperämaa on kerrottava esimerkiksi tuoreesta lihasta, kalasta, hedelmistä ja vihanneksista sekä aina silloin, kun ostaja voisi muuten erehtyä tuotteen alkuperästä. Merkinnät ovat ostajan apuväline: niiden avulla vertaat tuotteita ilman, että sinun tarvitsee maistaa tai arvata."},{"tyyppi":"kuva","otsikko":"Pakkauksen takapuoli: viisi kohtaa","svg":"<svg viewBox=\"0 0 640 300\" role=\"img\" aria-label=\"Keksityn tomaattikeiton pakkauksen takapuoli, jossa merkinnät on numeroitu\"><rect class=\"v-kehys\" x=\"8\" y=\"10\" width=\"470\" height=\"256\" rx=\"8\"/><text x=\"22\" y=\"34\" class=\"v-t vahva\" style=\"font-size:12px\">TOMAATTIKEITTO 500 g</text><text x=\"22\" y=\"60\" class=\"v-t pieni\" style=\"font-size:12px\">Ainesosat: vesi, tomaatti (35 %), sipuli, <tspan style=\"font-weight:700\">kerma</tspan>, </text><text x=\"22\" y=\"78\" class=\"v-t pieni\" style=\"font-size:12px\"><tspan style=\"font-weight:700\">vehnä</tspan>jauho, rypsiöljy, sokeri, suola, <tspan style=\"font-weight:700\">selleri</tspan>, mausteet.</text><text x=\"22\" y=\"110\" class=\"v-t pieni\" style=\"font-size:12px\">Ravintoarvot / 100 g: energia 250 kJ / 60 kcal, rasva 3,0 g,</text><text x=\"22\" y=\"128\" class=\"v-t pieni\" style=\"font-size:12px\">josta tyydyttynyttä 1,5 g, hiilihydraatti 6,5 g, josta sokereita 4,0 g,</text><text x=\"22\" y=\"146\" class=\"v-t pieni\" style=\"font-size:12px\">proteiini 1,2 g, suola 0,7 g. Pakkauksessa 2 annosta à 250 g.</text><text x=\"22\" y=\"178\" class=\"v-t pieni\" style=\"font-size:12px\">Parasta ennen 15.4.2027. Säilytys avaamattomana huoneenlämmössä.</text><text x=\"22\" y=\"196\" class=\"v-t pieni\" style=\"font-size:12px\">Avattuna säilytä jääkaapissa ja käytä 2 vrk:n kuluessa.</text><text x=\"22\" y=\"228\" class=\"v-t pieni\" style=\"font-size:12px\">Valmistettu Suomessa. Tomaatin alkuperä: Espanja.</text><text x=\"22\" y=\"246\" class=\"v-t pieni\" style=\"font-size:12px\">Valmistaja: Keittiökeksintö Oy, Esimerkkikatu 1, Espoo.</text><line class=\"v-apu\" x1=\"480\" y1=\"26\" x2=\"494\" y2=\"26\"/><text x=\"498\" y=\"30\" class=\"v-t\" style=\"font-size:12px\">1 Nimi ja määrä</text><line class=\"v-apu\" x1=\"480\" y1=\"64\" x2=\"494\" y2=\"64\"/><text x=\"498\" y=\"68\" class=\"v-t\" style=\"font-size:12px\">2 Ainesosat, allergeenit</text><line class=\"v-apu\" x1=\"480\" y1=\"124\" x2=\"494\" y2=\"124\"/><text x=\"498\" y=\"128\" class=\"v-t\" style=\"font-size:12px\">3 Ravintoarvot</text><line class=\"v-apu\" x1=\"480\" y1=\"183\" x2=\"494\" y2=\"183\"/><text x=\"498\" y=\"187\" class=\"v-t\" style=\"font-size:12px\">4 Päiväys ja säilytys</text><line class=\"v-apu\" x1=\"480\" y1=\"233\" x2=\"494\" y2=\"233\"/><text x=\"498\" y=\"237\" class=\"v-t\" style=\"font-size:12px\">5 Alkuperä, valmistaja</text><text x=\"243\" y=\"290\" class=\"v-t pieni\" text-anchor=\"middle\" style=\"font-size:11px\">Keksitty tuote. Lihavoidut sanat ovat allergeeneja.</text></svg>","teksti":"Esimerkkinä keksitty tomaattikeitto. Lue kohdat järjestyksessä 1–5, kun tutustut uuteen tuotteeseen."},{"tyyppi":"kappale","otsikko":"Ainesosaluettelo: suurimmasta pienimpään","sisalto":"Ainesosat luetellaan <b>alenevassa painojärjestyksessä</b>: ensimmäistä ainesosaa on tuotteessa eniten, ja määrät pienenevät luettelon loppua kohti, kun ne punnitaan valmistusvaiheessa. Ainesosat, joita on alle 2 %, saa luetella lopussa missä järjestyksessä tahansa. Tomaattikeitossa on siis enemmän vettä kuin tomaattia ja enemmän sipulia kuin sokeria. Jos ainesosa mainitaan tuotteen nimessä tai näkyy pakkauksen kuvassa, sen määrä kerrotaan prosentteina, kuten tomaatti (35 %). Prosentista näet, kuinka paljon nimen raaka-ainetta tuotteessa todella on. Luettelon järjestys kertoo myös piilossa olevan asian: jos sokeri on luettelon kolmantena, tuotteessa on sokeria enemmän kuin kaikkia sen jälkeen lueteltuja ainesosia."},{"tyyppi":"taulukko","otsikko":"EU:ssa merkittävät 14 allergeenia","otsikkorivi":["Allergeeni","Esimerkkejä ainesosaluettelossa"],"rivit":[["Gluteenia sisältävät viljat","vehnä, ruis, ohra, kaura, spelttivehnä"],["Maito (myös laktoositon maito)","maito, kerma, voi, juusto, hera, rahka"],["Kananmuna","kananmuna, munankeltuainen, munanvalkuainen"],["Kala","lohi, turska, anjovis"],["Äyriäiset","katkarapu, rapu"],["Nilviäiset","simpukka, kalmari"],["Maapähkinä","maapähkinä, maapähkinävoi"],["Pähkinät","manteli, hasselpähkinä, cashewpähkinä, saksanpähkinä"],["Soija","soijarouhe, soijalesitiini"],["Selleri","selleri, sellerijuuri"],["Sinappi","sinappi, sinapinsiemen"],["Seesaminsiemen","seesami, tahini"],["Lupiini","lupiinijauho"],["Sulfiitit (rikkidioksidi)","kuivatut hedelmät ja juomat, kun sulfiittia on yli 10 mg/kg"]]},{"tyyppi":"kappale","otsikko":"Allergeenit näkyvät korostettuina","sisalto":"Allergeeni on aine, joka aiheuttaa allergiselle ihmiselle oireita jo pieninä määrinä. Ainesosaluettelossa allergeenit <b>korostetaan</b> niin, että ne erottuvat muusta tekstistä, yleensä lihavoinnilla, isoilla kirjaimilla tai eri värillä. Korostus koskee jokaista kohtaa, jossa allergeeni esiintyy: jos tuotteessa on sekä maitojauhetta että voita, molemmat on korostettu. Huomaa, että allergeenin nimi voi olla ruoan nimi eikä allergeeniryhmän nimi: voi, kerma ja hera ovat maitoa, ja ohra on gluteenia sisältävää viljaa. Luettelon jälkeen voi olla lause <b>”Voi sisältää pieniä määriä …”</b>. Se on valmistajan vapaaehtoinen varoitus siitä, että allergeenia voi päätyä tuotteeseen samalla tuotantolinjalla. Lause ei kuulu ainesosaluetteloon, mutta vakavasti allergiselle se on tärkeä tieto."},{"tyyppi":"ansa","otsikko":"Ansa 1: laktoositon ei ole maidoton","sisalto":"Laktoositon maito on edelleen maitoa: siitä on poistettu tai pilkottu maitosokeri, mutta maidon proteiinit ovat jäljellä. Maitoallergian aiheuttavat juuri proteiinit, joten maitoallergiselle laktoositon tuote ei sovi. Siksi laktoositon maitojauhe on luettelossa korostettu allergeeniksi. Maidoton tuote on eri asia kuin laktoositon tuote."},{"tyyppi":"kappale","otsikko":"Ravintoarvot vertaillaan sadasta grammasta","sisalto":"Ravintoarvoilmoitus kertoo aina, paljonko tuotteen <b>100 grammassa</b> (juomissa 100 millilitrassa) on energiaa, rasvaa, tyydyttynyttä rasvaa, hiilihydraatteja, sokereita, proteiinia ja suolaa. Rivit ”josta tyydyttynyttä” ja ”josta sokereita” ovat yläpuolisen rivin osia: tyydyttynyt rasva on osa kaikesta rasvasta. Moni valmistaja kertoo lisäksi arvot yhtä annosta kohden, mutta annoksen koko on valmistajan päättämä ja vaihtelee tuotteesta toiseen. Kun vertaat kahta tuotetta, vertaa samaa määrää eli sataa grammaa. Annoksen arvon voit laskea itse: kerro 100 gramman arvo annoksen grammamäärällä ja jaa sadalla."},{"tyyppi":"taulukko","otsikko":"Esimerkki: kaksi keksittyä näkkileipää","otsikkorivi":["","Näkkileipä Rapsu","Näkkileipä Ruiskas"],"rivit":[["Annoksen koko","1 leipä = 12 g","1 leipä = 20 g"],["Suola annoksessa","0,18 g","0,24 g"],["Suola 100 g:ssa","1,5 g","1,2 g"]]},{"tyyppi":"ansa","otsikko":"Ansa 2: annos ei ole sama määrä","sisalto":"Taulukon annoksia vertaamalla Ruiskas näyttää suolaisemmalta (0,24 g > 0,18 g). Sadasta grammasta näkee totuuden: Rapsussa on suolaa 1,5 g ja Ruiskaassa 1,2 g, joten Rapsu on suolaisempi. Ero syntyi vain siitä, että Ruiskaan leipä on painavampi. Vertaa siis aina 100 gramman sarakkeita."},{"tyyppi":"taulukko","otsikko":"Kaksi päiväysmerkintää","otsikkorivi":["","Viimeinen käyttöpäivä","Parasta ennen"],"rivit":[["Millaisissa tuotteissa","Helposti pilaantuvat: jauheliha, broileri, tuore kala, leikkeleet","Säilyvät tuotteet: mysli, näkkileipä, säilykkeet, pakasteet"],["Mitä päiväys kertoo","Viimeinen päivä, jona tuote on turvallinen syödä","Päivä, johon asti valmistaja lupaa tuotteen laadun säilyvän"],["Päiväyksen jälkeen","Ei käytetä. Tuote voi olla vaarallinen, vaikka se näyttäisi ja tuoksuisi hyvältä.","Voi käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta."],["Ehto molemmille","Päiväys pätee avaamattomaan pakkaukseen, joka on säilytetty ohjeen mukaan.","Sama ehto."]]},{"tyyppi":"ansa","otsikko":"Ansa 3: parasta ennen ei ole heitä pois -päivä","sisalto":"Parasta ennen -päiväyksen ylittänyt mysli tai pasta ei muutu vaaralliseksi yhdessä yössä. Jos se heitetään pois tarkistamatta, syntyy turhaa ruokahävikkiä. Viimeinen käyttöpäivä taas ei jousta: ruokamyrkytystä aiheuttavat bakteerit eivät näy eivätkä aina haise. Viimeisenä käyttöpäivänä tuotteen saa vielä käyttää, seuraavana päivänä ei."},{"tyyppi":"kappale","otsikko":"Avattu pakkaus ja säilytysohje","sisalto":"Päiväys koskee avaamatonta pakkausta. Kun pakkaus avataan, ilma ja mikrobit pääsevät tuotteeseen, ja säilyvyys lyhenee. Siksi pakkauksessa voi lukea esimerkiksi ”Avattuna säilyy 3 vrk jääkaapissa”. Laske tällöin avaamispäivään säilyvyyden vuorokaudet: jos purkki avataan 4. päivä ja se säilyy avattuna 3 vrk, se käytetään viimeistään 7. päivä. Jos alkuperäinen päiväys tulee vastaan aiemmin, se on raja. Säilytysohje, kuten ”Säilytys enintään +6 °C”, on osa samaa lupausta: jos ohjetta ei noudateta, päiväyskään ei pidä."},{"tyyppi":"kappale","otsikko":"Alkuperä: valmistusmaa ei aina ole raaka-aineen maa","sisalto":"”Valmistettu Suomessa” kertoo, missä tuote on valmistettu, mutta ei välttämättä sitä, mistä raaka-aineet tulevat. Jos tuotteen tärkeimmän raaka-aineen alkuperä on toinen kuin pakkauksessa näkyvä maa, sekin kerrotaan, esimerkiksi ”Valmistettu Suomessa. Lihan alkuperä: Tanska.” Alkuperän voi haluta tietää monesta syystä: kuljetusmatkan, tuotantotavan tai oman ostopäätöksen perusteeksi. Lue siis aina koko rivi, älä pelkkää lippua tai maan nimeä."},{"tyyppi":"ansa","otsikko":"Ansa 4: suomalainen tehdas, ulkomainen liha","sisalto":"Lause ”Valmistettu Suomessa” ei tarkoita, että liha olisi suomalaista. Etsi rivi, joka kertoo raaka-aineen alkuperän (Lihan alkuperä, Alkuperämaa, Kasvatettu ja teurastettu). Jos sellaista riviä ei ole, valmistusmaa ei kerro raaka-aineen maata."},{"tyyppi":"saanto","otsikko":"Näin luet pakkauksen","askeleet":["Nimi ja määrä: mikä tuote on ja paljonko sitä on (g, ml).","Ainesosaluettelo: mitä on eniten (ensimmäinen ainesosa), ja missä kohdassa sokeri, suola tai rasva on. Prosentti kertoo nimen raaka-aineen määrän.","Allergeenit: etsi korostetut sanat ja lue ”Voi sisältää” -lause. Muista, että voi, kerma ja hera ovat maitoa.","Ravintoarvot: vertaa 100 gramman arvoja, älä annoksia.","Päiväys ja säilytys: viimeinen käyttöpäivä vai parasta ennen, ja mitä pakkaus sanoo avaamisen jälkeen.","Alkuperä: valmistusmaa ja raaka-aineen alkuperä erikseen."]},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Ainesosat ovat painojärjestyksessä: ensimmäistä on eniten.","Allergeenit on korostettu. Laktoositon on yhä maitoa.","Vertaile 100 grammaa, älä annosta.","Viimeinen käyttöpäivä: ei käytetä sen jälkeen. Parasta ennen: arvioi aistein.","Avattu pakkaus: avaamispäivä + säilyvyyden vuorokaudet.","Valmistusmaa ja raaka-aineen alkuperä voivat olla eri maat."]}],"harjoitusryhmat":[{"id":"aines","nimi":"Ainesosat ja allergeenit","info":"Järjestys painon mukaan, prosentit ja korostetut allergeenit."},{"id":"ravinto","nimi":"Ravintoarvot","info":"Vertaa sataa grammaa. Laske annoksen määrä 100 gramman arvosta."},{"id":"paivays","nimi":"Päiväys, säilytys ja alkuperä","info":"Viimeinen käyttöpäivä, parasta ennen, avattu pakkaus ja raaka-aineen alkuperä."}],"ryhmanimet":{"aines":"Ainesosat ja allergeenit","ravinto":"Ravintoarvot","paivays":"Päiväys, alkuperä ja valinta"},"harjoitukset":[{"id":"H01","ryhma":"aines","tyyppi":"luku","kysymys":"Pastakastike 400 g. Ainesosat: tomaatti (68 %), sipuli, <b>kerma</b>, rypsiöljy, sokeri, suola, basilika.\n\nMontako allergeenia ainesosaluettelossa on korostettu?","vastaus":1,"vinkki":"Etsi lihavoidut sanat.","selitys":"Vain kerma on korostettu. Kerma on maitoa."},{"id":"H02","ryhma":"aines","tyyppi":"luku","kysymys":"Pastakastike 400 g. Ainesosat: tomaatti (68 %), sipuli, <b>kerma</b>, rypsiöljy, sokeri, suola, basilika.\n\nMontako ainesosaa kastikkeessa on painon mukaan enemmän kuin sokeria?","vastaus":4,"vinkki":"Ainesosat ovat suurimmasta pienimpään. Laske sokeria edeltävät ainesosat.","selitys":"Sokeria ennen ovat tomaatti, sipuli, kerma ja rypsiöljy, eli neljä ainesosaa."},{"id":"H03","ryhma":"aines","tyyppi":"luku","kysymys":"Karjalanpiirakka 6 kpl. Ainesosat: <b>maito</b>, riisi (24 %), <b>ruis</b>jauho, vesi, <b>vehnä</b>jauho, rypsiöljy, suola, <b>voi</b>.\n\nLuettelossa on neljä korostettua sanaa. Montako eri allergeeniryhmää (esimerkiksi maito tai gluteenia sisältävät viljat) niistä tulee?","vastaus":2,"vinkki":"Mihin ryhmään voi kuuluu? Entä ruis ja vehnä?","selitys":"Maito ja voi ovat samaa ryhmää (maito). Ruis ja vehnä ovat gluteenia sisältäviä viljoja. Ryhmiä on siis kaksi."},{"id":"H04","ryhma":"aines","tyyppi":"luku","kysymys":"Kaurajuoma 1 l. Ainesosat: vesi, <b>kaura</b> (10 %), rypsiöljy, kalsiumfosfaatti, suola, D-vitamiini.\n\nMontako prosenttia juomasta on kauraa?","vastaus":10,"vinkki":"Prosentti on kerrottu kauran perässä.","selitys":"Kauraa on 10 %. Määrä kerrotaan, koska kaura mainitaan tuotteen nimessä."},{"id":"H05","ryhma":"aines","tyyppi":"monivalinta","kysymys":"Mikä väite ainesosaluettelosta pitää paikkansa?","vastaus":1,"vinkki":"Mitä järjestys kertoo?","selitys":"Ainesosat luetellaan alenevassa painojärjestyksessä, joten luettelossa ensimmäisenä olevaa on eniten. Aakkosjärjestys tai terveellisyys ei ratkaise järjestystä.","vaihtoehdot":["Ainesosat ovat aakkosjärjestyksessä.","Luettelon ensimmäistä ainesosaa on tuotteessa eniten.","Terveellisimmät ainesosat luetellaan ensin."]},{"id":"H06","ryhma":"aines","tyyppi":"luku","kysymys":"Keksitty Eetu on maitoallerginen. Hän katsoo neljän tuotteen ainesosat.\n1. Ruisleipä: vesi, <b>ruis</b>jauho, suola, hiiva.\n2. Kaakaojuoma: vesi, laktoositon <b>maito</b>jauhe, sokeri, kaakao.\n3. Perunasose: peruna, <b>kerma</b>, suola.\n4. Omenasose: omena, sokeri, C-vitamiini.\n\nMontako tuotteista ei sovi Eetulle?","vastaus":2,"vinkki":"Laktoositon maito on maitoa. Mitä kerma on?","selitys":"Kaakaojuomassa on laktoositonta maitojauhetta ja perunasoseessa kermaa. Molemmat ovat maitoa, eivätkä sovi maitoallergiselle. Ruisleipä ja omenasose sopivat."},{"id":"H07","ryhma":"aines","tyyppi":"luku","kysymys":"Lue väitteet ”Voi sisältää pieniä määriä pähkinöitä” -lauseesta.\n1. Lause on valmistajan vapaaehtoinen varoitus.\n2. Pähkinä on silloin tuotteen ainesosa.\n3. Lause kertoo, että pähkinää voi päätyä tuotteeseen esimerkiksi samalta tuotantolinjalta.\n4. Lause on tärkeä tieto vakavasti pähkinäallergiselle.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Onko pähkinä luettelossa?","selitys":"Väitteet 1, 3 ja 4 ovat totta. Pähkinä ei ole ainesosa, vaan sitä voi päätyä tuotteeseen vahingossa."},{"id":"H08","ryhma":"ravinto","tyyppi":"luku","kysymys":"Kaurapuuron ravintoarvot / 100 g: energia 280 kJ / 67 kcal, rasva 1,4 g, josta tyydyttynyttä 0,3 g, hiilihydraatti 11 g, josta sokereita 0,5 g, proteiini 2,4 g, suola 0,3 g.\n\nMontako grammaa hiilihydraatteja on 100 grammassa puuroa?","vastaus":11,"vinkki":"Hiilihydraatti on oma rivinsä, sokerit ovat sen osa.","selitys":"Hiilihydraatteja on 11 g. Sokerit (0,5 g) sisältyvät niihin."},{"id":"H09","ryhma":"ravinto","tyyppi":"luku","kysymys":"Kaksi keksittyä ruisleipää.\nLeipä A: suola 1,1 g / 100 g.\nLeipä B: suola 0,8 g / 100 g.\n\nMontako grammaa enemmän suolaa on 100 grammassa suolaisempaa leipää?","vastaus":0.3,"vinkki":"Vähennä pienempi suurempaa.","selitys":"1,1 g − 0,8 g = 0,3 g. Leipä A on suolaisempi."},{"id":"H10","ryhma":"ravinto","tyyppi":"luku","kysymys":"Juustoraasteen pakkauksessa: rasva 26 g / 100 g. Annos on 20 g.\n\nMontako grammaa rasvaa on yhdessä annoksessa?","vastaus":5.2,"vinkki":"Kerro 100 gramman arvo annoksen grammamäärällä ja jaa sadalla.","selitys":"26 g · 20 / 100 = 5,2 g."},{"id":"H11","ryhma":"ravinto","tyyppi":"luku","kysymys":"Tomaattiketsupin pakkauksessa: sokereita 22 g / 100 g. Hampurilaiseen laitetaan 15 g ketsuppia.\n\nMontako grammaa sokeria on 15 grammassa ketsuppia?","vastaus":3.3,"vinkki":"22 · 15 / 100.","selitys":"22 g · 15 / 100 = 3,3 g."},{"id":"H12","ryhma":"ravinto","tyyppi":"monivalinta","kysymys":"Miksi kahden tuotteen ravintoarvoja verrataan sadasta grammasta?","vastaus":2,"vinkki":"Ovatko annokset aina yhtä suuria?","selitys":"Annoksen koon päättää valmistaja, ja se vaihtelee. Vain sama määrä (100 g) tekee vertailusta reilun.","vaihtoehdot":["Koska annoksen arvot ovat usein virheellisiä.","Koska sata grammaa on aina yksi annos.","Koska annosten koot vaihtelevat, ja vain sama määrä on vertailukelpoinen."]},{"id":"H13","ryhma":"ravinto","tyyppi":"luku","kysymys":"Maksapasteijan ravintoarvot / 100 g: rasva 20 g, josta tyydyttynyttä 7,5 g, hiilihydraatti 5,0 g, josta sokereita 1,0 g, proteiini 10 g, suola 1,6 g.\n\nMontako grammaa tyydyttynyttä rasvaa on 100 grammassa?","vastaus":7.5,"vinkki":"Etsi rivi ”josta tyydyttynyttä”.","selitys":"Tyydyttynyttä rasvaa on 7,5 g. Se on osa kaikesta rasvasta (20 g)."},{"id":"H14","ryhma":"paivays","tyyppi":"luku","kysymys":"Tänään on 5.3.\n1. Kevytmaito, viimeinen käyttöpäivä 4.3.\n2. Pasta, parasta ennen 1.3.\n3. Broilerin suikaleet, viimeinen käyttöpäivä 7.3.\n4. Kalapuikot (pakaste), parasta ennen 20.8.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":1,"vinkki":"Vain viimeinen käyttöpäivä on ehdoton raja.","selitys":"Kevytmaidon viimeinen käyttöpäivä oli eilen, joten sitä ei käytetä. Pastan parasta ennen on mennyt, mutta sen voi arvioida aistein."},{"id":"H15","ryhma":"paivays","tyyppi":"luku","kysymys":"Tänään on 18.11.\n1. Riisi, parasta ennen 30.10.\n2. Jauheliha, viimeinen käyttöpäivä 17.11.\n3. Säilykeherneet, parasta ennen 2.11.\n4. Näkkileipä, parasta ennen 1.12.\n5. Kaurahiutaleet, parasta ennen 15.11.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":3,"vinkki":"Etsi parasta ennen -tuotteet, joiden päivä on jo mennyt.","selitys":"Riisi, säilykeherneet ja kaurahiutaleet ovat ylittäneet parasta ennen -päiväyksen. Jauhelihan viimeinen käyttöpäivä on mennyt, joten sitä ei käytetä."},{"id":"H16","ryhma":"paivays","tyyppi":"monivalinta","kysymys":"Jauhelihapaketin viimeinen käyttöpäivä oli eilen. Paketti on ehjä, ja liha näyttää ja tuoksuu normaalilta. Mitä teet?","vastaus":0,"vinkki":"Onko kyse viimeisestä käyttöpäivästä vai parasta ennen -päiväyksestä?","selitys":"Viimeisen käyttöpäivän jälkeen tuotetta ei käytetä. Ruokamyrkytystä aiheuttavat bakteerit eivät näy eivätkä aina haise, joten aistinvarainen arvio ei riitä.","vaihtoehdot":["Heitän lihan pois, koska viimeinen käyttöpäivä on mennyt.","Paistan lihan, koska se näyttää ja tuoksuu normaalilta.","Paistan lihan tavallista pidempään, jolloin se on turvallista."]},{"id":"H17","ryhma":"paivays","tyyppi":"luku","kysymys":"Kermaviilipurkin viimeinen käyttöpäivä on 15.4. Purkissa lukee: ”Avattuna säilyy 3 vrk jääkaapissa.” Purkki avataan 2.4.\n\nMonesko huhtikuuta kermaviili on viimeistään käytettävä?","vastaus":5,"vinkki":"Lisää avaamispäivään säilyvyyden vuorokaudet.","selitys":"2.4. + 3 vrk = 5.4. Avaamisen jälkeen alkuperäinen päiväys (15.4.) ei enää päde, koska 5.4. tulee vastaan ensin."},{"id":"H18","ryhma":"paivays","tyyppi":"luku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Broilerin fileesuikale. Alkuperämaa: Suomi.\n2. Lihapullat. Valmistettu Suomessa. Lihan alkuperä: Puola.\n3. Kinkkuleike. Valmistettu Suomessa suomalaisesta sianlihasta.\n4. Naudan jauheliha. Kasvatettu ja teurastettu: Irlanti. Pakattu Suomessa.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":2,"vinkki":"Valmistusmaa ja lihan alkuperä ovat eri asioita.","selitys":"Broileri (1) ja kinkku (3) ovat suomalaista lihaa. Lihapullien liha on Puolasta ja jauheliha Irlannista, vaikka tuotteet on valmistettu tai pakattu Suomessa."},{"id":"H19","ryhma":"paivays","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Pakastetussa tuotteessa on yleensä parasta ennen -päiväys.\n2. Päiväys koskee myös avattua pakkausta.\n3. Säilytysohje on osa päiväyksen lupausta.\n4. Viimeisenä käyttöpäivänä tuotteen saa vielä käyttää.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Mitä päiväys lupaa ja millä ehdolla?","selitys":"Väitteet 1, 3 ja 4 ovat totta. Päiväys koskee avaamatonta pakkausta, joten väite 2 on väärä."},{"id":"H20","ryhma":"paivays","tyyppi":"luku","kysymys":"Keksitty Aleksi haluaa leikkeleen, jossa on vähiten suolaa.\nLeike 1: suola 2,1 g / 100 g, annos 20 g.\nLeike 2: suola 1,6 g / 100 g, annos 30 g.\nLeike 3: suola 2,4 g / 100 g, annos 15 g.\n\nMontako grammaa suolaa on 100 grammassa vähäsuolaisinta leikettä?","vastaus":1.6,"vinkki":"Vertaa 100 gramman arvoja, älä annoksia.","selitys":"Leike 2 on vähäsuolaisin: 1,6 g / 100 g. Annoskoot eivät vaikuta vertailuun."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään montako, kirjoita vastaukseksi luku. Kun lasket, kirjoita lasku näkyviin ja vastaukseen yksikkö (g). Vastaa sanallisiin tehtäviin kokonaisin virkkein ja perustele pakkausmerkinnällä. Tuotteet, nimet ja henkilöt ovat keksittyjä. Pakkausten allergeenit on lihavoitu.\nPakkaus 1: Kauramysli Aamuhetki 500 g. Ainesosat: <b>kaura</b>hiutaleet (58 %), rusinat (12 %), sokeri, auringonkukansiemenet, laktoositon <b>maito</b>jauhe, <b>hasselpähkinä</b>rouhe (2 %), suola. Ravintoarvot / 100 g: energia 1600 kJ / 380 kcal, rasva 7,5 g, josta tyydyttynyttä 1,4 g, hiilihydraatti 63 g, josta sokereita 18 g, proteiini 11 g, suola 0,2 g. Annos 30 g. Parasta ennen 30.6.2027. Kaura: Suomi. Valmistettu Suomessa.\nPakkaus 2: Granola Rapea 400 g. Ainesosat: <b>kaura</b>hiutaleet (50 %), hunaja (10 %), <b>voi</b>, kookoshiutaleet, <b>manteli</b> (5 %), sokeri, suola. Ravintoarvot / 100 g: energia 1900 kJ / 455 kcal, rasva 19 g, josta tyydyttynyttä 9,5 g, hiilihydraatti 60 g, josta sokereita 12 g, proteiini 9 g, suola 0,4 g. Annos 50 g. Parasta ennen 15.5.2027. Valmistettu Ruotsissa.\nPakkaus 3: Jauhelihapihvit 400 g. Ainesosat: naudanliha (50 %), sianliha (30 %), vesi, korppujauho (<b>vehnä</b>), sipuli, <b>kananmuna</b>jauhe, suola, mausteet. Viimeinen käyttöpäivä 12.12.2026. Säilytys enintään +6 °C. Valmistettu Suomessa. Naudanlihan alkuperä: Suomi. Sianlihan alkuperä: Tanska.","tehtavat":[{"nro":1,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 1 ainesosaluettelossa on korostettu?","vastaus":3},{"nro":2,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 1 on painon mukaan enemmän kuin sokeria?","vastaus":2},{"nro":3,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 2 ainesosaluettelossa on korostettu?","vastaus":3},{"nro":4,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 2 on painon mukaan enemmän kuin voita?","vastaus":2},{"nro":5,"ryhma":"aines","tyyppi":"lasku","kysymys":"Keksitty Ville on maitoallerginen. Montako pakkauksista 1–3 ei sovi hänelle?","vastaus":2},{"nro":6,"ryhma":"aines","tyyppi":"sanallinen","kysymys":"Mitä pakkauksen 3 tuotteessa on eniten? Kerro, mistä pakkausmerkinnästä sen tiedät ja miten merkintä luetaan.","vastaus":"Malliesimerkki: Eniten on naudanlihaa, koska se on ainesosaluettelossa ensimmäisenä. Ainesosat luetellaan painon mukaan suurimmasta määrästä pienimpään, ja prosenttiluku kertoo sen määrän."},{"nro":7,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa sokereita on 100 grammassa pakkauksen 1 tuotetta?","vastaus":18},{"nro":8,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Pakkaukset 1 ja 2 ovat samaa tuoteryhmää. Montako grammaa enemmän sokereita on 100 grammassa sitä tuotetta, jossa sokereita on enemmän?","vastaus":6},{"nro":9,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa suolaa on yhdessä pakkauksen 2 annoksessa (50 g)?","vastaus":0.2},{"nro":10,"ryhma":"ravinto","tyyppi":"sanallinen","kysymys":"Keksitty Oskari laski, että pakkauksen 1 annoksessa (30 g) on sokereita 5,4 g ja pakkauksen 2 annoksessa (50 g) 6 g. Hän päätteli annosten perusteella, kumpi tuote on sokerisempi. Selitä, miksi annoksia ei pidä verrata, ja vertaa tuotteet oikein.","vastaus":"Malliesimerkki: Annokset ovat eri kokoisia (30 g ja 50 g), joten ne eivät ole sama määrä. Vertailu tehdään sadasta grammasta: pakkauksessa 1 sokereita on 18 g / 100 g ja pakkauksessa 2 12 g / 100 g, joten pakkaus 1 on sokerisempi."},{"nro":11,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa tyydyttynyttä rasvaa on 100 grammassa pakkauksen 2 tuotetta?","vastaus":9.5},{"nro":12,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Tänään on 10.12.\n1. Rasvaton maito, viimeinen käyttöpäivä 9.12.\n2. Makaroni, parasta ennen 1.12.\n3. Kalkkunaleike, viimeinen käyttöpäivä 13.12.\n4. Säilykemaissi, parasta ennen 20.11.\n5. Kirjolohifilee, viimeinen käyttöpäivä 8.12.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":2},{"nro":13,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Samat tuotteet kuin tehtävässä 12, tänään on 10.12.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":2},{"nro":14,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Pakkauksessa 1 on parasta ennen -päiväys ja pakkauksessa 3 viimeinen käyttöpäivä. Selitä, mitä kummallekin tuotteelle saa tehdä päiväyksen jälkeen ja miksi merkinnät ovat erilaiset.","vastaus":"Malliesimerkki: Pakkauksen 3 tuote on helposti pilaantuva, joten viimeisen käyttöpäivän jälkeen sitä ei käytetä, vaikka se näyttäisi ja tuoksuisi hyvältä: bakteerit eivät näy. Pakkauksen 1 tuotetta voi parasta ennen -päiväyksen jälkeen käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta. Parasta ennen kertoo laadun säilymisestä, viimeinen käyttöpäivä turvallisuudesta."},{"nro":15,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Kanan koipireidet. Alkuperämaa: Suomi.\n2. Lihakeitto (säilyke). Valmistettu Suomessa. Lihan alkuperä: Brasilia.\n3. Savustettu kinkku. Valmistettu Virossa suomalaisesta sianlihasta.\n4. Lammasmakkara. Valmistettu Suomessa. Lihan alkuperä: Uusi-Seelanti.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":2},{"nro":16,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Ranskankermapurkin viimeinen käyttöpäivä on 28.12. Purkissa lukee: ”Avattuna säilyy 4 vrk jääkaapissa.” Purkki avataan 11. joulukuuta.\n\nMonesko joulukuuta purkki on viimeistään käytettävä?","vastaus":15},{"nro":17,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Keksitty Ronja on pähkinäallerginen. Hän haluaa aamupalalle myslin tai granolan, jossa on mahdollisimman vähän tyydyttynyttä rasvaa. Valitse pakkauksista 1 ja 2 hänelle sopiva tuote tai kerro, ettei kumpikaan sovi. Perustele kahdella pakkausmerkinnällä.","vastaus":"Malliesimerkki: Pakkaus 1 ei sovi, koska siinä on hasselpähkinää, joka on pähkinä. Pakkauksessa 2 on manteli, joka on myös pähkinä. Kumpikaan ei siis sovi Ronjalle, vaikka pakkauksessa 1 on vähemmän tyydyttynyttä rasvaa (1,4 g / 100 g) kuin pakkauksessa 2 (9,5 g / 100 g). Ronjan kannattaa etsiä tuote, jossa ei ole pähkinöitä eikä Voi sisältää pähkinöitä -merkintää."},{"nro":18,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ravintoarvoilmoituksen 100 gramman arvot ovat pakollisia.\n2. Hera on maitoa.\n3. Parasta ennen -päiväyksen jälkeen tuote on aina heitettävä pois.\n4. Valmistettu Suomessa tarkoittaa, että raaka-aineet ovat suomalaisia.\n\nMontako väitteistä on totta?","vastaus":2}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään montako, kirjoita vastaukseksi luku. Kun lasket, kirjoita lasku näkyviin ja vastaukseen yksikkö (g). Vastaa sanallisiin tehtäviin kokonaisin virkkein ja perustele pakkausmerkinnällä. Tuotteet, nimet ja henkilöt ovat keksittyjä. Pakkausten allergeenit on lihavoitu.\nPakkaus 1: Ruisnäkkileipä Ruisrapea 250 g. Ainesosat: täysjyvä<b>ruis</b>jauho (88 %), vesi, laktoositon <b>maito</b>jauhe, suola, hiiva. Ravintoarvot / 100 g: energia 1430 kJ / 340 kcal, rasva 2,0 g, josta tyydyttynyttä 0,3 g, hiilihydraatti 62 g, josta sokereita 3 g, proteiini 10 g, suola 1,1 g. Annos 40 g. Parasta ennen 14.9.2026. Ruis: Suomi. Valmistettu Suomessa.\nPakkaus 2: Seesaminäkkileipä Siemenkas 220 g. Ainesosat: <b>vehnä</b>jauho, <b>seesami</b>nsiemenet (18 %), rypsiöljy, sokeri, <b>hera</b>jauhe, suola, hiiva. Ravintoarvot / 100 g: energia 1880 kJ / 450 kcal, rasva 18 g, josta tyydyttynyttä 2,2 g, hiilihydraatti 56 g, josta sokereita 5 g, proteiini 13 g, suola 1,5 g. Annos 20 g. Parasta ennen 10.10.2026. Valmistettu Saksassa.\nPakkaus 3: Kylmäsavulohi viipaleet 150 g. Ainesosat: <b>lohi</b> (97 %), suola, sokeri, <b>maito</b>proteiini. Viimeinen käyttöpäivä 6.2.2026. Säilytys 0…+3 °C. Valmistettu Suomessa. Lohen alkuperä: Norja, kasvatettu.","tehtavat":[{"nro":1,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 1 ainesosaluettelossa on korostettu?","vastaus":2},{"nro":2,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 1 on painon mukaan enemmän kuin vettä?","vastaus":1},{"nro":3,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 2 ainesosaluettelossa on korostettu?","vastaus":3},{"nro":4,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 2 on painon mukaan enemmän kuin sokeria?","vastaus":3},{"nro":5,"ryhma":"aines","tyyppi":"lasku","kysymys":"Keksitty Ville on maitoallerginen. Montako pakkauksista 1–3 ei sovi hänelle?","vastaus":3},{"nro":6,"ryhma":"aines","tyyppi":"sanallinen","kysymys":"Mitä pakkauksen 3 tuotteessa on eniten? Kerro, mistä pakkausmerkinnästä sen tiedät ja miten merkintä luetaan.","vastaus":"Malliesimerkki: Eniten on lohta, koska se on ainesosaluettelossa ensimmäisenä. Ainesosat luetellaan painon mukaan suurimmasta määrästä pienimpään, ja prosenttiluku kertoo sen määrän."},{"nro":7,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa sokereita on 100 grammassa pakkauksen 1 tuotetta?","vastaus":3},{"nro":8,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Pakkaukset 1 ja 2 ovat samaa tuoteryhmää. Montako grammaa enemmän sokereita on 100 grammassa sitä tuotetta, jossa sokereita on enemmän?","vastaus":2},{"nro":9,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa suolaa on yhdessä pakkauksen 2 annoksessa (20 g)?","vastaus":0.3},{"nro":10,"ryhma":"ravinto","tyyppi":"sanallinen","kysymys":"Keksitty Oskari laski, että pakkauksen 1 annoksessa (40 g) on sokereita 1,2 g ja pakkauksen 2 annoksessa (20 g) 1 g. Hän päätteli annosten perusteella, kumpi tuote on sokerisempi. Selitä, miksi annoksia ei pidä verrata, ja vertaa tuotteet oikein.","vastaus":"Malliesimerkki: Annokset ovat eri kokoisia (40 g ja 20 g), joten ne eivät ole sama määrä. Vertailu tehdään sadasta grammasta: pakkauksessa 1 sokereita on 3 g / 100 g ja pakkauksessa 2 5 g / 100 g, joten pakkaus 2 on sokerisempi."},{"nro":11,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa tyydyttynyttä rasvaa on 100 grammassa pakkauksen 2 tuotetta?","vastaus":2.2},{"nro":12,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Tänään on 3.2.\n1. Kevytmaito, viimeinen käyttöpäivä 2.2.\n2. Spagetti, parasta ennen 29.1.\n3. Broilerinpaisti, viimeinen käyttöpäivä 31.1.\n4. Säilyketomaatti, parasta ennen 15.2.\n5. Lohipala, viimeinen käyttöpäivä 4.2.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":2},{"nro":13,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Samat tuotteet kuin tehtävässä 12, tänään on 3.2.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":1},{"nro":14,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Pakkauksessa 1 on parasta ennen -päiväys ja pakkauksessa 3 viimeinen käyttöpäivä. Selitä, mitä kummallekin tuotteelle saa tehdä päiväyksen jälkeen ja miksi merkinnät ovat erilaiset.","vastaus":"Malliesimerkki: Pakkauksen 3 tuote on helposti pilaantuva, joten viimeisen käyttöpäivän jälkeen sitä ei käytetä, vaikka se näyttäisi ja tuoksuisi hyvältä: bakteerit eivät näy. Pakkauksen 1 tuotetta voi parasta ennen -päiväyksen jälkeen käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta. Parasta ennen kertoo laadun säilymisestä, viimeinen käyttöpäivä turvallisuudesta."},{"nro":15,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Porsaan sisäfilee. Alkuperämaa: Suomi.\n2. Broilerin nuggetit. Valmistettu Suomessa. Lihan alkuperä: Thaimaa.\n3. Naudan paahtopaisti. Kasvatettu ja teurastettu: Suomi. Pakattu Virossa.\n4. Lihapiirakka. Valmistettu Suomessa. Lihan alkuperä: Suomi.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":3},{"nro":16,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Smetanapurkin viimeinen käyttöpäivä on 20.2. Purkissa lukee: ”Avattuna säilyy 3 vrk jääkaapissa.” Purkki avataan 6. helmikuuta.\n\nMonesko helmikuuta purkki on viimeistään käytettävä?","vastaus":9},{"nro":17,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Keksitty Mikael on seesamiallerginen. Hän haluaa näkkileivän, jossa on mahdollisimman vähän suolaa. Valitse pakkauksista 1 ja 2 hänelle sopiva tuote tai kerro, ettei kumpikaan sovi. Perustele kahdella pakkausmerkinnällä.","vastaus":"Malliesimerkki: Mikaelille sopii pakkaus 1. Pakkauksessa 2 on seesaminsiemeniä, joten se ei sovi seesamiallergiselle. Pakkauksessa 1 suolaa on myös vähemmän: 1,1 g / 100 g, kun pakkauksessa 2 sitä on 1,5 g / 100 g."},{"nro":18,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ainesosaluettelossa allergeenit on korostettu.\n2. Pakkauksen annoskoko on aina 100 g.\n3. Kalastettu tai kasvatettu kala kuuluu allergeeneihin.\n4. Ravintoarvoilmoituksen ”josta sokereita” on osa hiilihydraateista.\n\nMontako väitteistä on totta?","vastaus":3}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään montako, kirjoita vastaukseksi luku. Kun lasket, kirjoita lasku näkyviin ja vastaukseen yksikkö (g). Vastaa sanallisiin tehtäviin kokonaisin virkkein ja perustele pakkausmerkinnällä. Tuotteet, nimet ja henkilöt ovat keksittyjä. Pakkausten allergeenit on lihavoitu.\nPakkaus 1: Kaurakeksi Murukka 300 g. Ainesosat: <b>kaura</b>hiutaleet (36 %), maissijauho, sokeri, kasviöljy (palmu, rypsi), laktoositon <b>maito</b>jauhe, nostatusaine (natriumbikarbonaatti), suola. Ravintoarvot / 100 g: energia 2010 kJ / 480 kcal, rasva 21 g, josta tyydyttynyttä 9,0 g, hiilihydraatti 64 g, josta sokereita 24 g, proteiini 7 g, suola 0,6 g. Annos 20 g. Parasta ennen 3.10.2026. Valmistettu Suomessa.\nPakkaus 2: Täysjyväkeksi Jyvä 250 g. Ainesosat: täysjyvä<b>vehnä</b>jauho (55 %), sokeri, rypsiöljy, <b>kerma</b>jauhe, <b>kananmuna</b>, suola. Ravintoarvot / 100 g: energia 1950 kJ / 465 kcal, rasva 18 g, josta tyydyttynyttä 2,8 g, hiilihydraatti 66 g, josta sokereita 19 g, proteiini 8 g, suola 1,0 g. Annos 30 g. Parasta ennen 1.9.2026. Valmistettu Belgiassa.\nPakkaus 3: Broilerin leike 150 g. Ainesosat: broilerinliha (90 %), vesi, suola, perunatärkkelys, dekstroosi, <b>soija</b>proteiini. Viimeinen käyttöpäivä 16.3.2026. Säilytys enintään +6 °C. Valmistettu Suomessa. Broilerin alkuperä: Suomi.","tehtavat":[{"nro":1,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 1 ainesosaluettelossa on korostettu?","vastaus":2},{"nro":2,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 1 on painon mukaan enemmän kuin sokeria?","vastaus":2},{"nro":3,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 2 ainesosaluettelossa on korostettu?","vastaus":3},{"nro":4,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 2 on painon mukaan enemmän kuin rypsiöljyä?","vastaus":2},{"nro":5,"ryhma":"aines","tyyppi":"lasku","kysymys":"Keksitty Ville on maitoallerginen. Montako pakkauksista 1–3 ei sovi hänelle?","vastaus":2},{"nro":6,"ryhma":"aines","tyyppi":"sanallinen","kysymys":"Mitä pakkauksen 3 tuotteessa on eniten? Kerro, mistä pakkausmerkinnästä sen tiedät ja miten merkintä luetaan.","vastaus":"Malliesimerkki: Eniten on broilerinlihaa, koska se on ainesosaluettelossa ensimmäisenä. Ainesosat luetellaan painon mukaan suurimmasta määrästä pienimpään, ja prosenttiluku kertoo sen määrän."},{"nro":7,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa sokereita on 100 grammassa pakkauksen 1 tuotetta?","vastaus":24},{"nro":8,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Pakkaukset 1 ja 2 ovat samaa tuoteryhmää. Montako grammaa enemmän sokereita on 100 grammassa sitä tuotetta, jossa sokereita on enemmän?","vastaus":5},{"nro":9,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa suolaa on yhdessä pakkauksen 2 annoksessa (30 g)?","vastaus":0.3},{"nro":10,"ryhma":"ravinto","tyyppi":"sanallinen","kysymys":"Keksitty Oskari laski, että pakkauksen 1 annoksessa (20 g) on sokereita 4,8 g ja pakkauksen 2 annoksessa (30 g) 5,7 g. Hän päätteli annosten perusteella, kumpi tuote on sokerisempi. Selitä, miksi annoksia ei pidä verrata, ja vertaa tuotteet oikein.","vastaus":"Malliesimerkki: Annokset ovat eri kokoisia (20 g ja 30 g), joten ne eivät ole sama määrä. Vertailu tehdään sadasta grammasta: pakkauksessa 1 sokereita on 24 g / 100 g ja pakkauksessa 2 19 g / 100 g, joten pakkaus 1 on sokerisempi."},{"nro":11,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa tyydyttynyttä rasvaa on 100 grammassa pakkauksen 2 tuotetta?","vastaus":2.8},{"nro":12,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Tänään on 14.3.\n1. Kevytkerma, viimeinen käyttöpäivä 13.3.\n2. Riisi, parasta ennen 2.3.\n3. Nakit, viimeinen käyttöpäivä 15.3.\n4. Säilykepavut, parasta ennen 10.3.\n5. Kirjolohisuikaleet, viimeinen käyttöpäivä 12.3.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":2},{"nro":13,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Samat tuotteet kuin tehtävässä 12, tänään on 14.3.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":2},{"nro":14,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Pakkauksessa 1 on parasta ennen -päiväys ja pakkauksessa 3 viimeinen käyttöpäivä. Selitä, mitä kummallekin tuotteelle saa tehdä päiväyksen jälkeen ja miksi merkinnät ovat erilaiset.","vastaus":"Malliesimerkki: Pakkauksen 3 tuote on helposti pilaantuva, joten viimeisen käyttöpäivän jälkeen sitä ei käytetä, vaikka se näyttäisi ja tuoksuisi hyvältä: bakteerit eivät näy. Pakkauksen 1 tuotetta voi parasta ennen -päiväyksen jälkeen käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta. Parasta ennen kertoo laadun säilymisestä, viimeinen käyttöpäivä turvallisuudesta."},{"nro":15,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Naudan jauheliha. Alkuperämaa: Suomi.\n2. Kanakeitto (säilyke). Valmistettu Suomessa. Lihan alkuperä: Puola.\n3. Porsaan ulkofilee. Kasvatettu ja teurastettu: Tanska. Pakattu Suomessa.\n4. Broilerin fileepihvit. Valmistettu Suomessa. Lihan alkuperä: Brasilia.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":1},{"nro":16,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Kermaviilipurkin viimeinen käyttöpäivä on 30.3. Purkissa lukee: ”Avattuna säilyy 5 vrk jääkaapissa.” Purkki avataan 15. maaliskuuta.\n\nMonesko maaliskuuta purkki on viimeistään käytettävä?","vastaus":20},{"nro":17,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Keksitty Aaro on kananmuna-allerginen. Hän haluaa keksin, jossa on mahdollisimman vähän sokeria. Valitse pakkauksista 1 ja 2 hänelle sopiva tuote tai kerro, ettei kumpikaan sovi. Perustele kahdella pakkausmerkinnällä.","vastaus":"Malliesimerkki: Aarolle sopii pakkaus 1. Pakkauksessa 2 on kananmunaa, joten se ei sovi kananmuna-allergiselle, vaikka siinä on vähemmän sokeria (19 g / 100 g) kuin pakkauksessa 1 (24 g / 100 g). Allergia ratkaisee ennen sokeria."},{"nro":18,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ainesosaluettelon ensimmäistä ainesosaa on tuotteessa eniten.\n2. Voi on maitoa.\n3. Viimeisen käyttöpäivän jälkeen tuotteen voi arvioida aistein.\n4. Laktoositon maito sopii maitoallergiselle.\n\nMontako väitteistä on totta?","vastaus":2}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään montako, kirjoita vastaukseksi luku. Kun lasket, kirjoita lasku näkyviin ja vastaukseen yksikkö (g). Vastaa sanallisiin tehtäviin kokonaisin virkkein ja perustele pakkausmerkinnällä. Tuotteet, nimet ja henkilöt ovat keksittyjä. Pakkausten allergeenit on lihavoitu.\nPakkaus 1: Hedelmäpatukka Hedelmä+ 4 × 35 g. Ainesosat: taatelit (40 %), <b>kaura</b>hiutaleet, kuivatut omenat (15 %), glukoosisiirappi, laktoositon <b>maito</b>jauhe, rypsiöljy, suola. Ravintoarvot / 100 g: energia 1550 kJ / 370 kcal, rasva 6,0 g, josta tyydyttynyttä 0,8 g, hiilihydraatti 70 g, josta sokereita 38 g, proteiini 5 g, suola 0,1 g. Annos 35 g. Parasta ennen 20.11.2026. Valmistettu Suomessa.\nPakkaus 2: Pähkinäpatukka Rouske 3 × 50 g. Ainesosat: <b>maapähkinä</b>t (45 %), glukoosisiirappi, sokeri, <b>juusto</b>jauhe, rypsiöljy, <b>soija</b>lesitiini, suola. Ravintoarvot / 100 g: energia 2080 kJ / 500 kcal, rasva 27 g, josta tyydyttynyttä 4,5 g, hiilihydraatti 46 g, josta sokereita 30 g, proteiini 16 g, suola 0,6 g. Annos 50 g. Parasta ennen 1.12.2026. Valmistettu Alankomaissa. Maapähkinän alkuperä: Argentiina.\nPakkaus 3: Nakit 300 g. Ainesosat: sianliha (70 %), vesi, perunatärkkelys, <b>maito</b>proteiini, suola, mausteet (<b>sinappi</b>). Viimeinen käyttöpäivä 9.5.2026. Säilytys enintään +6 °C. Valmistettu Suomessa. Lihan alkuperä: Suomi.","tehtavat":[{"nro":1,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 1 ainesosaluettelossa on korostettu?","vastaus":2},{"nro":2,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 1 on painon mukaan enemmän kuin glukoosisiirappia?","vastaus":3},{"nro":3,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 2 ainesosaluettelossa on korostettu?","vastaus":3},{"nro":4,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 2 on painon mukaan enemmän kuin sokeria?","vastaus":2},{"nro":5,"ryhma":"aines","tyyppi":"lasku","kysymys":"Keksitty Ville on maitoallerginen. Montako pakkauksista 1–3 ei sovi hänelle?","vastaus":3},{"nro":6,"ryhma":"aines","tyyppi":"sanallinen","kysymys":"Mitä pakkauksen 3 tuotteessa on eniten? Kerro, mistä pakkausmerkinnästä sen tiedät ja miten merkintä luetaan.","vastaus":"Malliesimerkki: Eniten on sianlihaa, koska se on ainesosaluettelossa ensimmäisenä. Ainesosat luetellaan painon mukaan suurimmasta määrästä pienimpään, ja prosenttiluku kertoo sen määrän."},{"nro":7,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa sokereita on 100 grammassa pakkauksen 1 tuotetta?","vastaus":38},{"nro":8,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Pakkaukset 1 ja 2 ovat samaa tuoteryhmää. Montako grammaa enemmän sokereita on 100 grammassa sitä tuotetta, jossa sokereita on enemmän?","vastaus":8},{"nro":9,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa suolaa on yhdessä pakkauksen 2 annoksessa (50 g)?","vastaus":0.3},{"nro":10,"ryhma":"ravinto","tyyppi":"sanallinen","kysymys":"Keksitty Oskari laski, että pakkauksen 1 annoksessa (35 g) on sokereita 13,3 g ja pakkauksen 2 annoksessa (50 g) 15 g. Hän päätteli annosten perusteella, kumpi tuote on sokerisempi. Selitä, miksi annoksia ei pidä verrata, ja vertaa tuotteet oikein.","vastaus":"Malliesimerkki: Annokset ovat eri kokoisia (35 g ja 50 g), joten ne eivät ole sama määrä. Vertailu tehdään sadasta grammasta: pakkauksessa 1 sokereita on 38 g / 100 g ja pakkauksessa 2 30 g / 100 g, joten pakkaus 1 on sokerisempi."},{"nro":11,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa tyydyttynyttä rasvaa on 100 grammassa pakkauksen 2 tuotetta?","vastaus":4.5},{"nro":12,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Tänään on 6.5.\n1. Täysmaito, viimeinen käyttöpäivä 5.5.\n2. Ohrasuurimot, parasta ennen 1.5.\n3. Broilerin koivet, viimeinen käyttöpäivä 4.5.\n4. Säilykeananas, parasta ennen 30.4.\n5. Jauheliha, viimeinen käyttöpäivä 7.5.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":2},{"nro":13,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Samat tuotteet kuin tehtävässä 12, tänään on 6.5.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":2},{"nro":14,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Pakkauksessa 1 on parasta ennen -päiväys ja pakkauksessa 3 viimeinen käyttöpäivä. Selitä, mitä kummallekin tuotteelle saa tehdä päiväyksen jälkeen ja miksi merkinnät ovat erilaiset.","vastaus":"Malliesimerkki: Pakkauksen 3 tuote on helposti pilaantuva, joten viimeisen käyttöpäivän jälkeen sitä ei käytetä, vaikka se näyttäisi ja tuoksuisi hyvältä: bakteerit eivät näy. Pakkauksen 1 tuotetta voi parasta ennen -päiväyksen jälkeen käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta. Parasta ennen kertoo laadun säilymisestä, viimeinen käyttöpäivä turvallisuudesta."},{"nro":15,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Broilerin rintafilee. Alkuperämaa: Suomi.\n2. Lihapullat. Valmistettu Suomessa. Lihan alkuperä: Suomi.\n3. Kinkkusiivu. Valmistettu Suomessa. Lihan alkuperä: Espanja.\n4. Naudan kulmapaisti. Kasvatettu ja teurastettu: Uruguay. Pakattu Suomessa.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":2},{"nro":16,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Jogurttipurkin viimeinen käyttöpäivä on 25.5. Purkissa lukee: ”Avattuna säilyy 4 vrk jääkaapissa.” Purkki avataan 8. toukokuuta.\n\nMonesko toukokuuta purkki on viimeistään käytettävä?","vastaus":12},{"nro":17,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Keksitty Lumi on maapähkinäallerginen. Hän haluaa välipalapatukan, jossa on mahdollisimman vähän suolaa. Valitse pakkauksista 1 ja 2 hänelle sopiva tuote tai kerro, ettei kumpikaan sovi. Perustele kahdella pakkausmerkinnällä.","vastaus":"Malliesimerkki: Lumille sopii pakkaus 1. Pakkauksessa 2 on maapähkinää, joten se ei sovi maapähkinäallergiselle. Pakkauksessa 1 on myös vähemmän suolaa: 0,1 g / 100 g, kun pakkauksessa 2 sitä on 0,6 g / 100 g."},{"nro":18,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ravintoarvoilmoitus kertoo arvot 100 grammaa kohden.\n2. Juusto on maitoa.\n3. Maapähkinä kuuluu samaan allergeeniryhmään kuin manteli.\n4. Alkuperämaa on kerrottava tuoreesta lihasta.\n\nMontako väitteistä on totta?","vastaus":3}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Laskinta ei tarvita. Kun kysytään montako, kirjoita vastaukseksi luku. Kun lasket, kirjoita lasku näkyviin ja vastaukseen yksikkö (g). Vastaa sanallisiin tehtäviin kokonaisin virkkein ja perustele pakkausmerkinnällä. Tuotteet, nimet ja henkilöt ovat keksittyjä. Pakkausten allergeenit on lihavoitu.\nPakkaus 1: Maissihiutaleet Kultahiutale 375 g. Ainesosat: maissi (88 %), sokeri, laktoositon <b>maito</b>jauhe, suola, <b>ohra</b>mallasuute, vitamiinit. Ravintoarvot / 100 g: energia 1600 kJ / 378 kcal, rasva 0,9 g, josta tyydyttynyttä 0,2 g, hiilihydraatti 84 g, josta sokereita 12 g, proteiini 7 g, suola 1,1 g. Annos 50 g. Parasta ennen 31.5.2027. Valmistettu Puolassa.\nPakkaus 2: Vehnämurot Muro 500 g. Ainesosat: täysjyvä<b>vehnä</b> (70 %), sokeri, <b>voi</b>, hunaja, suola, vitamiinit. Ravintoarvot / 100 g: energia 1620 kJ / 383 kcal, rasva 4,0 g, josta tyydyttynyttä 2,4 g, hiilihydraatti 72 g, josta sokereita 15 g, proteiini 10 g, suola 1,0 g. Annos 30 g. Parasta ennen 1.4.2027. Valmistettu Suomessa. Vehnä: Suomi.\nPakkaus 3: Kinkkusuikaleet 200 g. Ainesosat: sianliha (85 %), vesi, suola, dekstroosi, <b>selleri</b>uute. Viimeinen käyttöpäivä 12.10.2026. Säilytys enintään +6 °C. Valmistettu Suomessa. Lihan alkuperä: Suomi.","tehtavat":[{"nro":1,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 1 ainesosaluettelossa on korostettu?","vastaus":2},{"nro":2,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 1 on painon mukaan enemmän kuin sokeria?","vastaus":1},{"nro":3,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako allergeenia pakkauksen 2 ainesosaluettelossa on korostettu?","vastaus":2},{"nro":4,"ryhma":"aines","tyyppi":"lasku","kysymys":"Montako ainesosaa pakkauksessa 2 on painon mukaan enemmän kuin voita?","vastaus":2},{"nro":5,"ryhma":"aines","tyyppi":"lasku","kysymys":"Keksitty Ville on maitoallerginen. Montako pakkauksista 1–3 ei sovi hänelle?","vastaus":2},{"nro":6,"ryhma":"aines","tyyppi":"sanallinen","kysymys":"Mitä pakkauksen 3 tuotteessa on eniten? Kerro, mistä pakkausmerkinnästä sen tiedät ja miten merkintä luetaan.","vastaus":"Malliesimerkki: Eniten on sianlihaa, koska se on ainesosaluettelossa ensimmäisenä. Ainesosat luetellaan painon mukaan suurimmasta määrästä pienimpään, ja prosenttiluku kertoo sen määrän."},{"nro":7,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa sokereita on 100 grammassa pakkauksen 1 tuotetta?","vastaus":12},{"nro":8,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Pakkaukset 1 ja 2 ovat samaa tuoteryhmää. Montako grammaa enemmän sokereita on 100 grammassa sitä tuotetta, jossa sokereita on enemmän?","vastaus":3},{"nro":9,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa suolaa on yhdessä pakkauksen 2 annoksessa (30 g)?","vastaus":0.3},{"nro":10,"ryhma":"ravinto","tyyppi":"sanallinen","kysymys":"Keksitty Oskari laski, että pakkauksen 1 annoksessa (50 g) on sokereita 6 g ja pakkauksen 2 annoksessa (30 g) 4,5 g. Hän päätteli annosten perusteella, kumpi tuote on sokerisempi. Selitä, miksi annoksia ei pidä verrata, ja vertaa tuotteet oikein.","vastaus":"Malliesimerkki: Annokset ovat eri kokoisia (50 g ja 30 g), joten ne eivät ole sama määrä. Vertailu tehdään sadasta grammasta: pakkauksessa 1 sokereita on 12 g / 100 g ja pakkauksessa 2 15 g / 100 g, joten pakkaus 2 on sokerisempi."},{"nro":11,"ryhma":"ravinto","tyyppi":"lasku","kysymys":"Montako grammaa tyydyttynyttä rasvaa on 100 grammassa pakkauksen 2 tuotetta?","vastaus":2.4},{"nro":12,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Tänään on 9.10.\n1. Kevytmaito, viimeinen käyttöpäivä 8.10.\n2. Kaurahiutaleet, parasta ennen 30.9.\n3. Kalkkunasuikaleet, viimeinen käyttöpäivä 10.10.\n4. Säilykeherneet, parasta ennen 1.10.\n5. Broilerin jauheliha, viimeinen käyttöpäivä 7.10.\n\nMontako tuotteista ei saa enää käyttää?","vastaus":2},{"nro":13,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Samat tuotteet kuin tehtävässä 12, tänään on 9.10.\n\nMontako tuotteista on ylittänyt parasta ennen -päiväyksen, mutta niitä voi vielä arvioida aistein?","vastaus":2},{"nro":14,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Pakkauksessa 1 on parasta ennen -päiväys ja pakkauksessa 3 viimeinen käyttöpäivä. Selitä, mitä kummallekin tuotteelle saa tehdä päiväyksen jälkeen ja miksi merkinnät ovat erilaiset.","vastaus":"Malliesimerkki: Pakkauksen 3 tuote on helposti pilaantuva, joten viimeisen käyttöpäivän jälkeen sitä ei käytetä, vaikka se näyttäisi ja tuoksuisi hyvältä: bakteerit eivät näy. Pakkauksen 1 tuotetta voi parasta ennen -päiväyksen jälkeen käyttää, jos pakkaus on ehjä, tuote on säilytetty ohjeen mukaan ja se näyttää, tuoksuu ja maistuu normaalilta. Parasta ennen kertoo laadun säilymisestä, viimeinen käyttöpäivä turvallisuudesta."},{"nro":15,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Neljän tuotteen alkuperätiedot:\n1. Porsaan kassler. Alkuperämaa: Suomi.\n2. Lihakeitto (säilyke). Valmistettu Suomessa. Lihan alkuperä: Puola.\n3. Broilerin siivet. Kasvatettu ja teurastettu: Suomi. Pakattu Suomessa.\n4. Naudan pihvi. Valmistettu Suomessa. Lihan alkuperä: Irlanti.\n\nMontako tuotteista sisältää Suomessa kasvatettua lihaa?","vastaus":2},{"nro":16,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Rahkapurkin viimeinen käyttöpäivä on 27.10. Purkissa lukee: ”Avattuna säilyy 3 vrk jääkaapissa.” Purkki avataan 12. lokakuuta.\n\nMonesko lokakuuta purkki on viimeistään käytettävä?","vastaus":15},{"nro":17,"ryhma":"paivays","tyyppi":"sanallinen","kysymys":"Keksitty Iida on keliaakikko: hän ei voi syödä vehnää, ruista eikä ohraa. Hän haluaa aamiaismurot, joissa on mahdollisimman vähän sokeria. Valitse pakkauksista 1 ja 2 hänelle sopiva tuote tai kerro, ettei kumpikaan sovi. Perustele kahdella pakkausmerkinnällä.","vastaus":"Malliesimerkki: Kumpikaan ei sovi Iidalle. Pakkauksessa 2 on vehnää. Pakkauksessa 1 on vähemmän sokereita (12 g / 100 g, kun pakkauksessa 2 niitä on 15 g / 100 g), mutta siinä on ohramallasuutetta, ja ohra sisältää gluteenia. Iidan kannattaa etsiä tuote, jossa lukee gluteeniton."},{"nro":18,"ryhma":"paivays","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Allergeenit korostetaan ainesosaluettelossa.\n2. Annoksen arvot ovat vertailussa luotettavampia kuin 100 gramman arvot.\n3. Kerma on maitoa.\n4. Avatun pakkauksen säilyvyys voi olla lyhyempi kuin päiväys.\n\nMontako väitteistä on totta?","vastaus":3}]}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: koeperustainen. Kartan näyttö on paperikoe kolmesta pakkauksesta, ja allergeenit, järjestys, ravintoarvot, päiväykset ja alkuperä tuottavat yksikäsitteisiä vastauksia. Pakkausten tiedot ovat kokeen johdannossa (Näin vastaat), joten koe ei tarvitse oikeita pakkauksia. Halutessasi voit lisäksi antaa oikeita pakkauksia tunnilla harjoiteltaviksi. Kokeessa on 18 tehtävää, joista 14 on yksikäsitteisesti numeerisia ja 4 sanallisia (6, 10, 14, 17).","Mittaritehtävät ovat 5, 10 ja 14. Niiden pitää olla oikein. Tehtävä 5 on oikein vain, kun laktoositon maitojauhe ja maidon piilomuoto (voi, hera, kerma tai juusto) on laskettu maidoksi; virhe on maitoallergiselle vaarallinen. Tehtävä 10 on oikein, kun oppilas sanoo, että annokset ovat eri suuria, ja vertaa 100 gramman arvoja oikein päin. Tehtävä 14 on oikein, kun viimeisen käyttöpäivän jälkeen tuotetta ei käytetä (myös: aistein ei voi arvioida) ja parasta ennen -tuotteen voi arvioida aistein ehjänä ja ohjeen mukaan säilytettynä. Hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Mikä kelpaa: tehtävän 9 vastaus ilman yksikköä on oikein, jos luku on oikea; väärä yksikkö (esim. mg) on väärin. Tehtävä 6 on oikein, kun ensimmäinen ainesosa on nimetty ja perusteluna on painojärjestys. Tehtävä 17 on oikein, kun valinta on oikea ja perusteluissa on kaksi merkintää (allergeeni ja ravintoarvo 100 g:ssa); versioissa A ja E oikea vastaus on, ettei kumpikaan sovi. Tehtävän 16 vastaus on avaamispäivä + säilyvyyden vuorokaudet, kuten opetustekstissä (esim. avattu 11. päivä, säilyy 4 vrk → 15. päivä).","Versioiden erot: kaikissa versioissa pakkaukset 1 ja 2 ovat samaa tuoteryhmää (parasta ennen), pakkaus 3 helposti pilaantuva (viimeinen käyttöpäivä) ja maitoallergiatehtävässä toinen pakkaus sisältää laktoositonta maitojauhetta ja toinen maidon piilomuodon. Versioissa B ja D myös pakkauksessa 3 on maitoproteiinia, joten vastaus on 3; muissa 2.","Kotitalouden linjaus: oppilaalta ei kysytä hänen omaa ruokavaliotaan, allergioitaan eikä perheen ostotottumuksia. Kaikki tehtävien henkilöt ja tuotteet ovat keksittyjä. Jos oppilaalla itsellään on allergia, hän voi kertoa siitä halutessaan, mutta sitä ei käytetä esimerkkinä.","Tarkistettavat asiatiedot (EU:n elintarviketietoasetus 1169/2011 ja Ruokaviraston ohjeet, https://www.ruokavirasto.fi/elintarvikkeet/): 14 allergeeniryhmää ja korostusvaatimus; ainesosien aleneva painojärjestys ja prosenttimerkintä, kun ainesosa on nimessä tai kuvassa; ravintoarvoilmoituksen pakolliset rivit 100 g:aa kohden; viimeisen käyttöpäivän ja parasta ennen -päiväyksen ero; alkuperämaan pakollisuus mm. tuoreessa lihassa, kalassa, hedelmissä ja vihanneksissa sekä pääraaka-aineen alkuperän ilmoittaminen, kun se poikkeaa tuotteen ilmoitetusta alkuperästä. Sulfiittien raja 10 mg/kg. ”Avattuna säilyy x vrk” -laskutapa (avaamispäivä + x) on materiaalin sopimus. Pakkausten ravintoarvot ovat keksittyjä mutta realistisia.","Edeltävä taito KO7-TUR-03 (kylmäketju) selittää, miksi helposti pilaantuva ruoka pidetään kylmänä; tässä taidossa painopiste on merkinnän lukemisessa. Kilohinta (vertailuhinta) kuuluu seuraavaan taitoon KO7-KUL-02, ja erityisruokavalion reseptimuokkaus taitoon KO7-ATE-03."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Ainesosat ovat painojärjestyksessä, allergeenit on korostettu ja laktoositon on yhä maitoa. Vertaa sataa grammaa, älä annosta. Viimeisen käyttöpäivän jälkeen ruokaa ei käytetä, parasta ennen -tuotteen voi arvioida aistein.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus (1. tunti): kolme keksipakettia","sisalto":"Lue johdannon tilanne. Kysy, mistä pakkauksen kohdasta Saanan sopiva paketti löytyy."},{"aika":"15 min","otsikko":"Ainesosat ja allergeenit","sisalto":"Käy läpi kuva Pakkauksen takapuoli, kappale Ainesosaluettelo, allergeenitaulukko ja ansa 1. Jaa oikeita pakkauksia tai niiden kuvia; parit etsivät jokaisesta ensimmäisen ainesosan ja korostetut allergeenit."},{"aika":"10 min","otsikko":"Harjoitukset H01–H07","sisalto":"Oppilaat tekevät ryhmän Ainesosat ja allergeenit."},{"aika":"15 min","otsikko":"Ravintoarvot","sisalto":"Käy läpi kappale Ravintoarvot vertaillaan sadasta grammasta, näkkileipätaulukko ja ansa 2. Oppilaat tekevät harjoitukset H08–H13."},{"aika":"20 min","otsikko":"Päiväys ja alkuperä (2. tunti)","sisalto":"Käy läpi taulukko Kaksi päiväysmerkintää, ansa 3, avattu pakkaus ja alkuperä. Oppilaat tekevät harjoitukset H14–H20."},{"aika":"25 min","otsikko":"Näyttö: paperikoe","sisalto":"Valvottu paperikoe, versio A–E. Tarkista mittaritehtävät 5, 10 ja 14 ensin."}],"tarvikkeet":"Koepaperit A–E. Tunnille muutama oikea elintarvikepakkaus tai pakkausten kuvia (koulu hankkii; tyhjät pakkaukset käyvät). Allergeenitaulukko näkyville."},"virhesanakirja":[{"virhe":"Laskee korostettujen sanojen sijaan kaikki ainesosat tai jättää laktoosittoman maitojauheen pois allergeeneista.","tehtava":"1, 3, 5","mita_kertoo":"Oppilas ei vielä käytä korostusta allergeenin tunnisteena tai pitää laktoositonta maitoa maidottomana. Jälkimmäinen on maitoallergiselle vaarallinen virhe.","mita_tehda":"Palaa ansaan 1. Kysy: mitä laktoosittomasta maidosta on poistettu, ja mikä maidossa aiheuttaa allergian? Pyydä etsimään luettelosta lihavoidut sanat ja nimeämään kunkin ryhmä taulukosta."},{"virhe":"Ei tunnista voita, heraa, kermaa tai juustoa maidoksi eikä ohraa gluteenia sisältäväksi viljaksi.","tehtava":"5, 17","mita_kertoo":"Oppilas etsii allergeeniryhmän nimeä (maito, gluteeni) eikä tunne ruoka-aineita, joiden nimi on eri.","mita_tehda":"Käy läpi allergeenitaulukon esimerkkisarake. Anna kolme ainesosaluetteloa ja pyydä kirjoittamaan jokaisen korostetun sanan viereen allergeeniryhmä."},{"virhe":"Laskee sokeria edeltävien ainesosien sijaan sokerin oman paikan tai luettelon pituuden.","tehtava":"2, 4","mita_kertoo":"Oppilas tietää järjestyssäännön mutta ei vielä muuta sitä vertailuksi (enemmän kuin).","mita_tehda":"Pyydä alleviivaamaan kysytty ainesosa ja laskemaan sitä ennen olevat. Kysy: onko sokeria enemmän vai vähemmän kuin näitä?"},{"virhe":"Vertaa annosten arvoja tai lukee 100 gramman arvon sijaan annoksen arvon; ottaa tyydyttyneen rasvan sijaan kaiken rasvan.","tehtava":"8, 10, 11","mita_kertoo":"Oppilas ei vielä hahmota, että vertailu vaatii saman määrän, tai lukee ravintoarvotaulukon rivit epätarkasti.","mita_tehda":"Palaa ansaan 2 ja näkkileipäesimerkkiin. Pyydä merkitsemään, kumman sarakkeen luvut ovat samaa määrää. Lue ”josta”-rivit ääneen: josta tyydyttynyttä = osa rasvasta."},{"virhe":"Laskee annoksen määrän väärin (jakaa annoksella tai unohtaa jakaa sadalla) tai jättää yksikön pois.","tehtava":"9","mita_kertoo":"Verrannollisuus 100 grammasta annokseen ei ole vielä varma.","mita_tehda":"Kysy: onko annos enemmän vai vähemmän kuin 100 g? Pitääkö vastauksen siis olla pienempi vai suurempi kuin 100 gramman arvo? Laske sitten 100 g → 1 g → annos."},{"virhe":"Sanoo, että parasta ennen -päiväyksen ylittänyt tuote on heitettävä pois tai että viimeisen käyttöpäivän ylittäneen tuotteen voi haistaa; laskee avatun purkin päiväyksen alkuperäisestä päiväyksestä.","tehtava":"12, 13, 14, 16","mita_kertoo":"Kaksi päiväysmerkintää ovat sekaisin tai oppilas ei huomaa, että päiväys koskee avaamatonta pakkausta. Viimeisen käyttöpäivän tulkinta on turvallisuusasia.","mita_tehda":"Palaa taulukkoon Kaksi päiväysmerkintää ja ansaan 3. Kysy kustakin tuotteesta: onko tuote helposti pilaantuva? Mikä päiväys siinä on? Pyydä kirjoittamaan avatulle purkille lasku avaamispäivä + vuorokaudet."}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee lukemaan elintarvikepakkausta: mitä tuotteessa on eniten, mitkä allergeenit siinä on, miten kahden tuotteen ravintoarvoja verrataan sadasta grammasta, mitä viimeinen käyttöpäivä ja parasta ennen -päiväys tarkoittavat ja mistä raaka-aine on peräisin. Taito on ydintaito, ja se näytetään koulussa paperikokeella keksityistä pakkauksista.","kotona":["Kun ruokaa on käsillä, voitte pyytää nuorta lukemaan jonkin pakkauksen ainesosaluettelon ja kertomaan, mitä tuotteessa on eniten.","Kysykää, mitä eroa on viimeisellä käyttöpäivällä ja parasta ennen -päiväyksellä.","Kysykää, miksi laktoositon maito ei sovi maitoallergiselle.","Kaupassa tai verkkokaupan tuotesivulla voi verrata kahden tuotteen sokeria tai suolaa sadasta grammasta."],"milloin_huolestua":"Tämä on ydintaito. Jos nuori pitää laktoositonta maitoa maidottomana tai uskoo, että viimeisen käyttöpäivän ylittäneen lihan voi syödä, jos se tuoksuu hyvältä, ottakaa asia puheeksi ja kertokaa opettajalle. Taidon voi harjoitella uudelleen ja näyttää uusintakokeessa."},"ulkoiset":{},"valmis_teksti":"Osaat lukea elintarvikepakkauksesta ainesosat, allergeenit, ravintoarvot, päiväyksen ja alkuperän ja käyttää niitä valinnassa. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

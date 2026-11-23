@@ -1,0 +1,619 @@
+<title>Väite, kysymys, käsky · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI7-KIE-02","oppiaine":"AI","vuosiluokka":7,"taitoalue":"KIE","jakso":"J2","taso":"ydin","otsikko":"Väite, kysymys, käsky","kuvaus":"Osaan tunnistaa ja muodostaa väite-, kysymys-, käsky-, toivomus- ja huudahduslauseita ja käyttää niitä tekstin tarkoituksen mukaan.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T13","T11"],"S":["S3"]},"eyebrow":"Äidinkieli ja kirjallisuus · 7. luokka","ikoni":"puhe","naytto":"Paperikoe: Nimeän annetuista lauseista väite-, kysymys-, käsky-, toivomus- ja huudahduslauseet ja kerron, mistä tunnistan ne (esimerkiksi verbin muoto, kysymyssana, -ko/-kö-liite, välimerkki). Erotan kysymyksistä vaihtoehtokysymyksen (Tuletko?) ja hakukysymyksen (Milloin tulet?). Muutan yhden väitelauseen kaikiksi muiksi lausetyypeiksi. Lopuksi saan ohjeen, mainoksen ja mielipidekirjoituksen katkelmat, joista mielipidekirjoituksessa on retorinen kysymys, ja kerron, mitä lausetyyppiä kussakin käytetään paljon ja miksi.","osaa_kun":"Tunnistan lausetyypin muodosta enkä pelkästä välimerkistä: tiedän, että käsky voi olla kieltävä (Älä juokse.), toive ilmaistaan usein konditionaalilla (Kunpa sataisi!) ja epäsuora kysymys on sivulause, jonka virke päättyy pisteeseen (Kysyin, tuleeko hän.). Muuttamani lauseet ovat kieliopillisesti oikein. Yhdistän lausetyypin tekstin tarkoitukseen (esimerkiksi ohjeessa käskyt, mainoksessa huudahdukset) ja selitän, että retorinen kysymys ei odota vastausta vaan vaikuttaa lukijaan.","teksti":[{"tyyppi":"johdanto","sisalto":"Kaveri lähettää viestin: Tuletko huomenna? Toinen kirjoittaa: Tule huomenna! Kolmas: Kunpa tulisit huomenna! Kaikki puhuvat samasta asiasta, mutta jokainen tekee lauseella eri asian: kysyy, käskee tai toivoo. Lauseen tehtävää kuvataan lausetyypillä. Lausetyyppejä on viisi: väite-, kysymys-, käsky-, toivomus- ja huudahduslause. Tässä taidossa opit tunnistamaan ne muodosta, muuttamaan lauseen tyypistä toiseen ja valitsemaan tekstiisi lausetyypit, jotka sopivat sen tarkoitukseen."},{"tyyppi":"kappale","otsikko":"Lausetyyppi näkyy muodossa","sisalto":"Lausetyypin tunnistat verbin muodosta sekä tietyistä sanoista ja liitteistä. Välimerkki on vihje, mutta se ei yksin ratkaise. Käskylause voi päättyä pisteeseen (Sulje ikkuna.), ja väitelauseen perään voidaan kirjoittaa huutomerkki, kun asia tuntuu tärkeältä (Pyöräni on kadonnut!). Ensimmäinen on käsky, koska verbi on käskymuodossa eli imperatiivissa. Toinen on väite, koska siinä todetaan asia eikä siinä ole huudahduksen tuntomerkkejä."},{"tyyppi":"taulukko","otsikko":"Viisi lausetyyppiä","otsikkorivi":["Lausetyyppi","Mitä lauseella tehdään","Tuntomerkit","Esimerkki"],"rivit":[["Väitelause","kerrotaan, todetaan tai väitetään","ei kysymyssanaa, -ko- tai -kö-liitettä eikä käskymuotoa; yleensä piste","Kirjasto aukeaa kymmeneltä. En ehtinyt aamulla."],["Kysymyslause","kysytään","kysymyssana tai -ko- tai -kö-liite päälauseessa; kysymysmerkki","Milloin kirjasto aukeaa? Aukeaako kirjasto jo?"],["Käskylause","käsketään, kehotetaan, pyydetään tai kielletään","verbi imperatiivissa (lue, lukekaa); kielto älä tai älkää; piste tai huutomerkki","Ota numerolappu. Älkää juosko portaissa!"],["Toivomuslause","toivotaan","verbi konditionaalissa (-isi-) ja mukana kunpa, jospa tai -pa- tai -pä-liite; usein huutomerkki","Kunpa kirjasto olisi auki! Ehtisinpä vielä!"],["Huudahduslause","ilmaistaan tunnetta, ihmetystä tai ihastusta","-pa- tai -pä-liite verbissä, joka on indikatiivissa eli tavallisessa toteavassa muodossa (onpa, tuleepa), tai kuinka- tai miten-sana ja -kaan- tai -kään-liite; huutomerkki","Onpa kirjasto täynnä! Kuinka paljon kirjoja täällä onkaan!"]]},{"tyyppi":"kuva","otsikko":"Neljä kysymystä ratkaisevat lausetyypin","svg":"<svg viewBox=\"0 0 640 390\" role=\"img\" aria-label=\"Vuokaavio: neljä kysymystä järjestyksessä ratkaisevat lausetyypin; jos mikään ei täyty, lause on väitelause\"><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"420\" height=\"56\" rx=\"6\"/><text class=\"v-t\" x=\"22\" y=\"33\" style=\"font-size:14px\">1. Onko verbi käskymuodossa?</text><text class=\"v-t\" x=\"22\" y=\"53\" style=\"font-size:14px\">(lue, lukekaa, älä lue, älkää lukeko)</text><line class=\"v-akseli\" x1=\"430\" y1=\"38\" x2=\"478\" y2=\"38\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"32\" x2=\"478\" y2=\"38\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"44\" x2=\"478\" y2=\"38\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"454\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">kyllä</text><rect class=\"v-osa v1\" x=\"480\" y=\"16\" width=\"150\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"555\" y=\"43\" text-anchor=\"middle\" style=\"font-size:14px\">Käskylause</text><line class=\"v-akseli\" x1=\"220\" y1=\"66\" x2=\"220\" y2=\"92\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"214\" y1=\"84\" x2=\"220\" y2=\"92\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"226\" y1=\"84\" x2=\"220\" y2=\"92\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"232\" y=\"84\" style=\"font-size:12px\">ei</text><rect class=\"v-osa\" x=\"10\" y=\"92\" width=\"420\" height=\"56\" rx=\"6\"/><text class=\"v-t\" x=\"22\" y=\"115\" style=\"font-size:14px\">2. Onko verbi konditionaalissa ja mukana</text><text class=\"v-t\" x=\"22\" y=\"135\" style=\"font-size:14px\">kunpa, jospa tai -pa- tai -pä-liite?</text><line class=\"v-akseli\" x1=\"430\" y1=\"120\" x2=\"478\" y2=\"120\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"114\" x2=\"478\" y2=\"120\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"126\" x2=\"478\" y2=\"120\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"454\" y=\"112\" text-anchor=\"middle\" style=\"font-size:12px\">kyllä</text><rect class=\"v-osa v1\" x=\"480\" y=\"98\" width=\"150\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"555\" y=\"125\" text-anchor=\"middle\" style=\"font-size:14px\">Toivomuslause</text><line class=\"v-akseli\" x1=\"220\" y1=\"148\" x2=\"220\" y2=\"174\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"214\" y1=\"166\" x2=\"220\" y2=\"174\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"226\" y1=\"166\" x2=\"220\" y2=\"174\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"232\" y=\"166\" style=\"font-size:12px\">ei</text><rect class=\"v-osa\" x=\"10\" y=\"174\" width=\"420\" height=\"56\" rx=\"6\"/><text class=\"v-t\" x=\"22\" y=\"197\" style=\"font-size:14px\">3. Onko indikatiivin verbissä -pa/-pä tai onko</text><text class=\"v-t\" x=\"22\" y=\"217\" style=\"font-size:14px\">mukana kuinka tai miten ja -kaan/-kään?</text><line class=\"v-akseli\" x1=\"430\" y1=\"202\" x2=\"478\" y2=\"202\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"196\" x2=\"478\" y2=\"202\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"208\" x2=\"478\" y2=\"202\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"454\" y=\"194\" text-anchor=\"middle\" style=\"font-size:12px\">kyllä</text><rect class=\"v-osa v1\" x=\"480\" y=\"180\" width=\"150\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"555\" y=\"207\" text-anchor=\"middle\" style=\"font-size:14px\">Huudahduslause</text><line class=\"v-akseli\" x1=\"220\" y1=\"230\" x2=\"220\" y2=\"256\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"214\" y1=\"248\" x2=\"220\" y2=\"256\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"226\" y1=\"248\" x2=\"220\" y2=\"256\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"232\" y=\"248\" style=\"font-size:12px\">ei</text><rect class=\"v-osa\" x=\"10\" y=\"256\" width=\"420\" height=\"56\" rx=\"6\"/><text class=\"v-t\" x=\"22\" y=\"279\" style=\"font-size:14px\">4. Onko päälauseessa kysymyssana</text><text class=\"v-t\" x=\"22\" y=\"299\" style=\"font-size:14px\">tai -ko- tai -kö-liite?</text><line class=\"v-akseli\" x1=\"430\" y1=\"284\" x2=\"478\" y2=\"284\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"278\" x2=\"478\" y2=\"284\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"290\" x2=\"478\" y2=\"284\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"454\" y=\"276\" text-anchor=\"middle\" style=\"font-size:12px\">kyllä</text><rect class=\"v-osa v1\" x=\"480\" y=\"262\" width=\"150\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"555\" y=\"289\" text-anchor=\"middle\" style=\"font-size:14px\">Kysymyslause</text><line class=\"v-akseli\" x1=\"220\" y1=\"312\" x2=\"220\" y2=\"338\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"214\" y1=\"330\" x2=\"220\" y2=\"338\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"226\" y1=\"330\" x2=\"220\" y2=\"338\" stroke-width=\"2\"/><text class=\"v-t pieni\" x=\"232\" y=\"330\" style=\"font-size:12px\">ei</text><rect class=\"v-osa\" x=\"10\" y=\"338\" width=\"420\" height=\"44\" rx=\"6\"/><text class=\"v-t\" x=\"22\" y=\"365\" style=\"font-size:14px\">Ei mikään näistä: lause kertoo tai toteaa.</text><line class=\"v-akseli\" x1=\"430\" y1=\"360\" x2=\"478\" y2=\"360\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"354\" x2=\"478\" y2=\"360\" stroke-width=\"2\"/><line class=\"v-akseli\" x1=\"470\" y1=\"366\" x2=\"478\" y2=\"360\" stroke-width=\"2\"/><rect class=\"v-osa v1\" x=\"480\" y=\"338\" width=\"150\" height=\"44\" rx=\"6\"/><text class=\"v-t vahva\" x=\"555\" y=\"365\" text-anchor=\"middle\" style=\"font-size:14px\">Väitelause</text></svg>","teksti":"Kysy kysymykset tässä järjestyksessä ja pysähdy ensimmäiseen kyllä-vastaukseen. Huudahdus tarkistetaan ennen kysymystä, koska kuinka ja miten voivat aloittaa myös huudahduksen (Kuinka korkea torni onkaan!). Jos mikään ei täyty, lause on väitelause, vaikka sen lopussa olisi huutomerkki."},{"tyyppi":"kappale","otsikko":"Vaihtoehtokysymys ja hakukysymys","sisalto":"Kysymyslauseita on kahdenlaisia. Vaihtoehtokysymyksessä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei tai valitaan annetuista vaihtoehdoista: Tuletko? Tuletko bussilla vai pyörällä? Liite on tavallisesti verbissä, mutta se voi olla myös sanassa, jota halutaan korostaa: Bussillako tulet? Hakukysymys alkaa kysymyssanalla, kuten kuka, mikä, missä, mihin, milloin, miksi, miten, kuinka tai montako. Sillä haetaan tietoa: Milloin tulet? Hakukysymykseen ei voi vastata pelkällä kyllä tai ei."},{"tyyppi":"kappale","otsikko":"Epäsuora kysymys ja kohtelias pyyntö","sisalto":"Kysymys voi olla myös sivulauseena toisen lauseen sisällä: Kysyin, tuleeko Aleksi mukaan. Tällainen epäsuora kysymys on sivulause, ja koko virke on väitelause, koska päälause Kysyin kertoo, mitä tein. Siksi virke päättyy pisteeseen. Toisaalta kysymyslause voi toimia pyyntönä: Voisitko avata oven? Muodoltaan lause on kysymys, koska verbissä on -ko-liite, mutta tehtävältään se on kohtelias pyyntö. Konditionaali (voisitko) tekee pyynnöstä pehmeämmän kuin käsky Avaa ovi."},{"tyyppi":"saanto","otsikko":"Näin muutat väitelauseen toiseksi lausetyypiksi","askeleet":["Käskylause: puhuttele tekijää ja vaihda verbi imperatiiviin. Mira korjaa pyörän. → Korjaa pyörä, Mira. Objekti on käskylauseessa perusmuodossa (pyörä), mutta kielteisessä käskyssä partitiivissa (Älä korjaa pyörää).","Vaihtoehtokysymys: lisää verbiin -ko tai -kö. → Korjaako Mira pyörän?","Hakukysymys: korvaa kysyttävä kohta kysymyssanalla ja siirrä se lauseen alkuun. → Kuka korjaa pyörän? Mitä Mira korjaa?","Toivomuslause: vaihda verbi konditionaaliin ja lisää kunpa, jospa tai -pa/-pä. → Kunpa Mira korjaisi pyörän!","Huudahduslause: lisää indikatiivin verbiin -pa/-pä tai aloita kuinka- tai miten-sanalla ja lisää verbiin -kaan/-kään. → Kuinka taitavasti Mira korjaakaan pyörän!"]},{"tyyppi":"kappale","otsikko":"Lausetyyppi palvelee tekstin tarkoitusta","sisalto":"Ohjeen lukija tekee jotakin, joten ohjeessa on paljon käskylauseita: Irrota kansi. Älä täytä yli merkkiviivan. Mainos haluaa herättää tunteen ja saada lukijan toimimaan, joten siinä on huudahduksia, käskyjä ja lukijalle esitettyjä kysymyksiä. Uutinen kertoo tapahtuneesta, joten se koostuu väitelauseista. Mielipidekirjoituksessa kirjoittaja esittää väitteitä ja perustelee niitä, ja siinä on usein myös retorinen kysymys."},{"tyyppi":"kappale","otsikko":"Retorinen kysymys","sisalto":"Retorinen kysymys on muodoltaan kysymyslause, mutta se ei odota vastausta. Kirjoittaja olettaa, että lukija vastaa mielessään samoin kuin hän itse, ja käyttää kysymystä väitteen tilalla. Kenestä on mukavaa opiskella kylmässä luokassa? tarkoittaa: Kenestäkään ei ole mukavaa opiskella kylmässä luokassa. Retorinen kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa. Tunnistat sen siitä, että vastaus on ilmeinen ja tukee kirjoittajan mielipidettä."},{"tyyppi":"ansa","otsikko":"Ansa 1: piste ei tee väitettä eikä huutomerkki huudahdusta","sisalto":"Laita puhelin pois. on käskylause, vaikka lopussa on piste, koska verbi laita on imperatiivissa. Juhla on huomenna! on väitelause, vaikka lopussa on huutomerkki: siinä ei ole -pa- tai -pä-liitettä eikä kuinka- tai miten-sanaa. Huudahduslause siitä tulisi esimerkiksi näin: Onpa juhla jo huomenna! Katso siis aina ensin verbiä ja tuntomerkkejä, vasta sitten välimerkkiä."},{"tyyppi":"ansa","otsikko":"Ansa 2: -pa/-pä toivomuksessa ja huudahduksessa","sisalto":"Sama liite esiintyy kahdessa lausetyypissä, ja ratkaisu on verbin muodossa. Olisipa ulkona lämmin! on toivomus, koska verbi on konditionaalissa (olisi): asia ei ole totta, ja puhuja toivoo sitä. Onpa ulkona lämmin! on huudahdus, koska verbi on indikatiivissa (on): asia on jo totta, ja puhuja ihastelee sitä."},{"tyyppi":"ansa","otsikko":"Ansa 3: epäsuora kysymys ei saa kysymysmerkkiä","sisalto":"Mietin, ehdinkö bussiin? on kirjoitettu väärin. Päälause Mietin kertoo asian, ja ehdinkö-lause on sen sivulause. Koko virke on väitelause, joten loppuun tulee piste: Mietin, ehdinkö bussiin. Kysymysmerkki tulee vain, jos päälause itse kysyy: Tiedätkö, ehdinkö bussiin?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Lausetyypin ratkaisee muoto: verbin muoto, kysymyssana ja liitteet. Välimerkki on vain vihje.","Käskylause: imperatiivi (lue, lukekaa) tai kielto (älä lue, älkää lukeko). Se voi päättyä pisteeseen.","Vaihtoehtokysymys: -ko- tai -kö-liite. Hakukysymys: kysymyssana.","Toivomus: konditionaali ja kunpa, jospa tai -pa/-pä. Huudahdus: -pa/-pä indikatiivissa tai kuinka ja -kaan/-kään.","Epäsuora kysymys on sivulause. Virke on väitelause ja päättyy pisteeseen.","Ohjeessa käskyjä, mainoksessa huudahduksia ja käskyjä, uutisessa väitteitä.","Retorinen kysymys ei odota vastausta vaan vahvistaa kirjoittajan kantaa."]}],"harjoitusryhmat":[{"id":"tunnista","nimi":"Tunnista muodosta","info":"Katso ensin verbin muotoa, kysymyssanaa ja liitteitä. Välimerkki on vain vihje."},{"id":"kysymykset","nimi":"Kysymykset ja muunnokset","info":"Vaihtoehtokysymyksessä on -ko- tai -kö-liite, hakukysymyksessä kysymyssana. Kun muutat lausetta, muuta verbin muotoa."},{"id":"tarkoitus","nimi":"Lausetyyppi tekstissä","info":"Mieti, mitä tekstillä halutaan saada aikaan: neuvoa, innostaa, kertoa vai vakuuttaa."}],"ryhmanimet":{"tunnista":"Lausetyypin tunnistaminen","kysymykset":"Kysymykset ja muunnokset","tarkoitus":"Lausetyyppi tekstissä"},"tulostus":{"sivuja":6,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":5,"sivunvaihto_ennen":16},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: koeperustainen (kartan näyttö on paperikoe). Taito jatkaa AI7-KIE-01:tä (epäsuora kysymyslause sivulauseena) ja AI5-KIE-01:tä (verbin taivutus). Retorinen kysymys on tuttu AI6-LUK-05:stä (vaikuttamisen keinot); tässä se nimetään lausetyypiksi ja sen tehtävä selitetään. Moduksia ei opeteta järjestelmällisesti: imperatiivi ja konditionaali esitellään vain lausetyyppien tuntomerkkeinä. Modukset ja niiden muodostaminen ovat taidossa AI8-KIE-03.","Tulkinnat: lausetyyppi ratkaistaan muodosta. Huudahduslauseeksi lasketaan lause, jossa on -pa/-pä-liite indikatiivin verbissä tai kuinka- tai miten-sana ja -kaan/-kään-liite; alussa voi olla lisäksi huudahdussana (Voi miten kirkas taivas onkaan!). Väitelause, jonka perässä on huutomerkki (Joku on syönyt kakkuni!), lasketaan väitelauseeksi. Toivomuslauseeksi lasketaan konditionaali kunpa-, jospa- tai -pa/-pä-sanan kanssa. Kohtelias pyyntö kysymysmuodossa (Voisitko…?) on muodoltaan kysymyslause. Epäsuoran kysymyksen sisältävä virke on päälauseensa mukainen: Kysyin, … on väitelause ja Kerro, … käskylause. Kokeessa ei ole passiivin kehotusta (Lähdetään!), kolmannen persoonan imperatiivia (Tulkoon), -han/-hän-kysymyksiä eikä verbittömiä huudahduksia (Mikä sotku!), koska niiden luokittelu vaihtelee. Ks. avoin asia lokissa.","Kartan näytön osat vastaavat kokeen tehtäviä: lausetyyppien nimeäminen tuntomerkkeineen on tehtävä 16 (lyhyinä muotoina 1–6 ja 14), vaihtoehto- ja hakukysymyksen erottaminen tehtävä 17 (lyhyinä 7 ja 8), väitelauseen muuttaminen kaikiksi muiksi tyypeiksi tehtävä 18 (osamuunnokset 9–12) ja ohjeen, mainoksen ja mielipidekirjoituksen lausetyypit sekä retorinen kysymys tehtävä 19 (lyhyinä 13 ja 15). Kieltävä käsky on tehtävissä 2, 5, 11 ja 16, konditionaali toiveessa tehtävissä 3, 12 ja 16, epäsuora kysymys tehtävissä 6, 16 ja 20.","Mittaritehtävät ovat 16, 18 ja 19. Tehtävä 16 on oikein, kun kaikki kuusi lausetyyppiä ovat oikein ja vähintään viidessä kohdassa tuntomerkki on muodon tuntomerkki (verbin muoto, kieltoverbi, kysymyssana, liite, kunpa tai jospa); pelkkä välimerkki ei kelpaa tuntomerkiksi. Tehtävä 18 on oikein, kun kaikki viisi lausetta ovat pyydettyä tyyppiä ja kieliopillisesti oikein: käskyssä imperatiivi (objekti perusmuodossa, esimerkiksi Kastele kukat), kysymyksessä -ko/-kö-liite tai kysymyssana, toivomuksessa konditionaali ja huudahduksessa -pa/-pä indikatiivissa tai kuinka/miten ja -kaan/-kään. Tehtävä 19 on oikein, kun jokaisesta katkelmasta on nimetty vallitseva lausetyyppi (ohje: käsky, mainos: huudahdus, mielipide: väite) ja yhdistetty se tarkoitukseen, ja retorinen kysymys on tunnistettu ja selitetty niin, että siitä käy ilmi, ettei se odota vastausta vaan ohjaa lukijaa kirjoittajan kantaan.","Tehtävät 16–20 tarkistetaan käsin. Hyväksy mikä tahansa oikea muotoilu; malliesimerkit eivät ole ainoita hyväksyttäviä. Tehtävässä 18 hakukysymys voi kysyä mitä tahansa lauseen kohtaa (kuka, mitä, milloin, mistä), ja huudahdukseksi kelpaa myös -pa/-pä-muoto (Siivoaapa Elias huoneensa huolellisesti!). Tehtävässä 17 kummankin oman kysymyksen pitää olla aiheeseen sopiva ja oikeaa tyyppiä. Tehtävässä 19 mainoksen kohdalla hyväksytään myös vastaus, että mainoksessa on huudahduksia ja käskyjä, kun tarkoitus (innostaa ja kehottaa toimimaan) on perusteltu. Tehtävässä 20 vaaditaan oikea sivulause (-ko/-kö säilyy verbissä), piste ja selitys, jossa mainitaan päälause tai sivulause.","Lukuvastausten tarkistus: tehtävissä 9–12 oppilas kirjoittaa muuttamansa lauseen näkyviin. Jos luku on väärä mutta lause on oikein, tehtävä on silti väärin (vastaus on luku); jos lause on oikein ja luku vastaa sitä, oikein. Tehtävässä 10 verbin vahva aste palaa käskymuotoon (kirjoitatte → kirjoittakaa, suljette → sulkekaa, kudotte → kutokaa). Tehtävässä 11 kieltävän käskyn objekti on partitiivissa (Älä avaa ovea), mutta sanamäärä ei riipu siitä; objektin muoto arvioidaan tehtävässä 18.","Tarkistettavat asiatiedot: ei epävarmoja kielitiedon osalta. Lausetyyppien jako ja tuntomerkit noudattavat Ison suomen kieliopin lausetyyppiluokittelua (https://kaino.kotus.fi/visk/); huudahduslauseen rajaus muodon perusteella on koulukieliopeissa vaihteleva, ks. avoin asia. Katkelmien tuotenimet, paikat ja henkilöt ovat keksittyjä. Tässä taidossa ei mitata nopeutta eikä yritysten määrää."]},"tuntirunko":{"kesto":"45 min","sanottava_aaneen":"Katso ensin verbiä: onko se käskymuodossa, konditionaalissa vai tavallisessa muodossa? Etsi sitten kysymyssanat ja liitteet. Välimerkki on vasta viimeinen vihje.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus: kolme viestiä","sisalto":"Näytä johdannon kolme viestiä (Tuletko huomenna? Tule huomenna! Kunpa tulisit huomenna!) ja kysy, mitä kirjoittaja haluaa kussakin. Esittele viisi lausetyyppiä."},{"aika":"12 min","otsikko":"Muoto ratkaisee","sisalto":"Käy läpi taulukko ja vuokaavio. Pysähdy ansoihin 1 ja 2: Laita puhelin pois. on käsky, Juhla on huomenna! on väite, Olisipa ja Onpa eroavat verbin muodossa. Käy läpi epäsuora kysymys ja kohtelias pyyntö."},{"aika":"15 min","otsikko":"Harjoittelu","sisalto":"Oppilaat tekevät oppitunnin kolme harjoitusryhmää. Parit muuttavat yhden väitelauseen kaikiksi muiksi tyypeiksi ja tarkistavat toistensa verbit."},{"aika":"10 min","otsikko":"Lausetyyppi tekstissä","sisalto":"Lukekaa yhdessä lyhyt keksitty ohje, mainos ja mielipidekirjoitus (tai koulun oma tiedote) ja laskekaa, mitä lausetyyppiä kussakin on eniten. Muuttakaa retorinen kysymys väitteeksi ja vertailkaa vaikutusta."},{"aika":"3 min","otsikko":"Lopetus","sisalto":"Jokainen kirjoittaa yhden kieltävän käskyn ja yhden toivomuksen. Näyttö tehdään seuraavalla oppitunnilla paperikokeena (koe A–E), ja sen jälkeen koe puretaan."}],"tarvikkeet":"Oppitunnin sivu laitteelta tai heijastettuna. Lyhyitä keksittyjä tai koulun omia tekstejä (ohje, mainos, mielipidekirjoitus). Kokeeseen tulostettu koe ja kynä."},"virhesanakirja":[{"virhe":"Päättelee lausetyypin välimerkistä","tehtava":"tunnista ja tarkoitus, tehtävät 1, 4, 14 ja 16","mita_kertoo":"Oppilas pitää pisteeseen päättyvää käskyä väitteenä tai huutomerkkiin päättyvää väitettä huudahduksena. Hän ei vielä katso verbin muotoa.","mita_tehda":"Peittäkää välimerkit ja ratkaiskaa tyyppi vuokaavion neljällä kysymyksellä. Kirjoittakaa sama väite ensin pisteellä ja sitten huutomerkillä ja todetkaa, ettei tyyppi muutu."},{"virhe":"Pitää epäsuoraa kysymystä kysymyslauseena tai kirjoittaa sen perään kysymysmerkin","tehtava":"tunnista, tehtävät 6, 16 ja 20","mita_kertoo":"Oppilas reagoi kysymyssanaan tai -ko-liitteeseen eikä katso, kysyykö päälause itse.","mita_tehda":"Alleviivatkaa päälause ja kysykää: kysyykö tämä lause jotakin? Kerratkaa AI7-KIE-01:n epäsuora kysymyslause ja ansa 3."},{"virhe":"Sekoittaa toivomuksen ja huudahduksen -pa/-pä-liitteen takia","tehtava":"tunnista, tehtävät 3, 4 ja 16","mita_kertoo":"Oppilas tunnistaa liitteen mutta ei verbin modusta. Olisipa ja onpa näyttävät samalta.","mita_tehda":"Etsikää verbistä -isi-tunnus. Tehkää pareja (Olisipa lämmin! – Onpa lämmin!) ja kysykää: onko asia jo totta vai toivotaanko sitä?"},{"virhe":"Sekoittaa vaihtoehto- ja hakukysymyksen","tehtava":"kysymykset, tehtävät 7, 8 ja 17","mita_kertoo":"Oppilas pitää vai-sanallista kysymystä hakukysymyksenä tai ei tunnista -ko-liitettä muussa sanassa kuin verbissä (Uutisiako katsot?).","mita_tehda":"Kokeilkaa vastata: voiko vastata kyllä tai ei tai valitsemalla annetuista vaihtoehdoista? Etsikää -ko/-kö-liite koko lauseesta, ei vain verbistä."},{"virhe":"Muunnoksessa on muotovirhe (Älä avaat, Kastele kukkia, Kunpa Elias siivoaa)","tehtava":"kysymykset, tehtävät 9–12 ja 18","mita_kertoo":"Oppilas tietää tavoitetyypin mutta ei hallitse imperatiivin, kieltävän käskyn tai konditionaalin muotoja. Puhekieli voi vaikuttaa.","mita_tehda":"Kirjoittakaa saman verbin muodot taulukoksi: väite, käsky yksikössä ja monikossa, kielto, konditionaali. Muuttakaa kolme lausetta yhdessä ja tarkistakaa verbi ennen muuta lausetta."},{"virhe":"Pitää retorista kysymystä aitona kysymyksenä tai ei selitä sen vaikutusta","tehtava":"tarkoitus, tehtävät 15 ja 19","mita_kertoo":"Oppilas tunnistaa kysymyksen muodon mutta ei katso, kuka kysyy ja missä tekstissä. Vaikutuksen selitys jää muotoon se on kysymys.","mita_tehda":"Muuttakaa retorinen kysymys väitteeksi (Kuka haluaa…? → Kukaan ei halua…) ja verratkaa, kumpi vaikuttaa lukijaan voimakkaammin. Kerratkaa AI6-LUK-05:n vaikuttamisen keinot."}],"huoltajalle":{"mista_on_kyse":"Nuori oppii tunnistamaan viisi lausetyyppiä (väite, kysymys, käsky, toivomus ja huudahdus) lauseen muodosta, muuttamaan lauseen tyypistä toiseen ja selittämään, miksi ohjeessa on paljon käskyjä, mainoksessa huudahduksia ja mielipidekirjoituksessa väitteitä ja retorisia kysymyksiä.","kotona":["Kun näette mainoksen, ohjeen tai otsikon, kysykää: käskeekö, kysyykö, toivooko vai kertooko tämä lause?","Leikkikää muunnoksilla: toinen sanoo väitteen (Juna lähtee), toinen muuttaa sen kysymykseksi, käskyksi tai toiveeksi (Lähteekö juna? Kunpa juna lähtisi!).","Etsikää lehdestä tai verkosta mielipidekirjoitus ja katsokaa, onko siinä kysymys, johon kirjoittaja ei odota vastausta. Miksi hän kysyy?","Jos nuori kirjoittaa Mietin, tuleeko hän?, kysykää, kysyykö virke itse jotakin. Jos ei, loppuun tulee piste."],"milloin_huolestua":"Jos nuori ei harjoittelun jälkeenkään erota kysymystä käskystä tai väitteestä lyhyissä arkisissa lauseissa, kertokaa siitä opettajalle. Silloin kerrataan ensin verbin muodot ja kysymyssanat."},"ulkoiset":{},"valmis_teksti":"Tunnistat nyt väite-, kysymys-, käsky-, toivomus- ja huudahduslauseen niiden muodosta ja osaat muuttaa lauseen tyypistä toiseen. Tiedät, miksi ohjeessa käsketään ja mielipidekirjoituksessa kysytään retorisesti. Tämä taito on nyt näytetty.","harjoitukset":[{"id":"H01","ryhma":"tunnista","kysymys":"Lauseet:\n1) Älä unohda avainta.\n2) Unohdin avaimen.\n3) Unohditko avaimen?\n\nMonesko lause on käskylause?","vastaus":1,"vinkki":"Etsi verbi, joka on kielto- tai käskymuodossa.","selitys":"Älä unohda on kielteinen käsky. Käskylause voi päättyä pisteeseen."},{"id":"H02","ryhma":"tunnista","kysymys":"Lauseet:\n1) Tule ajoissa.\n2) Tulet ajoissa.\n3) Tuletko ajoissa?\n\nMonesko lause on väitelause?","vastaus":2,"vinkki":"Vertaa verbejä tule, tulet ja tuletko.","selitys":"Tulet ajoissa toteaa asian. Tule on käsky ja tuletko kysymys."},{"id":"H03","ryhma":"tunnista","kysymys":"Virkkeet:\n1) Kysyin, missä bussipysäkki on.\n2) Missä bussipysäkki on?\n3) Bussipysäkki on kirkon edessä.\n\nMontako virkkeistä on kysymyslauseita?","vastaus":1,"vinkki":"Kysyykö päälause itse jotakin?","selitys":"Vain virke 2 on kysymyslause. Virke 1 on väitelause, jossa on epäsuora kysymys."},{"id":"H04","ryhma":"tunnista","kysymys":"Katkelma:\nHuomenna on retki. Ota mukaan eväät. Pakkaa myös sadetakki! Älä tuo arvotavaroita. Bussi lähtee kahdeksalta.\n\nMontako käskylausetta katkelmassa on?","vastaus":3,"vinkki":"Käsky voi päättyä pisteeseen tai huutomerkkiin, ja kieltokin on käsky.","selitys":"Käskylauseet ovat Ota mukaan eväät, Pakkaa myös sadetakki ja Älä tuo arvotavaroita."},{"id":"H05","ryhma":"tunnista","kysymys":"Lauseet:\n1) Olisipa jo kesäloma!\n2) Onpa kesäloma pitkä!\n3) Kesäloma alkaa kesäkuussa.\n4) Kunpa kesäloma ei loppuisi!\n\nMontako toivomuslausetta?","vastaus":2,"vinkki":"Toivomuksessa verbi on konditionaalissa.","selitys":"Lauseissa 1 ja 4 verbi on konditionaalissa (olisi, ei loppuisi). Lause 2 on huudahdus, koska on on indikatiivissa."},{"id":"H06","ryhma":"tunnista","tyyppi":"monivalinta","vaihtoehdot":["väitelause, joka sisältää epäsuoran kysymyksen","kysymyslause, vaikka lopussa on piste","käskylause"],"kysymys":"Kysyin Eetulta, lähteekö hän uimaan.\n\nMikä lausetyyppi virke on?","vastaus":0,"vinkki":"Kysyykö päälause Kysyin jotakin?","selitys":"Päälause kertoo, mitä tein. Lähteekö-lause on epäsuora kysymys, joten virke on väitelause ja päättyy pisteeseen."},{"id":"H07","ryhma":"tunnista","kysymys":"Lauseet:\n1) Voi miten kirkas tähtitaivas onkaan!\n2) Tähtitaivas on kirkas.\n3) Katso tähtitaivasta!\n4) Kuinka kirkkaana tähtitaivas loistaakaan!\n\nMontako huudahduslausetta?","vastaus":2,"vinkki":"Etsi kuinka- ja miten-sanat ja -kaan-liitteet.","selitys":"Lauseet 1 ja 4 ovat huudahduksia. Lause 3 on käsky, vaikka siinä on huutomerkki."},{"id":"H08","ryhma":"tunnista","kysymys":"Lauseet:\n1) Älkää juosko käytävällä.\n2) Kukaan ei juokse käytävällä.\n3) Juoksitteko käytävällä?\n\nMonesko lause on kieltävä käskylause?","vastaus":1,"vinkki":"Kieltävä käsky alkaa sanalla älä tai älkää.","selitys":"Älkää juosko on kieltävä käsky monikossa. Lause 2 on kielteinen väite."},{"id":"H09","ryhma":"kysymykset","kysymys":"Kysymykset:\n1) Lähdetkö mukaan?\n2) Mihin lähdet?\n3) Lähdetkö vai jäätkö?\n4) Kenen kanssa lähdet?\n\nMontako hakukysymystä?","vastaus":2,"vinkki":"Hakukysymys alkaa kysymyssanalla.","selitys":"Hakukysymykset ovat Mihin lähdet? ja Kenen kanssa lähdet? Lähdetkö vai jäätkö? on vaihtoehtokysymys."},{"id":"H10","ryhma":"kysymykset","kysymys":"Kysymykset:\n1) Huomennako koe on?\n2) Milloin koe on?\n3) Onko koe huomenna?\n4) Kuka kokeen pitää?\n\nMontako vaihtoehtokysymystä?","vastaus":2,"vinkki":"-ko- tai -kö-liite voi olla myös muussa sanassa kuin verbissä.","selitys":"Kysymykset 1 ja 3 ovat vaihtoehtokysymyksiä. Kysymyksessä 1 liite on sanassa huomenna."},{"id":"H11","ryhma":"kysymykset","kysymys":"Väitelause: Jasmin soittaa rumpuja.\n\nMuutat lauseen hakukysymykseksi niin, että korvaat sanan rumpuja kysymyssanalla mitä. Montako sanaa kysymyksessä on?","vastaus":3,"vinkki":"Kysymyssana siirtyy lauseen alkuun.","selitys":"Mitä Jasmin soittaa? Kysymyksessä on kolme sanaa."},{"id":"H12","ryhma":"kysymykset","kysymys":"Väitelause: Te avaatte ikkunan.\n\nMuutat lauseen käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":7,"vinkki":"Monikon käskymuodon pääte on -kaa tai -kää.","selitys":"Avatkaa ikkuna. Verbissä avatkaa on seitsemän kirjainta."},{"id":"H13","ryhma":"kysymykset","kysymys":"Väitelause: Sinä lähdet kotiin.\n\nMuutat lauseen kieltäväksi käskylauseeksi. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":3,"vinkki":"Kieltävä käsky yksikössä alkaa sanalla älä.","selitys":"Älä lähde kotiin. Lauseessa on kolme sanaa."},{"id":"H14","ryhma":"kysymykset","kysymys":"Väitelause: Meillä on lumipäivä.\n\nMuutat lauseen toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":5,"vinkki":"Toivomuksessa verbi on konditionaalissa.","selitys":"Kunpa meillä olisi lumipäivä! Verbissä olisi on viisi kirjainta."},{"id":"H15","ryhma":"tarkoitus","kysymys":"Keksitty mainos:\nUusi Kuplajuoma on täällä! Maista heti! Oletko koskaan juonut näin raikasta juomaa? Kuinka hyvältä se maistuukaan!\n\nMontako huudahduslausetta katkelmassa on?","vastaus":1,"vinkki":"Huutomerkki ei yksin tee huudahdusta.","selitys":"Vain Kuinka hyvältä se maistuukaan! on huudahdus. Ensimmäinen lause on väite ja toinen käsky, vaikka niissä on huutomerkki."},{"id":"H16","ryhma":"tarkoitus","kysymys":"Keksitty ohje:\nIrrota suojakalvo. Kiinnitä teline seinään. Ruuvit löytyvät pussista. Älä kiristä ruuveja liikaa.\n\nMontako väitelausetta katkelmassa on?","vastaus":1,"vinkki":"Ohjeessa useimmat lauseet ovat käskyjä.","selitys":"Ruuvit löytyvät pussista on ainoa väite. Muut ovat käskyjä, koska ohje neuvoo lukijaa toimimaan."},{"id":"H17","ryhma":"tarkoitus","tyyppi":"monivalinta","vaihtoehdot":["Hän haluaa, että lukija päätyy samaan kantaan: kirjaston pitäisi olla auki pidempään.","Hän ei tiedä aukioloaikoja ja odottaa vastausta.","Kysymys on hakukysymys, johon kirjasto vastaa."],"kysymys":"Mielipidekirjoituksessa lukee: Onko järkevää, että koulun kirjasto on auki vain kaksi tuntia viikossa?\n\nMiksi kirjoittaja käyttää kysymystä?","vastaus":0,"vinkki":"Odottaako kirjoittaja oikeasti vastausta?","selitys":"Kysymys on retorinen. Kirjoittaja olettaa lukijan vastaavan ei ja käyttää kysymystä väitteen tilalla."},{"id":"H18","ryhma":"tarkoitus","kysymys":"Keksitty mielipidekirjoitus:\nKoulun piha on talvella liian pimeä. Miksi valoja ei ole korjattu? Moni on jo kompastunut. Korjatkaa valot ennen kuin joku loukkaantuu.\n\nMontako virkkeistä on väitelauseita?","vastaus":2,"vinkki":"Etsi virkkeet, jotka toteavat asian.","selitys":"Väitelauseet ovat Koulun piha on talvella liian pimeä ja Moni on jo kompastunut. Lisäksi on kysymys ja käsky."},{"id":"H19","ryhma":"tarkoitus","kysymys":"Kirjoitat ohjetta, jonka lukijan pitää tehdä jotakin heti. Lauseet:\n1) Kierrätyspiste on koulun takana.\n2) Vie pullot kierrätykseen.\n3) Kunpa kaikki kierrättäisivät!\n\nMonesko lause sopii ohjeeseen parhaiten?","vastaus":2,"vinkki":"Ohje kertoo lukijalle, mitä tehdä.","selitys":"Vie pullot kierrätykseen on käsky, ja käskyt sopivat ohjeeseen."},{"id":"H20","ryhma":"tarkoitus","kysymys":"Katkelma:\nPohdin, ehtisikö Tuomas mukaan. Ehditkö sinä? Kerro, milloin lähdet. Kunpa ehtisimme samaan bussiin!\n\nMontako virkkeistä on muodoltaan kysymyslauseita?","vastaus":1,"vinkki":"Kysyykö päälause itse? Pohdin ja Kerro eivät kysy.","selitys":"Vain Ehditkö sinä? on kysymyslause. Ensimmäinen virke on väite ja kolmas käsky, vaikka niissä on epäsuora kysymys."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Kun muutat lausetta ja lasket sanoja tai kirjaimia, kirjoita ensin muuttamasi lause näkyviin ja vastaa sitten luvulla.\nLausetyypit ovat väitelause, kysymyslause, käskylause, toivomuslause ja huudahduslause. Kysymyslauseet jaetaan vaihtoehtokysymyksiin ja hakukysymyksiin.\nTehtävissä 16–20 kirjoita vastaus kokonaisin virkkein. Mainokset, ohjeet ja mielipidekirjoitukset ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Suljit oven.\n2) Sulje ovi.\n3) Suljitko oven?\n\nMonesko lause on käskylause?","vastaus":2},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Älä odota minua.\n2) Et odottanut minua.\n3) Odotatko minua?\n\nMonesko lause on väitelause?","vastaus":2},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Olisipa jo lauantai!\n2) Onpa tänään kiireinen päivä!\n3) Jospa ehtisimme vielä bussiin!\n4) Ehdimme vielä bussiin.\n\nMontako toivomuslausetta?","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Onpa pihalla liukasta!\n2) Joku liukastui pihalla!\n3) Kuinka liukas piha onkaan!\n4) Kunpa pihaa hiekoitettaisiin!\n\nMontako huudahduslausetta?","vastaus":2},{"nro":5,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Keksitty leirikirje:\nLeiri alkaa maanantaina. Pakatkaa lämmin takki. Älkää tuoko herkkuja! Muistakaa nimetä vaatteet. Bussi lähtee koululta.\n\nMontako käskylausetta katkelmassa on?","vastaus":3},{"nro":6,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Virkkeet:\n1) Kysyin, milloin kauppa aukeaa.\n2) Milloin kauppa aukeaa?\n3) Voisitko käydä kaupassa?\n4) Kerro, milloin kauppa aukeaa.\n\nMontako virkkeistä on kysymyslauseita?","vastaus":2},{"nro":7,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Mihin aikaan elokuva alkaa?\n2) Alkaako elokuva seitsemältä?\n3) Kuinka pitkä elokuva on?\n4) Onko elokuva jännittävä vai hauska?\n\nMontako hakukysymystä?","vastaus":2},{"nro":8,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Sinäkö sen teit?\n2) Kuka sen teki?\n3) Miksi teit sen?\n4) Teitkö sen eilen?\n\nMontako vaihtoehtokysymystä?","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Aaro lähtee mökille perjantaina.\n\nMuuta lause hakukysymykseksi niin, että korvaat sanan perjantaina kysymyssanalla milloin. Montako sanaa kysymyksessä on?","vastaus":4},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Te kirjoitatte nimen.\n\nMuuta lause käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":12},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sinä avaat oven yöllä.\n\nMuuta lause kieltäväksi käskylauseeksi, jossa kielletään sinua. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":4},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Bussi tulee ajoissa.\n\nMuuta lause toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":6},{"nro":13,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kirjoitat keksittyä mainosta koulun konsertista ja haluat kehottaa lukijaa toimimaan. Lauseet:\n1) Konsertti alkaa kello seitsemän.\n2) Tule mukaan juhlimaan!\n3) Konsertin järjestää oppilaskunta.\n\nMonesko lause sopii tähän tarkoitukseen parhaiten?","vastaus":2},{"nro":14,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Keksitty mainos:\nKirppis on lauantaina! Tule tekemään löytöjä! Kuinka edullista kaikki onkaan! Myyntipöytiä on kolmekymmentä.\n\nMontako väitelausetta katkelmassa on?","vastaus":2},{"nro":15,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kolme kysymystä:\n1) Kioskin myyjä: Montako lippua haluat?\n2) Mielipidekirjoitus: Kuka muka jaksaa keskittyä tunnilla nälkäisenä?\n3) Kyselylomake: Mitä harrastat vapaa-ajalla?\n\nMonesko kysymys on retorinen?","vastaus":2},{"nro":16,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Nimeä lauseiden lausetyypit (väite-, kysymys-, käsky-, toivomus- tai huudahduslause). Kerro jokaisesta yksi muodon tuntomerkki, josta tunnistat sen. Pelkkä välimerkki ei riitä tuntomerkiksi.\n\na) Älä jätä läksyjä viime tinkaan.\nb) Kunpa koulu alkaisi myöhemmin!\nc) Kysyin, saako tunnilla syödä.\nd) Onpa tämä vaikea kappale!\ne) Ehditkö auttaa minua?\nf) Kirjoita vastaus vihkoon!","vastaus":"Malliesimerkki: a) käskylause: kieltoverbi älä ja käskymuoto; piste ei tee väitettä. b) toivomuslause: kunpa ja konditionaali alkaisi. c) väitelause: päälause Kysyin kertoo asian eikä kysy itse, ja sivulause on epäsuora kysymys, siksi piste. d) huudahduslause: -pa-liite indikatiivin verbissä onpa. e) kysymyslause: -ko-liite verbissä ehditkö, vaihtoehtokysymys. f) käskylause: verbi kirjoita on imperatiivissa."},{"nro":17,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Nimeä kysymykset vaihtoehtokysymykseksi tai hakukysymykseksi ja perustele muodon avulla. Kerro, millaista vastausta kumpikin odottaa. Kirjoita lopuksi annetusta aiheesta yksi oma kysymys kumpaakin tyyppiä.\n\na) Kuka vei avaimet?\nb) Veitkö avaimet?\nAihe: koulun retki.","vastaus":"Malliesimerkki: a) Kuka vei avaimet? on hakukysymys: se alkaa kysymyssanalla ja odottaa vastaukseksi tietoa. b) Veitkö avaimet? on vaihtoehtokysymys: verbissä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei. Omat kysymykset: Mihin retki suuntautuu? (hakukysymys) ja Lähteekö retki aamulla? (vaihtoehtokysymys)."},{"nro":18,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Muuta väitelause kaikiksi muiksi lausetyypeiksi: käskylauseeksi, vaihtoehtokysymykseksi, hakukysymykseksi, toivomuslauseeksi ja huudahduslauseeksi. Saat muuttaa persoonaa ja lisätä sanoja, mutta asia pysyy samana.\n\nElias siivoaa huoneensa.","vastaus":"Malliesimerkki: Käskylause: Siivoa huoneesi, Elias. Vaihtoehtokysymys: Siivoaako Elias huoneensa? Hakukysymys: Milloin Elias siivoaa huoneensa? Toivomuslause: Kunpa Elias siivoaisi huoneensa! Huudahduslause: Kuinka huolellisesti Elias siivoaakaan huoneensa!"},{"nro":19,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Lue kolme keksittyä katkelmaa. Kerro jokaisesta, mitä lausetyyppiä siinä käytetään eniten ja miksi se sopii tekstin tarkoitukseen. Etsi mielipidekirjoituksesta retorinen kysymys ja selitä, miten se vaikuttaa lukijaan.\n\nOhje: Täytä vesipullo. Kiinnitä korkki tiukasti. Älä jätä pulloa aurinkoon.\nMainos: Onpa uusi skeittipuisto upea! Kuinka hienoja ramppeja siellä onkaan! Tule kokeilemaan!\nMielipidekirjoitus: Koulun kerhoja on vähennetty. Se on huono päätös. Mitä nuoret sitten tekevät iltapäivisin? Kerhot tuovat turvaa ja tekemistä.","vastaus":"Malliesimerkki: Ohjeessa on eniten käskylauseita, koska ohje neuvoo lukijaa toimimaan vaihe vaiheelta. Mainoksessa on eniten huudahduslauseita, koska mainos haluaa herättää innostusta, ja lopun käsky kehottaa toimimaan. Mielipidekirjoituksessa on eniten väitelauseita, koska kirjoittaja esittää kantansa ja perustelee sen. Retorinen kysymys on Mitä nuoret sitten tekevät iltapäivisin? Kirjoittaja ei odota vastausta, vaan olettaa lukijan vastaavan mielessään, että ilman kerhoja nuorilla ei ole hyvää tekemistä. Kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Muuta suora kysymys epäsuoraksi kysymykseksi niin, että virke alkaa annetulla sanalla. Kerro, mikä lausetyyppi uusi virke on ja miksi se päättyy pisteeseen.\n\nLähteekö bussi ajoissa? (Alkusana: Kysyin)","vastaus":"Malliesimerkki: Kysyin, lähteekö bussi ajoissa. Virke on väitelause: päälause kertoo, mitä tein, eikä kysy itse. Kysymys on muuttunut sivulauseeksi (epäsuora kysymys), joten virkkeen loppuun tulee piste eikä kysymysmerkki."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Kun muutat lausetta ja lasket sanoja tai kirjaimia, kirjoita ensin muuttamasi lause näkyviin ja vastaa sitten luvulla.\nLausetyypit ovat väitelause, kysymyslause, käskylause, toivomuslause ja huudahduslause. Kysymyslauseet jaetaan vaihtoehtokysymyksiin ja hakukysymyksiin.\nTehtävissä 16–20 kirjoita vastaus kokonaisin virkkein. Mainokset, ohjeet ja mielipidekirjoitukset ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Pesetkö kädet?\n2) Pesit kädet.\n3) Pese kädet.\n\nMonesko lause on käskylause?","vastaus":3},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Eivätkö he tulleet?\n2) Älkää tulko.\n3) He eivät tulleet.\n\nMonesko lause on väitelause?","vastaus":3},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Kunpa lunta sataisi!\n2) Sataapa lunta!\n3) Lunta sataa.\n4) Saisinpa uudet sukset!\n\nMontako toivomuslausetta?","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Konsertti alkaa nyt!\n2) Kuinka upeasti kuoro laulaakaan!\n3) Laulaisipa kuoro vielä yhden kappaleen!\n4) Onpa sali täynnä!\n\nMontako huudahduslausetta?","vastaus":2},{"nro":5,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Keksityt uimahallin säännöt:\nPeseydy ennen altaaseen menoa. Altaalla on valvoja. Älä juokse altaan reunalla! Käytä uimalakkia. Hallin kahvio on yläkerrassa.\n\nMontako käskylausetta katkelmassa on?","vastaus":3},{"nro":6,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Virkkeet:\n1) Mihin bussi menee?\n2) Mietin, mihin bussi menee.\n3) Katso, mihin bussi menee.\n4) Voisitteko kertoa bussin reitin?\n\nMontako virkkeistä on kysymyslauseita?","vastaus":2},{"nro":7,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Pelaatko sulkapalloa?\n2) Kenen kanssa pelaat?\n3) Pelaatko sisällä vai ulkona?\n4) Millä mailalla pelaat?\n\nMontako hakukysymystä?","vastaus":2},{"nro":8,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Ensi viikollako lähdette?\n2) Mihin lähdette?\n3) Lähdettekö junalla?\n4) Milloin palaatte?\n\nMontako vaihtoehtokysymystä?","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Iida löysi lompakon puistosta.\n\nMuuta lause hakukysymykseksi niin, että korvaat sanan puistosta kysymyssanalla mistä. Montako sanaa kysymyksessä on?","vastaus":4},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Te luette ohjeen.\n\nMuuta lause käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":7},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sinä heität roskan maahan.\n\nMuuta lause kieltäväksi käskylauseeksi, jossa kielletään sinua. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":4},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sade loppuu.\n\nMuuta lause toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":8},{"nro":13,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kirjoitat ohjetta siitä, miten taimi istutetaan, ja haluat kertoa lukijalle työvaiheen. Lauseet:\n1) Kunpa taimi kasvaisi isoksi!\n2) Taimi on vihreä.\n3) Kaiva multaan kuoppa.\n\nMonesko lause sopii tähän tarkoitukseen parhaiten?","vastaus":3},{"nro":14,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Keksitty mainos:\nUusi pizzeria avautuu torilla! Maista talon erikoista! Onpa täällä hyvä tunnelma! Avajaispäivänä juomat ovat ilmaisia.\n\nMontako väitelausetta katkelmassa on?","vastaus":2},{"nro":15,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kolme kysymystä:\n1) Mielipidekirjoitus: Eikö jokaisella ole oikeus turvalliseen koulumatkaan?\n2) Kirjaston virkailija: Haluatko lainata tämän kirjan?\n3) Bussinkuljettaja: Mihin pysäkkiin olet menossa?\n\nMonesko kysymys on retorinen?","vastaus":1},{"nro":16,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Nimeä lauseiden lausetyypit (väite-, kysymys-, käsky-, toivomus- tai huudahduslause). Kerro jokaisesta yksi muodon tuntomerkki, josta tunnistat sen. Pelkkä välimerkki ei riitä tuntomerkiksi.\n\na) Älkää koskeko näyttelyn esineisiin.\nb) Olisipa meillä enemmän aikaa!\nc) Mietin, mitä ostaisin lahjaksi.\nd) Kuinka korkealle leija nouseekaan!\ne) Mihin laitoit sakset?\nf) Laita takki naulaan!","vastaus":"Malliesimerkki: a) käskylause: kieltoverbi älkää ja käskymuoto; piste ei tee väitettä. b) toivomuslause: -pa-liite ja konditionaali olisipa. c) väitelause: päälause Mietin kertoo asian eikä kysy itse, ja sivulause on epäsuora kysymys, siksi piste. d) huudahduslause: kuinka-sana ja -kaan-liite nouseekaan. e) kysymyslause: kysymyssana mihin, hakukysymys. f) käskylause: verbi laita on imperatiivissa."},{"nro":17,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Nimeä kysymykset vaihtoehtokysymykseksi tai hakukysymykseksi ja perustele muodon avulla. Kerro, millaista vastausta kumpikin odottaa. Kirjoita lopuksi annetusta aiheesta yksi oma kysymys kumpaakin tyyppiä.\n\na) Milloin ottelu alkaa?\nb) Alkaako ottelu kuudelta?\nAihe: kirjasto.","vastaus":"Malliesimerkki: a) Milloin ottelu alkaa? on hakukysymys: se alkaa kysymyssanalla ja odottaa vastaukseksi tietoa. b) Alkaako ottelu kuudelta? on vaihtoehtokysymys: verbissä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei. Omat kysymykset: Milloin kirjasto aukeaa? (hakukysymys) ja Onko kirjasto auki lauantaina? (vaihtoehtokysymys)."},{"nro":18,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Muuta väitelause kaikiksi muiksi lausetyypeiksi: käskylauseeksi, vaihtoehtokysymykseksi, hakukysymykseksi, toivomuslauseeksi ja huudahduslauseeksi. Saat muuttaa persoonaa ja lisätä sanoja, mutta asia pysyy samana.\n\nAava harjoittelee pianoa.","vastaus":"Malliesimerkki: Käskylause: Harjoittele pianoa, Aava. Vaihtoehtokysymys: Harjoitteleeko Aava pianoa? Hakukysymys: Kuinka usein Aava harjoittelee pianoa? Toivomuslause: Kunpa Aava harjoittelisi pianoa! Huudahduslause: Kuinka ahkerasti Aava harjoitteleekaan pianoa!"},{"nro":19,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Lue kolme keksittyä katkelmaa. Kerro jokaisesta, mitä lausetyyppiä siinä käytetään eniten ja miksi se sopii tekstin tarkoitukseen. Etsi mielipidekirjoituksesta retorinen kysymys ja selitä, miten se vaikuttaa lukijaan.\n\nOhje: Avaa sovellus. Valitse kieli. Älä anna salasanaasi kenellekään.\nMainos: Kuinka herkullisia uudet leivokset ovatkaan! Onpa kahvilassa kodikasta! Tule maistamaan!\nMielipidekirjoitus: Pyörätiet ovat talvella huonossa kunnossa. Aurauksen pitäisi alkaa aikaisemmin. Kuka haluaa polkea kouluun lumikinoksissa? Hyvä talvikunnossapito houkuttelee pyöräilemään.","vastaus":"Malliesimerkki: Ohjeessa on eniten käskylauseita, koska ohje neuvoo lukijaa toimimaan vaihe vaiheelta. Mainoksessa on eniten huudahduslauseita, koska mainos haluaa herättää innostusta, ja lopun käsky kehottaa toimimaan. Mielipidekirjoituksessa on eniten väitelauseita, koska kirjoittaja esittää kantansa ja perustelee sen. Retorinen kysymys on Kuka haluaa polkea kouluun lumikinoksissa? Kirjoittaja ei odota vastausta, vaan olettaa lukijan vastaavan mielessään, että ei kukaan. Kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Muuta suora kysymys epäsuoraksi kysymykseksi niin, että virke alkaa annetulla sanalla. Kerro, mikä lausetyyppi uusi virke on ja miksi se päättyy pisteeseen.\n\nOnko kirjasto auki? (Alkusana: Mietin)","vastaus":"Malliesimerkki: Mietin, onko kirjasto auki. Virke on väitelause: päälause kertoo, mitä tein, eikä kysy itse. Kysymys on muuttunut sivulauseeksi (epäsuora kysymys), joten virkkeen loppuun tulee piste eikä kysymysmerkki."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Kun muutat lausetta ja lasket sanoja tai kirjaimia, kirjoita ensin muuttamasi lause näkyviin ja vastaa sitten luvulla.\nLausetyypit ovat väitelause, kysymyslause, käskylause, toivomuslause ja huudahduslause. Kysymyslauseet jaetaan vaihtoehtokysymyksiin ja hakukysymyksiin.\nTehtävissä 16–20 kirjoita vastaus kokonaisin virkkein. Mainokset, ohjeet ja mielipidekirjoitukset ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Lue ohje.\n2) Luitko ohjeen?\n3) Luit ohjeen.\n\nMonesko lause on käskylause?","vastaus":1},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Hän ei vastannut.\n2) Älä vastaa.\n3) Vastasiko hän?\n\nMonesko lause on väitelause?","vastaus":1},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Onpa tämä hyvää keittoa!\n2) Kunpa keittoa riittäisi kaikille!\n3) Keittoa riittää kaikille.\n4) Pääsisinpä jo syömään!\n\nMontako toivomuslausetta?","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Miten korkealle hän hyppäsikään!\n2) Hän voitti kisan!\n3) Hyppäsipä hän korkealle!\n4) Kunpa minäkin osaisin hypätä noin!\n\nMontako huudahduslausetta?","vastaus":2},{"nro":5,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Keksitty kirjaston ohje:\nPalauta kirjat ajoissa. Lehtiä saa lukea paikan päällä. Älä syö lukusalissa. Puhu hiljaa! Kirjasto suljetaan kahdeksalta.\n\nMontako käskylausetta katkelmassa on?","vastaus":3},{"nro":6,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Virkkeet:\n1) Selvitä, kuka voitti.\n2) Kuka voitti?\n3) Voisitko kertoa tuloksen?\n4) Kerroin, kuka voitti.\n\nMontako virkkeistä on kysymyslauseita?","vastaus":2},{"nro":7,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Montako sivua kirjassa on?\n2) Onko kirja paksu?\n3) Kuka kirjan kirjoitti?\n4) Luitko kirjan vai kuuntelitko sen?\n\nMontako hakukysymystä?","vastaus":2},{"nro":8,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Kenen pyörä tämä on?\n2) Sinunko pyöräsi tämä on?\n3) Mistä ostit pyörän?\n4) Onko pyörä uusi?\n\nMontako vaihtoehtokysymystä?","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Onni korjasi tuulettimen ruuvimeisselillä.\n\nMuuta lause hakukysymykseksi niin, että korvaat sanan ruuvimeisselillä kysymyssanalla millä. Montako sanaa kysymyksessä on?","vastaus":4},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Te suljette ikkunan.\n\nMuuta lause käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":8},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sinä kosket kuumaan uuniin.\n\nMuuta lause kieltäväksi käskylauseeksi, jossa kielletään sinua. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":4},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Ystäväni muistaa minut.\n\nMuuta lause toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":9},{"nro":13,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kirjoitat uutista ja haluat kertoa tapahtuneesta asiallisesti. Lauseet:\n1) Onpa jännittävää!\n2) Kaupungin uusi uimahalli avattiin maanantaina.\n3) Tule uimaan!\n\nMonesko lause sopii tähän tarkoitukseen parhaiten?","vastaus":2},{"nro":14,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Keksitty mainos:\nKoulun disko on perjantaina! Ota kaverit mukaan! Onpa luvassa hauska ilta! Liput maksavat kaksi euroa.\n\nMontako väitelausetta katkelmassa on?","vastaus":2},{"nro":15,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kolme kysymystä:\n1) Opas: Onko kaikilla kypärä päässä?\n2) Ystävä viestissä: Mihin aikaan nähdään?\n3) Mielipidekirjoitus: Pitääkö meidän todella odottaa onnettomuutta, ennen kuin risteykseen tulee valot?\n\nMonesko kysymys on retorinen?","vastaus":3},{"nro":16,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Nimeä lauseiden lausetyypit (väite-, kysymys-, käsky-, toivomus- tai huudahduslause). Kerro jokaisesta yksi muodon tuntomerkki, josta tunnistat sen. Pelkkä välimerkki ei riitä tuntomerkiksi.\n\na) Älä unohda kypärää.\nb) Jospa ehtisimme vielä junaan!\nc) Opettaja kysyi, kuka oli lukenut kirjan.\nd) Onpa täällä hiljaista!\ne) Jaksatko kantaa laatikon?\nf) Sammuta valot!","vastaus":"Malliesimerkki: a) käskylause: kieltoverbi älä ja käskymuoto; piste ei tee väitettä. b) toivomuslause: jospa ja konditionaali ehtisimme. c) väitelause: päälause Opettaja kysyi kertoo asian eikä kysy itse, ja sivulause on epäsuora kysymys, siksi piste. d) huudahduslause: -pa-liite indikatiivin verbissä onpa. e) kysymyslause: -ko-liite verbissä jaksatko, vaihtoehtokysymys. f) käskylause: verbi sammuta on imperatiivissa."},{"nro":17,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Nimeä kysymykset vaihtoehtokysymykseksi tai hakukysymykseksi ja perustele muodon avulla. Kerro, millaista vastausta kumpikin odottaa. Kirjoita lopuksi annetusta aiheesta yksi oma kysymys kumpaakin tyyppiä.\n\na) Lähdetkö uimaan?\nb) Mihin lähdet uimaan?\nAihe: konsertti.","vastaus":"Malliesimerkki: b) Mihin lähdet uimaan? on hakukysymys: se alkaa kysymyssanalla ja odottaa vastaukseksi tietoa. a) Lähdetkö uimaan? on vaihtoehtokysymys: verbissä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei. Omat kysymykset: Missä konsertti pidetään? (hakukysymys) ja Tuletko konserttiin? (vaihtoehtokysymys)."},{"nro":18,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Muuta väitelause kaikiksi muiksi lausetyypeiksi: käskylauseeksi, vaihtoehtokysymykseksi, hakukysymykseksi, toivomuslauseeksi ja huudahduslauseeksi. Saat muuttaa persoonaa ja lisätä sanoja, mutta asia pysyy samana.\n\nTopias kastelee kukat.","vastaus":"Malliesimerkki: Käskylause: Kastele kukat, Topias. Vaihtoehtokysymys: Kasteleeko Topias kukat? Hakukysymys: Milloin Topias kastelee kukat? Toivomuslause: Kunpa Topias kastelisi kukat! Huudahduslause: Kuinka huolellisesti Topias kasteleekaan kukat!"},{"nro":19,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Lue kolme keksittyä katkelmaa. Kerro jokaisesta, mitä lausetyyppiä siinä käytetään eniten ja miksi se sopii tekstin tarkoitukseen. Etsi mielipidekirjoituksesta retorinen kysymys ja selitä, miten se vaikuttaa lukijaan.\n\nOhje: Kastele multa. Aseta siemenet kuoppiin. Älä peitä siemeniä liian syvälle.\nMainos: Kuinka kauniita kukkia meillä onkaan! Onpa valikoima laaja! Tule valitsemaan omasi!\nMielipidekirjoitus: Kaupungin puistoista on vähennetty penkkejä. Se vaikeuttaa monen ulkoilua. Missä ikäihmiset sitten lepäävät kävelyllä? Penkit kuuluvat jokaiseen puistoon.","vastaus":"Malliesimerkki: Ohjeessa on eniten käskylauseita, koska ohje neuvoo lukijaa toimimaan vaihe vaiheelta. Mainoksessa on eniten huudahduslauseita, koska mainos haluaa herättää innostusta, ja lopun käsky kehottaa toimimaan. Mielipidekirjoituksessa on eniten väitelauseita, koska kirjoittaja esittää kantansa ja perustelee sen. Retorinen kysymys on Missä ikäihmiset sitten lepäävät kävelyllä? Kirjoittaja ei odota vastausta, vaan olettaa lukijan vastaavan mielessään, että ei missään. Kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Muuta suora kysymys epäsuoraksi kysymykseksi niin, että virke alkaa annetulla sanalla. Kerro, mikä lausetyyppi uusi virke on ja miksi se päättyy pisteeseen.\n\nVoittiko Emma kisan? (Alkusana: Kysyin)","vastaus":"Malliesimerkki: Kysyin, voittiko Emma kisan. Virke on väitelause: päälause kertoo, mitä tein, eikä kysy itse. Kysymys on muuttunut sivulauseeksi (epäsuora kysymys), joten virkkeen loppuun tulee piste eikä kysymysmerkki."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Kun muutat lausetta ja lasket sanoja tai kirjaimia, kirjoita ensin muuttamasi lause näkyviin ja vastaa sitten luvulla.\nLausetyypit ovat väitelause, kysymyslause, käskylause, toivomuslause ja huudahduslause. Kysymyslauseet jaetaan vaihtoehtokysymyksiin ja hakukysymyksiin.\nTehtävissä 16–20 kirjoita vastaus kokonaisin virkkein. Mainokset, ohjeet ja mielipidekirjoitukset ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Kastelit kukat.\n2) Kastele kukat.\n3) Kastelitko kukat?\n\nMonesko lause on käskylause?","vastaus":2},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Älkää istuko siihen.\n2) Ettekö istuneet siihen?\n3) Ette istuneet siihen.\n\nMonesko lause on väitelause?","vastaus":3},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Laulaapa lintu kauniisti!\n2) Lintu laulaa ikkunan takana.\n3) Kunpa lintu laulaisi vielä!\n4) Jospa se rakentaisi pesän pihaan!\n\nMontako toivomuslausetta?","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Onpa tämä kirja jännittävä!\n2) Kirja loppui kesken!\n3) Jospa kirjalle tulisi jatkoa!\n4) Kuinka hyvin kirjailija kirjoittaakaan!\n\nMontako huudahduslausetta?","vastaus":2},{"nro":5,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Keksitty talkoo-ohje:\nTuokaa omat työhanskat. Haravat ovat varastossa. Älkää polttako risuja! Kerätkää roskat säkkeihin. Talkoot päättyvät kahdelta.\n\nMontako käskylausetta katkelmassa on?","vastaus":3},{"nro":6,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Virkkeet:\n1) Kysyimme, missä museo on.\n2) Voisitteko neuvoa tien museolle?\n3) Missä museo on?\n4) Näytä kartalta, missä museo on.\n\nMontako virkkeistä on kysymyslauseita?","vastaus":2},{"nro":7,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Sataako huomenna?\n2) Millainen sää huomenna on?\n3) Paistaako aurinko vai sataako?\n4) Mistä tuuli puhaltaa?\n\nMontako hakukysymystä?","vastaus":2},{"nro":8,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Tänäänkö ottelu on?\n2) Missä ottelu pelataan?\n3) Pelaako Saku ottelussa?\n4) Kuka valmentaa joukkuetta?\n\nMontako vaihtoehtokysymystä?","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sofia maalasi aidan keltaiseksi.\n\nMuuta lause hakukysymykseksi niin, että korvaat sanan Sofia kysymyssanalla kuka. Montako sanaa kysymyksessä on?","vastaus":4},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Te otatte kirjat esiin.\n\nMuuta lause käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":7},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sinä jätät pyörän pihalle.\n\nMuuta lause kieltäväksi käskylauseeksi, jossa kielletään sinua. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":4},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Kesä kestää pitkään.\n\nMuuta lause toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":8},{"nro":13,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kirjoitat mielipidekirjoitusta ja haluat esittää kantasi väitteenä. Lauseet:\n1) Koulupäivän pitäisi alkaa myöhemmin.\n2) Voi kuinka väsyttääkään!\n3) Milloin koulu alkaa?\n\nMonesko lause sopii tähän tarkoitukseen parhaiten?","vastaus":1},{"nro":14,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Keksitty mainos:\nPyöräkauppa muuttaa! Kaikki kypärät myydään puoleen hintaan! Tule ajoissa! Kuinka hyviä tarjouksia meillä onkaan!\n\nMontako väitelausetta katkelmassa on?","vastaus":2},{"nro":15,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kolme kysymystä:\n1) Myyjä: Minkä kokoiset kengät tarvitset?\n2) Mielipidekirjoitus: Kuka haluaa asua kaupungissa, jossa ei ole yhtään puistoa?\n3) Valmentaja: Kuka pelaa maalissa tänään?\n\nMonesko kysymys on retorinen?","vastaus":2},{"nro":16,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Nimeä lauseiden lausetyypit (väite-, kysymys-, käsky-, toivomus- tai huudahduslause). Kerro jokaisesta yksi muodon tuntomerkki, josta tunnistat sen. Pelkkä välimerkki ei riitä tuntomerkiksi.\n\na) Älkää jättäkö roskia rannalle.\nb) Kunpa kesä ei loppuisi!\nc) En tiedä, miksi bussi on myöhässä.\nd) Kuinka kirkkaasti kuu paistaakaan!\ne) Kuka söi viimeisen omenan?\nf) Avaa ikkuna!","vastaus":"Malliesimerkki: a) käskylause: kieltoverbi älkää ja käskymuoto; piste ei tee väitettä. b) toivomuslause: kunpa ja konditionaali ei loppuisi. c) väitelause: päälause En tiedä kertoo asian eikä kysy itse, ja sivulause on epäsuora kysymys, siksi piste. d) huudahduslause: kuinka-sana ja -kaan-liite paistaakaan. e) kysymyslause: kysymyssana kuka, hakukysymys. f) käskylause: verbi avaa on imperatiivissa."},{"nro":17,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Nimeä kysymykset vaihtoehtokysymykseksi tai hakukysymykseksi ja perustele muodon avulla. Kerro, millaista vastausta kumpikin odottaa. Kirjoita lopuksi annetusta aiheesta yksi oma kysymys kumpaakin tyyppiä.\n\na) Sataako ulkona?\nb) Miksi kadut ovat märkiä?\nAihe: kesäloma.","vastaus":"Malliesimerkki: b) Miksi kadut ovat märkiä? on hakukysymys: se alkaa kysymyssanalla ja odottaa vastaukseksi tietoa. a) Sataako ulkona? on vaihtoehtokysymys: verbissä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei. Omat kysymykset: Milloin kesäloma alkaa? (hakukysymys) ja Lähdetkö kesälomalla mökille? (vaihtoehtokysymys)."},{"nro":18,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Muuta väitelause kaikiksi muiksi lausetyypeiksi: käskylauseeksi, vaihtoehtokysymykseksi, hakukysymykseksi, toivomuslauseeksi ja huudahduslauseeksi. Saat muuttaa persoonaa ja lisätä sanoja, mutta asia pysyy samana.\n\nRonja lukee uutiset.","vastaus":"Malliesimerkki: Käskylause: Lue uutiset, Ronja. Vaihtoehtokysymys: Lukeeko Ronja uutiset? Hakukysymys: Mitä Ronja lukee? Toivomuslause: Kunpa Ronja lukisi uutiset! Huudahduslause: Kuinka tarkasti Ronja lukeekaan uutiset!"},{"nro":19,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Lue kolme keksittyä katkelmaa. Kerro jokaisesta, mitä lausetyyppiä siinä käytetään eniten ja miksi se sopii tekstin tarkoitukseen. Etsi mielipidekirjoituksesta retorinen kysymys ja selitä, miten se vaikuttaa lukijaan.\n\nOhje: Laita kypärä päähän. Säädä remmi sopivaksi. Älä aja ilman valoja pimeällä.\nMainos: Onpa elokuvateatterin uusi sali upea! Kuinka hyvin äänet kuuluvatkaan! Varaa liput heti!\nMielipidekirjoitus: Koulun ruokalassa on liian kova melu. Melu väsyttää. Kuka jaksaa syödä rauhassa, kun ympärillä huudetaan? Ruokalaan tarvitaan ääntä vaimentavia levyjä.","vastaus":"Malliesimerkki: Ohjeessa on eniten käskylauseita, koska ohje neuvoo lukijaa toimimaan vaihe vaiheelta. Mainoksessa on eniten huudahduslauseita, koska mainos haluaa herättää innostusta, ja lopun käsky kehottaa toimimaan. Mielipidekirjoituksessa on eniten väitelauseita, koska kirjoittaja esittää kantansa ja perustelee sen. Retorinen kysymys on Kuka jaksaa syödä rauhassa, kun ympärillä huudetaan? Kirjoittaja ei odota vastausta, vaan olettaa lukijan vastaavan mielessään, että ei kukaan. Kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Muuta suora kysymys epäsuoraksi kysymykseksi niin, että virke alkaa annetulla sanalla. Kerro, mikä lausetyyppi uusi virke on ja miksi se päättyy pisteeseen.\n\nTuleeko Sanni mukaan? (Alkusana: Mietin)","vastaus":"Malliesimerkki: Mietin, tuleeko Sanni mukaan. Virke on väitelause: päälause kertoo, mitä tein, eikä kysy itse. Kysymys on muuttunut sivulauseeksi (epäsuora kysymys), joten virkkeen loppuun tulee piste eikä kysymysmerkki."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Kun muutat lausetta ja lasket sanoja tai kirjaimia, kirjoita ensin muuttamasi lause näkyviin ja vastaa sitten luvulla.\nLausetyypit ovat väitelause, kysymyslause, käskylause, toivomuslause ja huudahduslause. Kysymyslauseet jaetaan vaihtoehtokysymyksiin ja hakukysymyksiin.\nTehtävissä 16–20 kirjoita vastaus kokonaisin virkkein. Mainokset, ohjeet ja mielipidekirjoitukset ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Lukitsitko pyörän?\n2) Lukitse pyörä.\n3) Lukitsit pyörän.\n\nMonesko lause on käskylause?","vastaus":2},{"nro":2,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Älä naura.\n2) En nauranut.\n3) Nauroitko?\n\nMonesko lause on väitelause?","vastaus":2},{"nro":3,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Voittaisipa joukkueemme!\n2) Pelaapa joukkue tänään hyvin!\n3) Joukkue pelaa tänään.\n4) Kunpa ottelu ei päättyisi vielä!\n\nMontako toivomuslausetta?","vastaus":2},{"nro":4,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Lauseet:\n1) Joku on syönyt kakkuni!\n2) Kuinka herkullinen kakku olikaan!\n3) Olisipa kakkua vielä jäljellä!\n4) Oletpa leiponut hyvän kakun!\n\nMontako huudahduslausetta?","vastaus":2},{"nro":5,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Keksitty kokeen ohje:\nKirjoita nimesi paperiin. Tehtäviä on kaksikymmentä. Älä käytä puhelinta! Vastaa jokaiseen tehtävään. Kokeen jälkeen saat lähteä.\n\nMontako käskylausetta katkelmassa on?","vastaus":3},{"nro":6,"ryhma":"tunnista","tyyppi":"lasku","kysymys":"Virkkeet:\n1) Arvaa, mitä löysin.\n2) Mitä löysit?\n3) Hän kysyi, mitä löysin.\n4) Voisitko näyttää löytösi?\n\nMontako virkkeistä on kysymyslauseita?","vastaus":2},{"nro":7,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Miksi juna on myöhässä?\n2) Onko juna myöhässä?\n3) Montako minuuttia juna on myöhässä?\n4) Tuleeko juna raiteelle yksi vai kaksi?\n\nMontako hakukysymystä?","vastaus":2},{"nro":8,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Kysymykset:\n1) Mitä katsot?\n2) Uutisiako katsot?\n3) Katsotko ottelua?\n4) Miksi katsot sitä?\n\nMontako vaihtoehtokysymystä?","vastaus":2},{"nro":9,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Veeti vei koiran eläinlääkäriin.\n\nMuuta lause hakukysymykseksi niin, että korvaat sanan eläinlääkäriin kysymyssanalla mihin. Montako sanaa kysymyksessä on?","vastaus":4},{"nro":10,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Te kudotte sukkaa.\n\nMuuta lause käskylauseeksi, jossa käsketään teitä. Jätä sana te pois. Montako kirjainta käskylauseen verbissä on?","vastaus":7},{"nro":11,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Sinä syöt eväät bussissa.\n\nMuuta lause kieltäväksi käskylauseeksi, jossa kielletään sinua. Jätä sana sinä pois. Montako sanaa lauseessa on?","vastaus":4},{"nro":12,"ryhma":"kysymykset","tyyppi":"lasku","kysymys":"Väitelause: Joukkue voittaa ottelun.\n\nMuuta lause toivomuslauseeksi, joka alkaa sanalla kunpa. Montako kirjainta uudessa verbissä on?","vastaus":9},{"nro":13,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kirjoitat ohjetta siitä, miten pyörän ketju öljytään, ja haluat kertoa lukijalle työvaiheen. Lauseet:\n1) Pyöräni on punainen.\n2) Pyyhi ketju puhtaaksi.\n3) Kuinka hieno pyörä onkaan!\n\nMonesko lause sopii tähän tarkoitukseen parhaiten?","vastaus":2},{"nro":14,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Keksitty mainos:\nKirjaston satutunti alkaa taas! Tule kuuntelemaan! Voi kuinka hauskoja tarinoita onkaan luvassa! Satutunti on joka tiistai.\n\nMontako väitelausetta katkelmassa on?","vastaus":2},{"nro":15,"ryhma":"tarkoitus","tyyppi":"lasku","kysymys":"Kolme kysymystä:\n1) Mielipidekirjoitus: Miksi ihmeessä nuorisotalo suljetaan juuri nyt, kun nuoret tarvitsevat sitä eniten?\n2) Uimahallin kassa: Haluatko kuitin?\n3) Opettaja: Kuka on nähnyt luokan avaimen?\n\nMonesko kysymys on retorinen?","vastaus":1},{"nro":16,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Nimeä lauseiden lausetyypit (väite-, kysymys-, käsky-, toivomus- tai huudahduslause). Kerro jokaisesta yksi muodon tuntomerkki, josta tunnistat sen. Pelkkä välimerkki ei riitä tuntomerkiksi.\n\na) Älä soita rumpuja yöllä.\nb) Saisinpa tämän tehtävän valmiiksi!\nc) Kerroin, mistä löysin kissan.\nd) Onpa tämä hieno maalaus!\ne) Pääseekö Ville junaan?\nf) Pane kengät jalkaan!","vastaus":"Malliesimerkki: a) käskylause: kieltoverbi älä ja käskymuoto; piste ei tee väitettä. b) toivomuslause: -pa-liite ja konditionaali saisinpa. c) väitelause: päälause Kerroin kertoo asian eikä kysy itse, ja sivulause on epäsuora kysymys, siksi piste. d) huudahduslause: -pa-liite indikatiivin verbissä onpa. e) kysymyslause: -ko-liite verbissä pääseekö, vaihtoehtokysymys. f) käskylause: verbi pane on imperatiivissa."},{"nro":17,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Nimeä kysymykset vaihtoehtokysymykseksi tai hakukysymykseksi ja perustele muodon avulla. Kerro, millaista vastausta kumpikin odottaa. Kirjoita lopuksi annetusta aiheesta yksi oma kysymys kumpaakin tyyppiä.\n\na) Mitä luet?\nb) Luetko sarjakuvaa?\nAihe: elokuvat.","vastaus":"Malliesimerkki: a) Mitä luet? on hakukysymys: se alkaa kysymyssanalla ja odottaa vastaukseksi tietoa. b) Luetko sarjakuvaa? on vaihtoehtokysymys: verbissä on -ko- tai -kö-liite, ja siihen vastataan kyllä tai ei. Omat kysymykset: Mikä elokuva on suosikkisi? (hakukysymys) ja Katsoitko uuden elokuvan? (vaihtoehtokysymys)."},{"nro":18,"ryhma":"kysymykset","tyyppi":"sanallinen","kysymys":"Muuta väitelause kaikiksi muiksi lausetyypeiksi: käskylauseeksi, vaihtoehtokysymykseksi, hakukysymykseksi, toivomuslauseeksi ja huudahduslauseeksi. Saat muuttaa persoonaa ja lisätä sanoja, mutta asia pysyy samana.\n\nMiro lainaa kirjan kirjastosta.","vastaus":"Malliesimerkki: Käskylause: Lainaa kirja kirjastosta, Miro. Vaihtoehtokysymys: Lainaako Miro kirjan kirjastosta? Hakukysymys: Mistä Miro lainaa kirjan? Toivomuslause: Kunpa Miro lainaisi kirjan kirjastosta! Huudahduslause: Kuinka paljon kirjoja Miro lainaakaan kirjastosta!"},{"nro":19,"ryhma":"tarkoitus","tyyppi":"sanallinen","kysymys":"Lue kolme keksittyä katkelmaa. Kerro jokaisesta, mitä lausetyyppiä siinä käytetään eniten ja miksi se sopii tekstin tarkoitukseen. Etsi mielipidekirjoituksesta retorinen kysymys ja selitä, miten se vaikuttaa lukijaan.\n\nOhje: Pese kädet. Leikkaa omena lohkoiksi. Älä jätä veistä pöydän reunalle.\nMainos: Kuinka hauskoja pelejä uudessa pelikahvilassa onkaan! Onpa siellä mukavat tuolit! Tule pelaamaan!\nMielipidekirjoitus: Koulun kuntosali on auki vain aamuisin. Se on liian vähän. Kuka ehtii harjoitella ennen kahdeksaa? Salin pitäisi olla auki myös iltapäivisin.","vastaus":"Malliesimerkki: Ohjeessa on eniten käskylauseita, koska ohje neuvoo lukijaa toimimaan vaihe vaiheelta. Mainoksessa on eniten huudahduslauseita, koska mainos haluaa herättää innostusta, ja lopun käsky kehottaa toimimaan. Mielipidekirjoituksessa on eniten väitelauseita, koska kirjoittaja esittää kantansa ja perustelee sen. Retorinen kysymys on Kuka ehtii harjoitella ennen kahdeksaa? Kirjoittaja ei odota vastausta, vaan olettaa lukijan vastaavan mielessään, että harva ehtii. Kysymys tekee lukijasta osallisen ja vahvistaa kirjoittajan kantaa."},{"nro":20,"ryhma":"tunnista","tyyppi":"sanallinen","kysymys":"Muuta suora kysymys epäsuoraksi kysymykseksi niin, että virke alkaa annetulla sanalla. Kerro, mikä lausetyyppi uusi virke on ja miksi se päättyy pisteeseen.\n\nLöytyivätkö avaimet? (Alkusana: Kysyin)","vastaus":"Malliesimerkki: Kysyin, löytyivätkö avaimet. Virke on väitelause: päälause kertoo, mitä tein, eikä kysy itse. Kysymys on muuttunut sivulauseeksi (epäsuora kysymys), joten virkkeen loppuun tulee piste eikä kysymysmerkki."}]}]};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

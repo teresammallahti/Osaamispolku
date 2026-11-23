@@ -1,0 +1,619 @@
+<title>Kohtaamisten aikajana · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ET7-KAT-04","oppiaine":"ET","vuosiluokka":7,"taitoalue":"KAT","jakso":"J4","taso":"ydin","otsikko":"Kohtaamisten aikajana","kuvaus":"Osaan kertoa seemiläisen monoteismin ja sekulaarin humanismin historiallisista vaiheista ja selittää esimerkein, mitä tapahtui, kun katsomukset kohtasivat.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T3"],"S":["S1"]},"eyebrow":"Elämänkatsomustieto · 7. luokka","ikoni":"aikajana","naytto":"Paperikoe opettajan aikajanakorttien tuella. 1) Sijoitan kahdeksan tapahtumaa aikajanalle oikeaan järjestykseen ja vuosisadalle; korteissa on tapahtumia kaikista kolmesta seemiläisestä monoteismista (juutalaisuus, kristinusko, islam) ja humanismista (esim. Jerusalemin toisen temppelin tuho ja juutalaisten hajaannus, kristinuskon salliminen Rooman valtakunnassa, islamin synty, al-Andalus, ristiretket, renessanssihumanismi, reformaatio, valistus, Suomen ensimmäinen uskonnonvapauslaki). 2) Valitsen kaksi kohtaamista, joista toisessa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa ja toisessa ne olivat konfliktissa, ja kerron kummastakin, mitä tapahtui ja mitä siitä seurasi. 3) Kirjoitan, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa.","osaa_kun":"Vähintään kuusi kahdeksasta tapahtumasta on oikeassa järjestyksessä ja vuosisadalla (esim. toisen temppelin tuho 70 jaa., Milanon edikti 313, islamin synty 600-luvulla, al-Andalus 711-1492, ensimmäinen ristiretki 1096, reformaation alku 1517, Suomen uskonnonvapauslaki 1922 ja voimaan 1923). Kahdesta kohtaamisesta kerron asiallisesti tapahtuman ja seurauksen (esim. al-Andalusissa ja Toledon käännöstyössä arabiankieliset filosofiset teokset siirtyivät latinaksi Eurooppaan; ristiretkistä seurasi pitkäaikainen epäluottamus). Humanismin kehityksessä mainitsen ihmisen ja järjen korostamisen renessanssissa ja valistuksessa ja nykyisen järjestäytyneen humanismin (esim. Amsterdamin julistus). En esitä mitään katsomusta yksinomaan syyllisenä tai uhrina.","teksti":[{"tyyppi":"johdanto","sisalto":"Kuusiniemen koulun 7B-luokka on museossa näyttelyssä, jonka nimi on Kohtaamisia. Yhdessä vitriinissä on latinankielinen käsikirjoitus 1100-luvulta. Opas kertoo, että teksti on alun perin kreikkalaisen filosofin Aristoteleen, mutta latinaksi se on käännetty arabiankielisestä käännöksestä. Noora ihmettelee: \"Miten kreikkalaisen ajatukset kulkivat arabian kautta latinaan?\" Vastaus löytyy katsomusten historiasta. Juutalaisuus, kristinusko ja islam ovat seemiläisiä monoteistisia uskontoja: ne uskovat yhteen Jumalaan ja syntyivät Lähi-idässä. Sekulaari humanismi on uskonnoton katsomus, jonka juuret ovat renessanssissa ja valistuksessa. Näiden katsomusten historiassa on sekä rinnakkaiseloa ja vaikutteiden vaihtoa että vakavia konflikteja. Tässä taidossa opit sijoittamaan tärkeitä tapahtumia aikajanalle, kertomaan kohtaamisista ja kuvaamaan, miten humanismi kehittyi. Kuusiniemen koulu ja sen oppilaat ovat keksittyjä."},{"tyyppi":"kappale","otsikko":"Aikajana: vuosisata ja sataluku","sisalto":"Ajanlaskussa vuodet ennen ajanlaskun alkua merkitään eaa. ja sen jälkeen jaa. Tämän taidon tapahtumat ovat kaikki jaa. Historiassa aikaa kuvataan usein vuosisadoilla. Vuodet 1–100 ovat ensimmäinen vuosisata, vuodet 101–200 toinen vuosisata ja niin edelleen. Arkikielessä puhutaan myös sataluvuista: 1500-luku tarkoittaa vuosia 1500–1599. Sataluku ja vuosisata eroavat yhdellä: vuosi 1517 kuuluu 1500-lukuun, mutta se on 16. vuosisataa. Kun vuosi ei pääty kahteen nollaan, saat vuosisadan näin: ota vuosiluvun sadat ja lisää yksi. Esimerkiksi vuosi 711: sadat ovat 7, joten vuosi kuuluu 8. vuosisataan. Vuosi 70: sadat ovat 0, joten se kuuluu 1. vuosisataan. Tässä taidossa ei käytetä vuosia, jotka päättyvät kahteen nollaan."},{"tyyppi":"kappale","otsikko":"Juutalaisuus: temppelistä hajaannukseen","sisalto":"Juutalaisuuden keskus oli pitkään Jerusalemin temppeli. Kun juutalaiset nousivat kapinaan Rooman valtaa vastaan, roomalaiset tuhosivat Jerusalemin toisen temppelin vuonna 70 jaa. Temppelin uhripalvelus loppui. Juutalaisuuden keskiöön nousivat synagoga, Tooran ja muiden pyhien tekstien opiskelu sekä rabbit eli opettajat. Juutalaisia oli asunut yhteisöinä eri puolilla Välimeren ympäristöä ja Lähi-itää jo aiemmin, mutta temppelin tuhon ja myöhempien kapinoiden jälkeen hajaannus eli diaspora laajeni. Juutalaiset elivät seuraavat vuosisadat vähemmistönä kristittyjen ja muslimien hallitsemilla alueilla. Siksi juutalaisuuden historia on suurelta osin kohtaamisten historiaa."},{"tyyppi":"kappale","otsikko":"Kristinusko: vainotusta valtionuskonnoksi","sisalto":"Kristinusko syntyi juutalaisuuden piiristä ensimmäisellä vuosisadalla ja levisi Rooman valtakunnassa. Kristittyjä vainottiin ajoittain, koska he eivät suostuneet palvomaan keisaria ja Rooman jumalia. Vuonna 313 keisarit Konstantinus ja Licinius sopivat Milanossa, että kristinusko ja muutkin uskonnot sallitaan. Tätä kutsutaan Milanon ediktiksi. Vuonna 380 keisari Theodosius teki kristinuskosta Rooman valtakunnan virallisen uskonnon. Pian sen jälkeen vanhojen jumalten palvontaa alettiin rajoittaa. Kristinuskon asema muuttui siis vajaassa sadassa vuodessa vainotusta sallituksi ja lopulta valtaa käyttäväksi uskonnoksi."},{"tyyppi":"kappale","otsikko":"Islam: Mekasta Iberian niemimaalle","sisalto":"Islam syntyi Arabian niemimaalla 600-luvulla. Muslimien uskon mukaan Jumala alkoi ilmoittaa sanaansa profeetta Muhammadille noin vuonna 610. Vuonna 622 Muhammad muutti seuraajineen Mekasta Medinaan. Tätä muuttoa kutsutaan hidžraksi, ja siitä alkaa islamilainen ajanlasku. Islamia tunnustavien hallitsijoiden valta levisi nopeasti Lähi-itään, Pohjois-Afrikkaan ja vuonna 711 Iberian niemimaalle eli nykyisen Espanjan ja Portugalin alueelle. Muslimien hallitsemaa Iberian aluetta kutsutaan nimellä al-Andalus. Se kesti eri laajuisena vuoteen 1492. Vuonna 929 Córdobasta tuli al-Andaluksen kalifaatin pääkaupunki ja yksi Euroopan suurimmista kaupungeista."},{"tyyppi":"kuva","otsikko":"Aikajana: tämän taidon tärkeimmät tapahtumat","svg":"<svg viewBox=\"0 0 620 275\" role=\"img\" aria-label=\"Aikajana vuodesta 0 vuoteen 2000 jaa.: toisen temppelin tuho 70, Milanon edikti 313, hidžra 622, al-Andalus 711–1492, ensimmäinen ristiretki 1096, renessanssihumanismi 1300–1500-luvuilla, reformaatio 1517, valistus 1700-luvulla, Suomen uskonnonvapauslaki 1922, Amsterdamin julistus 1952\"><line class=\"v-akseli\" x1=\"30.0\" y1=\"110\" x2=\"590.0\" y2=\"110\"/><line class=\"v-akseli\" x1=\"30.0\" y1=\"104\" x2=\"30.0\" y2=\"116\"/><text class=\"v-t pieni\" x=\"30.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">0</text><line class=\"v-akseli\" x1=\"170.0\" y1=\"104\" x2=\"170.0\" y2=\"116\"/><text class=\"v-t pieni\" x=\"170.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">500</text><line class=\"v-akseli\" x1=\"310.0\" y1=\"104\" x2=\"310.0\" y2=\"116\"/><text class=\"v-t pieni\" x=\"310.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1000</text><line class=\"v-akseli\" x1=\"450.0\" y1=\"104\" x2=\"450.0\" y2=\"116\"/><text class=\"v-t pieni\" x=\"450.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1500</text><line class=\"v-akseli\" x1=\"590.0\" y1=\"104\" x2=\"590.0\" y2=\"116\"/><text class=\"v-t pieni\" x=\"590.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">2000</text><line class=\"v-apu\" x1=\"58.0\" y1=\"107\" x2=\"58.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"86.0\" y1=\"107\" x2=\"86.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"114.0\" y1=\"107\" x2=\"114.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"142.0\" y1=\"107\" x2=\"142.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"198.0\" y1=\"107\" x2=\"198.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"226.0\" y1=\"107\" x2=\"226.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"254.0\" y1=\"107\" x2=\"254.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"282.0\" y1=\"107\" x2=\"282.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"338.0\" y1=\"107\" x2=\"338.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"366.0\" y1=\"107\" x2=\"366.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"394.0\" y1=\"107\" x2=\"394.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"422.0\" y1=\"107\" x2=\"422.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"478.0\" y1=\"107\" x2=\"478.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"506.0\" y1=\"107\" x2=\"506.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"534.0\" y1=\"107\" x2=\"534.0\" y2=\"113\"/><line class=\"v-apu\" x1=\"562.0\" y1=\"107\" x2=\"562.0\" y2=\"113\"/><rect class=\"v-osa v1\" x=\"229.1\" y=\"101\" width=\"218.7\" height=\"9\" rx=\"2\"/><text class=\"v-t\" x=\"229.1\" y=\"148\" style=\"font-size:12px\">al-Andalus 711–1492</text><rect class=\"v-osa\" x=\"394.0\" y=\"111\" width=\"70.0\" height=\"9\" rx=\"2\"/><rect class=\"v-osa\" x=\"506.0\" y=\"111\" width=\"28.0\" height=\"9\" rx=\"2\"/><circle class=\"v-merkki\" cx=\"49.6\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"49.6\" y1=\"105\" x2=\"49.6\" y2=\"34\"/><text class=\"v-t\" x=\"43.6\" y=\"30\" text-anchor=\"start\" style=\"font-size:12px\">temppelin tuho 70</text><circle class=\"v-merkki\" cx=\"117.6\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"117.6\" y1=\"105\" x2=\"117.6\" y2=\"60\"/><text class=\"v-t\" x=\"111.6\" y=\"56\" text-anchor=\"start\" style=\"font-size:12px\">Milanon edikti 313</text><circle class=\"v-merkki\" cx=\"204.2\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"204.2\" y1=\"105\" x2=\"204.2\" y2=\"34\"/><text class=\"v-t\" x=\"204.2\" y=\"30\" text-anchor=\"middle\" style=\"font-size:12px\">hidžra 622</text><circle class=\"v-merkki\" cx=\"336.9\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"336.9\" y1=\"105\" x2=\"336.9\" y2=\"60\"/><text class=\"v-t\" x=\"336.9\" y=\"56\" text-anchor=\"middle\" style=\"font-size:12px\">1. ristiretki 1096</text><line class=\"v-apu\" x1=\"422.0\" y1=\"121\" x2=\"422.0\" y2=\"176\"/><text class=\"v-t\" x=\"418.0\" y=\"176\" text-anchor=\"end\" style=\"font-size:12px\">renessanssihumanismi 1300–1500-l.</text><circle class=\"v-merkki\" cx=\"454.8\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"454.8\" y1=\"121\" x2=\"454.8\" y2=\"198\"/><text class=\"v-t\" x=\"450.8\" y=\"198\" text-anchor=\"end\" style=\"font-size:12px\">reformaatio 1517</text><line class=\"v-apu\" x1=\"520.0\" y1=\"121\" x2=\"520.0\" y2=\"220\"/><text class=\"v-t\" x=\"516.0\" y=\"220\" text-anchor=\"end\" style=\"font-size:12px\">valistus 1700-l.</text><circle class=\"v-merkki\" cx=\"568.2\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"568.2\" y1=\"121\" x2=\"568.2\" y2=\"242\"/><text class=\"v-t\" x=\"564.2\" y=\"242\" text-anchor=\"end\" style=\"font-size:12px\">Suomen uskonnonvapauslaki 1922</text><circle class=\"v-merkki\" cx=\"576.6\" cy=\"110\" r=\"4\"/><line class=\"v-apu\" x1=\"576.6\" y1=\"121\" x2=\"576.6\" y2=\"264\"/><text class=\"v-t\" x=\"572.6\" y=\"264\" text-anchor=\"end\" style=\"font-size:12px\">Amsterdamin julistus 1952</text><text class=\"v-t pieni\" x=\"30.0\" y=\"148\" style=\"font-size:11px\">jaa.</text></svg>","teksti":"Aikajanalla yhtä pitkät ajanjaksot ovat yhtä pitkiä. Pienet viivat ovat sadan vuoden välein."},{"tyyppi":"taulukko","otsikko":"Aikajanan tapahtumat","otsikkorivi":["Vuosi","Tapahtuma","Vuosisata","Katsomus"],"rivit":[["70","Roomalaiset tuhoavat Jerusalemin toisen temppelin; juutalaisten hajaannus laajenee.","1.","juutalaisuus"],["313","Milanon edikti: kristinusko sallitaan Rooman valtakunnassa.","4.","kristinusko"],["380","Kristinuskosta tulee Rooman valtakunnan virallinen uskonto.","4.","kristinusko"],["622","Hidžra: Muhammad muuttaa Mekasta Medinaan; islamilainen ajanlasku alkaa.","7.","islam"],["711","Muslimijoukot nousevat maihin Iberian niemimaalla; al-Andalus syntyy.","8.","islam, kristinusko, juutalaisuus"],["800-luku","Bagdadin Viisauden talossa käännetään kreikkalaista filosofiaa ja tiedettä arabiaksi.","9.","islam, kristinusko"],["929","Córdobasta tulee al-Andaluksen kalifaatin pääkaupunki.","10.","islam"],["1096","Ensimmäinen ristiretki alkaa; Reininmaan juutalaisyhteisöjä surmataan.","11.","kristinusko, juutalaisuus, islam"],["1099","Ristiretkeläiset valtaavat Jerusalemin.","11.","kristinusko, islam, juutalaisuus"],["1100-luku","Toledossa käännetään arabiankielisiä teoksia latinaksi; Córdobassa syntyneet Ibn Rushd ja Maimonides kirjoittavat filosofiaa.","12.","kaikki kolme"],["1200-luku","Tuomas Akvinolainen yhdistää Aristoteleen filosofiaa kristilliseen teologiaan.","13.","kristinusko"],["1300-luku","Petrarca kerää ja tutkii antiikin tekstejä Italiassa; renessanssihumanismi alkaa.","14.","humanismi"],["1453","Osmanit valtaavat Konstantinopolin; kreikkalaisia oppineita ja käsikirjoituksia päätyy Italiaan.","15.","islam, kristinusko, humanismi"],["1486","Pico della Mirandola kirjoittaa Puheen ihmisen arvosta.","15.","humanismi"],["1492","Granada antautuu, al-Andalus päättyy ja juutalaiset karkotetaan Espanjasta.","15.","kaikki kolme"],["1517","Martti Luther esittää teesinsä; reformaatio alkaa.","16.","kristinusko"],["1555","Augsburgin uskonrauha: alueen hallitsija päättää alueensa uskonnon.","16.","kristinusko"],["1648","Westfalenin rauha päättää kolmikymmenvuotisen sodan.","17.","kristinusko"],["1784","Immanuel Kant kehottaa: \"Uskalla käyttää omaa järkeäsi!\"","18.","humanismi (valistus)"],["1789","Ranskan ihmis- ja kansalaisoikeuksien julistus turvaa myös uskonnollisten mielipiteiden vapauden.","18.","humanismi (valistus)"],["1922","Suomen uskonnonvapauslaki säädetään (voimaan 1923): saa olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan.","20.","kaikki katsomukset"],["1952","Humanistijärjestöt perustavat Amsterdamissa kansainvälisen liiton ja hyväksyvät Amsterdamin julistuksen.","20.","sekulaari humanismi"]]},{"tyyppi":"kappale","otsikko":"Kohtaamisia: rinnakkain ja toisiinsa vaikuttaen","sisalto":"Bagdadissa 800-luvulla hallitsijat tukivat Viisauden taloa, jossa kreikkalaisen filosofian ja tieteen teoksia käännettiin arabiaksi. Monet kääntäjistä olivat kristittyjä. al-Andaluksessa asui muslimeja, juutalaisia ja kristittyjä. Juutalaiset ja kristityt saivat muslimihallinnossa harjoittaa uskontoaan, mutta he maksoivat erityisveroa eivätkä olleet muslimien kanssa tasavertaisia. Córdobassa syntyivät 1100-luvulla muslimifilosofi Ibn Rushd, jota Euroopassa kutsuttiin nimellä Averroes, ja juutalainen filosofi Maimonides, joka kirjoitti monet teoksensa arabiaksi. Kumpikin pohti, miten usko ja järki sopivat yhteen. Kun kristitty Kastilian kuningaskunta valtasi Toledon vuonna 1085, kaupungista tuli käännöstyön keskus. 1100-luvulla siellä käännettiin arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi, usein juutalaisten oppineiden avulla. Seuraus: Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja 1200-luvulla Tuomas Akvinolainen rakensi kristillistä teologiaa Aristoteleen ajattelun varaan. Tästä ketjusta kertoo myös museon käsikirjoitus."},{"tyyppi":"kappale","otsikko":"Kohtaamisia: konflikteja","sisalto":"Vuonna 1095 paavi kehotti kristittyjä sotaretkelle Jerusalemiin, joka oli muslimien hallussa. Ensimmäinen ristiretki alkoi vuonna 1096. Jo matkan alussa ristiretkeläisjoukot surmasivat juutalaisia Reininmaan kaupungeissa. Vuonna 1099 ristiretkeläiset valtasivat Jerusalemin ja surmasivat suuren osan kaupungin muslimeista ja juutalaisista. Ristiretkiä tehtiin vuosisatojen ajan, ja niissä kärsivät myös itäiset kristityt: vuonna 1204 ristiretkeläiset ryöstivät kristityn Konstantinopolin. Seuraus: kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelua lietsottaessa. Toinen esimerkki on vuosi 1492: kun Granada antautui kristityille hallitsijoille, juutalaiset määrättiin kääntymään kristinuskoon tai lähtemään Espanjasta, ja myöhemmin muslimeja pakotettiin kääntymään. Reformaation jälkeen kristittyjen keskinäiset uskonsodat Euroopassa huipentuivat kolmikymmenvuotiseen sotaan, joka päättyi Westfalenin rauhaan vuonna 1648."},{"tyyppi":"saanto","otsikko":"Näin kerrot kohtaamisesta","askeleet":["Kerro aika ja paikka: milloin ja missä katsomukset kohtasivat?","Nimeä, ketkä kohtasivat: mitkä katsomukset ja mitkä ihmisryhmät.","Kerro, mitä tapahtui: elettiinkö rinnakkain, vaihdettiinko ajatuksia vai oliko kyse konfliktista?","Kerro, mitä siitä seurasi: lyhyellä aikavälillä ja pitkällä aikavälillä.","Tarkista tasapuolisuus: toimijoina ovat hallitsijat, joukot tai oppineet, eivät katsomukset kokonaisuudessaan. Sama katsomus voi olla yhdessä kohtaamisessa vallassa ja toisessa vainottuna."]},{"tyyppi":"kappale","otsikko":"Humanismi renessanssista valistukseen","sisalto":"Renessanssi eli uudestisyntyminen alkoi Italiassa 1300-luvulla. Renessanssihumanistit, kuten Petrarca ja myöhemmin Erasmus Rotterdamilainen, etsivät ja tutkivat antiikin kreikkalaisia ja roomalaisia tekstejä. He korostivat ihmisen arvoa, kykyjä ja kasvatusta. Pico della Mirandola kirjoitti vuonna 1486 Puheen ihmisen arvosta: ihminen voi itse muovata, millaiseksi hänestä tulee. Useimmat renessanssihumanistit olivat kristittyjä. He eivät hylänneet uskoa, vaan siirsivät huomiota ihmiseen ja tähän elämään. Valistus 1700-luvulla korosti järkeä, tiedettä ja kriittistä suhtautumista auktoriteetteihin, myös kirkkoon. Filosofi Immanuel Kant kiteytti valistuksen vuonna 1784 kehotukseen: \"Uskalla käyttää omaa järkeäsi!\" Valistusajattelijat vaativat uskonnonvapautta ja suvaitsevaisuutta. Ranskan ihmis- ja kansalaisoikeuksien julistus vuonna 1789 turvasi myös uskonnollisten mielipiteiden vapauden."},{"tyyppi":"kappale","otsikko":"Nykyinen sekulaari humanismi","sisalto":"1800- ja 1900-luvuilla syntyi järjestäytynyt uskonnoton humanismi. Sekulaari humanismi tarkoittaa elämänkatsomusta, jossa etiikka perustuu ihmisen järkeen, kokemukseen ja vastuuseen eikä uskoon yliluonnolliseen. Vuonna 1952 humanistijärjestöt perustivat Amsterdamissa kansainvälisen liiton ja hyväksyivät Amsterdamin julistuksen. Julistusta on päivitetty myöhemmin. Sen keskeisiä periaatteita ovat ihmisarvo, järki ja tiede tiedon lähteinä, demokratia ja ihmisoikeudet sekä ajatus, että ihminen vastaa itse teoistaan ja elämänsä merkityksestä. Suomessa vuonna 1922 säädetty ja 1923 voimaan tullut uskonnonvapauslaki antoi ensimmäistä kertaa oikeuden olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan. Uskonnottomasta katsomuksesta tuli lain silmissä hyväksytty vaihtoehto."},{"tyyppi":"kuva","otsikko":"Humanismin kolme vaihetta","svg":"<svg viewBox=\"0 0 620 170\" role=\"img\" aria-label=\"Humanismin kolme vaihetta: renessanssi, valistus ja nykyinen sekulaari humanismi\"><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"190\" height=\"150\" rx=\"6\"/><text class=\"v-t vahva\" x=\"105.0\" y=\"34\" text-anchor=\"middle\" style=\"font-size:14px\">Renessanssi</text><text class=\"v-t pieni\" x=\"105.0\" y=\"52\" text-anchor=\"middle\" style=\"font-size:11px\">1300–1500-luku</text><text class=\"v-t\" x=\"105.0\" y=\"84\" text-anchor=\"middle\" style=\"font-size:12px\">antiikin tekstit</text><text class=\"v-t\" x=\"105.0\" y=\"108\" text-anchor=\"middle\" style=\"font-size:12px\">ihmisen arvo ja kyvyt</text><text class=\"v-t\" x=\"105.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:12px\">useimmat kristittyjä</text><line class=\"v-akseli\" x1=\"202\" y1=\"85\" x2=\"213\" y2=\"85\"/><polygon class=\"v-merkki\" points=\"213,80 213,90 218,85\"/><rect class=\"v-osa\" x=\"215\" y=\"10\" width=\"190\" height=\"150\" rx=\"6\"/><text class=\"v-t vahva\" x=\"310.0\" y=\"34\" text-anchor=\"middle\" style=\"font-size:14px\">Valistus</text><text class=\"v-t pieni\" x=\"310.0\" y=\"52\" text-anchor=\"middle\" style=\"font-size:11px\">1700-luku</text><text class=\"v-t\" x=\"310.0\" y=\"84\" text-anchor=\"middle\" style=\"font-size:12px\">järki ja tiede</text><text class=\"v-t\" x=\"310.0\" y=\"108\" text-anchor=\"middle\" style=\"font-size:12px\">auktoriteettien kritiikki</text><text class=\"v-t\" x=\"310.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:12px\">uskonnonvapaus</text><line class=\"v-akseli\" x1=\"407\" y1=\"85\" x2=\"418\" y2=\"85\"/><polygon class=\"v-merkki\" points=\"418,80 418,90 423,85\"/><rect class=\"v-osa v1\" x=\"420\" y=\"10\" width=\"190\" height=\"150\" rx=\"6\"/><text class=\"v-t vahva\" x=\"515.0\" y=\"34\" text-anchor=\"middle\" style=\"font-size:14px\">Sekulaari humanismi</text><text class=\"v-t pieni\" x=\"515.0\" y=\"52\" text-anchor=\"middle\" style=\"font-size:11px\">1900-luku–nyt</text><text class=\"v-t\" x=\"515.0\" y=\"84\" text-anchor=\"middle\" style=\"font-size:12px\">etiikka ilman yliluonnollista</text><text class=\"v-t\" x=\"515.0\" y=\"108\" text-anchor=\"middle\" style=\"font-size:12px\">ihmisoikeudet, demokratia</text><text class=\"v-t\" x=\"515.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:12px\">järjestöt, Amsterdam 1952</text></svg>","teksti":"Humanismi on kehittynyt vaiheittain. Vain viimeinen vaihe on nimenomaan uskonnoton katsomus."},{"tyyppi":"ansa","otsikko":"Ansa 1: 1500-luku ei ole 15. vuosisata","sisalto":"Noora kirjoitti: \"Reformaatio alkoi 15. vuosisadalla, koska vuosi oli 1517.\" Sataluku ja vuosisata eroavat yhdellä. Vuosi 1517 kuuluu 1500-lukuun, mutta se on 16. vuosisataa. Samoin vuosi 70 kuuluu 1. vuosisataan, ei nollanteen. Tarkista aina: sadat ja yksi lisää."},{"tyyppi":"ansa","otsikko":"Ansa 2: renessanssihumanisti ei ollut ateisti","sisalto":"Sana humanismi tarkoittaa eri aikoina eri asioita. Renessanssihumanistit olivat useimmiten kristittyjä, jotka tutkivat antiikin tekstejä ja korostivat ihmisen arvoa. Nykyinen sekulaari humanismi on uskonnoton elämänkatsomus. Kun kerrot humanismin kehityksestä, kerro, mikä säilyi (ihmisen arvo ja järki) ja mikä muuttui (etiikka ilman uskoa yliluonnolliseen)."},{"tyyppi":"ansa","otsikko":"Ansa 3: yksi syyllinen, yksi uhri","sisalto":"\"Ristiretket osoittavat, että kristinusko on väkivaltainen uskonto\" ja \"al-Andalus osoittaa, että islam on aina suvaitsevainen\" ovat kumpikin liian yksinkertaisia. Teot tekivät hallitsijat, sotajoukot ja yksittäiset ihmiset, eivät katsomukset kokonaisuudessaan. al-Andaluksessa oli rinnakkaiseloa, mutta juutalaiset ja kristityt eivät olleet tasavertaisia. Ristiretkissä kärsivät muslimit, juutalaiset ja itäiset kristityt. Kerro siis, kuka teki mitä ja kenelle, äläkä esitä yhtä katsomusta yksinomaan syyllisenä tai uhrina."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Vuosisata = sadat + 1: vuosi 1517 on 1500-lukua ja 16. vuosisataa.","70 temppelin tuho · 313 Milanon edikti · 622 hidžra · 711–1492 al-Andalus · 1096 ensimmäinen ristiretki · 1517 reformaatio · 1922 Suomen uskonnonvapauslaki (voimaan 1923).","Rinnakkaiselo ja vaikutus: Bagdadin Viisauden talo, al-Andalus, Toledon käännöstyö → Aristoteles Euroopan yliopistoihin.","Konflikti: ristiretket (surmia ja pitkäaikainen epäluottamus), karkotus 1492, uskonsodat.","Humanismi: renessanssi (ihmisen arvo, antiikki) → valistus (järki, tiede, uskonnonvapaus) → sekulaari humanismi (Amsterdamin julistus 1952).","Kohtaamisesta: aika ja paikka, ketkä, mitä tapahtui, mitä seurasi. Ei yhtä syyllistä tai uhria."]}],"harjoitusryhmat":[{"id":"aikajana","nimi":"Aikajana ja vuosisadat","info":"Vuosisata = sadat + 1. Vuosi 1517 on 1500-lukua ja 16. vuosisataa."},{"id":"kohtaamiset","nimi":"Kohtaamiset","info":"Rinnakkaiselo ja vaikutus (Bagdad, al-Andalus, Toledo) tai konflikti (ristiretket, karkotus 1492, uskonsodat). Ei yhtä syyllistä tai uhria."},{"id":"humanismi","nimi":"Humanismin kehitys","info":"Renessanssi (ihmisen arvo, antiikki) → valistus (järki, tiede, uskonnonvapaus) → sekulaari humanismi (Amsterdam 1952)."}],"harjoitukset":[{"id":"H01","ryhma":"aikajana","kysymys":"Martti Luther esitti teesinsä vuonna 1517.\n\nMonennellako vuosisadalla reformaatio alkoi?","vastaus":16,"vinkki":"Sadat ja yksi lisää.","selitys":"Vuosi 1517 kuuluu 1500-lukuun. Sadat ovat 15, ja 15 + 1 = 16. Reformaatio alkoi 16. vuosisadalla."},{"id":"H02","ryhma":"aikajana","kysymys":"Muslimijoukot nousivat maihin Iberian niemimaalla vuonna 711.\n\nMonennellako vuosisadalla al-Andalus syntyi?","vastaus":8,"vinkki":"Vuoden 711 sadat ovat 7.","selitys":"7 + 1 = 8. Vuosi 711 kuuluu 8. vuosisataan."},{"id":"H03","ryhma":"aikajana","kysymys":"Kristinusko sallittiin Milanon ediktillä vuonna 313, ja siitä tuli Rooman valtakunnan virallinen uskonto vuonna 380.\n\nMontako vuotta näiden tapahtumien välillä kului?","vastaus":67,"vinkki":"Laske 380 − 313.","selitys":"380 − 313 = 67. Kristinuskon asema muuttui sallitusta viralliseksi 67 vuodessa."},{"id":"H04","ryhma":"aikajana","kysymys":"Tapahtumat:\n1. Reformaatio alkaa.\n2. Suomen uskonnonvapauslaki säädetään.\n3. Roomalaiset tuhoavat Jerusalemin toisen temppelin.\n4. Muhammad muuttaa Mekasta Medinaan.\n\nJärjestä tapahtumat aikajärjestykseen vanhimmasta alkaen. Minkä numeron tapahtuma on aikajärjestyksessä kolmantena?","vastaus":1,"vinkki":"Temppelin tuho 70, hidžra 622, reformaatio 1517, Suomen laki 1922.","selitys":"Aikajärjestys on 3 (70), 4 (622), 1 (1517) ja 2 (1922). Kolmantena on tapahtuma 1, reformaation alku."},{"id":"H05","ryhma":"aikajana","kysymys":"Tapahtumat:\n1. Milanon edikti\n2. Ensimmäinen ristiretki alkaa\n3. Muhammad muuttaa Medinaan\n4. Toledon käännöstyö\n5. Bagdadin Viisauden talon käännöstyö\n6. Westfalenin rauha\n\nMontako tapahtumista sattui ennen vuotta 1000 jaa.?","vastaus":3,"vinkki":"Etsi vuodet aikajanalta: kuuluuko tapahtuma 900-lukuun tai sitä aiemmaksi?","selitys":"Milanon edikti (313), hidžra (622) ja Viisauden talo (800-luku) sattuivat ennen vuotta 1000. Ristiretki (1096), Toledo (1100-luku) ja Westfalen (1648) myöhemmin. Vastaus on 3."},{"id":"H06","ryhma":"aikajana","tyyppi":"monivalinta","vaihtoehdot":["Vuosi kuuluu 1400-lukuun ja 15. vuosisataan.","Vuosi kuuluu 1400-lukuun ja 14. vuosisataan.","Vuosi kuuluu 1500-lukuun ja 15. vuosisataan."],"kysymys":"Granada antautui ja al-Andalus päättyi vuonna 1492. Mikä pitää paikkansa?","vastaus":0,"vinkki":"Sataluku = vuosiluvun sadat, vuosisata = sadat + 1.","selitys":"Vuosi 1492 kuuluu 1400-lukuun ja 15. vuosisataan."},{"id":"H07","ryhma":"aikajana","kysymys":"Reformaatio alkoi vuonna 1517, ja Suomen uskonnonvapauslaki säädettiin vuonna 1922.\n\nMontako vuotta reformaation alusta oli kulunut, kun laki säädettiin?","vastaus":405,"vinkki":"Laske 1922 − 1517.","selitys":"1922 − 1517 = 405."},{"id":"H08","ryhma":"kohtaamiset","kysymys":"Kohtaamiset:\n1. Toledon käännöstyö 1100-luvulla\n2. Reininmaan juutalaisyhteisöjen surmat vuonna 1096\n3. Bagdadin Viisauden talon käännöstyö 800-luvulla\n4. Juutalaisten karkotus Espanjasta vuonna 1492\n5. Ibn Rushdin Aristoteles-kommentaarien lukeminen latinaksi Pariisin yliopistossa 1200-luvulla\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":3,"vinkki":"Vaihdettiinko ajatuksia vai surmattiinko ja karkotettiinko ihmisiä?","selitys":"Kohtaamiset 1, 3 ja 5 ovat vaikutteiden vaihtoa: tekstejä käännettiin ja luettiin katsomusrajojen yli. Surmat ja karkotus ovat konflikteja. Vastaus on 3."},{"id":"H09","ryhma":"kohtaamiset","kysymys":"Väitteet al-Andaluksesta:\n1. Córdobassa asui muslimeja, juutalaisia ja kristittyjä.\n2. Juutalaiset ja kristityt olivat al-Andaluksessa muslimien kanssa täysin tasavertaisia.\n3. Maimonides oli juutalainen filosofi, joka kirjoitti monet teoksensa arabiaksi.\n4. al-Andalus kesti noin 50 vuotta.\n5. Muslimihallinnossa juutalaiset ja kristityt saivat harjoittaa uskontoaan, mutta maksoivat erityisveroa.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Rinnakkaiselo ei tarkoittanut tasavertaisuutta. Katso aikajanalta, kauanko al-Andalus kesti.","selitys":"Väitteet 1, 3 ja 5 ovat totta. Juutalaiset ja kristityt eivät olleet tasavertaisia, ja al-Andalus kesti vuodesta 711 vuoteen 1492. Vastaus on 3."},{"id":"H10","ryhma":"kohtaamiset","kysymys":"Museon käsikirjoituksen ajatukset kulkivat kolmen kielen kautta.\n\nKielet:\n1. latina\n2. kreikka\n3. arabia\n\nMinkä numeron kieli on ketjussa keskimmäisenä?","vastaus":3,"vinkki":"Mitä Bagdadissa käännettiin ja mihin kieleen? Mitä Toledossa?","selitys":"Aristoteles kirjoitti kreikaksi. Bagdadissa kreikkalaisia teoksia käännettiin arabiaksi, ja Toledossa arabiasta latinaksi. Keskimmäisenä on arabia, numero 3."},{"id":"H11","ryhma":"kohtaamiset","kysymys":"Lauseet:\n1. Reininmaan juutalaisyhteisöjä surmattiin vuonna 1096.\n2. Jerusalemin muslimeja ja juutalaisia surmattiin vuonna 1099.\n3. Islam syntyi Arabian niemimaalla.\n4. Kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus.\n5. Kristinusko sallittiin Rooman valtakunnassa.\n\nMontako lauseista kertoo ristiretkien tapahtumista tai seurauksista?","vastaus":3,"vinkki":"Kaksi lauseista kertoo tapahtumista, jotka sattuivat satoja vuosia ennen ristiretkiä.","selitys":"Lauseet 1, 2 ja 4 liittyvät ristiretkiin. Islamin synty (600-luku) ja Milanon edikti (313) ovat paljon varhaisempia. Vastaus on 3."},{"id":"H12","ryhma":"kohtaamiset","tyyppi":"monivalinta","vaihtoehdot":["Ristiretket osoittavat, että kaikki kristityt ovat aina olleet väkivaltaisia.","Ristiretkiä tehtiin vuosisatojen ajan; niissä surmattiin muslimeja, juutalaisia ja itäisiä kristittyjä, ja niistä jäi pitkäaikainen epäluottamus.","Ristiretket olivat muslimien syytä, koska he hallitsivat Jerusalemia."],"kysymys":"Mikä lause kuvaa ristiretkiä tasapuolisimmin?","vastaus":1,"vinkki":"Tasapuolinen kuvaus kertoo, kuka teki mitä ja kenelle, eikä nimeä yhtä katsomusta syylliseksi.","selitys":"Lause 2 kertoo, keitä surmattiin ja mitä seurasi, eikä esitä mitään katsomusta yksinomaan syyllisenä tai uhrina. Lauseet 1 ja 3 syyllistävät kokonaisen katsomuksen."},{"id":"H13","ryhma":"kohtaamiset","kysymys":"Augsburgin uskonrauhassa vuonna 1555 sovittiin, että alueen hallitsija päättää alueensa uskonnon. Westfalenin rauha päätti kolmikymmenvuotisen sodan vuonna 1648.\n\nMontako vuotta näiden rauhansopimusten välillä kului?","vastaus":93,"vinkki":"Laske 1648 − 1555.","selitys":"1648 − 1555 = 93. Uskonrauha ei estänyt uusia uskonsotia."},{"id":"H14","ryhma":"kohtaamiset","kysymys":"Tapahtumat:\n1. Milanon edikti\n2. Juutalaisten karkotus Espanjasta vuonna 1492\n3. Bagdadin Viisauden talon käännöstyö\n4. Toledon käännöstyö\n5. Reininmaan juutalaisvainot vuonna 1096\n\nMontako tapahtumista on konflikti, jossa ihmisiä surmattiin, karkotettiin tai pakotettiin?","vastaus":2,"vinkki":"Milanon edikti salli uskonnot. Käännöstyö oli yhteistyötä.","selitys":"Karkotus (2) ja vainot (5) ovat konflikteja. Vastaus on 2."},{"id":"H15","ryhma":"humanismi","kysymys":"Väitteet renessanssihumanisteista:\n1. He tutkivat antiikin kreikkalaisia ja roomalaisia tekstejä.\n2. He olivat enimmäkseen ateisteja.\n3. He korostivat ihmisen arvoa ja kykyjä.\n4. Pico della Mirandola kirjoitti Puheen ihmisen arvosta.\n5. He pitivät kasvatusta ja koulutusta turhina.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Muista ansa 2: kuka renessanssihumanisti oli uskonnoltaan?","selitys":"Väitteet 1, 3 ja 4 ovat totta. Useimmat renessanssihumanistit olivat kristittyjä, ja kasvatus oli heille tärkeää. Vastaus on 3."},{"id":"H16","ryhma":"humanismi","kysymys":"Piirteet:\n1. järjen käyttö\n2. auktoriteettien kriittinen tarkastelu\n3. hallitsija päättää alamaistensa uskonnon\n4. uskonnonvapaus ja suvaitsevaisuus\n5. tieteellinen tutkimus\n\nMontako piirteistä on tyypillistä valistuksen ajattelulle?","vastaus":4,"vinkki":"Yksi piirteistä kuuluu Augsburgin uskonrauhaan.","selitys":"Piirteet 1, 2, 4 ja 5 ovat valistuksen ajattelua. Hallitsijan oikeus päättää alamaisten uskonnosta oli sitä, mitä valistus arvosteli. Vastaus on 4."},{"id":"H17","ryhma":"humanismi","kysymys":"Humanismin vaiheet:\n1. Amsterdamin julistus hyväksytään.\n2. Pico della Mirandola kirjoittaa Puheen ihmisen arvosta.\n3. Kant kehottaa: \"Uskalla käyttää omaa järkeäsi!\"\n\nJärjestä vaiheet aikajärjestykseen. Monentena vaihe 3 on aikajärjestyksessä?","vastaus":2,"vinkki":"Renessanssi, valistus, nykyaika.","selitys":"Aikajärjestys: 2 (1486), 3 (1784), 1 (1952). Vaihe 3 on toisena."},{"id":"H18","ryhma":"humanismi","tyyppi":"monivalinta","vaihtoehdot":["Sekulaari humanismi perustaa etiikan ihmisen järkeen ja kokemukseen ilman uskoa yliluonnolliseen, kun renessanssihumanistit olivat useimmiten kristittyjä.","Renessanssihumanistit eivät olleet kiinnostuneita ihmisestä.","Nykyinen sekulaari humanismi hylkää tieteen tiedon lähteenä."],"kysymys":"Mikä erottaa nykyisen sekulaarin humanismin renessanssihumanismista?","vastaus":0,"vinkki":"Mikä säilyi ja mikä muuttui?","selitys":"Molemmat korostavat ihmisen arvoa. Nykyinen sekulaari humanismi perustaa etiikan järkeen ja kokemukseen ilman uskoa yliluonnolliseen, kun renessanssihumanistit olivat useimmiten kristittyjä."},{"id":"H19","ryhma":"humanismi","kysymys":"Periaatteet:\n1. ihmisarvo\n2. järki ja tiede tiedon lähteinä\n3. usko jumaliin etiikan perustana\n4. demokratia ja ihmisoikeudet\n5. ihminen vastaa itse teoistaan\n\nMontako periaatteista sopii nykyiseen sekulaariin humanismiin?","vastaus":4,"vinkki":"Sekulaari humanismi on uskonnoton katsomus.","selitys":"Periaatteet 1, 2, 4 ja 5 sopivat. Sekulaarissa humanismissa etiikka ei perustu uskoon jumaliin. Vastaus on 4."},{"id":"H20","ryhma":"humanismi","kysymys":"Suomen uskonnonvapauslaki säädettiin vuonna 1922 ja tuli voimaan vuonna 1923. Nykyinen uskonnonvapauslaki tuli voimaan vuonna 2003.\n\nMontako vuotta ensimmäinen laki oli voimassa?","vastaus":80,"vinkki":"Laske voimaantulovuosien erotus.","selitys":"2003 − 1923 = 80. Säätämisvuosi 1922 ei ole voimaantulovuosi."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa, muistiinpanoja ja laitteita. Aikajanakorteissa ei ole vuosilukuja.\nTehtävissä 1–8 kirjoita vuosisadan järjestysluku numerona (esimerkiksi vuosi 1250 → 13). Kaikki tapahtumat ovat jaa.\nTehtävissä 9–14, 18 ja 19 vastaus on luku. Vastaa tehtäviin 15–17 ja 20 kokonaisin virkkein ja käytä käsitteitä täsmällisesti.\nKeksityt väitteet on merkitty keksityiksi. Sinun omaa katsomustasi tai perheesi katsomusta ei kysytä.","tehtavat":[{"nro":1,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 1: Martti Luther esittää teesinsä, ja reformaatio alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":16},{"nro":2,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 2: Roomalaiset tuhoavat Jerusalemin toisen temppelin, ja juutalaisten hajaannus laajenee.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":1},{"nro":3,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 3: Suomessa säädetään uskonnonvapauslaki, joka sallii olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":20},{"nro":4,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 4: Muslimijoukot nousevat maihin Iberian niemimaalla, ja al-Andalus syntyy.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":8},{"nro":5,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 5: Pico della Mirandola kirjoittaa Puheen ihmisen arvosta.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":15},{"nro":6,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 6: Rooman keisarit sopivat Milanossa, että kristinusko sallitaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":4},{"nro":7,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 7: Ensimmäinen ristiretki alkaa, ja Reininmaan juutalaisyhteisöjä surmataan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":11},{"nro":8,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 8: Muhammad muuttaa seuraajineen Mekasta Medinaan, ja islamilainen ajanlasku alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":7},{"nro":9,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Kohtaamiset:\n1. Tuomas Akvinolainen lukee ja lainaa Maimonideen ja Ibn Rushdin ajatuksia\n2. ristiretkeläisten tekemät surmat Jerusalemin valtauksessa vuonna 1099\n3. juutalaisten ja kristittyjen yhteisöt harjoittavat uskontoaan muslimihallinnon alla Córdobassa\n4. katolilaisten ja protestanttien kolmikymmenvuotinen sota\n5. Ibn Rushdin Aristoteles-selitysten leviäminen latinaksi Euroopan yliopistoihin\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":3},{"nro":10,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet Toledon käännöstyöstä:\n1. Kristitty Kastilian kuningaskunta oli vallannut Toledon ennen käännöstyön kukoistusta.\n2. Toledossa käännettiin teoksia arabiasta latinaksi.\n3. Käännöstyö tehtiin 1700-luvulla.\n4. Juutalaiset oppineet toimivat usein kääntäjinä ja välittäjinä.\n5. Käännöstyö kielsi Aristoteleen teosten lukemisen Euroopassa.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":11,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet ensimmäisestä ristiretkestä:\n1. Ristiretkeen kehotti paavi.\n2. Ristiretken tavoite oli Jerusalem.\n3. Ristiretkeläiset surmasivat juutalaisia jo matkan alussa Reininmaalla.\n4. Ensimmäinen ristiretki alkoi 1200-luvulla.\n5. Ristiretken jälkeen kristittyjen ja muslimien välinen luottamus parani pysyvästi.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":12,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Lauseet:\n1. Ristiretkissä surmattiin muslimeja, juutalaisia ja itäisiä kristittyjä.\n2. al-Andalus osoittaa, että muslimit ovat aina olleet täysin suvaitsevaisia.\n3. Toledossa juutalaiset, kristityt ja muslimit tekivät yhteistyötä käännöstyössä.\n4. Juutalaiset ovat historiassa olleet vain uhreja eivätkä koskaan toimijoita.\n5. Granadan antautumisen jälkeen kristityt hallitsijat karkottivat juutalaiset Espanjasta.\n\nMontako lauseista esittää yhden katsomuksen tai sen kannattajat yksinomaan syyllisinä tai uhreina?","vastaus":2},{"nro":13,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"al-Andalus syntyi vuonna 711 ja päättyi vuonna 1492.\n\nMontako vuotta al-Andalus kesti?","vastaus":781},{"nro":14,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Väitteet renessanssihumanismista:\n1. Renessanssi alkoi Italiassa.\n2. Renessanssihumanistit kielsivät Jumalan olemassaolon.\n3. Petrarca kuului ensimmäisiin renessanssihumanisteihin.\n4. Renessanssihumanistit korostivat ihmisen kasvatusta.\n5. Renessanssihumanismi syntyi vasta 1900-luvulla.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":15,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa (esimerkiksi al-Andalus, Toledon käännöstyö tai Bagdadin Viisauden talo). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Toledossa 1100-luvulla, kun kristitty Kastilia oli vallannut kaupungin, juutalaiset, kristityt ja muslimitaustaiset oppineet käänsivät arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi. Seurauksena Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja esimerkiksi Tuomas Akvinolainen rakensi teologiaansa Aristoteleen ajattelun varaan."},{"nro":16,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset olivat konfliktissa (esimerkiksi ensimmäinen ristiretki, karkotus vuonna 1492 tai kolmikymmenvuotinen sota). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Ensimmäinen ristiretki alkoi vuonna 1096, kun paavi oli kehottanut kristittyjä valtaamaan muslimien hallitseman Jerusalemin. Ristiretkeläiset surmasivat juutalaisia Reininmaalla ja vuonna 1099 Jerusalemissa suuren osan kaupungin muslimeista ja juutalaisista. Seurauksena kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelussa."},{"nro":17,"ryhma":"humanismi","tyyppi":"sanallinen","kysymys":"Kerro, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa. Mainitse jokaisesta vaiheesta vähintään yksi keskeinen ajatus.","vastaus":"Malliesimerkki: Renessanssissa 1300–1500-luvuilla humanistit tutkivat antiikin tekstejä ja korostivat ihmisen arvoa ja kykyjä, vaikka useimmat heistä olivat kristittyjä. Valistus 1700-luvulla korosti järkeä, tiedettä ja uskonnonvapautta ja arvosteli auktoriteetteja. 1900-luvulla syntyi järjestäytynyt sekulaari humanismi, jonka periaatteet kirjattiin Amsterdamin julistukseen vuonna 1952: ihmisarvo, järki ja tiede, ihmisoikeudet ja etiikka ilman uskoa yliluonnolliseen."},{"nro":18,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Lauseet humanismin vaiheista:\n1. Ihmisarvo, järki ja tiede sekä ihmisoikeudet kirjataan uskonnottoman humanismin periaatejulistukseen.\n2. Oppineet tutkivat antiikin tekstejä ja korostavat ihmisen arvoa ja kykyjä.\n3. Ajattelijat vaativat järjen käyttöä, tiedettä ja uskonnonvapautta.\n\nMonennessako lauseessa kuvataan valistusta?","vastaus":3},{"nro":19,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Periaatteet:\n1. ihmisen oma vastuu teoistaan\n2. etiikka ilman uskoa yliluonnolliseen\n3. pyhien kirjoitusten käskyt moraalin perustana\n4. tieteellinen tieto\n5. demokratia ja ihmisoikeudet\n6. kirkon johtajien oikeus päättää, mitä ihmiset saavat ajatella\n\nMontako periaatteista kuuluu nykyiseen sekulaariin humanismiin?","vastaus":4},{"nro":20,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Keksitty väite: \"Islamin historia on pelkkää valloitusta ja sotaa.\"\n\nMiksi väite on yksipuolinen? Kirjoita tilalle tasapuolisempi kuvaus, jossa on yksi esimerkki tämän taidon kohtaamisista.","vastaus":"Malliesimerkki: Väite esittää koko katsomuksen yksinomaan syyllisenä. Islamia tunnustavat hallitsijat kävivät sotia, mutta esimerkiksi Bagdadin Viisauden talossa kreikkalaista filosofiaa käännettiin arabiaksi ja al-Andaluksessa juutalaiset ja kristityt saivat harjoittaa uskontoaan, vaikka eivät olleet tasavertaisia."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa, muistiinpanoja ja laitteita. Aikajanakorteissa ei ole vuosilukuja.\nTehtävissä 1–8 kirjoita vuosisadan järjestysluku numerona (esimerkiksi vuosi 1250 → 13). Kaikki tapahtumat ovat jaa.\nTehtävissä 9–14, 18 ja 19 vastaus on luku. Vastaa tehtäviin 15–17 ja 20 kokonaisin virkkein ja käytä käsitteitä täsmällisesti.\nKeksityt väitteet on merkitty keksityiksi. Sinun omaa katsomustasi tai perheesi katsomusta ei kysytä.","tehtavat":[{"nro":1,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 1: Ranskan ihmis- ja kansalaisoikeuksien julistus turvaa myös uskonnollisten mielipiteiden vapauden.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":18},{"nro":2,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 2: Kristinuskosta tulee Rooman valtakunnan virallinen uskonto.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":4},{"nro":3,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 3: Ristiretkeläiset valtaavat Jerusalemin.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":11},{"nro":4,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 4: Humanistijärjestöt perustavat Amsterdamissa kansainvälisen liiton ja hyväksyvät periaatejulistuksen.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":20},{"nro":5,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 5: Bagdadin Viisauden talossa käännetään kreikkalaista filosofiaa arabiaksi.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":9},{"nro":6,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 6: Petrarca kerää ja tutkii antiikin tekstejä Italiassa, ja renessanssihumanismi alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":14},{"nro":7,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 7: Roomalaiset tuhoavat Jerusalemin toisen temppelin, ja juutalaisten hajaannus laajenee.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":1},{"nro":8,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 8: Toledossa käännetään arabiankielisiä filosofian ja tieteen teoksia latinaksi.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":12},{"nro":9,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Kohtaamiset:\n1. ristiretkeläisten tekemät surmat Jerusalemin valtauksessa vuonna 1099\n2. Ibn Rushdin Aristoteles-selitysten leviäminen latinaksi Euroopan yliopistoihin\n3. katolilaisten ja protestanttien kolmikymmenvuotinen sota\n4. arabiankielisten teosten kääntäminen latinaksi Toledossa 1100-luvulla\n5. Jerusalemin temppelin tuhoaminen juutalaisten kapinan jälkeen vuonna 70\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":2},{"nro":10,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet Bagdadin Viisauden talosta:\n1. Viisauden talossa käännettiin kreikkalaisia teoksia arabiaksi.\n2. Monet kääntäjistä olivat kristittyjä.\n3. Viisauden talo toimi 800-luvulla.\n4. Viisauden talo sijaitsi Toledossa.\n5. Viisauden talossa poltettiin kreikkalaiset teokset.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":11,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet Jerusalemin valtauksesta vuonna 1099:\n1. Kaupungin valtasivat ristiretkeläiset.\n2. Valtauksessa surmattiin suuri osa kaupungin muslimeista ja juutalaisista.\n3. Ennen valtausta Jerusalem oli muslimien hallussa.\n4. Valtaus tapahtui toisen maailmansodan aikana.\n5. Valtauksen jälkeen ristiretkiä ei enää tehty.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":12,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Lauseet:\n1. Ristiretket osoittavat, että kristityt ovat aina olleet sotaisia.\n2. Toledossa juutalaiset oppineet toimivat kääntäjinä.\n3. al-Andaluksessa juutalaiset ja kristityt saivat harjoittaa uskontoaan, mutta eivät olleet tasavertaisia.\n4. Muslimit olivat ristiretkien ainoat uhrit.\n5. Kolmikymmenvuotisessa sodassa kristityt kävivät sotaa keskenään.\n\nMontako lauseista esittää yhden katsomuksen tai sen kannattajat yksinomaan syyllisinä tai uhreina?","vastaus":2},{"nro":13,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Ensimmäinen ristiretki alkoi vuonna 1096, ja Granada antautui vuonna 1492.\n\nMontako vuotta näiden tapahtumien välillä kului?","vastaus":396},{"nro":14,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Väitteet valistuksesta:\n1. Valistus korosti järkeä.\n2. Valistusajattelijat vaativat uskonnonvapautta.\n3. Valistus oli 1700-luvun aatesuuntaus.\n4. Valistus vaati, että kaikkien on kuuluttava samaan kirkkoon.\n5. Valistus kielsi tieteellisen tutkimuksen.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":15,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa (esimerkiksi al-Andalus, Toledon käännöstyö tai Bagdadin Viisauden talo). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Toledossa 1100-luvulla, kun kristitty Kastilia oli vallannut kaupungin, juutalaiset, kristityt ja muslimitaustaiset oppineet käänsivät arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi. Seurauksena Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja esimerkiksi Tuomas Akvinolainen rakensi teologiaansa Aristoteleen ajattelun varaan."},{"nro":16,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset olivat konfliktissa (esimerkiksi ensimmäinen ristiretki, karkotus vuonna 1492 tai kolmikymmenvuotinen sota). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Ensimmäinen ristiretki alkoi vuonna 1096, kun paavi oli kehottanut kristittyjä valtaamaan muslimien hallitseman Jerusalemin. Ristiretkeläiset surmasivat juutalaisia Reininmaalla ja vuonna 1099 Jerusalemissa suuren osan kaupungin muslimeista ja juutalaisista. Seurauksena kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelussa."},{"nro":17,"ryhma":"humanismi","tyyppi":"sanallinen","kysymys":"Kerro, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa. Mainitse jokaisesta vaiheesta vähintään yksi keskeinen ajatus.","vastaus":"Malliesimerkki: Renessanssissa 1300–1500-luvuilla humanistit tutkivat antiikin tekstejä ja korostivat ihmisen arvoa ja kykyjä, vaikka useimmat heistä olivat kristittyjä. Valistus 1700-luvulla korosti järkeä, tiedettä ja uskonnonvapautta ja arvosteli auktoriteetteja. 1900-luvulla syntyi järjestäytynyt sekulaari humanismi, jonka periaatteet kirjattiin Amsterdamin julistukseen vuonna 1952: ihmisarvo, järki ja tiede, ihmisoikeudet ja etiikka ilman uskoa yliluonnolliseen."},{"nro":18,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Lauseet humanismin vaiheista:\n1. Ajattelijat vaativat järjen käyttöä, tiedettä ja uskonnonvapautta.\n2. Uskonnoton humanismi järjestäytyy ja kirjaa periaatteensa kansainväliseen julistukseen.\n3. Oppineet tutkivat antiikin tekstejä ja korostavat ihmisen arvoa ja kykyjä.\n\nMonennessako lauseessa kuvataan renessanssihumanismia?","vastaus":3},{"nro":19,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Periaatteet:\n1. ihmisarvo\n2. usko jumalaan elämän tarkoituksen antajana\n3. järki ja tiede tiedon lähteinä\n4. ihmisoikeudet\n5. ihmisen vastuu omista teoistaan\n6. rukous moraalisten ongelmien ratkaisijana\n\nMontako periaatteista kuuluu nykyiseen sekulaariin humanismiin?","vastaus":4},{"nro":20,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Keksitty väite: \"Juutalaiset ovat historiassa olleet aina vain uhreja.\"\n\nMiksi väite on yksipuolinen? Kirjoita tilalle tasapuolisempi kuvaus, jossa on yksi esimerkki tämän taidon kohtaamisista.","vastaus":"Malliesimerkki: Väite esittää juutalaiset vain uhreina eikä toimijoina. Juutalaisia vainottiin esimerkiksi ristiretkillä ja karkotettiin Espanjasta 1492, mutta juutalaiset oppineet, kuten Maimonides ja Toledon kääntäjät, vaikuttivat merkittävästi filosofiaan ja tieteeseen."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa, muistiinpanoja ja laitteita. Aikajanakorteissa ei ole vuosilukuja.\nTehtävissä 1–8 kirjoita vuosisadan järjestysluku numerona (esimerkiksi vuosi 1250 → 13). Kaikki tapahtumat ovat jaa.\nTehtävissä 9–14, 18 ja 19 vastaus on luku. Vastaa tehtäviin 15–17 ja 20 kokonaisin virkkein ja käytä käsitteitä täsmällisesti.\nKeksityt väitteet on merkitty keksityiksi. Sinun omaa katsomustasi tai perheesi katsomusta ei kysytä.","tehtavat":[{"nro":1,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 1: Westfalenin rauha päättää kolmikymmenvuotisen sodan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":17},{"nro":2,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 2: Córdobasta tulee al-Andaluksen kalifaatin pääkaupunki.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":10},{"nro":3,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 3: Rooman keisarit sopivat Milanossa, että kristinusko sallitaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":4},{"nro":4,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 4: Suomessa säädetään uskonnonvapauslaki, joka sallii olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":20},{"nro":5,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 5: Tuomas Akvinolainen yhdistää Aristoteleen filosofiaa kristilliseen teologiaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":13},{"nro":6,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 6: Muhammad muuttaa seuraajineen Mekasta Medinaan, ja islamilainen ajanlasku alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":7},{"nro":7,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 7: Granada antautuu, al-Andalus päättyy ja juutalaiset karkotetaan Espanjasta.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":15},{"nro":8,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 8: Córdobassa syntyneet Ibn Rushd ja Maimonides kirjoittavat filosofisia teoksiaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":12},{"nro":9,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Kohtaamiset:\n1. Tuomas Akvinolainen lukee ja lainaa Maimonideen ja Ibn Rushdin ajatuksia\n2. juutalaisten karkotus Espanjasta vuonna 1492\n3. kreikkalaisen filosofian kääntäminen arabiaksi Bagdadissa 800-luvulla, myös kristittyjen kääntäjien työnä\n4. Reininmaan juutalaisyhteisöjen surmat ensimmäisen ristiretken alussa\n5. katolilaisten ja protestanttien kolmikymmenvuotinen sota\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":2},{"nro":10,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet Córdobasta:\n1. Córdoba oli al-Andaluksen kalifaatin pääkaupunki.\n2. Ibn Rushd syntyi Córdobassa.\n3. Maimonides oli muslimi.\n4. Córdoba oli 900-luvulla yksi Euroopan suurimmista kaupungeista.\n5. Córdobassa ei asunut juutalaisia.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":11,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet vuodesta 1492 Espanjassa:\n1. Granada antautui kristityille hallitsijoille.\n2. al-Andalus päättyi.\n3. Juutalaisten piti kääntyä kristinuskoon tai lähteä maasta.\n4. Muslimit saivat tämän jälkeen aina vapaasti harjoittaa uskontoaan.\n5. Juutalaiset saivat Espanjassa täydet oikeudet.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":12,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kolmikymmenvuotinen sota osoittaa, että protestantit olivat yksin syyllisiä.\n2. Bagdadin käännöstyössä oli mukana muslimeja ja kristittyjä.\n3. Ristiretkissä kärsivät myös itäiset kristityt.\n4. al-Andalus oli kaikille täydellinen paratiisi.\n5. Vuonna 1492 kristityt hallitsijat karkottivat juutalaiset Espanjasta.\n\nMontako lauseista esittää yhden katsomuksen tai sen kannattajat yksinomaan syyllisinä tai uhreina?","vastaus":2},{"nro":13,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Reformaatio alkoi vuonna 1517, ja kolmikymmenvuotinen sota päättyi Westfalenin rauhaan vuonna 1648.\n\nMontako vuotta näiden tapahtumien välillä kului?","vastaus":131},{"nro":14,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Väitteet renessanssihumanismista:\n1. Renessanssihumanistit olivat useimmiten kristittyjä.\n2. Pico della Mirandola kirjoitti ihmisen arvosta.\n3. Renessanssihumanistit hylkäsivät antiikin kirjallisuuden.\n4. Renessanssihumanistit pitivät ihmistä arvottomana.\n5. Erasmus Rotterdamilainen oli humanisti.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":15,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa (esimerkiksi al-Andalus, Toledon käännöstyö tai Bagdadin Viisauden talo). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Toledossa 1100-luvulla, kun kristitty Kastilia oli vallannut kaupungin, juutalaiset, kristityt ja muslimitaustaiset oppineet käänsivät arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi. Seurauksena Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja esimerkiksi Tuomas Akvinolainen rakensi teologiaansa Aristoteleen ajattelun varaan."},{"nro":16,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset olivat konfliktissa (esimerkiksi ensimmäinen ristiretki, karkotus vuonna 1492 tai kolmikymmenvuotinen sota). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Ensimmäinen ristiretki alkoi vuonna 1096, kun paavi oli kehottanut kristittyjä valtaamaan muslimien hallitseman Jerusalemin. Ristiretkeläiset surmasivat juutalaisia Reininmaalla ja vuonna 1099 Jerusalemissa suuren osan kaupungin muslimeista ja juutalaisista. Seurauksena kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelussa."},{"nro":17,"ryhma":"humanismi","tyyppi":"sanallinen","kysymys":"Kerro, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa. Mainitse jokaisesta vaiheesta vähintään yksi keskeinen ajatus.","vastaus":"Malliesimerkki: Renessanssissa 1300–1500-luvuilla humanistit tutkivat antiikin tekstejä ja korostivat ihmisen arvoa ja kykyjä, vaikka useimmat heistä olivat kristittyjä. Valistus 1700-luvulla korosti järkeä, tiedettä ja uskonnonvapautta ja arvosteli auktoriteetteja. 1900-luvulla syntyi järjestäytynyt sekulaari humanismi, jonka periaatteet kirjattiin Amsterdamin julistukseen vuonna 1952: ihmisarvo, järki ja tiede, ihmisoikeudet ja etiikka ilman uskoa yliluonnolliseen."},{"nro":18,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Lauseet humanismin vaiheista:\n1. Oppineet tutkivat antiikin tekstejä ja korostavat ihmisen arvoa ja kykyjä.\n2. Ajattelijat vaativat järjen käyttöä, tiedettä ja uskonnonvapautta.\n3. Uskonnoton humanismi järjestäytyy ja kirjaa periaatteensa kansainväliseen julistukseen.\n\nMonennessako lauseessa kuvataan nykyistä sekulaaria humanismia?","vastaus":3},{"nro":19,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Periaatteet:\n1. järki\n2. ihmisarvo\n3. pyhä kirja totuuden ainoana lähteenä\n4. demokratia\n5. tieteellinen tutkimus\n6. etiikka jumalallisena käskynä\n\nMontako periaatteista kuuluu nykyiseen sekulaariin humanismiin?","vastaus":4},{"nro":20,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Keksitty väite: \"Kristinusko on levinnyt historiassa vain väkivallalla.\"\n\nMiksi väite on yksipuolinen? Kirjoita tilalle tasapuolisempi kuvaus, jossa on yksi esimerkki tämän taidon kohtaamisista.","vastaus":"Malliesimerkki: Väite esittää koko katsomuksen yksinomaan syyllisenä. Kristinuskoa levitettiin joskus väkivallalla, esimerkiksi ristiretkillä, mutta se levisi Rooman valtakunnassa aluksi vainottuna uskontona, ja kristityt kääntäjät ja oppineet välittivät tietoa Bagdadissa ja Toledossa."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa, muistiinpanoja ja laitteita. Aikajanakorteissa ei ole vuosilukuja.\nTehtävissä 1–8 kirjoita vuosisadan järjestysluku numerona (esimerkiksi vuosi 1250 → 13). Kaikki tapahtumat ovat jaa.\nTehtävissä 9–14, 18 ja 19 vastaus on luku. Vastaa tehtäviin 15–17 ja 20 kokonaisin virkkein ja käytä käsitteitä täsmällisesti.\nKeksityt väitteet on merkitty keksityiksi. Sinun omaa katsomustasi tai perheesi katsomusta ei kysytä.","tehtavat":[{"nro":1,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 1: Humanistijärjestöt perustavat Amsterdamissa kansainvälisen liiton ja hyväksyvät periaatejulistuksen.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":20},{"nro":2,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 2: Muslimijoukot nousevat maihin Iberian niemimaalla, ja al-Andalus syntyy.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":8},{"nro":3,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 3: Augsburgin uskonrauhassa sovitaan, että hallitsija päättää alueensa uskonnon.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":16},{"nro":4,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 4: Roomalaiset tuhoavat Jerusalemin toisen temppelin, ja juutalaisten hajaannus laajenee.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":1},{"nro":5,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 5: Immanuel Kant kehottaa: \"Uskalla käyttää omaa järkeäsi!\"\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":18},{"nro":6,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 6: Ensimmäinen ristiretki alkaa, ja Reininmaan juutalaisyhteisöjä surmataan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":11},{"nro":7,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 7: Bagdadin Viisauden talossa käännetään kreikkalaista filosofiaa arabiaksi.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":9},{"nro":8,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 8: Osmanit valtaavat Konstantinopolin, ja kreikkalaisia oppineita ja käsikirjoituksia päätyy Italiaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":15},{"nro":9,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Kohtaamiset:\n1. Jerusalemin temppelin tuhoaminen juutalaisten kapinan jälkeen vuonna 70\n2. juutalaisten ja kristittyjen yhteisöt harjoittavat uskontoaan muslimihallinnon alla Córdobassa\n3. ristiretkeläisten tekemät surmat Jerusalemin valtauksessa vuonna 1099\n4. Ibn Rushdin Aristoteles-selitysten leviäminen latinaksi Euroopan yliopistoihin\n5. Tuomas Akvinolainen lukee ja lainaa Maimonideen ja Ibn Rushdin ajatuksia\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":3},{"nro":10,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet al-Andaluksesta:\n1. al-Andalus oli muslimien hallitsema alue Iberian niemimaalla.\n2. al-Andalus kesti vuodesta 711 vuoteen 1492.\n3. al-Andaluksessa asui vain muslimeja.\n4. Juutalaiset ja kristityt maksoivat erityisveroa.\n5. al-Andaluksen pääkaupunki oli Bagdad.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":11,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet ristiretkistä:\n1. Ristiretkiä tehtiin vuosisatojen ajan.\n2. Ristiretkeläiset ryöstivät vuonna 1204 kristityn Konstantinopolin.\n3. Ristiretket alkoivat 600-luvulla.\n4. Ristiretkistä jäi pitkäaikainen epäluottamus.\n5. Ristiretkissä surmattiin vain sotilaita.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":12,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Lauseet:\n1. Ristiretkiin osallistui eri taustaisia ihmisiä eri syistä.\n2. Islam on levinnyt vain miekalla.\n3. Toledon käännöstyö toi Aristoteleen ajatuksia Euroopan yliopistoihin.\n4. Kaikki kristityt ovat vastuussa jokaisesta ristiretkien surmasta.\n5. Roomalaiset tuhosivat Jerusalemin temppelin juutalaisten kapinan jälkeen.\n\nMontako lauseista esittää yhden katsomuksen tai sen kannattajat yksinomaan syyllisinä tai uhreina?","vastaus":2},{"nro":13,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Kristinusko sallittiin Milanon ediktillä vuonna 313, ja Muhammad muutti Medinaan vuonna 622.\n\nMontako vuotta näiden tapahtumien välillä kului?","vastaus":309},{"nro":14,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Väitteet valistuksesta:\n1. Kant kehotti käyttämään omaa järkeä.\n2. Valistus kehotti tarkastelemaan auktoriteetteja kriittisesti.\n3. Ranskan ihmis- ja kansalaisoikeuksien julistus turvasi uskonnollisten mielipiteiden vapauden.\n4. Valistus syntyi 1300-luvun Italiassa.\n5. Valistusajattelijat vaativat sensuuria.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":15,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa (esimerkiksi al-Andalus, Toledon käännöstyö tai Bagdadin Viisauden talo). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Toledossa 1100-luvulla, kun kristitty Kastilia oli vallannut kaupungin, juutalaiset, kristityt ja muslimitaustaiset oppineet käänsivät arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi. Seurauksena Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja esimerkiksi Tuomas Akvinolainen rakensi teologiaansa Aristoteleen ajattelun varaan."},{"nro":16,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset olivat konfliktissa (esimerkiksi ensimmäinen ristiretki, karkotus vuonna 1492 tai kolmikymmenvuotinen sota). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Ensimmäinen ristiretki alkoi vuonna 1096, kun paavi oli kehottanut kristittyjä valtaamaan muslimien hallitseman Jerusalemin. Ristiretkeläiset surmasivat juutalaisia Reininmaalla ja vuonna 1099 Jerusalemissa suuren osan kaupungin muslimeista ja juutalaisista. Seurauksena kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelussa."},{"nro":17,"ryhma":"humanismi","tyyppi":"sanallinen","kysymys":"Kerro, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa. Mainitse jokaisesta vaiheesta vähintään yksi keskeinen ajatus.","vastaus":"Malliesimerkki: Renessanssissa 1300–1500-luvuilla humanistit tutkivat antiikin tekstejä ja korostivat ihmisen arvoa ja kykyjä, vaikka useimmat heistä olivat kristittyjä. Valistus 1700-luvulla korosti järkeä, tiedettä ja uskonnonvapautta ja arvosteli auktoriteetteja. 1900-luvulla syntyi järjestäytynyt sekulaari humanismi, jonka periaatteet kirjattiin Amsterdamin julistukseen vuonna 1952: ihmisarvo, järki ja tiede, ihmisoikeudet ja etiikka ilman uskoa yliluonnolliseen."},{"nro":18,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Lauseet humanismin vaiheista:\n1. Uskonnoton humanismi järjestäytyy ja kirjaa periaatteensa kansainväliseen julistukseen.\n2. Ajattelijat vaativat järjen käyttöä, tiedettä ja uskonnonvapautta.\n3. Oppineet tutkivat antiikin tekstejä ja korostavat ihmisen arvoa ja kykyjä.\n\nMonennessako lauseessa kuvataan valistusta?","vastaus":2},{"nro":19,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Periaatteet:\n1. ihmisoikeudet\n2. ihmisen vastuu\n3. usko kuolemanjälkeiseen palkkioon moraalin perustana\n4. järki ja kokemus\n5. tiede\n6. pappien määräämät säännöt\n\nMontako periaatteista kuuluu nykyiseen sekulaariin humanismiin?","vastaus":4},{"nro":20,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Keksitty väite: \"Ristiretket todistavat, että kristityt ja muslimit eivät voi koskaan elää rinnakkain.\"\n\nMiksi väite on yksipuolinen? Kirjoita tilalle tasapuolisempi kuvaus, jossa on yksi esimerkki tämän taidon kohtaamisista.","vastaus":"Malliesimerkki: Väite yleistää yhdestä konfliktista koko historian. Ristiretkistä jäi epäluottamus, mutta esimerkiksi al-Andaluksessa ja Toledossa kristityt, muslimit ja juutalaiset elivät rinnakkain ja vaihtoivat ajatuksia, vaikka eivät olleet tasavertaisia."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Vastaa ilman kirjaa, muistiinpanoja ja laitteita. Aikajanakorteissa ei ole vuosilukuja.\nTehtävissä 1–8 kirjoita vuosisadan järjestysluku numerona (esimerkiksi vuosi 1250 → 13). Kaikki tapahtumat ovat jaa.\nTehtävissä 9–14, 18 ja 19 vastaus on luku. Vastaa tehtäviin 15–17 ja 20 kokonaisin virkkein ja käytä käsitteitä täsmällisesti.\nKeksityt väitteet on merkitty keksityiksi. Sinun omaa katsomustasi tai perheesi katsomusta ei kysytä.","tehtavat":[{"nro":1,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 1: Petrarca kerää ja tutkii antiikin tekstejä Italiassa, ja renessanssihumanismi alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":14},{"nro":2,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 2: Suomessa säädetään uskonnonvapauslaki, joka sallii olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":20},{"nro":3,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 3: Kristinuskosta tulee Rooman valtakunnan virallinen uskonto.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":4},{"nro":4,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 4: Westfalenin rauha päättää kolmikymmenvuotisen sodan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":17},{"nro":5,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 5: Ristiretkeläiset valtaavat Jerusalemin.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":11},{"nro":6,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 6: Muhammad muuttaa seuraajineen Mekasta Medinaan, ja islamilainen ajanlasku alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":7},{"nro":7,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 7: Martti Luther esittää teesinsä, ja reformaatio alkaa.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":16},{"nro":8,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Aikajanakortti 8: Córdobassa syntyneet Ibn Rushd ja Maimonides kirjoittavat filosofisia teoksiaan.\n\nMonennellako vuosisadalla jaa. tapahtuma sattui?","vastaus":12},{"nro":9,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Kohtaamiset:\n1. kreikkalaisen filosofian kääntäminen arabiaksi Bagdadissa 800-luvulla, myös kristittyjen kääntäjien työnä\n2. katolilaisten ja protestanttien kolmikymmenvuotinen sota\n3. Ibn Rushdin Aristoteles-selitysten leviäminen latinaksi Euroopan yliopistoihin\n4. ristiretkeläisten tekemät surmat Jerusalemin valtauksessa vuonna 1099\n5. juutalaisten ja kristittyjen yhteisöt harjoittavat uskontoaan muslimihallinnon alla Córdobassa\n\nMontako kohtaamisista on esimerkki siitä, että katsomukset elivät rinnakkain tai vaikuttivat toisiinsa?","vastaus":3},{"nro":10,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet Ibn Rushdista ja Maimonideesta:\n1. Molemmat syntyivät Córdobassa.\n2. Molemmat pohtivat, miten usko ja järki sopivat yhteen.\n3. Ibn Rushd tunnettiin Euroopassa nimellä Averroes.\n4. Maimonides kirjoitti kaikki teoksensa latinaksi.\n5. He elivät 1800-luvulla.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":11,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Väitteet kolmikymmenvuotisesta sodasta:\n1. Sota käytiin reformaation jälkeen.\n2. Sodassa taistelivat katolilaiset ja protestantit.\n3. Sota päättyi Westfalenin rauhaan.\n4. Sota käytiin muslimien ja juutalaisten välillä.\n5. Sota päättyi vuonna 1099.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":12,"ryhma":"kohtaamiset","tyyppi":"lasku","kysymys":"Lauseet:\n1. Reformaation jälkeen kristityt kävivät uskonsotia keskenään.\n2. Ristiretket olivat kokonaan muslimien syytä.\n3. al-Andaluksessa juutalaiset ja kristityt eivät olleet tasavertaisia muslimien kanssa.\n4. Bagdadissa kristityt kääntäjät käänsivät kreikkalaisia teoksia arabiaksi.\n5. Katolilaiset olivat kolmikymmenvuotisen sodan ainoat uhrit.\n\nMontako lauseista esittää yhden katsomuksen tai sen kannattajat yksinomaan syyllisinä tai uhreina?","vastaus":2},{"nro":13,"ryhma":"aikajana","tyyppi":"lasku","kysymys":"Ranskan ihmis- ja kansalaisoikeuksien julistus annettiin vuonna 1789, ja Suomen uskonnonvapauslaki säädettiin vuonna 1922.\n\nMontako vuotta näiden tapahtumien välillä kului?","vastaus":133},{"nro":14,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Väitteet renessanssihumanismista:\n1. Renessanssi tarkoittaa uudestisyntymistä.\n2. Renessanssihumanistit tutkivat kreikkalaisia ja roomalaisia tekstejä.\n3. Renessanssihumanistit korostivat ihmisen kykyjä.\n4. Renessanssihumanistit perustivat Amsterdamin julistuksen.\n5. Renessanssihumanistit olivat yleensä uskonnottomia.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":15,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset elivät rinnakkain tai vaikuttivat toisiinsa (esimerkiksi al-Andalus, Toledon käännöstyö tai Bagdadin Viisauden talo). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Toledossa 1100-luvulla, kun kristitty Kastilia oli vallannut kaupungin, juutalaiset, kristityt ja muslimitaustaiset oppineet käänsivät arabiankielisiä filosofian, lääketieteen ja matematiikan teoksia latinaksi. Seurauksena Aristoteles ja arabialainen tiede levisivät Euroopan yliopistoihin, ja esimerkiksi Tuomas Akvinolainen rakensi teologiaansa Aristoteleen ajattelun varaan."},{"nro":16,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Valitse yksi kohtaaminen, jossa katsomukset olivat konfliktissa (esimerkiksi ensimmäinen ristiretki, karkotus vuonna 1492 tai kolmikymmenvuotinen sota). Kerro, milloin ja missä se tapahtui, ketkä kohtasivat, mitä tapahtui ja mitä siitä seurasi.","vastaus":"Malliesimerkki: Ensimmäinen ristiretki alkoi vuonna 1096, kun paavi oli kehottanut kristittyjä valtaamaan muslimien hallitseman Jerusalemin. Ristiretkeläiset surmasivat juutalaisia Reininmaalla ja vuonna 1099 Jerusalemissa suuren osan kaupungin muslimeista ja juutalaisista. Seurauksena kristittyjen ja muslimien välille jäi pitkäaikainen epäluottamus, ja ristiretkiin vedotaan yhä vastakkainasettelussa."},{"nro":17,"ryhma":"humanismi","tyyppi":"sanallinen","kysymys":"Kerro, miten sekulaari humanismi on kehittynyt renessanssista ja valistuksesta nykyiseen muotoonsa. Mainitse jokaisesta vaiheesta vähintään yksi keskeinen ajatus.","vastaus":"Malliesimerkki: Renessanssissa 1300–1500-luvuilla humanistit tutkivat antiikin tekstejä ja korostivat ihmisen arvoa ja kykyjä, vaikka useimmat heistä olivat kristittyjä. Valistus 1700-luvulla korosti järkeä, tiedettä ja uskonnonvapautta ja arvosteli auktoriteetteja. 1900-luvulla syntyi järjestäytynyt sekulaari humanismi, jonka periaatteet kirjattiin Amsterdamin julistukseen vuonna 1952: ihmisarvo, järki ja tiede, ihmisoikeudet ja etiikka ilman uskoa yliluonnolliseen."},{"nro":18,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Lauseet humanismin vaiheista:\n1. Ajattelijat vaativat järjen käyttöä, tiedettä ja uskonnonvapautta.\n2. Oppineet tutkivat antiikin tekstejä ja korostavat ihmisen arvoa ja kykyjä.\n3. Uskonnoton humanismi järjestäytyy ja kirjaa periaatteensa kansainväliseen julistukseen.\n\nMonennessako lauseessa kuvataan renessanssihumanismia?","vastaus":2},{"nro":19,"ryhma":"humanismi","tyyppi":"lasku","kysymys":"Periaatteet:\n1. demokratia\n2. ihmisarvo\n3. jumalan ilmoitus moraalin lähteenä\n4. tiede\n5. ihmisen oma vastuu\n6. pyhien henkilöiden esimerkki ainoana oikeana elämäntapana\n\nMontako periaatteista kuuluu nykyiseen sekulaariin humanismiin?","vastaus":4},{"nro":20,"ryhma":"kohtaamiset","tyyppi":"sanallinen","kysymys":"Keksitty väite: \"Juutalaisuus, kristinusko ja islam ovat aina olleet toistensa vihollisia.\"\n\nMiksi väite on yksipuolinen? Kirjoita tilalle tasapuolisempi kuvaus, jossa on yksi esimerkki tämän taidon kohtaamisista.","vastaus":"Malliesimerkki: Väite esittää kolme katsomusta pelkkinä vihollisina. Konflikteja oli, kuten ristiretket, mutta Toledon käännöstyössä juutalaiset, kristityt ja muslimitaustaiset oppineet tekivät yhteistyötä, ja Tuomas Akvinolainen lainasi Maimonidesta ja Ibn Rushdia."}]}],"ryhmanimet":{"aikajana":"Aikajana ja vuosisadat","kohtaamiset":"Kohtaamiset","humanismi":"Humanismin kehitys"},"tulostus":{"sivuja":7,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":15},"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen, koska kartan näyttö alkaa sanoilla \"Paperikoe opettajan aikajanakorttien tuella\". Vuosisadat, järjestys ja kohtaamisten tunnistaminen ovat yksikäsitteisesti tarkistettavia (tehtävät 1–14, 18 ja 19, yhteensä 16). Kartan näytön osat 2 ja 3 ovat sanallisia tehtäviä 15–17; tehtävä 20 mittaa kartan ehtoa \"en esitä mitään katsomusta yksinomaan syyllisenä tai uhrina\".","Aikajanakortit (näytön osa 1) ovat tehtävät 1–8. Ne on tulostettu kokeeseen ilman vuosilukuja, jotta kaikilla on sama aineisto. Jokaisen version kahdeksan korttia ovat kahdeksalla eri vuosisadalla, joten oikea vuosisata sijoittaa kortin aikajanalle myös oikeaan järjestykseen. Jos käytät erillisiä kortteja, oppilas asettaa ne pöydälle järjestykseen ja kirjoittaa vuosisadat; käytä samoja tekstejä. Jokaisessa versiossa on tapahtumia juutalaisuudesta, kristinuskosta, islamista ja humanismista.","Raja ja mittarit: koe on 20 tehtävää, ja opettajan sivu lisää 80 %:n rajan (16/20). Kartan oma ehto on lisäksi, että tehtävistä 1–8 vähintään kuusi on oikein. Mittaritehtävät ovat 15 (rinnakkaiselo tai vaikutus: tapahtuma ja seuraus), 16 (konflikti: tapahtuma ja seuraus) ja 17 (humanismi: ihmisen ja järjen korostus renessanssissa ja valistuksessa sekä nykyinen järjestäytynyt humanismi, esim. Amsterdamin julistus). Niiden pitää olla oikein. Kohtaamisessa pelkkä tapahtuma ilman seurausta ei riitä. Jos tehtävän 15 tai 16 vastaus esittää jonkin katsomuksen yksinomaan syyllisenä tai uhrina, se on väärin, kuten myös tehtävä 20 silloin.","Mikä kelpaa: tehtävissä 1–8 vain vuosisadan järjestysluku; sataluku (esim. 1500 tai 1500-luku) on väärin, koska juuri sen erottaminen on taidon ydin (ansa 1). Sanallisissa tehtävissä 15–17 ja 20 hyväksytään mikä tahansa asiallisesti oikea muotoilu ja mikä tahansa opetuksen kohtaaminen, ei vain mallivastaus. Vuosiluvun pieni epätarkkuus sanallisessa tehtävässä ei kaada vastausta, jos vuosisata on oikein.","Tehtävien rakenne versioittain: tehtävä 9 viisi kohtaamista (2 tai 3 vaikutusta), tehtävät 10 ja 11 viisi väitettä (3 totta), tehtävä 12 viisi lausetta, joista kaksi yksipuolisia (ansa 3), tehtävä 13 kahden annetun vuosiluvun erotus, tehtävä 14 viisi väitettä humanismista (3 totta, mukana ansa 2), tehtävä 18 kolmen vaiheen tunnistus, tehtävä 19 kuusi periaatetta (4 sopii).","Katsomukset kuvataan historiallisina ilmiöinä, ja uskon sisällöt kehystetään (\"muslimien uskon mukaan\"). Oppilaan omaa tai perheen katsomusta ei kysytä eikä arvioida. Konfliktit (ristiretket, karkotus, uskonsodat) käsitellään asiallisesti ilman kuvia. Jos luokassa nousee esiin nykyisiä konflikteja, palataan historiallisiin esimerkkeihin eikä oteta kantaa nykyisiin osapuoliin. Korosta, että teot tekivät hallitsijat, joukot ja ihmiset, eivät katsomukset kokonaisuudessaan. al-Andaluksen rinnakkaiselosta käytetään joskus nimitystä convivencia; sen laajuudesta tutkijat ovat eri mieltä, siksi teksti korostaa, ettei rinnakkaiselo ollut tasavertaisuutta.","Tarkistettavat asiatiedot (ennen julkaisua, esim. oppikirja tai tietosanakirja): temppelin tuho 70; Milanon edikti 313 (Konstantinus ja Licinius); Theodosius 380; ilmoituksen alku noin 610 ja hidžra 622; Iberia 711; Córdoban kalifaatti 929; Bagdadin Viisauden talo 800-luvulla ja kristityt kääntäjät; Toledon valtaus 1085 ja käännöstyö 1100-luvulla; Ibn Rushd (1126–1198) ja Maimonides (1138–1204) Córdobassa, Maimonides kirjoitti monet teoksensa arabiaksi (juutalais-arabiaksi); Urbanus II:n kehotus 1095, Reininmaan surmat 1096, Jerusalem 1099, Konstantinopolin ryöstö 1204; Konstantinopoli 1453; Pico della Mirandolan puhe 1486; Granada ja karkotus 1492 sekä muslimien myöhempi pakkokäännyttäminen; Luther 1517; Augsburg 1555; Westfalen 1648; Kantin kirjoitus 1784; Ranskan julistus 1789 (artikla 10); Suomen uskonnonvapauslaki 1922, voimaan 1.1.1923, nykyinen laki 2003; Amsterdamin julistus 1952 ja sen päivitykset (2002; uusin julistus 2022).","Taito jatkaa 4. luokan taitoa ET4-KAT-02 (seemiläisten uskontojen synty) ja 7. luokan taitoa ET7-KAT-01 (kolmen katsomuksen etiikka). Holokaustia ei käsitellä tässä; se tulee 8. luokan taidossa ET8-YHD-01, joka nojaa tähän taitoon.","Tässä taidossa ei mitata tekemisen nopeutta eikä ajanoteta mitään."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Vuosisata on sadat plus yksi. Katsomusten historiassa on sekä rinnakkaiseloa että konflikteja, ja teot tekivät ihmiset, eivät katsomukset kokonaisuudessaan.","vaiheet":[{"aika":"8 min","otsikko":"1. tunti: aloitus","sisalto":"Lue johdanto ja Nooran kysymys. Piirrä taululle ketju kreikka → arabia → latina ja kysy, mitä kohtaamisia ketju vaatii. Jätä ketju taululle."},{"aika":"12 min","otsikko":"1. tunti: vuosisata ja sataluku","sisalto":"Käy läpi sääntö sadat + 1 ja ansa 1. Pyydä pareja muuttamaan viisi vuosilukua vuosisadoiksi. Tee harjoitukset H01–H07."},{"aika":"20 min","otsikko":"1. tunti: kolme monoteismia aikajanalla","sisalto":"Käy läpi juutalaisuuden, kristinuskon ja islamin kappaleet aikajanan avulla. Korosta kehystys: \"muslimien uskon mukaan\". Rakentakaa luokan aikajana taululle."},{"aika":"5 min","otsikko":"1. tunti: lopetus","sisalto":"Jokainen kirjoittaa kolme tapahtumaa ja niiden vuosisadat muistiin."},{"aika":"20 min","otsikko":"2. tunti: kohtaamiset","sisalto":"Lue kohtaamisten kappaleet. Jaa luokka kahtia: toinen puoli kokoaa rinnakkaiselon ja vaikutuksen esimerkit, toinen konfliktit. Käy läpi Näin kerrot kohtaamisesta -sääntö."},{"aika":"15 min","otsikko":"2. tunti: tasapuolisuus","sisalto":"Käy läpi ansa 3. Kirjoita taululle yksipuolinen väite (keksitty) ja korjatkaa se yhdessä tasapuoliseksi. Tee harjoitukset H08–H14."},{"aika":"10 min","otsikko":"2. tunti: humanismi","sisalto":"Käy läpi humanismin kappaleet, kaavio ja ansa 2. Tee harjoitukset H15–H20 tai anna ne kotiin."},{"aika":"40 min","otsikko":"3. tunti: näyttö","sisalto":"Koe (versio A–E). Tehtävät 1–8 ovat aikajanakortit, 15–16 kohtaamiset, 17 humanismin kehitys ja 20 yksipuolisen väitteen korjaus."},{"aika":"5 min","otsikko":"3. tunti: purku","sisalto":"Kerää kokeet. Kerro, että seuraavaksi tutkitaan katsomusvapautta ihmisoikeutena (ET7-YHD-01)."}],"tarvikkeet":"Harjoitukset laitteelta tai tulostettuna. Taululle aikajana 0–2000 jaa. Kolmannelle tunnille tulostettu koe (aikajanakortit ovat kokeessa)."},"virhesanakirja":[{"virhe":"Kirjoittaa tehtävissä 1–8 vuosisadaksi luvun, joka on yhden liian pieni (esim. reformaatio 15)","tehtava":"vuosisata ja sataluku (H01, H02, H06, kokeen tehtävät 1–8)","mita_kertoo":"Oppilas sekoittaa sataluvun ja vuosisadan (ansa 1). Hän voi silti tietää tapahtumien järjestyksen oikein.","mita_tehda":"Kirjoita taululle vuodet 1–100 = 1. vuosisata ja 1501–1600 = 16. vuosisata. Pyydä muuttamaan viisi vuotta vuosisadoiksi ääneen sanoen \"sadat ja yksi lisää\"."},{"virhe":"Sijoittaa tapahtumat oikeaan järjestykseen mutta väärille vuosisadoille kauttaaltaan (esim. kaikki sata vuotta liian myöhään)","tehtava":"aikajana (H04, H05, kokeen tehtävät 1–8)","mita_kertoo":"Oppilas muistaa järjestyksen mutta ei yhtään ankkurivuotta.","mita_tehda":"Anna kolme ankkuria: temppelin tuho 70, hidžra 622, reformaatio 1517. Pyydä sijoittamaan muut tapahtumat niiden suhteen ennen tai jälkeen."},{"virhe":"Laskee tehtävässä 9 käännöstyön tai al-Andaluksen konfliktiksi, koska alueella oli myös sotia","tehtava":"kohtaamisen luonne (H08, H14, kokeen tehtävä 9)","mita_kertoo":"Oppilas ei erota kohtaamisen tapaa sen ympärillä tapahtuneesta. Valloitus ja käännöstyö voivat liittyä samaan paikkaan.","mita_tehda":"Kysy: mitä tässä nimenomaisessa tapahtumassa tehtiin, käännettiinkö tekstejä vai surmattiinko ihmisiä? Lajitelkaa tapahtumat kahteen sarakkeeseen."},{"virhe":"Kertoo tehtävässä 15 tai 16 tapahtuman mutta ei sen seurausta","tehtava":"kohtaamisesta kertominen (kokeen tehtävät 15 ja 16)","mita_kertoo":"Oppilas tuntee tapahtuman, mutta ei vielä ajattele syy–seurausta. Mittaritehtävä ei täyty.","mita_tehda":"Pyydä täydentämään lause: \"Tämän vuoksi myöhemmin…\". Käy läpi Toledon ketju: käännökset → Aristoteles yliopistoihin → Tuomas Akvinolainen."},{"virhe":"Kirjoittaa tehtävässä 17, että renessanssihumanistit olivat ateisteja, tai jättää valistuksen pois","tehtava":"humanismin kehitys (H15, H18, kokeen tehtävät 14 ja 17)","mita_kertoo":"Oppilas yhdistää sanan humanismi suoraan nykyiseen uskonnottomaan katsomukseen (ansa 2) eikä näe kehitystä vaiheina.","mita_tehda":"Piirrä kolme laatikkoa (renessanssi, valistus, sekulaari humanismi) ja pyydä kirjoittamaan kuhunkin yksi ajatus. Kysy: mikä säilyi ja mikä muuttui?"},{"virhe":"Esittää vastauksessa koko katsomuksen syyllisenä tai uhrina (\"kristityt hyökkäsivät\", \"muslimit olivat suvaitsevaisia\")","tehtava":"tasapuolisuus (H12, kokeen tehtävät 12, 15, 16 ja 20)","mita_kertoo":"Oppilas yleistää yhden tapahtuman toimijat koko katsomukseen (ansa 3).","mita_tehda":"Pyydä nimeämään tarkemmin, kuka teki: paavi, ristiretkeläisjoukot, kalifi, Kastilian hallitsijat. Kysy, onko samasta katsomuksesta esimerkki toisenlaisesta kohtaamisesta."}],"huoltajalle":{"mista_on_kyse":"Nuori oppii sijoittamaan juutalaisuuden, kristinuskon, islamin ja sekulaarin humanismin historian tärkeitä tapahtumia aikajanalle ja vuosisadoille. Hän oppii kertomaan esimerkein, miten katsomukset ovat historiassa eläneet rinnakkain, vaikuttaneet toisiinsa tai joutuneet konfliktiin, ja miten humanismi kehittyi renessanssista ja valistuksesta nykyiseen muotoonsa. Tavoitteena on tasapuolinen kuvaus, jossa mitään katsomusta ei esitetä yksin syyllisenä tai uhrina.","kotona":["Voitte harjoitella vuosisatoja: kun uutisessa tai kirjassa mainitaan vuosiluku, kysy, monennellako vuosisadalla se oli (vuosi 1517 on 16. vuosisataa).","Voit kysyä nuorelta, miten kreikkalaisen filosofin ajatukset kulkivat arabian kautta latinaan ja miksi se on esimerkki katsomusten kohtaamisesta.","Kun historiasta puhutaan yksipuolisesti (\"ne olivat aina pahoja\"), voit kysyä, kuka teki mitä ja kenelle.","Sana humanismi on tarkoittanut eri aikoina eri asioita: renessanssihumanistit olivat useimmiten kristittyjä. Voit kysyä nuorelta, mikä humanismissa on säilynyt ja mikä muuttunut."],"milloin_huolestua":"Jos nuori puhuu jostakin katsomuksesta tai sen edustajista kauttaaltaan vihamielisesti tai yleistäen, siitä kannattaa keskustella opettajan kanssa. Jos historian väkivaltaiset tapahtumat ahdistavat, juttele rauhallisesti ja kerro opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat sijoittaa seemiläisten monoteismien ja humanismin tärkeitä tapahtumia aikajanalle, kertoa kohtaamisista ja niiden seurauksista tasapuolisesti ja kuvata humanismin kehityksen renessanssista nykypäivään. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

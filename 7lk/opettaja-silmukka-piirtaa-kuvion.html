@@ -1,0 +1,619 @@
+<title>Silmukka piirtää kuvion · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KU7-KUV-06","oppiaine":"KU","vuosiluokka":7,"taitoalue":"KUV","jakso":"J5","taso":"haaste","otsikko":"Silmukka piirtää kuvion","kuvaus":"Osaan tehdä koodaamalla kuvion, joka syntyy toistosta, ja muuttaa kuvaa yhden arvon avulla tarkoituksellisesti.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T3","T9"],"S":["S1","S2"]},"ikoni":"jarjestys","eyebrow":"Kuvataide · 7. luokka","naytto":"Teen lohko- tai tekstipohjaisella ohjelmointiympäristöllä (esimerkiksi Scratch tai p5.js) kuvion, jossa sama muoto toistuu silmukassa ja jokin muuttuja (koko, kulma, väri tai paikka) muuttuu joka kierroksella. Tallennan kolme versiota, joissa muutan yhtä arvoa, ja kirjoitan, miten kuva muuttui. Ennen neljättä muutosta kirjoitan ennusteen siitä, miltä kuva näyttää, ja tarkistan sen ajamalla ohjelman. Kerron, mikä yhdistää työni formalistiseen taidekäsitykseen. Ilman laitetta kirjoitan saman ohjeen algoritmiksi ja piirrän sen viivaimella ja harpilla.","osaa_kun":"Kuvio syntyy toistosta eikä yksittäin piirretyistä muodoista, ja kolmen version ero johtuu vain muuttamastani arvosta. Ennustan ennen ajamista, miten neljäs muutos vaikuttaa, ja ennuste osuu.","teksti":[{"tyyppi":"johdanto","sisalto":"Laattalattiassa, kudotussa kankaassa ja kerrostalon ikkunarivissä sama muoto toistuu, ja silmä lukee toistosta rytmin. Kun yksi asia muuttuu vähitellen, esimerkiksi muoto kasvaa tai kääntyy, rytmiin tulee liike. Tietokone on tällaisen kuvan tekemiseen hyvä väline, koska se toistaa ohjeen täsmälleen samanlaisena satoja kertoja. Tässä taidossa teet kuvion koodaamalla, muutat yhtä arvoa kerrallaan ja ennustat ennen ajamista, miltä kuva näyttää. Silloin et piirrä kuvaa itse viiva viivalta, vaan kirjoitat säännön, joka piirtää sen."},{"tyyppi":"kappale","otsikko":"Toisto, rytmi ja muuttuja","sisalto":"<b>Toisto</b> on kuvataiteessa sommittelun keino: sama muoto toistuu, ja toistojen väli luo <b>rytmin</b>. Ohjelmoinnissa toisto tehdään <b>silmukalla</b>, esimerkiksi lohkolla <i>toista 12 kertaa</i>. Silmukan sisällä olevat lohkot suoritetaan jokaisella <b>kierroksella</b>. <b>Muuttuja</b> on nimetty arvo, jota ohjelma voi muuttaa, esimerkiksi <i>koko</i>. Kun muuttujan arvo kasvaa joka kierroksella, jokainen toisto on hieman edellistä suurempi, ja kuvaan syntyy kasvu tai kiertyminen. Kuvio syntyy siis säännöstä eikä yksittäin piirretyistä muodoista."},{"tyyppi":"kappale","otsikko":"Malli 1: neliörosetti","sisalto":"Ohjelma piirtää neliön (sisempi silmukka: neljä sivua ja neljä 90 asteen käännöstä) ja kääntää sitten hahmoa 30 astetta. Ulompi silmukka toistaa tämän 12 kertaa. Koska neliön jälkeen hahmo on takaisin lähtökulmassa samassa suunnassa, ulommat käännökset laskevat yhteen: 12 · 30° = 360° eli täysi kierros. Neliöt asettuvat tasavälein ympyrän muotoon kuin terälehdet."},{"tyyppi":"kuva","otsikko":"Neliörosetin ohjelma","svg":"<svg viewBox=\"0 0 291 362\" role=\"img\" aria-label=\"Neliörosetti: toista 12 kertaa, sisällä neliö ja käännös 30 astetta\"><style>.lt{font:bold 13px Arial,sans-serif;fill:#1d1d1b}.at{font:12px Arial,sans-serif;fill:#1d1d1b}.au{fill:#fff;stroke:#1d1d1b;stroke-width:1}.au.op{fill:#66cc66;stroke:#3d993d}.au.op.o2{fill:#c8efc8;stroke:#2f7a2f}</style><path d=\"M2 18 q27.36 -18 63.839999999999996 0 H178.4 q6 0 6 6 V52 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ffd84d\" stroke=\"#a88900\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"43.0\" class=\"lt\">kun aloitus klikataan</text><path d=\"M2 64 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H116 q6 0 6 6 V92 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#3cc9a0\" stroke=\"#1f9473\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"83.0\" class=\"lt\">kynä alas</text><path d=\"M2 104 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H156.60000000000002 q6 0 6 6 V132 q0 6 -6 6 H60 l-6 6 h-16 l-6 -6 H26 v6 H2 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"123.0\" class=\"lt\">toista</text><rect x=\"63.4\" y=\"107.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"78.8\" y=\"123.0\" class=\"at\" text-anchor=\"middle\">12</text><text x=\"101.2\" y=\"123.0\" class=\"lt\">kertaa</text><path d=\"M24 144 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H175.8 q6 0 6 6 V172 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"163.0\" class=\"lt\">toista</text><rect x=\"85.4\" y=\"147.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"99.4\" y=\"163.0\" class=\"at\" text-anchor=\"middle\">4</text><text x=\"120.4\" y=\"163.0\" class=\"lt\">kertaa</text><path d=\"M46 184 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H200.6 q6 0 6 6 V212 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"203.0\" class=\"lt\">liiku</text><rect x=\"100.0\" y=\"187.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"115.4\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">80</text><text x=\"137.8\" y=\"203.0\" class=\"lt\">askelta</text><path d=\"M46 224 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H274.6 q6 0 6 6 V252 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"243.0\" class=\"lt\">käänny oikealle</text><rect x=\"174.0\" y=\"227.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"189.4\" y=\"243.0\" class=\"at\" text-anchor=\"middle\">90</text><text x=\"211.8\" y=\"243.0\" class=\"lt\">astetta</text><rect x=\"24\" y=\"178\" width=\"24\" height=\"81\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"177\" width=\"21.6\" height=\"83\" fill=\"#ffaa33\"/><path d=\"M24 258 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V258 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><path d=\"M24 290 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H252.60000000000002 q6 0 6 6 V318 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"309.0\" class=\"lt\">käänny oikealle</text><rect x=\"152.0\" y=\"293.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"167.4\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">30</text><text x=\"189.8\" y=\"309.0\" class=\"lt\">astetta</text><rect x=\"2\" y=\"138\" width=\"24\" height=\"187\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"3.2\" y=\"137\" width=\"21.6\" height=\"189\" fill=\"#ffaa33\"/><path d=\"M2 324 h24 h6 l6 6 h16 l6 -6 H136 q6 0 6 6 v14 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 V324 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/></svg>","teksti":"Sisempi silmukka piirtää neliön, ulompi toistaa sen 12 kertaa ja kääntää hahmoa joka kerta 30 astetta."},{"tyyppi":"kuva","otsikko":"Kolme versiota, yksi arvo muuttuu","svg":"<svg viewBox=\"0 0 600 230\" role=\"img\" aria-label=\"Kolme versiota neliörosetista, joissa vain ulompi käännös muuttuu: 30, 60 ja 10 astetta\"><path d=\"M100.0,115.0 L162.2,115.0 M162.2,115.0 L162.2,177.2 M162.2,177.2 L100.0,177.2 M100.0,177.2 L100.0,115.0 M100.0,115.0 L153.9,146.1 M153.9,146.1 L122.8,200.0 M122.8,200.0 L68.9,168.9 M68.9,168.9 L100.0,115.0 M100.0,115.0 L131.1,168.9 M131.1,168.9 L77.2,200.0 M77.2,200.0 L46.1,146.1 M46.1,146.1 L100.0,115.0 M100.0,115.0 L100.0,177.2 M100.0,177.2 L37.8,177.2 M37.8,177.2 L37.8,115.0 M37.8,115.0 L100.0,115.0 M100.0,115.0 L68.9,168.9 M68.9,168.9 L15.0,137.8 M15.0,137.8 L46.1,83.9 M46.1,83.9 L100.0,115.0 M100.0,115.0 L46.1,146.1 M46.1,146.1 L15.0,92.2 M15.0,92.2 L68.9,61.1 M68.9,61.1 L100.0,115.0 M100.0,115.0 L37.8,115.0 M37.8,115.0 L37.8,52.8 M37.8,52.8 L100.0,52.8 M100.0,52.8 L100.0,115.0 M100.0,115.0 L46.1,83.9 M46.1,83.9 L77.2,30.0 M77.2,30.0 L131.1,61.1 M131.1,61.1 L100.0,115.0 M100.0,115.0 L68.9,61.1 M68.9,61.1 L122.8,30.0 M122.8,30.0 L153.9,83.9 M153.9,83.9 L100.0,115.0 M100.0,115.0 L100.0,52.8 M100.0,52.8 L162.2,52.8 M162.2,52.8 L162.2,115.0 M162.2,115.0 L100.0,115.0 M100.0,115.0 L131.1,61.1 M131.1,61.1 L185.0,92.2 M185.0,92.2 L153.9,146.1 M153.9,146.1 L100.0,115.0 M100.0,115.0 L153.9,83.9 M153.9,83.9 L185.0,137.8 M185.0,137.8 L131.1,168.9 M131.1,168.9 L100.0,115.0\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"100.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 30°, 12 kierrosta</text><path d=\"M300.0,115.0 L362.2,115.0 M362.2,115.0 L362.2,177.2 M362.2,177.2 L300.0,177.2 M300.0,177.2 L300.0,115.0 M300.0,115.0 L331.1,168.9 M331.1,168.9 L277.2,200.0 M277.2,200.0 L246.1,146.1 M246.1,146.1 L300.0,115.0 M300.0,115.0 L268.9,168.9 M268.9,168.9 L215.0,137.8 M215.0,137.8 L246.1,83.9 M246.1,83.9 L300.0,115.0 M300.0,115.0 L237.8,115.0 M237.8,115.0 L237.8,52.8 M237.8,52.8 L300.0,52.8 M300.0,52.8 L300.0,115.0 M300.0,115.0 L268.9,61.1 M268.9,61.1 L322.8,30.0 M322.8,30.0 L353.9,83.9 M353.9,83.9 L300.0,115.0 M300.0,115.0 L331.1,61.1 M331.1,61.1 L385.0,92.2 M385.0,92.2 L353.9,146.1 M353.9,146.1 L300.0,115.0 M300.0,115.0 L362.2,115.0 M362.2,115.0 L362.2,177.2 M362.2,177.2 L300.0,177.2 M300.0,177.2 L300.0,115.0 M300.0,115.0 L331.1,168.9 M331.1,168.9 L277.2,200.0 M277.2,200.0 L246.1,146.1 M246.1,146.1 L300.0,115.0 M300.0,115.0 L268.9,168.9 M268.9,168.9 L215.0,137.8 M215.0,137.8 L246.1,83.9 M246.1,83.9 L300.0,115.0 M300.0,115.0 L237.8,115.0 M237.8,115.0 L237.8,52.8 M237.8,52.8 L300.0,52.8 M300.0,52.8 L300.0,115.0 M300.0,115.0 L268.9,61.1 M268.9,61.1 L322.8,30.0 M322.8,30.0 L353.9,83.9 M353.9,83.9 L300.0,115.0 M300.0,115.0 L331.1,61.1 M331.1,61.1 L385.0,92.2 M385.0,92.2 L353.9,146.1 M353.9,146.1 L300.0,115.0\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"300.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 60°, 12 kierrosta</text><path d=\"M510.5,75.3 L585.0,75.3 M585.0,75.3 L585.0,149.8 M585.0,149.8 L510.5,149.8 M510.5,149.8 L510.5,75.3 M510.5,75.3 L583.9,88.2 M583.9,88.2 L570.9,161.6 M570.9,161.6 L497.6,148.6 M497.6,148.6 L510.5,75.3 M510.5,75.3 L580.5,100.7 M580.5,100.7 L555.0,170.8 M555.0,170.8 L485.0,145.3 M485.0,145.3 L510.5,75.3 M510.5,75.3 L575.0,112.5 M575.0,112.5 L537.8,177.0 M537.8,177.0 L473.2,139.8 M473.2,139.8 L510.5,75.3 M510.5,75.3 L567.6,123.1 M567.6,123.1 L519.7,180.2 M519.7,180.2 L462.6,132.3 M462.6,132.3 L510.5,75.3 M510.5,75.3 L558.4,132.3 M558.4,132.3 L501.3,180.2 M501.3,180.2 L453.4,123.1 M453.4,123.1 L510.5,75.3 M510.5,75.3 L547.7,139.8 M547.7,139.8 L483.2,177.0 M483.2,177.0 L446.0,112.5 M446.0,112.5 L510.5,75.3 M510.5,75.3 L536.0,145.3 M536.0,145.3 L466.0,170.8 M466.0,170.8 L440.5,100.7 M440.5,100.7 L510.5,75.3 M510.5,75.3 L523.4,148.6 M523.4,148.6 L450.1,161.6 M450.1,161.6 L437.1,88.2 M437.1,88.2 L510.5,75.3 M510.5,75.3 L510.5,149.8 M510.5,149.8 L436.0,149.8 M436.0,149.8 L436.0,75.3 M436.0,75.3 L510.5,75.3 M510.5,75.3 L497.6,148.6 M497.6,148.6 L424.2,135.7 M424.2,135.7 L437.1,62.3 M437.1,62.3 L510.5,75.3 M510.5,75.3 L485.0,145.3 M485.0,145.3 L415.0,119.8 M415.0,119.8 L440.5,49.8 M440.5,49.8 L510.5,75.3\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"500.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 10°, 12 kierrosta</text></svg>","teksti":"Kaikissa kolmessa on sama ohjelma, vain ulompi käännös on vaihdettu. 60 asteella kuusi neliötä täyttää kierroksen, ja loput kuusi piirtyvät niiden päälle. 10 asteella 12 neliötä peittää vain kolmanneksen kierroksesta."},{"tyyppi":"kappale","otsikko":"Malli 2: kasvava spiraali","sisalto":"Toisessa mallissa muuttuja <i>koko</i> alkaa arvosta 5. Joka kierroksella hahmo kulkee <i>koko</i> askelta, kääntyy 90 astetta ja muuttujaan lisätään 5. Ensimmäinen viiva on 5 askelta, toinen 10, kolmas 15 ja niin edelleen, joten viivat kiertyvät kulmikkaaksi spiraaliksi. Kun käännös muutetaan 91 asteeseen, jokainen kulma jää asteen verran vinoon, ja virheet kasautuvat: spiraali näyttää vääntyvän. Kun käännös on 120 astetta, hahmo palaa samaan suuntaan joka kolmannen viivan jälkeen, ja syntyy kolmiomainen spiraali."},{"tyyppi":"kuva","otsikko":"Kasvavan spiraalin ohjelma","svg":"<svg viewBox=\"0 0 304 336\" role=\"img\" aria-label=\"Kasvava spiraali: muuttuja koko kasvaa viidellä joka kierroksella\"><style>.lt{font:bold 13px Arial,sans-serif;fill:#1d1d1b}.at{font:12px Arial,sans-serif;fill:#1d1d1b}.au{fill:#fff;stroke:#1d1d1b;stroke-width:1}.au.op{fill:#66cc66;stroke:#3d993d}.au.op.o2{fill:#c8efc8;stroke:#2f7a2f}</style><path d=\"M2 18 q27.36 -18 63.839999999999996 0 H178.4 q6 0 6 6 V52 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ffd84d\" stroke=\"#a88900\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"43.0\" class=\"lt\">kun aloitus klikataan</text><path d=\"M2 64 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H199.0 q6 0 6 6 V92 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"83.0\" class=\"lt\">aseta</text><rect x=\"56.0\" y=\"67.0\" width=\"45.6\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"78.8\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">koko</text><text x=\"108.6\" y=\"83.0\" class=\"lt\">arvoon</text><rect x=\"160.0\" y=\"67.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"174.0\" y=\"83.0\" class=\"at\" text-anchor=\"middle\">5</text><path d=\"M2 104 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H116 q6 0 6 6 V132 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#3cc9a0\" stroke=\"#1f9473\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"123.0\" class=\"lt\">kynä alas</text><path d=\"M2 144 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H156.60000000000002 q6 0 6 6 V172 q0 6 -6 6 H60 l-6 6 h-16 l-6 -6 H26 v6 H2 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"163.0\" class=\"lt\">toista</text><rect x=\"63.4\" y=\"147.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"78.8\" y=\"163.0\" class=\"at\" text-anchor=\"middle\">40</text><text x=\"101.2\" y=\"163.0\" class=\"lt\">kertaa</text><path d=\"M24 184 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H193.4 q6 0 6 6 V212 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"203.0\" class=\"lt\">liiku</text><rect x=\"78.0\" y=\"187.0\" width=\"45.6\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"100.8\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">koko</text><text x=\"130.6\" y=\"203.0\" class=\"lt\">askelta</text><path d=\"M24 224 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H252.60000000000002 q6 0 6 6 V252 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"243.0\" class=\"lt\">käänny oikealle</text><rect x=\"152.0\" y=\"227.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"167.4\" y=\"243.0\" class=\"at\" text-anchor=\"middle\">90</text><text x=\"189.8\" y=\"243.0\" class=\"lt\">astetta</text><path d=\"M24 264 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H287.6 q6 0 6 6 V292 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 z\" fill=\"#ff8c40\" stroke=\"#c4581a\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"283.0\" class=\"lt\">lisää muuttujaan</text><rect x=\"159.4\" y=\"267.0\" width=\"45.6\" height=\"22\" rx=\"3\" class=\"au\"/><text x=\"182.2\" y=\"283.0\" class=\"at\" text-anchor=\"middle\">koko</text><text x=\"212.0\" y=\"283.0\" class=\"lt\">arvo</text><rect x=\"248.6\" y=\"267.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"262.6\" y=\"283.0\" class=\"at\" text-anchor=\"middle\">5</text><rect x=\"2\" y=\"178\" width=\"24\" height=\"121\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"3.2\" y=\"177\" width=\"21.6\" height=\"123\" fill=\"#ffaa33\"/><path d=\"M2 298 h24 h6 l6 6 h16 l6 -6 H136 q6 0 6 6 v14 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 V298 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/></svg>","teksti":"Muuttuja koko kasvaa viidellä joka kierroksella. Lohko lisää muuttujaan on silmukan sisällä."},{"tyyppi":"kuva","otsikko":"Sama spiraali, kolme käännöstä","svg":"<svg viewBox=\"0 0 600 230\" role=\"img\" aria-label=\"Kasvava spiraali kolmella käännöksellä: 90, 91 ja 120 astetta\"><path d=\"M102.1,115.0 L106.4,115.0 M106.4,115.0 L106.4,123.5 M106.4,123.5 L93.6,123.5 M93.6,123.5 L93.6,106.5 M93.6,106.5 L114.9,106.5 M114.9,106.5 L114.9,132.0 M114.9,132.0 L85.1,132.0 M85.1,132.0 L85.1,98.0 M85.1,98.0 L123.4,98.0 M123.4,98.0 L123.4,140.5 M123.4,140.5 L76.6,140.5 M76.6,140.5 L76.6,89.5 M76.6,89.5 L131.9,89.5 M131.9,89.5 L131.9,149.0 M131.9,149.0 L68.1,149.0 M68.1,149.0 L68.1,81.0 M68.1,81.0 L140.4,81.0 M140.4,81.0 L140.4,157.5 M140.4,157.5 L59.6,157.5 M59.6,157.5 L59.6,72.5 M59.6,72.5 L148.9,72.5 M148.9,72.5 L148.9,166.0 M148.9,166.0 L51.1,166.0 M51.1,166.0 L51.1,64.0 M51.1,64.0 L157.4,64.0 M157.4,64.0 L157.4,174.5 M157.4,174.5 L42.6,174.5 M42.6,174.5 L42.6,55.5 M42.6,55.5 L165.9,55.5 M165.9,55.5 L165.9,183.0 M165.9,183.0 L34.1,183.0 M34.1,183.0 L34.1,47.0 M34.1,47.0 L174.4,47.0 M174.4,47.0 L174.4,191.5 M174.4,191.5 L25.6,191.5 M25.6,191.5 L25.6,38.5 M25.6,38.5 L182.9,38.5 M182.9,38.5 L182.9,200.0 M182.9,200.0 L17.1,200.0 M17.1,200.0 L17.1,30.0\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"100.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 90°</text><path d=\"M302.3,115.8 L305.4,115.8 M305.4,115.8 L305.3,122.0 M305.3,122.0 L296.0,121.6 M296.0,121.6 L296.7,109.3 M296.7,109.3 L312.1,110.4 M312.1,110.4 L310.4,128.8 M310.4,128.8 L289.0,126.6 M289.0,126.6 L292.0,102.1 M292.0,102.1 L319.5,105.9 M319.5,105.9 L314.6,136.4 M314.6,136.4 L281.2,130.5 M281.2,130.5 L288.3,94.2 M288.3,94.2 L327.5,102.5 M327.5,102.5 L317.8,144.6 M317.8,144.6 L272.9,133.4 M272.9,133.4 L285.7,85.7 M285.7,85.7 L336.1,100.2 M336.1,100.2 L319.8,153.3 M319.8,153.3 L264.1,135.2 M264.1,135.2 L284.2,76.8 M284.2,76.8 L345.1,99.0 M345.1,99.0 L320.7,162.4 M320.7,162.4 L254.9,135.8 M254.9,135.8 L283.9,67.6 M283.9,67.6 L354.4,99.0 M354.4,99.0 L320.4,171.7 M320.4,171.7 L245.6,135.2 M245.6,135.2 L284.8,58.2 M284.8,58.2 L363.8,100.2 M363.8,100.2 L318.9,181.2 M318.9,181.2 L236.1,133.3 M236.1,133.3 L286.9,48.7 M286.9,48.7 L373.3,102.7 M373.3,102.7 L316.2,190.6 M316.2,190.6 L226.6,130.2 M226.6,130.2 L290.3,39.3 M290.3,39.3 L382.7,106.4 M382.7,106.4 L312.1,200.0 M312.1,200.0 L217.3,125.9 M217.3,125.9 L295.0,30.0\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"300.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 91°</text><path d=\"M497.9,91.1 L502.1,91.1 M502.1,91.1 L497.9,98.4 M497.9,98.4 L491.5,87.4 M491.5,87.4 L508.5,87.4 M508.5,87.4 L497.9,105.8 M497.9,105.8 L485.1,83.7 M485.1,83.7 L514.9,83.7 M514.9,83.7 L497.9,113.2 M497.9,113.2 L478.7,80.0 M478.7,80.0 L521.2,80.0 M521.2,80.0 L497.9,120.5 M497.9,120.5 L472.4,76.4 M472.4,76.4 L527.6,76.4 M527.6,76.4 L497.9,127.9 M497.9,127.9 L466.0,72.7 M466.0,72.7 L534.0,72.7 M534.0,72.7 L497.9,135.2 M497.9,135.2 L459.6,69.0 M459.6,69.0 L540.4,69.0 M540.4,69.0 L497.9,142.6 M497.9,142.6 L453.3,65.3 M453.3,65.3 L546.8,65.3 M546.8,65.3 L497.9,150.0 M497.9,150.0 L446.9,61.6 M446.9,61.6 L553.1,61.6 M553.1,61.6 L497.9,157.3 M497.9,157.3 L440.5,58.0 M440.5,58.0 L559.5,58.0 M559.5,58.0 L497.9,164.7 M497.9,164.7 L434.1,54.3 M434.1,54.3 L565.9,54.3 M565.9,54.3 L497.9,172.0 M497.9,172.0 L427.8,50.6 M427.8,50.6 L572.3,50.6 M572.3,50.6 L497.9,179.4 M497.9,179.4 L421.4,46.9 M421.4,46.9 L578.6,46.9 M578.6,46.9 L497.9,186.8 M497.9,186.8 L415.0,43.2 M415.0,43.2 L585.0,43.2\" class=\"v-jana\" style=\"fill:none;stroke-width:1.2\"/><text x=\"500.0\" y=\"18\" class=\"v-t vahva\" text-anchor=\"middle\" style=\"font-size:12px\">käännös 120°</text></svg>","teksti":"Vain käännöksen asteluku muuttuu: 90, 91 ja 120 astetta."},{"tyyppi":"taulukko","otsikko":"Ennusta ennen kuin ajat","otsikkorivi":["Muutat","Kysy itseltäsi","Mitä yleensä tapahtuu"],"rivit":[["Kierrosten määrää","Montako muotoa piirtyy? Täyttyykö täysi kierros?","Muotoja tulee enemmän tai vähemmän; jos kierroksia on liikaa, muodot piirtyvät päällekkäin"],["Käännöksen astelukua","Montako kierrosta tarvitaan 360 asteeseen?","Rosetti tihenee tai harvenee; luku, joka ei jaa 360:tä tasan, jättää aukon tai päällekkäisyyden"],["Muuttujan alkuarvoa","Kuinka iso on ensimmäinen muoto?","Koko kuvio siirtyy isommaksi, mutta muodon kasvu pysyy samana"],["Muuttujan lisäystä","Kuinka paljon jokainen kierros kasvaa?","Spiraalin kierrokset harvenevat tai tihenevät"]]},{"tyyppi":"saanto","otsikko":"Näin teet näytön","askeleet":["Tee ohjelma, jossa sama muoto toistuu silmukassa ja jokin arvo (koko, kulma, väri tai paikka) muuttuu joka kierroksella. Voit lähteä mallista 1 tai 2, mutta muuta sitä niin, että kuvio on omasi.","Valitse yksi arvo, jota tutkit. Tee kolme versiota, joissa vain tämä arvo muuttuu, ja tallenna ne (tiedostona tai kuvakaappauksena).","Kirjoita jokaisen version alle, miten kuva muuttui: muoto, tiheys, rytmi, suunta.","Valitse neljäs arvo. Kirjoita ja luonnostele ennuste ennen ajamista: montako muotoa, mihin suuntaan, tihenevätkö vai harvenevatko ne.","Aja ohjelma ja vertaa ennusteeseen. Jos ennuste ei osunut, kirjoita, mikä oli toisin ja miksi.","Kirjoita kaksi tai kolme virkettä siitä, mikä työssäsi liittyy formalistiseen taidekäsitykseen."]},{"tyyppi":"kappale","otsikko":"Formalistinen taidekäsitys ja koodattu kuva","sisalto":"Muistat taidekäsityksistä, että <b>formalistinen</b> teos ei esitä mitään havaittua asiaa eikä kerro tunteesta, vaan sen sisältö on muoto, väri, viiva ja sommittelu itsessään. Koodattu kuvio on tästä hyvä esimerkki: neliörosetti ei kuvaa kukkaa, vaikka muistuttaa sitä, vaan sen kiinnostavuus syntyy toistosta, rytmistä, suunnasta ja mittasuhteista. Kun perustelet yhteyttä, nimeä jokin muodon ominaisuus omasta työstäsi, esimerkiksi \"viivojen tihentyminen keskustaa kohti luo liikkeen tunnun\". Taiteilijat ovat tehneet tietokoneella piirrettyjä kuvia 1960-luvulta lähtien, ja monet heistä kirjoittivat juuri sääntöjä, joista kuva syntyy."},{"tyyppi":"kappale","otsikko":"Ilman laitetta: algoritmi paperille","sisalto":"Saman voi tehdä ilman konetta. Kirjoita <b>algoritmi</b> eli numeroidut ohjeet, joita kuka tahansa voi seurata täsmälleen samoin, ja piirrä se viivaimella ja harpilla. Esimerkki: 1. Merkitse paperin keskelle piste K. 2. Piirrä harpilla K-keskinen ympyrä, säde 1 cm. 3. Kasvata sädettä 1 cm. 4. Toista kohdat 2 ja 3, kunnes ympyröitä on kuusi. Muuttuja on tässä säde, ja toisto on kohta 4. Kun haluat tehdä kolme versiota, muuta vain yhtä arvoa, esimerkiksi säteen kasvua. Harpin kärki on terävä: pidä harppia kahvasta, äläkä osoita kärjellä ketään."},{"tyyppi":"ansa","otsikko":"Ansa 1: piirretty, ei toistettu","sisalto":"Kuvio näyttää toistuvalta, mutta ohjelmassa on 12 kertaa samat lohkot peräkkäin tai muodot on asetettu käsin. Silloin kuvio ei synny säännöstä, eikä yhden arvon muutos muuta koko kuvaa. Kirjoita toistuva osa kerran silmukan sisään."},{"tyyppi":"ansa","otsikko":"Ansa 2: kaksi arvoa muuttuu yhtä aikaa","sisalto":"Versiossa 2 muutat kulman ja versiossa 3 kulman ja koon. Nyt et tiedä, kumpi muutos teki minkäkin eron. Kuten kokeilusarjassa, muuta vain yhtä arvoa ja pidä muut samoina."},{"tyyppi":"ansa","otsikko":"Ansa 3: muuttuja ei muutu","sisalto":"Lohko <i>lisää muuttujaan koko arvo 5</i> on silmukan ulkopuolella, jolloin se suoritetaan vain kerran, ja kaikki muodot ovat yhtä suuria. Tarkista, että muuttujaa muuttava lohko on silmukan sisällä."},{"tyyppi":"ansa","otsikko":"Ansa 4: ennuste jälkikäteen","sisalto":"Jos ajat ohjelman ensin ja kirjoitat sitten, mitä ennustit, et opi mitään uutta. Kirjoita ennuste ja luonnos ennen ajoa. Väärä ennuste ei ole epäonnistuminen, vaan siitä näet, mitä et vielä ymmärtänyt."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kuvio syntyy silmukasta: toistuva osa kirjoitetaan kerran.","Muuttujaa muuttava lohko on silmukan sisällä.","Kolmessa versiossa muuttuu vain yksi arvo.","Täysi kierros on 360°: kierrokset · käännös = 360° sulkee rosetin.","Ennuste kirjoitetaan ja luonnostellaan ennen ajoa.","Formalismi: perustele muodon ominaisuudella, kuten rytmillä tai tiheydellä."]}],"harjoitukset":[{"id":"H01","ryhma":"r1","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nMontako neliötä ohjelma A piirtää?","vastaus":12,"vinkki":"Yksi ulomman silmukan kierros piirtää yhden neliön.","selitys":"Ulompi silmukka toistuu 12 kertaa, ja jokaisella kierroksella sisempi silmukka piirtää yhden neliön: 12 neliötä.","kuva":{"tyyppi":"kuva","svg":"<svg viewBox=\"0 0 291 362\" role=\"img\" aria-label=\"Neliörosetti: toista 12 kertaa, sisällä neliö ja käännös 30 astetta\"><style>.lt{font:bold 13px Arial,sans-serif;fill:#1d1d1b}.at{font:12px Arial,sans-serif;fill:#1d1d1b}.au{fill:#fff;stroke:#1d1d1b;stroke-width:1}.au.op{fill:#66cc66;stroke:#3d993d}.au.op.o2{fill:#c8efc8;stroke:#2f7a2f}</style><path d=\"M2 18 q27.36 -18 63.839999999999996 0 H178.4 q6 0 6 6 V52 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#ffd84d\" stroke=\"#a88900\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"43.0\" class=\"lt\">kun aloitus klikataan</text><path d=\"M2 64 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H116 q6 0 6 6 V92 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 z\" fill=\"#3cc9a0\" stroke=\"#1f9473\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"83.0\" class=\"lt\">kynä alas</text><path d=\"M2 104 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H156.60000000000002 q6 0 6 6 V132 q0 6 -6 6 H60 l-6 6 h-16 l-6 -6 H26 v6 H2 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"12.0\" y=\"123.0\" class=\"lt\">toista</text><rect x=\"63.4\" y=\"107.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"78.8\" y=\"123.0\" class=\"at\" text-anchor=\"middle\">12</text><text x=\"101.2\" y=\"123.0\" class=\"lt\">kertaa</text><path d=\"M24 144 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H175.8 q6 0 6 6 V172 q0 6 -6 6 H82 l-6 6 h-16 l-6 -6 H48 v6 H24 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"163.0\" class=\"lt\">toista</text><rect x=\"85.4\" y=\"147.0\" width=\"28.0\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"99.4\" y=\"163.0\" class=\"at\" text-anchor=\"middle\">4</text><text x=\"120.4\" y=\"163.0\" class=\"lt\">kertaa</text><path d=\"M46 184 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H200.6 q6 0 6 6 V212 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"203.0\" class=\"lt\">liiku</text><rect x=\"100.0\" y=\"187.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"115.4\" y=\"203.0\" class=\"at\" text-anchor=\"middle\">80</text><text x=\"137.8\" y=\"203.0\" class=\"lt\">askelta</text><path d=\"M46 224 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H274.6 q6 0 6 6 V252 q0 6 -6 6 H88 l-6 6 h-16 l-6 -6 H52 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"56.0\" y=\"243.0\" class=\"lt\">käänny oikealle</text><rect x=\"174.0\" y=\"227.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"189.4\" y=\"243.0\" class=\"at\" text-anchor=\"middle\">90</text><text x=\"211.8\" y=\"243.0\" class=\"lt\">astetta</text><rect x=\"24\" y=\"178\" width=\"24\" height=\"81\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"25.2\" y=\"177\" width=\"21.6\" height=\"83\" fill=\"#ffaa33\"/><path d=\"M24 258 h24 h6 l6 6 h16 l6 -6 H158 q6 0 6 6 v14 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 V258 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><path d=\"M24 290 q0 -6 6 -6 h8 l6 6 h16 l6 -6 H252.60000000000002 q6 0 6 6 V318 q0 6 -6 6 H66 l-6 6 h-16 l-6 -6 H30 q-6 0 -6 -6 z\" fill=\"#5b9bf0\" stroke=\"#2e6cc2\" stroke-width=\"1.6\"/><text x=\"34.0\" y=\"309.0\" class=\"lt\">käänny oikealle</text><rect x=\"152.0\" y=\"293.0\" width=\"30.8\" height=\"22\" rx=\"11\" class=\"au\"/><text x=\"167.4\" y=\"309.0\" class=\"at\" text-anchor=\"middle\">30</text><text x=\"189.8\" y=\"309.0\" class=\"lt\">astetta</text><rect x=\"2\" y=\"138\" width=\"24\" height=\"187\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/><rect x=\"3.2\" y=\"137\" width=\"21.6\" height=\"189\" fill=\"#ffaa33\"/><path d=\"M2 324 h24 h6 l6 6 h16 l6 -6 H136 q6 0 6 6 v14 q0 6 -6 6 H44 l-6 6 h-16 l-6 -6 H8 q-6 0 -6 -6 V324 z\" fill=\"#ffaa33\" stroke=\"#b86e00\" stroke-width=\"1.6\"/></svg>","teksti":"Ohjelma A lohkoina"}},{"id":"H02","ryhma":"r1","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nMontako kertaa lohko liiku 80 askelta suoritetaan, kun ohjelma ajetaan loppuun?","vastaus":48,"vinkki":"Sisempi silmukka suoritetaan kokonaan jokaisella ulommalla kierroksella.","selitys":"Sisempi silmukka 4 kertaa jokaisella 12 ulommalla kierroksella: 4 · 12 = 48."},{"id":"H03","ryhma":"r1","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nMontako astetta hahmo kääntyy yhteensä ulomman silmukan yhden kierroksen aikana?","vastaus":390,"vinkki":"Laske neliön neljä käännöstä ja ulompi käännös.","selitys":"Neliössä 4 · 90° = 360°, ja sen jälkeen vielä 30°: 360° + 30° = 390°."},{"id":"H04","ryhma":"r1","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nKuinka monta astetta ulommat 30 asteen käännökset ovat yhteensä, kun kaikki kierrokset on tehty?","vastaus":360,"vinkki":"Kerro kierrosten määrä käännöksellä.","selitys":"12 · 30° = 360°. Ulommat käännökset muodostavat täyden kierroksen, joten rosetti sulkeutuu."},{"id":"H05","ryhma":"r1","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nUlompi käännös muutetaan 30 asteesta 40 asteeseen. Montako ulomman silmukan kierrosta tarvitaan, jotta käännöksiä kertyy täsmälleen 360 astetta?","vastaus":9,"vinkki":"Jaa täysi kierros käännöksellä.","selitys":"360° : 40° = 9 kierrosta."},{"id":"H06","ryhma":"r1","kysymys":"Rosettiin halutaan 24 neliötä tasavälein niin, että ne täyttävät täyden kierroksen.\n\nMontako astetta pitää olla neliöiden välinen ulompi käännös?","vastaus":15,"vinkki":"Täysi kierros jaetaan neliöiden määrällä.","selitys":"360° : 24 = 15°."},{"id":"H07","ryhma":"r1","kysymys":"Ohjelma: kynä alas, toista 6 kertaa [toista 3 kertaa [liiku 60 askelta, käänny oikealle 120 astetta], käänny oikealle 60 astetta]\n\nMontako viivaa ohjelma piirtää yhteensä?","vastaus":18,"vinkki":"Jokaisessa kolmiossa on kolme sivua.","selitys":"Sisempi silmukka piirtää 3 viivaa, ja se toistuu 6 kertaa: 3 · 6 = 18."},{"id":"H08","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nKuinka monta askelta pitkä on kolmas piirretty viiva?","vastaus":30,"vinkki":"Kirjoita muuttujan arvo kierros kerrallaan: ensimmäinen viiva 10.","selitys":"Viivat ovat 10, 20, 30, … askelta, joten kolmas on 30 askelta."},{"id":"H09","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nMikä on muuttujan koko arvo, kun ohjelma on päättynyt?","vastaus":210,"vinkki":"Muuttujaan lisätään 10 jokaisella 20 kierroksella.","selitys":"10 + 20 · 10 = 210. Viimeinen lisäys tehdään viimeisen viivan jälkeen."},{"id":"H10","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nKuinka monta askelta pitkä on viimeinen eli 20. viiva?","vastaus":200,"vinkki":"Ensimmäisen viivan aikana lisäyksiä ei ole vielä tehty.","selitys":"20. viivaa ennen lisäyksiä on tehty 19: 10 + 19 · 10 = 200."},{"id":"H11","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nMontako askelta hahmo kulkee yhteensä neljän ensimmäisen viivan aikana?","vastaus":100,"vinkki":"Laske neljä ensimmäistä viivaa yhteen.","selitys":"10 + 20 + 30 + 40 = 100."},{"id":"H12","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nOhjelmasta muutetaan vain lisäys: lisää muuttujaan koko arvo 5. Kuinka monta askelta pitkä on nyt 20. viiva?","vastaus":105,"vinkki":"Ennen 20. viivaa lisäyksiä on tehty 19.","selitys":"10 + 19 · 5 = 105."},{"id":"H13","ryhma":"r2","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nOhjelmasta muutetaan vain alkuarvo: aseta koko arvoon 30. Kuinka monta askelta pitkä on 5. viiva?","vastaus":70,"vinkki":"Ennen 5. viivaa lisäyksiä on tehty 4.","selitys":"30 + 4 · 10 = 70."},{"id":"H14","ryhma":"r2","kysymys":"Ohjelma C: aseta koko arvoon 100, kynä alas, toista 8 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo −10]\n\nKuinka monta askelta pitkä on viimeinen viiva?","vastaus":30,"vinkki":"Lisäys on negatiivinen, joten viivat lyhenevät.","selitys":"8. viivaa ennen lisäyksiä on tehty 7: 100 − 7 · 10 = 30. Spiraali kiertyy sisäänpäin."},{"id":"H15","ryhma":"r3","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nOhjelman käännös muutetaan 90 asteesta 120 asteeseen. Monennenko viivan ja käännöksen jälkeen hahmo osoittaa ensimmäisen kerran samaan suuntaan kuin alussa?","vastaus":3,"vinkki":"Hahmo on alkusuunnassa, kun käännöksiä on kertynyt 360°.","selitys":"360° : 120° = 3, joten kolmannen käännöksen jälkeen. Siksi spiraalista tulee kolmiomainen."},{"id":"H16","ryhma":"r3","kysymys":"Ohjelma B: aseta koko arvoon 10, kynä alas, toista 20 kertaa [liiku koko askelta, käänny oikealle 90 astetta, lisää muuttujaan koko arvo 10]\n\nKäännös muutetaan 90 asteesta 92 asteeseen. Mitä kuvalle tapahtuu?","vastaus":1,"vinkki":"Mieti, mitä pieni virhe jokaisessa kulmassa tekee, kun kulmia on paljon.","selitys":"Jokainen kulma jää 2° vinoon, ja vinous kasautuu kierros kierrokselta. Viivojen pituudet eivät muutu, joten spiraali kasvaa samoin, mutta näyttää vääntyvän.","tyyppi":"monivalinta","vaihtoehdot":["Viivat pitenevät joka kierroksella enemmän kuin ennen.","Spiraalin kulmat kiertyvät vähitellen, ja kuvio näyttää vääntyvän.","Spiraali pysyy samanlaisena, koska 2 astetta on liian vähän näkyäkseen."]},{"id":"H17","ryhma":"r3","kysymys":"Aino tutki ohjelmaa A. Versiossa 1 neliön sivu oli 80 ja kierroksia 12. Versiossa 2 hän muutti sivun 40:ksi. Versiossa 3 hän muutti sivun 60:ksi ja kierrokset 6:ksi.\n\nMikä hänen vertailussaan on ongelma?","vastaus":0,"vinkki":"Montako arvoa muuttui kustakin versiosta toiseen?","selitys":"Versioissa 1 ja 2 muuttui yksi arvo, mutta versiossa 3 kaksi. Silloin ei tiedä, kumpi muutos teki minkäkin eron kuvaan.","tyyppi":"monivalinta","vaihtoehdot":["Versiossa 3 muuttui kaksi arvoa, joten eroa ei voi selittää yhdellä arvolla.","Sivun pituutta ei saa muuttaa, koska neliö ei silloin enää ole neliö.","Kolme versiota on liian vähän, jotta mitään voisi päätellä."]},{"id":"H18","ryhma":"r3","kysymys":"Ohjelma A: kynä alas, toista 12 kertaa [toista 4 kertaa [liiku 80 askelta, käänny oikealle 90 astetta], käänny oikealle 30 astetta]\n\nUlompi käännös muutetaan 45 asteeseen, ja kierroksia on yhä 12. Osa neliöistä piirtyy aiempien päälle. Montako eri asennossa olevaa neliötä kuvassa näkyy?","vastaus":8,"vinkki":"Montako 45 asteen käännöstä mahtuu täyteen kierrokseen? Mitä sen jälkeen tapahtuu?","selitys":"360° : 45° = 8. Kahdeksan kierroksen jälkeen hahmo on taas alkusuunnassa, joten kierrokset 9–12 piirtävät neljän ensimmäisen neliön päälle: näkyviä neliöitä on 8."},{"id":"H19","ryhma":"r3","kysymys":"Rosettiin halutaan 10 neliötä tasavälein niin, että ne täyttävät täyden kierroksen.\n\nKuinka monta astetta pitää olla ulompi käännös?","vastaus":36,"vinkki":"Jaa 360° neliöiden määrällä.","selitys":"360° : 10 = 36°."},{"id":"H20","ryhma":"r3","kysymys":"Paperialgoritmi: 1. Merkitse piste K. 2. Piirrä harpilla K-keskinen ympyrä, säde 2 cm. 3. Kasvata sädettä 1,5 cm. 4. Toista kohdat 2 ja 3, kunnes ympyröitä on viisi.\n\nMikä on viidennen ympyrän säde senttimetreinä?","vastaus":8,"vinkki":"Ensimmäisen ympyrän jälkeen säde kasvaa neljä kertaa ennen viidettä ympyrää.","selitys":"2 + 4 · 1,5 = 8 cm."}],"harjoitusryhmat":[{"id":"r1","nimi":"Silmukka ja täysi kierros","info":"Lasket, montako kertaa silmukan lohkot suoritetaan ja paljonko hahmo kääntyy."},{"id":"r2","nimi":"Muuttuja kasvaa","info":"Seuraat muuttujan arvoa kierros kierrokselta ja lasket viivojen pituuksia."},{"id":"r3","nimi":"Ennusta muutos","info":"Ennustat, mitä yhden arvon muutos tekee kuvalle, ennen kuin ajat ohjelman."}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Kuvio on tehty yksittäisillä lohkoilla peräkkäin tai muodot on asetettu käsin; silmukkaa ei ole tai se toistaa vain osan.","tehtava":"Ohjelma: toistosta syntyvä kuvio","mita_kertoo":"Oppilas ajattelee kuvaa piirroksena, jonka hän tekee itse, ei sääntönä. Osaa_kun-kohdan ensimmäinen ehto, kuvio syntyy toistosta, ei täyty.","mita_tehda":"Pyydä oppilasta merkitsemään ohjelmasta osa, joka toistuu samanlaisena, ja siirtämään se kerran silmukan sisään. Kysy sitten, montako kertaa silmukan pitää toistua."},{"virhe":"Muuttuja ei muutu kierroksittain: muuttujaa muuttava lohko on silmukan ulkopuolella tai puuttuu, ja kaikki muodot ovat samanlaisia.","tehtava":"Ohjelma: muuttuja silmukassa","mita_kertoo":"Oppilas tuntee muuttujan, mutta ei vielä hahmota, mitkä lohkot suoritetaan jokaisella kierroksella. Tämä on tavallisin rakennevirhe.","mita_tehda":"Pyydä oppilasta seuraamaan ohjelmaa kaksi kierrosta ääneen ja kirjaamaan muuttujan arvo taulukkoon. Kun arvo ei muutu, kysy, missä kohtaa sen pitäisi muuttua."},{"virhe":"Kolmen version välillä muuttuu useampi kuin yksi arvo, tai versioiden ero ei johdu muutetusta arvosta (esimerkiksi aloituspaikka tai -suunta vaihtelee ajojen välillä).","tehtava":"Kolme versiota","mita_kertoo":"Oppilas kokeilee, mutta ei vielä hallitse vertailua, jossa vain yksi asia muuttuu (sama periaate kuin KU7-TYO-02:n kokeilusarjassa).","mita_tehda":"Pyydä listaamaan ohjelman kaikki luvut ja ympyröimään se, jota tutkitaan; muut pidetään samoina. Tarkista, että ohjelman alussa on aloituspaikka ja -suunta, jotta ajot alkavat samasta kohdasta."},{"virhe":"Ennuste kirjoitetaan ajon jälkeen tai on epämääräinen (\"kuva muuttuu\", \"tulee erilainen\").","tehtava":"Ennuste ennen neljättä muutosta","mita_kertoo":"Oppilas ei vielä käytä ohjelman lukemista ennustamiseen. Osaa_kun edellyttää, että ennuste on tehty ennen ajoa ja on tarkistettavissa.","mita_tehda":"Pyydä ennuste muodossa, jonka voi tarkistaa: montako muotoa, sulkeutuuko kuvio, tihenevätkö muodot, mihin suuntaan kuvio kasvaa. Pyydä myös pieni luonnos. Kuittaa ennuste ennen kuin oppilas ajaa ohjelman."},{"virhe":"Ennuste ei osu, koska oppilas ei laske käännösten summaa tai muuttujan arvoja (esimerkiksi olettaa, että 45 asteen rosetti tuottaa 12 erillistä neliötä).","tehtava":"Ennusteen osuminen","mita_kertoo":"Oppilas tunnistaa ohjelman osat, mutta ei vielä päättele niistä lopputulosta. Haastetaidossa ennusteen pitää osua.","mita_tehda":"Käy ensimmäiset kaksi kierrosta läpi paperilla: muuttujan arvo ja kertynyt käännös. Pyydä sitten uusi ennuste toiselle muutokselle (ei samalle, jonka tulos jo nähtiin) ja tarkistakaa se ajamalla. Ratkaisevaa on, että lopullinen ennuste on tehty ennen ajoa ja osuu."},{"virhe":"Yhteys formalistiseen taidekäsitykseen jää yleiseksi (\"se on kaunis\", \"se on taidetta\") tai perustuu siihen, mitä kuvio muistuttaa (\"näyttää kukalta\").","tehtava":"Formalismin yhteys","mita_kertoo":"Oppilas tuntee taidekäsityksen nimen, mutta ei vielä erota muodon ominaisuuksia esittävästä sisällöstä. Kuvion kauneutta tai oppilaan makua ei arvioida.","mita_tehda":"Kysy: \"Mitä silmä tekee, kun katsot kuviota? Mihin se liikkuu, missä on tiheää ja missä harvaa?\" Pyydä nimeämään yksi muodon ominaisuus (rytmi, tiheys, suunta, mittasuhde) ja kertomaan, mikä ohjelman arvo sen tuottaa."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Arvioinnin kohde (kartan osaa_kun): kuvio syntyy toistosta eikä yksittäin piirretyistä muodoista; kolmen version ero johtuu vain muutetusta arvosta; oppilas ennustaa ennen ajamista, miten neljäs muutos vaikuttaa, ja ennuste osuu. Kuvion kauneutta, omaperäisyyttä, lahjakkuutta tai makua ei arvioida. Ratkaisevaa on, että lopullinen ennuste on kirjoitettu ennen ajoa; ajojen määrää ei kirjata.","Muoto: havainnointitaito (`kokeet: []`, kuusi kriteeriä), kuten yläkoulun lohko-ohjelmointitaidot. Oppilaan sivulla on 20 koodinlukuharjoitusta, joissa harjoitellaan muuttujan seuraamista ja ennustamista; ne eivät ole näyttö.","Ympäristö: lohko-ohjelmointi (esim. Scratch tai vastaava) tai tekstipohjainen (esim. p5.js); tuotetta ei nimetä pakolliseksi. Tarkista ennen tuntia, että ympäristössä on kynä ja käännös asteluvulla; joissain ympäristöissä kynälohkot pitää ottaa käyttöön erikseen. Jokaisen ohjelman alkuun kuuluvat aloituslohkot (kynä ylös, pyyhi kaikki, siirry aloituspaikkaan, osoita aloitussuuntaan), jotta versiot ovat vertailukelpoisia; malliohjelmissa ne on jätetty pois lyhyyden vuoksi. Lohkojen nimet vaihtelevat ympäristöittäin.","<a href=\"../tulosteet/lohkokortit.html\">Tulostettavat lohkokortit</a> (A4, leikattavat): oppilas voi rakentaa ohjelman korteista pulpetille, ajaa sen ääneen kortti kerrallaan ja kirjata muuttujan arvon ja kertyneen käännöksen taulukkoon. Korteilla on lohkot toista, liiku, käänny, kynä alas, aseta ja lisää muuttujaan.","Varamuoto ilman laitetta (kartan näyttö): oppilas kirjoittaa saman ohjeen numeroiduksi algoritmiksi ja piirtää sen viivaimella ja harpilla (esimerkiksi samankeskiset ympyrät, joiden säde kasvaa, tai ympyrät, joiden keskipisteet ovat toisen ympyrän kehällä tasavälein astelevyllä mitaten). Kolme versiota ja ennuste tehdään samoin: yksi arvo muuttuu, ennuste kirjoitetaan ja luonnostellaan ennen piirtämistä. Harpin kärki: säilytys kotelossa, ei osoiteta kohti ketään.","Mikä kelpaa: muuttuvaksi arvoksi kelpaa koko, kulma, väri tai paikka. Kolme versiota voi olla kuvakaappauksia tai tallennettuja tiedostoja. Ennuste on osunut, kun sen tarkistettavat kohdat (muotojen määrä, sulkeutuminen, tihentyminen tai harveneminen, kasvusuunta) vastaavat ajoa; pieni ero viivojen tarkassa paikassa ei kaada ennustetta. Formalismin yhteydeksi kelpaa muotoilu, jossa nimetään muodon ominaisuus omasta työstä.","Mallivastaus formalismin yhteydestä: \"Kuvioni ei esitä mitään havaittua asiaa. Sen sisältö on toisto ja rytmi: kun käännös pienenee, neliöt tihenevät ja kuva näyttää pyörivän. Formalistisessa taidekäsityksessä muoto ja sommittelu itsessään ovat teoksen sisältö.\"","Edeltävät: KU7-TAI-04 (formalistinen taidekäsitys) ja toisen aineen MAT5-OHJ-01 (toistolohko ja käännös 360° : kärkien määrä). Uutta tässä ovat sisäkkäiset silmukat, muuttuja kuvan rakennusaineena ja ennustaminen. Matematiikan ohjelmointitaidoissa painopiste on ohjelman oikeellisuudessa; tässä taidossa yhden arvon kuvallisessa vaikutuksessa.","Harjoitusten vastaukset on laskettu uudelleen kysymyksistä (rosetin kierrokset ja käännökset, spiraalin viivojen pituudet). H18: 45 asteen rosetissa kierrokset 9–12 piirtyvät kierrosten 1–4 päälle, koska neliö palaa aina lähtökulmaan ja suuntaan.","Tarkistettavat asiatiedot: tekstin toteamus, että taiteilijat ovat tehneet tietokoneella piirrettyjä kuvia 1960-luvulta lähtien, on yleisesti esitetty; tarkista halutessasi taidehistorian lähteestä ennen kuin nimeät esimerkkitaiteilijoita."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Et piirrä kuvaa, vaan kirjoitat säännön, joka piirtää sen. Arvioin, syntyykö kuvio toistosta, muuttuuko kolmessa versiossa vain yksi arvo ja osuuko ennusteesi, en sitä, kuinka kaunis kuvio on.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1: aloitus","sisalto":"Näytä toistuvia kuvioita (laatoitus, kudos, julkisivu) ja kysy, mikä toistuu ja mikä muuttuu. Liitä toisto ja rytmi formalistiseen taidekäsitykseen."},{"aika":"15 min","otsikko":"Tunti 1: malli 1","sisalto":"Rakenna neliörosetti yhdessä (näytöllä tai lohkokorteilla). Ennen ajoa: montako neliötä, sulkeutuuko kuvio? Ajakaa ja verratkaa. Muuta käännös 60:een ja kysy ennuste ennen ajoa."},{"aika":"20 min","otsikko":"Tunti 1: oma kuvio","sisalto":"Oppilaat tekevät oman kuvion, jossa silmukka ja muuttuva arvo. Harjoitukset H01–H14 sopivat niille, joiden ohjelma toimii, ja kotitehtäviksi. Kierrä ja tarkista, että muuttujaa muuttava lohko on silmukan sisällä."},{"aika":"10 min","otsikko":"Tunti 2: malli 2","sisalto":"Käy kasvava spiraali läpi: muuttujan arvo kierroksittain taululle. Kysy, mitä 91 asteen käännös tekee."},{"aika":"30 min","otsikko":"Tunti 2: näyttö","sisalto":"Oppilaat tallentavat kolme versiota (yksi arvo muuttuu) ja kirjoittavat muutokset. Ennen neljättä ajoa oppilas näyttää kirjoitetun ennusteen ja luonnoksen sinulle, ja sitten ajaa. Lopuksi formalismiyhteys 2–3 virkkeellä. Havainnoi kuuden kriteerin avulla."},{"aika":"5 min","otsikko":"Tunti 2: lopetus","sisalto":"Muutama oppilas näyttää versiosarjansa, ja muut arvaavat, mikä arvo muuttui."}],"tarvikkeet":"Tietokoneet tai tabletit ja lohko- tai tekstipohjainen ohjelmointiympäristö, jossa on kynä; tulostetut lohkokortit; varamuotoon viivaimet, harpit, astelevyt ja paperia."},"huoltajalle":{"mista_on_kyse":"Nuori tekee kuvataiteessa koodaamalla kuvion, jossa sama muoto toistuu ja jokin arvo, esimerkiksi koko tai kulma, muuttuu joka kierroksella. Hän tekee kolme versiota muuttamalla yhtä arvoa, ennustaa neljännen muutoksen vaikutuksen ennen ohjelman ajamista ja kertoo, miten työ liittyy taidekäsitykseen, jossa muoto ja rytmi ovat teoksen sisältö. Kuvion kauneutta ei arvioida.","kotona":["Etsikää yhdessä toistuvia kuvioita, esimerkiksi laatoista, kankaista tai rakennusten ikkunoista, ja kysy, mikä niissä toistuu ja mikä muuttuu.","Pyydä nuorta selittämään, mitä hänen ohjelmansa tekee yhdellä kierroksella.","Ilman laitetta: kirjoittakaa vuorotellen lyhyt piirto-ohje (esimerkiksi \"piirrä ympyrä, kasvata sitä sentillä, toista viisi kertaa\") ja piirtäkää se paperille täsmälleen ohjeen mukaan."],"milloin_huolestua":"Tämä on haastetaito, joten sen puuttuminen ei estä siirtymistä. Jos nuori on kiinnostunut koodaamalla tehdystä kuvasta ja haluaa jatkaa, kerro siitä opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat tehdä koodaamalla toistosta syntyvän kuvion, muuttaa sitä yhden arvon avulla ja ennustaa muutoksen vaikutuksen ennen ajamista. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
