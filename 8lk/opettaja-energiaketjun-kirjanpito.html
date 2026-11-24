@@ -1,0 +1,619 @@
+<title>Energiaketjun kirjanpito · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"FY8-ENE-01","oppiaine":"FY","vuosiluokka":8,"taitoalue":"ENE","jakso":"J3","taso":"ydin","otsikko":"Energiaketjun kirjanpito","kuvaus":"Osaan kuvata energian muuntumista muodosta toiseen energiakaaviolla, selittää energian säilymisen periaatteen ja laskea ja vertailla laitteiden hyötysuhteita.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T10","T4","T11"],"S":["S4","S3","S2"]},"eyebrow":"Fysiikka · 8. luokka","ikoni":"tasapaino","naytto":"Paperikokeessa piirrän energiakaaviot kolmesta tilanteesta (heilahteleva heiluri, polkupyörän dynamolla toimiva valo ja paristokäyttöinen taskulamppu) ja nimeän energiamuodot (liike-, potentiaali-, lämpö-, sähkö-, kemiallinen ja säteilyenergia). Lasken kahden lampun hyötysuhteen annetuista arvoista (hehkulamppu ottaa 60 W ja tuottaa valoa 3 W, LED-lamppu ottaa 8 W ja tuottaa valoa 3 W), vertaan niitä energiavarojen kestävän käytön kannalta ja kerron, minne loppu energia menee. Selitän, mitä arkikielen \"energiaa kuluu\" tarkoittaa energian säilymisen periaatteen kannalta.","osaa_kun":"Energiakaavioissa energian kokonaismäärä säilyy: otettu energia on yhtä suuri kuin hyötyenergian ja muun energian (yleensä lämmön) summa. Lasken hyötysuhteen hyödyksi saadun ja otetun energian tai tehon osamääränä, ilmoitan sen prosentteina ja selitän, miksi se on aina alle 100 %. Vertailussa perustelen kestävämmän valinnan lasketulla hyötysuhteella ja kerron, miten se vähentää tarvittavan sähkön tuotantoa. Käytän energian yksikköä joule (J) ja tehon yksikköä watti (W = J/s). 6. luokalla piirsin energiakaavion; nyt nimeän energiamuodot fysiikan käsittein ja lasken hyötysuhteen. Voimalaitosten energiaketjut kuuluvat 9. luokalle.","teksti":[{"tyyppi":"johdanto","sisalto":"Sähkölaskussa puhutaan energian kulutuksesta, ja mainoksissa luvataan laitteita, jotka \"kuluttavat vähemmän\". Fysiikan mukaan energiaa ei kuitenkaan kulu: se muuttuu muodosta toiseen, ja jokainen joule löytyy jostakin. Kuudennella luokalla piirsit energiakaavion ja opit, että tulevan ja lähtevän energian on täsmättävä. Nyt nimeät energiamuodot fysiikan käsittein, ilmoitat määrät jouleina ja lasket hyötysuhteen eli sen, kuinka suuren osan otetusta energiasta laite muuttaa siihen muotoon, jota varten se on tehty."},{"tyyppi":"taulukko","otsikko":"Energiamuodot fysiikan käsittein","otsikkorivi":["Energiamuoto","Missä energia on","Esimerkki"],"rivit":[["liike-energia","liikkuvassa kappaleessa","vierivä pallo, pyörivä moottorin akseli"],["potentiaalienergia","kappaleessa, joka on nostettu ylös (myös venytetyssä jousessa)","hyllyllä oleva kirja, mäen päällä seisova pulkka"],["lämpöenergia (lämpö)","aineen hiukkasten liikkeessä; kun esine lämpenee, sen lämpöenergia kasvaa","lämmennyt moottori, kuuma vesi"],["sähköenergia","sähkövirran mukana johtimissa kulkeva energia","pistorasiasta laitteeseen, paristosta lamppuun"],["kemiallinen energia","aineiden rakenteessa; vapautuu kemiallisessa reaktiossa","ruoka, polttopuu, paristo, akku"],["säteilyenergia","valossa ja muussa sähkömagneettisessa säteilyssä","auringonvalo, lampun valo"]]},{"tyyppi":"kappale","otsikko":"Energian säilymisen periaate","sisalto":"Energiaa ei synny tyhjästä eikä katoa. Se voi muuttua muodosta toiseen ja siirtyä kappaleesta toiseen, mutta energian kokonaismäärä pysyy samana. Laitteen energiakaaviossa tämä tarkoittaa, että otettu energia on yhtä suuri kuin hyötyenergian ja muun energian summa: otettu energia = hyötyenergia + muu energia. Muu energia on yleensä lämpöä, joka leviää laitteesta ympäristöön, ja sitä kutsutaan hukkalämmöksi. Energian yksikkö on joule (J); 1 kJ = 1000 J. Yksi joule on pieni määrä: suunnilleen sen verran energiaa tarvitaan, kun omena nostetaan lattialta metrin korkeudelle. Teho kertoo, kuinka monta joulea energiaa laite ottaa tai luovuttaa joka sekunti. Tehon yksikkö on watti (W), ja 1 W = 1 J/s. Esimerkiksi 7 W:n lamppu ottaa sähköenergiaa 7 J joka sekunti."},{"tyyppi":"saanto","otsikko":"Näin piirrät energiakaavion","askeleet":["Piirrä laite laatikoksi. Jos energia kulkee usean laitteen läpi, piirrä jokaiselle oma laatikko peräkkäin.","Piirrä tuleva energia nuoleksi vasemmalle ja kirjoita siihen energiamuoto ja määrä jouleina.","Piirrä hyötyenergia nuoleksi suoraan eteenpäin ja muu energia (yleensä lämpö) nuoleksi, joka kääntyy sivulle.","Tee nuolista leveydeltään energian määrän mukaisia: kaksi kertaa suurempi energia, kaksi kertaa leveämpi nuoli.","Ketjussa edellisen laitteen hyötyenergia on seuraavan laitteen tuleva energia.","Tarkista lopuksi: lähtevien energioiden summa on yhtä suuri kuin tuleva energia."]},{"tyyppi":"kuva","otsikko":"Energiakaavio: akkuporakone (keksityt esimerkkiluvut)","svg":"<svg viewBox=\"0 0 620 290\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Energiakaavio akkuporakoneesta: akkuun tulee 1000 J kemiallista energiaa, akusta lähtee 900 J sähköenergiaa ja 100 J lämpöä, moottorista lähtee 630 J liike-energiaa ja 270 J lämpöä.\"><rect class=\"v-ruutu v2\" x=\"10\" y=\"60\" width=\"120\" height=\"100\"/><text class=\"v-t vahva\" x=\"70\" y=\"104\" text-anchor=\"middle\" style=\"font-size:12px\">kemiallinen</text><text class=\"v-t vahva\" x=\"70\" y=\"120\" text-anchor=\"middle\" style=\"font-size:12px\">energia 1000 J</text><rect class=\"v-osa\" x=\"130\" y=\"50\" width=\"50\" height=\"120\"/><text class=\"v-t pieni\" x=\"155\" y=\"42\" text-anchor=\"middle\" style=\"font-size:12px\">akku</text><rect class=\"v-ruutu v1\" x=\"180\" y=\"60\" width=\"150\" height=\"90\"/><text class=\"v-t vahva\" x=\"255\" y=\"100\" text-anchor=\"middle\" style=\"font-size:12px\">sähköenergia</text><text class=\"v-t vahva\" x=\"255\" y=\"116\" text-anchor=\"middle\" style=\"font-size:12px\">900 J</text><path class=\"v-ruutu v3\" d=\"M180,150 L200,150 Q215,150 215,165 L215,228 L222,228 L210,248 L198,228 L205,228 L205,165 Q205,160 200,160 L180,160 Z\"/><text class=\"v-t\" x=\"228\" y=\"244\" text-anchor=\"start\" style=\"font-size:12px\">lämpö 100 J</text><rect class=\"v-osa\" x=\"330\" y=\"50\" width=\"50\" height=\"120\"/><text class=\"v-t pieni\" x=\"355\" y=\"42\" text-anchor=\"middle\" style=\"font-size:12px\">moottori</text><polygon class=\"v-osa v1\" points=\"380,60 540,60 540,52 590,91.5 540,131 540,123 380,123\"/><text class=\"v-t vahva\" x=\"465\" y=\"88\" text-anchor=\"middle\" style=\"font-size:12px\">liike-energia</text><text class=\"v-t vahva\" x=\"465\" y=\"104\" text-anchor=\"middle\" style=\"font-size:12px\">630 J</text><path class=\"v-ruutu v3\" d=\"M380,123 L405,123 Q440,123 440,158 L440,226 L448,226 L426.5,254 L405,226 L413,226 L413,158 Q413,150 405,150 L380,150 Z\"/><text class=\"v-t\" x=\"454\" y=\"244\" text-anchor=\"start\" style=\"font-size:12px\">lämpö 270 J</text><text class=\"v-t pieni\" x=\"10\" y=\"280\" text-anchor=\"start\" style=\"font-size:11.5px\">Tarkistus: 630 J + 270 J + 100 J = 1000 J. Nuolen leveys kertoo energian määrän.</text></svg>","teksti":"Akussa kemiallinen energia muuttuu sähköenergiaksi, ja moottori muuttaa sähköenergian liike-energiaksi. Kummassakin vaiheessa osa energiasta muuttuu lämmöksi."},{"tyyppi":"kappale","otsikko":"Energiamuodot muuttuvat edestakaisin","sisalto":"Kun pallo pudotetaan, sen potentiaalienergia muuttuu putoamisen aikana liike-energiaksi. Maahan osuessaan pallo litistyy hetkeksi, ja ponnahtaessaan ylös sen liike-energia muuttuu taas potentiaalienergiaksi. Pallo ei kuitenkaan nouse yhtä korkealle kuin mistä se pudotettiin. Osa energiasta on muuttunut lämmöksi pallossa ja maassa, osa ääneksi, ja ilmanvastus on lämmittänyt ilmaa hieman. Ääni on ilman värähtelyä, ja lopulta sekin muuttuu lämmöksi. Kun pallo lopulta jää lattialle, kaikki sen alussa ollut potentiaalienergia on muuttunut lämmöksi ympäristöön. Energiaa ei kadonnut, mutta se levisi niin, ettei sitä voi enää käyttää pallon nostamiseen."},{"tyyppi":"ansa","otsikko":"Ansa 1: \"energiaa kului\"","sisalto":"Arkikielessä sanotaan, että energiaa kului, kun akku tyhjenee tai polttoaine palaa. Fysiikan vastauksessa energia ei kulu eikä katoa. Kirjoita, mihin muotoon energia muuttui ja minne se meni: esimerkiksi \"akun kemiallinen energia muuttui sähköenergian kautta liike-energiaksi ja lämmöksi, ja lämpö levisi ympäröivään ilmaan\". Kuluminen tarkoittaa sitä, että energia on muuttunut muotoon, jota emme enää pysty hyödyntämään."},{"tyyppi":"kappale","otsikko":"Hyötysuhde","sisalto":"Hyötysuhde kertoo, kuinka suuri osa laitteen ottamasta energiasta muuttuu hyötyenergiaksi. Sen tunnus on kreikkalainen kirjain η (eeta). Hyötysuhde lasketaan jakamalla hyötyenergia otetulla energialla: η = hyötyenergia / otettu energia. Tulos muutetaan prosenteiksi kertomalla sadalla. Esimerkki (keksityt luvut): vedenkeitin ottaa 200 kJ sähköenergiaa, ja vesi saa siitä 170 kJ lämpöä. η = 170 kJ / 200 kJ = 0,85 = 85 %. Kun samaa vesimäärää lämmitetään kattilassa keittolevyllä, levy ottaa 200 kJ, mutta vesi saa vain 120 kJ, koska levy ja kattila lämmittävät myös ilmaa ja liettä. η = 120 kJ / 200 kJ = 0,60 = 60 %. Hyötysuhteen voi laskea myös tehoista, kun hyötyteho ja otettu teho on mitattu samalta ajalta: η = hyötyteho / otettu teho."},{"tyyppi":"pylvaat","otsikko":"Veden lämmittäminen: hyötysuhde (keksityt luvut)","pylvaat":[{"nimi":"keitin","arvo":85,"korosta":true},{"nimi":"kattila","arvo":60}],"yksikko":"%","teksti":"Vedenkeitin ja kattila keittolevyllä ottavat kumpikin 200 kJ sähköenergiaa. Vedenkeitin muuttaa siitä suuremman osan veden lämmöksi."},{"tyyppi":"kappale","otsikko":"Miksi hyötysuhde on aina alle 100 %","sisalto":"Jokaisessa todellisessa laitteessa osa energiasta muuttuu muuksi kuin hyötyenergiaksi. Sähkövirta lämmittää johtimia, kitka lämmittää liikkuvia osia, ja lämmin laite luovuttaa lämpöä ympäristöön. Siksi hyötyenergia on aina pienempi kuin otettu energia ja hyötysuhde alle 100 %. Hyötysuhde 100 % tarkoittaisi, että mitään ei muuttuisi lämmöksi. Yli 100 %:n hyötysuhde tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee. Se rikkoisi energian säilymisen periaatetta, joten sellaista laitetta ei voi olla."},{"tyyppi":"kappale","otsikko":"Hyötysuhde ja kestävä energian käyttö","sisalto":"Kun kaksi laitetta antaa saman hyödyn, esimerkiksi yhtä paljon valoa, parempi hyötysuhde tarkoittaa, että laite ottaa vähemmän sähköä. Silloin sähköä tarvitsee tuottaa vähemmän, ja sen tuottamiseen kuluu vähemmän energiavaroja, kuten polttoaineita, ja syntyy vähemmän päästöjä. Vertailu on reilu vain, kun hyöty on sama. Siksi vertaa ensin, antavatko laitteet saman hyödyn, ja sitten, kuinka paljon energiaa tai tehoa kumpikin siihen tarvitsee."},{"tyyppi":"ansa","otsikko":"Ansa 2: hyötysuhde väärin päin","sisalto":"Jos jaat otetun energian hyötyenergialla, tulos on yli 100 %. Esimerkiksi 200 kJ / 170 kJ ≈ 1,18 = 118 % on mahdoton tulos. Hyötyenergia on aina jaettavana ja otettu energia jakajana. Tarkista jokainen vastaus: onko se alle 100 %?"},{"tyyppi":"ansa","otsikko":"Ansa 3: hyöty riippuu laitteen tehtävästä","sisalto":"Lämpö ei aina ole hukkaa. Vedenkeittimessä ja sähköpatterissa lämpö on juuri se hyötyenergia, jota varten laite on tehty. Lampussa hyötyenergia on valo eli säteilyenergia, ja lämpö on hukkaa. Sähkömoottorissa hyöty on liike-energia. Päätä siis ensin, mihin laitetta käytetään, ja vasta sitten, mikä osa energiasta on hyötyä."},{"tyyppi":"ansa","otsikko":"Ansa 4: watti ja joule sekaisin","sisalto":"Lampun kylkeen merkitty 7 W on teho, ei energia. Teho kertoo, kuinka monta joulea laite ottaa joka sekunti. Hyötysuhteen voi laskea joko energioista (J ja J) tai tehoista (W ja W), mutta jaettavan ja jakajan on oltava samaa suuretta ja samassa yksikössä."},{"tyyppi":"saanto","otsikko":"Turvallisesti lamppujen ja paristojen kanssa","askeleet":["Pistorasiaan (230 V) kytkettyjä valaisimia käsittelee tunnilla vain opettaja. Oppilaiden kokeissa käytetään paristoja tai pienjännitelähdettä.","Hehkulamppu ja halogeenilamppu kuumenevat niin, että niihin koskeminen polttaa. Tunnustele lämpöä kämmen muutaman sentin päässä lampusta, älä koskettamalla.","Älä yhdistä pariston napoja suoraan johdolla toisiinsa. Oikosulussa johto ja paristo kuumenevat nopeasti.","Älä avaa paristoa tai akkua, äläkä käytä vuotavaa tai turvonnutta paristoa. Vie vanhat paristot keräykseen.","Kun tutkit heiluria, heilauta se poispäin ihmisistä ja pidä kasvot sen radan ulkopuolella."]},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Energiamuodot: liike-, potentiaali-, lämpö-, sähkö-, kemiallinen ja säteilyenergia.","Energiaa ei synny eikä katoa: otettu energia = hyötyenergia + muu energia.","Energian yksikkö on joule (J); tehon yksikkö on watti (W), 1 W = 1 J/s.","Hyötysuhde η = hyötyenergia / otettu energia, prosentteina · 100 %. Aina alle 100 %.","Parempi hyötysuhde samalla hyödyllä tarkoittaa, että sähköä tarvitsee tuottaa vähemmän.","\"Energiaa kului\" = energia muuttui muotoon, jota ei enää voi hyödyntää, yleensä lämmöksi."]}],"harjoitusryhmat":[{"id":"muodot","nimi":"Energiamuodot","info":"Nimeä energiamuodot fysiikan käsittein. Energiamuotojen taulukko on opetustekstissä."},{"id":"kirjanpito","nimi":"Energian kirjanpito","info":"Tuleva energia = lähtevien energioiden summa. Kaikki luvut ovat keksittyjä esimerkkejä."},{"id":"hyotysuhde","nimi":"Hyötysuhde","info":"η = hyötyenergia / otettu energia tai hyötyteho / otettu teho. Vastaa prosentteina ilman %-merkkiä, ellei toisin kysytä."}],"ryhmanimet":{"muodot":"Energiamuodot","kirjanpito":"Energian kirjanpito","hyotysuhde":"Hyötysuhde"},"harjoitukset":[{"id":"H01","ryhma":"muodot","tyyppi":"luku","kysymys":"Lue suureet.\n1. liike-energia\n2. teho\n3. kemiallinen energia\n4. voima\n5. säteilyenergia\n6. massa\n\nMontako niistä on energiamuotoja?","vastaus":3,"vinkki":"Energiamuotoja on taulukossa kuusi. Teho, voima ja massa ovat muita suureita.","selitys":"Liike-energia, kemiallinen energia ja säteilyenergia ovat energiamuotoja. Teho, voima ja massa eivät ole energiaa."},{"id":"H02","ryhma":"muodot","tyyppi":"monivalinta","kysymys":"Mihin energiamuotoihin palavan kynttilän kemiallinen energia pääosin muuttuu?","vastaus":0,"vinkki":"Mitä liekistä tulee ympäristöön?","selitys":"Liekki lämmittää ja valaisee: kemiallinen energia muuttuu lämmöksi ja säteilyenergiaksi (valoksi).","vaihtoehdot":["lämmöksi ja säteilyenergiaksi","sähköenergiaksi ja liike-energiaksi","potentiaalienergiaksi"]},{"id":"H03","ryhma":"muodot","tyyppi":"luku","kysymys":"Pallo pudotetaan lattialle.\n1. Pallo on paikallaan ylimmässä kohdassa.\n2. Pallo on pudonnut puoleenväliin.\n3. Pallo on juuri osumassa lattiaan.\n\nMonennessako kohdassa pallon liike-energia on suurin?","vastaus":3,"vinkki":"Putoava pallo kiihtyy koko ajan.","selitys":"Pallon nopeus on suurin juuri ennen lattiaan osumista, joten sen liike-energia on silloin suurin. Ylimmässä kohdassa liike-energia on nolla ja potentiaalienergia suurin."},{"id":"H04","ryhma":"muodot","tyyppi":"luku","kysymys":"Lue laitteet.\n1. vedenkeitin\n2. LED-lamppu\n3. sähkömoottori\n4. sähköpatteri\n5. kaiutin\n\nMontako laitteista on sellaisia, joiden hyötyenergia on lämpö?","vastaus":2,"vinkki":"Mitä varten kukin laite on tehty?","selitys":"Vedenkeittimen ja sähköpatterin tehtävä on lämmittää. LED-lampun hyöty on valo, moottorin liike ja kaiuttimen ääni."},{"id":"H05","ryhma":"muodot","tyyppi":"luku","kysymys":"Heiluri päästetään liikkeelle korkealta. Lue väitteet.\n1. Ylimmässä kohdassa heilurin potentiaalienergia on suurimmillaan.\n2. Alimmassa kohdassa heilurin liike-energia on suurimmillaan.\n3. Heilurin energiaa katoaa jokaisella heilahduksella.\n4. Osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi.\n5. Heiluri pysähtyy, koska sen energia häviää olemattomiin.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Energia ei katoa, mutta se voi muuttua lämmöksi.","selitys":"Väitteet 1, 2 ja 4 ovat totta. Energia ei katoa eikä häviä: heilurin energia muuttuu vähitellen lämmöksi."},{"id":"H06","ryhma":"muodot","tyyppi":"luku","kysymys":"Lue yksiköt.\n1. joule\n2. watti\n3. newton\n4. kilojoule\n5. J/s\n\nMontako niistä on energian yksikköjä?","vastaus":2,"vinkki":"Watti ja J/s ovat sama asia.","selitys":"Joule ja kilojoule ovat energian yksikköjä. Watti eli J/s on tehon yksikkö, newton voiman."},{"id":"H07","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Sähköpotkulaudan moottoriin tulee 600 J sähköenergiaa. Siitä lähtee 450 J liike-energiaa ja loput lämpönä. Montako joulea lämpöä syntyy?","vastaus":150,"vinkki":"Tuleva energia = lähtevien summa.","selitys":"600 J − 450 J = 150 J lämpöä."},{"id":"H08","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Tehosekoittimeen tulee 2 400 J sähköenergiaa. Siitä lähtee 1 800 J liike-energiaa, 100 J ääntä ja loput lämpönä. Montako joulea lämpöä syntyy?","vastaus":500,"vinkki":"Vähennä tulevasta energiasta kaikki muut lähtevät energiat.","selitys":"2 400 J − 1 800 J − 100 J = 500 J lämpöä."},{"id":"H09","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Keinulla on korkeimmassa kohdassaan 900 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Alimmassa kohdassa sen liike-energia on 860 J. Montako joulea energiaa on matkalla muuttunut lämmöksi?","vastaus":40,"vinkki":"Alimmassa kohdassa potentiaalienergia on nolla.","selitys":"900 J − 860 J = 40 J on muuttunut lämmöksi ilmanvastuksen ja kitkan vuoksi."},{"id":"H10","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Pudotettavalla pallolla on alussa 6,0 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 4,5 J potentiaalienergiaa. Montako joulea on muuttunut lämmöksi ja ääneksi?","vastaus":1.5,"vinkki":"Korkeimmassa kohdassa pallo on hetken paikallaan.","selitys":"6,0 J − 4,5 J = 1,5 J on muuttunut lämmöksi ja ääneksi."},{"id":"H11","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Leikkiauton paristoissa on 800 J kemiallista energiaa. Paristot antavat moottorille 720 J sähköenergiaa, ja moottori muuttaa siitä 432 J liike-energiaksi. Montako joulea lämpöä syntyy yhteensä paristoissa ja moottorissa?","vastaus":368,"vinkki":"Kaikki, mikä ei ole lopussa liike-energiaa, on muuttunut lämmöksi.","selitys":"Paristoissa 800 J − 720 J = 80 J, moottorissa 720 J − 432 J = 288 J. Yhteensä 368 J (eli 800 J − 432 J)."},{"id":"H12","ryhma":"kirjanpito","tyyppi":"monivalinta","kysymys":"Mitä tarkoittaa arkikielen sanonta \"energiaa kului\" fysiikan kannalta?","vastaus":0,"vinkki":"Muista energian säilymisen periaate.","selitys":"Energia ei katoa. Se muuttuu muotoon, jota ei enää voi hyödyntää, useimmiten ympäristöön leviäväksi lämmöksi.","vaihtoehdot":["Energia muuttui muotoon, jota ei enää voi hyödyntää, yleensä ympäristöön leviäväksi lämmöksi.","Energia hävisi, kun laite käytti sen.","Energia muuttui laitteen sisällä massaksi."]},{"id":"H13","ryhma":"kirjanpito","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Kynttilä muuttaa kemiallista energiaa lämmöksi ja valoksi.\n2. Sähköpatterin hyötyenergia on lämpö.\n3. Energiaa voi tuottaa tyhjästä, jos laite on tarpeeksi hyvä.\n4. Kun keinu pysähtyy, sen energia on muuttunut lämmöksi ympäristöön.\n5. Kilowatti on energian yksikkö.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kilowatti on tuhat wattia.","selitys":"Väitteet 1, 2 ja 4 ovat totta. Energiaa ei synny tyhjästä, ja kilowatti on tehon yksikkö."},{"id":"H14","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"Sähkömoottori ottaa 800 J sähköenergiaa ja antaa 600 J liike-energiaa. Montako prosenttia on moottorin hyötysuhde?","vastaus":75,"vinkki":"Jaa hyötyenergia otetulla energialla ja kerro sadalla.","selitys":"η = 600 J / 800 J = 0,75 = 75 %."},{"id":"H15","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"Hehkulamppu ottaa 100 W sähkötehoa ja tuottaa valoa 4 W teholla. Montako prosenttia on lampun hyötysuhde?","vastaus":4,"vinkki":"Hyötyteho on valon teho.","selitys":"η = 4 W / 100 W = 0,04 = 4 %. Loput 96 W muuttuvat lämmöksi."},{"id":"H16","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"LED-lamppu ottaa 16 W sähkötehoa ja tuottaa valoa 4 W teholla. Montako prosenttia on lampun hyötysuhde?","vastaus":25,"vinkki":"Jaa valon teho otetulla teholla.","selitys":"η = 4 W / 16 W = 0,25 = 25 %."},{"id":"H17","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"Harjoitusten 15 ja 16 lamput tuottavat yhtä paljon valoa. Montako wattia vähemmän sähkötehoa LED-lamppu ottaa kuin hehkulamppu?","vastaus":84,"vinkki":"Vertaa lamppujen ottamia tehoja.","selitys":"100 W − 16 W = 84 W. Samaan valoon tarvitaan vähemmän sähköä, joten sähköä tarvitsee tuottaa vähemmän."},{"id":"H18","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"Vedenkeittimen hyötysuhde on 90 %. Se ottaa 300 kJ sähköenergiaa. Montako kilojoulea lämpöä vesi saa?","vastaus":270,"vinkki":"90 % on 0,90 kertaa otettu energia.","selitys":"0,90 · 300 kJ = 270 kJ. Loput 30 kJ lämmittävät keitintä ja ilmaa."},{"id":"H19","ryhma":"hyotysuhde","tyyppi":"luku","kysymys":"Pumpun moottori ottaa 250 W sähkötehoa ja antaa 200 W mekaanista tehoa. Montako prosenttia on hyötysuhde?","vastaus":80,"vinkki":"Laske tehoista samalla tavalla kuin energioista.","selitys":"η = 200 W / 250 W = 0,80 = 80 %."},{"id":"H20","ryhma":"hyotysuhde","tyyppi":"monivalinta","kysymys":"Miksi laitteen hyötysuhde on aina alle 100 %?","vastaus":0,"vinkki":"Mitä tapahtuu aina, kun sähkövirta kulkee tai osat liikkuvat?","selitys":"Jokaisessa laitteessa osa energiasta muuttuu muuksi kuin hyötyenergiaksi, yleensä lämmöksi. Siksi hyötyenergia on aina pienempi kuin otettu energia.","vaihtoehdot":["Osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi.","Osa energiasta katoaa aina laitteen sisällä.","Prosenttilaskussa tulos ei voi koskaan olla 100."]}],"tulostus":{"sivuja":5,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":5,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen. Kartan näyttö alkaa sanalla Paperikokeessa. Kokeessa ovat näytön kolme energiakaaviota (heiluri tehtävä 2, polkupyörän dynamovalo tehtävät 3–4, paristokäyttöinen taskulamppu tehtävä 5), energiamuotojen nimeäminen (1, 6), kahden lampun hyötysuhteet (14–15), vertailu kestävän käytön kannalta ja hukkaenergian kohde (16) sekä \"energiaa kuluu\" -selitys (11). Koe A käyttää kartan näytön lukuarvoja (60 W / 3 W ja 8 W / 3 W); kokeissa B–E samanlaiset lamppuparit eri luvuin, jotta versiot ovat rinnakkaisia.","Mittaritehtävät ovat 2, 11, 15 ja 16. Niiden pitää olla oikein. Tehtävä 2 on oikein, kun kaaviossa on potentiaalienergia alussa, sen muuttuminen liike-energiaksi ja takaisin sekä lämpö, ja lopussa koko alkuperäinen energiamäärä on lämpöä (kokonaismäärä säilyy). Pelkkä \"potentiaali → liike\" ilman lämpöä on väärin. Tehtävä 11 on oikein, kun vastauksessa sanotaan, ettei energia katoa, ja kerrotaan, mihin muotoon se muuttui (lopulta lämmöksi ympäristöön). Tehtävä 15 on oikein, kun hyötysuhde on laskettu valon tehon ja otetun tehon osamääränä ja ilmoitettu prosentteina (A: 37,5 %; myös pyöristetty 38 % kelpaa). Desimaaliluku ilman prosentteja (0,375) on väärin. Tehtävä 16 on oikein, kun valinta perustellaan lasketuilla hyötysuhteilla, siinä mainitaan, että sähköä tarvitsee tuottaa vähemmän, ja kerrotaan, että loppu energia muuttuu lämmöksi.","Mikä kelpaa: energiakaavioissa (2, 3, 5) jokainen energiamuoto on nimetty fysiikan käsittein (valo = säteilyenergia; \"valoenergia\" hyväksytään, \"sähkö\" ilman sanaa energia hyväksytään, jos muoto on selvä) ja lähtevien määrien summa täsmää tulevaan. Nuolten leveyksiä ei mitata. Tehtävässä 3 lämpö on merkitty ainakin dynamoon ja lamppuun; polkijan kemiallinen energia ketjun alussa vaaditaan. Tehtävässä 5 vaaditaan kaavion lisäksi oikea lämmön määrä. Tehtävässä 6 kelpaa vain energiamuodon nimi. Tehtävät 13 ja 20 ovat oikein vain laskun kanssa. Tehtävissä 14, 15, 17 ja 18 vastaus ilman yksikköä tai prosenttimerkkiä on väärin. Sanallisissa tehtävissä hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Tunnin demonstraatio (vapaaehtoinen): opettaja näyttää rinnakkain samaan valaisinmalliin kytketyn hehkulampun ja LED-lampun, joista tulee suunnilleen yhtä paljon valoa. Oppilaat tunnustelevat lämpöä kämmen muutaman sentin päässä lampusta, eivät koskettamalla. Verkkovirtaan (230 V) kytkettyjä valaisimia käsittelee vain opettaja. Heilurikokeessa riittää lanka ja punnus; heiluria ei heilauteta kohti kasvoja. Jos koulussa on polkupyörän dynamo tai käsikäyttöinen generaattori, oppilaat voivat pyörittää sitä ja tuntea, että pyörittäminen raskastuu, kun lamppu syttyy. Paristoja ei oikosuljeta eikä avata.","Rajaus: 6. luokalla (YMP6-AIN-05) piirrettiin energiakaavio ja verrattiin lamppuja laadullisesti; nyt muodot nimetään fysiikan käsittein ja hyötysuhde lasketaan. Voimalaitosten energiaketjut, aurinkopaneeli ja sähköenergian laskeminen kaavalla E = P · t (kWh) ovat 9. luokan asioita (FY9-ENE-01, FY9-SAH-05), eikä niitä käytetä. Teho esitetään tässä vain yksikkönä (1 W = 1 J/s); laskut tehoilla ovat hyötysuhteen osamääriä. Lämmön ja lämpötilan ero hiukkasmallilla tulee seuraavassa taidossa (FY8-ENE-03).","Tarkistettavat asiatiedot: lamppujen arvot (hehkulamppu noin 4–5 % ja LED-lamppu noin 25–40 % otetusta sähkötehosta näkyväksi valoksi) ovat suuruusluokaltaan oikeita, mutta pyöristettyjä ja keksittyjä; kartan avoin asia 9 edellyttää lähteen merkitsemistä, joten tarkista luvut käytössä olevasta oppikirjasta. Opetustekstin vedenkeittimen (85 %) ja keittolevyn (60 %) hyötysuhteet ovat keksittyjä esimerkkejä realistisella vaihteluvälillä. \"Yksi joule on suunnilleen omenan nostaminen metrin korkeudelle\" pätee noin 100 g:n omenaan (0,1 kg · 9,8 N/kg · 1 m ≈ 1 J)."]},"virhesanakirja":[{"virhe":"Jakaa otetun energian hyötyenergialla ja saa yli 100 %:n hyötysuhteen","tehtava":"hyötysuhde (14, 15, 17, 20), harjoitukset H14–H19","mita_kertoo":"Hyötysuhteen määritelmä osamääränä ei ole hallussa, eikä tulosta verrata siihen, että hyötysuhde on aina alle 100 %.","mita_tehda":"Kysy: kuinka suuri osa otetusta energiasta on hyötyä? Osa on aina jaettava. Kertaa ansa 2 ja pyydä tarkistamaan jokainen tulos (alle 100 %)."},{"virhe":"Ilmoittaa hyötysuhteen desimaalilukuna ilman prosentteja tai siirtää pilkun väärin (3/8 → 3,75 %)","tehtava":"hyötysuhde (14, 15, 17)","mita_kertoo":"Prosentin ja desimaaliluvun yhteys on epävarma (matematiikan MAT8-PRO-01).","mita_tehda":"Kirjoita näkyviin kaksi vaihetta: osamäärä (0,375) ja sen jälkeen · 100 % (37,5 %). Arvioi järkevyys: 3 W 8 W:sta on vähän alle puolet."},{"virhe":"Energiakaaviosta puuttuu lämpö, tai lähtevien summa ei täsmää tulevaan","tehtava":"kaaviot ja kirjanpito (2, 3, 5, 7–10, 13)","mita_kertoo":"Energian säilymisen periaatetta ei käytetä tarkistuksena; lämpö ei ole oppilaalle vielä energiamuoto.","mita_tehda":"Pyydä laskemaan lähtevät yhteen ja vertaamaan tulevaan. Jos summa on pienempi, kysy, mikä muoto puuttuu. Tunnustelkaa lämpenevää laitetta (moottori, dynamo)."},{"virhe":"Kirjoittaa, että energia kuluu, loppuu tai katoaa (heiluri pysähtyy, akku tyhjenee)","tehtava":"säilyminen (2, 11, 12), harjoitukset H05, H12","mita_kertoo":"Arkikielen käsitys ohjaa ajattelua; energian säilymisen periaate ei ole vielä käytössä selityksessä.","mita_tehda":"Kertaa ansa 1. Pyydä jatkamaan lausetta \"energia muuttui ... ja meni ...\". Pallon pomppukorkeudet ja kappale \"Energiamuodot muuttuvat edestakaisin\" näyttävät, minne energia menee."},{"virhe":"Sekoittaa tehon ja energian: kirjoittaa joulet watteina tai vertaa wattia jouleen","tehtava":"yksiköt (12, 14–16), harjoitukset H06, H13","mita_kertoo":"Oppilas ei vielä erota, että teho kertoo energian määrän aikayksikköä kohden.","mita_tehda":"Kertaa ansa 4: 7 W = 7 J joka sekunti. Hyötysuhteessa jaetaan aina samaa suuretta samalla suureella."},{"virhe":"Nimeää energiamuodot arkikielellä tai väärin: valo sähköenergiaksi, heilurin ylin kohta liike-energiaksi tai paristo sähköenergiaksi","tehtava":"energiamuodot (1–6)","mita_kertoo":"Energiamuotojen käsitteet ja se, missä energia on varastoituneena, eivät ole vielä täsmällisiä.","mita_tehda":"Käytä taulukkoa \"Energiamuodot fysiikan käsittein\". Kysy jokaisessa kohdassa: liikkuuko kappale, onko se ylhäällä, kulkeeko virta, säteileekö jokin? Paristossa energia on kemiallisena, ja se muuttuu sähköenergiaksi vasta virran kulkiessa."}],"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Energiaa ei synny eikä katoa; se muuttuu muodosta toiseen, ja lopulta suurin osa siitä on lämpöä. Hyötysuhde kertoo, kuinka suuri osa otetusta energiasta muuttuu hyödyksi, ja se on aina alle 100 %.","vaiheet":[{"aika":"10 min","otsikko":"Aloitus: minne heilurin energia menee? (1. tunti)","sisalto":"Päästä heiluri ja pallo liikkeelle. Kysy, miksi heiluri pysähtyy ja pallo ei pompi alkuperäiseen korkeuteen. Kerää vastaukset ja palaa niihin ansan 1 kohdalla."},{"aika":"20 min","otsikko":"Energiamuodot ja energiakaavio","sisalto":"Käy läpi energiamuotojen taulukko ja energian säilymisen periaate (joule, watti). Piirrä akkuporakoneen kaavio yhdessä. Harjoitusryhmä Energiamuodot."},{"aika":"15 min","otsikko":"Kirjanpito","sisalto":"Pallon esimerkki ja ansa 1 (\"energiaa kului\"). Harjoitusryhmä Energian kirjanpito."},{"aika":"25 min","otsikko":"Hyötysuhde (2. tunti)","sisalto":"Laske vedenkeittimen ja keittolevyn esimerkit. Ansat 2–4. Demonstraatio: hehkulamppu ja LED-lamppu rinnakkain, lämpö tunnustellaan kämmen etäällä (opettaja käsittelee verkkovirtavalaisimia)."},{"aika":"20 min","otsikko":"Kestävä valinta","sisalto":"Keskustelkaa, miten parempi hyötysuhde vähentää tarvittavan sähkön tuotantoa. Harjoitusryhmä Hyötysuhde. Oppilaat harjoittelevat kolmen tilanteen (heiluri, polkupyörän dynamovalo, taskulamppu) kaavioita omin sanoin, ilman lukuja."},{"aika":"10 min","otsikko":"Kertaus (3. tunti)","sisalto":"Muistilappu ja virhesanakirjan yleisimmät virheet: hyötysuhde väärin päin, puuttuva lämpö, \"energia katoaa\"."},{"aika":"35 min","otsikko":"Koe","sisalto":"Koe A–E, laskin sallittu. Tehtävät 2, 11, 15 ja 16 ovat mittaritehtäviä."}],"tarvikkeet":"Heiluri (lanka ja punnus), pallo, mahdollisuuksien mukaan polkupyörän dynamo tai käsikäyttöinen generaattori ja lamppu, opettajan demonstraatioon hehkulamppu ja LED-lamppu valaisimissa, laskimet."},"huoltajalle":{"mista_on_kyse":"Nuori opettelee kuvaamaan energian muuttumista muodosta toiseen energiakaaviolla ja laskemaan laitteen hyötysuhteen eli sen, kuinka suuri osa laitteen ottamasta energiasta muuttuu hyödyksi (esimerkiksi lampussa valoksi). Tärkeintä on energian säilymisen periaate: energiaa ei synny eikä katoa, ja kun arkikielessä sanotaan \"energiaa kului\", energia on oikeasti muuttunut lämmöksi, jota ei enää voi hyödyntää.","kotona":["Kysykää jostakin kotona tai koulumatkalla nähdystä laitteesta, mihin energiamuotoihin sen energia muuttuu ja mikä niistä on hyötyä.","Kysykää, miksi lamppu tai laturi lämpenee ja mitä se kertoo hyötysuhteesta.","Pyytäkää selittämään, miksi keinu tai heiluri pysähtyy, vaikka energiaa ei katoa.","Jos jossakin näkyy laitteen energiamerkintä tai teho watteina, kysykää, mitä merkintä kertoo."],"milloin_huolestua":"Jos nuori saa hyötysuhteeksi yli 100 % eikä huomaa virhettä, tai selittää edelleen, että energia katoaa tai loppuu, kertokaa siitä opettajalle. Taito on ydintaito, ja sitä tarvitaan 8. luokan lämpöopissa ja 9. luokan sähkön ja energiantuotannon taidoissa."},"ulkoiset":{},"valmis_teksti":"Osaat piirtää energiakaavion, nimetä energiamuodot fysiikan käsittein ja laskea laitteen hyötysuhteen. Tiedät, että energiaa ei katoa, ja osaat perustella kestävämmän valinnan hyötysuhteella. Tämä taito on nyt näytetty.","kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin lasku ja vastaus lukuarvona ja yksikkönä. Hyötysuhde ilmoitetaan prosentteina. Vastaus ilman yksikköä on väärin.\nKun kysytään montako, vastaa luvulla. Energiakaavioissa nimeä jokainen energiamuoto fysiikan käsittein ja kirjoita määrät nuoliin; nuolten leveyksien ei tarvitse olla tarkkoja, mutta suuremman energian nuoli on leveämpi.\nTehtävissä 2, 3, 11, 16 ja 19 vastaa kokonaisin virkkein. Laitteet, nimet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Lue suureet: sähköenergia, paino, potentiaalienergia, nopeus, lämpöenergia, teho. Montako niistä on energiamuotoja?","vastaus":3},{"nro":2,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Heiluri päästetään liikkeelle sivulta, ja se heilahtelee, kunnes se lopulta pysähtyy. Alussa heilurilla on 0,60 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Piirrä energiakaavio heilahtelusta alusta pysähtymiseen ja nimeä energiamuodot.","vastaus":"Malliesimerkki: Ylimmässä kohdassa heilurilla on 0,60 J potentiaalienergiaa. Alas heilahtaessa potentiaalienergia muuttuu liike-energiaksi, joka on suurin alimmassa kohdassa, ja ylös noustessa liike-energia muuttuu taas potentiaalienergiaksi. Joka heilahduksella osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi. Kaavio: potentiaalienergia 0,60 J → liike-energia ja potentiaalienergia vuorotellen → lämpö 0,60 J. Kun heiluri pysähtyy, koko 0,60 J on lämpöä ympäristössä; kokonaismäärä säilyy."},{"nro":3,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Polkupyörän valo saa sähkönsä dynamosta, jota pyörän rengas pyörittää. Dynamoon tulee renkaasta 6 J liike-energiaa. Dynamosta lähtee lamppuun 3 J sähköenergiaa, ja lampusta lähtee 1 J valoa. Piirrä energiakaavio polkijasta lampun valoon asti, nimeä energiamuodot ja merkitse, missä syntyy lämpöä.","vastaus":"Malliesimerkki: polkijan lihasten kemiallinen energia → (lihaksissa lämpöä) → renkaan liike-energia 6 J → dynamo → sähköenergia 3 J + lämpö 3 J → lamppu → säteilyenergia (valo) 1 J + lämpö 2 J. Lämpöä syntyy lihaksissa, dynamossa ja lampussa."},{"nro":4,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Tehtävän 3 tilanteessa: montako joulea lämpöä syntyy yhteensä dynamossa ja lampussa?","vastaus":"5 J"},{"nro":5,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Paristokäyttöisen taskulampun paristosta lähtee lamppuun 50 J sähköenergiaa, ja lampusta lähtee 15 J valoa. Piirrä energiakaavio paristosta valoon ja nimeä energiamuodot. Montako joulea lämpöä lampussa syntyy?","vastaus":"kemiallinen → sähkö 50 J → valo (säteily) 15 J + lämpö 35 J"},{"nro":6,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Missä energiamuodossa energia on paristossa ennen kuin taskulamppu sytytetään?","vastaus":"kemiallinen energia"},{"nro":7,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Sähkömoottoriin tulee 900 J sähköenergiaa. Siitä lähtee 720 J liike-energiaa ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"180 J"},{"nro":8,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Tehosekoittimeen tulee 3 000 J sähköenergiaa. Siitä lähtee 2 100 J liike-energiaa, 150 J ääntä ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"750 J"},{"nro":9,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pudotettavalla pallolla on alussa 8,0 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 6,0 J potentiaalienergiaa. Kuinka paljon energiaa on muuttunut lämmöksi ja ääneksi?","vastaus":"2,0 J"},{"nro":10,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Radio-ohjattavan auton akussa on 1 500 J kemiallista energiaa. Akku antaa moottorille 1 200 J sähköenergiaa, ja moottori muuttaa siitä 900 J liike-energiaksi. Kuinka paljon lämpöä syntyy yhteensä akussa ja moottorissa?","vastaus":"600 J"},{"nro":11,"ryhma":"kirjanpito","tyyppi":"sanallinen","kysymys":"Puhelimen akku tyhjeni, ja sanotaan, että \"akusta kului energiaa\". Selitä energian säilymisen periaatteen avulla, mitä energialle tapahtui ja mitä sana kului tässä tarkoittaa.","vastaus":"Malliesimerkki: Energiaa ei synny eikä katoa, se vain muuttuu muodosta toiseen. Varastoitunut kemiallinen energia muuttui laitteessa muiksi muodoiksi (esimerkiksi sähkö-, liike-, valo- ja äänienergiaksi), ja ne muuttuivat lopulta lämmöksi, joka levisi ympäristöön. Energia ei kadonnut, mutta se on nyt muodossa, jota ei enää voi hyödyntää. Sitä \"kului\" tarkoittaa."},{"nro":12,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Energiaa ei synny tyhjästä eikä katoa.\n2. Kun polkupyörä jarruttaa, sen liike-energia muuttuu pääosin jarrujen ja renkaiden lämmöksi.\n3. Ladatun akun energia on syntynyt latauksessa tyhjästä.\n4. Hukkalämpö leviää ympäristöön, eikä sitä yleensä saada enää hyötykäyttöön.\n5. Laitteesta voi lähteä enemmän energiaa kuin siihen tulee.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":13,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Leikkirobottiin tulee 400 J sähköenergiaa. Siitä lähtee 250 J liike-energiaa ja 30 J ääntä. Oppilas väittää, että lämpöä syntyy 150 J. Onko kirjanpito oikein? Perustele laskulla.","vastaus":"ei; lämpöä 120 J (400 J − 250 J − 30 J)"},{"nro":14,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Hehkulamppu ottaa 60 W sähkötehoa ja tuottaa valoa 3 W teholla. LED-lamppu ottaa 8 W sähkötehoa ja tuottaa valoa 3 W teholla. Laske hehkulampun hyötysuhde prosentteina.","vastaus":"5 %"},{"nro":15,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laske tehtävän 14 LED-lampun hyötysuhde prosentteina.","vastaus":"37,5 %"},{"nro":16,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Kumpi tehtävän 14 lampuista on kestävämpi valinta? Perustele laskemillasi hyötysuhteilla. Kerro, miten valinta vaikuttaa tarvittavan sähkön tuotantoon ja minne lamppujen loppu energia menee.","vastaus":"Malliesimerkki: LED-lamppu, koska sen hyötysuhde 37,5 % on suurempi kuin hehkulampun 5 %. Lamput tuottavat yhtä paljon valoa, mutta LED-lamppu ottaa siihen 8 W eikä 60 W, joten sähköä tarvitsee tuottaa vähemmän ja energiavaroja säästyy. Loppu energia (57 W hehkulampussa, 5 W LED-lampussa) muuttuu lämmöksi, joka leviää huoneeseen."},{"nro":17,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Sähkömoottori ottaa 2 000 J sähköenergiaa ja antaa 1 500 J liike-energiaa. Laske moottorin hyötysuhde prosentteina.","vastaus":"75 %"},{"nro":18,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laitteen hyötysuhde on 80 %. Se ottaa 500 J energiaa. Kuinka paljon hyötyenergiaa siitä saadaan?","vastaus":"400 J"},{"nro":19,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Selitä, miksi sähkömoottorin hyötysuhde on aina alle 100 %. Mitä tarkoittaisi, jos jonkin laitteen hyötysuhteeksi laskettaisiin yli 100 %?","vastaus":"Malliesimerkki: Laitteessa osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi (sähkövirta lämmittää johtimia, kitka lämmittää osia), joten hyötyenergia on pienempi kuin otettu energia. Yli 100 % tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee, eli energiaa syntyisi tyhjästä. Se on energian säilymisen periaatteen vastaista, joten laskussa tai väitteessä on virhe."},{"nro":20,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laite X ottaa 500 J ja antaa 350 J hyötyenergiaa. Laite Y ottaa 800 J ja antaa 600 J hyötyenergiaa. Kummalla laitteella on suurempi hyötysuhde? Perustele laskemalla.","vastaus":"Y (70 % ja 75 %)"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin lasku ja vastaus lukuarvona ja yksikkönä. Hyötysuhde ilmoitetaan prosentteina. Vastaus ilman yksikköä on väärin.\nKun kysytään montako, vastaa luvulla. Energiakaavioissa nimeä jokainen energiamuoto fysiikan käsittein ja kirjoita määrät nuoliin; nuolten leveyksien ei tarvitse olla tarkkoja, mutta suuremman energian nuoli on leveämpi.\nTehtävissä 2, 3, 11, 16 ja 19 vastaa kokonaisin virkkein. Laitteet, nimet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Lue suureet: liike-energia, massa, kemiallinen energia, voima, säteilyenergia, lämpötila. Montako niistä on energiamuotoja?","vastaus":3},{"nro":2,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Heiluri päästetään liikkeelle sivulta, ja se heilahtelee, kunnes se lopulta pysähtyy. Alussa heilurilla on 0,80 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Piirrä energiakaavio heilahtelusta alusta pysähtymiseen ja nimeä energiamuodot.","vastaus":"Malliesimerkki: Ylimmässä kohdassa heilurilla on 0,80 J potentiaalienergiaa. Alas heilahtaessa potentiaalienergia muuttuu liike-energiaksi, joka on suurin alimmassa kohdassa, ja ylös noustessa liike-energia muuttuu taas potentiaalienergiaksi. Joka heilahduksella osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi. Kaavio: potentiaalienergia 0,80 J → liike-energia ja potentiaalienergia vuorotellen → lämpö 0,80 J. Kun heiluri pysähtyy, koko 0,80 J on lämpöä ympäristössä; kokonaismäärä säilyy."},{"nro":3,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Polkupyörän valo saa sähkönsä dynamosta, jota pyörän rengas pyörittää. Dynamoon tulee renkaasta 8 J liike-energiaa. Dynamosta lähtee lamppuun 5 J sähköenergiaa, ja lampusta lähtee 2 J valoa. Piirrä energiakaavio polkijasta lampun valoon asti, nimeä energiamuodot ja merkitse, missä syntyy lämpöä.","vastaus":"Malliesimerkki: polkijan lihasten kemiallinen energia → (lihaksissa lämpöä) → renkaan liike-energia 8 J → dynamo → sähköenergia 5 J + lämpö 3 J → lamppu → säteilyenergia (valo) 2 J + lämpö 3 J. Lämpöä syntyy lihaksissa, dynamossa ja lampussa."},{"nro":4,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Tehtävän 3 tilanteessa: montako joulea lämpöä syntyy yhteensä dynamossa ja lampussa?","vastaus":"6 J"},{"nro":5,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Paristokäyttöisen taskulampun paristosta lähtee lamppuun 40 J sähköenergiaa, ja lampusta lähtee 12 J valoa. Piirrä energiakaavio paristosta valoon ja nimeä energiamuodot. Montako joulea lämpöä lampussa syntyy?","vastaus":"kemiallinen → sähkö 40 J → valo (säteily) 12 J + lämpö 28 J"},{"nro":6,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Missä energiamuodossa energia on hyllylle nostetussa kirjassa?","vastaus":"potentiaalienergia"},{"nro":7,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Porakoneen moottoriin tulee 1 200 J sähköenergiaa. Siitä lähtee 960 J liike-energiaa ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"240 J"},{"nro":8,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pölynimuriin tulee 2 500 J sähköenergiaa. Siitä lähtee 1 750 J liike-energiaa, 100 J ääntä ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"650 J"},{"nro":9,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pudotettavalla pallolla on alussa 5,0 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 3,5 J potentiaalienergiaa. Kuinka paljon energiaa on muuttunut lämmöksi ja ääneksi?","vastaus":"1,5 J"},{"nro":10,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Kauko-ohjattavan veneen akussa on 500 J kemiallista energiaa. Akku antaa moottorille 400 J sähköenergiaa, ja moottori muuttaa siitä 300 J liike-energiaksi. Kuinka paljon lämpöä syntyy yhteensä akussa ja moottorissa?","vastaus":"200 J"},{"nro":11,"ryhma":"kirjanpito","tyyppi":"sanallinen","kysymys":"Auton tankki tyhjeni, ja sanotaan, että \"autossa kului energiaa\". Selitä energian säilymisen periaatteen avulla, mitä energialle tapahtui ja mitä sana kului tässä tarkoittaa.","vastaus":"Malliesimerkki: Energiaa ei synny eikä katoa, se vain muuttuu muodosta toiseen. Varastoitunut kemiallinen energia muuttui laitteessa muiksi muodoiksi (esimerkiksi sähkö-, liike-, valo- ja äänienergiaksi), ja ne muuttuivat lopulta lämmöksi, joka levisi ympäristöön. Energia ei kadonnut, mutta se on nyt muodossa, jota ei enää voi hyödyntää. Sitä \"kului\" tarkoittaa."},{"nro":12,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Energian kokonaismäärä säilyy, kun energia muuttuu muodosta toiseen.\n2. Kun pomppiva pallo lopulta pysähtyy, sen energia on kadonnut.\n3. Sähkömoottori muuttaa sähköenergiaa liike-energiaksi ja lämmöksi.\n4. Teho kertoo, kuinka monta joulea energiaa muuttuu joka sekunti.\n5. Joule on tehon yksikkö.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":13,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Tuulettimeen tulee 600 J sähköenergiaa. Siitä lähtee 420 J liike-energiaa ja 20 J ääntä. Oppilas väittää, että lämpöä syntyy 180 J. Onko kirjanpito oikein? Perustele laskulla.","vastaus":"ei; lämpöä 160 J (600 J − 420 J − 20 J)"},{"nro":14,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Hehkulamppu ottaa 40 W sähkötehoa ja tuottaa valoa 2 W teholla. LED-lamppu ottaa 5 W sähkötehoa ja tuottaa valoa 2 W teholla. Laske hehkulampun hyötysuhde prosentteina.","vastaus":"5 %"},{"nro":15,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laske tehtävän 14 LED-lampun hyötysuhde prosentteina.","vastaus":"40 %"},{"nro":16,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Kumpi tehtävän 14 lampuista on kestävämpi valinta? Perustele laskemillasi hyötysuhteilla. Kerro, miten valinta vaikuttaa tarvittavan sähkön tuotantoon ja minne lamppujen loppu energia menee.","vastaus":"Malliesimerkki: LED-lamppu, koska sen hyötysuhde 40 % on suurempi kuin hehkulampun 5 %. Lamput tuottavat yhtä paljon valoa, mutta LED-lamppu ottaa siihen 5 W eikä 40 W, joten sähköä tarvitsee tuottaa vähemmän ja energiavaroja säästyy. Loppu energia (38 W hehkulampussa, 3 W LED-lampussa) muuttuu lämmöksi, joka leviää huoneeseen."},{"nro":17,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Sähkömoottori ottaa 500 J sähköenergiaa ja antaa 400 J liike-energiaa. Laske moottorin hyötysuhde prosentteina.","vastaus":"80 %"},{"nro":18,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laitteen hyötysuhde on 90 %. Se ottaa 600 J energiaa. Kuinka paljon hyötyenergiaa siitä saadaan?","vastaus":"540 J"},{"nro":19,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Selitä, miksi vedenkeittimen hyötysuhde on aina alle 100 %. Mitä tarkoittaisi, jos jonkin laitteen hyötysuhteeksi laskettaisiin yli 100 %?","vastaus":"Malliesimerkki: Laitteessa osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi (sähkövirta lämmittää johtimia, kitka lämmittää osia), joten hyötyenergia on pienempi kuin otettu energia. Yli 100 % tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee, eli energiaa syntyisi tyhjästä. Se on energian säilymisen periaatteen vastaista, joten laskussa tai väitteessä on virhe."},{"nro":20,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laite X ottaa 400 J ja antaa 300 J hyötyenergiaa. Laite Y ottaa 600 J ja antaa 480 J hyötyenergiaa. Kummalla laitteella on suurempi hyötysuhde? Perustele laskemalla.","vastaus":"Y (75 % ja 80 %)"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin lasku ja vastaus lukuarvona ja yksikkönä. Hyötysuhde ilmoitetaan prosentteina. Vastaus ilman yksikköä on väärin.\nKun kysytään montako, vastaa luvulla. Energiakaavioissa nimeä jokainen energiamuoto fysiikan käsittein ja kirjoita määrät nuoliin; nuolten leveyksien ei tarvitse olla tarkkoja, mutta suuremman energian nuoli on leveämpi.\nTehtävissä 2, 3, 11, 16 ja 19 vastaa kokonaisin virkkein. Laitteet, nimet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Lue suureet: säteilyenergia, kiihtyvyys, sähköenergia, liike-energia, paine, aika. Montako niistä on energiamuotoja?","vastaus":3},{"nro":2,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Heiluri päästetään liikkeelle sivulta, ja se heilahtelee, kunnes se lopulta pysähtyy. Alussa heilurilla on 0,50 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Piirrä energiakaavio heilahtelusta alusta pysähtymiseen ja nimeä energiamuodot.","vastaus":"Malliesimerkki: Ylimmässä kohdassa heilurilla on 0,50 J potentiaalienergiaa. Alas heilahtaessa potentiaalienergia muuttuu liike-energiaksi, joka on suurin alimmassa kohdassa, ja ylös noustessa liike-energia muuttuu taas potentiaalienergiaksi. Joka heilahduksella osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi. Kaavio: potentiaalienergia 0,50 J → liike-energia ja potentiaalienergia vuorotellen → lämpö 0,50 J. Kun heiluri pysähtyy, koko 0,50 J on lämpöä ympäristössä; kokonaismäärä säilyy."},{"nro":3,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Polkupyörän valo saa sähkönsä dynamosta, jota pyörän rengas pyörittää. Dynamoon tulee renkaasta 10 J liike-energiaa. Dynamosta lähtee lamppuun 6 J sähköenergiaa, ja lampusta lähtee 2 J valoa. Piirrä energiakaavio polkijasta lampun valoon asti, nimeä energiamuodot ja merkitse, missä syntyy lämpöä.","vastaus":"Malliesimerkki: polkijan lihasten kemiallinen energia → (lihaksissa lämpöä) → renkaan liike-energia 10 J → dynamo → sähköenergia 6 J + lämpö 4 J → lamppu → säteilyenergia (valo) 2 J + lämpö 4 J. Lämpöä syntyy lihaksissa, dynamossa ja lampussa."},{"nro":4,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Tehtävän 3 tilanteessa: montako joulea lämpöä syntyy yhteensä dynamossa ja lampussa?","vastaus":"8 J"},{"nro":5,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Paristokäyttöisen taskulampun paristosta lähtee lamppuun 60 J sähköenergiaa, ja lampusta lähtee 18 J valoa. Piirrä energiakaavio paristosta valoon ja nimeä energiamuodot. Montako joulea lämpöä lampussa syntyy?","vastaus":"kemiallinen → sähkö 60 J → valo (säteily) 18 J + lämpö 42 J"},{"nro":6,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Missä energiamuodossa energia on polttopuussa ennen sen sytyttämistä?","vastaus":"kemiallinen energia"},{"nro":7,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Hiomakoneen moottoriin tulee 1 500 J sähköenergiaa. Siitä lähtee 1 050 J liike-energiaa ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"450 J"},{"nro":8,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pesukoneeseen tulee 4 000 J sähköenergiaa. Siitä lähtee 2 800 J liike-energiaa, 200 J ääntä ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"1 000 J"},{"nro":9,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pudotettavalla pallolla on alussa 12 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 9,0 J potentiaalienergiaa. Kuinka paljon energiaa on muuttunut lämmöksi ja ääneksi?","vastaus":"3,0 J"},{"nro":10,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Sähköhammasharjan akussa on 800 J kemiallista energiaa. Akku antaa moottorille 600 J sähköenergiaa, ja moottori muuttaa siitä 450 J liike-energiaksi. Kuinka paljon lämpöä syntyy yhteensä akussa ja moottorissa?","vastaus":"350 J"},{"nro":11,"ryhma":"kirjanpito","tyyppi":"sanallinen","kysymys":"Taskulampun paristo tyhjeni, ja sanotaan, että \"paristosta kului energiaa\". Selitä energian säilymisen periaatteen avulla, mitä energialle tapahtui ja mitä sana kului tässä tarkoittaa.","vastaus":"Malliesimerkki: Energiaa ei synny eikä katoa, se vain muuttuu muodosta toiseen. Varastoitunut kemiallinen energia muuttui laitteessa muiksi muodoiksi (esimerkiksi sähkö-, liike-, valo- ja äänienergiaksi), ja ne muuttuivat lopulta lämmöksi, joka levisi ympäristöön. Energia ei kadonnut, mutta se on nyt muodossa, jota ei enää voi hyödyntää. Sitä \"kului\" tarkoittaa."},{"nro":12,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ruoan kemiallinen energia voi muuttua lihaksissa liike-energiaksi ja lämmöksi.\n2. Lampun valo on sähköenergiaa.\n3. Energiakaaviossa lähtevien energioiden summa on yhtä suuri kuin tuleva energia.\n4. Hyötysuhde voi olla yli 100 %, jos laite on hyvin tehty.\n5. Watti on sama kuin joule sekuntia kohden.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":13,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Sähkövatkaimeen tulee 500 J sähköenergiaa. Siitä lähtee 320 J liike-energiaa ja 40 J ääntä. Oppilas väittää, että lämpöä syntyy 160 J. Onko kirjanpito oikein? Perustele laskulla.","vastaus":"ei; lämpöä 140 J (500 J − 320 J − 40 J)"},{"nro":14,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Hehkulamppu ottaa 75 W sähkötehoa ja tuottaa valoa 3 W teholla. LED-lamppu ottaa 10 W sähkötehoa ja tuottaa valoa 3 W teholla. Laske hehkulampun hyötysuhde prosentteina.","vastaus":"4 %"},{"nro":15,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laske tehtävän 14 LED-lampun hyötysuhde prosentteina.","vastaus":"30 %"},{"nro":16,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Kumpi tehtävän 14 lampuista on kestävämpi valinta? Perustele laskemillasi hyötysuhteilla. Kerro, miten valinta vaikuttaa tarvittavan sähkön tuotantoon ja minne lamppujen loppu energia menee.","vastaus":"Malliesimerkki: LED-lamppu, koska sen hyötysuhde 30 % on suurempi kuin hehkulampun 4 %. Lamput tuottavat yhtä paljon valoa, mutta LED-lamppu ottaa siihen 10 W eikä 75 W, joten sähköä tarvitsee tuottaa vähemmän ja energiavaroja säästyy. Loppu energia (72 W hehkulampussa, 7 W LED-lampussa) muuttuu lämmöksi, joka leviää huoneeseen."},{"nro":17,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Sähkömoottori ottaa 1 200 J sähköenergiaa ja antaa 900 J liike-energiaa. Laske moottorin hyötysuhde prosentteina.","vastaus":"75 %"},{"nro":18,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laitteen hyötysuhde on 75 %. Se ottaa 400 J energiaa. Kuinka paljon hyötyenergiaa siitä saadaan?","vastaus":"300 J"},{"nro":19,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Selitä, miksi LED-lampun hyötysuhde on aina alle 100 %. Mitä tarkoittaisi, jos jonkin laitteen hyötysuhteeksi laskettaisiin yli 100 %?","vastaus":"Malliesimerkki: Laitteessa osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi (sähkövirta lämmittää johtimia, kitka lämmittää osia), joten hyötyenergia on pienempi kuin otettu energia. Yli 100 % tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee, eli energiaa syntyisi tyhjästä. Se on energian säilymisen periaatteen vastaista, joten laskussa tai väitteessä on virhe."},{"nro":20,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laite X ottaa 200 J ja antaa 150 J hyötyenergiaa. Laite Y ottaa 500 J ja antaa 350 J hyötyenergiaa. Kummalla laitteella on suurempi hyötysuhde? Perustele laskemalla.","vastaus":"X (75 % ja 70 %)"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin lasku ja vastaus lukuarvona ja yksikkönä. Hyötysuhde ilmoitetaan prosentteina. Vastaus ilman yksikköä on väärin.\nKun kysytään montako, vastaa luvulla. Energiakaavioissa nimeä jokainen energiamuoto fysiikan käsittein ja kirjoita määrät nuoliin; nuolten leveyksien ei tarvitse olla tarkkoja, mutta suuremman energian nuoli on leveämpi.\nTehtävissä 2, 3, 11, 16 ja 19 vastaa kokonaisin virkkein. Laitteet, nimet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Lue suureet: kemiallinen energia, matka, lämpöenergia, teho, potentiaalienergia, tilavuus. Montako niistä on energiamuotoja?","vastaus":3},{"nro":2,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Heiluri päästetään liikkeelle sivulta, ja se heilahtelee, kunnes se lopulta pysähtyy. Alussa heilurilla on 1,2 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Piirrä energiakaavio heilahtelusta alusta pysähtymiseen ja nimeä energiamuodot.","vastaus":"Malliesimerkki: Ylimmässä kohdassa heilurilla on 1,2 J potentiaalienergiaa. Alas heilahtaessa potentiaalienergia muuttuu liike-energiaksi, joka on suurin alimmassa kohdassa, ja ylös noustessa liike-energia muuttuu taas potentiaalienergiaksi. Joka heilahduksella osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi. Kaavio: potentiaalienergia 1,2 J → liike-energia ja potentiaalienergia vuorotellen → lämpö 1,2 J. Kun heiluri pysähtyy, koko 1,2 J on lämpöä ympäristössä; kokonaismäärä säilyy."},{"nro":3,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Polkupyörän valo saa sähkönsä dynamosta, jota pyörän rengas pyörittää. Dynamoon tulee renkaasta 5 J liike-energiaa. Dynamosta lähtee lamppuun 3 J sähköenergiaa, ja lampusta lähtee 1 J valoa. Piirrä energiakaavio polkijasta lampun valoon asti, nimeä energiamuodot ja merkitse, missä syntyy lämpöä.","vastaus":"Malliesimerkki: polkijan lihasten kemiallinen energia → (lihaksissa lämpöä) → renkaan liike-energia 5 J → dynamo → sähköenergia 3 J + lämpö 2 J → lamppu → säteilyenergia (valo) 1 J + lämpö 2 J. Lämpöä syntyy lihaksissa, dynamossa ja lampussa."},{"nro":4,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Tehtävän 3 tilanteessa: montako joulea lämpöä syntyy yhteensä dynamossa ja lampussa?","vastaus":"4 J"},{"nro":5,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Paristokäyttöisen taskulampun paristosta lähtee lamppuun 30 J sähköenergiaa, ja lampusta lähtee 9 J valoa. Piirrä energiakaavio paristosta valoon ja nimeä energiamuodot. Montako joulea lämpöä lampussa syntyy?","vastaus":"kemiallinen → sähkö 30 J → valo (säteily) 9 J + lämpö 21 J"},{"nro":6,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Missä energiamuodossa energia on vierivässä pallossa?","vastaus":"liike-energia"},{"nro":7,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Ompelukoneen moottoriin tulee 1 000 J sähköenergiaa. Siitä lähtee 750 J liike-energiaa ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"250 J"},{"nro":8,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Monitoimikoneeseen tulee 2 000 J sähköenergiaa. Siitä lähtee 1 500 J liike-energiaa, 50 J ääntä ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"450 J"},{"nro":9,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pudotettavalla pallolla on alussa 6,0 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 4,8 J potentiaalienergiaa. Kuinka paljon energiaa on muuttunut lämmöksi ja ääneksi?","vastaus":"1,2 J"},{"nro":10,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Leluhelikopterin akussa on 400 J kemiallista energiaa. Akku antaa moottorille 320 J sähköenergiaa, ja moottori muuttaa siitä 240 J liike-energiaksi. Kuinka paljon lämpöä syntyy yhteensä akussa ja moottorissa?","vastaus":"160 J"},{"nro":11,"ryhma":"kirjanpito","tyyppi":"sanallinen","kysymys":"Sähköskootterin akku tyhjeni, ja sanotaan, että \"akusta kului energiaa\". Selitä energian säilymisen periaatteen avulla, mitä energialle tapahtui ja mitä sana kului tässä tarkoittaa.","vastaus":"Malliesimerkki: Energiaa ei synny eikä katoa, se vain muuttuu muodosta toiseen. Varastoitunut kemiallinen energia muuttui laitteessa muiksi muodoiksi (esimerkiksi sähkö-, liike-, valo- ja äänienergiaksi), ja ne muuttuivat lopulta lämmöksi, joka levisi ympäristöön. Energia ei kadonnut, mutta se on nyt muodossa, jota ei enää voi hyödyntää. Sitä \"kului\" tarkoittaa."},{"nro":12,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Kun energiaa \"kuluu\", se muuttuu muotoon, jota ei enää voi hyödyntää.\n2. Heilurin energia häviää olemattomiin, kun heiluri pysähtyy.\n3. Vedenkeittimen hyötyenergia on veden saama lämpö.\n4. Kilojoule on 1 000 joulea.\n5. Energian yksikkö on watti.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":13,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Porakoneeseen tulee 900 J sähköenergiaa. Siitä lähtee 600 J liike-energiaa ja 50 J ääntä. Oppilas väittää, että lämpöä syntyy 200 J. Onko kirjanpito oikein? Perustele laskulla.","vastaus":"ei; lämpöä 250 J (900 J − 600 J − 50 J)"},{"nro":14,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Hehkulamppu ottaa 25 W sähkötehoa ja tuottaa valoa 1 W teholla. LED-lamppu ottaa 4 W sähkötehoa ja tuottaa valoa 1 W teholla. Laske hehkulampun hyötysuhde prosentteina.","vastaus":"4 %"},{"nro":15,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laske tehtävän 14 LED-lampun hyötysuhde prosentteina.","vastaus":"25 %"},{"nro":16,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Kumpi tehtävän 14 lampuista on kestävämpi valinta? Perustele laskemillasi hyötysuhteilla. Kerro, miten valinta vaikuttaa tarvittavan sähkön tuotantoon ja minne lamppujen loppu energia menee.","vastaus":"Malliesimerkki: LED-lamppu, koska sen hyötysuhde 25 % on suurempi kuin hehkulampun 4 %. Lamput tuottavat yhtä paljon valoa, mutta LED-lamppu ottaa siihen 4 W eikä 25 W, joten sähköä tarvitsee tuottaa vähemmän ja energiavaroja säästyy. Loppu energia (24 W hehkulampussa, 3 W LED-lampussa) muuttuu lämmöksi, joka leviää huoneeseen."},{"nro":17,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Sähkömoottori ottaa 400 J sähköenergiaa ja antaa 260 J liike-energiaa. Laske moottorin hyötysuhde prosentteina.","vastaus":"65 %"},{"nro":18,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laitteen hyötysuhde on 60 %. Se ottaa 300 J energiaa. Kuinka paljon hyötyenergiaa siitä saadaan?","vastaus":"180 J"},{"nro":19,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Selitä, miksi auton moottorin hyötysuhde on aina alle 100 %. Mitä tarkoittaisi, jos jonkin laitteen hyötysuhteeksi laskettaisiin yli 100 %?","vastaus":"Malliesimerkki: Laitteessa osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi (sähkövirta lämmittää johtimia, kitka lämmittää osia), joten hyötyenergia on pienempi kuin otettu energia. Yli 100 % tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee, eli energiaa syntyisi tyhjästä. Se on energian säilymisen periaatteen vastaista, joten laskussa tai väitteessä on virhe."},{"nro":20,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laite X ottaa 250 J ja antaa 200 J hyötyenergiaa. Laite Y ottaa 1 000 J ja antaa 850 J hyötyenergiaa. Kummalla laitteella on suurempi hyötysuhde? Perustele laskemalla.","vastaus":"Y (80 % ja 85 %)"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin lasku ja vastaus lukuarvona ja yksikkönä. Hyötysuhde ilmoitetaan prosentteina. Vastaus ilman yksikköä on väärin.\nKun kysytään montako, vastaa luvulla. Energiakaavioissa nimeä jokainen energiamuoto fysiikan käsittein ja kirjoita määrät nuoliin; nuolten leveyksien ei tarvitse olla tarkkoja, mutta suuremman energian nuoli on leveämpi.\nTehtävissä 2, 3, 11, 16 ja 19 vastaa kokonaisin virkkein. Laitteet, nimet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Lue suureet: potentiaalienergia, voima, liike-energia, tiheys, sähköenergia, massa. Montako niistä on energiamuotoja?","vastaus":3},{"nro":2,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Heiluri päästetään liikkeelle sivulta, ja se heilahtelee, kunnes se lopulta pysähtyy. Alussa heilurilla on 0,90 J potentiaalienergiaa (alimpaan kohtaan verrattuna). Piirrä energiakaavio heilahtelusta alusta pysähtymiseen ja nimeä energiamuodot.","vastaus":"Malliesimerkki: Ylimmässä kohdassa heilurilla on 0,90 J potentiaalienergiaa. Alas heilahtaessa potentiaalienergia muuttuu liike-energiaksi, joka on suurin alimmassa kohdassa, ja ylös noustessa liike-energia muuttuu taas potentiaalienergiaksi. Joka heilahduksella osa energiasta muuttuu lämmöksi ilmanvastuksen ja ripustuskohdan kitkan vuoksi. Kaavio: potentiaalienergia 0,90 J → liike-energia ja potentiaalienergia vuorotellen → lämpö 0,90 J. Kun heiluri pysähtyy, koko 0,90 J on lämpöä ympäristössä; kokonaismäärä säilyy."},{"nro":3,"ryhma":"muodot","tyyppi":"sanallinen","kysymys":"Polkupyörän valo saa sähkönsä dynamosta, jota pyörän rengas pyörittää. Dynamoon tulee renkaasta 9 J liike-energiaa. Dynamosta lähtee lamppuun 6 J sähköenergiaa, ja lampusta lähtee 2 J valoa. Piirrä energiakaavio polkijasta lampun valoon asti, nimeä energiamuodot ja merkitse, missä syntyy lämpöä.","vastaus":"Malliesimerkki: polkijan lihasten kemiallinen energia → (lihaksissa lämpöä) → renkaan liike-energia 9 J → dynamo → sähköenergia 6 J + lämpö 3 J → lamppu → säteilyenergia (valo) 2 J + lämpö 4 J. Lämpöä syntyy lihaksissa, dynamossa ja lampussa."},{"nro":4,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Tehtävän 3 tilanteessa: montako joulea lämpöä syntyy yhteensä dynamossa ja lampussa?","vastaus":"7 J"},{"nro":5,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Paristokäyttöisen taskulampun paristosta lähtee lamppuun 70 J sähköenergiaa, ja lampusta lähtee 21 J valoa. Piirrä energiakaavio paristosta valoon ja nimeä energiamuodot. Montako joulea lämpöä lampussa syntyy?","vastaus":"kemiallinen → sähkö 70 J → valo (säteily) 21 J + lämpö 49 J"},{"nro":6,"ryhma":"muodot","tyyppi":"lasku","kysymys":"Missä energiamuodossa energia on auringonvalossa?","vastaus":"säteilyenergia"},{"nro":7,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Sähköpyörän moottoriin tulee 2 000 J sähköenergiaa. Siitä lähtee 1 700 J liike-energiaa ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"300 J"},{"nro":8,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Ilmanpuhdistimeen tulee 3 500 J sähköenergiaa. Siitä lähtee 2 400 J liike-energiaa, 150 J ääntä ja loput lämpönä. Kuinka paljon lämpöä syntyy?","vastaus":"950 J"},{"nro":9,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Pudotettavalla pallolla on alussa 10 J potentiaalienergiaa. Ensimmäisen pompun korkeimmassa kohdassa sillä on 7,5 J potentiaalienergiaa. Kuinka paljon energiaa on muuttunut lämmöksi ja ääneksi?","vastaus":"2,5 J"},{"nro":10,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Sähköpotkulaudan akussa on 1 000 J kemiallista energiaa. Akku antaa moottorille 750 J sähköenergiaa, ja moottori muuttaa siitä 600 J liike-energiaksi. Kuinka paljon lämpöä syntyy yhteensä akussa ja moottorissa?","vastaus":"400 J"},{"nro":11,"ryhma":"kirjanpito","tyyppi":"sanallinen","kysymys":"Kännykän akku tyhjeni pelatessa, ja sanotaan, että \"pelatessa kului energiaa\". Selitä energian säilymisen periaatteen avulla, mitä energialle tapahtui ja mitä sana kului tässä tarkoittaa.","vastaus":"Malliesimerkki: Energiaa ei synny eikä katoa, se vain muuttuu muodosta toiseen. Varastoitunut kemiallinen energia muuttui laitteessa muiksi muodoiksi (esimerkiksi sähkö-, liike-, valo- ja äänienergiaksi), ja ne muuttuivat lopulta lämmöksi, joka levisi ympäristöön. Energia ei kadonnut, mutta se on nyt muodossa, jota ei enää voi hyödyntää. Sitä \"kului\" tarkoittaa."},{"nro":12,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Paristossa energia on kemiallisena energiana.\n2. Ylös nostetulla kappaleella on potentiaalienergiaa.\n3. Kun auto pysähtyy, sen liike-energia muuttuu tyhjäksi.\n4. Mitä suurempi hyötysuhde, sitä suurempi osa otetusta energiasta muuttuu hyötyenergiaksi.\n5. Hukkalämpö on energiaa, joka on hävinnyt.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":13,"ryhma":"kirjanpito","tyyppi":"lasku","kysymys":"Mehulingon moottoriin tulee 800 J sähköenergiaa. Siitä lähtee 520 J liike-energiaa ja 30 J ääntä. Oppilas väittää, että lämpöä syntyy 280 J. Onko kirjanpito oikein? Perustele laskulla.","vastaus":"ei; lämpöä 250 J (800 J − 520 J − 30 J)"},{"nro":14,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Hehkulamppu ottaa 150 W sähkötehoa ja tuottaa valoa 6 W teholla. LED-lamppu ottaa 15 W sähkötehoa ja tuottaa valoa 6 W teholla. Laske hehkulampun hyötysuhde prosentteina.","vastaus":"4 %"},{"nro":15,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laske tehtävän 14 LED-lampun hyötysuhde prosentteina.","vastaus":"40 %"},{"nro":16,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Kumpi tehtävän 14 lampuista on kestävämpi valinta? Perustele laskemillasi hyötysuhteilla. Kerro, miten valinta vaikuttaa tarvittavan sähkön tuotantoon ja minne lamppujen loppu energia menee.","vastaus":"Malliesimerkki: LED-lamppu, koska sen hyötysuhde 40 % on suurempi kuin hehkulampun 4 %. Lamput tuottavat yhtä paljon valoa, mutta LED-lamppu ottaa siihen 15 W eikä 150 W, joten sähköä tarvitsee tuottaa vähemmän ja energiavaroja säästyy. Loppu energia (144 W hehkulampussa, 9 W LED-lampussa) muuttuu lämmöksi, joka leviää huoneeseen."},{"nro":17,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Sähkömoottori ottaa 800 J sähköenergiaa ja antaa 560 J liike-energiaa. Laske moottorin hyötysuhde prosentteina.","vastaus":"70 %"},{"nro":18,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laitteen hyötysuhde on 70 %. Se ottaa 500 J energiaa. Kuinka paljon hyötyenergiaa siitä saadaan?","vastaus":"350 J"},{"nro":19,"ryhma":"hyotysuhde","tyyppi":"sanallinen","kysymys":"Selitä, miksi pölynimurin hyötysuhde on aina alle 100 %. Mitä tarkoittaisi, jos jonkin laitteen hyötysuhteeksi laskettaisiin yli 100 %?","vastaus":"Malliesimerkki: Laitteessa osa energiasta muuttuu aina muuksi kuin hyötyenergiaksi, yleensä lämmöksi (sähkövirta lämmittää johtimia, kitka lämmittää osia), joten hyötyenergia on pienempi kuin otettu energia. Yli 100 % tarkoittaisi, että laitteesta lähtisi enemmän energiaa kuin siihen tulee, eli energiaa syntyisi tyhjästä. Se on energian säilymisen periaatteen vastaista, joten laskussa tai väitteessä on virhe."},{"nro":20,"ryhma":"hyotysuhde","tyyppi":"lasku","kysymys":"Laite X ottaa 300 J ja antaa 240 J hyötyenergiaa. Laite Y ottaa 900 J ja antaa 630 J hyötyenergiaa. Kummalla laitteella on suurempi hyötysuhde? Perustele laskemalla.","vastaus":"X (80 % ja 70 %)"}]}]};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

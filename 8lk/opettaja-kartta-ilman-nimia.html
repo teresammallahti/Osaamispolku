@@ -1,0 +1,619 @@
+<title>Kartta ilman nimiä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA8-PUH-02","oppiaine":"ENA","vuosiluokka":8,"taitoalue":"PUH","jakso":"J2","taso":"ydin","otsikko":"Kartta ilman nimiä","kuvaus":"Osaan neuvoa ja kuvata englanniksi, kun kuulijalla on eri tiedot kuin minulla: varmistan, että hän ymmärsi, korjaan väärinkäsityksen ja selvitän oudon ilmauksen merkityksen.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T7"],"S":["S3"]},"eyebrow":"Englanti · 8. luokka","ikoni":"kartta","naytto":"Havainnointi (opettaja esittää englanninkielistä vierailijaa, joka ei osaa suomea): Minulla on keksityn kaupungin kartta, jossa on reitti ja kuusi nimettyä paikkaa. Opettajalla on sama kartta ilman reittiä ja nimiä. Neuvon opettajan reittiä pitkin kolmeen paikkaan ja kuvaan kaksi kartan kohdetta, joiden englanninkielistä nimeä ei ole opetettu (esim. suihkulähde, tuulimylly). Opettaja kertoo ääneen, missä hän on ja mihin hän kääntyy (esim. OK, so I turn left here, next to the bank?). Hän ymmärtää kaksi kertaa väärin (esim. kääntyy väärään suuntaan) ja käyttää kahta minulle tuntematonta ilmausta (esim. a roundabout, Is it past the lights?).","osaa_kun":"Opettaja löytää ohjeideni avulla vähintään kaksi paikkaa kolmesta. Varmistan vähintään kahdesti, että opettaja on oikeassa kohdassa (esim. Can you see the ...? Are you next to ...?). Huomaan molemmat väärinkäsitykset ja korjaan ne muotoilemalla ohjeen uudelleen, en vain toista sitä. Selvitän kummankin tuntemattoman ilmauksen merkityksen kysymällä ja varmistamalla oman tulkintani (esim. Sorry, what's a roundabout? So it's where the cars go round?). Kuvaan nimeämättömät kohteet relatiivilauseella (esim. It's a thing which ..., It's a place where ...). En vaihda suomeen.","teksti":[{"tyyppi":"johdanto","sisalto":"Keksityn Rivertonin kaupungin kesätapahtumassa englanninkielinen vierailija soittaa sinulle. Hänellä on kaupungin kartta, mutta hänen kartastaan puuttuvat nimet. Hän näkee kadut ja rakennukset, mutta ei tiedä, mikä rakennus on kirjasto. Sinulla on sama kartta nimineen ja reitteineen. Et voi osoittaa sormella, joten kaikki on sanottava. Seitsemännellä luokalla opit selittämään kiertäen, muotoilemaan uudelleen ja varmistamaan, että toinen ymmärsi. Nyt käytät näitä tilanteessa, jossa kuulijalla on eri tiedot kuin sinulla: neuvot reitin, seuraat, missä hän on, korjaat väärinkäsityksen, selvität oudon ilmauksen ja kuvaat kohteen relatiivilauseella, kun et tiedä sen nimeä."},{"tyyppi":"kappale","otsikko":"Kun toisella on eri tiedot","sisalto":"Tällaista tehtävää kutsutaan tietoaukkotehtäväksi: kummallakin on tietoa, jota toisella ei ole. Vierailija näkee saman kartan kuin sinä, mutta ilman nimiä. Siksi ohjeet, joissa on pelkkä nimi (Go to the library.), eivät auta häntä. Käytä sitä, minkä te molemmat näette: katujen järjestystä (the second street on the right), rakennusten kokoa ja paikkaa (the big building on the corner), joen, sillan ja junaradan. Sanat here ja there eivät kerro kuulijalle mitään, koska hän ei näe, mihin katsot."},{"tyyppi":"taulukko","otsikko":"Reittiohjeet","otsikkorivi":["Ilmaus","Merkitys","Esimerkki"],"rivit":[["go along …","kulje … pitkin","Go along Market Street."],["go straight on","jatka suoraan","Go straight on at the crossing."],["turn left / turn right","käänny vasemmalle / oikealle","Turn right into Park Road."],["take the first / second street on the left","käänny ensimmäiselle / toiselle kadulle vasemmalle","Take the second street on the right."],["go past …","kulje … ohi","Go past the school."],["go across …","ylitä","Go across the bridge."],["It's on your left / right.","Se on vasemmalla / oikealla puolellasi.","The library is on your left."],["next to / opposite / between … and …","vieressä / vastapäätä / … ja … välissä","The café is opposite the library."],["on the corner of … and …","… ja … kulmassa","It's on the corner of Market Street and Park Road."]]},{"tyyppi":"kuva","otsikko":"Esimerkkikartta: Riverton (keksitty)","svg":"<svg viewBox=\"0 0 560 340\" xmlns=\"http://www.w3.org/2000/svg\"><rect class=\"v-meri\" x=\"0\" y=\"10\" width=\"560\" height=\"34\"/><rect class=\"v-maa\" x=\"20\" y=\"110\" width=\"520\" height=\"20\"/><rect class=\"v-maa\" x=\"290\" y=\"44\" width=\"20\" height=\"286\"/><rect class=\"v-osa\" x=\"288\" y=\"10\" width=\"24\" height=\"34\"/><line class=\"v-akseli\" x1=\"150\" y1=\"44\" x2=\"150\" y2=\"330\"/><line class=\"v-akseli\" x1=\"145\" y1=\"44\" x2=\"155\" y2=\"44\"/><line class=\"v-akseli\" x1=\"145\" y1=\"56\" x2=\"155\" y2=\"56\"/><line class=\"v-akseli\" x1=\"145\" y1=\"68\" x2=\"155\" y2=\"68\"/><line class=\"v-akseli\" x1=\"145\" y1=\"80\" x2=\"155\" y2=\"80\"/><line class=\"v-akseli\" x1=\"145\" y1=\"92\" x2=\"155\" y2=\"92\"/><line class=\"v-akseli\" x1=\"145\" y1=\"104\" x2=\"155\" y2=\"104\"/><line class=\"v-akseli\" x1=\"145\" y1=\"116\" x2=\"155\" y2=\"116\"/><line class=\"v-akseli\" x1=\"145\" y1=\"128\" x2=\"155\" y2=\"128\"/><line class=\"v-akseli\" x1=\"145\" y1=\"140\" x2=\"155\" y2=\"140\"/><line class=\"v-akseli\" x1=\"145\" y1=\"152\" x2=\"155\" y2=\"152\"/><line class=\"v-akseli\" x1=\"145\" y1=\"164\" x2=\"155\" y2=\"164\"/><line class=\"v-akseli\" x1=\"145\" y1=\"176\" x2=\"155\" y2=\"176\"/><line class=\"v-akseli\" x1=\"145\" y1=\"188\" x2=\"155\" y2=\"188\"/><line class=\"v-akseli\" x1=\"145\" y1=\"200\" x2=\"155\" y2=\"200\"/><line class=\"v-akseli\" x1=\"145\" y1=\"212\" x2=\"155\" y2=\"212\"/><line class=\"v-akseli\" x1=\"145\" y1=\"224\" x2=\"155\" y2=\"224\"/><line class=\"v-akseli\" x1=\"145\" y1=\"236\" x2=\"155\" y2=\"236\"/><line class=\"v-akseli\" x1=\"145\" y1=\"248\" x2=\"155\" y2=\"248\"/><line class=\"v-akseli\" x1=\"145\" y1=\"260\" x2=\"155\" y2=\"260\"/><line class=\"v-akseli\" x1=\"145\" y1=\"272\" x2=\"155\" y2=\"272\"/><line class=\"v-akseli\" x1=\"145\" y1=\"284\" x2=\"155\" y2=\"284\"/><line class=\"v-akseli\" x1=\"145\" y1=\"296\" x2=\"155\" y2=\"296\"/><line class=\"v-akseli\" x1=\"145\" y1=\"308\" x2=\"155\" y2=\"308\"/><line class=\"v-akseli\" x1=\"145\" y1=\"320\" x2=\"155\" y2=\"320\"/><rect class=\"v-osa\" x=\"30\" y=\"140\" width=\"100\" height=\"60\" rx=\"3\"/><text class=\"v-t\" x=\"80.0\" y=\"174.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the station</text><rect class=\"v-osa\" x=\"30\" y=\"240\" width=\"100\" height=\"60\" rx=\"3\"/><text class=\"v-t\" x=\"80.0\" y=\"274.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the bank</text><rect class=\"v-osa\" x=\"170\" y=\"140\" width=\"110\" height=\"60\" rx=\"3\"/><text class=\"v-t\" x=\"225.0\" y=\"174.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the school</text><rect class=\"v-osa\" x=\"320\" y=\"60\" width=\"110\" height=\"44\" rx=\"3\"/><text class=\"v-t\" x=\"375.0\" y=\"86.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the café</text><rect class=\"v-osa v1\" x=\"320\" y=\"150\" width=\"120\" height=\"70\" rx=\"3\"/><text class=\"v-t\" x=\"380.0\" y=\"189.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the library</text><rect class=\"v-osa\" x=\"320\" y=\"250\" width=\"100\" height=\"60\" rx=\"3\"/><text class=\"v-t\" x=\"370.0\" y=\"284.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the park</text><polygon class=\"v-osa\" points=\"481,82 499,82 494,50 486,50\"/><rect class=\"v-osa\" x=\"481\" y=\"42\" width=\"18\" height=\"8\"/><path class=\"v-akseli\" fill=\"none\" d=\"M456,258 V248 A4,4 0 0 1 464,248 V258\"/><path class=\"v-akseli\" fill=\"none\" d=\"M466,258 V248 A4,4 0 0 1 474,248 V258\"/><path class=\"v-akseli\" fill=\"none\" d=\"M476,258 V248 A4,4 0 0 1 484,248 V258\"/><circle class=\"v-merkki\" cx=\"60\" cy=\"120\" r=\"6\"/><polyline class=\"v-hyppy\" stroke-dasharray=\"7 5\" points=\"60,120 300,120 300,185 318,185\"/><circle class=\"v-merkki\" cx=\"332\" cy=\"162\" r=\"9\"/><text x=\"332\" y=\"166\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"var(--surface)\">1</text><text class=\"v-t pieni\" x=\"500\" y=\"31.0\" text-anchor=\"middle\" style=\"font-size:11px\">River Ash</text><text class=\"v-t pieni\" x=\"470\" y=\"124\" text-anchor=\"middle\" style=\"font-size:10.5px\">Market Street</text><text class=\"v-t pieni\" x=\"304\" y=\"300\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 304 300)\">Park Road</text><text class=\"v-t pieni\" x=\"490\" y=\"96\" text-anchor=\"middle\" style=\"font-size:10.5px\">näköalatorni (?)</text><text class=\"v-t pieni\" x=\"470\" y=\"282\" text-anchor=\"middle\" style=\"font-size:10.5px\">pyöräteline (?)</text><text class=\"v-t pieni\" x=\"212\" y=\"104\" text-anchor=\"middle\" style=\"font-size:10.5px\">level crossing</text><text class=\"v-t vahva\" x=\"70\" y=\"108\" text-anchor=\"start\" style=\"font-size:11px\">You are here</text></svg>","teksti":"Sinun karttasi: reitti alkaa kohdasta You are here ja päättyy kirjastoon (1). Vierailijan kartassa on samat kadut, rakennukset, joki ja junarata, mutta ei nimiä eikä reittiä. Kahden kohteen englanninkielistä nimeä et tiedä, joten ne on merkitty suomeksi ja kysymysmerkillä."},{"tyyppi":"kappale","otsikko":"Varmista, missä toinen on","sisalto":"Kun neuvot, et näe, missä kuulija on. Siksi varmistat sen säännöllisesti, varsinkin ennen käännöstä ja määränpään lähellä: Can you see the bridge? Are you next to a big building? What can you see on your left? Tell me when you get to the railway. Kuuntele vastaus ja vertaa sitä omaan karttaasi. Jos vierailija sanoo I can see a small building on my right., katso, onko reitin oikealla puolella pieni rakennus. Varmistus on eri asia kuin seitsemännen luokan Does that make sense?: nyt varmistat paikan etkä vain sitä, että sanasi ymmärrettiin."},{"tyyppi":"kappale","otsikko":"Kun toinen ymmärtää väärin: korjaa ja muotoile uudelleen","sisalto":"Hyvä kuulija kertoo ääneen, mitä tekee: OK, so I turn left here? Se on tilaisuutesi huomata virhe ennen kuin hän on väärällä kadulla. Kun huomaat väärinkäsityksen, korjaa ensin lyhyesti: No, sorry, not left. Sen jälkeen anna ohje uudelleen eri keinolla, koska ensimmäinen ohje ei toiminut. Turn right. kovempaa sanottuna ei auta. Vaihda suunta maamerkkiin (Turn right, away from the river.), lukumäärään (Not the first street. Go past it and turn at the second one.) tai kuvaukseen (It's not the big building. It's the small one opposite it.). Varmista lopuksi, että korjaus toimi: Can you see the park now?"},{"tyyppi":"taulukko","otsikko":"Kolme tapaa muotoilla ohje uudelleen","otsikkorivi":["Ensimmäinen ohje","Muotoile uudelleen","Keino"],"rivit":[["Turn right.","Turn towards the park. / Turn so that the river is behind you.","suunta → maamerkki"],["Take the next street.","Not the first street. Go past it and turn at the second one.","järjestys → lukumäärä"],["It's near the café.","It's the big building on the corner, opposite the school.","paikka → kuvaus"]]},{"tyyppi":"kuva","otsikko":"Väärinkäsityksen korjaaminen","svg":"<svg viewBox=\"0 0 600 326\" xmlns=\"http://www.w3.org/2000/svg\"><rect class=\"v-osa\" x=\"10\" y=\"10\" width=\"170\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"10\" width=\"170\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"34\" style=\"font-size:13px\">1. Kuuntele, mitä</text><text class=\"v-t vahva\" x=\"22\" y=\"52\" style=\"font-size:13px\">toinen kertoo</text><line class=\"v-akseli\" x1=\"182\" y1=\"38\" x2=\"198\" y2=\"38\"/><polygon class=\"v-merkki\" points=\"200,38 192,33 192,43\"/><rect class=\"v-osa\" x=\"202\" y=\"10\" width=\"388\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"10\" width=\"388\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"43\" style=\"font-size:13px\">OK, so I turn left here?</text><line class=\"v-akseli\" x1=\"95\" y1=\"66\" x2=\"95\" y2=\"80\"/><polygon class=\"v-merkki\" points=\"95,82 90,74 100,74\"/><rect class=\"v-osa\" x=\"10\" y=\"82\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"82\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"105\" style=\"font-size:13px\">2. Vertaa karttaasi</text><line class=\"v-akseli\" x1=\"182\" y1=\"100\" x2=\"198\" y2=\"100\"/><polygon class=\"v-merkki\" points=\"200,100 192,95 192,105\"/><rect class=\"v-osa\" x=\"202\" y=\"82\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"82\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"105\" style=\"font-size:13px\">Hänen pitäisi kääntyä oikealle. Väärinkäsitys!</text><line class=\"v-akseli\" x1=\"95\" y1=\"118\" x2=\"95\" y2=\"132\"/><polygon class=\"v-merkki\" points=\"95,134 90,126 100,126\"/><rect class=\"v-osa v1\" x=\"10\" y=\"134\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"134\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"157\" style=\"font-size:13px\">3. Korjaa</text><line class=\"v-akseli\" x1=\"182\" y1=\"152\" x2=\"198\" y2=\"152\"/><polygon class=\"v-merkki\" points=\"200,152 192,147 192,157\"/><rect class=\"v-osa\" x=\"202\" y=\"134\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"134\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"157\" style=\"font-size:13px\">No, sorry, not left.</text><line class=\"v-akseli\" x1=\"95\" y1=\"170\" x2=\"95\" y2=\"184\"/><polygon class=\"v-merkki\" points=\"95,186 90,178 100,178\"/><rect class=\"v-osa v1\" x=\"10\" y=\"186\" width=\"170\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"186\" width=\"170\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"210\" style=\"font-size:13px\">4. Muotoile uudelleen</text><text class=\"v-t vahva\" x=\"22\" y=\"228\" style=\"font-size:13px\">eri keinolla</text><line class=\"v-akseli\" x1=\"182\" y1=\"214\" x2=\"198\" y2=\"214\"/><polygon class=\"v-merkki\" points=\"200,214 192,209 192,219\"/><rect class=\"v-osa\" x=\"202\" y=\"186\" width=\"388\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"186\" width=\"388\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"209\" style=\"font-size:13px\">Turn right, away from the river.</text><text class=\"v-t\" x=\"214\" y=\"229\" style=\"font-size:13px\">The park should be in front of you.</text><line class=\"v-akseli\" x1=\"95\" y1=\"242\" x2=\"95\" y2=\"256\"/><polygon class=\"v-merkki\" points=\"95,258 90,250 100,250\"/><rect class=\"v-osa v1\" x=\"10\" y=\"258\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"258\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"281\" style=\"font-size:13px\">5. Varmista</text><line class=\"v-akseli\" x1=\"182\" y1=\"276\" x2=\"198\" y2=\"276\"/><polygon class=\"v-merkki\" points=\"200,276 192,271 192,281\"/><rect class=\"v-osa\" x=\"202\" y=\"258\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"258\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"281\" style=\"font-size:13px\">Can you see a big building on your left?</text><text class=\"v-t pieni\" x=\"10\" y=\"316\" style=\"font-size:12px\">Korostetut vaiheet ovat sinun vuorosi. Saman ohjeen toisto ei ole korjaus.</text></svg>","teksti":"Rivertonin esimerkki: vierailija aikoo kääntyä vasemmalle, kohti jokea, vaikka reitti kääntyy oikealle."},{"tyyppi":"kappale","otsikko":"Kun et tunne toisen ilmausta","sisalto":"Vierailija voi käyttää sanaa, jota et tunne: Is it after the level crossing? Älä vastaa Yes ja toivo parasta. Kysy merkitystä toistamalla ilmaus: Sorry, what's a level crossing? What do you mean by level crossing? Kun hän selittää (It's a place where the road goes across the railway.), varmista oma tulkintasi omin sanoin: Oh, so it's where cars go over the train tracks? Vasta sitten vastaa: Yes, go across it. Tulkinnan varmistaminen on tärkeää, koska ilman sitä et tiedä, ymmärsitkö selityksen oikein."},{"tyyppi":"kappale","otsikko":"Kuvaa kohde relatiivilauseella","sisalto":"Kun et tiedä kohteen nimeä englanniksi, kerro, millainen se on ja mitä sillä tehdään. Relatiivilause on tähän paras väline: It's a tall tower which people climb to see the whole town. It's a metal thing that holds bikes. It's a place where you can leave your bike. Which ja that sopivat esineisiin ja rakennuksiin, who ihmisiin ja where paikkoihin. Lisää sijainti, jotta kuulija löytää kohteen kartalta: It's next to the café, near the river. Rivertonin kartan kohteet ovat näköalatorni (observation tower) ja pyöräteline (bike rack), mutta nimeä ei tarvita, kun kuvaus on tarkka."},{"tyyppi":"taulukko","otsikko":"Esimerkkikeskustelu (keksitty)","otsikkorivi":["Kuka","Mitä sanotaan","Mitä tapahtuu"],"rivit":[["Sinä","Go along this street, Market Street. Go across the railway and past the school.","ohje maamerkein"],["Vierailija","OK. Is it after the level crossing?","tuntematon ilmaus"],["Sinä","Sorry, what's a level crossing?","kysyy merkitystä"],["Vierailija","It's a place where the road goes across the railway.",""],["Sinä","Oh, so it's where cars go over the train tracks? Then yes, go across it.","varmistaa tulkinnan"],["Vierailija","OK, I'm past the school. So now I turn left?","väärinkäsitys"],["Sinä","No, sorry, not left. Turn right, away from the river.","korjaa ja muotoilee uudelleen"],["Vierailija","Right, away from the river. OK.",""],["Sinä","Can you see a big building on your left?","varmistaa paikan"],["Vierailija","Yes, there's a big building on the corner.",""],["Sinä","That's the library. And next to the café there's a tall tower which people climb to see the whole town.","kuvaa kohteen relatiivilauseella"]]},{"tyyppi":"saanto","otsikko":"Näin neuvot, kun kuulija ei näe samaa","askeleet":["Katso reitti omalta kartaltasi ja mieti, mitä vierailija näkee: kadut, joki, rata, rakennusten koko ja paikka.","Anna ohje maamerkein ja lukumäärin: Go along … Take the second street on the right. Go past …","Varmista ennen käännöstä ja perillä: Can you see …? Are you next to …?","Kuuntele, mitä vierailija sanoo tekevänsä, ja vertaa omaan karttaasi.","Jos hän ymmärsi väärin, korjaa (No, sorry, not …) ja anna ohje uudelleen eri keinolla.","Kun et tunne hänen ilmaustaan, kysy (Sorry, what's …?) ja varmista tulkintasi (So it's …?).","Kun et tiedä kohteen nimeä, kuvaa se relatiivilauseella: It's a thing which … It's a place where …","Pysy englannissa. Vierailija ei osaa suomea."]},{"tyyppi":"ansa","otsikko":"Ansa 1: turn to left","sisalto":"Suomen kääntyä vasemmalle houkuttelee sanomaan turn to left. Käännöksessä left ja right ovat tavallisesti ilman prepositiota: Turn left. Turn right. Turn to the left on myös oikein, kun mukana on artikkeli the, mutta lyhyt turn left on tavallisin. Kun kerrot, missä jokin on, tarvitaan on: It's on the left. It's on your right. Muista ero: turn left kertoo liikkeen, on the left kertoo paikan."},{"tyyppi":"ansa","otsikko":"Ansa 2: sinun vasen vai hänen vasen","sisalto":"Kun katsot karttaa, ylös on usein pohjoinen. Kartalla alaspäin kävelevän vierailijan oikea käsi on kuitenkin kartan vasemmalla puolella. Jos sanot suunnan oman katseesi mukaan, ohje voi olla väärä, vaikka sanat ovat oikein. Kuvittele itsesi kävelemään reittiä ja käänny kartan kanssa samaan suuntaan. Vielä varmempaa on käyttää maamerkkiä: Turn towards the river."},{"tyyppi":"ansa","otsikko":"Ansa 3: in front of ja opposite","sisalto":"Suomen edessä ja vastapäätä menevät helposti sekaisin. In front of the library tarkoittaa kirjaston edessä, samalla puolella katua. Opposite the library tarkoittaa kirjaston vastapäätä, kadun toisella puolella. Kartalla ero on yksi katu, ja juuri se voi viedä vierailijan väärään rakennukseen."},{"tyyppi":"ansa","otsikko":"Ansa 4: a thing where ja a tower which people climb it","sisalto":"Where sopii paikkaan: a place where you leave your bike. Esineestä tai rakennuksesta käytetään which tai that: a metal thing that holds bikes. Toinen virhe on ylimääräinen pronomini: a tower which people climb it. Relatiivipronomini korvaa sanan it, joten oikein on a tower which people climb. Pyöräteline on esine, joten a thing where you leave your bike on huonompi kuin a thing that holds bikes."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Käytä sitä, minkä kumpikin näkee: kadut, joki, rata, rakennusten koko ja paikka. Ei here eikä there.","Varmista paikka: Can you see …? Are you next to …?","Väärinkäsitys: korjaa (No, sorry, not …) ja muotoile uudelleen eri keinolla, älä toista.","Outo ilmaus: Sorry, what's …? Varmista tulkinta: So it's …?","Nimetön kohde: It's a thing which … It's a place where … Lisää sijainti.","Turn left, ei turn to left. On your left kertoo paikan.","Opposite = kadun toisella puolella, in front of = edessä."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Ohjeissa on pelkkiä nimiä, joita vierailijan kartalla ei ole (Go to the bank.), tai here ja there. Suunnat ovat oppilaan oman katseen mukaan eivätkä kulkijan, joten opettaja löytää vain yhden paikan tai ei yhtään.","tehtava":"Reitin neuvominen kolmeen paikkaan","mita_kertoo":"Oppilas osaa reittisanaston, mutta ei vielä ota huomioon, että kuulijalla on eri tiedot. Kriteeri täyttyy, kun opettaja löytää ohjeiden avulla vähintään kaksi paikkaa kolmesta; korjausten jälkeen löydetty paikka lasketaan löydetyksi.","mita_tehda":"Harjoittele kahdella kartalla pulpetit vastakkain: neuvottava kertoo ääneen, mitä näkee. Kysy jälkikäteen: Mitä vierailija näki kartallaan? Kertaa Ansa 2 kääntämällä kartta kulkusuuntaan."},{"virhe":"Antaa koko reitin yhdellä kertaa eikä varmista välillä, missä opettaja on, tai varmistaa vain kysymällä OK?","tehtava":"Sijainnin varmistaminen","mita_kertoo":"Oppilas neuvoo kuin lukisi ohjetta eikä seuraa kuulijan etenemistä. Kriteeri vaatii vähintään kaksi varmistusta, jotka kysyvät paikkaa (Can you see the …? Are you next to …? What can you see on your left?). Pelkkä OK? tai Do you understand? ei ole paikan varmistus.","mita_tehda":"Harjoittele vaiheittain: oppilas antaa yhden ohjeen kerrallaan ja kysyy jokaisen jälkeen yhden paikkakysymyksen. Kerää harjoittelussa kolme varmistuskysymystä oppilaan omaan muistiin."},{"virhe":"Ei huomaa väärinkäsitystä (vastaa opettajan väärään tulkintaan Yes) tai huomaa sen, mutta toistaa saman ohjeen (No, turn right. Turn RIGHT.).","tehtava":"Kaksi väärinkäsitystä","mita_kertoo":"Oppilas ei vielä kuuntele, mitä kuulija kertoo tekevänsä, tai pitää ongelmaa kuulemisena eikä ohjeena. Kriteeri vaatii, että oppilas huomaa molemmat väärinkäsitykset ja korjaa kummankin muotoilemalla ohjeen uudelleen: maamerkki, lukumäärä, kuvaus tai eri sanat. Pelkkä No, sorry, not left. ja sama suunta uudelleen ei riitä.","mita_tehda":"Harjoittele Rivertonin esimerkillä: opettaja tekee tahallaan väärän tulkinnan, ja oppilas antaa saman ohjeen kolmella eri keinolla (maamerkki, lukumäärä, kuvaus)."},{"virhe":"Ohittaa tuntemattoman ilmauksen (vastaa Yes tai OK) tai kysyy merkitystä mutta ei varmista omaa tulkintaansa.","tehtava":"Kaksi tuntematonta ilmausta","mita_kertoo":"Oppilas ei vielä uskalla myöntää, ettei ymmärrä, tai ei tiedä, että merkitysneuvottelu jatkuu selityksen jälkeen. Kriteeri vaatii kummankin ilmauksen kohdalla kysymyksen (Sorry, what's …? What do you mean by …?) ja tulkinnan varmistuksen omin sanoin (So it's …? So you mean …?). Jos oppilas tuntee ilmauksen, hän osoittaa sen käyttämällä ilmausta oikein ohjeessaan; silloin opettaja käyttää varailmausta.","mita_tehda":"Kertaa ENA7-PUH-02:n merkitysneuvottelu. Harjoittele parin kanssa sanakorteilla: toinen käyttää vierasta liikennesanaa (a bus lane, a car park), ja toinen kysyy ja varmistaa So it's …? -lauseella."},{"virhe":"Kuvaa nimeämättömän kohteen yhdellä sanalla tai adjektiivilla (It's big. Water thing.), sanoo suomenkielisen nimen tai kuvaus ei auta löytämään kohdetta kartalta.","tehtava":"Kaksi nimeämätöntä kohdetta","mita_kertoo":"Oppilas ei vielä käytä relatiivilausetta kuvaamisen välineenä. Kriteeri vaatii kummastakin kohteesta relatiivilauseen (It's a thing which …, It's a place where …, It's a building that …) ja kuvauksen, jonka avulla opettaja tunnistaa kohteen. Relatiivipronominin virhe (a thing where) ei kaada kriteeriä, kun lause on ymmärrettävä.","mita_tehda":"Kertaa ENA8-SAN-02:n relatiivipronominit. Harjoitus: oppilas kuvaa viisi kaupungin kohdetta tunnistamatta niitä nimeltä (Mikä se on, mitä sillä tehdään, missä se on)."},{"virhe":"Vaihtaa suomeen, kun sana puuttuu tai tilanne yllättää (Siis se on se pyöreä juttu…), tai sanoo suomenkielisen paikannimen.","tehtava":"Koko keskustelu","mita_kertoo":"Oppilaalla on sanottavaa, mutta kiertämisen keinot eivät ole vielä käytössä paineen alla. Vierailija ei osaa suomea, joten suomenkielinen lause ei välitä viestiä. Yksittäinen suomenkielinen sana englanninkielisessä lauseessa ei kaada kriteeriä; suomenkielinen lause kaataa.","mita_tehda":"Kertaa kiertämisen keinot (It's a kind of …, It looks like …). Harjoittele niin, että oppilas saa sanoa yhden kerran Wait, let me think. ja jatkaa englanniksi."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Näyttö tehdään opettajan kanssa yksi oppilas kerrallaan jakson J2 aikana. Opettaja esittää englanninkielistä vierailijaa, joka ei osaa suomea. Läpäisy ei riipu toisesta oppilaasta. Opettaja ja oppilas istuvat niin, ettei kumpikaan näe toisen karttaa (esim. pulpetit vastakkain ja kansio välissä). Valmiita lauseita ei ole esillä. Aikaa ei mitata, eikä kirjata, montako ohjetta reittiin tarvittiin.","Oppilaan kortti A (englanniksi): You are at Start, in front of the station in Elmford (invented). A visitor who doesn't speak Finnish has the same map, but without names and without the route. Guide the visitor along the route to 1 the library, 2 the bank and 3 the museum. Then describe the two things marked (?) so that the visitor can find them on the map. You must not show your map.<br><svg viewBox=\"0 0 560 380\" xmlns=\"http://www.w3.org/2000/svg\" width=\"560\" style=\"max-width:100%;color:inherit;font-family:sans-serif\" role=\"img\" aria-label=\"Kartta A oppilaalle: Elmford, reitti kolmeen paikkaan\"><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"100\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"260\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"140\" y=\"20\" width=\"20\" height=\"340\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"320\" y=\"110\" width=\"20\" height=\"250\"/><circle fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" cx=\"330\" cy=\"270\" r=\"24\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"330\" cy=\"270\" r=\"10\"/><rect stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x=\"162\" y=\"279\" width=\"8\" height=\"22\" rx=\"2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"284\" r=\"2.2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"290\" r=\"2.2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"296\" r=\"2.2\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"40\" width=\"100\" height=\"52\" rx=\"3\"/><text fill=\"currentColor\" x=\"80.0\" y=\"70.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the station</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"40\" width=\"140\" height=\"52\" rx=\"3\"/><text fill=\"currentColor\" x=\"240.0\" y=\"70.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the museum</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"350\" y=\"135\" width=\"100\" height=\"60\" rx=\"3\"/><text fill=\"currentColor\" x=\"400.0\" y=\"169.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the library</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"40\" y=\"150\" width=\"90\" height=\"60\" rx=\"3\"/><text fill=\"currentColor\" x=\"85.0\" y=\"184.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the bank</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"150\" width=\"140\" height=\"90\" rx=\"3\"/><text fill=\"currentColor\" x=\"240.0\" y=\"199.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the café</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"360\" y=\"295\" width=\"110\" height=\"55\" rx=\"3\"/><text fill=\"currentColor\" x=\"415.0\" y=\"326.5\" text-anchor=\"middle\" style=\"font-size:11.5px\">the sports hall</text><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"80\" cy=\"320\" r=\"13\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"80\" cy=\"320\" r=\"5\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"72\" y2=\"304\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"80\" y2=\"301\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"88\" y2=\"304\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"472,66 488,66 485,48 475,48\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"466\" y2=\"32\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"494\" y2=\"32\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"466\" y2=\"56\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"494\" y2=\"56\"/><circle fill=\"currentColor\" cx=\"60\" cy=\"110\" r=\"6\"/><polyline fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-dasharray=\"7 5\" points=\"60,110 330,110 330,270 150,270 150,110 150,66 168,66\"/><circle fill=\"currentColor\" cx=\"362\" cy=\"147\" r=\"9\"/><text x=\"362\" y=\"151\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">1</text><circle fill=\"currentColor\" cx=\"120\" cy=\"162\" r=\"9\"/><text x=\"120\" y=\"166\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">2</text><circle fill=\"currentColor\" cx=\"182\" cy=\"52\" r=\"9\"/><text x=\"182\" y=\"56\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">3</text><text fill=\"currentColor\" x=\"480\" y=\"114\" text-anchor=\"middle\" style=\"font-size:10.5px\">Station Road</text><text fill=\"currentColor\" x=\"480\" y=\"274\" text-anchor=\"middle\" style=\"font-size:10.5px\">Hill Street</text><text fill=\"currentColor\" x=\"154\" y=\"335\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 154 335)\">Mill Lane</text><text fill=\"currentColor\" x=\"334\" y=\"330\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 334 330)\">Oak Avenue</text><text fill=\"currentColor\" x=\"80\" y=\"352\" text-anchor=\"middle\" style=\"font-size:10.5px\">suihkulähde (?)</text><text fill=\"currentColor\" x=\"480\" y=\"82\" text-anchor=\"middle\" style=\"font-size:10.5px\">tuulimylly (?)</text><text fill=\"currentColor\" font-weight=\"700\" x=\"70\" y=\"98\" text-anchor=\"start\" style=\"font-size:11px\">Start</text></svg>","Opettajan kartta A (ilman nimiä ja reittiä):<br><svg viewBox=\"0 0 560 380\" xmlns=\"http://www.w3.org/2000/svg\" width=\"560\" style=\"max-width:100%;color:inherit;font-family:sans-serif\" role=\"img\" aria-label=\"Kartta A opettajalle ilman nimiä\"><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"100\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"260\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"140\" y=\"20\" width=\"20\" height=\"340\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"320\" y=\"110\" width=\"20\" height=\"250\"/><circle fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" cx=\"330\" cy=\"270\" r=\"24\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"330\" cy=\"270\" r=\"10\"/><rect stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x=\"162\" y=\"279\" width=\"8\" height=\"22\" rx=\"2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"284\" r=\"2.2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"290\" r=\"2.2\"/><circle fill=\"currentColor\" cx=\"166\" cy=\"296\" r=\"2.2\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"40\" width=\"100\" height=\"52\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"40\" width=\"140\" height=\"52\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"350\" y=\"135\" width=\"100\" height=\"60\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"40\" y=\"150\" width=\"90\" height=\"60\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"150\" width=\"140\" height=\"90\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"360\" y=\"295\" width=\"110\" height=\"55\" rx=\"3\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"80\" cy=\"320\" r=\"13\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"80\" cy=\"320\" r=\"5\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"72\" y2=\"304\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"80\" y2=\"301\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"80\" y1=\"315\" x2=\"88\" y2=\"304\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"472,66 488,66 485,48 475,48\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"466\" y2=\"32\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"494\" y2=\"32\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"466\" y2=\"56\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"480\" y1=\"46\" x2=\"494\" y2=\"56\"/><circle fill=\"currentColor\" cx=\"60\" cy=\"110\" r=\"6\"/></svg>","Reitti A (oppilaan kartan mukaan): Start → Station Road itään Mill Lanen risteyksen ohi → oikealle toiselle kadulle, Oak Avenuelle → kirjasto heti vasemmalla. Kirjastolta Oak Avenueta etelään liikenneympyrään → oikealle Hill Streetille → liikennevaloihin Mill Lanen risteykseen → oikealle Mill Lanelle → pankki vasemmalla, kahvilan vastapäätä. Pankilta Mill Lanea pohjoiseen Station Roadin yli → museo oikealla, aseman vastapäätä. Nimeämättömät kohteet: suihkulähde (fountain) vasemmassa alakulmassa Hill Streetin eteläpuolella ja tuulimylly (windmill) oikeassa yläkulmassa Station Roadin pohjoispuolella.","Opettajan käsikirjoitus A (vierailija kertoo ääneen, mitä tekee, ja seuraa ohjetta kirjaimellisesti; jos ohje on monitulkintainen, hän valitsee yhden tulkinnan ja sanoo sen ääneen): 1) Aloitus: Hi! I'm next to a building, at the dot. Where do I go? 2) Väärinkäsitys 1 matkalla kirjastoon: käänny ensimmäiseen risteykseen: OK, I turn right here, at the first street. There's a big building on my left. (Oikea korjaus: toinen katu, esim. Not the first street, go past it. / Turn after the building with the long side on Station Road.) 3) Ilmaus 1 kirjaston jälkeen: Is the bank past the roundabout? Kun oppilas kysyy: It's a place where roads meet and the cars drive round in a circle. 4) Ilmaus 2 Hill Streetillä: Do I turn at the lights? Kun oppilas kysyy: Traffic lights. Red, yellow and green lights for cars. 5) Väärinkäsitys 2 Mill Lanella: So the bank is this big building on my right? (Oikea korjaus: pankki on vasemmalla, pieni rakennus, kadun toisella puolella kuin iso rakennus.) 6) Museo: seuraa ohjetta. 7) Nimeämättömät kohteet: kun oppilas kuvaa kohteen, sano, minkä kohdan kartalta tunnistat (Oh, the round thing near the bottom corner?). Jos kuvauksessa ei ole paikkaa, saat kysyä kerran Where is it?","Oppilaan kortti B uusintaan: You are at Start, in front of the school in Brookside (invented). Guide the visitor along the route to 1 the cinema, 2 the post office and 3 the swimming pool. Then describe the two things marked (?) so that the visitor can find them on the map. You must not show your map.<br><svg viewBox=\"0 0 560 380\" xmlns=\"http://www.w3.org/2000/svg\" width=\"560\" style=\"max-width:100%;color:inherit;font-family:sans-serif\" role=\"img\" aria-label=\"Kartta B oppilaalle: Brookside, reitti kolmeen paikkaan\"><rect fill=\"currentColor\" fill-opacity=\"0.3\" stroke=\"none\" x=\"0\" y=\"20\" width=\"560\" height=\"36\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"100\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"260\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"140\" y=\"110\" width=\"20\" height=\"260\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"320\" y=\"0\" width=\"20\" height=\"370\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"318\" y=\"20\" width=\"24\" height=\"36\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"460\" y=\"270\" width=\"20\" height=\"82\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"458\" y1=\"352\" x2=\"482\" y2=\"352\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"230\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"235\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"240\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"245\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"250\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"290\" width=\"100\" height=\"55\" rx=\"3\"/><text fill=\"currentColor\" x=\"80.0\" y=\"321.5\" text-anchor=\"middle\" style=\"font-size:11.5px\">the school</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"165\" y=\"125\" width=\"145\" height=\"60\" rx=\"3\"/><text fill=\"currentColor\" x=\"237.5\" y=\"159.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the post office</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"62\" width=\"140\" height=\"36\" rx=\"3\"/><text fill=\"currentColor\" x=\"240.0\" y=\"84.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the police station</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"350\" y=\"140\" width=\"100\" height=\"100\" rx=\"3\"/><text fill=\"currentColor\" x=\"400.0\" y=\"194.0\" text-anchor=\"middle\" style=\"font-size:11.5px\">the cinema</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"140\" width=\"100\" height=\"100\" rx=\"3\"/><text fill=\"currentColor\" x=\"80.0\" y=\"187.5\" text-anchor=\"middle\" style=\"font-size:11.5px\">the swimming</text><text fill=\"currentColor\" x=\"80.0\" y=\"200.5\" text-anchor=\"middle\" style=\"font-size:11.5px\">pool</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"290\" width=\"140\" height=\"55\" rx=\"3\"/><text fill=\"currentColor\" x=\"240.0\" y=\"321.5\" text-anchor=\"middle\" style=\"font-size:11.5px\">the supermarket</text><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"491\" y=\"156\" width=\"18\" height=\"32\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"489,156 511,156 500,144\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"500\" cy=\"166\" r=\"6\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"500\" y1=\"166\" x2=\"500\" y2=\"162\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"500\" y1=\"166\" x2=\"503\" y2=\"166\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"502,347 538,347 538,331 520,321 502,331\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"511\" y1=\"347\" x2=\"511\" y2=\"331\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"520\" y1=\"347\" x2=\"520\" y2=\"321\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"529\" y1=\"347\" x2=\"529\" y2=\"331\"/><circle fill=\"currentColor\" cx=\"85\" cy=\"270\" r=\"6\"/><polyline fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-dasharray=\"7 5\" points=\"85,270 330,270 330,110 150,110 150,190 132,190\"/><circle fill=\"currentColor\" cx=\"362\" cy=\"152\" r=\"9\"/><text x=\"362\" y=\"156\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">1</text><circle fill=\"currentColor\" cx=\"298\" cy=\"137\" r=\"9\"/><text x=\"298\" y=\"141\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">2</text><circle fill=\"currentColor\" cx=\"118\" cy=\"152\" r=\"9\"/><text x=\"118\" y=\"156\" text-anchor=\"middle\" style=\"font-size:11px;font-weight:700\" fill=\"white\">3</text><text fill=\"currentColor\" x=\"500\" y=\"42.0\" text-anchor=\"middle\" style=\"font-size:11px\">River Brook</text><text fill=\"currentColor\" x=\"490\" y=\"114\" text-anchor=\"middle\" style=\"font-size:10.5px\">Mill Lane</text><text fill=\"currentColor\" x=\"490\" y=\"274\" text-anchor=\"middle\" style=\"font-size:10.5px\">Church Road</text><text fill=\"currentColor\" x=\"154\" y=\"340\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 154 340)\">Elm Street</text><text fill=\"currentColor\" x=\"334\" y=\"340\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 334 340)\">Bridge Street</text><text fill=\"currentColor\" x=\"474\" y=\"315\" text-anchor=\"middle\" style=\"font-size:10.5px\" transform=\"rotate(-90 474 315)\">Pond Close</text><text fill=\"currentColor\" x=\"500\" y=\"202\" text-anchor=\"middle\" style=\"font-size:10.5px\">kellotorni (?)</text><text fill=\"currentColor\" x=\"520\" y=\"367\" text-anchor=\"middle\" style=\"font-size:10.5px\">kasvihuone (?)</text><text fill=\"currentColor\" font-weight=\"700\" x=\"95\" y=\"258\" text-anchor=\"start\" style=\"font-size:11px\">Start</text></svg>","Opettajan kartta B (ilman nimiä ja reittiä):<br><svg viewBox=\"0 0 560 380\" xmlns=\"http://www.w3.org/2000/svg\" width=\"560\" style=\"max-width:100%;color:inherit;font-family:sans-serif\" role=\"img\" aria-label=\"Kartta B opettajalle ilman nimiä\"><rect fill=\"currentColor\" fill-opacity=\"0.3\" stroke=\"none\" x=\"0\" y=\"20\" width=\"560\" height=\"36\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"100\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"20\" y=\"260\" width=\"520\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"140\" y=\"110\" width=\"20\" height=\"260\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"320\" y=\"0\" width=\"20\" height=\"370\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"318\" y=\"20\" width=\"24\" height=\"36\"/><rect fill=\"currentColor\" fill-opacity=\"0.13\" stroke=\"none\" x=\"460\" y=\"270\" width=\"20\" height=\"82\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"458\" y1=\"352\" x2=\"482\" y2=\"352\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"230\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"235\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"240\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"245\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"currentColor\" fill-opacity=\"0.08\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"250\" y=\"260\" width=\"3\" height=\"20\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"290\" width=\"100\" height=\"55\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"165\" y=\"125\" width=\"145\" height=\"60\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"62\" width=\"140\" height=\"36\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"350\" y=\"140\" width=\"100\" height=\"100\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"30\" y=\"140\" width=\"100\" height=\"100\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"170\" y=\"290\" width=\"140\" height=\"55\" rx=\"3\"/><rect fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" x=\"491\" y=\"156\" width=\"18\" height=\"32\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"489,156 511,156 500,144\"/><circle fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" cx=\"500\" cy=\"166\" r=\"6\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"500\" y1=\"166\" x2=\"500\" y2=\"162\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"500\" y1=\"166\" x2=\"503\" y2=\"166\"/><polygon fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" points=\"502,347 538,347 538,331 520,321 502,331\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"511\" y1=\"347\" x2=\"511\" y2=\"331\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"520\" y1=\"347\" x2=\"520\" y2=\"321\"/><line stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" x1=\"529\" y1=\"347\" x2=\"529\" y2=\"331\"/><circle fill=\"currentColor\" cx=\"85\" cy=\"270\" r=\"6\"/></svg>","Reitti B: Start → Church Road itään suojatien ohi → vasemmalle Bridge Streetille, kohti jokea → elokuvateatteri oikealla. Elokuvateatterilta Bridge Streetiä Mill Lanelle → vasemmalle Mill Lanelle → posti vasemmalla, poliisiaseman vastapäätä. Postilta Mill Lanea Elm Streetille → vasemmalle Elm Streetille → uimahalli oikealla. Nimeämättömät kohteet: kellotorni (clock tower) elokuvateatterin itäpuolella ja kasvihuone (greenhouse) umpikujan Pond Closen päässä oikeassa alakulmassa. Käsikirjoitus B: 1) Aloitus kuten A. 2) Ilmaus 1 Church Roadilla: Is it after the zebra crossing? Selitys: It's a place where people walk across the road. It has black and white stripes. 3) Väärinkäsitys 1 Bridge Streetillä: OK, I turn right here. There's a big shop on my right. (Oikea korjaus: toiseen suuntaan, kohti jokea.) 4) Ilmaus 2 Mill Lanen risteyksessä: Is Mill Lane a dead end? Selitys: A dead end is a street that is closed at one end. You can't go through it. 5) Väärinkäsitys 2 Mill Lanella: So the post office is the building on my right, next to the river? (Oikea korjaus: vasemmalla, joen puoleista rakennusta vastapäätä.) 6) Uimahalli: seuraa ohjetta. 7) Kohteet kuten A.","Varailmaukset, jos oppilas tuntee ilmauksen ja käyttää sitä itse oikein ohjeessaan: A: a pedestrian crossing (selitys: a place where people walk across the road) ja a crossroads (a place where two roads cross); B: the lights ja a junction (a place where roads meet). Opettaja käyttää varailmausta seuraavassa sopivassa kohdassa.","Mikä lasketaan: opettaja löytää vähintään kaksi paikkaa kolmesta ohjeiden ja korjausten avulla. Varmistuksia vähintään kaksi, ja ne kysyvät paikkaa (Can you see …? Are you next to …?). Molemmat väärinkäsitykset huomataan ja korjataan muotoilemalla uudelleen (maamerkki, lukumäärä, kuvaus tai eri sanat); saman suunnan toisto ei riitä. Kummankin tuntemattoman ilmauksen kohdalla kysymys ja tulkinnan varmistus omin sanoin. Kumpikin nimeämätön kohde kuvataan relatiivilauseella niin, että opettaja tunnistaa sen; nimeä (fountain, windmill) ei vaadita, ja jos oppilas tietää nimen, hän kuvaa kohteen silti relatiivilauseella. Keskustelu pysyy englanninkielisenä.","Kielioppivirheitä (turn to left, a thing where) ja ääntämistä ei arvioida, kun viesti on ymmärrettävä; ne kirjataan harjoiteltaviksi. Kartat ovat keksittyjä kaavioita; kaupungin nimiä tai paikkoja ei tarvitse tuntea. Oppilaan kotiseutua tai koulumatkaa ei käytetä tehtävässä. Oppilaan sivun Riverton-kartta ja tuntirungon harjoituskartta eivät ole näyttökarttoja.","Ero aiempiin ja seuraaviin: ENA7-PUH-02:ssa oppilas selitti kiertäen, muotoili uudelleen, kun kuulija ei ymmärtänyt, ja kysyi oudon ilmauksen merkitystä. Uutta ovat tietoaukkotilanne, kuulijan etenemisen seuraaminen ja paikan varmistaminen, väärinkäsityksen oma-aloitteinen huomaaminen ja korjaaminen sekä relatiivilauseet (ENA8-SAN-02) kuvaamisessa. Hiljaisemman kumppanin tukeminen ja rakentavan toiminnan vertailu kuuluvat ENA9-PUH-02:een.","Tarkistettavat ilmaukset (kirjattu lokiin): level crossing, roundabout, zebra crossing, pedestrian crossing, dead end ja junction brittienglannin mukaisina; Turn right into Park Road."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Vierailija näkee saman kartan ilman nimiä. Käytä sitä, minkä te molemmat näette, varmista, missä hän on, ja korjaa väärinkäsitys sanomalla ohje toisin. Kun et tiedä nimeä, kuvaa relatiivilauseella.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: Aloitus","sisalto":"Näytä Rivertonin kartta ilman nimiä. Lue ohje Go to the library. Kysy suomeksi, miksi ohje ei auta vierailijaa."},{"aika":"15 min","otsikko":"Tunti 1: Reittiohjeet","sisalto":"Reittitaulukko ja Ansat 1–3. Mallinna Rivertonin reitti kahdella tavalla: nimillä ja maamerkeillä. Oppilaat merkitsevät, kumpi toimii vierailijalle."},{"aika":"20 min","otsikko":"Tunti 1: Pariharjoitus","sisalto":"Harjoituskartta (eri kuin näyttökartat): opettajan piirtämä tai tulostama yksinkertainen keksitty kaupunki, kaksi versiota (nimillä ja reitillä / ilman). Pulpetit vastakkain, kansio välissä. Toinen neuvoo yhteen paikkaan ja varmistaa paikan kahdesti, toinen kertoo ääneen, mitä tekee. Vaihtakaa."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Kerätkää yhteen hyviä paikan varmistuksia (Can you see …? Are you next to …?)."},{"aika":"5 min","otsikko":"Tunti 2: Aloitus","sisalto":"Lue esimerkkikeskustelu vapaaehtoisen kanssa. Oppilaat nimeävät kohdat, joissa vierailija ymmärsi väärin ja joissa hän käytti outoa ilmausta."},{"aika":"15 min","otsikko":"Tunti 2: Korjaus ja merkitysneuvottelu","sisalto":"Kuva väärinkäsityksen korjaamisesta ja uudelleenmuotoilun taulukko. Sano tahallisia väärinkäsityksiä, ja vapaaehtoiset korjaavat ne eri keinolla. Harjoitelkaa outoja ilmauksia (a bus lane, a car park): kysy ja varmista So it's …?"},{"aika":"10 min","otsikko":"Tunti 2: Relatiivilauseet","sisalto":"Ansa 4. Parit kuvaavat harjoituskartan kaksi kohdetta, joiden nimeä he eivät tiedä, relatiivilauseella. Toinen etsii kohteen kartaltaan."},{"aika":"10 min","otsikko":"Tunti 2: Koko tehtävä pareittain","sisalto":"Parit tekevät koko harjoitusreitin: kuuntelija tekee yhden tahallisen väärinkäsityksen ja käyttää yhtä outoa ilmausta. Näytöt tehdään opettajan kanssa yksi oppilas kerrallaan jakson J2 aikana."}],"tarvikkeet":"Harjoituskartta kahtena versiona pareille ja kansio näkösuojaksi. Näyttöä varten kartat A ja B oppilaalle ja opettajalle (huomioissa, tulostettavissa) sekä opettajan käsikirjoitus."},"huoltajalle":{"mista_on_kyse":"Nuori harjoittelee neuvomaan englanniksi tilanteessa, jossa kuulijalla on eri tiedot: hänellä on kartta nimineen, kuulijalla ilman nimiä. Hän varmistaa, missä kuulija on (Can you see …?), korjaa väärinkäsityksen sanomalla ohjeen toisin, kysyy oudon sanan merkitystä (Sorry, what's …?) ja kuvaa kohteen, jonka nimeä ei tiedä (It's a thing which …). Kartat ovat keksittyjä.","kotona":["Piirtäkää yhdessä yksinkertainen keksitty kaupunki kahdesti: toiseen nimet, toiseen ei. Nuori neuvoo teidät englanniksi yhteen paikkaan, ettekä näe hänen karttaansa.","Ymmärtäkää kerran tahallaan väärin (OK, so I turn left?). Nuori harjoittelee korjaamaan ja sanomaan ohjeen toisin.","Pyytäkää nuorta kuvaamaan jokin esine, jonka nimeä hän ei tiedä englanniksi, lauseella It's a thing which …","Kysykää jonkin englanninkielisen sanan merkitystä niin, että nuori selittää ja te varmistatte: So it's …?"],"milloin_huolestua":"Jos nuori ei suomeksikaan pysty neuvomaan reittiä kartalta tai hahmottamaan oikeaa ja vasenta kulkijan näkökulmasta, kertokaa siitä opettajalle. Silloin harjoiteltavaa voi olla kartan lukemisessa tai suuntien hahmottamisessa eikä englannin kielessä."},"ulkoiset":{},"valmis_teksti":"Osaat neuvoa englanniksi, vaikka kuulijalla on eri tiedot kuin sinulla: varmistat, missä hän on, korjaat väärinkäsityksen ja selvität oudon ilmauksen. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

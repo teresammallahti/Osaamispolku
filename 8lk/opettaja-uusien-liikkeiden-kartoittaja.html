@@ -1,0 +1,619 @@
+<title>Uusien liikkeiden kartoittaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"UE8-MAA-05","oppiaine":"UE","vuosiluokka":8,"taitoalue":"MAA","jakso":"J4","taso":"ydin","otsikko":"Uusien liikkeiden kartoittaja","kuvaus":"Osaan kertoa, mitä uudet uskonnolliset liikkeet ovat, tunnistaa niitä ja kuvailla niiden piirteitä sekä niihin kohdistuvaa kritiikkiä asiallisesti.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T3"],"S":["S2"]},"eyebrow":"Uskonto (ev.lut.) · 8. luokka","ikoni":"kartta","naytto":"Paperikoe: 1) Selitän, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. 2) Saan kuuden liikkeen lyhyet kuvaukset (esim. Jehovan todistajat, Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko, Krishna-liike, new age -henkisyys, suomalainen uuspakanuus, buddhalaisuuteen pohjautuva länsimainen meditaatioliike) ja ryhmittelen ne taustan mukaan: kristillinen tausta, itämainen tausta, muinaisuskoon pohjautuva tai yksilöllinen henkisyys. 3) Kerron, miksi tutkijat käyttävät neutraalia ilmausta 'uusi uskonnollinen liike' eivätkä sanoja 'lahko' tai 'kultti'. 4) Saan keksityn liikkeen kuvauksen ja kaksi kirjoitusta, toisen liikkeen jäseneltä ja toisen entiseltä jäseneltä. Kuvailen, mitä kumpikin pitää liikkeessä tärkeänä tai ongelmallisena, ja nimeän yhden asian, jota uskonnonvapaus Suomessa turvaa (esim. oikeus kuulua yhdyskuntaan ja erota siitä).","osaa_kun":"Ensimmäisessä kohdassa on vähintään kaksi perustetta (esim. liike on syntynyt pääosin 1800-luvulla tai myöhemmin, se on uusi suhteessa ympäröivään kulttuuriin, sillä on usein karismaattinen perustaja tai uusi ilmoitus). Ryhmittelyssä on enintään yksi virhe. Kolmannessa kohdassa on, että lahko ja kultti ovat arkikielessä leimaavia ja tutkija pyrkii kuvaamaan ottamatta kantaa. Neljännessä kohdassa molemmat näkökulmat on kuvattu tekstin mukaisesti ja asiallisesti, eikä kumpaakaan esitetä pilkallisesti, ja uskonnonvapauden sisältö on oikea. Arvioidaan kykyä kuvata, ei oppilaan kantaa liikkeisiin. Oppilaan omaa tai perheen kuulumista mihinkään liikkeeseen ei kysytä. Ero 7. luokkaan: UE7-AJA-02 lajitteli uskontokritiikin lajeja; tässä kritiikkiä tarkastellaan uusien liikkeiden ja uskonnonvapauden yhteydessä (Espoon 8. luokan T3 ja UE S2: uskontokritiikki). Uudet liikkeet ovat Espoon mukaan osa Suomen uskontotilannetta.","teksti":[{"tyyppi":"johdanto","sisalto":"Kahdeksasluokkalainen Linnea näkee kauppakeskuksessa esittelypöydän, jonka ääressä keksityn liikkeen jäsenet jakavat esitteitä meditaatiosta. Hänen kaverinsa kuiskaa: \"Toi on varmaan joku kultti.\" Linnea kysyy, mistä kaveri sen tietää. Kaveri ei osaa sanoa. Suomessa toimii monia uusia uskonnollisia liikkeitä, ja niistä puhutaan usein arkisilla ja leimaavilla sanoilla. Tässä taidossa opit, millä perusteilla tutkija kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi, miten liikkeitä voi ryhmitellä taustan mukaan ja miten kuvaat sekä jäsenen että kriitikon näkökulman asiallisesti. Arvioinnissa katsotaan, miten kuvaat. Omaa kantaasi liikkeisiin ei kysytä, eikä kenenkään kuulumista mihinkään liikkeeseen kysytä."},{"tyyppi":"kappale","otsikko":"Mikä tekee liikkeestä uuden","sisalto":"Uusi uskonnollinen liike on uskontotieteen käsite. Tutkijat kutsuvat liikettä uudeksi, kun siinä näkyy useampi seuraavista piirteistä. Ensinnäkin liike on syntynyt pääosin 1800-luvulla tai myöhemmin; monet tutkijat painottavat 1900-luvun jälkipuoliskolla syntyneitä liikkeitä. Toiseksi liike on uusi suhteessa ympäröivään kulttuuriin: sen opetus voi olla vanhaa jossakin muualla, mutta siinä maassa, jossa se toimii, se on uusi. Kolmanneksi liikkeellä on usein karismaattinen perustaja, jota jäsenet pitävät erityisenä opettajana, tai uusi ilmoitus, esimerkiksi uusi pyhä kirja. Neljänneksi liikkeen ensimmäiset jäsenet ovat yleensä itse liittyneitä aikuisia eivätkä liikkeeseen syntyneitä. Uutuus on suhteellista: myös kristinusko oli aikanaan uusi liike Rooman valtakunnassa."},{"tyyppi":"taulukko","otsikko":"Neljä perustetta","otsikkorivi":["Peruste","Mitä se tarkoittaa","Esimerkki"],"rivit":[["Syntyaika","liike on syntynyt pääosin 1800-luvulla tai myöhemmin","Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko perustettiin Yhdysvalloissa 1830."],["Uusi ympäristössään","opetus voi olla vanhaa, mutta liike on uusi siinä kulttuurissa, jossa se toimii","Krishna-liike perustuu hindulaiseen perinteeseen mutta syntyi New Yorkissa 1966."],["Perustaja tai uusi ilmoitus","karismaattinen perustaja tai uusi pyhä teksti","Joseph Smithin mukaan hän käänsi Mormonin kirjan, jota kirkko pitää pyhänä Raamatun rinnalla."],["Liittyneet jäsenet","ensimmäiset jäsenet ovat itse liittyneitä, eivät liikkeeseen syntyneitä","Liikkeen ensimmäinen sukupolvi koostuu aikuisina liittyneistä."]]},{"tyyppi":"kuva","otsikko":"Esimerkkejä syntyajoista","svg":"<svg viewBox=\"0 0 640 200\" xmlns=\"http://www.w3.org/2000/svg\"><path class=\"v-akseli\" fill=\"none\" d=\"M40.0 110 L600.0 110\"/><path class=\"v-akseli\" fill=\"none\" d=\"M40.0 104 L40.0 116\"/><text class=\"v-t pieni\" x=\"40.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1800</text><path class=\"v-akseli\" fill=\"none\" d=\"M180.0 104 L180.0 116\"/><text class=\"v-t pieni\" x=\"180.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1850</text><path class=\"v-akseli\" fill=\"none\" d=\"M320.0 104 L320.0 116\"/><text class=\"v-t pieni\" x=\"320.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1900</text><path class=\"v-akseli\" fill=\"none\" d=\"M460.0 104 L460.0 116\"/><text class=\"v-t pieni\" x=\"460.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">1950</text><path class=\"v-akseli\" fill=\"none\" d=\"M600.0 104 L600.0 116\"/><text class=\"v-t pieni\" x=\"600.0\" y=\"132\" text-anchor=\"middle\" style=\"font-size:11px\">2000</text><circle class=\"v-merkki\" cx=\"124.0\" cy=\"110\" r=\"5\"/><path class=\"v-apu\" fill=\"none\" d=\"M124.0 104 L124.0 62\"/><text class=\"v-t vahva\" x=\"124.0\" y=\"40\" text-anchor=\"middle\" style=\"font-size:12.5px\">MAP-kirkko</text><text class=\"v-t pieni\" x=\"124.0\" y=\"56\" text-anchor=\"middle\" style=\"font-size:11px\">1830</text><circle class=\"v-merkki\" cx=\"250.0\" cy=\"110\" r=\"5\"/><path class=\"v-apu\" fill=\"none\" d=\"M250.0 116 L250.0 150\"/><text class=\"v-t vahva\" x=\"250.0\" y=\"166\" text-anchor=\"middle\" style=\"font-size:12.5px\">Raamatuntutkijat</text><text class=\"v-t pieni\" x=\"250.0\" y=\"182\" text-anchor=\"middle\" style=\"font-size:11px\">1870-luku</text><circle class=\"v-merkki\" cx=\"504.79999999999995\" cy=\"110\" r=\"5\"/><path class=\"v-apu\" fill=\"none\" d=\"M504.79999999999995 104 L504.79999999999995 62\"/><text class=\"v-t vahva\" x=\"504.79999999999995\" y=\"40\" text-anchor=\"middle\" style=\"font-size:12.5px\">Krishna-liike</text><text class=\"v-t pieni\" x=\"504.79999999999995\" y=\"56\" text-anchor=\"middle\" style=\"font-size:11px\">1966</text><circle class=\"v-merkki\" cx=\"530.0\" cy=\"110\" r=\"5\"/><path class=\"v-apu\" fill=\"none\" d=\"M530.0 116 L530.0 150\"/><text class=\"v-t vahva\" x=\"530.0\" y=\"166\" text-anchor=\"middle\" style=\"font-size:12.5px\">new age leviää</text><text class=\"v-t pieni\" x=\"530.0\" y=\"182\" text-anchor=\"middle\" style=\"font-size:11px\">1970-luku</text></svg>","teksti":"Aikajana 1800–2000. Raamatuntutkijoiden liikkeestä syntyivät Jehovan todistajat."},{"tyyppi":"kappale","otsikko":"Kolme taustaa","sisalto":"Uusia liikkeitä voi ryhmitellä sen mukaan, mistä niiden opetus on peräisin. Kristillistä taustaa olevat liikkeet lukevat Raamattua ja puhuvat Jeesuksesta, mutta niiden opetus poikkeaa suurten kirkkojen opetuksesta, esimerkiksi uuden pyhän kirjan tai uuden tulkinnan vuoksi. Jehovan todistajat syntyivät 1870-luvulla Yhdysvalloissa Charles Taze Russellin raamatuntutkisteluryhmästä, ja nykyinen nimi otettiin käyttöön 1931. Itämaista taustaa olevat liikkeet nojaavat hindulaisuuteen tai buddhalaisuuteen: niissä on usein intialainen tai aasialainen opettaja, meditaatiota, joogaa, mantroja ja usko jälleensyntymiseen. Kolmas ryhmä on muinaisuskoon pohjautuvat liikkeet ja yksilöllinen henkisyys. Uuspakanalliset liikkeet elvyttävät esikristillisiä uskontoja, Suomessa esimerkiksi muinaisuskoa haltijoineen ja vuodenkierron juhlineen. New age -henkisyydellä ei ole yhtä perustajaa eikä jäsenyyttä: ihminen kokoaa oman henkisyytensä eri lähteistä, kuten astrologiasta, kristalleista, energiahoidoista ja enkeliuskosta."},{"tyyppi":"taulukko","otsikko":"Liikkeitä taustan mukaan","otsikkorivi":["Tausta","Mistä tunnistat","Esimerkkejä"],"rivit":[["Kristillinen tausta","Raamattu ja Jeesus; uusi pyhä kirja tai uusi tulkinta","Jehovan todistajat; Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko"],["Itämainen tausta","hindulainen tai buddhalainen opetus, opettaja, meditaatio, mantra, jälleensyntyminen","Krishna-liike; buddhalaisuuteen pohjautuvat länsimaiset meditaatioliikkeet"],["Muinaisuskoon pohjautuva tai yksilöllinen henkisyys","esikristilliset jumalat ja luonnonhenget tai itse koottu henkisyys ilman yhteisöä","suomalainen uuspakanuus; new age -henkisyys"]]},{"tyyppi":"saanto","otsikko":"Näin ryhmittelet liikkeen","askeleet":["Etsi kuvauksesta, mistä liikkeen opetus ja pyhät tekstit ovat peräisin.","Raamattu ja Jeesus keskeisinä → kristillinen tausta. Hindulainen tai buddhalainen opettaja, mantra tai jälleensyntyminen → itämainen tausta.","Esikristilliset jumalat, luonnonhenget ja vuodenkierto tai ihmisen itse eri lähteistä kokoama henkisyys → muinaisuskoon pohjautuva tai yksilöllinen henkisyys.","Älä ratkaise yhden sanan perusteella, vaan katso, mikä on liikkeen pääasiallinen lähde."]},{"tyyppi":"ansa","otsikko":"Ansa 1: yksi sana ei ratkaise taustaa","sisalto":"New age -henkisyydessä puhutaan enkeleistä ja karmasta, mutta se ei ole kristillistä eikä itämaista taustaa, koska ihminen kokoaa henkisyytensä monesta lähteestä ilman yhtä perinnettä. Vanha perinne ei myöskään tee liikkeestä vanhaa: Krishnaa on palvottu Intiassa vuosisatoja, mutta Krishna-liike syntyi 1966 ja on uusi länsimaissa."},{"tyyppi":"kappale","otsikko":"Lahko, kultti vai uusi uskonnollinen liike","sisalto":"Arkikielessä sanalla lahko tarkoitetaan pientä, muista erottautuvaa ja tiukkaa ryhmää ja sanalla kultti vaarallista ryhmää, joka hallitsee jäseniään. Sanat ovat leimaavia: ne antavat valmiin kielteisen arvion ennen kuin liikkeestä tiedetään mitään, ja niitä käytetään usein mistä tahansa vieraalta tuntuvasta ryhmästä. Siksi tutkijat käyttävät neutraalia ilmausta uusi uskonnollinen liike. Tutkija pyrkii kuvaamaan liikkeen oppeja, tapoja ja jäseniä ottamatta kantaa siihen, onko liike hyvä tai paha. Neutraali sana ei tarkoita, ettei liikkeitä saisi arvostella. Tutkija kuvaa myös ongelmat, mutta perustelee ne tiedoilla eikä nimittelyllä."},{"tyyppi":"taulukko","otsikko":"Leimaavasta neutraaliksi","otsikkorivi":["Leimaava ilmaus","Neutraali kuvaus"],"rivit":[["\"Kultti aivopesee jäsenensä.\"","\"Entisten jäsenten mukaan liike painosti heitä pysymään.\""],["\"Lahkolaiset kiertävät taas ovilla.\"","\"Jehovan todistajat kertovat uskostaan käymällä kodeissa.\""],["\"Hihhulit hokevat loitsuja.\"","\"Krishna-liikkeen jäsenet laulavat mantraa.\""]]},{"tyyppi":"ansa","otsikko":"Ansa 2: neutraali ei tarkoita kehumista","sisalto":"Lause \"Liike on ihana, ja kaikki ovat siellä onnellisia\" ei ole neutraali, koska se ottaa kantaa toiseen suuntaan. Neutraali lause kertoo, kenen mukaan asia on: \"Jäsenten mukaan liike antaa heille yhteisön.\" Samoin kritiikki kerrotaan kehystettynä: \"Entisten jäsenten mukaan liikkeestä oli vaikea erota.\""},{"tyyppi":"kappale","otsikko":"Kaksi näkökulmaa","sisalto":"Jäsenet kertovat usein, mitä liike heille antaa: yhteisön ja ystäviä, selkeitä vastauksia ja ohjeita, merkitystä elämälle ja henkisiä kokemuksia. Uusia liikkeitä ovat arvostelleet entiset jäsenet, jäsenten omaiset, toiset uskonnolliset yhteisöt ja tutkijat. Kritiikki on koskenut esimerkiksi painostusta, eroamisen vaikeutta ja yhteydenpidon katkeamista eronneisiin, johtajan suurta valtaa, ajan ja rahan vaatimuksia sekä lasten asemaa. Kritiikki koskee eri liikkeitä eri tavoin, eikä yhden liikkeen ongelmista voi päätellä kaikkien liikkeiden olevan samanlaisia. Usein sama piirre on jäsenelle voimavara ja eronneelle ongelma. Kun kuvaat kahta kirjoitusta, kerro kummankin näkökulma sen omilla perusteilla ja tekstin mukaisesti."},{"tyyppi":"kuva","otsikko":"Sama piirre, kaksi näkökulmaa","svg":"<svg viewBox=\"0 0 640 200\" xmlns=\"http://www.w3.org/2000/svg\"><rect class=\"v-osa\" x=\"230\" y=\"70\" width=\"180\" height=\"56\" rx=\"7\"/><text class=\"v-t pieni\" x=\"320\" y=\"94\" text-anchor=\"middle\" style=\"font-size:11.5px\">Sama piirre:</text><text class=\"v-t vahva\" x=\"320\" y=\"112\" text-anchor=\"middle\" style=\"font-size:13px\">tiivis yhteisö</text><path class=\"v-akseli\" fill=\"none\" d=\"M230 98 L196 98\"/><path class=\"v-merkki\" d=\"M196 98 L205.0 103.0 L205.0 93.0 Z\"/><path class=\"v-akseli\" fill=\"none\" d=\"M410 98 L444 98\"/><path class=\"v-merkki\" d=\"M444 98 L435.0 93.0 L435.0 103.0 Z\"/><rect class=\"v-osa v1\" x=\"10\" y=\"20\" width=\"184\" height=\"160\" rx=\"7\"/><text class=\"v-t vahva\" x=\"102\" y=\"44\" text-anchor=\"middle\" style=\"font-size:13px\">Jäsenen mukaan</text><text class=\"v-t\" x=\"102\" y=\"72\" text-anchor=\"middle\" style=\"font-size:12px\">ystäviä ja tukea</text><text class=\"v-t\" x=\"102\" y=\"96\" text-anchor=\"middle\" style=\"font-size:12px\">yhteiset juhlat</text><text class=\"v-t\" x=\"102\" y=\"120\" text-anchor=\"middle\" style=\"font-size:12px\">selkeät ohjeet</text><text class=\"v-t\" x=\"102\" y=\"144\" text-anchor=\"middle\" style=\"font-size:12px\">merkitys elämälle</text><rect class=\"v-osa v1\" x=\"446\" y=\"20\" width=\"184\" height=\"160\" rx=\"7\"/><text class=\"v-t vahva\" x=\"538\" y=\"44\" text-anchor=\"middle\" style=\"font-size:12.5px\">Entisen jäsenen mukaan</text><text class=\"v-t\" x=\"538\" y=\"72\" text-anchor=\"middle\" style=\"font-size:12px\">painetta osallistua</text><text class=\"v-t\" x=\"538\" y=\"96\" text-anchor=\"middle\" style=\"font-size:12px\">aikaa vievät velvoitteet</text><text class=\"v-t\" x=\"538\" y=\"120\" text-anchor=\"middle\" style=\"font-size:12px\">eroaminen vaikeaa</text><text class=\"v-t\" x=\"538\" y=\"144\" text-anchor=\"middle\" style=\"font-size:12px\">ystävät katosivat</text><text class=\"v-t pieni\" x=\"320\" y=\"160\" text-anchor=\"middle\" style=\"font-size:11.5px\">Kuvaa molemmat,</text><text class=\"v-t pieni\" x=\"320\" y=\"176\" text-anchor=\"middle\" style=\"font-size:11.5px\">kerro kenen mukaan.</text></svg>","teksti":"Tiivis yhteisö voi olla jäsenelle tuki ja eronneelle paine. Tutkija kuvaa molemmat."},{"tyyppi":"saanto","otsikko":"Näin kuvaat kaksi näkökulmaa","askeleet":["Lue kumpikin kirjoitus ja alleviivaa, mitä kirjoittaja pitää tärkeänä tai ongelmallisena.","Kehystä: \"Jäsenen mukaan…\", \"Entinen jäsen kertoo, että…\".","Kuvaa omin sanoin ja tekstin mukaisesti. Älä lisää asioita, joita tekstissä ei ole.","Älä pilkkaa kumpaakaan, äläkä kerro, kumpi on oikeassa."]},{"tyyppi":"kappale","otsikko":"Uskonnonvapaus Suomessa","sisalto":"Suomen perustuslain 11 §:n mukaan jokaisella on uskonnon ja omantunnon vapaus. Siihen sisältyy oikeus tunnustaa ja harjoittaa uskontoa, oikeus ilmaista vakaumus ja oikeus kuulua tai olla kuulumatta uskonnolliseen yhdyskuntaan. Kukaan ei ole velvollinen osallistumaan omantuntonsa vastaisesti uskonnon harjoittamiseen. Siksi ihminen voi liittyä uuteen liikkeeseen ja myös erota siitä. Rekisteröidystä uskonnollisesta yhdyskunnasta erotaan kirjallisella ilmoituksella, eikä yhdyskunta voi estää eroa. Alaikäisen uskonnollisesta asemasta on omat säännöksensä uskonnonvapauslaissa. Valtio ei päätä, mikä usko on oikea. Uskonnonvapaus ei kuitenkaan anna oikeutta rikkoa lakia: Suomen lait, esimerkiksi väkivallan kielto ja lapsen oikeudet, koskevat myös uskonnollisia yhteisöjä."},{"tyyppi":"ansa","otsikko":"Ansa 3: vapaus koskee myös eroamista","sisalto":"Väite \"Uskonnonvapauden vuoksi liike saa kieltää jäseniään eroamasta\" on väärin, koska vapauteen kuuluu juuri oikeus olla kuulumatta yhteisöön. Väärin on myös \"Uskonnonvapaus tarkoittaa, että uskon nimissä saa tehdä mitä tahansa\" ja \"Valtio päättää, mitkä liikkeet ovat oikeita uskontoja\"."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Uuden uskonnollisen liikkeen perusteet: syntynyt pääosin 1800-luvulla tai myöhemmin, uusi ympäristössään, usein karismaattinen perustaja tai uusi ilmoitus, ensimmäiset jäsenet itse liittyneitä.","Kolme taustaa: kristillinen (Raamattu ja Jeesus), itämainen (hindulainen tai buddhalainen), muinaisuskoon pohjautuva tai yksilöllinen henkisyys.","Yksi sana, kuten enkeli tai karma, ei ratkaise taustaa. Vanha perinne voi olla uusi liike uudessa maassa.","Lahko ja kultti ovat arkikielessä leimaavia. Tutkija käyttää neutraalia ilmausta ja kuvaa ottamatta kantaa.","Jäsenen ja entisen jäsenen näkökulmat kehystetään ja kuvataan tekstin mukaisesti, ilman pilkkaa.","Uskonnonvapaus (perustuslain 11 §): oikeus kuulua tai olla kuulumatta, liittyä ja erota. Se ei anna oikeutta rikkoa lakia."]}],"harjoitusryhmat":[{"id":"tunnistus","nimi":"Uusi liike ja sen tausta","info":"Milloin liike syntyi, onko se uusi ympäristössään ja onko sillä perustaja tai uusi ilmoitus? Mistä sen opetus on peräisin?"},{"id":"sanat","nimi":"Neutraali kieli","info":"Lahko ja kultti leimaavat. Neutraali lause kertoo, kenen mukaan asia on, eikä kehu tai pilkkaa."},{"id":"nakokulmat","nimi":"Kaksi näkökulmaa ja uskonnonvapaus","info":"Kuvaa tekstin mukaan, kehystä, älä lisää. Uskonnonvapauteen kuuluu oikeus liittyä ja erota."}],"ryhmanimet":{"tunnistus":"Uusi liike ja tausta","sanat":"Neutraali kieli","nakokulmat":"Näkökulmat ja vapaus"},"harjoitukset":[{"id":"H01","ryhma":"tunnistus","kysymys":"Liikkeet ja yhteisöt:\n1. Jehovan todistajat\n2. ortodoksinen kirkko\n3. Krishna-liike\n4. juutalaisuus\n5. Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":3,"vinkki":"Katso aikajanaa ja taulukkoa.","selitys":"Jehovan todistajat (1870-luku), Krishna-liike (1966) ja MAP-kirkko (1830). Ortodoksinen kirkko ja juutalaisuus ovat paljon vanhempia."},{"id":"H02","ryhma":"tunnistus","kysymys":"Kuvaus: Liikkeen jäsenet seuraavat intialaista opettajaa, harjoittavat joogaa ja uskovat jälleensyntymiseen.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nMonenteen taustaan kuvaus kuuluu?","vastaus":2,"vinkki":"Mistä opetus on peräisin?","selitys":"Intialainen opettaja, jooga ja jälleensyntyminen viittaavat itämaiseen taustaan."},{"id":"H03","ryhma":"tunnistus","kysymys":"Kuvaus: Liikkeen jäsenet kunnioittavat muinaisia kelttiläisiä jumalia ja kokoontuvat juhlimaan vuodenkiertoa kivikehien äärelle.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nMonenteen taustaan kuvaus kuuluu?","vastaus":3,"vinkki":"Ovatko jumalat esikristillisiä?","selitys":"Muinaisten jumalien ja vuodenkierron elvyttäminen on uuspakanuutta."},{"id":"H04","ryhma":"tunnistus","kysymys":"Kuvaus: Liike syntyi Yhdysvalloissa 1800-luvulla. Sen jäsenet lukevat Raamattua ja odottavat Jeesuksen paluuta, mutta liikkeen opetus poikkeaa suurten kirkkojen opetuksesta.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nMonenteen taustaan kuvaus kuuluu?","vastaus":1,"vinkki":"Raamattu ja Jeesus keskeisinä.","selitys":"Raamattu ja Jeesus ovat liikkeen keskeinen lähde: kristillinen tausta."},{"id":"H05","ryhma":"tunnistus","kysymys":"Kuvaus: Keksitty Hanna käy kristalliterapiassa, lukee horoskooppeja ja uskoo suojelusenkeleihin. Hän ei kuulu mihinkään yhteisöön, vaan kokoaa oman henkisyytensä.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nMonenteen taustaan kuvaus kuuluu?","vastaus":3,"vinkki":"Lue ansa 1.","selitys":"Hanna kokoaa henkisyytensä monesta lähteestä ilman yhteisöä. Se on yksilöllistä henkisyyttä, vaikka siinä on enkeleitä."},{"id":"H06","ryhma":"tunnistus","kysymys":"Lauseet:\n1. Uuden uskonnollisen liikkeen opetus voi perustua vanhaan perinteeseen.\n2. Uudella liikkeellä on usein perustaja tai uusi ilmoitus.\n3. Kaikki uudet liikkeet ovat vaarallisia.\n4. Liikkeen ensimmäiset jäsenet ovat yleensä itse liittyneitä.\n\nMontako lausetta pitää paikkansa?","vastaus":3,"vinkki":"Tutkija kuvaa eikä leimaa.","selitys":"Lauseet 1, 2 ja 4 ovat tutkijoiden perusteita. Lause 3 on leimaava yleistys."},{"id":"H07","ryhma":"tunnistus","tyyppi":"monivalinta","kysymys":"Krishnaa on palvottu Intiassa vuosisatoja. Miksi Krishna-liikettä silti pidetään uutena uskonnollisena liikkeenä?","vaihtoehdot":["Koska liike syntyi vuonna 1966 ja on uusi länsimaisessa kulttuurissa.","Koska sen jäsenet ovat nuoria.","Koska kaikki itämaiset uskonnot ovat uusia."],"vastaus":0,"vinkki":"Uusi suhteessa ympäröivään kulttuuriin.","selitys":"Liike syntyi New Yorkissa 1966, ja se on uusi siinä kulttuurissa, jossa se toimii."},{"id":"H08","ryhma":"tunnistus","kysymys":"Minä vuonna Krishna-liike perustettiin New Yorkissa?","vastaus":1966,"vinkki":"Katso taulukkoa Neljä perustetta.","selitys":"Krishna-liike perustettiin vuonna 1966."},{"id":"H09","ryhma":"sanat","kysymys":"Lauseet:\n1. Kultin jäsenet jakoivat esitteitä.\n2. Liikkeen jäsenet jakoivat esitteitä meditaatiosta.\n3. Lahkolaiset kokoontuivat taas.\n4. Yhteisön jäsenet kokoontuivat viikoittain rukoilemaan.\n5. Uskonnollisen liikkeen jäsenet viettivät juhlaa.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":3,"vinkki":"Etsi sanat kultti ja lahko.","selitys":"Lauseet 2, 4 ja 5 ovat neutraaleja. Lauseissa 1 ja 3 on leimaava sana."},{"id":"H10","ryhma":"sanat","kysymys":"Ilmaukset:\n1. kultti\n2. uusi uskonnollinen liike\n3. lahko\n4. hihhulit\n5. yhteisö\n\nMontako ilmauksista on arkikielessä leimaavia?","vastaus":3,"vinkki":"Antaako sana valmiin kielteisen arvion?","selitys":"Kultti, lahko ja hihhulit leimaavat. Uusi uskonnollinen liike ja yhteisö ovat neutraaleja."},{"id":"H11","ryhma":"sanat","tyyppi":"monivalinta","kysymys":"Miksi tutkija käyttää ilmausta uusi uskonnollinen liike eikä sanoja lahko tai kultti?","vaihtoehdot":["Koska ilmaus kuvaa liikettä antamatta siitä valmista arviota.","Koska tutkija pitää kaikkia liikkeitä hyvinä.","Koska sanat lahko ja kultti on kielletty laissa."],"vastaus":0,"vinkki":"Tutkija kuvaa ottamatta kantaa.","selitys":"Neutraali ilmaus ei leimaa. Tutkija ei kehu liikkeitä, eikä sanoja ole kielletty laissa."},{"id":"H12","ryhma":"sanat","kysymys":"Lauseet:\n1. Liike on ihana, ja kaikki jäsenet ovat onnellisia.\n2. Jäsenten mukaan liike antaa heille yhteisön.\n3. Liike on pelkkää huijausta.\n4. Entisten jäsenten mukaan liikkeestä oli vaikea erota.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":2,"vinkki":"Lue ansa 2.","selitys":"Lauseet 2 ja 4 kertovat, kenen mukaan asia on. Lause 1 kehuu ja lause 3 leimaa."},{"id":"H13","ryhma":"sanat","kysymys":"Keksityssä lehtijutussa on otsikko \"Kultti valtasi kerrostalon\". Jutussa kerrotaan, että keksitty meditaatioryhmä kokoontuu talon kerhohuoneessa kerran viikossa.\n\nLauseet:\n1. Otsikko leimaa ryhmän ennen kuin siitä kerrotaan mitään.\n2. Neutraalimpi otsikko olisi \"Meditaatioryhmä kokoontuu kerhohuoneessa\".\n3. Otsikko kuvaa tapahtuman tarkasti.\n\nMontako lausetta pitää paikkansa?","vastaus":2,"vinkki":"Valtasiko ryhmä talon?","selitys":"Lauseet 1 ja 2 pitävät paikkansa. Otsikko liioittelee ja leimaa."},{"id":"H14","ryhma":"nakokulmat","kysymys":"Keksityn liikkeen jäsen kirjoittaa: \"Liikkeessä minulla on ystäviä, ja yhteiset meditaatiot rauhoittavat minua. Pidän myös siitä, että opettaja neuvoo, miten elää hyvin.\"\n\nMontako eri asiaa jäsen kertoo pitävänsä liikkeessä tärkeänä?","vastaus":3,"vinkki":"Laske asiat, joita hän kehuu.","selitys":"Ystävät, yhteiset meditaatiot ja opettajan neuvot."},{"id":"H15","ryhma":"nakokulmat","kysymys":"Keksityn liikkeen entinen jäsen kirjoittaa: \"Aluksi viihdyin, mutta myöhemmin minulta odotettiin osallistumista kokouksiin joka ilta. Kun erosin, monet ystävät lakkasivat puhumasta minulle.\"\n\nLauseet:\n1. Entinen jäsen kertoo, että liike vaati paljon aikaa.\n2. Entinen jäsen kertoo, että eroamisen jälkeen ystävät lakkasivat puhumasta hänelle.\n3. Entinen jäsen kertoo, että liike vei hänen rahansa.\n4. Entinen jäsen kertoo viihtyneensä aluksi.\n\nMontako lauseista vastaa kirjoitusta?","vastaus":3,"vinkki":"Älä lisää asioita, joita tekstissä ei ole.","selitys":"Lauseet 1, 2 ja 4 vastaavat tekstiä. Rahasta kirjoituksessa ei puhuta."},{"id":"H16","ryhma":"nakokulmat","kysymys":"Lauseet:\n1. Entisten jäsenten mukaan liike painosti heitä.\n2. Kaikki liikkeen jäsenet ovat tyhmiä.\n3. Kriitikoiden mukaan johtajalla on liian paljon valtaa.\n4. Liikkeen jäsenet ovat friikkejä.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":2,"vinkki":"Asiallinen kritiikki on kehystetty eikä nimittele.","selitys":"Lauseet 1 ja 3 ovat asiallisia. Lauseet 2 ja 4 pilkkaavat ihmisiä."},{"id":"H17","ryhma":"nakokulmat","kysymys":"Asiat:\n1. oikeus kuulua uskonnolliseen yhdyskuntaan\n2. oikeus erota uskonnollisesta yhdyskunnasta\n3. velvollisuus kuulua johonkin uskonnolliseen yhdyskuntaan\n4. oikeus harjoittaa uskontoa\n5. oikeus rikkoa lakia uskon nimissä\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":3,"vinkki":"Lue kappale Uskonnonvapaus Suomessa.","selitys":"Oikeus kuulua, erota ja harjoittaa uskontoa. Velvollisuutta kuulua johonkin ei ole, eikä lakia saa rikkoa."},{"id":"H18","ryhma":"nakokulmat","tyyppi":"monivalinta","kysymys":"Täysi-ikäinen keksitty Ville haluaa erota keksitystä rekisteröidystä uskonnollisesta yhdyskunnasta. Yhteisön johtaja sanoo, ettei eroa hyväksytä. Mikä pitää paikkansa?","vaihtoehdot":["Ville ei voi erota ilman johtajan lupaa.","Ville voi erota kirjallisella ilmoituksella, eikä yhteisö voi estää eroa.","Ville voi erota vasta, kun koko hänen perheensä eroaa."],"vastaus":1,"vinkki":"Lue ansa 3.","selitys":"Uskonnonvapauteen kuuluu oikeus olla kuulumatta yhdyskuntaan, joten eroa ei voi estää."},{"id":"H19","ryhma":"nakokulmat","kysymys":"Lauseet:\n1. Tiivis yhteisö voi olla jäsenelle tuki vaikeina aikoina.\n2. Sama tiivis yhteisö voi tuntua eronneesta painostavalta.\n3. Jos yksi entinen jäsen arvostelee liikettä, kaikki liikkeet ovat samanlaisia.\n\nMontako lausetta pitää paikkansa?","vastaus":2,"vinkki":"Sama piirre voi näyttää erilaiselta eri näkökulmista.","selitys":"Lauseet 1 ja 2 pitävät paikkansa. Yhden liikkeen kritiikistä ei voi päätellä kaikkien liikkeiden olevan samanlaisia."},{"id":"H20","ryhma":"nakokulmat","kysymys":"Monesko perustuslain pykälä turvaa uskonnon ja omantunnon vapauden?","vastaus":11,"vinkki":"Katso muistilappua.","selitys":"Perustuslain 11 § turvaa uskonnon ja omantunnon vapauden."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Tehtävässä 1 kirjoita jokaisen kirjaimen perään taustan numero. Tehtäviin 17–20 vastaa kokonaisin virkkein. Kuvaa liikkeitä asiallisesti ja kerro, kenen mukaan asia on. Liikkeet ja henkilöt, joiden edessä on sana keksitty, ovat keksittyjä. Sinun omaa kantaasi liikkeisiin ei kysytä eikä arvioida.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nAineisto 1. Kuusi liikettä (tehtävä 1):\na) Jehovan todistajat: liike sai alkunsa Charles Taze Russellin johtamasta raamatuntutkisteluryhmästä Yhdysvalloissa 1870-luvulla. Jäsenet tutkivat Raamattua ja kertovat uskostaan kodeissa.\nb) Krishna-liike: A. C. Bhaktivedanta Swami Prabhupada perusti liikkeen New Yorkissa 1966. Jäsenet palvovat hindulaisen perinteen jumalaa Krishnaa.\nc) New age -henkisyys: 1970-luvulta levinnyt henkisyys ilman yhtä perustajaa. Ihminen voi uskoa enkeleihin, käyttää kristalleja ja lukea horoskooppeja oman valintansa mukaan.\nd) Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko: Joseph Smith perusti kirkon 1830. Kirkko pitää Mormonin kirjaa pyhänä Raamatun rinnalla.\ne) Suomalainen uuspakanuus: nykyajan liike, joka elvyttää esikristillistä suomalaista muinaisuskoa, kunnioittaa luonnon haltijoita ja viettää kekriä.\nf) Länsimainen meditaatioliike: 1900-luvun jälkipuoliskolla Isossa-Britanniassa syntynyt liike, joka opettaa buddhalaista meditaatiota ja Buddhan opetuksia.\n\nAineisto 2. Keksitty liike (tehtävät 15, 16 ja 19):\nKeksitty liike Hiljainen lähde perustettiin 2010-luvulla. Sen perustaja sanoo saaneensa näyn, ja jäsenet kokoontuvat meditoimaan ja laulamaan.\nJäsenen kirjoitus: \"Lähteessä sain ystäviä, joiden kanssa voin puhua kaikesta. Yhteiset laulut rauhoittavat minua, ja olen saanut vastauksia kysymykseen elämän tarkoituksesta.\"\nEntisen jäsenen kirjoitus: \"Liikkeessä odotettiin, että osallistun tilaisuuksiin neljänä iltana viikossa. Kun lopulta erosin, perustaja kielsi muita jäseniä pitämästä minuun yhteyttä.\"","tehtavat":[{"nro":1,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Ryhmittele aineiston 1 liikkeet a–f taustan mukaan. Kirjoita jokaisen kirjaimen perään taustan numero.","vastaus":"Avain: a) 1, b) 2, c) 3, d) 1, e) 3, f) 2. Oikein, kun enintään yksi liike on ryhmitelty väärin."},{"nro":2,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Liikkeet ja uskonnot:\n1. katolinen kirkko\n2. Krishna-liike\n3. buddhalaisuus\n4. Jehovan todistajat\n5. islam\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":2},{"nro":3,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike on syntynyt pääosin 1800-luvulla tai myöhemmin.\n2. Liikkeen jäsenet pukeutuvat erikoisesti.\n3. Liikkeellä on karismaattinen perustaja tai uusi ilmoitus.\n4. Liike on uusi siinä maassa, jossa se vaikuttaa.\n5. Liike on vaarallinen.\n\nMontako lauseista on tutkijoiden käyttämä peruste kutsua liikettä uudeksi uskonnolliseksi liikkeeksi?","vastaus":3},{"nro":4,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Perustaja sanoi saaneensa uuden ilmoituksen Jeesukselta, ja jäsenet lukevat Raamattua perustajan kirjoitusten rinnalla.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":1},{"nro":5,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet seuraavat japanilaista buddhalaista opettajaa ja harjoittavat istumameditaatiota.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":2},{"nro":6,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty Henna käyttää energiahoitoja, nostaa tarot-kortteja ja sanoo saavansa voimaa \"Jeesuksen valosta\". Mihinkään ryhmään hän ei kuulu.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":3},{"nro":7,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike voi olla uusi, vaikka sen jumalat ovat vanhoja.\n2. Liike on uusi vain, jos sen kaikki opit ovat uusia.\n3. Kristinusko oli ensimmäisellä vuosisadalla uusi liike.\n4. Uusi liike on aina pieni.\n\nMontako lausetta pitää paikkansa?","vastaus":2},{"nro":8,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kultin jäsenet laulavat kadulla.\n2. Liikkeen jäsenet kokoontuvat lauantaisin meditoimaan.\n3. Lahkon johtaja puhui taas.\n4. Jehovan todistajat tarjosivat lehtiään asemalla.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":2},{"nro":9,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kaupunkiin on tullut uusi kultti.\n2. Liikkeen jäsenet viettävät kesäjuhlaa.\n3. Hihhulit kokoontuvat taas puistossa.\n4. Lahkolaiset jakoivat lehtisiä.\n5. Yhteisö järjesti avoimet ovet.\n\nMontako lauseista sisältää leimaavan sanan?","vastaus":3},{"nro":10,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Kuvaukset:\n1. Liike on mahtava, ja kaikki sen jäsenet ovat onnellisia.\n2. Jäsenten kertoman mukaan liikkeessä saa ystäviä, ja entiset jäsenet kertovat, että siitä oli vaikea lähteä.\n3. Kultti on pelkkää huijausta.\n\nMonesko kuvaus on asiallinen ja neutraali?","vastaus":2},{"nro":11,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Jäsenten mukaan liike tuo heille turvaa.\n2. Liike tuo turvaa.\n3. Entisten jäsenten mukaan liike vaati paljon aikaa.\n4. Liike vaatii liikaa.\n5. Tutkijoiden mukaan liike syntyi 1970-luvulla.\n\nMontako lauseista on kehystetty eli kertoo, kenen mukaan asia on?","vastaus":3},{"nro":12,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entisten jäsenten mukaan liike vaati paljon aikaa.\n2. Tutkijoiden mukaan liikkeestä eroaminen on ollut joillekin vaikeaa.\n3. Kriitikoiden mukaan liikkeen johtaja päättää liian yksin.\n4. Kaikki tuollaiset ovat kahjoja.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":3},{"nro":13,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Asiat:\n1. oikeus liittyä uskonnolliseen yhdyskuntaan\n2. oikeus olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan\n3. oikeus estää jäsentä eroamasta\n4. oikeus ilmaista vakaumuksensa\n5. velvollisuus osallistua koulun aamuhartauteen omantunnon vastaisesti\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":3},{"nro":14,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Täysi-ikäinen keksitty Mari on päättänyt jättää rekisteröidyn uskonnollisen yhdyskunnan, johon hän kuuluu, mutta johtaja kieltää eron.\n\nLauseet:\n1. Mari voi erota ilmoittamalla siitä kirjallisesti.\n2. Yhdyskunta voi estää eron, jos johtaja ei hyväksy sitä.\n3. Eroaminen kuuluu uskonnonvapauteen.\n\nMontako lausetta pitää paikkansa?","vastaus":2},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue aineisto 2. Montako eri asiaa jäsen kertoo kirjoituksessaan pitävänsä liikkeessä tärkeänä?","vastaus":3},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entinen jäsen kertoo, että liike odotti osallistumista monena iltana viikossa.\n2. Entinen jäsen kertoo, että hänen piti antaa liikkeelle kaikki säästönsä.\n3. Entinen jäsen kertoo, että eron jälkeen muita kiellettiin pitämästä häneen yhteyttä.\n4. Entinen jäsen kertoo, että kaikki jäsenet ovat onnettomia.\n\nMontako lauseista vastaa entisen jäsenen kirjoitusta?","vastaus":2},{"nro":17,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Selitä, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. Kerro vähintään kaksi perustetta.","vastaus":"Malliesimerkki: Liike on syntynyt pääosin 1800-luvulla tai myöhemmin. Se on uusi suhteessa ympäröivään kulttuuriin, vaikka sen opetus voisi olla vanhaa muualla. Lisäksi liikkeellä on usein karismaattinen perustaja tai uusi ilmoitus, kuten uusi pyhä kirja, ja sen ensimmäiset jäsenet ovat itse liittyneitä aikuisia."},{"nro":18,"ryhma":"sanat","tyyppi":"sanallinen","kysymys":"Kerro, miksi tutkijat käyttävät ilmausta uusi uskonnollinen liike eivätkä sanoja lahko tai kultti.","vastaus":"Malliesimerkki: Lahko ja kultti ovat arkikielessä leimaavia sanoja, jotka antavat liikkeestä valmiin kielteisen arvion, esimerkiksi että se on vaarallinen tai hallitsee jäseniään. Tutkija pyrkii kuvaamaan liikkeen oppeja ja tapoja ottamatta kantaa siihen, onko liike hyvä vai paha, joten hän käyttää neutraalia ilmausta."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Lue aineisto 2. a) Kuvaile, mitä jäsen pitää liikkeessä tärkeänä ja mitä entinen jäsen pitää ongelmallisena. b) Nimeä yksi asia, jonka uskonnonvapaus Suomessa turvaa ja joka liittyy kirjoituksiin.","vastaus":"Malliesimerkki: a) Jäsenen mukaan liikkeessä tärkeintä ovat ystävät, yhteiset laulut, jotka rauhoittavat, ja vastaukset elämän tarkoitukseen. Entinen jäsen kertoo, että liike vaati osallistumista monena iltana viikossa ja että eron jälkeen muita kiellettiin pitämästä häneen yhteyttä. b) Uskonnonvapaus turvaa oikeuden erota uskonnollisesta yhteisöstä ja olla kuulumatta siihen."},{"nro":20,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Valitse aineiston 1 liikkeistä Krishna-liike. Kerro kaksi perustetta, joiden vuoksi se on uusi uskonnollinen liike, vaikka sen jumala on vanha.","vastaus":"Malliesimerkki: Krishna-liike syntyi vasta vuonna 1966, ja se on uusi länsimaisessa kulttuurissa, jossa se toimii. Sillä on myös perustaja, A. C. Bhaktivedanta Swami Prabhupada, jonka opetusta jäsenet seuraavat."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Tehtävässä 1 kirjoita jokaisen kirjaimen perään taustan numero. Tehtäviin 17–20 vastaa kokonaisin virkkein. Kuvaa liikkeitä asiallisesti ja kerro, kenen mukaan asia on. Liikkeet ja henkilöt, joiden edessä on sana keksitty, ovat keksittyjä. Sinun omaa kantaasi liikkeisiin ei kysytä eikä arvioida.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nAineisto 1. Kuusi liikettä (tehtävä 1):\na) Transsendenttinen meditaatio: intialainen Maharishi Mahesh Yogi toi menetelmän länteen 1950-luvun lopulla. Se perustuu hindulaiseen perinteeseen, ja siinä toistetaan hiljaa mantraa.\nb) Wicca: Englannissa 1900-luvun puolivälissä syntynyt uuspakanallinen liike, joka kunnioittaa luontoa, jumalatarta ja jumalaa ja viettää vuodenkierron juhlia.\nc) Kristillinen tiede: Mary Baker Eddy perusti liikkeen Bostonissa 1800-luvun lopulla. Liike tulkitsee Raamattua ja Jeesuksen parantamisihmeitä omalla tavallaan.\nd) New age -henkisyys: ei jäsenyyttä eikä yhtä perustajaa. Ihminen yhdistelee esimerkiksi astrologiaa, energiahoitoja ja käsitystä karmasta oman mielensä mukaan.\ne) Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko: Yhdysvalloissa 1830 syntynyt kirkko, joka lukee Raamatun lisäksi Mormonin kirjaa.\nf) Krishna-liike: New Yorkissa 1966 perustettu liike, jonka jäsenet laulavat Krishnan nimeä toistavaa mantraa ja noudattavat hindulaisen perinteen ohjeita.\n\nAineisto 2. Keksitty liike (tehtävät 15, 16 ja 19):\nKeksitty liike Valon polku perustettiin 1990-luvulla. Sen perustaja kirjoitti kirjan, jota jäsenet pitävät pyhänä, ja liike järjestää viikoittaisia kokoontumisia.\nJäsenen kirjoitus: \"Valon polulla tunnen kuuluvani joukkoon. Perustajan kirja antaa selkeät ohjeet elämään.\"\nEntisen jäsenen kirjoitus: \"Liikkeessä minua pyydettiin lahjoittamaan kymmenesosa tuloistani, ja kokouksista poissaoloa paheksuttiin. Kun halusin erota, minulle sanottiin, että menetän kaikki ystäväni.\"","tehtavat":[{"nro":1,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Ryhmittele aineiston 1 liikkeet a–f taustan mukaan. Kirjoita jokaisen kirjaimen perään taustan numero.","vastaus":"Avain: a) 2, b) 3, c) 1, d) 3, e) 1, f) 2. Oikein, kun enintään yksi liike on ryhmitelty väärin."},{"nro":2,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Liikkeet ja uskonnot:\n1. Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko\n2. hindulaisuus\n3. luterilainen kirkko\n4. wicca\n5. transsendenttinen meditaatio\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":3},{"nro":3,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liikkeen perustajaa pidetään liikkeessä erityisenä opettajana.\n2. Liike on uusi siinä kulttuurissa, jossa se toimii.\n3. Liikkeen ensimmäiset jäsenet ovat itse liittyneitä aikuisia.\n4. Liikkeen jäsenet asuvat yhdessä.\n5. Liike on syntynyt 1800-luvulla tai myöhemmin.\n\nMontako lauseista on tutkijoiden käyttämä peruste kutsua liikettä uudeksi uskonnolliseksi liikkeeksi?","vastaus":4},{"nro":4,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet toistavat hindulaista mantraa ja kunnioittavat intialaista gurua opettajanaan.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":2},{"nro":5,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty Saana kerää kristalleja, käy enkelihoidoissa ja lukee kirjoja karmasta. Jäsenyyttä missään yhteisössä hänellä ei ole, ja hän valitsee itse, mihin uskoo.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":3},{"nro":6,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet odottavat Jeesuksen pikaista paluuta ja tulkitsevat Raamatun profetioita perustajansa opetusten mukaan.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":1},{"nro":7,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Krishna-liike on uusi, vaikka Krishnaa on palvottu Intiassa vuosisatoja.\n2. Liike on uusi vain, jos se on syntynyt Suomessa.\n3. Rooman valtakunnassa kristinusko oli aluksi uusi ja vieras liike.\n4. Uudella liikkeellä voi olla oma pyhä kirja.\n\nMontako lausetta pitää paikkansa?","vastaus":3},{"nro":8,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Krishna-liikkeen jäsenet lauloivat puistossa.\n2. Transsendenttisen meditaation harjoittajat istuvat hiljaa silmät kiinni.\n3. Wiccalaiset viettävät kevätpäiväntasauksen juhlaa.\n4. Kultin jäsenet tulivat taas ovelle.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":3},{"nro":9,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liikkeen jäsenet kokoontuvat sunnuntaisin.\n2. Lahko on taas äänessä.\n3. Tuo kultti pitää jäseniään vankeina.\n4. Yhteisö järjesti kirpputorin.\n5. Hihhulien kokous kesti koko illan.\n\nMontako lauseista sisältää leimaavan sanan?","vastaus":3},{"nro":10,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Kuvaukset:\n1. Liike on aivopesukone.\n2. Liike on paras paikka kaikille nuorille.\n3. Jäsenten mukaan liike antaa elämälle merkityksen, ja kriitikoiden mukaan se vaatii jäseniltään paljon rahaa.\n\nMonesko kuvaus on asiallinen ja neutraali?","vastaus":3},{"nro":11,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike antaa elämälle merkityksen.\n2. Jäsenen mukaan liike antaa elämälle merkityksen.\n3. Kriitikoiden mukaan liike pyytää jäseniltä paljon rahaa.\n4. Entisen jäsenen mukaan liike pyytää liikaa rahaa.\n5. Uskontotieteilijöiden mukaan liikkeellä on noin sata jäsentä Suomessa.\n\nMontako lauseista on kehystetty eli kertoo, kenen mukaan asia on?","vastaus":4},{"nro":12,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kriitikoiden mukaan liike vaatii jäseniltä paljon rahaa.\n2. Entisten jäsenten mukaan liike paheksui poissaoloja.\n3. Jäsenet ovat aivottomia.\n4. Koko liike on naurettava.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":2},{"nro":13,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Asiat:\n1. oikeus erota uskonnollisesta yhdyskunnasta\n2. oikeus harjoittaa uskontoa\n3. oikeus olla kuulumatta uskonnolliseen yhdyskuntaan\n4. oikeus kuulua uskonnolliseen yhdyskuntaan\n5. oikeus rikkoa lakia, jos uskonto käskee\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":4},{"nro":14,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Täysi-ikäinen keksitty Juho on päättänyt jättää rekisteröidyn uskonnollisen yhdyskunnan, johon hän kuuluu. Yhteisö sanoo, että ero vaatii johtajan hyväksynnän.\n\nLauseet:\n1. Juho tarvitsee johtajan hyväksynnän erotakseen.\n2. Juho voi erota kirjallisella ilmoituksella.\n3. Uskonnonvapauteen kuuluu oikeus olla kuulumatta yhdyskuntaan.\n\nMontako lausetta pitää paikkansa?","vastaus":2},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue aineisto 2. Montako eri asiaa jäsen kertoo kirjoituksessaan pitävänsä liikkeessä tärkeänä?","vastaus":2},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entinen jäsen kertoo, että häntä pyydettiin lahjoittamaan kymmenesosa tuloistaan.\n2. Entinen jäsen kertoo, että kokouksista poissaoloa paheksuttiin.\n3. Entinen jäsen kertoo, että hänet suljettiin kotiin.\n4. Entinen jäsen kertoo, että eron yhteydessä hänelle sanottiin, että hän menettää ystävänsä.\n\nMontako lauseista vastaa entisen jäsenen kirjoitusta?","vastaus":3},{"nro":17,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Selitä, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. Kerro vähintään kaksi perustetta.","vastaus":"Malliesimerkki: Liike on syntynyt pääosin 1800-luvulla tai myöhemmin. Se on uusi suhteessa ympäröivään kulttuuriin, vaikka sen opetus voisi olla vanhaa muualla. Lisäksi liikkeellä on usein karismaattinen perustaja tai uusi ilmoitus, kuten uusi pyhä kirja, ja sen ensimmäiset jäsenet ovat itse liittyneitä aikuisia."},{"nro":18,"ryhma":"sanat","tyyppi":"sanallinen","kysymys":"Kerro, miksi tutkijat käyttävät ilmausta uusi uskonnollinen liike eivätkä sanoja lahko tai kultti.","vastaus":"Malliesimerkki: Lahko ja kultti ovat arkikielessä leimaavia sanoja, jotka antavat liikkeestä valmiin kielteisen arvion, esimerkiksi että se on vaarallinen tai hallitsee jäseniään. Tutkija pyrkii kuvaamaan liikkeen oppeja ja tapoja ottamatta kantaa siihen, onko liike hyvä vai paha, joten hän käyttää neutraalia ilmausta."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Lue aineisto 2. a) Kuvaile, mitä jäsen pitää liikkeessä tärkeänä ja mitä entinen jäsen pitää ongelmallisena. b) Nimeä yksi asia, jonka uskonnonvapaus Suomessa turvaa ja joka liittyy kirjoituksiin.","vastaus":"Malliesimerkki: a) Jäsenen mukaan tärkeintä on kokemus joukkoon kuulumisesta ja perustajan kirjan selkeät ohjeet. Entinen jäsen kertoo, että häntä pyydettiin lahjoittamaan kymmenesosa tuloistaan, poissaoloja paheksuttiin ja eroa yritettiin estää uhkaamalla ystävien menetyksellä. b) Uskonnonvapaus turvaa oikeuden erota yhteisöstä ja olla kuulumatta mihinkään yhteisöön."},{"nro":20,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Valitse aineiston 1 liikkeistä transsendenttinen meditaatio. Kerro kaksi perustetta, joiden vuoksi sitä voi tarkastella uutena uskonnollisena liikkeenä.","vastaus":"Malliesimerkki: Menetelmä levisi länteen vasta 1950-luvun lopulla, ja se on uusi länsimaisessa kulttuurissa, vaikka se perustuu vanhaan hindulaiseen perinteeseen. Lisäksi sillä on karismaattinen perustaja, Maharishi Mahesh Yogi."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Tehtävässä 1 kirjoita jokaisen kirjaimen perään taustan numero. Tehtäviin 17–20 vastaa kokonaisin virkkein. Kuvaa liikkeitä asiallisesti ja kerro, kenen mukaan asia on. Liikkeet ja henkilöt, joiden edessä on sana keksitty, ovat keksittyjä. Sinun omaa kantaasi liikkeisiin ei kysytä eikä arvioida.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nAineisto 1. Kuusi liikettä (tehtävä 1):\na) Ásatrú: Islannissa 1970-luvulla järjestäytynyt liike, joka elvyttää muinaisten skandinaavien uskoa, esimerkiksi Odinin ja Thorin kunnioittamista.\nb) Jehovan todistajat: Yhdysvalloissa 1870-luvulla raamatuntutkisteluryhmästä syntynyt liike, joka julkaisee Vartiotorni-lehteä ja odottaa Jumalan valtakunnan tuloa.\nc) Transsendenttinen meditaatio: menetelmä, jonka intialainen opettaja Maharishi Mahesh Yogi toi länteen. Sen juuret ovat hindulaisessa perinteessä.\nd) Kristillinen tiede: Mary Baker Eddyn 1800-luvulla Yhdysvalloissa perustama liike, jonka jäsenet lukevat Raamattua ja Eddyn kirjaa Tiede ja terveys.\ne) Länsimainen zen-ryhmä: 1900-luvun jälkipuoliskolla perustettu ryhmä, joka harjoittaa japanilaista buddhalaista meditaatiota.\nf) Suomalainen uuspakanuus: liike, jonka jäsenet kunnioittavat Ukkoa ja luonnon haltijoita ja viettävät vanhoja vuodenkierron juhlia.\n\nAineisto 2. Keksitty liike (tehtävät 15, 16 ja 19):\nKeksitty liike Uuden aamun yhteisö perustettiin 2000-luvulla. Sen johtaja sanoo saaneensa uuden ilmoituksen, ja jäsenet asuvat osittain yhteisessä talossa.\nJäsenen kirjoitus: \"Yhteisössä minulla on perhe, joka välittää. Johtajan opetus antaa toivoa, ja yhteiset ateriat ovat viikon kohokohta. Olen myös oppinut auttamaan muita.\"\nEntisen jäsenen kirjoitus: \"Yhteisessä talossa johtaja päätti, kenen kanssa sain olla ystävä. Kun muutin pois, entiset ystävät eivät enää vastanneet viesteihini.\"","tehtavat":[{"nro":1,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Ryhmittele aineiston 1 liikkeet a–f taustan mukaan. Kirjoita jokaisen kirjaimen perään taustan numero.","vastaus":"Avain: a) 3, b) 1, c) 2, d) 1, e) 2, f) 3. Oikein, kun enintään yksi liike on ryhmitelty väärin."},{"nro":2,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Liikkeet ja uskonnot:\n1. ásatrú\n2. hindulaisuus\n3. Jehovan todistajat\n4. juutalaisuus\n5. ortodoksinen kirkko\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":2},{"nro":3,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike on uusi suhteessa ympäröivään kulttuuriin.\n2. Liikkeen jäsenet ovat nuoria.\n3. Liikkeellä on usein uusi ilmoitus tai uusi pyhä kirja.\n4. Liike pitää kokouksensa öisin.\n5. Liikkeen jäsenet syövät vain kasvisruokaa.\n\nMontako lauseista on tutkijoiden käyttämä peruste kutsua liikettä uudeksi uskonnolliseksi liikkeeksi?","vastaus":2},{"nro":4,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty Aleksi lukee horoskooppeja, käyttää kristalleja ja puhuu \"enkelienergiasta\". Hän yhdistelee näitä itse, eikä hänellä ole yhteisöä.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":3},{"nro":5,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet lukevat Raamattua ja perustajan kirjoittamaa kirjaa, jonka he uskovat sisältävän Jeesuksen uusia opetuksia.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":1},{"nro":6,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet opiskelevat Buddhan opetuksia tiibetiläisen opettajan johdolla ja meditoivat yhdessä.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":2},{"nro":7,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Uusi liike ei voi koskaan perustua vanhaan perinteeseen.\n2. Liike on vanha, jos sen jumalat ovat vanhoja.\n3. Kristinusko oli Rooman valtakunnassa aikanaan uusi liike.\n4. Kaikki uudet liikkeet ovat kristillisiä.\n\nMontako lausetta pitää paikkansa?","vastaus":1},{"nro":8,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Lahkolaiset pitivät taas kokouksen.\n2. Ásatrú-liikkeen jäsenet viettävät keskikesän juhlaa.\n3. Zen-ryhmän jäsenet meditoivat aamuisin.\n4. Kultti houkutteli nuoria.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":2},{"nro":9,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kultti kokoontuu kellarissa.\n2. Lahko järjesti konsertin.\n3. Lahkon jäsenet kävivät ovilla.\n4. Liikkeen jäsenet lauloivat yhdessä.\n5. Hihhulit pitivät taas meteliä.\n\nMontako lauseista sisältää leimaavan sanan?","vastaus":4},{"nro":10,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Kuvaukset:\n1. Entisten jäsenten mukaan johtaja päätti jäsenten ystävyyssuhteista, ja jäsenten mukaan yhteisö on kuin perhe.\n2. Hullujen kultti, josta kaikki haluavat pois.\n3. Ihana yhteisö, jossa kaikilla on aina hyvä olla.\n\nMonesko kuvaus on asiallinen ja neutraali?","vastaus":1},{"nro":11,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Yhteisö on kuin perhe.\n2. Entisen jäsenen mukaan johtaja päätti liikaa.\n3. Johtaja päättää kaikesta.\n4. Jäsenten kertoman mukaan yhteiset ateriat ovat tärkeitä.\n5. Tutkijan mukaan liike syntyi 2000-luvulla.\n\nMontako lauseista on kehystetty eli kertoo, kenen mukaan asia on?","vastaus":3},{"nro":12,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Jäsenet ovat sekopäitä.\n2. Entisten jäsenten mukaan eronneiden kanssa ei saanut olla yhteydessä.\n3. Kriitikoiden mukaan johtaja puuttuu jäsenten ystävyyksiin.\n4. Koko porukka on säälittävä.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":2},{"nro":13,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Asiat:\n1. oikeus olla kuulumatta uskonnolliseen yhdyskuntaan\n2. velvollisuus kuulua valtion kirkkoon\n3. oikeus tunnustaa uskontoa\n4. oikeus erota uskonnollisesta yhdyskunnasta\n5. oikeus jättää laki noudattamatta uskon vuoksi\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":3},{"nro":14,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Täysi-ikäinen keksitty Noora on päättänyt jättää rekisteröidyn uskonnollisen yhdyskunnan, johon hän kuuluu. Johtaja sanoo, ettei eroa voi tehdä ennen kuin Noora on maksanut jäsenmaksut vuoden loppuun.\n\nLauseet:\n1. Noora voi erota ilmoittamalla siitä kirjallisesti.\n2. Yhdyskunta ei voi estää eroa maksamattomien maksujen vuoksi.\n3. Oikeus olla kuulumatta yhdyskuntaan kuuluu uskonnonvapauteen.\n\nMontako lausetta pitää paikkansa?","vastaus":3},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue aineisto 2. Montako eri asiaa jäsen kertoo kirjoituksessaan pitävänsä liikkeessä tärkeänä?","vastaus":4},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entinen jäsen kertoo, että johtaja päätti hänen ystävistään.\n2. Entinen jäsen kertoo, että hänen piti maksaa suuri summa rahaa.\n3. Entinen jäsen kertoo, että poismuuton jälkeen ystävät eivät vastanneet viesteihin.\n4. Entinen jäsen kertoo, että kaikki uudet liikkeet ovat samanlaisia.\n\nMontako lauseista vastaa entisen jäsenen kirjoitusta?","vastaus":2},{"nro":17,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Selitä, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. Kerro vähintään kaksi perustetta.","vastaus":"Malliesimerkki: Liike on syntynyt pääosin 1800-luvulla tai myöhemmin. Se on uusi suhteessa ympäröivään kulttuuriin, vaikka sen opetus voisi olla vanhaa muualla. Lisäksi liikkeellä on usein karismaattinen perustaja tai uusi ilmoitus, kuten uusi pyhä kirja, ja sen ensimmäiset jäsenet ovat itse liittyneitä aikuisia."},{"nro":18,"ryhma":"sanat","tyyppi":"sanallinen","kysymys":"Kerro, miksi tutkijat käyttävät ilmausta uusi uskonnollinen liike eivätkä sanoja lahko tai kultti.","vastaus":"Malliesimerkki: Lahko ja kultti ovat arkikielessä leimaavia sanoja, jotka antavat liikkeestä valmiin kielteisen arvion, esimerkiksi että se on vaarallinen tai hallitsee jäseniään. Tutkija pyrkii kuvaamaan liikkeen oppeja ja tapoja ottamatta kantaa siihen, onko liike hyvä vai paha, joten hän käyttää neutraalia ilmausta."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Lue aineisto 2. a) Kuvaile, mitä jäsen pitää liikkeessä tärkeänä ja mitä entinen jäsen pitää ongelmallisena. b) Nimeä yksi asia, jonka uskonnonvapaus Suomessa turvaa ja joka liittyy kirjoituksiin.","vastaus":"Malliesimerkki: a) Jäsenen mukaan yhteisö on kuin välittävä perhe, johtajan opetus antaa toivoa, yhteiset ateriat ovat tärkeitä ja hän on oppinut auttamaan muita. Entinen jäsen kertoo, että johtaja päätti hänen ystävistään ja että poismuuton jälkeen ystävät katkaisivat yhteyden. b) Uskonnonvapaus turvaa oikeuden erota ja olla kuulumatta yhteisöön."},{"nro":20,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Valitse aineiston 1 liikkeistä ásatrú. Kerro kaksi perustetta, joiden vuoksi se on uusi uskonnollinen liike, vaikka sen jumalat ovat vanhoja.","vastaus":"Malliesimerkki: Liike järjestäytyi vasta 1970-luvulla, ja sen jäsenet ovat itse liittyneitä nykyajan ihmisiä. Se elvyttää vanhaa uskoa uudessa, nykyaikaisessa kulttuurissa, joten se on uusi suhteessa ympäröivään kulttuuriin."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Tehtävässä 1 kirjoita jokaisen kirjaimen perään taustan numero. Tehtäviin 17–20 vastaa kokonaisin virkkein. Kuvaa liikkeitä asiallisesti ja kerro, kenen mukaan asia on. Liikkeet ja henkilöt, joiden edessä on sana keksitty, ovat keksittyjä. Sinun omaa kantaasi liikkeisiin ei kysytä eikä arvioida.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nAineisto 1. Kuusi liikettä (tehtävä 1):\na) Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko: Joseph Smithin vuonna 1830 perustama kirkko, joka lähettää nuoria lähetystyöhön ja pitää Mormonin kirjaa pyhänä.\nb) New age -henkisyys: henkisyys, jolla ei ole yhteisöä eikä johtajaa. Ihminen voi esimerkiksi meditoida, käyttää kristalleja ja uskoa suojelusenkeleihin.\nc) Krishna-liike: Prabhupadan 1966 perustama liike, jonka jäsenet ovat kasvissyöjiä ja palvovat Krishnaa hindulaisen perinteen mukaan.\nd) Wicca: 1900-luvun puolivälissä Englannissa syntynyt liike, joka elvyttää esikristillisiä luonnonuskontoja ja juhlii vuodenkierron käännekohtia.\ne) Jehovan todistajat: 1870-luvulla syntynyt liike, jonka jäsenet eivät vietä joulua ja tutkivat Raamattua viikoittain yhdessä.\nf) Transsendenttinen meditaatio: 1950-luvun lopulla länteen levinnyt hindulaiseen perinteeseen pohjautuva meditaatiomenetelmä, jossa toistetaan mantraa.\n\nAineisto 2. Keksitty liike (tehtävät 15, 16 ja 19):\nKeksitty liike Tähtikehä perustettiin 1980-luvulla. Sen perustaja opettaa, että ihminen voi saada yhteyden tähtien henkiolentoihin, ja jäsenet kokoontuvat kursseille.\nJäsenen kirjoitus: \"Tähtikehän kursseilla olen oppinut rauhoittumaan. Pidän siitä, että kaikki saavat kertoa kokemuksistaan, ja perustajan opetus tuntuu tärkeältä.\"\nEntisen jäsenen kirjoitus: \"Kurssit maksoivat yhä enemmän, ja minulle sanottiin, että ilman seuraavaa kurssia kehitykseni pysähtyy. Kun lopetin, minua kutsuttiin heikoksi.\"","tehtavat":[{"nro":1,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Ryhmittele aineiston 1 liikkeet a–f taustan mukaan. Kirjoita jokaisen kirjaimen perään taustan numero.","vastaus":"Avain: a) 1, b) 3, c) 2, d) 3, e) 1, f) 2. Oikein, kun enintään yksi liike on ryhmitelty väärin."},{"nro":2,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Liikkeet ja uskonnot:\n1. kristinusko\n2. Krishna-liike\n3. islam\n4. buddhalaisuus\n5. Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":2},{"nro":3,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike on syntynyt 1800-luvulla tai myöhemmin.\n2. Liike on kaupallinen.\n3. Liike on uusi siinä maassa, jossa se toimii.\n4. Liikkeellä on karismaattinen perustaja.\n5. Liikkeessä on vähän jäseniä.\n\nMontako lauseista on tutkijoiden käyttämä peruste kutsua liikettä uudeksi uskonnolliseksi liikkeeksi?","vastaus":3},{"nro":4,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet uskovat, että Jeesus on ilmestynyt heidän perustajalleen, ja lukevat Raamattua tämän tulkinnan mukaan.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":1},{"nro":5,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty Emilia kuuntelee meditaatiosovellusta, käy reikihoidoissa ja kertoo, että hänen suojelusenkelinsä auttaa häntä. Hän ei kuulu mihinkään yhteisöön.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":3},{"nro":6,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet harjoittavat joogaa intialaisen opettajan ohjeiden mukaan ja uskovat karmaan ja jälleensyntymiseen.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":2},{"nro":7,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Wicca voi olla uusi liike, vaikka se elvyttää vanhoja uskontoja.\n2. Uusi liike syntyy aina Suomessa.\n3. Kristinuskokin oli joskus uusi liike.\n4. Uusi liike voi olla lähtöisin toisesta maasta.\n\nMontako lausetta pitää paikkansa?","vastaus":3},{"nro":8,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Wiccalaiset juhlivat keskitalvea.\n2. Lahkolaiset jakoivat taas lehtisiä.\n3. Hörhöt tarjoavat taas ruokaa torilla.\n4. Kultin väki oli taas torilla.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":1},{"nro":9,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Yhteisö kokoontuu torstaisin.\n2. Lahko pyörittää kahvilaa.\n3. Liikkeen jäsenet meditoivat yhdessä.\n4. Kultti värvää koululaisia.\n5. Hihhulit lauloivat torilla.\n\nMontako lauseista sisältää leimaavan sanan?","vastaus":3},{"nro":10,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Kuvaukset:\n1. Tähtikehä on hörhöjen kerho.\n2. Jäsenten mukaan kurssit auttavat rauhoittumaan, ja entisten jäsenten mukaan kurssit ovat kalliita.\n3. Tähtikehä on maailman paras liike.\n\nMonesko kuvaus on asiallinen ja neutraali?","vastaus":2},{"nro":11,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entisten jäsenten mukaan kurssit olivat kalliita.\n2. Kurssit ovat kalliita.\n3. Jäsenten mukaan kursseilla oppii rauhoittumaan.\n4. Kursseilla oppii rauhoittumaan.\n5. Liike on paras paikka oppia rauhoittumaan.\n\nMontako lauseista on kehystetty eli kertoo, kenen mukaan asia on?","vastaus":2},{"nro":12,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kriitikoiden mukaan kurssit maksavat liikaa.\n2. Liikkeen jäsenet ovat typeriä.\n3. Lopettajat ovat pelkureita.\n4. Koko liike on vitsi.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":1},{"nro":13,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Asiat:\n1. oikeus ilmaista vakaumuksensa\n2. oikeus pakottaa toinen liittymään\n3. oikeus kuulua uskonnolliseen yhdyskuntaan\n4. oikeus olla kuulumatta mihinkään uskonnolliseen yhdyskuntaan\n5. velvollisuus osallistua uskonnon harjoittamiseen omantunnon vastaisesti\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":3},{"nro":14,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Täysi-ikäinen keksitty Paavo on päättänyt jättää rekisteröidyn uskonnollisen yhdyskunnan, johon hän kuuluu. Yhteisön johtaja sanoo, että eroa ei voi tehdä kesken lukuvuoden.\n\nLauseet:\n1. Paavo voi erota kirjallisella ilmoituksella milloin tahansa.\n2. Johtaja voi päättää, milloin Paavo saa erota.\n3. Yhdyskunnasta saa erota vain vuoden lopussa.\n\nMontako lausetta pitää paikkansa?","vastaus":1},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue aineisto 2. Montako eri asiaa jäsen kertoo kirjoituksessaan pitävänsä liikkeessä tärkeänä?","vastaus":3},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entinen jäsen kertoo, että kurssien hinnat nousivat.\n2. Entinen jäsen kertoo, että hänelle sanottiin kehityksen pysähtyvän ilman seuraavaa kurssia.\n3. Entinen jäsen kertoo, että lopettamisen jälkeen häntä kutsuttiin heikoksi.\n4. Entinen jäsen kertoo, että hän joutui muuttamaan pois kotoaan.\n\nMontako lauseista vastaa entisen jäsenen kirjoitusta?","vastaus":3},{"nro":17,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Selitä, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. Kerro vähintään kaksi perustetta.","vastaus":"Malliesimerkki: Liike on syntynyt pääosin 1800-luvulla tai myöhemmin. Se on uusi suhteessa ympäröivään kulttuuriin, vaikka sen opetus voisi olla vanhaa muualla. Lisäksi liikkeellä on usein karismaattinen perustaja tai uusi ilmoitus, kuten uusi pyhä kirja, ja sen ensimmäiset jäsenet ovat itse liittyneitä aikuisia."},{"nro":18,"ryhma":"sanat","tyyppi":"sanallinen","kysymys":"Kerro, miksi tutkijat käyttävät ilmausta uusi uskonnollinen liike eivätkä sanoja lahko tai kultti.","vastaus":"Malliesimerkki: Lahko ja kultti ovat arkikielessä leimaavia sanoja, jotka antavat liikkeestä valmiin kielteisen arvion, esimerkiksi että se on vaarallinen tai hallitsee jäseniään. Tutkija pyrkii kuvaamaan liikkeen oppeja ja tapoja ottamatta kantaa siihen, onko liike hyvä vai paha, joten hän käyttää neutraalia ilmausta."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Lue aineisto 2. a) Kuvaile, mitä jäsen pitää liikkeessä tärkeänä ja mitä entinen jäsen pitää ongelmallisena. b) Nimeä yksi asia, jonka uskonnonvapaus Suomessa turvaa ja joka liittyy kirjoituksiin.","vastaus":"Malliesimerkki: a) Jäsenen mukaan tärkeää on, että kursseilla oppii rauhoittumaan, kaikki saavat kertoa kokemuksistaan ja perustajan opetus tuntuu merkitykselliseltä. Entinen jäsen kertoo, että kurssien hinnat nousivat, häntä painostettiin jatkamaan ja lopettamisen jälkeen häntä kutsuttiin heikoksi. b) Uskonnonvapaus turvaa oikeuden lopettaa osallistuminen ja olla kuulumatta liikkeeseen."},{"nro":20,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Valitse aineiston 1 liikkeistä Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko. Kerro kaksi perustetta, joiden vuoksi se on uusi uskonnollinen liike.","vastaus":"Malliesimerkki: Kirkko on syntynyt vasta vuonna 1830. Sillä on perustaja Joseph Smith ja uusi pyhä kirja, Mormonin kirja, jota kirkko pitää pyhänä Raamatun rinnalla."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä.\nKun kysytään montako tai monesko, vastaa yhdellä luvulla. Tehtävässä 1 kirjoita jokaisen kirjaimen perään taustan numero. Tehtäviin 17–20 vastaa kokonaisin virkkein. Kuvaa liikkeitä asiallisesti ja kerro, kenen mukaan asia on. Liikkeet ja henkilöt, joiden edessä on sana keksitty, ovat keksittyjä. Sinun omaa kantaasi liikkeisiin ei kysytä eikä arvioida.\n\nTaustat:\n1. kristillinen tausta\n2. itämainen tausta\n3. muinaisuskoon pohjautuva tai yksilöllinen henkisyys\n\nAineisto 1. Kuusi liikettä (tehtävä 1):\na) Kristillinen tiede: liike, jonka Mary Baker Eddy perusti 1879 ja joka korostaa Raamatun ja Jeesuksen opetuksen pohjalta hengellistä parantamista.\nb) Ásatrú: liike, joka sai Islannissa virallisen aseman 1970-luvulla ja kunnioittaa muinaisia pohjoisen jumalia, kuten Thoria ja Freijaa.\nc) Krishna-liike: hindulaiseen perinteeseen pohjautuva liike, jonka jäsenet ovat tunnettuja kaduilla laulamastaan mantrasta.\nd) New age -henkisyys: yksilöllinen henkisyys, jossa ihminen voi yhdistää esimerkiksi enkeliuskoa, astrologiaa ja jälleensyntymän ajatusta ilman jäsenyyttä.\ne) Länsimainen meditaatioliike: Euroopassa 1900-luvun jälkipuoliskolla perustettu liike, joka opettaa buddhalaista meditaatiota ja Buddhan opetuksia.\nf) Myöhempien Aikojen Pyhien Jeesuksen Kristuksen Kirkko: kirkko, joka uskoo Jeesukseen ja jonka mukaan Jumala antoi uutta ilmoitusta Joseph Smithille.\n\nAineisto 2. Keksitty liike (tehtävät 15, 16 ja 19):\nKeksitty liike Elävän veden piiri perustettiin 1970-luvulla. Sen perustaja sanoo, että Raamatun lisäksi Jumala puhuu hänen kauttaan, ja jäsenet viettävät yhteisiä kesäleirejä.\nJäsenen kirjoitus: \"Piirissä saan olla oma itseni. Kesäleirit ovat vuoden parasta aikaa, ja yhteinen rukous antaa voimaa.\"\nEntisen jäsenen kirjoitus: \"Minulta odotettiin, että kerron kaikista asioistani ryhmänjohtajalle. Kun aloin kysellä opetuksista, minua syytettiin epäuskosta, ja lopulta lähdin.\"","tehtavat":[{"nro":1,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Ryhmittele aineiston 1 liikkeet a–f taustan mukaan. Kirjoita jokaisen kirjaimen perään taustan numero.","vastaus":"Avain: a) 1, b) 3, c) 2, d) 3, e) 2, f) 1. Oikein, kun enintään yksi liike on ryhmitelty väärin."},{"nro":2,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Liikkeet ja uskonnot:\n1. transsendenttinen meditaatio\n2. luterilainen kirkko\n3. Kristillinen tiede\n4. new age -henkisyys\n5. hindulaisuus\n\nMontako niistä on syntynyt 1800-luvulla tai myöhemmin?","vastaus":3},{"nro":3,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liikkeellä on uusi ilmoitus tai uusi pyhä kirja.\n2. Liikkeen jäsenet ovat köyhiä.\n3. Liike on syntynyt 1800-luvulla tai sen jälkeen.\n4. Liikkeen jäsenet pukeutuvat valkoiseen.\n5. Liike toimii vain suurissa kaupungeissa.\n\nMontako lauseista on tutkijoiden käyttämä peruste kutsua liikettä uudeksi uskonnolliseksi liikkeeksi?","vastaus":2},{"nro":4,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet seuraavat buddhalaista opettajaa, lausuvat yhdessä rukoussäettä ja tavoittelevat valaistumista.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":2},{"nro":5,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty liike: Jäsenet uskovat, että Jeesus palaa pian, ja tutkivat Raamattua perustajansa laatiman aikataulun avulla.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":1},{"nro":6,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Keksitty Jere käy tarot-lukijalla, lukee kirjoja karmasta ja pitää kotonaan enkelipatsasta, jonka uskoo suojelevan häntä. Hän ei kuulu mihinkään yhteisöön.\n\nMonenteen taustaan kuvaus kuuluu? Käytä taustalistaa.","vastaus":3},{"nro":7,"ryhma":"tunnistus","tyyppi":"lasku","kysymys":"Lauseet:\n1. Liike voi olla uusi, vaikka sen jumalat ovat vanhoja.\n2. Vanhasta perinteestä ei voi syntyä uutta liikettä.\n3. Ensimmäiset kristityt kuuluivat aikanaan uuteen liikkeeseen.\n4. Uudet liikkeet ovat aina kristillisiä.\n\nMontako lausetta pitää paikkansa?","vastaus":2},{"nro":8,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kultin jäsenet kokoontuivat taas.\n2. Ásatrú-liikkeen jäsenet juhlivat talvipäivänseisausta.\n3. Meditaatioliikkeen jäsenet istuvat hiljaa.\n4. Lahkolaiset kävivät taas kylässä.\n\nMontako lauseista on neutraalia kuvausta?","vastaus":2},{"nro":9,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kultti piti kesäleirin.\n2. Liike järjesti kesäleirin.\n3. Hihhulit tulivat taas ovelle.\n4. Liikkeen jäsenet ostivat talon.\n5. Yhteisö kokoontuu sunnuntaisin.\n\nMontako lauseista sisältää leimaavan sanan?","vastaus":2},{"nro":10,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Kuvaukset:\n1. Kaikki piirin jäsenet ovat onnellisia.\n2. Hörhöjen leiri metsän keskellä.\n3. Jäsenten mukaan leirit antavat voimaa, ja entisten jäsenten mukaan johtajalle piti kertoa kaikki.\n\nMonesko kuvaus on asiallinen ja neutraali?","vastaus":3},{"nro":11,"ryhma":"sanat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Jäsenten mukaan leirit antavat voimaa.\n2. Leirit antavat voimaa.\n3. Ryhmänjohtaja haluaa tietää kaiken.\n4. Entisen jäsenen mukaan johtajalle piti kertoa kaikki.\n5. Kriitikot ovat väärässä.\n\nMontako lauseista on kehystetty eli kertoo, kenen mukaan asia on?","vastaus":2},{"nro":12,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entisten jäsenten mukaan kysymyksiä opetuksista ei sallittu.\n2. Liikkeen jäsenet ovat pöljiä.\n3. Kriitikoiden mukaan ryhmänjohtajalla oli liikaa valtaa jäsenten elämään.\n4. Koko porukka on surkea.\n\nMontako lauseista on asiallista kritiikkiä?","vastaus":2},{"nro":13,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Asiat:\n1. oikeus harjoittaa uskontoa\n2. oikeus kieltää toista vaihtamasta uskontoa\n3. velvollisuus pysyä yhdyskunnassa koko elämän\n4. oikeus erota uskonnollisesta yhdyskunnasta\n5. oikeus vahingoittaa toista uskonnon vuoksi\n\nMontako asioista sisältyy uskonnonvapauteen Suomessa?","vastaus":2},{"nro":14,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Täysi-ikäinen keksitty Sara on päättänyt jättää rekisteröidyn uskonnollisen yhdyskunnan, johon hän kuuluu. Ryhmänjohtaja sanoo, että Saran pitää ensin keskustella hänen kanssaan kolme kertaa.\n\nLauseet:\n1. Saran on pakko käydä keskustelut ennen eroa.\n2. Sara voi erota kirjallisella ilmoituksella.\n3. Oikeus erota kuuluu uskonnonvapauteen.\n\nMontako lausetta pitää paikkansa?","vastaus":2},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue aineisto 2. Montako eri asiaa jäsen kertoo kirjoituksessaan pitävänsä liikkeessä tärkeänä?","vastaus":3},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lauseet:\n1. Entinen jäsen kertoo, että hänen piti kertoa asioistaan ryhmänjohtajalle.\n2. Entinen jäsen kertoo, että häntä syytettiin epäuskosta, kun hän kyseli.\n3. Entinen jäsen kertoo, että hänet erotettiin koulusta.\n4. Entinen jäsen kertoo, että kaikki jäsenet ovat hölmöjä.\n\nMontako lauseista vastaa entisen jäsenen kirjoitusta?","vastaus":2},{"nro":17,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Selitä, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi. Kerro vähintään kaksi perustetta.","vastaus":"Malliesimerkki: Liike on syntynyt pääosin 1800-luvulla tai myöhemmin. Se on uusi suhteessa ympäröivään kulttuuriin, vaikka sen opetus voisi olla vanhaa muualla. Lisäksi liikkeellä on usein karismaattinen perustaja tai uusi ilmoitus, kuten uusi pyhä kirja, ja sen ensimmäiset jäsenet ovat itse liittyneitä aikuisia."},{"nro":18,"ryhma":"sanat","tyyppi":"sanallinen","kysymys":"Kerro, miksi tutkijat käyttävät ilmausta uusi uskonnollinen liike eivätkä sanoja lahko tai kultti.","vastaus":"Malliesimerkki: Lahko ja kultti ovat arkikielessä leimaavia sanoja, jotka antavat liikkeestä valmiin kielteisen arvion, esimerkiksi että se on vaarallinen tai hallitsee jäseniään. Tutkija pyrkii kuvaamaan liikkeen oppeja ja tapoja ottamatta kantaa siihen, onko liike hyvä vai paha, joten hän käyttää neutraalia ilmausta."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Lue aineisto 2. a) Kuvaile, mitä jäsen pitää liikkeessä tärkeänä ja mitä entinen jäsen pitää ongelmallisena. b) Nimeä yksi asia, jonka uskonnonvapaus Suomessa turvaa ja joka liittyy kirjoituksiin.","vastaus":"Malliesimerkki: a) Jäsenen mukaan tärkeää on, että hän saa olla oma itsensä, kesäleirit ovat vuoden parasta aikaa ja yhteinen rukous antaa voimaa. Entinen jäsen kertoo, että häneltä odotettiin kaikkien asioidensa kertomista johtajalle ja että kysymyksiä opetuksista pidettiin epäuskona. b) Uskonnonvapaus turvaa oikeuden ilmaista oma vakaumus ja erota yhteisöstä."},{"nro":20,"ryhma":"tunnistus","tyyppi":"sanallinen","kysymys":"Valitse aineiston 1 liikkeistä Kristillinen tiede. Kerro kaksi perustetta, joiden vuoksi se on uusi uskonnollinen liike.","vastaus":"Malliesimerkki: Liike syntyi vasta 1800-luvun lopulla. Sillä on karismaattinen perustaja Mary Baker Eddy, jonka tulkintaa Raamatusta jäsenet seuraavat."}]}],"tulostus":{"sivuja":7,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min ja koe kolmannella tunnilla","huomiot":["Kesto: kaksi oppituntia opetukseen ja harjoitteluun, koe kolmannella tunnilla (noin 45 min). Edeltäjät: Seitsemän ulottuvuuden linssi (UE7-MAA-01, tutkijan kehystetty kuvaus), Voimavara vai vallan väline (UE7-AJA-02, uskontokritiikin lajit) ja Suomen kirkkokuntakartta (UE8-MAA-01). Tässä ei toisteta kritiikin lajittelua eikä kirkkokuntien tilastoja, vaan kritiikkiä tarkastellaan uusien liikkeiden ja uskonnonvapauden yhteydessä. Suomalainen muinaisusko käsitellään taidossa UE8-MAA-03; tässä uuspakanuus on vain yksi taustaryhmä.","Herkkä aihe: luokassa voi olla oppilaita, joiden perhe kuuluu johonkin käsiteltävistä liikkeistä (esimerkiksi Jehovan todistajat tai MAP-kirkko). Kenenkään omaa tai perheen kuulumista ei kysytä, eikä oppilaan kantaa liikkeisiin arvioida. Todellisista liikkeistä kerrotaan vain neutraaleja perustietoja (syntyaika, perustaja, pyhä teksti, tunnetut käytännöt). Kritiikki käsitellään yleisellä tasolla ja kokeissa vain keksittyjen liikkeiden kautta. Jos oppilas kertoo omasta taustastaan, kuuntele, mutta älä tee siitä esimerkkiä. Liikkeisiin kuulumisesta huolestunut oppilas ohjataan kuraattorille tai terveydenhoitajalle.","Muoto: koeperustainen (näyttö paperikoe). Taitokartan kohdat kokeessa: 1) perusteet = tehtävä 17; 2) kuuden liikkeen ryhmittely = tehtävä 1; 3) neutraali ilmaus = tehtävä 18; 4) jäsenen ja entisen jäsenen kirjoitukset ja uskonnonvapaus = tehtävä 19. Nämä neljä ovat mittaritehtäviä, ja niiden pitää olla oikein. Tehtävät 2–16 ovat numeerisia. Tehtävä 20 on sanallinen eikä mittari: siinä perusteita sovelletaan yhteen aineiston liikkeeseen.","Tehtävä 1: oikein, kun enintään yksi liike kuudesta on ryhmitelty väärin (kartan raja). Jokaisessa versiossa kaksi liikettä on kustakin taustasta, ja new age -kuvauksessa on sana, joka houkuttelee väärään ryhmään (enkelit, karma tai jälleensyntyminen). Tehtävä 17: oikein, kun perusteita on vähintään kaksi ja ne ovat tutkijoiden perusteita (syntyaika pääosin 1800-luvulta alkaen, uutuus ympäröivässä kulttuurissa, karismaattinen perustaja tai uusi ilmoitus, ensimmäisen sukupolven jäsenet itse liittyneitä). Vaarallisuus, koko tai jäsenten erikoisuus eivät ole perusteita. Tehtävä 18: oikein, kun vastauksessa on, että lahko ja kultti ovat arkikielessä leimaavia tai antavat valmiin kielteisen arvion ja että tutkija pyrkii kuvaamaan ottamatta kantaa. Tehtävä 19: oikein, kun molempien kirjoitusten näkökulmat on kuvattu tekstin mukaisesti (ei lisättyjä asioita) ja asiallisesti, kumpaakaan ei esitetä pilkallisesti, ja uskonnonvapauden sisältö on oikea (esimerkiksi oikeus erota, oikeus olla kuulumatta, oikeus kuulua, oikeus ilmaista vakaumus). Oppilaan oma kanta ei ole vaatimus eikä virhe, jos näkökulmat on kuvattu. Tehtävä 20 (ei mittari): kaksi perustetta, jotka sopivat valittuun liikkeeseen. Sanallisissa hyväksytään mikä tahansa oikea muotoilu, ei vain malliesimerkin sanamuoto.","Numeeristen tehtävien rajatapaukset: tehtävässä 2 luterilainen kirkko, ortodoksinen kirkko, katolinen kirkko, kristinusko, islam, juutalaisuus, hindulaisuus ja buddhalaisuus ovat ennen 1800-lukua syntyneitä; ásatrú, wicca, transsendenttinen meditaatio ja new age lasketaan 1800-luvun jälkeen syntyneiksi, vaikka ne elvyttävät tai soveltavat vanhaa perinnettä. Tehtävässä 3 lasketaan vain tutkijoiden perusteet; arvioivat tai satunnaiset piirteet (vaarallinen, rahaa keräävä, nuoret jäsenet) eivät ole perusteita. Tehtävissä 4–6 (järjestys vaihtelee versioittain) yksi sana (Jeesus, enkeli, karma) ei tee yksin itse koottua henkisyyttä kristilliseksi tai itämaiseksi (ansa 1). Tehtävässä 15 lasketaan jäsenen kirjoituksesta erikseen mainitut asiat: A 3 (ystävät, laulut, vastaukset elämän tarkoitukseen), B 2 (joukkoon kuuluminen, kirjan ohjeet), C 4 (välittävä perhe, toivo, ateriat, muiden auttaminen), D 3 (rauhoittuminen, kokemusten kertominen, perustajan opetus), E 3 (oma itse, kesäleirit, rukous).","Harjoitusten liikkeiden kuvaukset ja keksityt henkilöt ovat eri kuin kokeissa. Opetustekstin esimerkit (Linnea, MAP-kirkko ja Joseph Smith taulukossa, leimaavat ja neutraalit lauseet taulukossa) eivät toistu kokeissa sellaisinaan. Monivalinnat H07, H11 ja H18 (3/3 sallitusta). Koe A käyttää taitokartan esimerkkiliikkeitä.","Tarkistettavat asiatiedot: (1) Jehovan todistajat: Charles Taze Russellin raamatuntutkisteluryhmä Pittsburghissa 1870-luvulla, nimi Jehovan todistajat 1931, Vartiotorni-lehti, joulun viettämättä jättäminen; (2) MAP-kirkko: Joseph Smith, perustaminen 1830, Mormonin kirja; kirkon toive välttää nimitystä mormonit; (3) Kristillinen tiede: Mary Baker Eddy, kirkon perustaminen Bostonissa 1879, kirja Science and Health (suomeksi Tiede ja terveys); (4) Krishna-liike (ISKCON): A. C. Bhaktivedanta Swami Prabhupada, New York 1966; (5) transsendenttinen meditaatio: Maharishi Mahesh Yogi, levisi länteen 1950-luvun lopulta; liike itse kuvaa menetelmää usein tekniikaksi eikä uskonnoksi, mikä voi herättää keskustelua; (6) wicca: Gerald Gardner, Englanti 1950-luku; (7) ásatrú: Ásatrúarfélagið perustettiin Islannissa 1972 ja sai virallisen aseman 1973; (8) new age -henkisyyden leviäminen 1970-luvulta; (9) perustuslain 11 § (uskonnon ja omantunnon vapaus) ja uskonnonvapauslain (453/2003) säännökset eroamisesta (kirjallinen ilmoitus yhdyskunnalle tai Digi- ja väestötietovirastolle) sekä alaikäisten ikärajoista (12 ja 15 vuotta); (10) uskontotieteellinen määritelmä ja perusteet (esim. Eileen Barker); sanaa lahko on uskontososiologiassa käytetty myös teknisenä terminä (kirkko–lahko-jaottelu), mutta arkikielessä se on leimaava; (11) Krishnan palvonnan ikä Intiassa (\"vuosisatoja\")."]},"tuntirunko":{"kesto":"2 · 45 min (ensimmäinen tunti: perusteet, taustat ja neutraali kieli; toinen tunti: kaksi näkökulmaa ja uskonnonvapaus; koe kolmannella tunnilla)","sanottava_aaneen":"Tänään tutkimme uusia uskonnollisia liikkeitä tutkijan tavalla. Kenenkään ei tarvitse kertoa, kuuluuko itse tai perhe johonkin yhteisöön. Kuvaamme liikkeitä asiallisesti ja kerromme, kenen mukaan asia on.","vaiheet":[{"aika":"8 min","otsikko":"Aloitus","sisalto":"Lue johdanto. Kysy, mistä tietää, onko jokin ryhmä \"kultti\". Kerro, että tunnilla opitaan tutkijan perusteet ja neutraali kieli."},{"aika":"15 min","otsikko":"Perusteet ja taustat","sisalto":"Käy läpi perusteet, taulukko ja aikajana. Parit ryhmittelevät 8 liikekorttia (eri kuin kokeissa) kolmeen taustaan säännön avulla. Ansa 1 lopuksi."},{"aika":"15 min","otsikko":"Neutraali kieli","sisalto":"Käy läpi kappale ja taulukko. Parit muuttavat 4–5 leimaavaa lausetta neutraaleiksi. Ansa 2: neutraali ei ole kehumista."},{"aika":"7 min","otsikko":"Harjoittelu","sisalto":"Harjoitusryhmät 1 ja 2. Toisella tunnilla kaksi näkökulmaa (kappale, kuva, sääntö; kahden keksityn kirjoituksen kuvaaminen pareittain), uskonnonvapaus ja ansa 3, harjoitusryhmä 3 ja kertaus muistilapusta."}],"tarvikkeet":"Oppimateriaalin taulukot, aikajana ja kuva. Liikekortit ryhmittelyyn ja leimaavat lauseet muokattaviksi (eri kuin kokeissa). Kaksi keksittyä kirjoitusta harjoitteluun. Kokeen versiot A–E tulostettuina."},"virhesanakirja":[{"virhe":"Antaa perusteeksi vaarallisuuden, pienen koon tai jäsenten erikoisuuden","tehtava":"tunnistus (H06, kokeen tehtävät 3 ja 17)","mita_kertoo":"Oppilas tunnistaa liikkeen arkikielen mielikuvan eikä tutkijan perusteiden kautta.","mita_tehda":"Kertaa taulukko Neljä perustetta. Kysy jokaisesta ehdotuksesta: onko tämä kuvaus vai arvio?"},{"virhe":"Ryhmittelee yksilöllisen henkisyyden kristilliseksi tai itämaiseksi yhden sanan (enkeli, Jeesus, karma) perusteella","tehtava":"tunnistus (H05, kokeen tehtävät 1 ja 4–6)","mita_kertoo":"Oppilas tarttuu yksittäiseen sanaan eikä katso liikkeen pääasiallista lähdettä.","mita_tehda":"Lue ansa 1. Pyydä alleviivaamaan, onko kuvauksessa yhteisöä, yhtä opettajaa tai pyhää kirjaa, vai kokoaako ihminen henkisyytensä itse."},{"virhe":"Pitää vanhaan perinteeseen pohjautuvaa liikettä vanhana uskontona","tehtava":"tunnistus (H07, kokeen tehtävät 7 ja 20)","mita_kertoo":"Oppilas sekoittaa liikkeen syntyajan ja sen opetuksen iän.","mita_tehda":"Kertaa peruste Uusi ympäristössään ja aikajana: milloin juuri tämä liike syntyi ja missä?"},{"virhe":"Pitää kehuvaa lausetta neutraalina tai käyttää itse sanoja lahko ja kultti kuvauksessa","tehtava":"sanat (H09–H12, kokeen tehtävät 8–10 ja 18)","mita_kertoo":"Oppilas ajattelee, että neutraali tarkoittaa myönteistä, tai ei vielä huomaa arkisanojen arvolatausta.","mita_tehda":"Lue ansa 2. Pyydä muuttamaan lause muotoon \"X:n mukaan…\" ja poistamaan sanat, jotka kertovat arvion."},{"virhe":"Lisää entisen jäsenen tai jäsenen kirjoitukseen asioita, joita siinä ei ole, tai kuvaa toista näkökulmaa pilkallisesti","tehtava":"nakokulmat (H14–H16, kokeen tehtävät 12, 15, 16 ja 19)","mita_kertoo":"Oppilas kuvaa omaa mielikuvaansa liikkeestä eikä tekstiä.","mita_tehda":"Käytä sääntöä Näin kuvaat kaksi näkökulmaa. Pyydä merkitsemään jokaiseen kuvauksen virkkeeseen, mistä tekstin kohdasta se on peräisin."},{"virhe":"Ajattelee, että uskonnonvapaus suojaa yhteisön oikeutta estää eroaminen tai antaa luvan rikkoa lakia","tehtava":"nakokulmat (H17, H18, kokeen tehtävät 13, 14 ja 19)","mita_kertoo":"Oppilas tulkitsee vapauden yhteisön vapaudeksi eikä yksilön oikeudeksi.","mita_tehda":"Lue ansa 3 ja perustuslain kohta. Kysy: kenen vapaudesta on kyse, ja mitä tarkoittaa oikeus olla kuulumatta?"}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee kertomaan, millä perusteilla uskontotieteilijä kutsuu liikettä uudeksi uskonnolliseksi liikkeeksi (esimerkiksi syntyaika ja perustaja), ryhmittelemään liikkeitä taustan mukaan (kristillinen, itämainen, muinaisuskoon pohjautuva tai yksilöllinen henkisyys) ja selittämään, miksi tutkijat välttävät sanoja lahko ja kultti. Hän harjoittelee kuvaamaan sekä jäsenen että entisen jäsenen näkökulmaa asiallisesti ja kertomaan, mitä uskonnonvapaus Suomessa turvaa. Nuoren omaa kantaa liikkeisiin tai perheen vakaumusta ei kysytä eikä arvioida.","kotona":["Kysy, millä perusteilla liikettä kutsutaan uudeksi uskonnolliseksi liikkeeksi.","Pyydä nuorta selittämään, miksi sana kultti on leimaava ja millä neutraalilla ilmauksella sen voi korvata.","Kysy, mitä kolmea taustaa uusilla liikkeillä voi olla, ja pyydä esimerkki kustakin.","Kysy, mitä oikeuksia perustuslain 11 § antaa."],"milloin_huolestua":"Jos nuori ei harjoittelun jälkeen pysty kuvaamaan liikettä ilman leimaavia sanoja tai sekoittaa taustat jatkuvasti, kerro siitä opettajalle. Jos aihe herättää nuoressa huolta tai kysymyksiä, joista hän haluaa puhua, kouluterveydenhoitaja ja kuraattori auttavat."},"ulkoiset":{},"valmis_teksti":"Osaat kertoa, mitä uudet uskonnolliset liikkeet ovat, ryhmitellä niitä taustan mukaan, kuvata liikkeitä neutraalisti ja kertoa sekä jäsenen että kriitikon näkökulman asiallisesti. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

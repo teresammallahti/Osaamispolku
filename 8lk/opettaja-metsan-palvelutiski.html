@@ -1,0 +1,619 @@
+<title>Metsän palvelutiski · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"BI8-KES-02","oppiaine":"BI","vuosiluokka":8,"taitoalue":"KES","jakso":"J4","taso":"ydin","otsikko":"Metsän palvelutiski","kuvaus":"Osaan kertoa esimerkein, mitä ekosysteemipalvelut ja biotalous ovat, ja tarkastella luonnonvaran käyttöä kestävän kehityksen ekologisesta, taloudellisesta, sosiaalisesta ja eettisestä näkökulmasta.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T13"],"S":["S6"]},"eyebrow":"Biologia · 8. luokka","ikoni":"tasapaino","naytto":"Paperikokeessa luokittelen kymmenen annettua esimerkkiä (esimerkiksi puutavara, mustikat, pölytys, veden puhdistuminen maaperässä, hiilen sitoutuminen, tulvien tasaaminen, ulkoilu, maaperän muodostuminen, ravinteiden kierto, luontokuvaus) ekosysteemipalveluiden ryhmiin. Kerron, mitä biotalous tarkoittaa, ja annan kaksi esimerkkiä metsäpohjaisesta tuotteesta. Saan keksityn tapauksen keksityn Sammalvaaran kaupunginosan lähimetsästä, jota suunnitellaan hakattavaksi, ja kirjoitan, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti.","osaa_kun":"Luokittelen vähintään kahdeksan esimerkkiä kymmenestä oikein tuotanto-, säätely-, kulttuuri- ja ylläpitopalveluihin. Selitän biotalouden uusiutuvien luonnonvarojen kestäväksi käytöksi ja kerron, että se on kestävää vain, jos luonnonvaraa käytetään enintään sen uusiutumisen verran ja monimuotoisuus säilyy. Tapauksessa on jokaisesta neljästä näkökulmasta vähintään yksi asiallinen seuraus, ja ekologinen seuraus perustuu biologiseen tietoon (esimerkiksi lahopuun tai sienijuuriverkoston häviäminen). Omaa mielipidettä hakkuusta ei arvioida. 6. luokalla kuvasin globaaleja uhkia ja ratkaisuja; nyt erittelen ekosysteemipalvelut ja punnitsen luonnonvaran käyttöä neljästä näkökulmasta.","teksti":[{"tyyppi":"johdanto","sisalto":"Aamulla avaat kartonkisen mehupurkin, koulumatkalla oikaiset metsäpolun kautta, ja biologian tunnilla kuulet, että sama metsä sitoo hiiltä ja puhdistaa pohjavettä. Metsä on kuin palvelutiski, jolta ihmiset saavat jatkuvasti jotakin, usein huomaamattaan ja ilmaiseksi. Taidossa Sammalesta latvaan opit, miten metsän ekosysteemi toimii. Nyt opit nimeämään hyödyt, joita saamme metsästä, selittämään, mitä biotalous tarkoittaa, ja punnitsemaan metsän käyttöä neljästä näkökulmasta."},{"tyyppi":"kappale","otsikko":"Ekosysteemipalvelut","sisalto":"Ekosysteemipalvelut ovat hyötyjä, joita ihmiset saavat luonnon ekosysteemeistä. Osa hyödyistä on tuotteita, joita voi korjata talteen ja myydä, kuten puu ja marjat. Suurin osa on kuitenkin toimintaa, jota emme näe: kimalaiset pölyttävät mustikan kukkia, maaperä suodattaa sadevettä puhtaaksi pohjavedeksi ja kasvit sitovat ilmakehän hiilidioksidia yhteyttäessään.\n\nPalvelut jaetaan neljään ryhmään: tuotanto-, säätely-, kulttuuri- ja ylläpitopalveluihin. Ylläpitopalveluita kutsutaan joissakin kirjoissa tukipalveluiksi. Sama metsä tuottaa samaan aikaan kaikkien neljän ryhmän palveluita. Palvelut riippuvat metsän eliöistä: jos pölyttäjät, sienijuuret tai maaperän hajottajat häviävät, myös niiden tuottamat palvelut heikkenevät."},{"tyyppi":"taulukko","otsikko":"Ekosysteemipalveluiden neljä ryhmää","otsikkorivi":["Ryhmä","Mitä se tarkoittaa","Esimerkkejä metsästä"],"rivit":[["Tuotantopalvelut","Aineet ja tuotteet, jotka ihmiset korjaavat luonnosta talteen.","puu, marjat, sienet, riista"],["Säätelypalvelut","Luonnon toiminta, joka tasaa, puhdistaa tai suojaa ympäristöä.","pölytys, hiilen sitoutuminen, veden puhdistuminen maaperässä, tulvien tasaaminen"],["Kulttuuripalvelut","Aineettomat hyödyt: virkistys, elämykset, oppiminen, kauneus ja merkitykset.","ulkoilu, luontoharrastukset, maisema, luonto opetuksen ympäristönä"],["Ylläpitopalvelut","Luonnon perustoiminnot, joita kaikki muut palvelut tarvitsevat.","yhteyttäminen, ravinteiden kierto, maaperän muodostuminen"]]},{"tyyppi":"kuva","otsikko":"Neljä palveluryhmää","svg":"<svg viewBox=\"0 0 640 320\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Ekosysteemipalveluiden neljä ryhmää metsän ympärillä\"><rect class=\"v-osa v1\" x=\"250\" y=\"118\" width=\"140\" height=\"56\" rx=\"10\"/><text class=\"v-t vahva\" x=\"320\" y=\"143\" text-anchor=\"middle\" style=\"font-size:15px\">Metsän</text><text class=\"v-t vahva\" x=\"320\" y=\"162\" text-anchor=\"middle\" style=\"font-size:15px\">ekosysteemi</text><rect class=\"v-osa\" x=\"20\" y=\"14\" width=\"220\" height=\"90\" rx=\"8\"/><text class=\"v-t vahva\" x=\"130\" y=\"36\" text-anchor=\"middle\" style=\"font-size:14px\">Tuotantopalvelut</text><text class=\"v-t\" x=\"130\" y=\"58\" text-anchor=\"middle\" style=\"font-size:12px\">Mitä korjataan talteen?</text><text class=\"v-t pieni\" x=\"130\" y=\"76\" text-anchor=\"middle\" style=\"font-size:12px\">puu, marjat, sienet,</text><text class=\"v-t pieni\" x=\"130\" y=\"94\" text-anchor=\"middle\" style=\"font-size:12px\">riista</text><rect class=\"v-osa\" x=\"400\" y=\"14\" width=\"220\" height=\"90\" rx=\"8\"/><text class=\"v-t vahva\" x=\"510\" y=\"36\" text-anchor=\"middle\" style=\"font-size:14px\">Säätelypalvelut</text><text class=\"v-t\" x=\"510\" y=\"58\" text-anchor=\"middle\" style=\"font-size:12px\">Mitä luonto tasaa tai puhdistaa?</text><text class=\"v-t pieni\" x=\"510\" y=\"76\" text-anchor=\"middle\" style=\"font-size:12px\">pölytys, hiilen sitoutuminen,</text><text class=\"v-t pieni\" x=\"510\" y=\"94\" text-anchor=\"middle\" style=\"font-size:12px\">veden puhdistuminen</text><rect class=\"v-osa\" x=\"20\" y=\"196\" width=\"220\" height=\"90\" rx=\"8\"/><text class=\"v-t vahva\" x=\"130\" y=\"218\" text-anchor=\"middle\" style=\"font-size:14px\">Kulttuuripalvelut</text><text class=\"v-t\" x=\"130\" y=\"240\" text-anchor=\"middle\" style=\"font-size:12px\">Mitä koetaan tai opitaan?</text><text class=\"v-t pieni\" x=\"130\" y=\"258\" text-anchor=\"middle\" style=\"font-size:12px\">ulkoilu, luontoharrastukset,</text><text class=\"v-t pieni\" x=\"130\" y=\"276\" text-anchor=\"middle\" style=\"font-size:12px\">maisema, oppiminen</text><rect class=\"v-osa\" x=\"400\" y=\"196\" width=\"220\" height=\"90\" rx=\"8\"/><text class=\"v-t vahva\" x=\"510\" y=\"218\" text-anchor=\"middle\" style=\"font-size:14px\">Ylläpitopalvelut</text><text class=\"v-t\" x=\"510\" y=\"240\" text-anchor=\"middle\" style=\"font-size:12px\">Mikä pitää kaiken käynnissä?</text><text class=\"v-t pieni\" x=\"510\" y=\"258\" text-anchor=\"middle\" style=\"font-size:12px\">yhteyttäminen, ravinteiden kierto,</text><text class=\"v-t pieni\" x=\"510\" y=\"276\" text-anchor=\"middle\" style=\"font-size:12px\">maaperän muodostuminen</text><line class=\"v-akseli\" x1=\"240\" y1=\"76\" x2=\"262\" y2=\"118\"/><line class=\"v-akseli\" x1=\"400\" y1=\"76\" x2=\"378\" y2=\"118\"/><line class=\"v-akseli\" x1=\"240\" y1=\"214\" x2=\"262\" y2=\"174\"/><line class=\"v-akseli\" x1=\"400\" y1=\"214\" x2=\"378\" y2=\"174\"/><text class=\"v-t pieni\" x=\"320\" y=\"312\" text-anchor=\"middle\" style=\"font-size:11px\">Ylläpitopalvelut ovat kolmen muun ryhmän perusta.</text></svg>","teksti":"Jokaisen ryhmän kohdalla on kysymys, jolla ryhmän tunnistaa, ja muutama esimerkki."},{"tyyppi":"saanto","otsikko":"Näin luokittelet ekosysteemipalvelun","askeleet":["Korjataanko luonnosta jotakin talteen, esimerkiksi syötäväksi, poltettavaksi tai raaka-aineeksi? Tuotantopalvelu.","Tasaako, puhdistaako tai suojaako luonnon toiminta ympäristöä niin, että ihmiset hyötyvät? Säätelypalvelu.","Onko hyöty kokemus, virkistys, tieto, kauneus tai merkitys? Kulttuuripalvelu.","Onko kyse perustoiminnosta, jota ilman metsä ei tuottaisi mitään muutakaan? Ylläpitopalvelu.","Älä luokittele rahan perusteella. Ryhmän ratkaisee hyödyn laatu, ei se, maksaako siitä joku."]},{"tyyppi":"ansa","otsikko":"Ansa 1: \"Ekosysteemipalvelu on jotain, minkä voi myydä\"","sisalto":"Jos ajattelet vain myytäviä tuotteita, unohdat kolme ryhmää neljästä. Pölytyksestä, tulvien tasaamisesta tai ravinteiden kierrosta ei kukaan lähetä laskua, mutta ilman niitä ei olisi marjasatoa, kuivia kellareita eikä kasvavaa metsää. Raha ei myöskään ratkaise ryhmää: luontokuvaaja voi myydä kuvansa, mutta luontokuvaus on silti kulttuuripalvelu, koska hyöty syntyy kokemisesta ja näkemisestä."},{"tyyppi":"kappale","otsikko":"Biotalous","sisalto":"Biotalous on taloutta, joka käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen. Uusiutuva luonnonvara kasvaa tai lisääntyy uudelleen ihmisen elinajan kuluessa, kuten puu, kalat ja marjat. Uusiutumaton luonnonvara, kuten öljy tai metallimalmi, ei synny uudelleen ihmisen aikamittakaavassa.\n\nSuomessa biotalouden tärkein raaka-aine on puu. Puusta tehdään sahatavaraa ja rakennuspuuta, sellusta paperia, kartonkia ja pakkauksia, puukuidusta tekstiilikuituja ja sellun valmistuksen sivutuotteista esimerkiksi uusiutuvaa dieseliä. Puupohjaisilla tuotteilla voidaan korvata öljystä tehtyjä muoveja ja polttoaineita.\n\nUusiutuva ei kuitenkaan tarkoita automaattisesti kestävää. Biotalous on kestävää vain, jos kaksi ehtoa täyttyy: luonnonvaraa käytetään enintään sen uusiutumisen verran, ja luonnon monimuotoisuus säilyy. Jos metsää hakataan enemmän kuin se kasvaa, puuston määrä pienenee. Jos puuta kasvaa yhtä paljon kuin hakataan mutta vanhat puut, lahopuu ja lehtipuut häviävät, monet lajit katoavat, vaikka kuutiometrit pysyvät samoina."},{"tyyppi":"kuva","otsikko":"Kasvu ja hakkuu: kaksi keksittyä metsikköä","svg":"<svg viewBox=\"0 0 640 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kaksi keksittyä metsikköä: kasvu ja hakkuu kuutiometreinä vuodessa\"><line class=\"v-akseli\" x1=\"60\" y1=\"200\" x2=\"610\" y2=\"200\"/><line class=\"v-akseli\" x1=\"60\" y1=\"30\" x2=\"60\" y2=\"200\"/><line class=\"v-apu\" x1=\"60\" y1=\"200\" x2=\"610\" y2=\"200\"/><text class=\"v-t pieni\" x=\"52\" y=\"204\" text-anchor=\"end\" style=\"font-size:11px\">0</text><line class=\"v-apu\" x1=\"60\" y1=\"150\" x2=\"610\" y2=\"150\"/><text class=\"v-t pieni\" x=\"52\" y=\"154\" text-anchor=\"end\" style=\"font-size:11px\">50</text><line class=\"v-apu\" x1=\"60\" y1=\"100\" x2=\"610\" y2=\"100\"/><text class=\"v-t pieni\" x=\"52\" y=\"104\" text-anchor=\"end\" style=\"font-size:11px\">100</text><line class=\"v-apu\" x1=\"60\" y1=\"50\" x2=\"610\" y2=\"50\"/><text class=\"v-t pieni\" x=\"52\" y=\"54\" text-anchor=\"end\" style=\"font-size:11px\">150</text><text class=\"v-t pieni\" x=\"14\" y=\"22\" style=\"font-size:11px\">m³ vuodessa</text><rect class=\"v-osa\" x=\"110\" y=\"90\" width=\"70\" height=\"110\"/><rect class=\"v-osa v1\" x=\"200\" y=\"120\" width=\"70\" height=\"80\"/><text class=\"v-t pieni\" x=\"145\" y=\"84\" text-anchor=\"middle\" style=\"font-size:11px\">kasvu 110</text><text class=\"v-t pieni\" x=\"235\" y=\"114\" text-anchor=\"middle\" style=\"font-size:11px\">hakkuu 80</text><text class=\"v-t vahva\" x=\"190\" y=\"220\" text-anchor=\"middle\" style=\"font-size:13px\">Metsikkö 1</text><rect class=\"v-osa\" x=\"370\" y=\"90\" width=\"70\" height=\"110\"/><rect class=\"v-osa v1\" x=\"460\" y=\"50\" width=\"70\" height=\"150\"/><text class=\"v-t pieni\" x=\"405\" y=\"84\" text-anchor=\"middle\" style=\"font-size:11px\">kasvu 110</text><text class=\"v-t pieni\" x=\"495\" y=\"44\" text-anchor=\"middle\" style=\"font-size:11px\">hakkuu 150</text><text class=\"v-t vahva\" x=\"450\" y=\"220\" text-anchor=\"middle\" style=\"font-size:13px\">Metsikkö 2</text><text class=\"v-t pieni\" x=\"190\" y=\"240\" text-anchor=\"middle\" style=\"font-size:11px\">puuston määrä kasvaa 30 m³</text><text class=\"v-t pieni\" x=\"450\" y=\"240\" text-anchor=\"middle\" style=\"font-size:11px\">puuston määrä pienenee 40 m³</text></svg>","teksti":"Metsikössä 1 hakataan vähemmän kuin puusto kasvaa, metsikössä 2 enemmän. Kuva kertoo vain puun määrästä, ei siitä, säilyykö monimuotoisuus."},{"tyyppi":"ansa","otsikko":"Ansa 2: \"Puu kasvaa takaisin, joten biotalous on aina kestävää\"","sisalto":"Uusiutuva luonnonvara voidaan käyttää loppuun, jos sitä käytetään nopeammin kuin se uusiutuu. Lisäksi kestävyyteen tarvitaan toinen ehto: monimuotoisuuden säilyminen. Tasaikäinen, yhden puulajin metsä voi kasvaa paljon puuta, mutta lahopuusta, vanhoista puista tai lehtipuista riippuvat lajit eivät elä siinä. Kirjoita siis aina molemmat ehdot: käyttö enintään uusiutumisen verran ja monimuotoisuus säilyy."},{"tyyppi":"kappale","otsikko":"Neljä näkökulmaa luonnonvaran käyttöön","sisalto":"Kestävässä kehityksessä luonnonvaran käyttöä tarkastellaan neljästä näkökulmasta.\n\nEkologinen näkökulma kysyy, miten eliöt, elinympäristöt ja aineiden kierto muuttuvat. Hyvä ekologinen seuraus nimeää biologisen syyn, esimerkiksi lahopuun häviämisen tai sienijuuriverkoston katkeamisen.\n\nTaloudellinen näkökulma kysyy, mitä käyttö tuottaa ja maksaa: tulot, kustannukset, työpaikat ja elinkeinot.\n\nSosiaalinen näkökulma kysyy, miten käyttö vaikuttaa ihmisten hyvinvointiin, terveyteen, virkistykseen ja yhteisöön.\n\nEettinen näkökulma kysyy, mikä on oikein ja reilua: kenellä on oikeus päättää, mitä jätämme tuleville sukupolville ja onko muilla lajeilla arvo itsessään.\n\nNäkökulma ei ole mielipide. Lause \"hakkuu on väärin\" on kanta. Lause \"jos hakkuu tehdään, tulevat sukupolvet eivät näe tätä vanhaa metsää\" on eettinen seuraus, jota voi punnita."},{"tyyppi":"taulukko","otsikko":"Esimerkki: keksitty Haapalan kunta kerää hakkuun jälkeen oksat ja latvat energiaksi","otsikkorivi":["Näkökulma","Seuraus"],"rivit":[["Ekologinen","Oksissa ja neulasissa on paljon ravinteita. Kun ne viedään pois, metsämaahan palaa vähemmän ravinteita, ja pieniä lahopuun palasia jää vähemmän hyönteisille ja sienille."],["Taloudellinen","Kunnan lämpölaitos saa kotimaista polttoainetta, ja keruu työllistää. Keruu maksaa, ja ravinteiden väheneminen voi hidastaa seuraavan puusukupolven kasvua."],["Sosiaalinen","Lämmitys ei riipu tuontipolttoaineesta. Keruun aikana metsätiet ovat raskaassa käytössä, ja ulkoilijoiden reitit voivat olla suljettuina."],["Eettinen","Onko oikein käyttää nyt ravinteita, joita seuraava metsäsukupolvi tarvitsisi? Kuka saa päättää yhteisen metsän käytöstä?"]]},{"tyyppi":"ansa","otsikko":"Ansa 3: \"Ekologinen seuraus: luonto kärsii\"","sisalto":"Lause on liian ylimalkainen, koska siitä puuttuu biologinen tieto. Kerro, mikä muuttuu ja miksi: \"Kun vanhat kuuset kaadetaan, niiden juuriin kytkeytynyt sienijuuriverkosto katkeaa ja sienet, kuten kantarelli, vähenevät\" tai \"Kun kaatuneet puut viedään pois, niissä elävät kääpälajit häviävät.\" Sama koskee muita näkökulmia: \"ihmiset suuttuvat\" ei ole sosiaalinen seuraus, mutta \"lähin ulkoilureitti katoaa\" on."},{"tyyppi":"ansa","otsikko":"Ansa 4: Oma kanta näkökulman tilalla","sisalto":"Tehtävässä ei kysytä, kannatatko hakkuuta. Jos kirjoitat vain perustelun omalle kannallesi, jätät helposti pois näkökulmat, jotka puhuvat toista vastaan. Kirjoita jokaisesta neljästä näkökulmasta vähintään yksi seuraus, myös silloin, kun seuraus on mielestäsi hyvä tai huono. Omaa mielipidettäsi ei arvioida."},{"tyyppi":"saanto","otsikko":"Turvallisesti lähimetsän retkellä","askeleet":["Kuljet metsään ryhmän mukana ja sovittua reittiä. Teiden ylityksissä noudatat liikennesääntöjä, ja pimeällä käytät heijastinta.","Pysyt sovitulla alueella ja tiedät kokoontumispaikan. Jos eksyt, pysähdyt paikallesi ja soitat opettajalle tai hätänumeroon 112.","Et mene käynnissä olevalle hakkuutyömaalle etkä metsäkoneen lähelle. Kuljettaja ei välttämättä näe sinua, ja kaatuva puu voi osua kauas.","Et nojaa lahoihin pystypuihin etkä kiipeä puupinoihin. Laho puu voi kaatua tai pino vieriä.","Pukeudut sään mukaan, pitkälahkeisiin housuihin ja umpinaisiin kenkiin. Retken jälkeen tarkistat ihon punkkien varalta.","Et maista marjoja tai sieniä, joita et tunnista varmasti. Jos sinulla on allergia, kerrot siitä opettajalle etukäteen."]},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Ekosysteemipalvelut ovat hyötyjä, joita ihmiset saavat ekosysteemeistä.","Tuotanto: korjataan talteen. Säätely: luonto tasaa ja puhdistaa. Kulttuuri: koetaan, opitaan, virkistytään. Ylläpito: perustoiminnot, kuten yhteyttäminen, ravinteiden kierto ja maaperän muodostuminen.","Biotalous käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen.","Biotalous on kestävää vain, jos luonnonvaraa käytetään enintään sen uusiutumisen verran ja monimuotoisuus säilyy.","Neljä näkökulmaa: ekologinen, taloudellinen, sosiaalinen ja eettinen. Ekologinen seuraus perustellaan biologisella tiedolla.","Näkökulma ei ole mielipide."]}],"harjoitusryhmat":[{"id":"palvelut","nimi":"Ekosysteemipalveluiden ryhmät","info":"Kysy jokaisesta: korjataanko, tasataanko, koetaanko vai pidetäänkö käynnissä?"},{"id":"biotalous","nimi":"Biotalous ja uusiutuminen","info":"Laske, riittääkö kasvu käyttöön. Aineistot ovat keksittyjä."},{"id":"nakokulmat","nimi":"Neljä näkökulmaa","info":"Ekologinen, taloudellinen, sosiaalinen vai eettinen? Tapaukset ovat keksittyjä."}],"harjoitukset":[{"id":"H01","ryhma":"palvelut","tyyppi":"luku","kysymys":"Lue hyödyt.\n1. metsämansikat\n2. suunnistus\n3. kantarellit\n4. lehtikarikkeen muuttuminen mullaksi\n5. joulukuuset myyntiin\n\nMontako näistä on tuotantopalveluita?","vastaus":3,"vinkki":"Mitkä niistä korjataan talteen?","selitys":"Metsämansikat, kantarellit ja joulukuuset korjataan talteen (1, 3 ja 5). Suunnistus on kulttuuripalvelu ja karikkeen muuttuminen mullaksi ylläpitopalvelu."},{"id":"H02","ryhma":"palvelut","tyyppi":"luku","kysymys":"Lue hyödyt.\n1. kosteikko pidättää ravinteita ennen kuin vesi virtaa järveen\n2. suunnistus\n3. puiden varjo viilentää helteellä\n4. metsämansikat\n5. kimalaiset pölyttävät puolukankukkia\n\nMontako näistä on säätelypalveluita?","vastaus":3,"vinkki":"Missä luonto tasaa, puhdistaa tai suojaa?","selitys":"Ravinteiden pidättäminen, viilentävä varjo ja pölytys ovat säätelypalveluita (1, 3 ja 5)."},{"id":"H03","ryhma":"palvelut","tyyppi":"luku","kysymys":"Lue hyödyt.\n1. suunnistus\n2. partioleiri\n3. joulukuuset myyntiin\n4. lehtikarikkeen muuttuminen mullaksi\n5. metsäaiheiset maalaukset ja runot\n\nMontako näistä on kulttuuripalveluita?","vastaus":3,"vinkki":"Kulttuuripalvelussa hyöty on kokemus, virkistys, tieto tai merkitys.","selitys":"Suunnistus, partioleiri sekä maalaukset ja runot ovat kulttuuripalveluita (1, 2 ja 5)."},{"id":"H04","ryhma":"palvelut","tyyppi":"luku","kysymys":"Lue hyödyt.\n1. lehtikarikkeen muuttuminen mullaksi\n2. yhteyttäminen\n3. suunnistus\n4. kosteikko pidättää ravinteita ennen kuin vesi virtaa järveen\n5. kantarellit\n\nMontako näistä on ylläpitopalveluita?","vastaus":2,"vinkki":"Mitkä ovat perustoimintoja, joita ilman metsä ei tuottaisi mitään?","selitys":"Karikkeen muuttuminen mullaksi ja yhteyttäminen ovat ylläpitopalveluita (1 ja 2). Ravinteiden pidättäminen kosteikossa suojaa järveä, joten se on säätelypalvelu."},{"id":"H05","ryhma":"palvelut","tyyppi":"monivalinta","kysymys":"Rinteen metsä estää rankkasateella maan huuhtoutumisen alas puroon, koska juuret sitovat maata. Mihin ryhmään tämä ekosysteemipalvelu kuuluu?","vaihtoehdot":["säätelypalvelut","tuotantopalvelut","kulttuuripalvelut"],"vastaus":0,"vinkki":"Tasaako tai suojaako luonto tässä jotakin?","selitys":"Juurten sitoma maa suojaa puroa ja rinnettä, joten kyse on säätelypalvelusta."},{"id":"H06","ryhma":"palvelut","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Pölytys on säätelypalvelu.\n2. Yhteyttäminen on kulttuuripalvelu.\n3. Kulttuuripalveluita ovat esimerkiksi virkistys ja luontoon liittyvät elämykset.\n4. Ylläpitopalvelut ovat muiden palveluiden perusta.\n5. Säätelypalvelut ovat myytäviä tuotteita.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kaksi väitettä on väärin.","selitys":"Väitteet 1, 3 ja 4 ovat totta. Yhteyttäminen on ylläpitopalvelu, eikä säätelypalveluita korjata talteen ja myydä."},{"id":"H07","ryhma":"palvelut","tyyppi":"luku","kysymys":"Keksitty koe: Puolukan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 20 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 50 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä?","vastaus":60,"vinkki":"Laske ensin erotus ja jaa se pölyttäjien kanssa syntyneellä määrällä.","selitys":"50 − 20 = 30 marjaa. 30 / 50 = 0,6 eli 60 %."},{"id":"H08","ryhma":"palvelut","tyyppi":"luku","kysymys":"Kumpi on ylläpitopalvelu?\n1. maaperän muodostuminen\n2. tulvien tasaaminen\n\nVastaa 1 tai 2.","vastaus":1,"vinkki":"Kumpi on perustoiminto, jota kaikki muut palvelut tarvitsevat?","selitys":"Maaperän muodostuminen on ylläpitopalvelu. Tulvien tasaaminen on säätelypalvelu."},{"id":"H09","ryhma":"biotalous","tyyppi":"monivalinta","kysymys":"Mikä kuvaa biotaloutta?","vaihtoehdot":["Talous, joka käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen.","Talous, joka perustuu öljystä valmistettuihin muoveihin ja polttoaineisiin.","Talous, jossa metsää ja peltoja ei käytetä lainkaan."],"vastaus":0,"vinkki":"Mitä raaka-aineita biotalous käyttää?","selitys":"Biotalous käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen."},{"id":"H10","ryhma":"biotalous","tyyppi":"luku","kysymys":"Lue tuotteet.\n1. kartonkinen mehupurkki\n2. alumiinitölkki\n3. puupelletti\n4. lasipullo\n5. puukuidusta tehty kangas\n\nMontako näistä on metsäpohjaisia tuotteita?","vastaus":3,"vinkki":"Mistä raaka-aineesta kukin on tehty?","selitys":"Kartonki, puupelletti ja puukuitukangas tehdään puusta (1, 3 ja 5). Alumiini ja lasi ovat uusiutumattomista raaka-aineista."},{"id":"H11","ryhma":"biotalous","tyyppi":"luku","kysymys":"Lue luonnonvarat.\n1. kivihiili\n2. kuusi\n3. hauki\n4. maakaasu\n5. lampaanvilla\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":3,"vinkki":"Mitkä kasvavat tai lisääntyvät uudelleen ihmisen elinaikana?","selitys":"Kuusi, hauki ja villa uusiutuvat (2, 3 ja 5). Kivihiili ja maakaasu ovat uusiutumattomia."},{"id":"H12","ryhma":"biotalous","tyyppi":"luku","kysymys":"Keksitty metsikkö: pinta-ala 25 ha. Puusto kasvaa keskimäärin 5 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa?","vastaus":125,"vinkki":"Kerro pinta-ala kasvulla hehtaaria kohden.","selitys":"25 · 5 m³ = 125 m³ vuodessa."},{"id":"H13","ryhma":"biotalous","tyyppi":"luku","kysymys":"Keksitty metsikkö: puusto kasvaa 70 m³ vuodessa, ja siitä hakataan 50 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä kasvaa vuodessa?","vastaus":20,"vinkki":"Vähennä hakkuu kasvusta.","selitys":"70 − 50 = 20 m³. Hakkuu on pienempi kuin kasvu, joten puuston määrä kasvaa."},{"id":"H14","ryhma":"biotalous","tyyppi":"luku","kysymys":"Keksitty metsikkö: siitä hakataan 70 m³ puuta. Puusto kasvaa 5 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana?","vastaus":14,"vinkki":"Montako kertaa vuoden kasvu mahtuu hakattuun määrään?","selitys":"70 : 5 = 14 vuotta."},{"id":"H15","ryhma":"nakokulmat","tyyppi":"luku","kysymys":"Keksitty tapaus: Mäntylän kunta myy uimarannan vieressä olevan rantametsänsä hakattavaksi. Lue seuraukset.\n1. Rantaveteen huuhtoutuu enemmän ravinteita, ja lahti rehevöityy.\n2. Kunta saa puun myynnistä tuloja.\n3. Uimarannan maisema muuttuu, ja kävijät vähenevät.\n4. Kysytään, onko oikein, että päätöksen tekevät vain maanomistajat.\n5. Lahoihin puihin koloja kovertavat tikat menettävät pesäpaikkoja.\n\nMontako näistä on ekologisia seurauksia?","vastaus":2,"vinkki":"Ekologinen seuraus kertoo eliöistä, elinympäristöistä tai aineiden kierrosta.","selitys":"Ravinteiden huuhtoutuminen ja tikkojen pesäpaikat ovat ekologisia seurauksia (1 ja 5). Tulot ovat taloudellinen, maisema ja kävijät sosiaalinen ja päätösvalta eettinen seuraus."},{"id":"H16","ryhma":"nakokulmat","tyyppi":"monivalinta","kysymys":"Mikä näistä on eettinen kysymys?","vaihtoehdot":["Onko oikein jättää tuleville sukupolville vähemmän vanhaa metsää kuin itse saimme?","Paljonko puusta maksetaan kuutiometriltä?","Montako lajia metsässä elää?"],"vastaus":0,"vinkki":"Eettinen kysymys koskee sitä, mikä on oikein ja reilua.","selitys":"Kysymys tuleville sukupolville jätettävästä metsästä on eettinen. Hinta on taloudellinen ja lajimäärä ekologinen kysymys."},{"id":"H17","ryhma":"nakokulmat","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Mielipide \"hakkuu on hyvä\" ei ole seuraus.\n2. Ekologisen seurauksen pitää perustua biologiseen tietoon.\n3. Taloudellinen näkökulma koskee vain tuloja, ei kustannuksia.\n4. Sama seuraus voi olla yhdelle ryhmälle hyvä ja toiselle huono.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kuuluvatko kustannukset taloudelliseen näkökulmaan?","selitys":"Väitteet 1, 2 ja 4 ovat totta. Taloudellinen näkökulma käsittää sekä tulot että kustannukset."},{"id":"H18","ryhma":"nakokulmat","tyyppi":"luku","kysymys":"Keksitty kysely: 250 oppilasta vastasi. Heistä 200 kertoi käyttävänsä koulun lähimetsää liikuntatunneilla.\n\nMontako prosenttia vastaajista käyttää lähimetsää liikuntatunneilla?","vastaus":80,"vinkki":"Jaa osa kokonaismäärällä.","selitys":"200 / 250 = 0,8 eli 80 %. Tieto kuuluu sosiaaliseen näkökulmaan."},{"id":"H19","ryhma":"nakokulmat","tyyppi":"luku","kysymys":"Kumpi seuraus perustuu biologiseen tietoon?\n1. Metsä on hakkuun jälkeen ruma.\n2. Kun kuolleet puut viedään pois, niissä elävät kääpälajit häviävät.\n\nVastaa 1 tai 2.","vastaus":2,"vinkki":"Kumpi kertoo, mikä eliöille tapahtuu ja miksi?","selitys":"Kääpälajit tarvitsevat lahopuuta, joten seuraus 2 perustuu biologiseen tietoon. Seuraus 1 on arvio maisemasta."},{"id":"H20","ryhma":"nakokulmat","tyyppi":"luku","kysymys":"Keksitty tapaus: Kaupunki saa hakkuusta 60 000 euroa. Hakkuun jälkeen ulkoilupolkujen ja levähdyspaikan korjaaminen maksaa 15 000 euroa.\n\nMontako euroa kaupungille jää, kun kustannus vähennetään tuloista?","vastaus":45000,"vinkki":"Taloudellisessa näkökulmassa lasketaan sekä tulot että kustannukset.","selitys":"60 000 − 15 000 = 45 000 euroa."}],"ryhmanimet":{"palvelut":"Ekosysteemipalveluiden ryhmät","biotalous":"Biotalous ja uusiutuminen","nakokulmat":"Neljä näkökulmaa"},"tulostus":{"sivuja":7,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":8,"sivunvaihto_ennen":null},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kun kysytään montako tai kumpi, vastaa luvulla. Tehtävässä 1 kirjoita jokaisen numeron perään kirjain (T, S, K tai Y). Laskutehtävissä kirjoita lasku näkyviin ja vastaukseen yksikkö. Laskinta ei käytetä. Aineistot ja tapaukset ovat keksittyjä. Sanallisissa tehtävissä käytä käsitteitä ekosysteemipalvelu, biotalous, uusiutuva luonnonvara, monimuotoisuus sekä ekologinen, taloudellinen, sosiaalinen ja eettinen. Omaa mielipidettäsi ei arvioida.","tehtavat":[{"nro":1,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Luokittele ekosysteemipalvelut. Kirjoita jokaisen numeron perään kirjain: T = tuotantopalvelu, S = säätelypalvelu, K = kulttuuripalvelu, Y = ylläpitopalvelu.\n1. puutavara\n2. mustikat\n3. pölytys\n4. veden puhdistuminen maaperässä\n5. hiilen sitoutuminen puustoon ja maaperään\n6. tulvien tasaaminen\n7. ulkoilu\n8. maaperän muodostuminen\n9. ravinteiden kierto\n10. luontokuvaus\n\nKirjoita vastaus muodossa 1 T, 2 S, …","vastaus":"1 T, 2 T, 3 S, 4 S, 5 S, 6 S, 7 K, 8 Y, 9 Y, 10 K"},{"nro":2,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. hillat\n2. pölytys\n3. hirvenliha\n4. lintujen tarkkailu\n5. maaperän muodostuminen\n\nMontako näistä on tuotantopalveluita?","vastaus":2},{"nro":3,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. tulvien tasaaminen\n2. ravinteiden kierto\n3. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n4. puolukat\n5. hiilen sitoutuminen puustoon ja maaperään\n\nMontako näistä on säätelypalveluita?","vastaus":3},{"nro":4,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. retkeily\n2. sahatavara\n3. metsämaiseman kauneus\n4. pölytys\n5. metsäaiheiset kansanrunot ja tarinat\n\nMontako näistä on kulttuuripalveluita?","vastaus":3},{"nro":5,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. yhteyttäminen\n2. ulkoilu\n3. karikkeen hajotus\n4. tulvien tasaaminen\n5. mustikat\n\nMontako näistä on ylläpitopalveluita?","vastaus":2},{"nro":6,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ekosysteemipalvelut ovat hyötyjä, joita ihmiset saavat luonnon ekosysteemeistä.\n2. Säätelypalvelusta ei voi olla rahallista hyötyä kenellekään.\n3. Pölyttäjien työ kuuluu säätelypalveluihin.\n4. Kulttuuripalvelut ovat tuotteita, joita metsästä korjataan ja myydään.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Kumpi on säätelypalvelu?\n1. hiilen sitoutuminen puustoon ja maaperään\n2. maaperän muodostuminen\n\nVastaa 1 tai 2.","vastaus":1},{"nro":8,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Keksitty koe: Mustikan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 30 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 120 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä? Kirjoita lasku näkyviin.","vastaus":"75 %"},{"nro":9,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Mitä biotalous tarkoittaa? Kerro myös, millä kahdella ehdolla luonnonvaran käyttö on kestävää.","vastaus":"Malliesimerkki: Biotalous on taloutta, joka käyttää uusiutuvia luonnonvaroja, kuten puuta, ravinnon, energian, tuotteiden ja palvelujen tuottamiseen. Käyttö on kestävää, jos luonnonvaraa käytetään enintään sen uusiutumisen verran ja luonnon monimuotoisuus säilyy."},{"nro":10,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä metsäpohjaisesta biotalouden tuotteesta. Kerro kummastakin, mistä metsän raaka-aineesta se tehdään.","vastaus":"Malliesimerkki: Pahvi- tai kartonkipakkaus tehdään sellusta, joka valmistetaan puun kuiduista. Puukuitukangas tehdään puusta liuotetusta selluloosasta. (Muita hyväksyttäviä: sahatavara, paperi, puupelletti, mäntyöljystä tehty uusiutuva diesel, puupohjaiset rakennuslevyt.)"},{"nro":11,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Lue luonnonvarat.\n1. puu\n2. öljy\n3. kala\n4. rautamalmi\n5. mustikka\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":3},{"nro":12,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: pinta-ala 12 ha. Puusto kasvaa keskimäärin 6 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa? Kirjoita lasku ja yksikkö.","vastaus":"72 m³"},{"nro":13,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: puusto kasvaa 90 m³ vuodessa, ja siitä hakataan 128 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä muuttuu vuodessa? Kirjoita myös, kasvaako vai pieneneekö se.","vastaus":"pienenee 38 m³"},{"nro":14,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: siitä hakataan 120 m³ puuta. Puusto kasvaa 8 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana? Kirjoita lasku näkyviin.","vastaus":"15 vuotta"},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty tapaus: Kaupunki rakentaa lähimetsän läpi valaistun kuntoradan. Lue seuraukset.\n1. Valot häiritsevät yöllä liikkuvia eläimiä, kuten lepakoita ja yöperhosia.\n2. Rakentaminen maksaa kaupungille.\n3. Asukkaat voivat liikkua metsässä myös pimeään aikaan.\n4. Radan kohdalta kaadetaan puita, ja metsä pirstoutuu pienempiin osiin.\n5. Kysytään, onko oikein, että vain liikkujien toiveet otetaan huomioon.\n\nMontako näistä on ekologisia seurauksia?","vastaus":2},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Kumpi kuvaa eettistä näkökulmaa?\n1. Onko oikein, että nykyiset asukkaat päättävät metsästä, jonka tulevat sukupolvet perivät?\n2. Lähimetsä on asukkaiden tärkein ulkoilupaikka.\n\nVastaa 1 tai 2.","vastaus":1},{"nro":17,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Taloudellinen näkökulma tarkastelee tuloja, kustannuksia ja elinkeinoja.\n2. Lause \"hakkuu on huono asia\" on ekologinen seuraus.\n3. Sosiaalinen näkökulma tarkastelee ihmisten hyvinvointia, terveyttä ja yhteisöä.\n4. Eettinen näkökulma kysyy, mikä on oikein ja reilua myös tuleville sukupolville.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":18,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty tapaus: Sammalvaaran kaupunginosan vieressä on kuuden hehtaarin vanha kuusikko. Metsässä on paljon kaatuneita ja pystyyn kuolleita puita, ja sen läpi kulkee koulun ulkoilupolku. Kaupunki suunnittelee metsän avohakkuuta, koska puusta saisi myyntituloja. Kirjoita, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti: jokaisesta näkökulmasta vähintään yksi seuraus. Perustele ekologinen seuraus biologisella tiedolla. Omaa kantaasi ei kysytä.","vastaus":"Malliesimerkki: Ekologisesti lahopuu häviää, joten siitä riippuvat kääpälajit ja kovakuoriaiset katoavat, ja kuusten sienijuuriverkosto katkeaa. Taloudellisesti kaupunki saa puusta tuloja, mutta polun kunnostus maksaa. Sosiaalisesti koulun ulkoilupolku ja asukkaiden lähiluonto menetetään. Eettisesti kysytään, saako nykyinen sukupolvi hävittää vanhan metsän, jota tulevat eivät näe."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Miksi pelkkä puuston kasvun ja hakkuiden vertailu ei riitä osoittamaan, että metsän käyttö on kestävää? Perustele biologisesti.","vastaus":"Malliesimerkki: Puun määrä voi pysyä samana, vaikka metsä muuttuu tasaikäiseksi ja lahopuu, vanhat puut ja lehtipuut häviävät. Silloin niistä riippuvat lajit katoavat, eikä monimuotoisuus säily."},{"nro":20,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty kysely Sammalvaaran asukkaille: 360 vastaajasta 270 ulkoilee lähimetsässä vähintään kerran viikossa.\n\nMontako prosenttia vastaajista ulkoilee lähimetsässä vähintään kerran viikossa? Kirjoita lasku näkyviin.","vastaus":"75 %"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kun kysytään montako tai kumpi, vastaa luvulla. Tehtävässä 1 kirjoita jokaisen numeron perään kirjain (T, S, K tai Y). Laskutehtävissä kirjoita lasku näkyviin ja vastaukseen yksikkö. Laskinta ei käytetä. Aineistot ja tapaukset ovat keksittyjä. Sanallisissa tehtävissä käytä käsitteitä ekosysteemipalvelu, biotalous, uusiutuva luonnonvara, monimuotoisuus sekä ekologinen, taloudellinen, sosiaalinen ja eettinen. Omaa mielipidettäsi ei arvioida.","tehtavat":[{"nro":1,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Luokittele ekosysteemipalvelut. Kirjoita jokaisen numeron perään kirjain: T = tuotantopalvelu, S = säätelypalvelu, K = kulttuuripalvelu, Y = ylläpitopalvelu.\n1. polttopuu\n2. lintujen tarkkailu\n3. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n4. yhteyttäminen\n5. puolukat\n6. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n7. karikkeen hajotus\n8. hiihto metsäladulla\n9. pölytys\n10. ruokasienet\n\nKirjoita vastaus muodossa 1 T, 2 S, …","vastaus":"1 T, 2 K, 3 S, 4 Y, 5 T, 6 S, 7 Y, 8 K, 9 S, 10 T"},{"nro":2,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. kalat järvestä\n2. ulkoilu\n3. kuitupuu paperiteollisuudelle\n4. tulvien tasaaminen\n5. karpalot\n\nMontako näistä on tuotantopalveluita?","vastaus":3},{"nro":3,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. veden puhdistuminen maaperässä\n2. yhteyttäminen\n3. pölytys\n4. ulkoilu\n5. polttopuu\n\nMontako näistä on säätelypalveluita?","vastaus":2},{"nro":4,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. luontokuvaus\n2. ravinteiden kierto\n3. hillat\n4. lintujen tarkkailu\n5. tulvien tasaaminen\n\nMontako näistä on kulttuuripalveluita?","vastaus":2},{"nro":5,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. maaperän muodostuminen\n2. ravinteiden kierto\n3. pölytys\n4. yhteyttäminen\n5. retkeily\n\nMontako näistä on ylläpitopalveluita?","vastaus":3},{"nro":6,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ylläpitopalvelut ovat luonnon perustoimintoja, joita muut palvelut tarvitsevat.\n2. Puutavara on säätelypalvelu.\n3. Sama metsä voi tuottaa samaan aikaan kaikkien neljän ryhmän palveluita.\n4. Ekosysteemipalvelu on vain sellainen hyöty, josta joku maksaa.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Kumpi on säätelypalvelu?\n1. ravinteiden kierto\n2. pölytys\n\nVastaa 1 tai 2.","vastaus":2},{"nro":8,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Keksitty koe: Mustikan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 24 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 80 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä? Kirjoita lasku näkyviin.","vastaus":"70 %"},{"nro":9,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Keksityssä tiedotteessa lukee: \"Biotalous on aina kestävää, koska puu kasvaa takaisin.\" Selitä, mitä biotalous tarkoittaa, ja korjaa väite: millä kahdella ehdolla biotalous on kestävää?","vastaus":"Malliesimerkki: Biotalous käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen. Se ei ole aina kestävää: puuta saa käyttää enintään sen verran kuin sitä kasvaa, ja monimuotoisuuden pitää säilyä, esimerkiksi lahopuuta ja vanhoja puita pitää jäädä."},{"nro":10,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Keksitty kauppakeskus järjestää biotalousnäyttelyn. Ehdota kaksi metsäpohjaista tuotetta näyttelyyn ja kerro kummastakin, mistä metsän raaka-aineesta se tehdään.","vastaus":"Malliesimerkki: Pahvi- tai kartonkipakkaus tehdään sellusta, joka valmistetaan puun kuiduista. Puukuitukangas tehdään puusta liuotetusta selluloosasta. (Muita hyväksyttäviä: sahatavara, paperi, puupelletti, mäntyöljystä tehty uusiutuva diesel, puupohjaiset rakennuslevyt.)"},{"nro":11,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Lue luonnonvarat.\n1. maakaasu\n2. koivu\n3. kivihiili\n4. lampaanvilla\n5. kupari\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":2},{"nro":12,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: pinta-ala 15 ha. Puusto kasvaa keskimäärin 5 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa? Kirjoita lasku ja yksikkö.","vastaus":"75 m³"},{"nro":13,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: puusto kasvaa 75 m³ vuodessa, ja siitä hakataan 100 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä muuttuu vuodessa? Kirjoita myös, kasvaako vai pieneneekö se.","vastaus":"pienenee 25 m³"},{"nro":14,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: siitä hakataan 150 m³ puuta. Puusto kasvaa 6 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana? Kirjoita lasku näkyviin.","vastaus":"25 vuotta"},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty tapaus: Marjayritys poimii lähimetsän marjat myyntiin. Lue seuraukset.\n1. Yritys saa tuloja marjojen myynnistä.\n2. Marjoja syöviltä linnuilta ja nisäkkäiltä vähenee ravintoa.\n3. Poimijoiden tallaaminen kuluttaa varvikkoa polkujen varsilla.\n4. Asukkaat eivät enää löydä marjoja omaan käyttöönsä.\n5. Kysytään, kenelle metsän marjat kuuluvat.\n\nMontako näistä on ekologisia seurauksia?","vastaus":2},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Kumpi kuvaa eettistä näkökulmaa?\n1. Metsässä järjestetään koulun suunnistuspäiviä.\n2. Onko lajeilla oikeus elää, vaikka niistä ei olisi ihmiselle hyötyä?\n\nVastaa 1 tai 2.","vastaus":2},{"nro":17,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ekologinen seuraus kertoo, miten eliöt ja ekosysteemi muuttuvat.\n2. Biologinen tieto yksin kertoo, mikä päätös on oikea, eikä arvoja tarvita.\n3. Saman hakkuun taloudellinen seuraus voi olla myönteinen ja sosiaalinen seuraus kielteinen.\n4. Eettinen näkökulma tarkoittaa omaa mielipidettä siitä, pitääkö metsä hakata.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":18,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty tapaus: Sammalvaaran kaupunginosan reunalla on sekametsä, jossa kasvaa vanhoja haapoja ja kuusia ja jonka läpi virtaa pieni puro. Asukkaat poimivat metsästä marjoja ja juoksevat sen poluilla. Kaupunki suunnittelee metsän hakkuuta talousarvionsa paikkaamiseksi. Kirjoita, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti: jokaisesta näkökulmasta vähintään yksi seuraus. Perustele ekologinen seuraus biologisella tiedolla. Omaa kantaasi ei kysytä.","vastaus":"Malliesimerkki: Ekologisesti vanhat kolohaavat häviävät, joten koloissa pesivät linnut menettävät pesäpaikkoja, ja ilman puiden varjoa ja juuria puroon huuhtoutuu maata ja ravinteita. Taloudellisesti kaupunki saa myyntituloja. Sosiaalisesti marjapaikat ja juoksupolut häviävät. Eettisesti kysytään, saako talousarvion paikkaaminen ohittaa asukkaiden ja muiden lajien edun."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty kunta sanoo: \"Hakkaamme vähemmän kuin metsä kasvaa, joten käyttö on kestävää.\" Mitä väitteestä puuttuu? Perustele biologisesti.","vastaus":"Malliesimerkki: Väitteestä puuttuu monimuotoisuus. Jos hakkuissa poistetaan vanhat puut ja lahopuu, niistä riippuvat lajit, kuten kääpälajit, häviävät, vaikka puuta riittää."},{"nro":20,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty kysely Sammalvaaran asukkaille: 300 vastaajasta 180 poimii lähimetsästä marjoja tai sieniä.\n\nMontako prosenttia vastaajista poimii lähimetsästä marjoja tai sieniä? Kirjoita lasku näkyviin.","vastaus":"60 %"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kun kysytään montako tai kumpi, vastaa luvulla. Tehtävässä 1 kirjoita jokaisen numeron perään kirjain (T, S, K tai Y). Laskutehtävissä kirjoita lasku näkyviin ja vastaukseen yksikkö. Laskinta ei käytetä. Aineistot ja tapaukset ovat keksittyjä. Sanallisissa tehtävissä käytä käsitteitä ekosysteemipalvelu, biotalous, uusiutuva luonnonvara, monimuotoisuus sekä ekologinen, taloudellinen, sosiaalinen ja eettinen. Omaa mielipidettäsi ei arvioida.","tehtavat":[{"nro":1,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Luokittele ekosysteemipalvelut. Kirjoita jokaisen numeron perään kirjain: T = tuotantopalvelu, S = säätelypalvelu, K = kulttuuripalvelu, Y = ylläpitopalvelu.\n1. hiilen sitoutuminen puustoon ja maaperään\n2. riistanliha\n3. maaperän muodostuminen\n4. luontoretki biologian oppitunniksi\n5. veden puhdistuminen maaperässä\n6. sahatavara\n7. ravinteiden kierto\n8. metsämaiseman kauneus\n9. tulvien tasaaminen\n10. koivunmahla\n\nKirjoita vastaus muodossa 1 T, 2 S, …","vastaus":"1 S, 2 T, 3 Y, 4 K, 5 S, 6 T, 7 Y, 8 K, 9 S, 10 T"},{"nro":2,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. ravinteiden kierto\n2. mustikat\n3. retkeily\n4. polttopuu\n5. hiilen sitoutuminen puustoon ja maaperään\n\nMontako näistä on tuotantopalveluita?","vastaus":2},{"nro":3,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n2. karikkeen hajotus\n3. pölytys\n4. luontokuvaus\n5. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n\nMontako näistä on säätelypalveluita?","vastaus":3},{"nro":4,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. ulkoilu\n2. hiilen sitoutuminen puustoon ja maaperään\n3. hiljentyminen ja rauhoittuminen metsässä\n4. luontoretki biologian oppitunniksi\n5. riistanliha\n\nMontako näistä on kulttuuripalveluita?","vastaus":3},{"nro":5,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. karikkeen hajotus\n2. sahatavara\n3. veden puhdistuminen maaperässä\n4. maaperän muodostuminen\n5. lintujen tarkkailu\n\nMontako näistä on ylläpitopalveluita?","vastaus":2},{"nro":6,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Hiilen sitoutuminen puustoon ja maaperään on säätelypalvelu.\n2. Ilman ylläpitopalveluita, kuten ravinteiden kiertoa, metsä ei tuottaisi puuta.\n3. Luontokuvaus on tuotantopalvelu, koska kuvia voi myydä.\n4. Monia säätelypalveluita ei huomaa ennen kuin ne heikkenevät.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Kumpi on säätelypalvelu?\n1. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n2. karikkeen hajotus\n\nVastaa 1 tai 2.","vastaus":1},{"nro":8,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Keksitty koe: Puolukan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 36 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 90 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä? Kirjoita lasku näkyviin.","vastaus":"60 %"},{"nro":9,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Selitä omin sanoin, mitä biotalous tarkoittaa ja mikä on uusiutuva luonnonvara. Kerro, millä kahdella ehdolla biotalous on kestävää.","vastaus":"Malliesimerkki: Biotalous tuottaa ravintoa, energiaa, tuotteita ja palveluja uusiutuvista luonnonvaroista. Uusiutuva luonnonvara kasvaa tai lisääntyy uudelleen ihmisen elinaikana, kuten puu. Kestävää se on, jos käyttö on enintään uusiutumisen verran ja monimuotoisuus säilyy."},{"nro":10,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Nimeä kaksi tuotetta, jotka valmistetaan metsästä saatavasta raaka-aineesta. Kerro kummastakin, mistä raaka-aineesta se tehdään.","vastaus":"Malliesimerkki: Pahvi- tai kartonkipakkaus tehdään sellusta, joka valmistetaan puun kuiduista. Puukuitukangas tehdään puusta liuotetusta selluloosasta. (Muita hyväksyttäviä: sahatavara, paperi, puupelletti, mäntyöljystä tehty uusiutuva diesel, puupohjaiset rakennuslevyt.)"},{"nro":11,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Lue luonnonvarat.\n1. kuusi\n2. uraani\n3. hirvi\n4. öljy\n5. puolukka\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":3},{"nro":12,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: pinta-ala 8 ha. Puusto kasvaa keskimäärin 7 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa? Kirjoita lasku ja yksikkö.","vastaus":"56 m³"},{"nro":13,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: puusto kasvaa 60 m³ vuodessa, ja siitä hakataan 95 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä muuttuu vuodessa? Kirjoita myös, kasvaako vai pieneneekö se.","vastaus":"pienenee 35 m³"},{"nro":14,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: siitä hakataan 90 m³ puuta. Puusto kasvaa 5 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana? Kirjoita lasku näkyviin.","vastaus":"18 vuotta"},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty tapaus: Lähimetsän läpi virtaava mutkainen puro oikaistaan suoraksi ja ruopataan. Lue seuraukset.\n1. Puron mutkissa ja syvänteissä elävät eliöt menettävät elinympäristönsä.\n2. Työ maksaa kaupungille.\n3. Rantapolku muuttuu, ja kävijät vähenevät.\n4. Puron varren kosteikko kuivuu, ja sen kasvilajisto muuttuu.\n5. Ruopatusta pohjasta irtoaa hienoa maa-ainesta, joka samentaa veden ja peittää pohjaeläinten elinpaikkoja.\n\nMontako näistä on ekologisia seurauksia?","vastaus":3},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Kumpi kuvaa eettistä näkökulmaa?\n1. Pitääkö päätöksessä ottaa huomioon, mikä on reilua lähialueen lapsille, jotka eivät voi äänestää?\n2. Kerhot käyttävät metsää retkikohteena.\n\nVastaa 1 tai 2.","vastaus":1},{"nro":17,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Lause \"luonto kärsii\" on riittävän tarkka ekologinen seuraus.\n2. Kestävässä kehityksessä luonnonvaran käyttöä tarkastellaan ekologisesta, taloudellisesta, sosiaalisesta ja eettisestä näkökulmasta.\n3. Puun myynnistä saatavat tulot ovat taloudellinen seuraus.\n4. Ulkoilureitin katoaminen on sosiaalinen seuraus.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":18,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty tapaus: Sammalvaaran kaupunginosan vieressä on metsälampi, jota ympäröi vanha kuusivaltainen metsä. Metsässä kasvaa paljon sieniä, ja lähikoulu pitää siellä biologian tunteja. Kaupunki suunnittelee lammen ympäristön hakkuuta. Kirjoita, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti: jokaisesta näkökulmasta vähintään yksi seuraus. Perustele ekologinen seuraus biologisella tiedolla. Omaa kantaasi ei kysytä.","vastaus":"Malliesimerkki: Ekologisesti kuusten sienijuuriverkosto katkeaa, joten sienijuurisienet, kuten kantarelli, vähenevät, ja lampeen huuhtoutuu ravinteita, mikä voi rehevöittää sitä. Taloudellisesti kaupunki saa puusta tuloja. Sosiaalisesti koulu menettää läheisen opetuspaikan. Eettisesti kysytään, onko oikein, että lasten opetuspaikka hävitetään kysymättä heiltä."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty metsä: Puuston määrä pysyy samana, mutta kaikki kaatuneet ja kuolleet puut korjataan polttopuuksi. Onko metsän käyttö kestävää? Perustele biologisesti.","vastaus":"Malliesimerkki: Ei ole. Puuta ei käytetä enempää kuin kasvaa, mutta lahopuu häviää, ja siitä riippuvat sienet, hyönteiset ja sammalet häviävät. Monimuotoisuus ei säily."},{"nro":20,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty kysely Sammalvaaran asukkaille: 160 vastaajasta 112 käyttää lähimetsän polkuja koulu- tai työmatkalla.\n\nMontako prosenttia vastaajista käyttää lähimetsän polkuja koulu- tai työmatkalla? Kirjoita lasku näkyviin.","vastaus":"70 %"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kun kysytään montako tai kumpi, vastaa luvulla. Tehtävässä 1 kirjoita jokaisen numeron perään kirjain (T, S, K tai Y). Laskutehtävissä kirjoita lasku näkyviin ja vastaukseen yksikkö. Laskinta ei käytetä. Aineistot ja tapaukset ovat keksittyjä. Sanallisissa tehtävissä käytä käsitteitä ekosysteemipalvelu, biotalous, uusiutuva luonnonvara, monimuotoisuus sekä ekologinen, taloudellinen, sosiaalinen ja eettinen. Omaa mielipidettäsi ei arvioida.","tehtavat":[{"nro":1,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Luokittele ekosysteemipalvelut. Kirjoita jokaisen numeron perään kirjain: T = tuotantopalvelu, S = säätelypalvelu, K = kulttuuripalvelu, Y = ylläpitopalvelu.\n1. karikkeen hajotus\n2. mustikat\n3. pölytys\n4. retkeily\n5. kuitupuu paperiteollisuudelle\n6. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n7. yhteyttäminen\n8. luontokuvaus\n9. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n10. polttopuu\n\nKirjoita vastaus muodossa 1 T, 2 S, …","vastaus":"1 Y, 2 T, 3 S, 4 K, 5 T, 6 S, 7 Y, 8 K, 9 S, 10 T"},{"nro":2,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. hillat\n2. yhteyttäminen\n3. luontokuvaus\n4. riistanliha\n5. sahatavara\n\nMontako näistä on tuotantopalveluita?","vastaus":3},{"nro":3,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. hiilen sitoutuminen puustoon ja maaperään\n2. maaperän muodostuminen\n3. tulvien tasaaminen\n4. retkeily\n5. mustikat\n\nMontako näistä on säätelypalveluita?","vastaus":2},{"nro":4,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. maaperän muodostuminen\n2. retkeily\n3. kuitupuu paperiteollisuudelle\n4. metsämaiseman kauneus\n5. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n\nMontako näistä on kulttuuripalveluita?","vastaus":2},{"nro":5,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. ravinteiden kierto\n2. karikkeen hajotus\n3. hiilen sitoutuminen puustoon ja maaperään\n4. maaperän muodostuminen\n5. hillat\n\nMontako näistä on ylläpitopalveluita?","vastaus":3},{"nro":6,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ulkoilu on kulttuuripalvelu.\n2. Maaperä muodostuu nopeasti, joten menetetty maaperä palautuu muutamassa vuodessa.\n3. Tulvien tasaaminen on säätelypalvelu.\n4. Yhteyttäminen on ylläpitopalvelu.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Kumpi on säätelypalvelu?\n1. yhteyttäminen\n2. tulvien tasaaminen\n\nVastaa 1 tai 2.","vastaus":2},{"nro":8,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Keksitty koe: Mustikan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 20 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 100 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä? Kirjoita lasku näkyviin.","vastaus":"80 %"},{"nro":9,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Mitä biotalous tarkoittaa? Kerro metsää esimerkkinä käyttäen, millä kahdella ehdolla metsän käyttö biotaloudessa on kestävää.","vastaus":"Malliesimerkki: Biotalous käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen. Metsän käyttö on kestävää, jos puuta hakataan enintään sen verran kuin sitä kasvaa ja metsän monimuotoisuus säilyy, esimerkiksi lahopuuta, vanhoja puita ja lehtipuita jätetään."},{"nro":10,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä metsäpohjaisesta tuotteesta, jota käytät tai näet koulupäivän aikana. Kerro kummastakin, mistä metsän raaka-aineesta se tehdään.","vastaus":"Malliesimerkki: Pahvi- tai kartonkipakkaus tehdään sellusta, joka valmistetaan puun kuiduista. Puukuitukangas tehdään puusta liuotetusta selluloosasta. (Muita hyväksyttäviä: sahatavara, paperi, puupelletti, mäntyöljystä tehty uusiutuva diesel, puupohjaiset rakennuslevyt.)"},{"nro":11,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Lue luonnonvarat.\n1. rautamalmi\n2. kala\n3. maakaasu\n4. mänty\n5. kivihiili\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":2},{"nro":12,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: pinta-ala 20 ha. Puusto kasvaa keskimäärin 4 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa? Kirjoita lasku ja yksikkö.","vastaus":"80 m³"},{"nro":13,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: puusto kasvaa 110 m³ vuodessa, ja siitä hakataan 140 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä muuttuu vuodessa? Kirjoita myös, kasvaako vai pieneneekö se.","vastaus":"pienenee 30 m³"},{"nro":14,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: siitä hakataan 140 m³ puuta. Puusto kasvaa 7 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana? Kirjoita lasku näkyviin.","vastaus":"20 vuotta"},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty tapaus: Lähimetsään rakennetaan maastopyöräreitti. Lue seuraukset.\n1. Renkaat kuluttavat reitiltä kenttä- ja pohjakerroksen kasvillisuuden.\n2. Reitin rakentaminen maksaa.\n3. Nuoret saavat uuden harrastuspaikan.\n4. Maa tiivistyy ja puiden juuret vaurioituvat, ja rinteessä maa alkaa huuhtoutua.\n5. Kysytään, kenen harrastukselle yhteinen metsä annetaan.\n\nMontako näistä on ekologisia seurauksia?","vastaus":2},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Kumpi kuvaa eettistä näkökulmaa?\n1. Asukasyhdistys järjestää metsässä talkoita ja yhteisiä retkiä.\n2. Onko oikein hävittää uhanalaisen lajin elinpaikka, jos hyöty on vain rahallinen?\n\nVastaa 1 tai 2.","vastaus":2},{"nro":17,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Sosiaalinen näkökulma tarkastelee vain rahaa.\n2. Lahopuun väheneminen on ekologinen seuraus.\n3. Eettinen kysymys voi koskea sitä, kenellä on oikeus päättää yhteisestä metsästä.\n4. Jokaista päätöstä voi tarkastella vain yhdestä näkökulmasta.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":18,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty tapaus: Sammalvaaran kaupunginosan päiväkodin vieressä on vanha mäntymetsä, jossa on keloja eli pystyyn kuolleita, kuoriutuneita mäntyjä. Päiväkoti retkeilee metsässä viikoittain. Kaupunki suunnittelee metsän hakkuuta. Kirjoita, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti: jokaisesta näkökulmasta vähintään yksi seuraus. Perustele ekologinen seuraus biologisella tiedolla. Omaa kantaasi ei kysytä.","vastaus":"Malliesimerkki: Ekologisesti kelot ja vanhat männyt häviävät, joten niissä elävät hyönteiset, kääpälajit ja koloissa pesivät linnut menettävät elinympäristönsä. Taloudellisesti kaupunki saa puusta tuloja. Sosiaalisesti päiväkoti menettää retkipaikkansa. Eettisesti kysytään, onko reilua viedä lasten lähiluonto, ja onko vanhoilla puilla ja lajeilla arvo itsessään."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty metsä hakataan aina 60-vuotiaana, ja tilalle istutetaan kuusia. Puuta kasvaa yhtä paljon kuin hakataan. Mikä kestävyyden ehto voi silti jäädä täyttymättä? Perustele biologisesti.","vastaus":"Malliesimerkki: Monimuotoisuuden säilyminen. Metsään ei jää vanhoja puita, lahopuuta eikä lehtipuita, joten niitä tarvitsevat lajit eivät löydä elinympäristöä."},{"nro":20,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty kysely Sammalvaaran asukkaille: 400 vastaajasta 260 ulkoiluttaa koiraa lähimetsässä.\n\nMontako prosenttia vastaajista ulkoiluttaa koiraa lähimetsässä? Kirjoita lasku näkyviin.","vastaus":"65 %"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kun kysytään montako tai kumpi, vastaa luvulla. Tehtävässä 1 kirjoita jokaisen numeron perään kirjain (T, S, K tai Y). Laskutehtävissä kirjoita lasku näkyviin ja vastaukseen yksikkö. Laskinta ei käytetä. Aineistot ja tapaukset ovat keksittyjä. Sanallisissa tehtävissä käytä käsitteitä ekosysteemipalvelu, biotalous, uusiutuva luonnonvara, monimuotoisuus sekä ekologinen, taloudellinen, sosiaalinen ja eettinen. Omaa mielipidettäsi ei arvioida.","tehtavat":[{"nro":1,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Luokittele ekosysteemipalvelut. Kirjoita jokaisen numeron perään kirjain: T = tuotantopalvelu, S = säätelypalvelu, K = kulttuuripalvelu, Y = ylläpitopalvelu.\n1. ulkoilu\n2. ravinteiden kierto\n3. puolukat\n4. hiilen sitoutuminen puustoon ja maaperään\n5. hiljentyminen ja rauhoittuminen metsässä\n6. maaperän muodostuminen\n7. tukkipuu sahalle\n8. veden puhdistuminen maaperässä\n9. tulvien tasaaminen\n10. ruokasienet\n\nKirjoita vastaus muodossa 1 T, 2 S, …","vastaus":"1 K, 2 Y, 3 T, 4 S, 5 K, 6 Y, 7 T, 8 S, 9 S, 10 T"},{"nro":2,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. karpalot\n2. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n3. tukkipuu sahalle\n4. metsämaiseman kauneus\n5. karikkeen hajotus\n\nMontako näistä on tuotantopalveluita?","vastaus":2},{"nro":3,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. pölytys\n2. ravinteiden kierto\n3. veden puhdistuminen maaperässä\n4. hirvenliha\n5. maan huuhtoutumisen estyminen, kun juuret sitovat maata\n\nMontako näistä on säätelypalveluita?","vastaus":3},{"nro":4,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. lintujen tarkkailu\n2. yhteyttäminen\n3. luontokuvaus\n4. ulkoilu\n5. polttopuu\n\nMontako näistä on kulttuuripalveluita?","vastaus":3},{"nro":5,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue hyödyt.\n1. yhteyttäminen\n2. tuhohyönteisiä syövät linnut (tuholaisten säätely)\n3. ravinteiden kierto\n4. luontokuvaus\n5. puolukat\n\nMontako näistä on ylläpitopalveluita?","vastaus":2},{"nro":6,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Mustikat ovat tuotantopalvelu.\n2. Säätelypalvelut toimivat samoin, vaikka metsän eliöt häviäisivät.\n3. Kulttuuripalveluihin kuuluvat virkistys ja luontoon liittyvät kokemukset.\n4. Ravinteiden kierto on tuotantopalvelu.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":7,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Kumpi on säätelypalvelu?\n1. veden puhdistuminen maaperässä\n2. maaperän muodostuminen\n\nVastaa 1 tai 2.","vastaus":1},{"nro":8,"ryhma":"palvelut","tyyppi":"lasku","kysymys":"Keksitty koe: Puolukan varvut, joilta pölyttäjät suljettiin harsolla pois, tuottivat 18 marjaa. Samankokoiset varvut, joilla pölyttäjät saivat käydä, tuottivat 60 marjaa.\n\nMontako prosenttia marjoista jäi syntymättä ilman pölyttäjiä? Kirjoita lasku näkyviin.","vastaus":"70 %"},{"nro":9,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Keksitty mainos väittää: \"Kaikki puusta tehty on kestävää.\" Selitä, mitä biotalous tarkoittaa, ja kerro, millä kahdella ehdolla biotalous on kestävää.","vastaus":"Malliesimerkki: Biotalous käyttää uusiutuvia luonnonvaroja ravinnon, energian, tuotteiden ja palvelujen tuottamiseen. Puusta tehty on kestävää vain, jos puuta käytetään enintään uusiutumisen verran ja monimuotoisuus säilyy."},{"nro":10,"ryhma":"biotalous","tyyppi":"sanallinen","kysymys":"Kerro kaksi esimerkkiä tuotteesta, jolla metsäpohjainen biotalous voi korvata uusiutumattomasta raaka-aineesta tehdyn tuotteen. Kerro kummastakin, mistä metsän raaka-aineesta se tehdään.","vastaus":"Malliesimerkki: Pahvi- tai kartonkipakkaus tehdään sellusta, joka valmistetaan puun kuiduista. Puukuitukangas tehdään puusta liuotetusta selluloosasta. (Muita hyväksyttäviä: sahatavara, paperi, puupelletti, mäntyöljystä tehty uusiutuva diesel, puupohjaiset rakennuslevyt.)"},{"nro":11,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Lue luonnonvarat.\n1. haapa\n2. kupari\n3. lohi\n4. hunaja\n5. öljy\n\nMontako näistä on uusiutuvia luonnonvaroja?","vastaus":3},{"nro":12,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: pinta-ala 9 ha. Puusto kasvaa keskimäärin 6 m³ hehtaarilla vuodessa.\n\nMontako kuutiometriä puuta metsikössä kasvaa vuodessa? Kirjoita lasku ja yksikkö.","vastaus":"54 m³"},{"nro":13,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: puusto kasvaa 80 m³ vuodessa, ja siitä hakataan 125 m³ vuodessa. Muita muutoksia ei ole.\n\nMontako kuutiometriä puuston määrä muuttuu vuodessa? Kirjoita myös, kasvaako vai pieneneekö se.","vastaus":"pienenee 45 m³"},{"nro":14,"ryhma":"biotalous","tyyppi":"lasku","kysymys":"Keksitty metsikkö: siitä hakataan 96 m³ puuta. Puusto kasvaa 8 m³ vuodessa, eikä metsikköä hakata uudelleen.\n\nMontako vuotta kuluu, ennen kuin hakattu määrä on kasvanut takaisin, jos kasvu pysyy samana? Kirjoita lasku näkyviin.","vastaus":"12 vuotta"},{"nro":15,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty tapaus: Metsälammen rantaan tehdään uimaranta, ja rantaan ajetaan hiekkaa. Lue seuraukset.\n1. Rannan vesikasvit ja niissä elävät eliöt jäävät hiekan alle.\n2. Kaupunki maksaa rakentamisen.\n3. Asukkaat saavat uintipaikan läheltä.\n4. Kävijät tallaavat rantakasvillisuutta yhä laajemmalta.\n5. Rantaa varjostavat puut kaadetaan, ja matala rantavesi lämpenee kesällä enemmän.\n\nMontako näistä on ekologisia seurauksia?","vastaus":3},{"nro":16,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Kumpi kuvaa eettistä näkökulmaa?\n1. Saako yksi sukupolvi käyttää luonnonvaran niin, että seuraaville jää vähemmän?\n2. Metsä on asukkaille tärkeä paikka rentoutua.\n\nVastaa 1 tai 2.","vastaus":1},{"nro":17,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Puiden ja maaperän hiilivaraston pieneneminen on ekologinen seuraus.\n2. Taloudellinen seuraus voi olla myös kustannus, kuten polkujen korjaaminen.\n3. Sosiaalinen näkökulma kysyy, miten päätös vaikuttaa ihmisten hyvinvointiin.\n4. Ekologinen näkökulma tarkoittaa, että metsää ei saa käyttää lainkaan.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":18,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty tapaus: Sammalvaaran kaupunginosan yläpuolella on rinteessä vanha kuusikko, jolta sadevesi valuu puroon ja asuinalueen ojiin. Metsässä on paljon lahopuuta, ja sen läpi kulkee suosittu ulkoilureitti. Kaupunki suunnittelee metsän avohakkuuta. Kirjoita, mitä hakkuu merkitsisi ekologisesti, taloudellisesti, sosiaalisesti ja eettisesti: jokaisesta näkökulmasta vähintään yksi seuraus. Perustele ekologinen seuraus biologisella tiedolla. Omaa kantaasi ei kysytä.","vastaus":"Malliesimerkki: Ekologisesti lahopuusta riippuvat lajit häviävät, ja kun puiden juuret eivät enää sido maata ja puusto haihduta vettä, rinteestä valuu enemmän vettä ja maata puroon. Taloudellisesti kaupunki saa puusta tuloja, mutta ojien ja tulvavahinkojen korjaaminen voi maksaa. Sosiaalisesti ulkoilureitti menetetään. Eettisesti kysytään, kuka saa päättää yhteisestä metsästä."},{"nro":19,"ryhma":"nakokulmat","tyyppi":"sanallinen","kysymys":"Keksitty metsäalue muutetaan tasaikäiseksi männiköksi, jossa puuta kasvaa enemmän kuin ennen. Onko muutos kestävä? Perustele biologisesti.","vastaus":"Malliesimerkki: Ei välttämättä. Puun määrä kasvaa, mutta yhden puulajin tasaikäisessä metsässä on vähän lahopuuta, vanhoja puita ja lehtipuita, joten niistä riippuvat lajit vähenevät eikä monimuotoisuus säily."},{"nro":20,"ryhma":"nakokulmat","tyyppi":"lasku","kysymys":"Keksitty kysely Sammalvaaran asukkaille: 230 vastaajasta 207 pitää lähimetsää tärkeänä virkistyspaikkana.\n\nMontako prosenttia vastaajista pitää lähimetsää tärkeänä virkistyspaikkana? Kirjoita lasku näkyviin.","vastaus":"90 %"}]}],"virhesanakirja":[{"virhe":"Luokittelee vain myytävät asiat ekosysteemipalveluiksi tai luokittelee rahan perusteella (luontokuvaus tuotantopalveluksi)","tehtava":"palvelut (1, 2, 6)","mita_kertoo":"Ekosysteemipalvelu ymmärretään tuotteeksi. Näkymättömät säätely- ja ylläpitopalvelut jäävät huomaamatta.","mita_tehda":"Käy ansa 1 läpi. Anna nuoren kysyä jokaisesta kohdasta saannon neljä kysymystä järjestyksessä ja perustella valinta hyödyn laadulla."},{"virhe":"Sekoittaa säätely- ja ylläpitopalvelut (ravinteiden kierto säätelyksi, pölytys ylläpidoksi)","tehtava":"palvelut (1, 3, 5, 7)","mita_kertoo":"Ryhmien raja on vielä epäselvä. Molemmat ovat luonnon toimintaa, mutta ylläpitopalvelut ovat perusta, jota muut palvelut tarvitsevat, ja säätelypalvelut tasaavat tai puhdistavat ympäristöä ihmisen hyödyksi.","mita_tehda":"Kysy: \"Jos tämä lakkaisi, katoaisiko metsästä kaikki muukin (ylläpito) vai menettäisivätkö ihmiset suojan tai puhdistuksen (säätely)?\" Käytä kuvaa neljästä ryhmästä."},{"virhe":"Määrittelee biotalouden vain \"puusta tehtyinä tuotteina\" tai jättää kestävyyden ehdot pois","tehtava":"biotalous (9)","mita_kertoo":"Uusiutuva ja kestävä sekoittuvat. Nuori ajattelee, että uusiutuminen riittää.","mita_tehda":"Näytä kuva kahdesta metsiköstä ja kysy, kumpi on kestävä. Lisää sen jälkeen toinen ehto: jos lahopuu ja vanhat puut häviävät, onko metsikkö 1 silti kestävä? Ansa 2."},{"virhe":"Laskee kasvun ja hakkuun erotuksen väärin päin tai unohtaa yksikön","tehtava":"biotalous (12, 13, 14)","mita_kertoo":"Laskutaito on kunnossa, mutta tilanteen hahmottaminen ei: mikä lisää ja mikä vähentää puuston määrää.","mita_tehda":"Piirrä tilanteesta kaksi pylvästä kuten kuvassa ja kysy ensin, kumpi on suurempi. Vaadi vastaukseen yksikkö m³ ja suunta (kasvaa tai pienenee)."},{"virhe":"Ekologinen seuraus on ylimalkainen (\"luonto kärsii\", \"eläimet kuolevat\")","tehtava":"nakokulmat (15, 18, 19)","mita_kertoo":"Nuori tunnistaa, että hakkuulla on vaikutus, mutta ei vielä liitä sitä biologiseen mekanismiin. Kartan osaa_kun vaatii biologisen perustelun.","mita_tehda":"Kysy: \"Mikä eliö tai rakenne häviää, ja miksi se on jollekin lajille tärkeä?\" Kertaa taidosta Sammalesta latvaan sienijuuri ja lahopuu. Ansa 3."},{"virhe":"Kirjoittaa oman kannan näkökulmien sijaan tai sekoittaa sosiaalisen ja eettisen","tehtava":"nakokulmat (16, 17, 18)","mita_kertoo":"Mielipide ja näkökulma sekoittuvat. Sosiaalinen kertoo vaikutuksesta ihmisten hyvinvointiin, eettinen kysyy, mikä on oikein ja reilua.","mita_tehda":"Anna nuoren muuttaa kannanotto seuraukseksi: \"Hakkuu on väärin\" → \"Jos metsä hakataan, ...\" Laita eettinen seuraus kysymysmuotoon: \"Onko oikein, että …?\" Ansa 4."}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen, koska kartan näyttö alkaa sanalla Paperikokeessa. Luokittelu, palveluryhmien tunnistaminen, uusiutuvat luonnonvarat, laskut ja näkökulmien tunnistaminen ovat yksikäsitteisesti tarkistettavia (16 tehtävää per koe). Biotalouden määritelmä, metsäpohjaiset tuotteet, Sammalvaaran tapaus ja kestävyyden toinen ehto ovat sanallisia tehtäviä 9, 10, 18 ja 19.","Mittaritehtävät ovat 1, 9 ja 18. Tehtävä 1 on kartan rajan mukaisesti oikein, kun vähintään kahdeksan kohtaa kymmenestä on oikein; tehtävä lasketaan yhdeksi tehtäväksi. Tehtävä 9 on oikein, kun määritelmässä on uusiutuvien luonnonvarojen käyttö (ravinto, energia, tuotteet tai palvelut) ja molemmat kestävyyden ehdot: käyttö enintään uusiutumisen verran ja monimuotoisuuden säilyminen. Tehtävä 18 on oikein, kun jokaisesta neljästä näkökulmasta on vähintään yksi asiallinen seuraus ja ekologinen seuraus perustuu biologiseen tietoon (esimerkiksi lahopuun, kolopuiden, sienijuuriverkoston tai hiilivaraston häviäminen, ravinteiden huuhtoutuminen). Pelkkä \"luonto kärsii\" ei riitä. Omaa mielipidettä hakkuusta ei arvioida, eikä kanta vaikuta arvioon. Hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Tehtävä 10 on oikein, kun siinä on kaksi eri metsäpohjaista tuotetta ja kummankin raaka-aine (puu, puukuitu, sellu, mäntyöljy tms.). Kaksi saman tuotteen muotoa (paperi ja kopiopaperi) on yksi tuote. Tehtävä 19 on oikein, kun vastaus nimeää monimuotoisuuden ja perustelee sen biologisesti (lahopuu, vanhat puut, lehtipuut tai niistä riippuvat lajit). Tehtävissä 8, 12, 13, 14 ja 20 oikea luku ilman yksikköä tai ilman laskua on väärin; tehtävässä 13 vaaditaan myös suunta (pienenee).","Raja: oletusraja 80 % (16/20) ja mittaritehtävät oikein. Kartan raja \"vähintään kahdeksan esimerkkiä kymmenestä\" toteutuu tehtävässä 1, joka on mittari.","Luokitteluperuste: tuotantopalvelut = talteen korjattava; säätelypalvelut = luonnon toiminta, joka tasaa, puhdistaa tai suojaa (pölytys, hiilen sitoutuminen, veden puhdistuminen, tulvien tasaaminen, tuholaisten säätely, maan huuhtoutumisen estyminen); kulttuuripalvelut = aineettomat hyödyt; ylläpitopalvelut = yhteyttäminen, ravinteiden kierto, karikkeen hajotus, maaperän muodostuminen. Kokeisiin on valittu vain esimerkkejä, joiden ryhmä on oppikirjoissa vakiintunut. Pois on jätetty kahteen ryhmään sopivia esimerkkejä (esimerkiksi juomavesi, marjastus harrastuksena, hapen tuotanto, elinympäristöjen tarjoaminen). Jos koulun oppikirja käyttää nimitystä tukipalvelut, hyväksy se ylläpitopalveluiden sijaan.","Rajaus: monimuotoisuuden tasot, uhat ja luonnonsuojelun keinot ovat taidossa BI8-KES-03 (Norpan paluu). Sukkessio ja talousmetsän rakenne ovat taidossa BI8-EKO-05. Väitteiden luokittelu tieto- ja arvoväitteisiin on taidossa BI8-KES-05. Bioteknologia ja ruoantuotanto ovat 9. luokalla (BI9-KES-01), ilmastonmuutos ja hiilen kierto 9. luokalla (BI9-KES-02), joten hiilen sitoutuminen mainitaan tässä vain säätelypalveluna. Kestävän kehityksen näkökulmat voivat toistua maantiedossa (avoimet-BI8, asia 7).","Retki: Espoon 8. luokan tarkennuksen mukaisesti lähimetsän retki sopii toiselle tunnille (palveluiden etsiminen maastosta), mutta retki ei ole näytön ehto. Turvallisuus: kuljetaan ryhmänä ja sovittua reittiä, liikenteessä heijastimet, sovittu alue ja kokoontumispaikka, ei hakkuutyömaille eikä metsäkoneiden lähelle, ei lahoihin pystypuihin nojaamista eikä puupinoihin kiipeämistä, punkkien tarkistus, ei tuntemattomien marjojen tai sienten maistamista, allergiat etukäteen tiedossa.","Tarkistettavat asiatiedot: biotalouden määritelmä vastaa Suomen biotalousstrategian (2014) muotoilua; tarkista koulun oppikirjan sanamuoto. Ekosysteemipalveluiden nelijako ja neljännen ryhmän nimi (ylläpito- vai tukipalvelut) oppikirjan mukaan (avoimet-BI8, asia 8). Metsäpohjaiset tuotteet: puukuitutekstiilit (viskoosi, lyocell) ja mäntyöljystä valmistettu uusiutuva diesel ovat olemassa olevia tuotteita. Pölytyskokeiden, metsiköiden ja kyselyjen luvut ovat keksittyjä; metsiköiden kasvuluvut (4–7 m³/ha vuodessa) ovat Etelä-Suomen kangasmetsälle uskottavaa suuruusluokkaa. Hömötiainen kovertaa pesäkolon lahoon puuhun (kirjoittajan tieto, ei käytetty kokeessa)."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Metsä antaa meille tuotteita, mutta vielä enemmän palveluita, joita emme näe. Palvelut jaetaan neljään ryhmään. Biotalous käyttää uusiutuvia luonnonvaroja, ja se on kestävää vain, jos käyttö on enintään uusiutumisen verran ja monimuotoisuus säilyy. Päätöstä punnitaan neljästä näkökulmasta, eikä näkökulma ole mielipide.","vaiheet":[{"aika":"10 min","otsikko":"1. tunti: Palvelutiski","sisalto":"Lue johdanto. Kysy, mitä luokan esineistä, ruoista tai harrastuksista on tullut metsästä. Kirjaa vastaukset. Palatkaa listaan, kun ryhmät on opittu."},{"aika":"20 min","otsikko":"Neljä ryhmää","sisalto":"Kappale Ekosysteemipalvelut, taulukko, kuva ja saanto. Luokitelkaa aloituksen lista yhdessä. Ansa 1: luontokuvaus ja raha."},{"aika":"15 min","otsikko":"Harjoittelu: palvelut","sisalto":"Harjoitusryhmä 1. Seuraa, perustelevatko nuoret ryhmän hyödyn laadulla."},{"aika":"20 min","otsikko":"2. tunti: Biotalous ja kestävyys","sisalto":"Kappale Biotalous, kuva kahdesta metsiköstä ja ansa 2. Laskekaa yhdessä yksi kasvu ja hakkuu. Painota toista ehtoa: monimuotoisuus."},{"aika":"25 min","otsikko":"Harjoittelu tai lähimetsän retki","sisalto":"Harjoitusryhmä 2. Vaihtoehtoisesti retki lähimetsään: parit etsivät jokaisesta neljästä ryhmästä yhden palvelun ja kirjaavat sen. Turvallisuussaanto käydään läpi ennen lähtöä."},{"aika":"20 min","otsikko":"3. tunti: Neljä näkökulmaa","sisalto":"Kappale Neljä näkökulmaa, Haapalan esimerkkitaulukko, ansat 3 ja 4 ja harjoitusryhmä 3. Harjoitelkaa ekologisen seurauksen tarkentamista: luonto kärsii → mikä laji ja miksi."},{"aika":"25 min","otsikko":"Koe","sisalto":"Koe A–E tulostettuna ja valvotusti. Mittaritehtävät 1, 9 ja 18. Jos aika ei riitä, koe jatkuu seuraavalla tunnilla."}],"tarvikkeet":"Neljän palveluryhmän kuva heijastettuna, tulostetut kokeet. Halutessa lähimetsän retki (heijastimet, opettajan puhelin, ensiapulaukku)."},"huoltajalle":{"mista_on_kyse":"Nuori opettelee, mitä ekosysteemipalvelut ovat: tuotteita, kuten puu ja marjat, mutta myös luonnon näkymätöntä työtä, kuten pölytystä ja veden puhdistumista, sekä virkistystä ja luonnon perustoimintoja. Hän selittää, mitä biotalous on ja milloin se on kestävää, ja tarkastelee metsän käyttöä ekologisesta, taloudellisesta, sosiaalisesta ja eettisestä näkökulmasta. Omaa mielipidettä ei arvioida.","kotona":["Kysykää, mihin neljästä ryhmästä pölytys, ulkoilu, puutavara ja ravinteiden kierto kuuluvat ja miksi.","Kun näette pahvipakkauksen tai paperia, kysykää, mistä raaka-aineesta se on tehty ja onko se biotaloutta.","Pyytäkää selittämään, miksi \"puu kasvaa takaisin\" ei yksin tee metsän käytöstä kestävää.","Jos uutisissa puhutaan metsien käytöstä, kysykää, mitä asia merkitsisi kustakin neljästä näkökulmasta."],"milloin_huolestua":"Jos nuori pitää ekosysteemipalveluina vain myytäviä tuotteita tai ei pysty nimeämään hakkuun ekologisia seurauksia biologisesti, kertokaa siitä opettajalle. Taito on ydintaito, ja sen voi näyttää uudelleen."},"ulkoiset":{},"valmis_teksti":"Osaat erotella metsän ekosysteemipalvelut neljään ryhmään, selittää, mitä biotalous on ja milloin se on kestävää, ja punnita metsän käyttöä ekologisesta, taloudellisesta, sosiaalisesta ja eettisestä näkökulmasta. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

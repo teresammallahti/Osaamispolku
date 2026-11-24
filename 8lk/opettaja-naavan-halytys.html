@@ -1,0 +1,619 @@
+<title>Naavan hälytys · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"BI8-KES-01","oppiaine":"BI","vuosiluokka":8,"taitoalue":"KES","jakso":"J1","taso":"haaste","otsikko":"Naavan hälytys","kuvaus":"Osaan selittää, miksi jäkälät kertovat ilman laadusta, ja tulkita jäkäläkartoituksen tuloksia.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T3","T10"],"S":["S6","S2"]},"eyebrow":"Biologia · 8. luokka","ikoni":"puu","naytto":"Saan keksityn jäkäläkartoituksen aineiston, jossa on kolmen paikan (esimerkiksi vilkkaan tien varsi, kaupunkipuisto ja metsä kaukana teistä) puunrunkojen jäkälälajit ja niiden peittävyys. Teen aineistosta pylväsdiagrammin, päättelen, missä ilma on puhtainta, ja perustelen päätelmän. Halukas oppilas voi tehdä oman pienen kartoituksen koulun lähipuista.","osaa_kun":"Diagrammi on luettava (akselit, yksiköt, otsikko). Selitän, että jäkälä ottaa vettä ja ravinteita suoraan ilmasta koko pinnallaan eikä sillä ole suojaavaa kerrosta, joten ilman epäpuhtaudet (esimerkiksi rikkidioksidi) vaikuttavat siihen herkästi, ja että herkkien lajien kuten naavojen puuttuminen viittaa likaantuneeseen ilmaan. Kerron yhden syyn, miksi päätelmä yhden kartoituksen perusteella on epävarma.","teksti":[{"tyyppi":"johdanto","sisalto":"Koulun pihan vanhoissa koivuissa ei roiku naavaa, mutta parin kilometrin päässä metsässä harmaanvihreät naavatupsut riippuvat kuusten oksilta. Kertooko se jotain koulun ilmasta? Jäkälät ovat ilmentäjälajeja: niiden lajisto paljastaa ilman laadusta asioita, joita ei voi nähdä paljain silmin. Itiö vai siemen -taidossa tutustuit jäkälän rakenteeseen ja Kuusikon kutsumanimet -taidossa naavaan. Tässä haastetaidossa selität, miksi jäkälät ovat niin herkkiä ilman epäpuhtauksille, piirrät jäkäläkartoituksen aineistosta pylväsdiagrammin, päättelet, missä ilma on puhtainta, ja arvioit, kuinka varma päätelmäsi on."},{"tyyppi":"kappale","otsikko":"Jäkälä elää ilmasta","sisalto":"Jäkälä on sienen ja levän tai syanobakteerin yhteiselämää. Levä tai syanobakteeri yhteyttää ja antaa sienelle ravintoa, ja sieni suojaa ja pitää kosteutta. Jäkälällä ei ole juuria eikä johtojänteitä, eikä sen pinnalla ole vahakerroksen kaltaista suojaavaa kerrosta, joka kasvin lehdellä säätelee aineiden kulkua. Jäkälä ottaa vettä ja siihen liuenneita aineita suoraan sateesta, sumusta, kasteesta ja pölystä koko pinnallaan. Se ei voi valita, mitä se ottaa, eikä se pysty juuri poistamaan haitallisia aineita. Jäkälät kasvavat hitaasti ja elävät pitkään, joten sama jäkälä altistuu ilman epäpuhtauksille vuosien ajan. Siksi ilman laadun muutokset näkyvät jäkälissä, ja jäkälälajisto kertoo pitkän ajan tilanteesta eikä vain yhden päivän ilmasta."},{"tyyppi":"kappale","otsikko":"Mikä ilmassa vahingoittaa jäkäliä","sisalto":"Tunnetuin jäkäliä vahingoittava epäpuhtaus on rikkidioksidi. Sitä syntyy, kun poltetaan rikkiä sisältäviä polttoaineita, kuten kivihiiltä ja raskasta polttoöljyä. Kosteassa ilmassa rikkidioksidista muodostuu happamia yhdisteitä, jotka vaurioittavat jäkälän levä- tai syanobakteeriosakkaan lehtivihreää. Yhteyttäminen heikkenee, ja koska sieni saa ravintonsa yhteyttävältä osakkaalta, koko jäkälä kärsii ja herkimmät lajit kuolevat. Suomen rikkidioksidipäästöt ovat pienentyneet hyvin paljon muutaman vuosikymmenen takaisesta, ja naavoja on palannut kaupunkien lähelle. Nykyään jäkälistössä näkyvät myös liikenteen ja maatalouden typpiyhdisteet: ne lannoittavat joitakin kestäviä lajeja, jotka runsastuvat, kun taas herkät lajit vähenevät."},{"tyyppi":"taulukko","otsikko":"Puunrunkojen jäkälät kasvumuodon mukaan","otsikkorivi":["Kasvumuoto","Miltä näyttää","Esimerkki","Herkkyys"],"rivit":[["Rupijäkälä","Ohut kuori tai jauhemainen kerros, kiinni alustassa kuin maali","monet harmaat ja vihertävät rupijäkälät","Kestävin: kasvaa likaisessakin ilmassa"],["Lehtijäkälä","Litteä, lehtimäinen, reunat irti alustasta","sormipaisukarve","Keskiverto: osa lajeista kestää melko hyvin"],["Pensasjäkälä","Pysty, riippuva tai haarova, kiinni vain pienestä kohdasta","naavat ja luput","Herkin: katoaa ensimmäisenä, kun ilma likaantuu"]]},{"tyyppi":"kappale","otsikko":"Ilmentäjälaji kertoo, ei mittaa","sisalto":"Ilmentäjälaji eli bioindikaattori on laji, jonka esiintyminen, runsaus tai kunto kertoo ympäristön tilasta. Pensasjäkälät, kuten naavat ja luput, ovat herkkiä, joten niiden runsas esiintyminen viittaa puhtaaseen ilmaan, ja niiden puuttuminen voi viitata likaantuneeseen ilmaan. Rupijäkälät kasvavat lähes kaikkialla, joten niiden runsaus ei kerro paljoa. Jäkälät eivät mittaa ilman epäpuhtauksia lukuina kuten mittausasema, mutta ne kertovat, miten ilma on vaikuttanut eliöihin pitkän ajan kuluessa. Siksi päätelmä kirjoitetaan varovasti: aineisto viittaa siihen, että ilma on todennäköisesti puhtainta paikassa X."},{"tyyppi":"saanto","otsikko":"Näin jäkäläkartoitus tehdään","askeleet":["Valitse jokaisesta tutkimuspaikasta useita samanlaisia puita: samaa puulajia, esimerkiksi viisi aikuista koivua, joiden rungot ovat suunnilleen yhtä paksuja.","Aseta rungolle läpinäkyvä ruutukehys, esimerkiksi 10 cm × 10 cm:n kalvo, joka on jaettu sataan ruutuun, aina samalle korkeudelle (noin 1–1,5 m maasta) ja samalle puolelle runkoa.","Tunnista jäkälät lajeina tai kasvumuotoina ja laske, montako ruutua kukin peittää. Jos sadasta ruudusta 14 on rupijäkälän peitossa, rupijäkälän peittävyys on 14 %.","Kirjaa tulokset taulukkoon puittain ja laske jokaiselle paikalle keskiarvo. Kirjaa myös, montako eri lajia tai kasvumuotoa löysit.","Jäkäliä ei irroteta rungosta. Ne kasvavat hitaasti, ja kartoitus tehdään katsomalla ja valokuvaamalla."]},{"tyyppi":"ruudukko","otsikko":"Ruutukehys koivun rungolla","rivit":10,"sarakkeet":10,"alueet":[{"maara":14,"vari":3},{"maara":9,"vari":2},{"maara":3,"vari":1}],"teksti":"Sadasta ruudusta 14 on rupijäkälän (keltainen), 9 lehtijäkälän (vihreä) ja 3 pensasjäkälän (sininen) peitossa. Peittävyydet ovat 14 %, 9 % ja 3 %, ja jäkälien yhteispeittävyys on 26 %."},{"tyyppi":"saanto","otsikko":"Näin piirrät aineistosta pylväsdiagrammin","askeleet":["Kun vertailet kolmea paikkaa ja useaa jäkäläryhmää, piirrä ryhmitelty pylväsdiagrammi: paikat vaaka-akselille ja jokaiselle ryhmälle oma pylväs paikan kohdalle.","Kirjoita pystyakselin nimeksi suure ja yksikkö, esimerkiksi Peittävyys (%), ja vaaka-akselin nimeksi esimerkiksi Kartoituspaikka.","Aloita pystyakselin asteikko nollasta ja käytä tasavälejä (esimerkiksi 0, 5, 10, 15, 20, 25). Valitse suurin arvo niin, että suurin pylväs mahtuu.","Käytä jokaiselle ryhmälle omaa väriä tai kuviota kaikissa paikoissa ja tee selite.","Kirjoita otsikko, josta selviää, mitä, missä ja milloin on mitattu, ja merkitse keksitty aineisto keksityksi."]},{"tyyppi":"kuva","otsikko":"Malli: ryhmitelty pylväsdiagrammi","svg":"<svg viewBox=\"0 0 620 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Ryhmitelty pylväsdiagrammi: jäkäläryhmien peittävyys koivujen rungoilla kolmessa paikassa, keksitty aineisto.\"><text class=\"v-t vahva\" x=\"320\" y=\"20\" text-anchor=\"middle\" style=\"font-size:13px\">Jäkälien peittävyys koivujen rungoilla Tammikallion lähiympäristössä</text><text class=\"v-t pieni\" x=\"320\" y=\"38\" text-anchor=\"middle\" style=\"font-size:11.5px\">(keksitty aineisto, keskiarvo viidestä koivusta, syyskuu)</text><line class=\"v-apu\" x1=\"80\" y1=\"270\" x2=\"600\" y2=\"270\"/><text class=\"v-t pieni\" x=\"72\" y=\"274\" text-anchor=\"end\" style=\"font-size:11.5px\">0</text><line class=\"v-apu\" x1=\"80\" y1=\"230\" x2=\"600\" y2=\"230\"/><text class=\"v-t pieni\" x=\"72\" y=\"234\" text-anchor=\"end\" style=\"font-size:11.5px\">5</text><line class=\"v-apu\" x1=\"80\" y1=\"190\" x2=\"600\" y2=\"190\"/><text class=\"v-t pieni\" x=\"72\" y=\"194\" text-anchor=\"end\" style=\"font-size:11.5px\">10</text><line class=\"v-apu\" x1=\"80\" y1=\"150\" x2=\"600\" y2=\"150\"/><text class=\"v-t pieni\" x=\"72\" y=\"154\" text-anchor=\"end\" style=\"font-size:11.5px\">15</text><line class=\"v-apu\" x1=\"80\" y1=\"110\" x2=\"600\" y2=\"110\"/><text class=\"v-t pieni\" x=\"72\" y=\"114\" text-anchor=\"end\" style=\"font-size:11.5px\">20</text><line class=\"v-apu\" x1=\"80\" y1=\"70\" x2=\"600\" y2=\"70\"/><text class=\"v-t pieni\" x=\"72\" y=\"74\" text-anchor=\"end\" style=\"font-size:11.5px\">25</text><line class=\"v-akseli\" x1=\"80\" y1=\"270\" x2=\"600\" y2=\"270\"/><line class=\"v-akseli\" x1=\"80\" y1=\"270\" x2=\"80\" y2=\"64\"/><text class=\"v-t\" x=\"22\" y=\"170\" text-anchor=\"middle\" transform=\"rotate(-90 22 170)\" style=\"font-size:12px\">Peittävyys (%)</text><rect class=\"v-pylvas v2\" x=\"119\" y=\"94\" width=\"30\" height=\"176\"/><text class=\"v-t pieni\" x=\"134\" y=\"89\" text-anchor=\"middle\" style=\"font-size:11px\">22</text><rect class=\"v-ruutu v2\" style=\"stroke-width:1.4\" x=\"153\" y=\"238\" width=\"30\" height=\"32\"/><text class=\"v-t pieni\" x=\"168\" y=\"233\" text-anchor=\"middle\" style=\"font-size:11px\">4</text><text class=\"v-t pieni\" x=\"202\" y=\"265\" text-anchor=\"middle\" style=\"font-size:11px\">0</text><text class=\"v-t\" x=\"170\" y=\"290\" text-anchor=\"middle\" style=\"font-size:12px\">Moottoritien liittymä</text><rect class=\"v-pylvas v2\" x=\"279\" y=\"150\" width=\"30\" height=\"120\"/><text class=\"v-t pieni\" x=\"294\" y=\"145\" text-anchor=\"middle\" style=\"font-size:11px\">15</text><rect class=\"v-ruutu v2\" style=\"stroke-width:1.4\" x=\"313\" y=\"190\" width=\"30\" height=\"80\"/><text class=\"v-t pieni\" x=\"328\" y=\"185\" text-anchor=\"middle\" style=\"font-size:11px\">10</text><rect class=\"v-pylvas\" x=\"347\" y=\"262\" width=\"30\" height=\"8\"/><text class=\"v-t pieni\" x=\"362\" y=\"257\" text-anchor=\"middle\" style=\"font-size:11px\">1</text><text class=\"v-t\" x=\"330\" y=\"290\" text-anchor=\"middle\" style=\"font-size:12px\">Kirjaston puisto</text><rect class=\"v-pylvas v2\" x=\"439\" y=\"206\" width=\"30\" height=\"64\"/><text class=\"v-t pieni\" x=\"454\" y=\"201\" text-anchor=\"middle\" style=\"font-size:11px\">8</text><rect class=\"v-ruutu v2\" style=\"stroke-width:1.4\" x=\"473\" y=\"158\" width=\"30\" height=\"112\"/><text class=\"v-t pieni\" x=\"488\" y=\"153\" text-anchor=\"middle\" style=\"font-size:11px\">14</text><rect class=\"v-pylvas\" x=\"507\" y=\"222\" width=\"30\" height=\"48\"/><text class=\"v-t pieni\" x=\"522\" y=\"217\" text-anchor=\"middle\" style=\"font-size:11px\">6</text><text class=\"v-t\" x=\"490\" y=\"290\" text-anchor=\"middle\" style=\"font-size:12px\">Kuusikkorinne</text><text class=\"v-t\" x=\"340\" y=\"314\" text-anchor=\"middle\" style=\"font-size:12px\">Kartoituspaikka</text><rect class=\"v-pylvas v2\" x=\"440\" y=\"50\" width=\"14\" height=\"12\"/><text class=\"v-t pieni\" x=\"460\" y=\"60\" style=\"font-size:11.5px\">rupijäkälät</text><rect class=\"v-ruutu v2\" style=\"stroke-width:1.4\" x=\"440\" y=\"68\" width=\"14\" height=\"12\"/><text class=\"v-t pieni\" x=\"460\" y=\"78\" style=\"font-size:11.5px\">lehtijäkälät</text><rect class=\"v-pylvas\" x=\"440\" y=\"86\" width=\"14\" height=\"12\"/><text class=\"v-t pieni\" x=\"460\" y=\"96\" style=\"font-size:11.5px\">pensasjäkälät</text></svg>","teksti":"Kaikissa kolmessa paikassa jäkäliä on yhteensä suunnilleen yhtä paljon (26–28 %). Paikat eroavat siinä, mitä jäkäliä niissä kasvaa: herkkiä pensasjäkäliä on eniten Kuusikkorinteessä ja ei lainkaan moottoritien liittymässä."},{"tyyppi":"saanto","otsikko":"Näin päättelet ja perustelet","askeleet":["Katso ensin herkimpiä lajeja: missä paikassa pensasjäkäliä (naavat, luput) on eniten ja missä ei lainkaan?","Katso sitten lajien tai ryhmien määrää: puhtaassa ilmassa kasvaa yleensä useampia lajeja kuin likaisessa.","Älä päättele pelkästä jäkälien yhteispeittävyydestä. Rupijäkälät voivat peittää rungon likaisessakin ilmassa.","Kirjoita päätelmä ja perustelu samaan virkkeeseen: Ilma on todennäköisesti puhtainta paikassa X, koska siellä kasvaa eniten herkkiä pensasjäkäliä, kun taas paikasta Y ne puuttuvat.","Selitä, miksi herkät lajit puuttuvat: jäkälä ottaa vettä ja aineita koko pinnallaan ilmasta, eikä sillä ole suojaavaa kerrosta.","Kerro lopuksi ainakin yksi syy, miksi päätelmä on epävarma."]},{"tyyppi":"kappale","otsikko":"Miksi yksi kartoitus ei riitä varmaan päätelmään","sisalto":"Jäkäliin vaikuttaa muukin kuin ilman laatu. Metsässä ilma on kosteampaa ja varjoisampaa kuin tien varressa tai puistossa, ja naavat viihtyvät kosteassa. Naavan puuttuminen puistosta voi siis johtua myös kuivuudesta ja auringosta. Nuoressa puussa jäkälät eivät ole ehtineet kasvaa, koska ne kasvavat hitaasti, ja eri puulajien kaarna on eri tavalla hapanta, minkä vuoksi samaa puulajia verrataan. Viisi puuta on pieni otos, ja jäkälien tunnistamisessa ja ruutujen laskemisessa tulee virheitä. Kartoitus on myös tehty yhdellä kertaa. Päätelmä vahvistuu, jos tutkitaan enemmän puita, verrataan paikkoja, joissa kosteus ja puiden ikä ovat samanlaisia, ja verrataan tuloksia ilmanlaadun mittauksiin."},{"tyyppi":"ansa","otsikko":"Ansa 1: eniten jäkälää ei tarkoita puhtainta ilmaa","sisalto":"Jos lasket vain, missä jäkäliä on yhteensä eniten, voit päätyä väärään paikkaan. Tien varren koivut voivat olla rupijäkälän peitossa, koska rupijäkälät kestävät likaista ilmaa ja osa niistä hyötyy typpiyhdisteistä. Ratkaisevaa on, missä kasvaa herkkiä lajeja, kuten naavoja ja luppoja, ja kuinka monta eri lajia paikassa on."},{"tyyppi":"ansa","otsikko":"Ansa 2: yksi syy ei ole koko totuus","sisalto":"Päätelmä ”puistossa ei ole naavaa, joten ilma on likaista” on liian varma. Naavan puuttuminen sopii yhteen likaantuneen ilman kanssa, mutta syynä voi olla myös kuiva ja aurinkoinen paikka tai nuoret puut. Kirjoita siksi viittaa tai todennäköisesti, äläkä väitä, että kartoitus mittasi ilman saasteet."},{"tyyppi":"ansa","otsikko":"Ansa 3: jäkälä ei ime saasteita juurillaan","sisalto":"Jäkälällä ei ole juuria. Se ei saa epäpuhtauksia maaperästä kuten kasvi, vaan suoraan ilmasta, sadevedestä ja pölystä koko pinnallaan. Selityksessä pitää näkyä juuri tämä: vettä ja ravinteita koko pinnalla ilmasta, eikä suojaavaa kerrosta."},{"tyyppi":"ansa","otsikko":"Ansa 4: diagrammi, jota ei voi lukea","sisalto":"Pylväät ilman akselien nimiä, yksikköä tai selitettä eivät kerro lukijalle, mitä ne tarkoittavat. Jos pystyakseli alkaa esimerkiksi luvusta 5 tai asteikon välit ovat erisuuria, pylväiden korkeuserot näyttävät todellista suuremmilta tai pienemmiltä. Tarkista lopuksi: otsikko, akselien nimet, yksikkö, tasavälinen asteikko nollasta ja selite."},{"tyyppi":"saanto","otsikko":"Jos teet oman kartoituksen","askeleet":["Oma kartoitus koulun lähipuista on vapaaehtoinen. Tee se vain opettajan luvalla ja aina parin kanssa opettajan rajaamalla alueella.","Tien varressa pysy jalkakäytävällä tai pientareen ulkopuolella, älä ylitä ajorataa ruudukon kanssa ja käytä heijastinliiviä, jos koulu sitä edellyttää. Valitse puu, jonka luo pääset ajoradan ulkopuolelta.","Älä kiipeä puihin, älä irrota jäkäliä äläkä mene yksityisille pihoille ilman lupaa. Valokuvaa jäkälät, jos haluat tunnistaa ne myöhemmin.","Pukeudu sään mukaan ja tarkista maastosta palattuasi, ettei vaatteissa tai iholla ole punkkeja. Pese kädet."]},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Jäkälä ottaa vettä ja ravinteita koko pinnallaan suoraan ilmasta, eikä sillä ole suojaavaa kerrosta.","Rikkidioksidi vaurioittaa jäkälän yhteyttävää osakasta. Myös typpiyhdisteet muuttavat jäkälistöä.","Herkkyys: pensasjäkälät (naavat, luput) herkimpiä, lehtijäkälät keskiverto, rupijäkälät kestävimpiä.","Peittävyys (%) = jäkälän peittämät ruudut sadasta.","Päättele herkistä lajeista ja lajimäärästä, ei jäkälien yhteispeittävyydestä.","Diagrammi: otsikko, akselien nimet, yksikkö, asteikko nollasta ja selite.","Päätelmä on epävarma: kosteus, valo, puiden ikä ja laji, pieni otos, tunnistusvirheet, yksi kerta."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Diagrammista puuttuu otsikko, akselien nimet, yksikkö (%) tai selite, pystyakselin asteikko ei ala nollasta tai välit ovat erisuuria, tai pylväiden korkeudet eivät vastaa aineistoa.","tehtava":"Näyttö: pylväsdiagrammi aineistosta","mita_kertoo":"Oppilas piirtää pylväät, mutta ei vielä ajattele lukijaa, jolle diagrammin pitää kertoa ilman selityksiä, mitä mitattiin ja millä yksiköllä. Väärä asteikko vääristää paikkojen eroja.","mita_tehda":"Anna diagrammi toiselle luettavaksi ilman aineistoa ja pyydä häntä kertomaan, mitä se näyttää. Käykää läpi saanto Näin piirrät aineistosta pylväsdiagrammin ja ansa 4, ja pyydä korjaamaan puuttuvat osat."},{"virhe":"Selittää jäkälän herkkyyden yleisesti (”jäkälät ovat herkkiä saasteille”) tai väärin (ottaa saasteet juurillaan maasta, saasteet tukkivat jäkälän) mainitsematta, että vesi ja ravinteet otetaan koko pinnalla suoraan ilmasta ilman suojaavaa kerrosta.","tehtava":"Näyttö: selitys, miksi jäkälät kertovat ilman laadusta","mita_kertoo":"Oppilas tietää, että jäkälät ovat ilmentäjiä, mutta ei vielä mekanismia, joka tekee niistä ilmentäjiä. Mekanismi on taidon ydin.","mita_tehda":"Kysy: mistä jäkälä saa vetensä, kun sillä ei ole juuria? Mikä kasvin lehdellä suojaa, mutta jäkälältä puuttuu? Lukekaa kappale Jäkälä elää ilmasta ja ansa 3, ja pyydä kirjoittamaan selitys uudelleen omin sanoin."},{"virhe":"Ei nimeä yhtään epäpuhtautta tai nimeää sellaisen, joka ei kulkeudu ilman kautta (esimerkiksi ”roskat”), tai ei kerro, miten epäpuhtaus vaikuttaa jäkälään.","tehtava":"Näyttö: esimerkki ilman epäpuhtaudesta ja sen vaikutus","mita_kertoo":"Oppilas puhuu saasteista yleisesti, mutta ei vielä yhdistä tiettyä ainetta jäkälän elintoimintoon.","mita_tehda":"Lukekaa kappale Mikä ilmassa vahingoittaa jäkäliä. Kysy: mistä rikkidioksidia syntyy ja mihin jäkälän osaan se vaikuttaa? Typpiyhdisteet liikenteestä tai maataloudesta kelpaavat myös, kun vaikutus kerrotaan."},{"virhe":"Päättelee puhtaimman paikan jäkälien yhteispeittävyydestä tai rupijäkälien määrästä, tai valitsee paikan perustelematta aineistolla.","tehtava":"Näyttö: päätelmä, missä ilma on puhtainta, ja perustelu","mita_kertoo":"Oppilas ei vielä erota herkkiä ja kestäviä lajeja. Hän lukee aineistoa määrinä eikä ilmentäjälajien esiintymisenä.","mita_tehda":"Peitä aineistosta rupijäkälien sarake ja kysy, mikä muuttui. Kertaa taulukko kasvumuodoista ja ansa 1. Pyydä kirjoittamaan päätelmä saannon Näin päättelet ja perustelet mallivirkkeen mukaan."},{"virhe":"Ei kerro yhtään syytä epävarmuuteen, tai syy on yleinen (”voi olla virheitä”, ”en ole varma”) eikä liity jäkäläkartoitukseen.","tehtava":"Näyttö: yksi syy, miksi päätelmä on epävarma","mita_kertoo":"Oppilas pitää aineistoa totuutena eikä vielä mieti, mikä muu kuin ilman laatu selittäisi saman tuloksen.","mita_tehda":"Kysy: mitä eroa metsällä ja tien varrella on ilman laatua lukuun ottamatta? Montako puuta tutkittiin? Lukekaa kappale Miksi yksi kartoitus ei riitä varmaan päätelmään ja pyydä valitsemaan yksi syy ja perustelemaan se tällä aineistolla."},{"virhe":"Esittää päätelmän varmana mittaustuloksena (”ilma on saastunutta”, ”kartoitus osoittaa, että rikkidioksidia on paljon”) tai käyttää käsitteitä ilmentäjälaji ja peittävyys väärin.","tehtava":"Näyttö: koko kirjoitus (käsitteet ja päätelmän varmuus)","mita_kertoo":"Oppilas ei vielä erota sitä, mitä aineistossa havaittiin (jäkälien peittävyys), siitä, mitä havainnosta päätellään (ilman laatu). Ilmentäjälaji kertoo, mutta ei mittaa.","mita_tehda":"Alleviivatkaa kirjoituksesta yhdessä havainnot ja päätelmät eri väreillä. Lukekaa kappale Ilmentäjälaji kertoo, ei mittaa ja ansa 2, ja pyydä muuttamaan varmat väitteet muotoon viittaa tai todennäköisesti."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Haastetaito, vapaaehtoinen. Muoto: havainnointitaito. Kartan näyttö alkaa ”Saan keksityn…”, ja osaa_kun-kohdan tuotos on oppilaan piirtämä diagrammi ja perusteltu kirjallinen päätelmä, jossa arvioidaan selityksen ja perustelun asiallisuutta ja diagrammin luettavuutta. Tällaista ei voi rinnakkaistaa viideksi yksikäsitteiseksi koeversioksi, joten kokeita ei ole ja näyttö arvioidaan kuudella havainnointikriteerillä. Oppilas tekee näytön yksin ja valvotusti saamastaan keksitystä aineistosta (aineistot alla). Taito on näytetty, kun kaikki kuusi kriteeriä täyttyvät.","Mikä kelpaa. 1) Diagrammi: ryhmitelty tai pinottu pylväsdiagrammi tai yksi pylväsdiagrammi jokaisesta paikasta, kunhan siinä ovat otsikko, akselien nimet, yksikkö (%), nollasta alkava tasavälinen asteikko ja selite ja pylväät vastaavat aineistoa noin yhden prosenttiyksikön tarkkuudella. 2) Selitys: jäkälä ottaa vettä ja ravinteita (tai liuenneita aineita) koko pinnallaan suoraan ilmasta tai sadevedestä, ja siltä puuttuu suojaava kerros (vahakerros, kuten kasvin lehdellä); juuriin tai maaperään viittaava selitys on väärin. 3) Epäpuhtaus: rikkidioksidi tai typpiyhdisteet (tai muu ilman kautta kulkeutuva epäpuhtaus) ja sen vaikutus, esimerkiksi vaurioittaa yhteyttävää osakasta tai lehtivihreää. 4) Päätelmä: puhtain ilma on todennäköisesti metsässä (aineistossa 1 Lehmusvuoren metsä, aineistossa 2 Korpiharjun metsä), ja perusteluna on herkkien pensasjäkälien (naavat, luppo) esiintyminen tai runsaus ja niiden puuttuminen tien varresta; lajimäärä on hyvä lisä. Yhteispeittävyys on aineistoissa lähes sama (aineisto 1: 27, 28 ja 29 %; aineisto 2: 24, 23 ja 27 %), joten pelkkä yhteispeittävyys ei ole perustelu. 5) Yksi asiallinen epävarmuuden syy (kosteus tai valo, puiden ikä tai laji, pieni otos, tunnistus- tai laskuvirheet, yksi kartoituskerta, ei vertailua mittauksiin). 6) Päätelmä on muodossa viittaa tai todennäköisesti, ja käsitteitä käytetään oikein. Hyväksytään mikä tahansa oikea muotoilu.","Näytön aineistot (keksittyjä; tulosta oppilaalle taulukko ilman yhteispeittävyyksiä):<b>Aineisto 1 (näyttö, keksitty): Kuusikontien kartoitus, peittävyys koivujen rungoilla, keskiarvo viidestä koivusta</b><table><tr><th>Paikka</th><th>Rupijäkälät (%)</th><th>Sormipaisukarve (%)</th><th>Luppo (%)</th><th>Naavat (%)</th></tr><tr><td>vilkkaan Kuusikontien varsi</td><td>24</td><td>3</td><td>0</td><td>0</td></tr><tr><td>Rantapuisto kaupungin keskustassa</td><td>16</td><td>11</td><td>1</td><td>0</td></tr><tr><td>Lehmusvuoren metsä kaukana teistä</td><td>7</td><td>13</td><td>4</td><td>5</td></tr></table><b>Aineisto 2 (uusintanäyttö, keksitty): Haapalan kartoitus, peittävyys koivujen rungoilla, keskiarvo viidestä koivusta</b><table><tr><th>Paikka</th><th>Rupijäkälät (%)</th><th>Sormipaisukarve (%)</th><th>Luppo (%)</th><th>Naavat (%)</th></tr><tr><td>Haapalan ohikulkutien varsi</td><td>19</td><td>5</td><td>0</td><td>0</td></tr><tr><td>Torikadun puistikko</td><td>14</td><td>8</td><td>0</td><td>1</td></tr><tr><td>Korpiharjun metsä kaukana teistä</td><td>6</td><td>12</td><td>3</td><td>6</td></tr></table>Lajimäärät: aineisto 1 tie 2, puisto 3, metsä 4; aineisto 2 tie 2, puisto 3, metsä 4. Opetustekstin malliaineisto (Tammikallio: moottoritien liittymä, kirjaston puisto, Kuusikkorinne) ei ole näyttöaineisto.","Oma kartoitus (vapaaehtoinen, kartan mukaan halukkaille): vain opettajan luvalla, pareittain ja rajatulla alueella; ajoradan varressa pysytään jalkakäytävällä tai pientareen ulkopuolella eikä ylitetä tietä ruudukon kanssa, heijastinliivit koulun käytännön mukaan; ei kiipeämistä, ei jäkälien irrottamista (valokuvat riittävät), ei yksityispihoja ilman lupaa; punkkien tarkistus retken jälkeen ja käsienpesu. Oma kartoitus ei korvaa annettua aineistoa näytössä, mutta oppilas saa vertailla tuloksiaan siihen.","Tarkistettavat asiatiedot: jäkälien kasvumuotojen herkkyysjärjestys (pensasjäkälät herkimpiä, rupijäkälät kestävimpiä) on yleistys, ja lajien välillä on poikkeuksia; sormipaisukarve esimerkkinä melko kestävästä lehtijäkälästä; rikkidioksidin vaikutus yhteyttävän osakkaan lehtivihreään; Suomen rikkidioksidipäästöjen voimakas väheneminen ja naavojen palaaminen kaupunkeihin sekä typpiyhdisteiden nykyinen merkitys (sanamuoto on tarkoituksella yleinen ilman vuosilukuja ja lukuja). Ruutukehyksen koko ja korkeus (10 cm × 10 cm, 1–1,5 m) ovat koulukäyttöön sovellettuja esimerkkejä. Jäkälien keruu ei kuulu jokamiehenoikeuteen, joten niitä ei irroteta.","Suhde muihin taitoihin: jäkälän rakenne (sienen ja levän tai syanobakteerin yhteiselämä) kuuluu taitoon Itiö vai siemen (BI8-ELI-01) ja naavan tunnistus taitoon Kuusikon kutsumanimet (BI8-LAJ-01); niitä vain kerrataan. Pylväsdiagrammi on tuttu ympäristöopista (YMP6-TUT-01); tutkimuksen vaiheet ja diagrammin valinta opetetaan vasta J4:n taidossa Hypoteesista diagrammiin (BI8-TUT-04), joten tässä diagrammin kriteerit pidetään 6. luokan tasolla. Ihmisen vaikutusten dokumentointi lähiympäristössä on J5:n taidossa Tallattu polku (BI8-KES-04)."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Jäkälä ottaa vettä ja aineita koko pinnallaan suoraan ilmasta, eikä sillä ole suojaavaa kerrosta. Herkät pensasjäkälät, kuten naavat, katoavat ensimmäisinä. Päättele herkistä lajeista, älä jäkälien yhteismäärästä, ja kerro, miksi päätelmä on epävarma.","tarvikkeet":"Näytteitä tai valokuvia rupi-, lehti- ja pensasjäkälistä (koulun kokoelma tai valokuvat), läpinäkyvä 10 × 10 -ruutukehys kalvolle tulostettuna, ruutupaperia, viivaimia ja lyijykyniä, tulostetut näyttöaineistot (aineisto 1 ja varalle aineisto 2).","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Lukekaa johdanto ja näytä valokuvat naavasta ja rupijäkälästä. Kysy: kumpi kestää likaisempaa ilmaa, ja miksi?"},{"aika":"15 min","otsikko":"Miksi jäkälä on herkkä","sisalto":"Käykää läpi kappaleet Jäkälä elää ilmasta ja Mikä ilmassa vahingoittaa jäkäliä sekä ansa 3. Oppilaat kirjoittavat selityksen omin sanoin muistiin."},{"aika":"10 min","otsikko":"Kasvumuodot ja ilmentäjälaji","sisalto":"Taulukko kasvumuodoista ja kappale Ilmentäjälaji kertoo, ei mittaa. Oppilaat luokittelevat näytteet tai kuvat kasvumuodon mukaan."},{"aika":"15 min","otsikko":"Kartoitus ja peittävyys","sisalto":"Käykää läpi saanto Näin jäkäläkartoitus tehdään ja kuva Ruutukehys koivun rungolla. Jos sää ja lupa sallivat, kokeilkaa ruutukehystä koulun pihan puuhun turvallisuusohjeen mukaan."},{"aika":"15 min","otsikko":"2. tunti: Diagrammi ja päätelmä mallista","sisalto":"Käykää läpi diagrammin saanto, mallikuva, päättelyn saanto, epävarmuuden kappale ja ansat 1, 2 ja 4."},{"aika":"30 min","otsikko":"Näyttö","sisalto":"Jokainen saa aineiston 1, piirtää pylväsdiagrammin ja kirjoittaa selityksen, epäpuhtauden ja sen vaikutuksen, päätelmän perusteluineen ja yhden epävarmuuden syyn. Uusintanäytössä käytetään aineistoa 2."}]},"huoltajalle":{"mista_on_kyse":"Tämä on vapaaehtoinen haastetaito. Nuori selittää, miksi jäkälät, kuten naavat, kertovat ilman laadusta: jäkälä ottaa vettä ja ravinteita koko pinnallaan suoraan ilmasta, eikä sillä ole suojaavaa kerrosta, joten esimerkiksi rikkidioksidi vahingoittaa sitä herkästi. Hän piirtää keksitystä jäkäläkartoituksesta pylväsdiagrammin, päättelee, missä ilma on todennäköisesti puhtainta, ja kertoo, miksi päätelmä on epävarma.","kotona":["Jos liikutte yhdessä ulkona, katsokaa puiden runkoja ja oksia: missä kasvaa naavaa tai muita pensasmaisia jäkäliä, missä vain ohutta rupijäkälää?","Pyytäkää nuorta selittämään, miksi naavan puuttuminen ei yksin todista, että ilma on likaista.","Kysykää, mitä hyvään pylväsdiagrammiin kuuluu.","Jäkäliä ei irroteta puista; ne kasvavat hyvin hitaasti."],"milloin_huolestua":"Haastetaito ei ole pakollinen eikä vaikuta siirtymiseen. Jos nuori haluaa tehdä sen mutta diagrammin piirtäminen tuntuu vaikealta, kannattaa kertoa siitä opettajalle: diagrammeja tarvitaan myöhemmin kevään tutkimustaidossa."},"ulkoiset":{},"valmis_teksti":"Selitit, miksi jäkälät kertovat ilman laadusta, teit kartoitusaineistosta luettavan diagrammin ja päättelit herkkien lajien avulla, missä ilma on todennäköisesti puhtainta. Tiedät myös, miksi päätelmä on epävarma. Naavan hälytys on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

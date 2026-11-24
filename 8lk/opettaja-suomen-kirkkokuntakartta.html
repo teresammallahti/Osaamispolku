@@ -1,0 +1,619 @@
+<title>Suomen kirkkokuntakartta · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"UE8-MAA-01","oppiaine":"UE","vuosiluokka":8,"taitoalue":"MAA","jakso":"J2","taso":"ydin","otsikko":"Suomen kirkkokuntakartta","kuvaus":"Osaan nimetä Suomessa vaikuttavia kirkkokuntia, kertoa niiden levinneisyydestä ja antaa esimerkkejä luterilaisuuden monimuotoisuudesta Suomessa.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T1","T2"],"S":["S1"]},"eyebrow":"Uskonto · 8. luokka","ikoni":"kartta","naytto":"Paperikoe: Saan opettajan antaman ajantasaisen tilaston (lähteineen) Suomen kristillisten kirkkokuntien jäsenmääristä ja kartan, jossa näkyy alueellisia eroja. 1) Nimeän kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa. 2) Tulkitsen tilastosta ja kartasta kolme havaintoa (esim. suurin ja pienin kirkkokunta, alue, jolla ortodokseja on suhteessa paljon, kirkkokunta, jonka jäsenmäärä on kasvanut). 3) Selitän yhden syyn alueelliseen eroon tai jäsenmäärän muutokseen. 4) Annan kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen (esim. herätysliikkeet, ruotsinkieliset seurakunnat, erilaiset messut ja tapahtumat). 5) Selitän eron kirkon sisällä toimivan herätysliikkeen ja erillisen vapaan suunnan välillä.","osaa_kun":"Erityisasemassa olevat kirkot ovat evankelis-luterilainen kirkko ja ortodoksinen kirkko, ja muut kolme ovat oikeita (esim. katolinen kirkko, helluntaiherätys, vapaakirkko, adventtikirkko, metodistikirkko, baptistikirkko). Havainnot perustuvat annettuihin lukuihin ja karttaan. Syy on perusteltu (esim. ortodokseja on paljon Itä-Suomessa ja pääkaupunkiseudulla, koska Karjalasta siirtyi sodan jälkeen ortodoksista väestöä; katolisten ja ortodoksien määrä on kasvanut maahanmuuton myötä). Monimuotoisuuden esimerkit ovat eri asioita. Viidennessä kohdassa on, että herätysliikkeet toimivat luterilaisen kirkon sisällä ja niiden jäsenet ovat kirkon jäseniä, kun taas vapaat suunnat ovat omia yhdyskuntiaan. Oppilaan omaa tai perheen jäsenyyttä ei kysytä. Lukuja ei vaadita ulkomuistista. Ero 6. luokkaan: UE6-MAA-02 kuvasi Suomen uskonnollista tilannetta ja uskonnottomuutta yleisesti; tässä nimetään kirkkokunnat ja kuvataan niiden levinneisyyttä ja luterilaisuuden sisäistä moninaisuutta (Espoon 8. luokan T1).","teksti":[{"tyyppi":"johdanto","sisalto":"Luokka tekee kaupunkikävelyn keksityssä Koivulahden kaupungissa. Torin laidalla on punatiilinen luterilainen kirkko ja mäellä pieni ortodoksinen kirkko, jonka katolla on sipulikupoli. Sivukadulla on katolisen seurakunnan kappeli, entisessä elokuvateatterissa kokoontuu helluntaiseurakunta, ja puistotien varrella on vapaaseurakunnan rukoushuone. Luterilaisen seurakuntatalon ilmoitustaululla mainostetaan ruotsinkielistä messua, metallimessua ja erään herätysliikkeen seuroja. Kaikki nämä ovat kristittyjä, mutta mikä on kirkko, mikä yhdyskunta ja mikä liike kirkon sisällä? Taidossa Paavi, patriarkka ja piispa vertailit kolmea kirkkoperhettä maailmalla. Nyt kuvaat, millaisia kristillisiä kirkkoja Suomessa toimii, missä ne ovat vahvoja ja kuinka monella tavalla Suomessa voi olla luterilainen."},{"tyyppi":"kappale","otsikko":"Kaksi kirkkoa, joilla on erityisasema","sisalto":"Suomessa kahdella kirkolla on laissa määritelty erityisasema: evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Niitä kutsutaan usein kansankirkoiksi. Erityisasema tarkoittaa, että kummankin kirkon asemasta ja hallinnosta säädetään omassa laissaan: evankelis-luterilaisen kirkon kirkkolaissa ja ortodoksisen kirkon laissa ortodoksisesta kirkosta. Lisäksi kumpikin kirkko voi kantaa jäseniltään kirkollisveroa verotuksen yhteydessä. Evankelis-luterilaiset seurakunnat hoitavat myös yleisiä hautausmaita, joille voidaan haudata kuka tahansa vakaumuksesta riippumatta. Erityisasema ei tarkoita, että kirkkoon olisi pakko kuulua: Suomessa on uskonnonvapaus, ja jäsenyys on aina vapaaehtoista. Evankelis-luterilainen kirkko on Suomen ylivoimaisesti suurin kirkko, ja siihen kuuluu noin kuusi suomalaista kymmenestä. Ortodoksinen kirkko on toiseksi suurin, ja siihen kuuluu noin prosentti suomalaisista."},{"tyyppi":"kappale","otsikko":"Muut kristilliset kirkot ja yhdyskunnat","sisalto":"Muut uskonnolliset yhteisöt voivat rekisteröityä uskonnollisiksi yhdyskunniksi uskonnonvapauslain mukaan. Kristillisiä rekisteröityjä yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko, Suomen Helluntaikirkko, Suomen Adventtikirkko sekä metodisti- ja baptistikirkot. Katolinen kirkko on Suomessa pieni, mutta se on maailman suurin kirkko, ja Suomessa sen jäsenmäärä on kasvanut. Protestanttisia yhdyskuntia, jotka toimivat erillään luterilaisesta kirkosta, kutsutaan Suomessa vapaiksi suunniksi tai vapaiksi suunnista syntyneiksi seurakunniksi. Niistä suurin on helluntaiherätys. Kaikki eivät kuitenkaan näy uskonnollisten yhdyskuntien tilastoissa: osa helluntaiseurakunnista ja muista vapaista seurakunnista on rekisteröity tavallisiksi yhdistyksiksi, eikä niiden jäseniä lasketa uskonnollisen yhdyskunnan jäseniksi. Kaikkiaan muihin kristillisiin yhdyskuntiin kuuluu Suomessa muutamia kymmeniä tuhansia ihmisiä."},{"tyyppi":"kuva","otsikko":"Kristilliset kirkot ja yhdyskunnat Suomessa","svg":"<svg viewBox=\"0 0 640 330\" role=\"img\" aria-label=\"Suomen kristilliset kirkot ja yhdyskunnat kaaviona. Ylärivillä kaksi kirkkoa, joilla on laissa erityisasema: evankelis-luterilainen kirkko, jonka sisällä ovat herätysliikkeet, ruotsinkieliset seurakunnat ja erilaiset messut, sekä ortodoksinen kirkko. Alarivillä muut rekisteröidyt kristilliset yhdyskunnat: katolinen kirkko sekä vapaat suunnat eli vapaakirkko, helluntaiherätys, adventtikirkko, metodistit ja baptistit. Vapaat suunnat ovat kirkosta erillisiä omia yhdyskuntiaan.\"><text class=\"v-t vahva\" x=\"10\" y=\"20\" style=\"font-size:13px\">Erityisasema laissa</text><rect class=\"v-osa v1\" x=\"10\" y=\"30\" width=\"400\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"24\" y=\"54\" style=\"font-size:14px\">Evankelis-luterilainen kirkko</text><text class=\"v-t pieni\" x=\"24\" y=\"72\" style=\"font-size:11px\">kirkkolaki · jäsenet kirkon jäseniä</text><rect class=\"v-osa\" x=\"24\" y=\"92\" width=\"118\" height=\"70\" rx=\"8\"/><text class=\"v-t\" x=\"83\" y=\"122\" text-anchor=\"middle\" style=\"font-size:11.5px\">herätysliikkeet</text><rect class=\"v-osa\" x=\"152\" y=\"92\" width=\"118\" height=\"70\" rx=\"8\"/><text class=\"v-t\" x=\"211\" y=\"122\" text-anchor=\"middle\" style=\"font-size:11.5px\">ruotsinkieliset</text><text class=\"v-t\" x=\"211\" y=\"138\" text-anchor=\"middle\" style=\"font-size:11.5px\">seurakunnat</text><rect class=\"v-osa\" x=\"280\" y=\"92\" width=\"118\" height=\"70\" rx=\"8\"/><text class=\"v-t\" x=\"339\" y=\"122\" text-anchor=\"middle\" style=\"font-size:11.5px\">erilaiset</text><text class=\"v-t\" x=\"339\" y=\"138\" text-anchor=\"middle\" style=\"font-size:11.5px\">messut</text><rect class=\"v-osa v1\" x=\"430\" y=\"30\" width=\"200\" height=\"150\" rx=\"10\"/><text class=\"v-t vahva\" x=\"530\" y=\"96\" text-anchor=\"middle\" style=\"font-size:14px\">Ortodoksinen</text><text class=\"v-t vahva\" x=\"530\" y=\"114\" text-anchor=\"middle\" style=\"font-size:14px\">kirkko</text><text class=\"v-t pieni\" x=\"530\" y=\"134\" text-anchor=\"middle\" style=\"font-size:11px\">laki ortodoksisesta kirkosta</text><text class=\"v-t vahva\" x=\"10\" y=\"208\" style=\"font-size:13px\">Muut rekisteröidyt kristilliset yhdyskunnat</text><rect class=\"v-osa\" x=\"10\" y=\"218\" width=\"130\" height=\"96\" rx=\"10\"/><text class=\"v-t vahva\" x=\"75\" y=\"262\" text-anchor=\"middle\" style=\"font-size:13px\">Katolinen</text><text class=\"v-t vahva\" x=\"75\" y=\"279\" text-anchor=\"middle\" style=\"font-size:13px\">kirkko</text><rect class=\"v-osa\" x=\"160\" y=\"218\" width=\"470\" height=\"96\" rx=\"10\"/><text class=\"v-t vahva\" x=\"174\" y=\"240\" style=\"font-size:13px\">Vapaat suunnat: omia yhdyskuntiaan</text><rect class=\"v-osa v1\" x=\"174\" y=\"256\" width=\"82\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"215\" y=\"280\" text-anchor=\"middle\" style=\"font-size:10.5px\">vapaakirkko</text><rect class=\"v-osa v1\" x=\"264\" y=\"256\" width=\"82\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"305\" y=\"273\" text-anchor=\"middle\" style=\"font-size:10.5px\">helluntai-</text><text class=\"v-t\" x=\"305\" y=\"287\" text-anchor=\"middle\" style=\"font-size:10.5px\">herätys</text><rect class=\"v-osa v1\" x=\"354\" y=\"256\" width=\"82\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"395\" y=\"280\" text-anchor=\"middle\" style=\"font-size:10.5px\">adventtikirkko</text><rect class=\"v-osa v1\" x=\"444\" y=\"256\" width=\"82\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"485\" y=\"280\" text-anchor=\"middle\" style=\"font-size:10.5px\">metodistit</text><rect class=\"v-osa v1\" x=\"534\" y=\"256\" width=\"82\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"575\" y=\"280\" text-anchor=\"middle\" style=\"font-size:10.5px\">baptistit</text></svg>","teksti":"Herätysliikkeet toimivat luterilaisen kirkon sisällä. Vapaat suunnat ovat kirkosta erillisiä omia yhdyskuntiaan."},{"tyyppi":"kappale","otsikko":"Missä kukin kirkko on vahva","sisalto":"Kirkkojen jäseniä on eri puolilla Suomea eri tavoin. Evankelis-luterilaiseen kirkkoon kuuluu suurempi osa väestöstä esimerkiksi Pohjanmaalla ja maaseudulla kuin suurissa kaupungeissa, joissa asuu paljon kirkkoon kuulumattomia. Ortodokseja on suhteessa väestöön eniten Itä-Suomessa, esimerkiksi Pohjois-Karjalassa ja Pohjois-Savossa. Tämä johtuu historiasta: kristinusko tuli Karjalaan idästä, ja ortodoksisella kirkolla on siellä pitkät juuret. Toisen maailmansodan jälkeen luovutetusta Karjalasta muutti muualle Suomeen suuri joukko ihmisiä, joista osa oli ortodokseja. Määrällisesti eniten ortodokseja asuu kuitenkin pääkaupunkiseudulla, koska siellä asuu paljon ihmisiä. Ortodoksisella kirkolla on kolme hiippakuntaa: Helsingin hiippakunta, Kuopion ja Karjalan hiippakunta sekä Oulun hiippakunta. Arkkipiispan istuin on ollut vuodesta 2018 Helsingissä; sitä ennen se oli Kuopiossa. Katolisen ja ortodoksisen kirkon jäsenmäärä on viime vuosikymmeninä kasvanut, koska Suomeen on muuttanut ihmisiä maista, joissa nämä kirkot ovat vahvoja. Katolisia on eniten suurissa kaupungeissa."},{"tyyppi":"taulukko","otsikko":"Harjoitusaineisto 1. Kirkkojen jäsenet, tuhatta henkeä (keksityt luvut)","otsikkorivi":["Kirkko","Vuosi A","Vuosi B, 20 vuotta myöhemmin"],"rivit":[["Evankelis-luterilainen kirkko","4 380","3 690"],["Ortodoksinen kirkko","57","61"],["Katolinen kirkko","10","19"],["Suomen Vapaakirkko","14","15"],["Suomen Adventtikirkko","5","4"]]},{"tyyppi":"taulukko","otsikko":"Harjoitusaineisto 2. Ortodoksit ja luterilaiset viidellä alueella (keksityt luvut)","otsikkorivi":["Alue","Ortodoksisen kirkon jäseniä","Ortodoksien osuus väestöstä","Luterilaisten osuus väestöstä"],"rivit":[["Uusimaa","21 000","1,2 %","52 %"],["Pohjois-Karjala","7 000","4,3 %","71 %"],["Pohjanmaa","500","0,3 %","82 %"],["Pohjois-Savo","5 000","2,0 %","73 %"],["Varsinais-Suomi","2 500","0,5 %","63 %"]]},{"tyyppi":"kuva","otsikko":"Ortodoksit: osuus ja määrä (Harjoitusaineisto 2, keksityt luvut)","svg":"<svg viewBox=\"0 0 640 230\" role=\"img\" aria-label=\"Kaksi vaakapylväskuvaa Harjoitusaineistosta 2 (keksityt luvut). Vasemmalla ortodoksien osuus väestöstä: Uusimaa 1,2 %, Pohjois-Karjala 4,3 %, Pohjanmaa 0,3 %, Pohjois-Savo 2,0 %, Varsinais-Suomi 0,5 %. Oikealla ortodoksisen kirkon jäsenmäärä: Uusimaa 21 000, Pohjois-Karjala 7 000, Pohjanmaa 500, Pohjois-Savo 5 000, Varsinais-Suomi 2 500.\"><text class=\"v-t vahva\" x=\"120\" y=\"18\" style=\"font-size:12.5px\">Osuus väestöstä (%)</text><text class=\"v-t vahva\" x=\"400\" y=\"18\" style=\"font-size:12.5px\">Jäseniä (henkeä)</text><text class=\"v-t\" x=\"112\" y=\"49\" text-anchor=\"end\" style=\"font-size:12px\">Uusimaa</text><rect class=\"v-osa v1\" x=\"120\" y=\"34\" width=\"45.6\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"170.6\" y=\"49\" style=\"font-size:11px\">1,2 %</text><rect class=\"v-osa\" x=\"400\" y=\"34\" width=\"159.6\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"564.6\" y=\"49\" style=\"font-size:11px\">21 000</text><text class=\"v-t\" x=\"112\" y=\"87\" text-anchor=\"end\" style=\"font-size:12px\">Pohjois-Karjala</text><rect class=\"v-osa v1\" x=\"120\" y=\"72\" width=\"163.4\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"288.4\" y=\"87\" style=\"font-size:11px\">4,3 %</text><rect class=\"v-osa\" x=\"400\" y=\"72\" width=\"53.2\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"458.2\" y=\"87\" style=\"font-size:11px\">7 000</text><text class=\"v-t\" x=\"112\" y=\"125\" text-anchor=\"end\" style=\"font-size:12px\">Pohjanmaa</text><rect class=\"v-osa v1\" x=\"120\" y=\"110\" width=\"11.4\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"136.4\" y=\"125\" style=\"font-size:11px\">0,3 %</text><rect class=\"v-osa\" x=\"400\" y=\"110\" width=\"3.8\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"408.8\" y=\"125\" style=\"font-size:11px\">500</text><text class=\"v-t\" x=\"112\" y=\"163\" text-anchor=\"end\" style=\"font-size:12px\">Pohjois-Savo</text><rect class=\"v-osa v1\" x=\"120\" y=\"148\" width=\"76.0\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"201.0\" y=\"163\" style=\"font-size:11px\">2,0 %</text><rect class=\"v-osa\" x=\"400\" y=\"148\" width=\"38.0\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"443.0\" y=\"163\" style=\"font-size:11px\">5 000</text><text class=\"v-t\" x=\"112\" y=\"201\" text-anchor=\"end\" style=\"font-size:12px\">Varsinais-Suomi</text><rect class=\"v-osa v1\" x=\"120\" y=\"186\" width=\"19.0\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"144.0\" y=\"201\" style=\"font-size:11px\">0,5 %</text><rect class=\"v-osa\" x=\"400\" y=\"186\" width=\"19.0\" height=\"22\" rx=\"3\"/><text class=\"v-t pieni\" x=\"424.0\" y=\"201\" style=\"font-size:11px\">2 500</text><line class=\"v-akseli\" x1=\"120\" y1=\"28\" x2=\"120\" y2=\"222\"/><line class=\"v-akseli\" x1=\"400\" y1=\"28\" x2=\"400\" y2=\"222\"/></svg>","teksti":"Uudellamaalla osuus väestöstä on pieni, mutta jäseniä on eniten, koska alueella asuu paljon ihmisiä."},{"tyyppi":"saanto","otsikko":"Näin tulkitset tilastoa ja karttaa","askeleet":["Lue otsikko ja lähde: mitä luvut kertovat, mistä ne ovat ja miltä vuodelta. Harjoitusaineistot ovat keksittyjä. Opettajalta saat ajantasaisen tilaston, esimerkiksi Tilastokeskuksen tai kirkkojen omat luvut.","Erota määrä (montako jäsentä) ja osuus (montako prosenttia alueen väestöstä).","Muutos: uudempi luku miinus vanhempi luku. Jos tulos on positiivinen, jäsenmäärä kasvoi.","Kirjoita havainto luvuin: \"Taulukon mukaan katolisen kirkon jäsenmäärä kasvoi 10 000:sta 19 000:een.\"","Erota havainto ja syy. Havainto kertoo, mitä luvut näyttävät. Syy selittää, miksi näin on, esimerkiksi historia, muuttoliike tai maahanmuutto."]},{"tyyppi":"ansa","otsikko":"Ansa 1: määrä ja osuus","sisalto":"Harjoitusaineistossa 2 ortodokseja on määrällisesti eniten Uudellamaalla, mutta osuus väestöstä on suurin Pohjois-Karjalassa. Molemmat havainnot pitävät paikkansa, koska Uudellamaalla asuu paljon enemmän ihmisiä. Lue kysymys tarkasti: kysytäänkö, missä ortodokseja on eniten, vai missä he ovat suurin osa väestöstä?"},{"tyyppi":"ansa","otsikko":"Ansa 2: tilasto kertoo jäsenyydestä","sisalto":"Tilasto näyttää, kuinka moni kuuluu rekisteröityyn kirkkoon tai yhdyskuntaan. Se ei näytä, mitä ihmiset uskovat tai kuinka usein he käyvät jumalanpalveluksessa. Se ei myöskään näytä kaikkia vapaiden suuntien kannattajia, koska osa seurakunnista on yhdistyksiä. Kirjoita siis \"tilaston mukaan helluntaikirkkoon kuuluu…\", älä \"Suomessa on vain näin monta helluntailaista\"."},{"tyyppi":"kappale","otsikko":"Monta tapaa olla luterilainen","sisalto":"Evankelis-luterilaisen kirkon sisällä on monta tapaa elää ja ilmaista uskoa. Esimerkit voi jakaa neljään ryhmään. 1) Herätysliikkeet: kirkon sisällä toimii liikkeitä, jotka korostavat henkilökohtaista uskoa ja kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Suomen neljä perinteistä herätysliikettä ovat herännäisyys, rukoilevaisuus, evankelisuus ja lestadiolaisuus. Niiden painotuksiin tutustut taidossa Herätysten neljä virtaa. 2) Kieli: ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, ja pohjoisessa jumalanpalveluksia pidetään myös saamen kielillä. 3) Jumalanpalvelusmuodot: perinteisen messun rinnalla on esimerkiksi tuomasmessu, jossa on rukouspisteitä ja uutta hengellistä musiikkia, metallimessu, gospelmessu sekä nuorten ja perheiden messut. 4) Toiminta ja järjestöt: seurakunnat tekevät diakoniatyötä, ja kirkon yhteydessä toimii lähetysjärjestöjä ja muita järjestöjä, joilla on omat painotuksensa."},{"tyyppi":"ansa","otsikko":"Ansa 3: kaksi esimerkkiä samasta asiasta","sisalto":"Jos sinulta pyydetään kahta esimerkkiä luterilaisuuden monimuotoisuudesta, tuomasmessu ja metallimessu ovat molemmat jumalanpalvelusmuotoja. Valitse esimerkit eri ryhmistä, esimerkiksi yksi herätysliike ja ruotsinkieliset seurakunnat. Varmista myös, että esimerkki kuuluu luterilaisen kirkon sisälle: ortodoksinen liturgia tai helluntaiseurakunnan ylistysilta eivät ole tapoja olla luterilainen."},{"tyyppi":"kappale","otsikko":"Herätysliike vai vapaa suunta","sisalto":"Herätysliike on kirkon sisällä syntynyt kansanliike, joka korostaa henkilökohtaista uskoa ja sen näkymistä elämässä. Herätysliikkeen kannattajat ovat evankelis-luterilaisen kirkon jäseniä. He käyvät kirkon jumalanpalveluksissa, ja liikkeen seuroissa voi puhua kirkon pappi. Vapaa suunta taas on luterilaisesta kirkosta erillinen oma yhdyskunta tai seurakunta. Sillä on omat jäsenensä, omat pastorinsa tai saarnaajansa ja omat tilaisuutensa. Usein vapaaseen suuntaan liitytään uskovien kasteella, ja moni jäseneksi liittyvä on eronnut luterilaisesta kirkosta. Suomessa vapaat suunnat syntyivät pääosin 1800-luvun lopulla ja 1900-luvun alussa, osin ulkomaisten vaikutteiden kautta. Ero ei siis ole siinä, mitä tai kuinka innokkaasti uskotaan, vaan siinä, kuuluuko yhteisö luterilaisen kirkon sisälle vai onko se oma yhdyskuntansa."},{"tyyppi":"ansa","otsikko":"Ansa 4: nimi voi johtaa harhaan","sisalto":"Helluntaiherätyksen nimessä on sana herätys, mutta se on vapaa suunta eli oma, kirkosta erillinen yhteisönsä. Vapaakirkon nimi ei taas tarkoita, että muut kirkot olisivat pakollisia. Ratkaise asia jäsenyydellä: kuuluvatko kannattajat evankelis-luterilaiseen kirkkoon (herätysliike) vai omaan yhdyskuntaansa (vapaa suunta)?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Erityisasema laissa: evankelis-luterilainen kirkko (kirkkolaki) ja ortodoksinen kirkko (laki ortodoksisesta kirkosta). Kumpikin voi kantaa kirkollisveroa.","Muita kristillisiä kirkkoja ja yhdyskuntia: katolinen kirkko, vapaakirkko, helluntaiherätys, adventtikirkko, metodistit, baptistit.","Ortodokseja on suhteessa eniten Itä-Suomessa (Karjalan historia), määrällisesti eniten pääkaupunkiseudulla.","Katolisten ja ortodoksien määrä on kasvanut maahanmuuton myötä.","Määrä ja osuus ovat eri asioita. Havainto luvuin, syy erikseen.","Luterilaisuuden monimuotoisuus: herätysliikkeet, kieli, jumalanpalvelusmuodot, toiminta ja järjestöt. Kaksi esimerkkiä eri ryhmistä.","Herätysliike toimii kirkon sisällä, ja kannattajat ovat kirkon jäseniä. Vapaa suunta on oma yhdyskuntansa."]}],"harjoitusryhmat":[{"id":"kirkot","nimi":"Suomen kirkot","info":"Kaksi kirkkoa on laissa erityisasemassa. Muut ovat rekisteröityjä yhdyskuntia tai yhdistyksiä."},{"id":"tilasto","nimi":"Tilasto ja kartta","info":"Käytä Harjoitusaineistoja 1 ja 2. Erota määrä ja osuus."},{"id":"luterilaisuus","nimi":"Monta tapaa olla luterilainen","info":"Esimerkit eri ryhmistä. Herätysliike on kirkon sisällä, vapaa suunta erillään."}],"ryhmanimet":{"kirkot":"Suomen kirkot","tilasto":"Tilasto ja kartta","luterilaisuus":"Monta tapaa olla luterilainen"},"harjoitukset":[{"id":"H01","ryhma":"kirkot","kysymys":"Kirkot:\n1. katolinen kirkko\n2. evankelis-luterilainen kirkko\n3. Suomen Vapaakirkko\n4. ortodoksinen kirkko\n5. Suomen Adventtikirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":2,"vinkki":"Kahdella kirkolla on oma laki.","selitys":"Evankelis-luterilaisella ja ortodoksisella kirkolla on laissa määritelty erityisasema. Muut ovat rekisteröityjä uskonnollisia yhdyskuntia."},{"id":"H02","ryhma":"kirkot","tyyppi":"monivalinta","kysymys":"Mitä kirkon erityisasema Suomen laissa tarkoittaa?","vaihtoehdot":["Kirkkoa koskee sen oma laki, ja kirkollisverot kerätään valtion verotuksen kautta.","Jokaisen suomalaisen on kuuluttava johonkin näistä kirkoista.","Muut kirkot ovat Suomessa kiellettyjä."],"vastaus":0,"vinkki":"Suomessa on uskonnonvapaus.","selitys":"Erityisasema tarkoittaa omaa lakia ja oikeutta kantaa kirkollisveroa. Jäsenyys on vapaaehtoista, ja muutkin kirkot saavat toimia."},{"id":"H03","ryhma":"kirkot","kysymys":"Yhteisöt:\n1. Suomen Helluntaikirkko\n2. juutalainen seurakunta\n3. Suomen Metodistikirkko\n4. katolinen kirkko\n5. islamilainen yhdyskunta\n\nMontako yhteisöistä on kristillisiä?","vastaus":3,"vinkki":"Juutalainen seurakunta ja islamilainen yhdyskunta kuuluvat muihin uskontoihin.","selitys":"Helluntaikirkko, metodistikirkko ja katolinen kirkko ovat kristillisiä."},{"id":"H04","ryhma":"kirkot","kysymys":"Väitteet:\n1. Katolinen kirkko toimii Suomessa.\n2. Katolinen kirkko on Suomen laissa erityisasemassa.\n3. Helluntaiherätys on Suomen suurin vapaa suunta.\n4. Ortodoksinen kirkko on Suomen toiseksi suurin kirkko.\n\nMontako väitteistä pitää paikkansa?","vastaus":3,"vinkki":"Erityisasemassa on kaksi kirkkoa. Onko katolinen kirkko niistä toinen?","selitys":"Väitteet 1, 3 ja 4 pitävät paikkansa. Katolinen kirkko on rekisteröity uskonnollinen yhdyskunta, ei erityisasemassa."},{"id":"H05","ryhma":"kirkot","kysymys":"Kaupungit:\n1. Helsinki\n2. Turku\n3. Rooma\n4. Tampere\n\nMissä on Suomen ortodoksisen kirkon arkkipiispan istuin? Kirjoita kaupungin numero.","vastaus":1,"vinkki":"Istuin siirtyi vuonna 2018 kaupunkiin, jonka seudulla ortodokseja asuu määrällisesti eniten.","selitys":"Ortodoksisen kirkon arkkipiispan istuin on ollut vuodesta 2018 Helsingissä; sitä ennen se oli Kuopiossa. Turussa on evankelis-luterilaisen kirkon arkkipiispan istuin."},{"id":"H06","ryhma":"kirkot","kysymys":"Väitteet:\n1. Suomessa on valtionkirkko, johon kaikkien on kuuluttava.\n2. Evankelis-luterilaisen kirkon asemasta säädetään kirkkolaissa.\n3. Ortodoksisen kirkon asemasta säädetään omassa laissaan.\n4. Vapaakirkko ja adventtikirkko ovat rekisteröityjä uskonnollisia yhdyskuntia.\n\nMontako väitteistä pitää paikkansa?","vastaus":3,"vinkki":"Suomessa on uskonnonvapaus.","selitys":"Väitteet 2, 3 ja 4 pitävät paikkansa. Kirkkoon kuuluminen on vapaaehtoista."},{"id":"H07","ryhma":"kirkot","tyyppi":"monivalinta","kysymys":"Miksi helluntailaisia voi olla enemmän kuin uskonnollisten yhdyskuntien tilasto näyttää?","vaihtoehdot":["Osa helluntaiseurakunnista on rekisteröity tavallisiksi yhdistyksiksi, joten niiden jäseniä ei lasketa uskonnollisen yhdyskunnan jäseniksi.","Helluntailaiset eivät saa kuulua mihinkään yhteisöön.","Tilastoissa helluntailaiset lasketaan aina katolisiksi."],"vastaus":0,"vinkki":"Muista ansa 2: tilasto kertoo jäsenyydestä.","selitys":"Osa vapaiden suuntien seurakunnista on yhdistyksiä, joten tilasto ei näytä kaikkia kannattajia."},{"id":"H08","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 1.\n\nMonennellako rivillä on kirkko, jolla oli vuonna B kolmanneksi eniten jäseniä?","vastaus":3,"vinkki":"Järjestä vuoden B luvut suurimmasta pienimpään.","selitys":"Vuonna B järjestys on: luterilainen 3 690, ortodoksinen 61, katolinen 19, vapaakirkko 15, adventtikirkko 4 (tuhatta). Kolmas on katolinen kirkko rivillä 3."},{"id":"H09","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 1.\n\nMontako tuhatta jäsentä enemmän katolisella kirkolla oli vuonna B kuin vuonna A?","vastaus":9,"vinkki":"Uudempi luku miinus vanhempi luku.","selitys":"19 − 10 = 9 tuhatta jäsentä."},{"id":"H10","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 1.\n\nMonenko kirkon jäsenmäärä pieneni vuodesta A vuoteen B?","vastaus":2,"vinkki":"Vertaa jokaisen rivin kahta lukua.","selitys":"Evankelis-luterilaisen kirkon (4 380 → 3 690) ja adventtikirkon (5 → 4) jäsenmäärä pieneni."},{"id":"H11","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 2.\n\nMonennellako rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":2,"vinkki":"Katso prosentteja, älä jäsenmäärää.","selitys":"Pohjois-Karjalassa osuus on 4,3 %, mikä on suurin."},{"id":"H12","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 2.\n\nMonennellako rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":1,"vinkki":"Katso jäsenmäärää, älä prosentteja.","selitys":"Uudellamaalla on 21 000 ortodoksia, vaikka osuus on vain 1,2 %."},{"id":"H13","ryhma":"tilasto","kysymys":"Käytä Harjoitusaineistoa 2.\n\nMontako prosenttiyksikköä suurempi luterilaisten osuus on Pohjanmaalla kuin Uudellamaalla?","vastaus":30,"vinkki":"Vähennä pienempi osuus suuremmasta.","selitys":"82 − 52 = 30 prosenttiyksikköä."},{"id":"H14","ryhma":"tilasto","kysymys":"Selitykset:\n1. Itä-Suomen asukkaat ovat muuttaneet sinne Kreikasta.\n2. Kristinusko tuli Karjalaan idästä, ja sodan jälkeen Karjalasta muuttaneista osa oli ortodokseja.\n3. Luterilainen kirkko lakkautti seurakuntansa Itä-Suomesta.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":2,"vinkki":"Syy löytyy historiasta.","selitys":"Ortodoksisella kirkolla on pitkät juuret Karjalassa, ja sodan jälkeen karjalaisia ortodokseja asettui eri puolille Suomea, myös Itä-Suomeen. Kreikasta muutto ja seurakuntien lakkauttaminen eivät pidä paikkaansa."},{"id":"H15","ryhma":"luterilaisuus","kysymys":"Esimerkit:\n1. ruotsinkielinen seurakunta Porvoon hiippakunnassa\n2. metallimessu\n3. ortodoksinen liturgia\n4. herätysliikkeen kesäjuhla\n5. katolinen messu\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":3,"vinkki":"Ortodoksinen liturgia ja katolinen messu kuuluvat toisiin kirkkoihin.","selitys":"Ruotsinkielinen seurakunta, metallimessu ja herätysliikkeen kesäjuhla kuuluvat luterilaisen kirkon sisälle."},{"id":"H16","ryhma":"luterilaisuus","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot.\n\nEsimerkki: Seurakunta järjestää tuomasmessun, jossa on rukouspisteitä ja uutta hengellistä musiikkia.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":3,"vinkki":"Tuomasmessu on messu.","selitys":"Tuomasmessu on yksi jumalanpalvelusmuoto."},{"id":"H17","ryhma":"luterilaisuus","kysymys":"Esimerkkiparit:\n1. tuomasmessu ja metallimessu\n2. ruotsinkielinen seurakunta ja herätysliike\n3. gospelmessu ja nuorten messu\n\nMonesko pari sisältää esimerkit kahdesta eri ryhmästä?","vastaus":2,"vinkki":"Muista ansa 3.","selitys":"Pari 2 on kahdesta eri ryhmästä (kieli ja herätysliikkeet). Parit 1 ja 3 ovat molemmat jumalanpalvelusmuotoja."},{"id":"H18","ryhma":"luterilaisuus","kysymys":"Yhteisöt:\n1. lestadiolaisuus\n2. Suomen Vapaakirkko\n3. herännäisyys\n4. helluntaiherätys\n\nMontako yhteisöistä on luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":2,"vinkki":"Muista ansa 4: nimi voi johtaa harhaan.","selitys":"Lestadiolaisuus ja herännäisyys ovat herätysliikkeitä. Vapaakirkko ja helluntaiherätys ovat vapaita suuntia."},{"id":"H19","ryhma":"luterilaisuus","kysymys":"Väitteet:\n1. Herätysliikkeen kannattajat ovat evankelis-luterilaisen kirkon jäseniä.\n2. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta.\n3. Helluntaiherätys toimii luterilaisen kirkon sisällä, koska sen nimessä on sana herätys.\n4. Herätysliikkeet syntyivät luterilaisen kirkon sisällä.\n\nMontako väitteistä pitää paikkansa?","vastaus":3,"vinkki":"Ratkaise jäsenyydellä, älä nimellä.","selitys":"Väitteet 1, 2 ja 4 pitävät paikkansa. Helluntaiherätys on vapaa suunta."},{"id":"H20","ryhma":"luterilaisuus","kysymys":"Kuvaukset keksityistä yhteisöistä:\n1. Kalliorannan rukoushuoneyhdistys: jäsenet kuuluvat luterilaiseen kirkkoon, seurat pidetään seurakuntatalossa, ja kirkon pappi puhuu niissä usein.\n2. Uuden Toivon seurakunta: oma rekisteröity yhdyskunta, omat pastorit ja kaste vasta uskon tunnustamisen jälkeen.\n3. Seurakunnan nuorisotyön gospelkuoro.\n\nMonesko kuvaus on vapaa suunta?","vastaus":2,"vinkki":"Onko yhteisö oma yhdyskuntansa?","selitys":"Uuden Toivon seurakunta on oma yhdyskuntansa eli vapaa suunta. Kalliorannan yhdistys toimii kirkon sisällä, ja gospelkuoro on seurakunnan toimintaa."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä, eikä laskinta tarvita.\nTehtävissä 1–16 vastaa yhdellä luvulla. Kun tehtävässä on numeroitu luettelo, lue jokainen kohta erikseen.\nTehtävissä 17–20 kirjoita kokonaisia virkkeitä. Kun kirjoitat havainnon, käytä aineiston lukuja. Lukuja ei tarvitse muistaa ulkoa.\nOmasta tai perheesi kirkkoon kuulumisesta ei kysytä, eikä sitä tarvitse kertoa.\n\nAineisto 1. Kristillisten kirkkojen jäsenet Suomessa, tuhatta henkeä. Vuosi B on 20 vuotta vuoden A jälkeen. Luvut on muokattu koetta varten: ne muistuttavat todellisia, mutta eivät ole tilastotietoja.\n1. Suomen Vapaakirkko: vuonna A 14, vuonna B 16\n2. Suomen Adventtikirkko: vuonna A 6, vuonna B 4\n3. Ortodoksinen kirkko: vuonna A 57, vuonna B 61\n4. Katolinen kirkko: vuonna A 9, vuonna B 19\n5. Evankelis-luterilainen kirkko: vuonna A 4 310, vuonna B 3 640\n6. Suomen Baptistikirkko: vuonna A 3, vuonna B 2\n\nAineisto 2. Kartta taulukkona: ortodoksit ja luterilaiset viidellä alueella (koetta varten muokatut luvut).\n1. Uusimaa: ortodoksisen kirkon jäseniä 22 000, ortodoksien osuus väestöstä 1,3 %, luterilaisten osuus väestöstä 51 %\n2. Pohjois-Karjala: ortodoksisen kirkon jäseniä 7 200, ortodoksien osuus väestöstä 4,5 %, luterilaisten osuus väestöstä 70 %\n3. Pohjanmaa: ortodoksisen kirkon jäseniä 500, ortodoksien osuus väestöstä 0,3 %, luterilaisten osuus väestöstä 81 %\n4. Pirkanmaa: ortodoksisen kirkon jäseniä 4 000, ortodoksien osuus väestöstä 0,8 %, luterilaisten osuus väestöstä 62 %\n5. Etelä-Karjala: ortodoksisen kirkon jäseniä 3 300, ortodoksien osuus väestöstä 2,6 %, luterilaisten osuus väestöstä 69 %","tehtavat":[{"nro":1,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Kirkot:\n1. evankelis-luterilainen kirkko\n2. ortodoksinen kirkko\n3. katolinen kirkko\n4. Suomen Metodistikirkko\n5. Suomen Adventtikirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":2},{"nro":2,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. buddhalainen yhteisö\n2. Suomen Adventtikirkko\n3. Suomen Metodistikirkko\n4. katolinen kirkko\n5. islamilainen yhdyskunta\n\nMontako yhteisöistä on kristillisiä kirkkoja tai yhdyskuntia?","vastaus":3},{"nro":3,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kaikkien suomalaisten on kuuluttava kirkkoon.\n2. Kirkkoon voi kuulua vain suomenkielinen.\n3. Valtio päättää kirkon opetuksesta ja nimittää kaikki papit.\n4. Kirkon asemasta säädetään omassa laissaan, ja se voi kantaa jäseniltään kirkollisveroa.\n\nMonesko lause kuvaa oikein, mitä evankelis-luterilaisen ja ortodoksisen kirkon erityisasema tarkoittaa?","vastaus":4},{"nro":4,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 1 rivillä on kirkko, jolla oli vuonna B toiseksi eniten jäseniä?","vastaus":3},{"nro":5,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä enemmän katolisella kirkolla oli Aineiston 1 mukaan vuonna B kuin vuonna A?","vastaus":10},{"nro":6,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monenko Aineiston 1 kirkon jäsenmäärä kasvoi vuodesta A vuoteen B?","vastaus":3},{"nro":7,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä evankelis-luterilainen kirkko menetti Aineiston 1 mukaan vuodesta A vuoteen B?","vastaus":670},{"nro":8,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":2},{"nro":9,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":1},{"nro":10,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla luterilaisten osuus väestöstä on suurin?","vastaus":3},{"nro":11,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen Karjalasta muuttaneista osa oli ortodokseja.\n2. Ortodoksinen kirkko on Itä-Suomen virallinen valtionkirkko.\n3. Ortodoksit muuttivat Itä-Suomeen Ruotsista 1900-luvulla.\n4. Itä-Suomessa luterilainen kirkko on kielletty.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":1},{"nro":12,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Katolisesta kirkosta tuli Suomen valtionkirkko.\n2. Katolisen kirkon jäsenyys tuli pakolliseksi Uudellamaalla.\n3. Luterilainen kirkko lakkautettiin.\n4. Suomeen on muuttanut ihmisiä maista, joissa katolinen kirkko on vahva.\n\nMonesko selitys sopii syyksi siihen, että katolisen kirkon jäsenmäärä on Suomessa kasvanut?","vastaus":4},{"nro":13,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Esimerkit:\n1. metallimessu\n2. vapaaseurakunnan rukouskokous\n3. herännäisyyden seurat\n4. Porvoon hiippakunnan ruotsinkielinen seurakunta\n5. ortodoksinen ehtoopalvelus\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":3},{"nro":14,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot, 4 toiminta ja järjestöt.\n\nEsimerkki: Seurakunnassa pidetään messu, jossa virret soitetaan raskaan rockin tyyliin.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":3},{"nro":15,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. adventtikirkko\n2. metodistit\n3. rukoilevaisuus\n4. baptistit\n5. lestadiolaisuus\n\nMontako yhteisöistä on evankelis-luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":2},{"nro":16,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Kuvaukset keksityistä yhteisöistä (nimet eivät kerro yhteisön tyyppiä):\n1. Koivuranta: oma rekisteröity uskonnollinen yhdyskunta; jäseneksi liitytään uskovien kasteessa.\n2. Valonlähde: kannattajat ovat evankelis-luterilaisen kirkon jäseniä, ja seuroissa puhuu usein kirkon pappi.\n3. Rauhanlaakso: seurakunta valitsee itse pastorinsa, ja jäseneksi liittyvät eroavat luterilaisesta kirkosta.\n4. Sinapinsiemen: liike syntyi seurakuntien sisällä, ja sen kannattajat käyvät kirkon messussa ja ehtoollisella.\n\nMonessako kuvauksessa on kyse evankelis-luterilaisen kirkon sisällä toimivasta herätysliikkeestä?","vastaus":2},{"nro":17,"ryhma":"kirkot","tyyppi":"sanallinen","kysymys":"Nimeä kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa.","vastaus":"Malliesimerkki: Erityisasema laissa on evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Muita Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko ja helluntaiherätys."},{"nro":18,"ryhma":"tilasto","tyyppi":"sanallinen","kysymys":"Kirjoita Aineistojen 1 ja 2 perusteella kolme havaintoa luvuin. Selitä sitten yhden alueellisen eron tai jäsenmäärän muutoksen syy.","vastaus":"Malliesimerkki: 1) Aineiston 1 mukaan evankelis-luterilainen kirkko on suurin, ja sen jäsenmäärä pieneni 4 310 tuhannesta 3 640 tuhanteen. 2) Katolisen kirkon jäsenmäärä kasvoi 9 tuhannesta 19 tuhanteen. 3) Aineiston 2 mukaan ortodoksien osuus väestöstä on suurin rivin 2 alueella (Pohjois-Karjala, 4,5 %), mutta määrällisesti ortodokseja on eniten rivin 1 alueella (Uusimaa, 22 000 jäsentä). Syy: ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen luovutetusta Karjalasta muuttaneista osa oli ortodokseja. Siksi Itä-Suomessa ortodoksien osuus on suuri."},{"nro":19,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen. Esimerkkien pitää kuulua eri ryhmiin.","vastaus":"Malliesimerkki: Kirkon sisällä toimii herätysliikkeitä, esimerkiksi lestadiolaisuus, joiden kannattajat kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Lisäksi ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, jossa toiminta on ruotsiksi."},{"nro":20,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Selitä, mitä eroa on kirkon sisällä toimivalla herätysliikkeellä ja erillisellä vapaalla suunnalla. Anna kummastakin yksi esimerkki.","vastaus":"Malliesimerkki: Herätysliike toimii evankelis-luterilaisen kirkon sisällä, ja sen kannattajat ovat kirkon jäseniä, esimerkiksi herännäisyys. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta, jolla on omat jäsenet ja pastorit, esimerkiksi helluntaiherätys."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä, eikä laskinta tarvita.\nTehtävissä 1–16 vastaa yhdellä luvulla. Kun tehtävässä on numeroitu luettelo, lue jokainen kohta erikseen.\nTehtävissä 17–20 kirjoita kokonaisia virkkeitä. Kun kirjoitat havainnon, käytä aineiston lukuja. Lukuja ei tarvitse muistaa ulkoa.\nOmasta tai perheesi kirkkoon kuulumisesta ei kysytä, eikä sitä tarvitse kertoa.\n\nAineisto 1. Kristillisten kirkkojen jäsenet Suomessa, tuhatta henkeä. Vuosi B on 20 vuotta vuoden A jälkeen. Luvut on muokattu koetta varten: ne muistuttavat todellisia, mutta eivät ole tilastotietoja.\n1. Suomen Vapaakirkko: vuonna A 13, vuonna B 15\n2. Katolinen kirkko: vuonna A 8, vuonna B 18\n3. Ortodoksinen kirkko: vuonna A 55, vuonna B 60\n4. Suomen Adventtikirkko: vuonna A 5, vuonna B 4\n5. Suomen Metodistikirkko: vuonna A 2, vuonna B 1\n6. Evankelis-luterilainen kirkko: vuonna A 4 290, vuonna B 3 610\n\nAineisto 2. Kartta taulukkona: ortodoksit ja luterilaiset viidellä alueella (koetta varten muokatut luvut).\n1. Uusimaa: ortodoksisen kirkon jäseniä 21 000, ortodoksien osuus väestöstä 1,2 %, luterilaisten osuus väestöstä 50 %\n2. Pohjois-Savo: ortodoksisen kirkon jäseniä 5 200, ortodoksien osuus väestöstä 2,1 %, luterilaisten osuus väestöstä 72 %\n3. Lappi: ortodoksisen kirkon jäseniä 1 400, ortodoksien osuus väestöstä 0,8 %, luterilaisten osuus väestöstä 75 %\n4. Varsinais-Suomi: ortodoksisen kirkon jäseniä 2 600, ortodoksien osuus väestöstä 0,5 %, luterilaisten osuus väestöstä 61 %\n5. Pohjois-Karjala: ortodoksisen kirkon jäseniä 7 000, ortodoksien osuus väestöstä 4,4 %, luterilaisten osuus väestöstä 71 %","tehtavat":[{"nro":1,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Kirkot:\n1. Suomen Adventtikirkko\n2. Suomen Baptistikirkko\n3. ortodoksinen kirkko\n4. Suomen Metodistikirkko\n5. Suomen Helluntaikirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":1},{"nro":2,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. buddhalainen yhteisö\n2. Suomen Metodistikirkko\n3. Suomen Baptistikirkko\n4. katolinen kirkko\n5. Suomen Adventtikirkko\n\nMontako yhteisöistä on kristillisiä kirkkoja tai yhdyskuntia?","vastaus":4},{"nro":3,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kirkon jäseneksi syntyy automaattisesti, eikä siitä voi erota.\n2. Kirkko on ainoa uskonnollinen yhteisö, joka saa toimia Suomessa.\n3. Kirkolla on oma laki, ja kirkollisvero kerätään verotuksen yhteydessä.\n4. Kirkko saa päättää koulujen opetussuunnitelmasta.\n\nMonesko lause kuvaa oikein, mitä evankelis-luterilaisen ja ortodoksisen kirkon erityisasema tarkoittaa?","vastaus":3},{"nro":4,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 1 rivillä on kirkko, jolla oli vuonna B kolmanneksi eniten jäseniä?","vastaus":2},{"nro":5,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä enemmän ortodoksisella kirkolla oli Aineiston 1 mukaan vuonna B kuin vuonna A?","vastaus":5},{"nro":6,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monenko Aineiston 1 kirkon jäsenmäärä kasvoi vuodesta A vuoteen B?","vastaus":3},{"nro":7,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä evankelis-luterilainen kirkko menetti Aineiston 1 mukaan vuodesta A vuoteen B?","vastaus":680},{"nro":8,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":5},{"nro":9,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":1},{"nro":10,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla luterilaisten osuus väestöstä on suurin?","vastaus":3},{"nro":11,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Katolinen lähetystyö toi ortodoksisuuden Itä-Suomeen.\n2. Kristinusko tuli Karjalaan idästä, joten ortodoksisuudella on siellä vanhat juuret.\n3. Ortodoksinen kirkko perustettiin Pohjois-Karjalassa 2000-luvulla.\n4. Itä-Suomessa kaikkien on kuuluttava ortodoksiseen kirkkoon.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":2},{"nro":12,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Katolinen kirkko lakkautettiin.\n2. Ortodoksinen kirkko sai oikeuden kieltää muut kirkot.\n3. Ortodoksisen kirkon jäsenyys tuli pakolliseksi Itä-Suomessa.\n4. Suomeen on muuttanut ihmisiä maista, joissa ortodoksinen kirkko on vahva.\n\nMonesko selitys sopii syyksi siihen, että ortodoksisen kirkon jäsenmäärä on Suomessa kasvanut?","vastaus":4},{"nro":13,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Esimerkit:\n1. herännäisyyden seurat\n2. tuomasmessu\n3. ruotsinkielinen rippikoulu Porvoon hiippakunnassa\n4. vapaakirkon jumalanpalvelus\n5. herätysliikkeen kesäseurat\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":4},{"nro":14,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot, 4 toiminta ja järjestöt.\n\nEsimerkki: Inarissa pidetään jumalanpalvelus pohjoissaameksi.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":2},{"nro":15,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. baptistit\n2. lestadiolaisuus\n3. evankelisuus\n4. rukoilevaisuus\n5. Suomen Vapaakirkko\n\nMontako yhteisöistä on evankelis-luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":3},{"nro":16,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Kuvaukset keksityistä yhteisöistä (nimet eivät kerro yhteisön tyyppiä):\n1. Kotiranta: liike syntyi seurakuntien sisällä, ja sen kannattajat käyvät kirkon messussa ja ehtoollisella.\n2. Elämänvesi: oma yhdyskunta, jolla on omat rukoushuoneet ja oma jäsenrekisteri.\n3. Lähdepuro: oma rekisteröity uskonnollinen yhdyskunta; jäseneksi liitytään uskovien kasteessa.\n4. Tähtiniitty: seurakunta valitsee itse pastorinsa, ja jäseneksi liittyvät eroavat luterilaisesta kirkosta.\n\nMonessako kuvauksessa on kyse evankelis-luterilaisen kirkon sisällä toimivasta herätysliikkeestä?","vastaus":1},{"nro":17,"ryhma":"kirkot","tyyppi":"sanallinen","kysymys":"Nimeä kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa.","vastaus":"Malliesimerkki: Erityisasema laissa on evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Muita Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko ja helluntaiherätys."},{"nro":18,"ryhma":"tilasto","tyyppi":"sanallinen","kysymys":"Kirjoita Aineistojen 1 ja 2 perusteella kolme havaintoa luvuin. Selitä sitten yhden alueellisen eron tai jäsenmäärän muutoksen syy.","vastaus":"Malliesimerkki: 1) Aineiston 1 mukaan evankelis-luterilainen kirkko on suurin, ja sen jäsenmäärä pieneni 4 290 tuhannesta 3 610 tuhanteen. 2) Ortodoksisen kirkon jäsenmäärä kasvoi 55 tuhannesta 60 tuhanteen. 3) Aineiston 2 mukaan ortodoksien osuus väestöstä on suurin rivin 5 alueella (Pohjois-Karjala, 4,4 %), mutta määrällisesti ortodokseja on eniten rivin 1 alueella (Uusimaa, 21 000 jäsentä). Syy: ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen luovutetusta Karjalasta muuttaneista osa oli ortodokseja. Siksi Itä-Suomessa ortodoksien osuus on suuri."},{"nro":19,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen. Esimerkkien pitää kuulua eri ryhmiin.","vastaus":"Malliesimerkki: Kirkon sisällä toimii herätysliikkeitä, esimerkiksi lestadiolaisuus, joiden kannattajat kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Lisäksi ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, jossa toiminta on ruotsiksi."},{"nro":20,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Selitä, mitä eroa on kirkon sisällä toimivalla herätysliikkeellä ja erillisellä vapaalla suunnalla. Anna kummastakin yksi esimerkki.","vastaus":"Malliesimerkki: Herätysliike toimii evankelis-luterilaisen kirkon sisällä, ja sen kannattajat ovat kirkon jäseniä, esimerkiksi herännäisyys. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta, jolla on omat jäsenet ja pastorit, esimerkiksi helluntaiherätys."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä, eikä laskinta tarvita.\nTehtävissä 1–16 vastaa yhdellä luvulla. Kun tehtävässä on numeroitu luettelo, lue jokainen kohta erikseen.\nTehtävissä 17–20 kirjoita kokonaisia virkkeitä. Kun kirjoitat havainnon, käytä aineiston lukuja. Lukuja ei tarvitse muistaa ulkoa.\nOmasta tai perheesi kirkkoon kuulumisesta ei kysytä, eikä sitä tarvitse kertoa.\n\nAineisto 1. Kristillisten kirkkojen jäsenet Suomessa, tuhatta henkeä. Vuosi B on 20 vuotta vuoden A jälkeen. Luvut on muokattu koetta varten: ne muistuttavat todellisia, mutta eivät ole tilastotietoja.\n1. Suomen Vapaakirkko: vuonna A 16, vuonna B 15\n2. Katolinen kirkko: vuonna A 10, vuonna B 21\n3. Ortodoksinen kirkko: vuonna A 58, vuonna B 62\n4. Evankelis-luterilainen kirkko: vuonna A 4 350, vuonna B 3 700\n5. Suomen Adventtikirkko: vuonna A 6, vuonna B 5\n6. Suomen Baptistikirkko: vuonna A 3, vuonna B 2\n\nAineisto 2. Kartta taulukkona: ortodoksit ja luterilaiset viidellä alueella (koetta varten muokatut luvut).\n1. Pirkanmaa: ortodoksisen kirkon jäseniä 4 200, ortodoksien osuus väestöstä 0,8 %, luterilaisten osuus väestöstä 63 %\n2. Uusimaa: ortodoksisen kirkon jäseniä 23 000, ortodoksien osuus väestöstä 1,3 %, luterilaisten osuus väestöstä 52 %\n3. Etelä-Karjala: ortodoksisen kirkon jäseniä 3 400, ortodoksien osuus väestöstä 2,7 %, luterilaisten osuus väestöstä 70 %\n4. Pohjanmaa: ortodoksisen kirkon jäseniä 450, ortodoksien osuus väestöstä 0,3 %, luterilaisten osuus väestöstä 80 %\n5. Kainuu: ortodoksisen kirkon jäseniä 900, ortodoksien osuus väestöstä 1,3 %, luterilaisten osuus väestöstä 74 %","tehtavat":[{"nro":1,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Kirkot:\n1. ortodoksinen kirkko\n2. Suomen Metodistikirkko\n3. Suomen Vapaakirkko\n4. evankelis-luterilainen kirkko\n5. katolinen kirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":2},{"nro":2,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. evankelis-luterilainen kirkko\n2. juutalainen seurakunta\n3. ortodoksinen kirkko\n4. Suomen Helluntaikirkko\n5. buddhalainen yhteisö\n\nMontako yhteisöistä on kristillisiä kirkkoja tai yhdyskuntia?","vastaus":3},{"nro":3,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kirkko valitsee eduskunnan jäsenet.\n2. Kirkon asema on määritelty sitä koskevassa laissa, ja se saa periä jäseniltään kirkollisveroa.\n3. Kirkkoon kuuluminen on pakollista virkamiehille.\n4. Muut kirkot tarvitsevat sen luvan toimiakseen.\n\nMonesko lause kuvaa oikein, mitä evankelis-luterilaisen ja ortodoksisen kirkon erityisasema tarkoittaa?","vastaus":2},{"nro":4,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 1 rivillä on kirkko, jolla oli vuonna B neljänneksi eniten jäseniä?","vastaus":1},{"nro":5,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä enemmän katolisella kirkolla oli Aineiston 1 mukaan vuonna B kuin vuonna A?","vastaus":11},{"nro":6,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monenko Aineiston 1 kirkon jäsenmäärä kasvoi vuodesta A vuoteen B?","vastaus":2},{"nro":7,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä evankelis-luterilainen kirkko menetti Aineiston 1 mukaan vuodesta A vuoteen B?","vastaus":650},{"nro":8,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":3},{"nro":9,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":2},{"nro":10,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla luterilaisten osuus väestöstä on suurin?","vastaus":4},{"nro":11,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Ortodoksisuudella on vanhat juuret Karjalassa, ja luovutetusta Karjalasta siirtyi sodan jälkeen ortodoksista väestöä eri puolille Suomea.\n2. Itä-Suomeen ei ole koskaan rakennettu luterilaisia kirkkoja.\n3. Ortodoksinen kirkko on laissa määrätty Itä-Suomen ainoaksi kirkoksi.\n4. Ortodoksit tulivat Itä-Suomeen Ranskasta.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":1},{"nro":12,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Suomeen on muuttanut ihmisiä maista, joissa katolinen kirkko on vahva.\n2. Katolisesta kirkosta tuli Suomen valtionkirkko.\n3. Katolisen kirkon jäsenyys tuli pakolliseksi Uudellamaalla.\n4. Luterilainen kirkko lakkautettiin.\n\nMonesko selitys sopii syyksi siihen, että katolisen kirkon jäsenmäärä on Suomessa kasvanut?","vastaus":1},{"nro":13,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Esimerkit:\n1. ortodoksinen ehtoopalvelus\n2. ruotsinkielinen rippikoulu Porvoon hiippakunnassa\n3. katolinen messu\n4. adventtikirkon sapattijumalanpalvelus\n5. Porvoon hiippakunnan ruotsinkielinen seurakunta\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":2},{"nro":14,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot, 4 toiminta ja järjestöt.\n\nEsimerkki: Kesäjuhlan järjestää liike, jonka kannattajat ovat luterilaisen kirkon jäseniä ja korostavat henkilökohtaista uskoa.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":1},{"nro":15,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. helluntaiherätys\n2. metodistit\n3. Suomen Vapaakirkko\n4. rukoilevaisuus\n5. evankelisuus\n\nMontako yhteisöistä on evankelis-luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":2},{"nro":16,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Kuvaukset keksityistä yhteisöistä (nimet eivät kerro yhteisön tyyppiä):\n1. Kuusimäki: oma yhdyskunta, jolla on omat rukoushuoneet ja oma jäsenrekisteri.\n2. Toivonsatama: kannattajat kuuluvat luterilaiseen kirkkoon ja kokoontuvat omiin seuroihin seurakuntatalolla.\n3. Armonlähde: kannattajat ovat evankelis-luterilaisen kirkon jäseniä, ja seuroissa puhuu usein kirkon pappi.\n4. Kylänraitti: oma rekisteröity uskonnollinen yhdyskunta; jäseneksi liitytään uskovien kasteessa.\n\nMonessako kuvauksessa on kyse evankelis-luterilaisen kirkon sisällä toimivasta herätysliikkeestä?","vastaus":2},{"nro":17,"ryhma":"kirkot","tyyppi":"sanallinen","kysymys":"Nimeä kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa.","vastaus":"Malliesimerkki: Erityisasema laissa on evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Muita Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko ja helluntaiherätys."},{"nro":18,"ryhma":"tilasto","tyyppi":"sanallinen","kysymys":"Kirjoita Aineistojen 1 ja 2 perusteella kolme havaintoa luvuin. Selitä sitten yhden alueellisen eron tai jäsenmäärän muutoksen syy.","vastaus":"Malliesimerkki: 1) Aineiston 1 mukaan evankelis-luterilainen kirkko on suurin, ja sen jäsenmäärä pieneni 4 350 tuhannesta 3 700 tuhanteen. 2) Katolisen kirkon jäsenmäärä kasvoi 10 tuhannesta 21 tuhanteen. 3) Aineiston 2 mukaan ortodoksien osuus väestöstä on suurin rivin 3 alueella (Etelä-Karjala, 2,7 %), mutta määrällisesti ortodokseja on eniten rivin 2 alueella (Uusimaa, 23 000 jäsentä). Syy: ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen luovutetusta Karjalasta muuttaneista osa oli ortodokseja. Siksi Itä-Suomessa ortodoksien osuus on suuri."},{"nro":19,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen. Esimerkkien pitää kuulua eri ryhmiin.","vastaus":"Malliesimerkki: Kirkon sisällä toimii herätysliikkeitä, esimerkiksi lestadiolaisuus, joiden kannattajat kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Lisäksi ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, jossa toiminta on ruotsiksi."},{"nro":20,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Selitä, mitä eroa on kirkon sisällä toimivalla herätysliikkeellä ja erillisellä vapaalla suunnalla. Anna kummastakin yksi esimerkki.","vastaus":"Malliesimerkki: Herätysliike toimii evankelis-luterilaisen kirkon sisällä, ja sen kannattajat ovat kirkon jäseniä, esimerkiksi herännäisyys. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta, jolla on omat jäsenet ja pastorit, esimerkiksi helluntaiherätys."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä, eikä laskinta tarvita.\nTehtävissä 1–16 vastaa yhdellä luvulla. Kun tehtävässä on numeroitu luettelo, lue jokainen kohta erikseen.\nTehtävissä 17–20 kirjoita kokonaisia virkkeitä. Kun kirjoitat havainnon, käytä aineiston lukuja. Lukuja ei tarvitse muistaa ulkoa.\nOmasta tai perheesi kirkkoon kuulumisesta ei kysytä, eikä sitä tarvitse kertoa.\n\nAineisto 1. Kristillisten kirkkojen jäsenet Suomessa, tuhatta henkeä. Vuosi B on 20 vuotta vuoden A jälkeen. Luvut on muokattu koetta varten: ne muistuttavat todellisia, mutta eivät ole tilastotietoja.\n1. Suomen Metodistikirkko: vuonna A 2, vuonna B 1\n2. Suomen Adventtikirkko: vuonna A 5, vuonna B 3\n3. Ortodoksinen kirkko: vuonna A 56, vuonna B 61\n4. Suomen Vapaakirkko: vuonna A 14, vuonna B 15\n5. Evankelis-luterilainen kirkko: vuonna A 4 280, vuonna B 3 590\n6. Katolinen kirkko: vuonna A 9, vuonna B 20\n\nAineisto 2. Kartta taulukkona: ortodoksit ja luterilaiset viidellä alueella (koetta varten muokatut luvut).\n1. Pohjois-Karjala: ortodoksisen kirkon jäseniä 7 300, ortodoksien osuus väestöstä 4,6 %, luterilaisten osuus väestöstä 72 %\n2. Varsinais-Suomi: ortodoksisen kirkon jäseniä 2 500, ortodoksien osuus väestöstä 0,5 %, luterilaisten osuus väestöstä 62 %\n3. Uusimaa: ortodoksisen kirkon jäseniä 22 500, ortodoksien osuus väestöstä 1,2 %, luterilaisten osuus väestöstä 49 %\n4. Pohjois-Savo: ortodoksisen kirkon jäseniä 5 100, ortodoksien osuus väestöstä 2,0 %, luterilaisten osuus väestöstä 73 %\n5. Pohjanmaa: ortodoksisen kirkon jäseniä 480, ortodoksien osuus väestöstä 0,3 %, luterilaisten osuus väestöstä 82 %","tehtavat":[{"nro":1,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Kirkot:\n1. evankelis-luterilainen kirkko\n2. ortodoksinen kirkko\n3. Suomen Vapaakirkko\n4. Suomen Helluntaikirkko\n5. katolinen kirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":2},{"nro":2,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. Suomen Metodistikirkko\n2. buddhalainen yhteisö\n3. juutalainen seurakunta\n4. Suomen Adventtikirkko\n5. hindulainen yhdistys\n\nMontako yhteisöistä on kristillisiä kirkkoja tai yhdyskuntia?","vastaus":2},{"nro":3,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kirkko saa kieltää muiden uskontojen harjoittamisen.\n2. Kaikki suomalaiset maksavat sille kirkollisveroa.\n3. Kirkosta on säädetty oma laki, ja jäsenet maksavat kirkollisveroa verotuksen yhteydessä.\n4. Kirkon piispat ovat ministereitä.\n\nMonesko lause kuvaa oikein, mitä evankelis-luterilaisen ja ortodoksisen kirkon erityisasema tarkoittaa?","vastaus":3},{"nro":4,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 1 rivillä on kirkko, jolla oli vuonna B kolmanneksi eniten jäseniä?","vastaus":6},{"nro":5,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä enemmän ortodoksisella kirkolla oli Aineiston 1 mukaan vuonna B kuin vuonna A?","vastaus":5},{"nro":6,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monenko Aineiston 1 kirkon jäsenmäärä kasvoi vuodesta A vuoteen B?","vastaus":3},{"nro":7,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä evankelis-luterilainen kirkko menetti Aineiston 1 mukaan vuodesta A vuoteen B?","vastaus":690},{"nro":8,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":1},{"nro":9,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":3},{"nro":10,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla luterilaisten osuus väestöstä on suurin?","vastaus":5},{"nro":11,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Luterilainen kirkko kielsi jäsenyyden Itä-Suomessa.\n2. Ortodoksisuus levisi Itä-Suomeen Espanjasta.\n3. Karjalassa ortodoksisella kirkolla on pitkä historia, ja sodan jälkeen karjalaisia ortodokseja asettui myös Itä-Suomeen.\n4. Itä-Suomessa ortodoksinen kirkko on valtionkirkko.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":3},{"nro":12,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Katolinen kirkko lakkautettiin.\n2. Ortodoksisen kirkon jäsenyys tuli pakolliseksi Itä-Suomessa.\n3. Suomeen on muuttanut ihmisiä maista, joissa ortodoksinen kirkko on vahva.\n4. Ortodoksinen kirkko sai oikeuden kieltää muut kirkot.\n\nMonesko selitys sopii syyksi siihen, että ortodoksisen kirkon jäsenmäärä on Suomessa kasvanut?","vastaus":3},{"nro":13,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Esimerkit:\n1. katolinen messu\n2. herännäisyyden seurat\n3. herätysliikkeen kesäseurat\n4. tuomasmessu\n5. vapaaseurakunnan rukouskokous\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":3},{"nro":14,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot, 4 toiminta ja järjestöt.\n\nEsimerkki: Lähetysjärjestö kerää varoja koulujen rakentamiseen ja kertoo seurakunnissa lähetystyöstä.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":4},{"nro":15,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. helluntaiherätys\n2. baptistit\n3. metodistit\n4. adventtikirkko\n5. evankelisuus\n\nMontako yhteisöistä on evankelis-luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":1},{"nro":16,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Kuvaukset keksityistä yhteisöistä (nimet eivät kerro yhteisön tyyppiä):\n1. Lehtola: oma yhdyskunta, jolla on omat rukoushuoneet ja oma jäsenrekisteri.\n2. Kalliolinna: seurakunta valitsee itse pastorinsa, ja jäseneksi liittyvät eroavat luterilaisesta kirkosta.\n3. Valonpolku: kannattajat ovat evankelis-luterilaisen kirkon jäseniä, ja seuroissa puhuu usein kirkon pappi.\n4. Ristimäki: oma rekisteröity uskonnollinen yhdyskunta; jäseneksi liitytään uskovien kasteessa.\n\nMonessako kuvauksessa on kyse evankelis-luterilaisen kirkon sisällä toimivasta herätysliikkeestä?","vastaus":1},{"nro":17,"ryhma":"kirkot","tyyppi":"sanallinen","kysymys":"Nimeä kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa.","vastaus":"Malliesimerkki: Erityisasema laissa on evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Muita Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko ja helluntaiherätys."},{"nro":18,"ryhma":"tilasto","tyyppi":"sanallinen","kysymys":"Kirjoita Aineistojen 1 ja 2 perusteella kolme havaintoa luvuin. Selitä sitten yhden alueellisen eron tai jäsenmäärän muutoksen syy.","vastaus":"Malliesimerkki: 1) Aineiston 1 mukaan evankelis-luterilainen kirkko on suurin, ja sen jäsenmäärä pieneni 4 280 tuhannesta 3 590 tuhanteen. 2) Ortodoksisen kirkon jäsenmäärä kasvoi 56 tuhannesta 61 tuhanteen. 3) Aineiston 2 mukaan ortodoksien osuus väestöstä on suurin rivin 1 alueella (Pohjois-Karjala, 4,6 %), mutta määrällisesti ortodokseja on eniten rivin 3 alueella (Uusimaa, 22 500 jäsentä). Syy: ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen luovutetusta Karjalasta muuttaneista osa oli ortodokseja. Siksi Itä-Suomessa ortodoksien osuus on suuri."},{"nro":19,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen. Esimerkkien pitää kuulua eri ryhmiin.","vastaus":"Malliesimerkki: Kirkon sisällä toimii herätysliikkeitä, esimerkiksi lestadiolaisuus, joiden kannattajat kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Lisäksi ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, jossa toiminta on ruotsiksi."},{"nro":20,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Selitä, mitä eroa on kirkon sisällä toimivalla herätysliikkeellä ja erillisellä vapaalla suunnalla. Anna kummastakin yksi esimerkki.","vastaus":"Malliesimerkki: Herätysliike toimii evankelis-luterilaisen kirkon sisällä, ja sen kannattajat ovat kirkon jäseniä, esimerkiksi herännäisyys. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta, jolla on omat jäsenet ja pastorit, esimerkiksi helluntaiherätys."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kirjoita vastaukset koepaperiin. Kirjaa ja muistiinpanoja ei käytetä, eikä laskinta tarvita.\nTehtävissä 1–16 vastaa yhdellä luvulla. Kun tehtävässä on numeroitu luettelo, lue jokainen kohta erikseen.\nTehtävissä 17–20 kirjoita kokonaisia virkkeitä. Kun kirjoitat havainnon, käytä aineiston lukuja. Lukuja ei tarvitse muistaa ulkoa.\nOmasta tai perheesi kirkkoon kuulumisesta ei kysytä, eikä sitä tarvitse kertoa.\n\nAineisto 1. Kristillisten kirkkojen jäsenet Suomessa, tuhatta henkeä. Vuosi B on 20 vuotta vuoden A jälkeen. Luvut on muokattu koetta varten: ne muistuttavat todellisia, mutta eivät ole tilastotietoja.\n1. Evankelis-luterilainen kirkko: vuonna A 4 330, vuonna B 3 660\n2. Suomen Baptistikirkko: vuonna A 3, vuonna B 2\n3. Suomen Vapaakirkko: vuonna A 13, vuonna B 16\n4. Katolinen kirkko: vuonna A 8, vuonna B 17\n5. Ortodoksinen kirkko: vuonna A 57, vuonna B 62\n6. Suomen Adventtikirkko: vuonna A 6, vuonna B 4\n\nAineisto 2. Kartta taulukkona: ortodoksit ja luterilaiset viidellä alueella (koetta varten muokatut luvut).\n1. Lappi: ortodoksisen kirkon jäseniä 1 300, ortodoksien osuus väestöstä 0,8 %, luterilaisten osuus väestöstä 76 %\n2. Etelä-Karjala: ortodoksisen kirkon jäseniä 3 200, ortodoksien osuus väestöstä 2,5 %, luterilaisten osuus väestöstä 68 %\n3. Pirkanmaa: ortodoksisen kirkon jäseniä 4 100, ortodoksien osuus väestöstä 0,8 %, luterilaisten osuus väestöstä 61 %\n4. Uusimaa: ortodoksisen kirkon jäseniä 21 500, ortodoksien osuus väestöstä 1,2 %, luterilaisten osuus väestöstä 50 %\n5. Pohjois-Savo: ortodoksisen kirkon jäseniä 5 000, ortodoksien osuus väestöstä 2,1 %, luterilaisten osuus väestöstä 72 %","tehtavat":[{"nro":1,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Kirkot:\n1. katolinen kirkko\n2. Suomen Baptistikirkko\n3. evankelis-luterilainen kirkko\n4. Suomen Metodistikirkko\n5. Suomen Vapaakirkko\n\nMontako kirkoista on Suomen laissa erityisasemassa?","vastaus":1},{"nro":2,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. ortodoksinen kirkko\n2. juutalainen seurakunta\n3. katolinen kirkko\n4. Suomen Helluntaikirkko\n5. Suomen Adventtikirkko\n\nMontako yhteisöistä on kristillisiä kirkkoja tai yhdyskuntia?","vastaus":4},{"nro":3,"ryhma":"kirkot","tyyppi":"lasku","kysymys":"Lauseet:\n1. Kirkon asemasta on oma laki, ja se voi kantaa kirkollisveroa jäseniltään.\n2. Vain sen papit saavat vihkiä avioliittoon.\n3. Kirkkoon kuuluminen on Suomessa pakollista.\n4. Kirkko päättää Suomen lait.\n\nMonesko lause kuvaa oikein, mitä evankelis-luterilaisen ja ortodoksisen kirkon erityisasema tarkoittaa?","vastaus":1},{"nro":4,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 1 rivillä on kirkko, jolla oli vuonna B toiseksi eniten jäseniä?","vastaus":5},{"nro":5,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä enemmän katolisella kirkolla oli Aineiston 1 mukaan vuonna B kuin vuonna A?","vastaus":9},{"nro":6,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monenko Aineiston 1 kirkon jäsenmäärä kasvoi vuodesta A vuoteen B?","vastaus":3},{"nro":7,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Montako tuhatta jäsentä evankelis-luterilainen kirkko menetti Aineiston 1 mukaan vuodesta A vuoteen B?","vastaus":670},{"nro":8,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodoksien osuus väestöstä on suurin?","vastaus":2},{"nro":9,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla ortodokseja on määrällisesti eniten?","vastaus":4},{"nro":10,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Monennellako Aineiston 2 rivillä on alue, jolla luterilaisten osuus väestöstä on suurin?","vastaus":1},{"nro":11,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Ortodoksinen kirkko on Itä-Suomen pakollinen kirkko.\n2. Ortodoksit muuttivat Itä-Suomeen Italiasta.\n3. Kristinusko levisi Karjalaan idästä, ja ortodoksinen kirkko on siellä vanha; sodan jälkeen osa Karjalasta muuttaneista oli ortodokseja.\n4. Itä-Suomessa ei saa kuulua luterilaiseen kirkkoon.\n\nMonesko selitys kertoo oikein, miksi Itä-Suomessa on suhteessa paljon ortodokseja?","vastaus":3},{"nro":12,"ryhma":"tilasto","tyyppi":"lasku","kysymys":"Selitykset:\n1. Suomeen on muuttanut ihmisiä maista, joissa katolinen kirkko on vahva.\n2. Katolisesta kirkosta tuli Suomen valtionkirkko.\n3. Luterilainen kirkko lakkautettiin.\n4. Katolisen kirkon jäsenyys tuli pakolliseksi Uudellamaalla.\n\nMonesko selitys sopii syyksi siihen, että katolisen kirkon jäsenmäärä on Suomessa kasvanut?","vastaus":1},{"nro":13,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Esimerkit:\n1. ortodoksinen ehtoopalvelus\n2. herännäisyyden seurat\n3. tuomasmessu\n4. metallimessu\n5. ruotsinkielinen rippikoulu Porvoon hiippakunnassa\n\nMontako esimerkeistä kuvaa erilaisia tapoja olla luterilainen evankelis-luterilaisen kirkon sisällä?","vastaus":4},{"nro":14,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Ryhmät: 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot, 4 toiminta ja järjestöt.\n\nEsimerkki: Espoossa ruotsinkielinen seurakunta pitää rippikoulun ruotsiksi.\n\nMihin ryhmään esimerkki kuuluu? Kirjoita ryhmän numero.","vastaus":2},{"nro":15,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Yhteisöt:\n1. adventtikirkko\n2. herännäisyys\n3. evankelisuus\n4. Suomen Vapaakirkko\n5. lestadiolaisuus\n\nMontako yhteisöistä on evankelis-luterilaisen kirkon sisällä toimivia herätysliikkeitä?","vastaus":3},{"nro":16,"ryhma":"luterilaisuus","tyyppi":"lasku","kysymys":"Kuvaukset keksityistä yhteisöistä (nimet eivät kerro yhteisön tyyppiä):\n1. Kaislaranta: oma yhdyskunta, jolla on omat rukoushuoneet ja oma jäsenrekisteri.\n2. Uusi Elämä: liike syntyi seurakuntien sisällä, ja sen kannattajat käyvät kirkon messussa ja ehtoollisella.\n3. Leipäpuu: kannattajat kuuluvat luterilaiseen kirkkoon ja kokoontuvat omiin seuroihin seurakuntatalolla.\n4. Kotikirkko: seurakunta valitsee itse pastorinsa, ja jäseneksi liittyvät eroavat luterilaisesta kirkosta.\n\nMonessako kuvauksessa on kyse evankelis-luterilaisen kirkon sisällä toimivasta herätysliikkeestä?","vastaus":2},{"nro":17,"ryhma":"kirkot","tyyppi":"sanallinen","kysymys":"Nimeä kaksi kirkkoa, joilla on Suomessa laissa määritelty erityisasema, ja kolme muuta Suomessa toimivaa kristillistä kirkkoa tai yhdyskuntaa.","vastaus":"Malliesimerkki: Erityisasema laissa on evankelis-luterilaisella kirkolla ja ortodoksisella kirkolla. Muita Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia ovat esimerkiksi katolinen kirkko, Suomen Vapaakirkko ja helluntaiherätys."},{"nro":18,"ryhma":"tilasto","tyyppi":"sanallinen","kysymys":"Kirjoita Aineistojen 1 ja 2 perusteella kolme havaintoa luvuin. Selitä sitten yhden alueellisen eron tai jäsenmäärän muutoksen syy.","vastaus":"Malliesimerkki: 1) Aineiston 1 mukaan evankelis-luterilainen kirkko on suurin, ja sen jäsenmäärä pieneni 4 330 tuhannesta 3 660 tuhanteen. 2) Katolisen kirkon jäsenmäärä kasvoi 8 tuhannesta 17 tuhanteen. 3) Aineiston 2 mukaan ortodoksien osuus väestöstä on suurin rivin 2 alueella (Etelä-Karjala, 2,5 %), mutta määrällisesti ortodokseja on eniten rivin 4 alueella (Uusimaa, 21 500 jäsentä). Syy: ortodoksisella kirkolla on pitkä historia Karjalassa, ja sodan jälkeen luovutetusta Karjalasta muuttaneista osa oli ortodokseja. Siksi Itä-Suomessa ortodoksien osuus on suuri."},{"nro":19,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Anna kaksi esimerkkiä siitä, miten evankelis-luterilaisen kirkon sisällä on erilaisia tapoja olla luterilainen. Esimerkkien pitää kuulua eri ryhmiin.","vastaus":"Malliesimerkki: Kirkon sisällä toimii herätysliikkeitä, esimerkiksi lestadiolaisuus, joiden kannattajat kokoontuvat omiin seuroihinsa ja kesäjuhliinsa. Lisäksi ruotsinkieliset seurakunnat muodostavat oman Porvoon hiippakuntansa, jossa toiminta on ruotsiksi."},{"nro":20,"ryhma":"luterilaisuus","tyyppi":"sanallinen","kysymys":"Selitä, mitä eroa on kirkon sisällä toimivalla herätysliikkeellä ja erillisellä vapaalla suunnalla. Anna kummastakin yksi esimerkki.","vastaus":"Malliesimerkki: Herätysliike toimii evankelis-luterilaisen kirkon sisällä, ja sen kannattajat ovat kirkon jäseniä, esimerkiksi herännäisyys. Vapaa suunta on oma, kirkosta erillinen yhdyskunta tai seurakunta, jolla on omat jäsenet ja pastorit, esimerkiksi helluntaiherätys."}]}],"tulostus":{"sivuja":8,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"2 · 45 min","huomiot":["Arvioidaan tietoa Suomen kristillisistä kirkoista ja kykyä tulkita tilastoa, ei oppilaan omaa uskoa. Kartan mukaan oppilaan omaa tai perheen jäsenyyttä ei kysytä: yksikään tehtävä ei kysy sitä, eikä luokassa kartoiteta, kuka kuuluu mihinkin. Jos oppilas kertoo vapaaehtoisesti omasta taustastaan, sitä ei pyydetä eikä siitä anneta lisäarvoa. Herätysliikkeitä ja vapaita suuntia kuvataan neutraalisti.","Muoto: paperikoe, koska kartan näyttö alkaa sanalla \"Paperikoe\". Kartan viisi kohtaa kokeessa: 1) kirkkojen nimeäminen tehtävässä 17 (lisäksi 1–3), 2) kolme havaintoa ja 3) yksi syy tehtävässä 18 (lisäksi 4–12), 4) kaksi monimuotoisuuden esimerkkiä tehtävässä 19 (lisäksi 13–14), 5) herätysliikkeen ja vapaan suunnan ero tehtävässä 20 (lisäksi 15–16).","Mittaritehtävät: 17, 18, 19 ja 20. Kokeen kokonaisraja on 80 %.","Tehtävä 17 on oikein, kun erityisasemassa olevat kirkot ovat evankelis-luterilainen ja ortodoksinen kirkko ja muut kolme ovat oikeita Suomessa toimivia kristillisiä kirkkoja tai yhdyskuntia (esim. katolinen kirkko, helluntaiherätys tai Suomen Helluntaikirkko, Suomen Vapaakirkko, Suomen Adventtikirkko, metodisti- tai baptistikirkko). Herätysliike (esim. lestadiolaisuus) ei kelpaa muuksi kirkoksi, koska se toimii luterilaisen kirkon sisällä. Tehtävä 18 on oikein, kun kolme havaintoa perustuu Aineistojen 1 ja 2 lukuihin (vähintään kaksi havaintoa luvuin) ja syy on perusteltu (esim. Karjalan historia ja siirtoväki, maahanmuutto, kaupunkien suuri väkiluku määrän selittäjänä). Pelkkä havainnon toistaminen ei ole syy. Tehtävä 19 on oikein, kun esimerkit ovat oikeita, kuuluvat luterilaisen kirkon sisälle ja ovat eri ryhmistä (herätysliikkeet, kieli, jumalanpalvelusmuodot, toiminta ja järjestöt); kaksi messumuotoa on yksi esimerkki (ansa 3). Tehtävä 20 on oikein, kun vastauksessa on, että herätysliikkeet toimivat luterilaisen kirkon sisällä ja niiden kannattajat ovat kirkon jäseniä, kun taas vapaat suunnat ovat omia yhdyskuntiaan; esimerkkien pitää olla oikein päin (helluntaiherätys vapaa suunta). Hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Aineistot: kartan näytössä opettaja antaa ajantasaisen tilaston lähteineen ja kartan alueellisista eroista. Rinnakkaisten versioiden ja varman vastausavaimen vuoksi jokaisessa versiossa on oma, selvästi merkitty muokattu taulukko, ja kartta on annettu taulukkona. Luvut on valittu niin, että suuret linjat vastaavat todellisuutta (luterilaisten osuus pienin pääkaupunkiseudulla ja suuri Pohjanmaalla, ortodoksien osuus suurin Itä-Suomessa ja määrä suurin Uudellamaalla, katolisten määrä kasvanut), mutta yksittäiset luvut eivät ole tilastotietoja. Jos haluat käyttää kokeessa todellista tilastoa ja karttaa, anna ne liitteenä tehtävään 18; tehtävät 4–10 tehdään silti version taulukoista. Ajantasaiset lähteet: Tilastokeskus, väestörakenne ja uskonnollinen yhdyskunta (https://stat.fi/tilasto/vaerak), evankelis-luterilaisen kirkon jäsentilastot (https://www.kirkontilastot.fi) ja ortodoksisen kirkon tiedot (https://ort.fi).","Vastausavain tehtäviin 1–16: A: 2, 3, 4, 3, 10, 3, 670, 2, 1, 3, 1, 4, 3, 3, 2, 2; B: 1, 4, 3, 2, 5, 3, 680, 5, 1, 3, 2, 4, 4, 2, 3, 1; C: 2, 3, 2, 1, 11, 2, 650, 3, 2, 4, 1, 1, 2, 1, 2, 2; D: 2, 2, 3, 6, 5, 3, 690, 1, 3, 5, 3, 3, 3, 4, 1, 1; E: 1, 4, 1, 5, 9, 3, 670, 2, 4, 1, 3, 1, 4, 2, 3, 2. Tehtävässä 14 ryhmät ovat 1 herätysliikkeet, 2 kieli, 3 jumalanpalvelusmuodot ja 4 toiminta ja järjestöt.","Herkkä aihe: luokassa voi olla eri kirkkoihin, herätysliikkeisiin tai vapaisiin suuntiin kuuluvia oppilaita tai kuulumattomia. Älä käytä luokan oppilaita esimerkkeinä äläkä pyydä heitä kertomaan yhteisöstään. Karjalan siirtoväki voi olla joillekin suvun historiaa; käsittele asiallisesti. Tilastossa pieni kirkko ei ole vähäpätöinen (ansa 2).","Rajaus: Suomen uskonnollinen tilanne yleisesti, uskonnottomuus ja uskonnonvapaus ovat taidossa UE6-MAA-02 ja ortodoksinen kirkko Suomessa taidossa UE6-MAA-03; tässä ne kerrataan vain lyhyesti. Kolmen kirkkoperheen vertailu maailmalla on taidossa UE8-PYH-02 ja protestanttiset suuntaukset taidossa UE8-PYH-03. Neljän perinteisen herätysliikkeen painotukset ovat seuraavan taidon UE8-MAA-02 sisältöä, joten tässä ne vain nimetään. Uudet uskonnolliset liikkeet (esim. Jehovan todistajat) ovat taidossa UE8-MAA-05, eikä niitä käytetä tässä esimerkkeinä kristillisistä yhdyskunnista.","Tarkistettavat asiatiedot: (1) Kirkkolaki (652/2023) ja laki ortodoksisesta kirkosta (985/2006); kirkollisvero kummallakin kirkolla. (2) Evankelis-luterilaisen kirkon jäsenosuus \"noin kuusi kymmenestä\" ja ortodoksisen kirkon \"noin prosentti\" (Tilastokeskus, tarkista uusin vuosi). (3) Ortodoksisen kirkon hiippakunnat (Helsingin, Kuopion ja Karjalan, Oulun) ja arkkipiispan istuin, joka siirtyi Kuopiosta Helsinkiin vuoden 2018 alussa (tarkista ort.fi). (4) Porvoon hiippakunta ruotsinkielisille seurakunnille; saamenkielinen työ pohjoisen seurakunnissa. (5) Helluntaiherätys Suomen suurimpana vapaana suuntana ja se, että osa helluntaiseurakunnista on rekisteröity yhdistyksiksi (Suomen Helluntaikirkko on rekisteröity uskonnollinen yhdyskunta). (6) Monijäsenyys: voiko vapaan suunnan rekisteröidyn yhdyskunnan jäsen olla samalla evankelis-luterilaisen kirkon jäsen (tekstissä vain \"moni on eronnut\"). Vapaiden suuntien synty Suomessa pääosin 1800-luvun lopulla ja 1900-luvun alussa. (7) Ortodoksien suhteellinen osuus suurin Itä-Suomessa ja määrä suurin pääkaupunkiseudulla; katolisten ja ortodoksien jäsenmäärän kasvu maahanmuuton myötä. (8) Evankelis-luterilaisten seurakuntien hautaustoimi yleisinä hautausmaina. (9) Tuomasmessun ja metallimessun kuvaukset. Kirjoitettu muistinvaraisesti; tarkista ennen käyttöä.","Kokeen sivumäärä (tulostus.sivuja) on arvio, ja se pitää mitata sivuston rakentamisen jälkeen."]},"tuntirunko":{"kesto":"45 min (toinen tunti: koe)","sanottava_aaneen":"Suomessa kahdella kirkolla on laissa erityisasema: evankelis-luterilaisella ja ortodoksisella kirkolla. Lisäksi Suomessa toimii monta muuta kristillistä kirkkoa ja yhdyskuntaa. Herätysliike on kirkon sisällä, vapaa suunta on oma yhdyskuntansa.","vaiheet":[{"aika":"5 min","otsikko":"Aloitus","sisalto":"Lue johdanto. Kysy, mitkä kaupunkikävelyn kohteista ovat omia kirkkojaan ja mitkä luterilaisen kirkon sisällä. Älä kysy kenenkään omaa kirkkoa."},{"aika":"10 min","otsikko":"Kirkot ja erityisasema","sisalto":"Käy läpi kaksi erityisasemassa olevaa kirkkoa ja muut yhdyskunnat. Näytä kaavio. Kertaa, että jäsenyys on vapaaehtoista."},{"aika":"12 min","otsikko":"Tilasto ja kartta","sisalto":"Näytä ajantasainen tilasto ja kartta lähteineen. Harjoitelkaa Harjoitusaineistoilla määrää ja osuutta (ansa 1) ja muutoksen laskemista. Erotelkaa havainto ja syy: Karjalan historia, maahanmuutto."},{"aika":"8 min","otsikko":"Monta tapaa olla luterilainen","sisalto":"Käy läpi neljä ryhmää. Pyydä parit keksimään yksi esimerkki kustakin ryhmästä. Erotelkaa herätysliike ja vapaa suunta (ansa 4)."},{"aika":"10 min","otsikko":"Harjoittelu","sisalto":"Oppilaat tekevät harjoituksia. Seuraa erityisesti H04 (erityisasema), H11 ja H12 (määrä ja osuus) sekä H18 (nimi johtaa harhaan). Koe pidetään toisella tunnilla."}],"tarvikkeet":"Ajantasainen tilasto kirkkojen jäsenmääristä ja kartta alueellisista eroista lähteineen (esim. Tilastokeskus) näytettäväksi; kaavio heijastettuna; harjoitukset laitteelta tai tulostettuna; toisella tunnilla tulostettu koe (A–E)."},"virhesanakirja":[{"virhe":"Nimeää katolisen kirkon tai helluntaiherätyksen erityisasemassa olevaksi kirkoksi","tehtava":"H01, H04, kokeen tehtävät 1 ja 17","mita_kertoo":"Oppilas sekoittaa kirkon koon tai maailmanlaajuisen aseman ja Suomen lain mukaisen aseman.","mita_tehda":"Kysy: onko kirkosta oma laki? Voiko se kantaa kirkollisveroa? Näytä kaavion ylärivi."},{"virhe":"Luulee, että erityisasema tarkoittaa pakollista jäsenyyttä tai valtionkirkkoa","tehtava":"H02, H06, kokeen tehtävä 3","mita_kertoo":"Oppilas ei yhdistä erityisasemaa ja uskonnonvapautta.","mita_tehda":"Kertaa 6. luokan uskonnonvapaus: oikeus kuulua ja olla kuulumatta. Erityisasema koskee lakia ja kirkollisveroa, ei pakkoa."},{"virhe":"Sekoittaa määrän ja osuuden (\"ortodokseja on eniten Pohjois-Karjalassa\")","tehtava":"H11, H12, kokeen tehtävät 8, 9 ja 18","mita_kertoo":"Oppilas lukee taulukosta väärän sarakkeen.","mita_tehda":"Peitä toinen sarake ja kysy kaksi kysymystä erikseen. Ansa 1 ja pylväskuva."},{"virhe":"Kirjoittaa havainnon syyn tilalle (\"ortodokseja on paljon, koska heitä on paljon\") tai keksii syyn ilman perustetta","tehtava":"H14, kokeen tehtävät 11, 12 ja 18","mita_kertoo":"Oppilas ei erota havaintoa ja selitystä.","mita_tehda":"Anna virkerunko: \"Havainto: … Syy: …, koska …\". Kertaa Karjalan historia ja maahanmuutto syinä."},{"virhe":"Antaa kaksi esimerkkiä samasta ryhmästä tai esimerkin toisesta kirkosta","tehtava":"H15, H17, kokeen tehtävät 13, 14 ja 19","mita_kertoo":"Oppilas tuntee yksittäisiä esimerkkejä, mutta ei hahmota monimuotoisuuden eri puolia.","mita_tehda":"Piirtäkää nelikenttä (herätysliikkeet, kieli, jumalanpalvelusmuodot, toiminta) ja sijoittakaa esimerkit. Ansa 3."},{"virhe":"Pitää helluntaiherätystä herätysliikkeenä tai herätysliikettä omana kirkkonaan","tehtava":"H18, H19, H20, kokeen tehtävät 15, 16 ja 20","mita_kertoo":"Oppilas ratkaisee nimen perusteella eikä jäsenyyden perusteella.","mita_tehda":"Kysy: kuuluvatko kannattajat evankelis-luterilaiseen kirkkoon? Ansa 4."}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee nimeämään Suomessa toimivia kristillisiä kirkkoja ja yhdyskuntia, kertomaan, mitkä kaksi kirkkoa ovat laissa erityisasemassa, tulkitsemaan tilastoa ja karttaa kirkkojen jäsenistä sekä antamaan esimerkkejä siitä, kuinka monella tavalla evankelis-luterilaisen kirkon sisällä voi olla luterilainen. Lisäksi hän selittää, miten kirkon sisällä toimiva herätysliike eroaa erillisestä vapaasta suunnasta. Arvioinnissa katsotaan tietoa, ei nuoren omaa uskoa, eikä perheen kirkkoon kuulumista kysytä.","kotona":["Kysy, mitkä kaksi kirkkoa ovat Suomessa laissa erityisasemassa ja mitä se tarkoittaa.","Jos kotiseudulla tai matkalla näkyy erilaisia kirkkoja tai rukoushuoneita, kysy, mihin kirkkoon tai yhdyskuntaan ne voisivat kuulua.","Kysy, miksi ortodokseja on suhteessa eniten Itä-Suomessa mutta määrällisesti eniten pääkaupunkiseudulla.","Pyydä nuorta selittämään, mikä ero on herätysliikkeellä ja vapaalla suunnalla."],"milloin_huolestua":"Ota yhteyttä opettajaan, jos nuori ei harjoittelun jälkeen erota erityisasemassa olevia kirkkoja muista tai sekoittaa määrän ja osuuden, tai jos hän kokee, että häneltä odotetaan oman tai perheen kirkkoon kuulumisen kertomista. Taito on 8. luokan ydintaito, joten se tarvitaan siirtymiseen seuraavalle luokalle."},"ulkoiset":{},"valmis_teksti":"Osaat nimetä Suomen kristillisiä kirkkoja, kertoa, mitkä kaksi ovat laissa erityisasemassa, ja tulkita kirkkojen jäsenmääriä tilastosta ja kartalta. Tiedät myös, että luterilaisena voi olla monella tavalla ja että herätysliike toimii kirkon sisällä, vapaa suunta sen ulkopuolella. Ydintaito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

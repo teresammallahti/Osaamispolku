@@ -1,0 +1,619 @@
+<title>Toimikunnan budjetti · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"ENA8-PUH-01","oppiaine":"ENA","vuosiluokka":8,"taitoalue":"PUH","jakso":"J1","taso":"ydin","otsikko":"Toimikunnan budjetti","kuvaus":"Osaan tehdä englanniksi yhteisen päätöksen keskustelussa: avaan keskustelun, ehdotan, kommentoin toisen ehdotuksia, vertailen vaihtoehtoja ja ehdotan kompromissia.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T6","T7"],"S":["S3"]},"eyebrow":"Englanti · 8. luokka","ikoni":"keskustelu","naytto":"Havainnointi (opettaja on keskustelukumppani): Saan tilannekortin: olemme opettajan kanssa keksityn nuorisotalon toimikunnassa ja päätämme, mihin käytetään 500 euroa. Kortissa on neljä vaihtoehtoa hintoineen ja kummankin osapuolen toiveet. Aloitan keskustelun. Opettaja ehdottaa eri vaihtoehtoa kuin minä ja vastustaa yhtä ehdotustani. Keskustelemme, kunnes päädymme ratkaisuun, ja lopuksi kokoan päätöksen yhdellä tai kahdella lauseella.","osaa_kun":"Avaan keskustelun ja esitän asian (esim. So, we need to decide ...). Teen vähintään kaksi ehdotusta eri ilmauksilla, joista ainakin toisessa on modaaliverbi (esim. We could ..., I think we should ...). Kommentoin opettajan ehdotusta perustellen ja vertailen vähintään kahta vaihtoehtoa (esim. It's cheaper, but ... I'd rather ... because ...). Kun opettaja vastustaa, ehdotan kompromissia tai uutta vaihtoehtoa (esim. What if we ...? How about ...?). Vien keskustelua eteenpäin ainakin kerran ilman opettajan kysymystä. Loppuyhteenveto vastaa keskustelua. Keskustelu pysyy englanninkielisenä. Sisältövalintoja ei arvioida.","teksti":[{"tyyppi":"johdanto","sisalto":"Olet keksityn Hillside Schoolin elokuvakerhon toimikunnassa yhdessä vaihto-oppilas Mayan kanssa. Kerholla on 300 euroa, ja teidän pitää päättää yhdessä, mihin rahat käytetään. Maya puhuu englantia. Jos kumpikin vain toistaa omaa toivettaan, päätöstä ei synny, ja jos toinen myöntyy heti kaikkeen, päätös ei ole yhteinen. Seitsemännellä luokalla opit perustelemaan mielipiteesi, olemaan eri mieltä kohteliaasti ja tarjoamaan uuden ajan, kun toinen ei päässyt. Nyt opit viemään keskustelun päätökseen asti: avaat keskustelun, ehdotat modaaliverbeillä, kommentoit toisen ehdotuksia, vertailet vaihtoehtoja, ehdotat kompromissia ja kokoat lopuksi, mitä päätettiin."},{"tyyppi":"taulukko","otsikko":"Esimerkki: elokuvakerhon vaihtoehdot (keksitty)","otsikkorivi":["Vaihtoehto","Hinta","Mitä toimikunta tietää"],"rivit":[["a big screen","180 euros","Films look much better, but it's the most expensive thing."],["beanbags","25 euros each (six at most)","Comfortable seats. You can buy fewer than six."],["a popcorn machine","90 euros","Fun, but you also need to buy popcorn."],["snacks for all film nights this year","60 euros","Everyone likes them, but then they're gone."]]},{"tyyppi":"kappale","otsikko":"Avaa keskustelu","sisalto":"Kun keskustelulla on tavoite, joku sanoo sen ääneen. Avaus kertoo, mistä päätetään ja millä ehdoilla: So, we need to decide what to spend the 300 euros on. We've got four options. Voit myös rajata työn: Let's look at the options first. The question is what's most useful for the club. Avaus ei ole sama kuin oma ehdotus. Jos aloitat suoraan sanoilla I want the popcorn machine, toinen joutuu heti puolustautumaan. Kun avaat keskustelun, voit kutsua toisen mukaan kysymyksellä: What do you think we should start with?"},{"tyyppi":"taulukko","otsikko":"Ehdota eri tavoin","otsikkorivi":["Ilmaus","Mitä se kertoo","Esimerkki"],"rivit":[["We could …","varovainen ehdotus, yksi mahdollisuus muiden joukossa","We could buy four beanbags."],["I think we should … / Maybe we should …","suositus: pidät tätä parhaana","I think we should buy the big screen."],["Shall we …?","ehdotus kysymyksenä","Shall we start with the screen?"],["It would be nice to …","toive, joka ei vaadi heti päätöstä","It would be nice to have snacks at every film night."],["How about …? / Why don't we …? / Let's …","tutut ehdotukset 7. luokalta","How about buying the popcorn machine?"]]},{"tyyppi":"kappale","otsikko":"Modaaliverbi pehmentää ehdotuksen","sisalto":"Could, should, shall, might ja would ovat modaaliverbejä. Niiden jälkeen verbi on perusmuodossa ilman to-sanaa: We could buy, We should get, It would be nice. Yhteisessä päätöksessä modaaliverbi tekee ehdotuksesta ehdotuksen eikä käskyä. We buy the screen. kuulostaa siltä, että asia on jo päätetty. We could buy the screen. jättää toiselle tilaa vastata. Vaihtele ilmauksia: kun ensimmäinen ehdotus alkaa I think we should, toinen voi alkaa We could tai Shall we."},{"tyyppi":"kappale","otsikko":"Kommentoi toisen ehdotusta ja perustele","sisalto":"Kun toinen ehdottaa, vastaa juuri hänen ehdotukseensa. Pelkkä OK tai No ei vie päätöstä eteenpäin. Kerro, mitä mieltä olet, ja perustele: The beanbags? That's a good idea, because the chairs in our classroom are really hard. That could work, but then we can't buy the screen. I'm not sure about the popcorn machine, because we'd also have to buy popcorn every time. Kommentti voi olla myönteinen, kielteinen tai jotain siltä väliltä. Arvioitavaa on se, että kommentti liittyy toisen ehdotukseen ja siinä on syy."},{"tyyppi":"taulukko","otsikko":"Vertaile vaihtoehtoja","otsikkorivi":["Rakenne","Esimerkki","Huomaa"],"rivit":[["lyhyt adjektiivi + -er + than","The snacks are cheaper than the popcorn machine.","cheap – cheaper, big – bigger"],["more + pitkä adjektiivi + than","The screen is more expensive than the beanbags.","useful – more useful, comfortable – more comfortable"],["epäsäännölliset","A big screen is better than a small one.","good – better, bad – worse"],["I'd rather + perusmuoto (+ than …)","I'd rather buy beanbags than snacks.","I'd = I would; ei to-sanaa"],["X lasts longer than Y","The beanbags would last longer than the snacks.","last = kestää, säilyä käytössä"]]},{"tyyppi":"kuva","otsikko":"Yhteisen päätöksen seitsemän vaihetta","svg":"<svg viewBox=\"0 0 600 450\" xmlns=\"http://www.w3.org/2000/svg\"><rect class=\"v-osa v1\" x=\"10\" y=\"10\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"10\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"33\" style=\"font-size:13px\">1. Avaa</text><line class=\"v-akseli\" x1=\"182\" y1=\"28\" x2=\"198\" y2=\"28\"/><polygon class=\"v-merkki\" points=\"200,28 192,23 192,33\"/><rect class=\"v-osa\" x=\"202\" y=\"10\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"10\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"33\" style=\"font-size:13px\">So, we need to decide what to spend the money on.</text><line class=\"v-akseli\" x1=\"95\" y1=\"46\" x2=\"95\" y2=\"60\"/><polygon class=\"v-merkki\" points=\"95,62 90,54 100,54\"/><rect class=\"v-osa\" x=\"10\" y=\"62\" width=\"170\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"62\" width=\"170\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"95\" style=\"font-size:13px\">2. Ehdota</text><line class=\"v-akseli\" x1=\"182\" y1=\"90\" x2=\"198\" y2=\"90\"/><polygon class=\"v-merkki\" points=\"200,90 192,85 192,95\"/><rect class=\"v-osa\" x=\"202\" y=\"62\" width=\"388\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"62\" width=\"388\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"85\" style=\"font-size:13px\">I think we should buy the big screen.</text><text class=\"v-t\" x=\"214\" y=\"105\" style=\"font-size:13px\">We could get some beanbags.</text><line class=\"v-akseli\" x1=\"95\" y1=\"118\" x2=\"95\" y2=\"132\"/><polygon class=\"v-merkki\" points=\"95,134 90,126 100,126\"/><rect class=\"v-osa\" x=\"10\" y=\"134\" width=\"170\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"134\" width=\"170\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"158\" style=\"font-size:13px\">3. Kommentoi</text><text class=\"v-t vahva\" x=\"22\" y=\"176\" style=\"font-size:13px\">ja vertaile</text><line class=\"v-akseli\" x1=\"182\" y1=\"162\" x2=\"198\" y2=\"162\"/><polygon class=\"v-merkki\" points=\"200,162 192,157 192,167\"/><rect class=\"v-osa\" x=\"202\" y=\"134\" width=\"388\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"134\" width=\"388\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"157\" style=\"font-size:13px\">The beanbags are cheaper, that's true. But</text><text class=\"v-t\" x=\"214\" y=\"177\" style=\"font-size:13px\">the screen would be more useful.</text><line class=\"v-akseli\" x1=\"95\" y1=\"190\" x2=\"95\" y2=\"204\"/><polygon class=\"v-merkki\" points=\"95,206 90,198 100,198\"/><rect class=\"v-osa\" x=\"10\" y=\"206\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"206\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"229\" style=\"font-size:13px\">4. Toinen vastustaa</text><line class=\"v-akseli\" x1=\"182\" y1=\"224\" x2=\"198\" y2=\"224\"/><polygon class=\"v-merkki\" points=\"200,224 192,219 192,229\"/><rect class=\"v-osa\" x=\"202\" y=\"206\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"206\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"229\" style=\"font-size:13px\">Hmm, I'm not sure. The screen costs too much.</text><line class=\"v-akseli\" x1=\"95\" y1=\"242\" x2=\"95\" y2=\"256\"/><polygon class=\"v-merkki\" points=\"95,258 90,250 100,250\"/><rect class=\"v-osa v1\" x=\"10\" y=\"258\" width=\"170\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"258\" width=\"170\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"291\" style=\"font-size:13px\">5. Kompromissi</text><line class=\"v-akseli\" x1=\"182\" y1=\"286\" x2=\"198\" y2=\"286\"/><polygon class=\"v-merkki\" points=\"200,286 192,281 192,291\"/><rect class=\"v-osa\" x=\"202\" y=\"258\" width=\"388\" height=\"56\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"258\" width=\"388\" height=\"56\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"281\" style=\"font-size:13px\">What if we buy the screen and four</text><text class=\"v-t\" x=\"214\" y=\"301\" style=\"font-size:13px\">beanbags instead of six?</text><line class=\"v-akseli\" x1=\"95\" y1=\"314\" x2=\"95\" y2=\"328\"/><polygon class=\"v-merkki\" points=\"95,330 90,322 100,322\"/><rect class=\"v-osa v1\" x=\"10\" y=\"330\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"330\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"353\" style=\"font-size:13px\">6. Vie eteenpäin</text><line class=\"v-akseli\" x1=\"182\" y1=\"348\" x2=\"198\" y2=\"348\"/><polygon class=\"v-merkki\" points=\"200,348 192,343 192,353\"/><rect class=\"v-osa\" x=\"202\" y=\"330\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"330\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"353\" style=\"font-size:13px\">OK, so we have 20 euros left. What about that?</text><line class=\"v-akseli\" x1=\"95\" y1=\"366\" x2=\"95\" y2=\"380\"/><polygon class=\"v-merkki\" points=\"95,382 90,374 100,374\"/><rect class=\"v-osa v1\" x=\"10\" y=\"382\" width=\"170\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"10\" y=\"382\" width=\"170\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t vahva\" x=\"22\" y=\"405\" style=\"font-size:13px\">7. Kokoa päätös</text><line class=\"v-akseli\" x1=\"182\" y1=\"400\" x2=\"198\" y2=\"400\"/><polygon class=\"v-merkki\" points=\"200,400 192,395 192,405\"/><rect class=\"v-osa\" x=\"202\" y=\"382\" width=\"388\" height=\"36\" rx=\"8\"/><rect class=\"v-akseli\" x=\"202\" y=\"382\" width=\"388\" height=\"36\" rx=\"8\" fill=\"none\"/><text class=\"v-t\" x=\"214\" y=\"405\" style=\"font-size:13px\">So, we've decided to buy ...</text><text class=\"v-t pieni\" x=\"10\" y=\"440\" style=\"font-size:12px\">Korostetut vaiheet ovat sinun aloitteitasi. Vaiheet 2–6 voivat toistua useamman kerran.</text></svg>","teksti":"Esimerkki elokuvakerhon keskustelusta. Kun toinen vastustaa, et toista omaa ehdotustasi vaan etsit ratkaisun, jossa kumpikin saa jotain."},{"tyyppi":"kappale","otsikko":"Kun toinen vastustaa: kompromissi","sisalto":"Toinen voi sanoa I'm not sure about that. tai The screen costs too much. Vastustus ei ole umpikuja. Kompromissi on ratkaisu, jossa kumpikin luopuu jostain ja saa jotain. Ehdota se kysymyksenä, koska silloin toinen pääsee vastaamaan: What if we buy the screen and four beanbags instead of six? How about buying the snacks now and the popcorn machine next term? Why don't we split the money? Voit myös ehdottaa kokonaan uutta vaihtoehtoa, joka sopii molempien toiveisiin. Laske, että kompromissi mahtuu budjettiin: 180 + 4 × 25 = 280 euroa, ja 20 euroa jää jäljelle."},{"tyyppi":"kappale","otsikko":"Vie keskustelua eteenpäin","sisalto":"Keskustelu voi jäädä pyörimään yhden vaihtoehdon ympärille. Silloin joku kokoaa sen, mitä on jo sovittu, ja siirtyy seuraavaan kysymykseen: OK, so we agree on the screen. What about the rest of the money? So we have 20 euros left. What should we do with it? Let's look at the other options. Shall we decide? Tätä kutsutaan aloitteellisuudeksi: et odota, että toinen kysyy sinulta jotain, vaan teet itse seuraavan siirron."},{"tyyppi":"taulukko","otsikko":"Esimerkkikeskustelu (keksitty)","otsikkorivi":["Kuka","Mitä sanotaan","Mitä tapahtuu"],"rivit":[["Sinä","So, we need to decide what to spend the 300 euros on. We've got four options.","avaus"],["Maya","OK. What do you think?",""],["Sinä","I think we should buy the big screen. Films look so much better on a big screen.","ehdotus ja perustelu"],["Maya","Hmm, I'm not sure. The screen costs too much. I'd rather buy six beanbags.","Maya ehdottaa muuta ja vastustaa"],["Sinä","The beanbags are cheaper, that's true. But the screen would be more useful, because everyone sees it at every film night.","kommentti ja vertailu"],["Maya","But we need somewhere comfortable to sit. The classroom chairs are awful.",""],["Sinä","What if we buy the screen and four beanbags instead of six? That's 280 euros.","kompromissi"],["Maya","Four beanbags … OK, that could work.",""],["Sinä","Great. So we have 20 euros left. What should we do with it?","vie eteenpäin"],["Maya","We could buy some snacks for the first film night.",""],["Sinä","Good idea. So, we've decided to buy the big screen and four beanbags for 280 euros, and we'll spend the last 20 euros on snacks for the first film night.","yhteenveto"]]},{"tyyppi":"kappale","otsikko":"Kokoa päätös","sisalto":"Lopuksi sanotaan ääneen, mitä päätettiin. Näin kumpikin tietää, että päätös on sama. Aloita sanalla So: So, we've decided to buy … ja … That's … euros. Yhteenvedon pitää vastata keskustelua. Jos sovitte neljästä säkkituolista, yhteenvedossa ei voi olla kuutta. Mainitse asiat ja summa. Luvuissa brittienglanti käyttää and-sanaa: 280 = two hundred and eighty."},{"tyyppi":"saanto","otsikko":"Näin teette yhteisen päätöksen","askeleet":["Lue vaihtoehdot, hinnat ja kummankin toiveet. Mieti, mikä sinusta olisi paras ja mikä toiseksi paras.","Avaa keskustelu: So, we need to decide … We've got … options.","Ehdota ja perustele: I think we should … because … Vaihtele: We could … Shall we …?","Kommentoi toisen ehdotusta ja perustele: That's a good idea, because … / I'm not sure about that, because …","Vertaile: cheaper than, more useful than, better than, I'd rather … than …","Kun toinen vastustaa, ehdota kompromissia kysymyksenä: What if we …? How about …?","Vie keskustelua eteenpäin: OK, so we agree on … What about …?","Kokoa päätös: So, we've decided to … Tarkista, että asiat ja summa vastaavat keskustelua."]},{"tyyppi":"ansa","otsikko":"Ansa 1: We should to buy","sisalto":"Suomen pitäisi ostaa houkuttelee lisäämään to-sanan: We should to buy. We could to get. Modaaliverbin jälkeen verbi on perusmuodossa ilman to-sanaa: We should buy. We could get. Sama koskee ing-muotoa: We could buying on väärin. Poikkeus on have to: We have to decide today. Se ei ole modaaliverbi, vaikka merkitys on lähellä."},{"tyyppi":"ansa","otsikko":"Ansa 2: more cheaper ja cheaper as","sisalto":"Vertailussa käytetään joko -er-päätettä tai more-sanaa, ei molempia: cheaper, ei more cheaper; more expensive, ei expensiver. Vertailusana on than, ei as eikä that: cheaper than the screen. Suomen kuin-sana houkuttelee sanomaan as, mutta as kuuluu rakenteeseen as … as, joka tarkoittaa yhtä … kuin: The snacks are as cheap as the popcorn."},{"tyyppi":"ansa","otsikko":"Ansa 3: I'd rather to buy","sisalto":"Suomen mieluummin ostaisin -rakenteesta syntyy I'd rather to buy tai I'd rather buying. I'd rather on modaaliverbirakenne: sen jälkeen tulee perusmuoto ilman to-sanaa. I'd rather buy beanbags. Jos vertaat kahta, käytä than-sanaa: I'd rather buy beanbags than snacks. Lyhenne I'd ääntyy suunnilleen [aid], ja would-sanasta l ei äänny: [wud]."},{"tyyppi":"ansa","otsikko":"Ansa 4: toistat oman ehdotuksesi","sisalto":"Kun toinen vastustaa ehdotustasi, on helppo sanoa sama uudelleen: But I think we should buy the screen. Keskustelu pysähtyy, koska kumpikin odottaa toisen luopuvan. Toinen helppo ratkaisu on luovuttaa: OK, whatever you want. Silloin päätös ei ole yhteinen. Kuuntele, mitä toinen vastustaa (hinta, käyttö, kesto), ja etsi ratkaisu juuri siihen: Too expensive? What if we buy a smaller number of beanbags?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Avaa: So, we need to decide … We've got … options.","Ehdota modaaliverbillä: We could …, I think we should …, Shall we …? Perusmuoto ilman to-sanaa.","Kommentoi ja perustele: That's a good idea, because … / I'm not sure about that, because …","Vertaile: cheaper than, more expensive than, better than, I'd rather buy … than …","Vastustus ei ole umpikuja: What if we …? How about …?","Vie eteenpäin: OK, so we agree on … What about …?","Kokoa: So, we've decided to … Asiat ja summa vastaavat keskustelua."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Ei avaa keskustelua: odottaa, että opettaja aloittaa, tai aloittaa suoraan omalla toiveellaan (I want the console.) kertomatta, mistä päätetään.","tehtava":"Keskustelun avaus","mita_kertoo":"Oppilas osaa ehdottaa, mutta ei vielä hahmota, että yhteisessä päätöksessä joku kertoo ääneen tavoitteen. Kriteerissä avaus esittää asian: mistä päätetään ja mihin rahaa on (So, we need to decide …, We've got 500 euros and four options., The question is …). Avaus voi olla yksi lause.","mita_tehda":"Harjoittele avausta erikseen: anna kolme eri tilannekorttia harjoitustilanteista ja pyydä vain avauslause kustakin. Kirjoita avauksen runko näkyviin harjoittelussa, ei näytössä: So, we need to decide … We've got …"},{"virhe":"Tekee vain yhden ehdotuksen tai toistaa samaa ilmausta (I want … I want …). Ehdotuksissa ei ole modaaliverbiä, tai muoto on We should to buy / We could buying.","tehtava":"Kaksi ehdotusta eri ilmauksin","mita_kertoo":"Oppilaalla on kanta, mutta ehdotusten ilmausvarasto on suppea. Kriteeri vaatii kaksi ehdotusta eri ilmauksilla, joista ainakin toisessa on modaaliverbi (could, should, shall, might, would). We should to buy on ymmärrettävä ja lasketaan modaaliverbilliseksi ehdotukseksi, mutta virhe kirjataan harjoiteltavaksi.","mita_tehda":"Kertaa ENA8-SAN-01:n modaaliverbit ehdotuksina. Harjoitus: oppilas muuttaa käskyt ehdotuksiksi (We buy the console. → We could buy the console. / I think we should …). Anna oppilaan valita kaksi ilmausta omiksi vakioaloituksiksi."},{"virhe":"Vastaa opettajan ehdotukseen pelkällä OK, No tai That's bad ilman perustelua, tai perustelee mutta ei vertaile kahta vaihtoehtoa.","tehtava":"Kommentointi ja vertailu","mita_kertoo":"Oppilas kuulee toisen ehdotuksen, mutta ei vielä käsittele sitä. Kriteeri vaatii perustellun kommentin opettajan ehdotukseen ja vähintään kahden vaihtoehdon vertailun (cheaper than, more useful than, better than, I'd rather … than …, It lasts longer). Vertailu voi olla samassa lauseessa kommentin kanssa. Vertailun muotovirhe (more cheaper) ei kaada kriteeriä, kun vertailu on ymmärrettävä.","mita_tehda":"Harjoittele vertailuparein: kaksi vaihtoehtoa kortilla ja oppilas sanoo niistä kaksi vertailulausetta eri adjektiiveilla (cheap, useful, fun, long). Kertaa -er / more ja than."},{"virhe":"Kun opettaja vastustaa, toistaa oman ehdotuksensa (But I think we should …) tai luopuu heti kokonaan (OK, whatever you want.).","tehtava":"Kompromissi tai uusi vaihtoehto","mita_kertoo":"Oppilas ei vielä näe vastustusta neuvottelun kohtana. Kriteerissä oppilas ehdottaa vastustuksen jälkeen ratkaisua, joka ottaa huomioon opettajan vastustuksen tai toiveen (What if we …? How about …? Why don't we split …?), tai uutta vaihtoehtoa. Ehdotuksen ei tarvitse olla budjetissa täsmälleen oikein, jos oppilas korjaa sen itse keskustelun aikana.","mita_tehda":"Harjoittele kysymyksellä Mitä toinen vastusti? Oppilas nimeää vastustuksen syyn (hinta, tila, kesto) ja ehdottaa ratkaisua juuri siihen. Harjoitustilanteessa opettaja vastustaa jokaista ehdotusta kerran, kunnes oppilas ehdottaa kompromissia."},{"virhe":"Vastaa vain opettajan kysymyksiin ja odottaa hiljaa, kun opettaja ei kysy mitään. Keskustelu etenee vain opettajan aloitteesta.","tehtava":"Keskustelun vieminen eteenpäin","mita_kertoo":"Oppilas osallistuu, mutta ei vielä ota vastuuta keskustelun kulusta. Kriteeri täyttyy, kun oppilas ainakin kerran omasta aloitteestaan kokoaa sovitun tai siirtää keskustelun seuraavaan asiaan (OK, so we agree on … What about …?, So we have … left., Let's look at …, Shall we decide?). Avausta ei lasketa tähän.","mita_tehda":"Harjoittele siirtymälauseita kolmen kohdan listalla: mitä on sovittu, mitä on jäljellä, mitä seuraavaksi. Harjoitustilanteessa opettaja vastaa lyhyesti eikä kysy, jolloin oppilaan on tehtävä seuraava siirto."},{"virhe":"Loppuyhteenveto puuttuu tai ei vastaa keskustelua (väärä asia, väärä määrä, summa yli budjetin), tai oppilas vaihtaa yhteenvedossa tai muualla keskustelussa suomeen.","tehtava":"Loppuyhteenveto ja englanninkielisyys","mita_kertoo":"Oppilas on voinut neuvotella hyvin, mutta ei vielä tarkista, että päätös on yhteinen. Kriteerissä yhteenvedossa ovat sovitut asiat, ja ne vastaavat keskustelua; summa saa puuttua, mutta jos se sanotaan, sen pitää olla oikein tai korjattu. Yksittäinen suomenkielinen sana englanninkielisessä lauseessa ei kaada englanninkielisyyttä, suomenkielinen lause kaataa.","mita_tehda":"Harjoittele yhteenveto kirjoittamalla ensin: pari kuuntelee harjoituskeskustelun ja kirjoittaa sovitun, ja sitten sanoo sen So, we've decided to … -lauseella. Kertaa lukujen sanominen (two hundred and fifty)."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Näyttö tehdään opettajan kanssa yksi oppilas kerrallaan jakson J1 aikana; opettaja on keskustelukumppani. Läpäisy ei riipu toisesta oppilaasta, ja pariharjoitukset ovat vain harjoittelua. Oppilas saa tilannekortin, lukee sen ja saa miettiä ennen aloitusta; ilmauslistaa ei ole esillä, koska ilmaukset ovat taidon ydin. Miettimisaikaa ei mitata. Kortti on esillä koko keskustelun ajan, ja oppilas saa laskea summia paperille.","Tilannekortti A (oppilaalle, englanniksi): You and Robin are on the committee of the Riverside Youth Centre (invented). You have 500 euros. Options: 1) a table tennis table with bats and balls, 300 euros; 2) new board games, 20 euros each; 3) a games console with two controllers, 400 euros; 4) paint and brushes for a wall painting (a mural) that members paint together, 150 euros. Your wishes: you want something active, and something many people can use at the same time. Robin's wishes: Robin wants something for quiet evenings and doesn't want to spend all the money on one thing. Start the discussion.","Tilannekortti B uusintaan: You and Sam are on the committee of the Maple Street Youth Centre (invented). You have 500 euros. Options: 1) a karaoke machine with two microphones, 250 euros; 2) outdoor games (a volleyball net, balls and frisbees), 150 euros; 3) a cooking evening for twelve people with a cook who teaches you, 300 euros; 4) new sofas, 200 euros each. Your wishes: you want something people can do together, and more things to do in summer. Sam's wishes: Sam wants something for winter evenings and things that last a long time. Start the discussion.","Opettajan käsikirjoitus (Robin / Sam): 1) Odota, että oppilas avaa. Jos hän ei aloita, sano Hi! … So? kerran ja odota; avauskriteeri ei silloin täyty, mutta keskustelu jatkuu. 2) Kun oppilas ehdottaa, ehdota eri vaihtoehtoa kuin hän: kortti A board games (jos oppilas ehdotti niitä, the mural), kortti B sofas (jos oppilas ehdotti niitä, the cooking evening). Esim. Hmm. I think we should buy some new board games. They're good for quiet evenings. 3) Vastusta yhtä oppilaan ehdotusta kortin syyllä. Kortti A: table tennis: But it takes a lot of space, and only two or four people can play at a time. Board games: But we've already got some old games, and nobody plays them. Console: But it's 400 euros. That's almost all our money for one thing. Mural: But it would be finished in a week, and then what? Kortti B: karaoke: But some people are shy. They wouldn't sing in front of others. Outdoor games: But we can only use them in summer. What about winter? Cooking evening: But it's only one evening, and 300 euros is a lot for one evening. Sofas: But sofas are boring. Nobody comes to the youth centre for a sofa. 4) Älä kysy What else? tai What do you think? vastauksesi jälkeen, vaan odota; näin oppilaalla on tilaa viedä keskustelua eteenpäin. Jos oppilas on hiljaa, saat kerran sanoa So …? 5) Hyväksy ensimmäinen kompromissi tai uusi vaihtoehto, joka ottaa huomioon vastustuksesi ja mahtuu 500 euroon (Yes, that could work.). Jos ehdotus ylittää budjetin, sano But that's more than 500 euros. ja odota korjausta. Jos oppilas ei ehdota kompromissia kahden vastustusta seuraavan vuoron aikana, ehdota se itse, jotta keskustelu päättyy; kompromissikriteeri ei silloin täyty. 6) Kun ratkaisu on sovittu, odota yhteenvetoa; saat sanoa OK, so …? kerran.","Mikä lasketaan: avaus esittää asian (mitä päätetään, budjetti tai vaihtoehdot). Ehdotuksia vähintään kaksi eri ilmauksella; ainakin toisessa modaaliverbi could, should, shall, might, can tai would (It would be good to …). I'd rather lasketaan vertailuksi, ei ehdotukseksi. Kommentti opettajan ehdotukseen sisältää syyn (because, but, so tai syy erillisessä lauseessa). Vertailussa kaksi vaihtoehtoa rinnastetaan (cheaper than, more useful than, better, I'd rather … than …, lasts longer). Kompromissi tai uusi vaihtoehto tulee vastustuksen jälkeen oppilaalta. Eteenpäin vieminen: vähintään yksi oppilaan oma siirtymä (OK, so we agree on …, What about …?, So we have … left.), joka ei ole vastaus opettajan kysymykseen. Yhteenvedossa sovitut asiat vastaavat keskustelua. Keskustelu pysyy englanninkielisenä; yksittäinen suomenkielinen sana englanninkielisessä lauseessa tai How do you say … in English? sallitaan.","Sisältövalintoja ei arvioida: mikä tahansa budjettiin mahtuva ratkaisu on yhtä hyvä, samoin kuin se, että oppilas muuttaa kantaansa. Kielioppivirheitä (We should to buy, more cheaper) ja ääntämistä ei arvioida, kun viesti on ymmärrettävä; ne kirjataan harjoiteltaviksi. Laskuvirhe ei kaada kriteeriä, jos oppilas korjaa sen opettajan huomautuksen jälkeen.","Raha on keksityn nuorisotalon, ei oppilaan tai perheen. Oppilaan omia rahoja, harrastuksia tai kotia ei kysytä. Oppilaan sivun esimerkki (elokuvakerho, 300 euroa) ja tuntirungon harjoituskortit eivät ole näyttökortteja.","Ero aiempiin ja seuraaviin: ENA7-PUH-01:ssä oppilas perusteli mielipiteen ja oli eri mieltä kohteliaasti, ENA7-PUH-03:ssa hän ehdotti ja tarjosi uuden ajan. Uutta ovat keskustelun avaaminen, ehdotukset modaaliverbeillä (ENA8-SAN-01), vaihtoehtojen vertailu, kompromissi, keskustelun vieminen eteenpäin ja päätöksen kokoaminen. Kohtelias kieltäytyminen ja puhelun käytänteet kuuluvat ENA8-PUH-04:ään, perustellun ehdotuksen esittäminen ja vastaväitteisiin vastaaminen ENA8-PUH-06:een, tunteiden huomioiminen erimielisyydessä ENA9-PUH-01:een.","Tarkistettavat ilmaukset (kirjattu lokiin): I'd rather + perusmuoto; X lasts longer than Y; brittienglannin two hundred and eighty."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Yhteinen päätös syntyy, kun avaat keskustelun, ehdotat, kuuntelet toisen ehdotuksen, vertailet ja ehdotat kompromissia, kun toinen vastustaa. Lopuksi kokoat päätöksen ääneen. Valintaa ei arvioida, keskustelua arvioidaan.","vaiheet":[{"aika":"5 min","otsikko":"Tunti 1: Aloitus","sisalto":"Esitä johdannon tilanne: kaksi oppilasta toistaa vuorotellen omaa toivettaan (I want the screen. – I want beanbags.). Kysy suomeksi, mitä tarvittaisiin, jotta päätös syntyy."},{"aika":"15 min","otsikko":"Tunti 1: Avaus ja ehdotukset","sisalto":"Käy läpi elokuvakerhon vaihtoehdot, avaus ja ehdotustaulukko. Kertaa modaaliverbi ilman to-sanaa (Ansa 1). Oppilaat sanovat pareittain avauslauseen ja kaksi eri ehdotusta."},{"aika":"20 min","otsikko":"Tunti 1: Kommentointi ja vertailu","sisalto":"Vertailutaulukko ja Ansat 2–3. Harjoituskortti 1 (eri kuin näyttökortit): luokan kevätretken 400 euroa, vaihtoehdot a bus trip to a theme park 350 euros, bowling and pizza 300 euros, a picnic day on an island 150 euros, an escape room 200 euros. Parit ehdottavat, kommentoivat ja vertailevat; päätöstä ei vielä tarvita."},{"aika":"5 min","otsikko":"Tunti 1: Lopetus","sisalto":"Kerätkää yhteen luokan parhaat vertailulauseet retkikortista."},{"aika":"5 min","otsikko":"Tunti 2: Aloitus","sisalto":"Lue esimerkkikeskustelu ääneen yhden vapaaehtoisen kanssa. Oppilaat nimeävät vaiheet (avaus, ehdotus, vastustus, kompromissi, eteenpäin vieminen, yhteenveto)."},{"aika":"10 min","otsikko":"Tunti 2: Kompromissi ja eteenpäin vieminen","sisalto":"Käy läpi kuva seitsemästä vaiheesta ja Ansa 4. Sano vastustuksia (It's too expensive. Nobody would use it in winter.), ja vapaaehtoiset ehdottavat kompromissin juuri siihen."},{"aika":"22 min","otsikko":"Tunti 2: Koko keskustelu","sisalto":"Harjoituskortti 2 (eri kuin näyttökortit): koulun kirjaston 300 euroa, vaihtoehdot new comics 10 euros each, a reading sofa 250 euros, two tablets 300 euros, card games 15 euros each. Parit käyvät koko keskustelun yhteenvetoon asti ja vaihtavat sitten rooleja; toinen vastustaa kerran jokaista ehdotusta. Näytöt tehdään opettajan kanssa yksi oppilas kerrallaan jakson J1 aikana."},{"aika":"3 min","otsikko":"Tunti 2: Lopetus","sisalto":"Kaksi paria kertoo yhteenvetonsa So, we've decided to … -lauseella."}],"tarvikkeet":"Harjoituskortit 1 ja 2 pareille. Näyttöä varten tilannekortit A ja B (huomioissa), opettajan käsikirjoitus ja oppilaalle paperi laskemista varten."},"huoltajalle":{"mista_on_kyse":"Nuori harjoittelee tekemään englanniksi yhteisen päätöksen keskustelussa: hän avaa keskustelun, ehdottaa (We could …, I think we should …), vertailee vaihtoehtoja (cheaper than, I'd rather …), ehdottaa kompromissia, kun toinen on eri mieltä (What if we …?), ja kokoaa lopuksi päätöksen. Harjoituksissa päätetään keksityn kerhon tai nuorisotalon rahoista, eikä valintoja arvioida.","kotona":["Valitkaa keksitty tilanne, esimerkiksi mihin keksitty kerho käyttäisi 100 euroa, ja keksikää kolme vaihtoehtoa. Nuori avaa keskustelun englanniksi ja ehdottaa.","Olkaa kerran eri mieltä nuoren ehdotuksesta. Hän harjoittelee ehdottamaan kompromissia: What if we …? How about …?","Pyytäkää nuorta kokoamaan lopuksi, mitä päätettiin: So, we've decided to …","Keskustelkaa suomeksi, miltä kompromissi tuntuu: luopuuko siinä jokainen jostain?"],"milloin_huolestua":"Jos nuori ei suomeksikaan pysty ehdottamaan tai joustamaan yhteisessä päätöksessä, tai jos keskustelu toisen kanssa tuntuu hänelle niin vaikealta, että hän vaikenee, kertokaa siitä opettajalle. Silloin kyse voi olla vuorovaikutuksen taidoista yleensä eikä englannin kielestä."},"ulkoiset":{},"valmis_teksti":"Osaat viedä englanninkielisen keskustelun yhteiseen päätökseen: avaat, ehdotat, vertailet, joustat ja kokoat, mitä sovittiin. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,619 @@
+<title>Sommarplaner · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"RUB8-KIR-03","oppiaine":"RUB","vuosiluokka":8,"taitoalue":"KIR","jakso":"J5","taso":"vahvistava","otsikko":"Sommarplaner","kuvaus":"Osaan kirjoittaa ruotsiksi suunnitelmistani tulevaisuutta ilmaisevilla rakenteilla ja perustella ne.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T9","T5"],"S":["S3"]},"eyebrow":"Ruotsi · 8. luokka","ikoni":"kyna","naytto":"Paperikoe: Kirjoitan keksitylle kirjeystävälle vähintään seitsemän lauseen viestin kesäsuunnitelmistani ja siitä, mitä aion tehdä 9. luokalla (oikeat tai keksityt). Käytän rakenteita ska, kommer att ja tänker + perusmuoto, kaksi perustelua (för + päälause, eftersom tai därför att) ja kysyn häneltä yhden kysymyksen hänen suunnitelmistaan.","osaa_kun":"Vähintään kolme tulevaisuuden rakennetta on oikein, ja niistä vähintään kaksi on eri rakenteita (esim. Jag ska jobba på ett kafé. Det kommer att bli kul.). Molemmat perustelut ovat ymmärrettäviä (sivulauseen sanajärjestystä ei vaadita; se on haasteessa RUB8-SAN-06), ja kysymys on oikein muodostettu. Työelämän sanastoa ei vaadita; se kuuluu Espoossa 9. luokalle.","teksti":[{"tyyppi":"johdanto","sisalto":"Keksitty kirjeystäväsi Maja asuu Västeråsissa Ruotsissa. Hän kirjoittaa toukokuussa: Snart är det sommarlov! Vad har du för planer? Nyt et kerro siitä, mitä tapahtui, vaan siitä, mitä aiot tehdä ja mitä luulet tapahtuvan. Siihen ruotsissa on kolme rakennetta: ska, tänker ja kommer att. Kun lisäksi kerrot, miksi aiot tehdä jotakin, ja kysyt Majalta hänen suunnitelmistaan, viestistä tulee oikea keskustelu. Suunnitelmat saavat olla oikeita tai keksittyjä."},{"tyyppi":"taulukko","otsikko":"Eetun viesti Majalle","otsikkorivi":["Ruotsiksi","Suomeksi"],"rivit":[["Hej Maja!","Hei Maja!"],["Tack för ditt brev. Nu är det snart sommarlov, och jag har många planer.","Kiitos kirjeestäsi. Nyt on pian kesäloma, ja minulla on paljon suunnitelmia."],["I juni ska jag åka till Åland med min kompis Oliver.","Kesäkuussa lähden Ahvenanmaalle kaverini Oliverin kanssa."],["Vi ska cykla och bo i tält, för vi gillar att vara ute i naturen.","Aiomme pyöräillä ja asua teltassa, koska tykkäämme olla ulkona luonnossa."],["I juli tänker jag lära mig spela gitarr, eftersom jag vill spela i ett band.","Heinäkuussa aion opetella soittamaan kitaraa, koska haluan soittaa bändissä."],["Det kommer att bli svårt, men jag tror att det kommer att gå bra.","Siitä tulee vaikeaa, mutta uskon, että se menee hyvin."],["I augusti ska jag börja i nian.","Elokuussa aloitan yhdeksännen luokan."],["Nian kommer att bli ett viktigt år.","Yhdeksännestä luokasta tulee tärkeä vuosi."],["I nian tänker jag plugga mer, därför att matte är svårt för mig.","Yhdeksännellä aion opiskella enemmän, koska matikka on minulle vaikeaa."],["Vad ska du göra i sommar?","Mitä sinä aiot tehdä tänä kesänä?"],["Hälsningar, Eetu","Terveisin Eetu"]]},{"tyyppi":"taulukko","otsikko":"Kolme tapaa kertoa tulevasta","otsikkorivi":["Rakenne","Milloin käytät","Esimerkki","Kuulostaa suunnilleen"],"rivit":[["ska + perusmuoto","suunnitelma tai sovittu asia: näin on päätetty tai sovittu","Jag ska åka till Åland i juni.","skaa"],["tänker + perusmuoto","oma aikomus: näin minä aion tehdä","Jag tänker lära mig spela gitarr.","tenker"],["kommer att + perusmuoto","ennuste: mitä luultavasti tapahtuu, vaikka kukaan ei päätä sitä","Det kommer att bli svårt.","kommer at"]]},{"tyyppi":"saanto","otsikko":"Rakenne + perusmuoto","askeleet":["Rakenne (ska, tänker tai kommer att) on lauseen taivutettu verbi. Se on sama kaikille tekijöille: jag ska, du ska, vi ska.","Rakenteen perään tulee verbin perusmuoto ilman r-päätettä: åker → åka, blir → bli, börjar → börja.","Att tulee vain kommer-sanan perään: Det kommer att bli kul. Ska- ja tänker-sanan perään ei tule att-sanaa.","Kielto inte tulee heti rakenteen perään: Jag ska inte jobba i sommar. Det kommer inte att regna.","Kun lause alkaa ajanilmauksella, rakenne on toisella paikalla ja tekijä sen perässä: I juli tänker jag lära mig spela gitarr."]},{"tyyppi":"kuva","otsikko":"Tulevaisuuden lause palasina","svg":"<svg viewBox=\"0 0 620 226\" role=\"img\" aria-label=\"Kolme tulevaisuuden rakennetta: Jag ska åka, Jag tänker lära mig, Det kommer att bli. Rakenteen jälkeen tulee verbin perusmuoto ilman r-päätettä. Att-sana tulee vain kommer-sanan perään.\"><text class=\"v-t pieni\" x=\"55\" y=\"20\" text-anchor=\"middle\" style=\"font-size:12px\">tekijä</text><text class=\"v-t pieni\" x=\"185\" y=\"20\" text-anchor=\"middle\" style=\"font-size:12px\">rakenne</text><text class=\"v-t pieni\" x=\"320\" y=\"20\" text-anchor=\"middle\" style=\"font-size:12px\">perusmuoto</text><text class=\"v-t pieni\" x=\"500\" y=\"20\" text-anchor=\"middle\" style=\"font-size:12px\">loput</text><rect class=\"v-osa\" x=\"10\" y=\"32\" width=\"90\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"55\" y=\"58\" text-anchor=\"middle\" style=\"font-size:15px\">Jag</text><rect class=\"v-osa v1\" x=\"110\" y=\"32\" width=\"150\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"185\" y=\"58\" text-anchor=\"middle\" style=\"font-size:15px\">ska</text><rect class=\"v-osa v2\" x=\"270\" y=\"32\" width=\"100\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"320\" y=\"58\" text-anchor=\"middle\" style=\"font-size:15px\">åka</text><rect class=\"v-osa\" x=\"380\" y=\"32\" width=\"230\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"495\" y=\"58\" text-anchor=\"middle\" style=\"font-size:15px\">till Åland i juni.</text><rect class=\"v-osa\" x=\"10\" y=\"88\" width=\"90\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"55\" y=\"114\" text-anchor=\"middle\" style=\"font-size:15px\">Jag</text><rect class=\"v-osa v1\" x=\"110\" y=\"88\" width=\"150\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"185\" y=\"114\" text-anchor=\"middle\" style=\"font-size:15px\">tänker</text><rect class=\"v-osa v2\" x=\"270\" y=\"88\" width=\"100\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"320\" y=\"114\" text-anchor=\"middle\" style=\"font-size:15px\">lära mig</text><rect class=\"v-osa\" x=\"380\" y=\"88\" width=\"230\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"495\" y=\"114\" text-anchor=\"middle\" style=\"font-size:15px\">spela gitarr.</text><rect class=\"v-osa\" x=\"10\" y=\"144\" width=\"90\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"55\" y=\"170\" text-anchor=\"middle\" style=\"font-size:15px\">Det</text><rect class=\"v-osa v1\" x=\"110\" y=\"144\" width=\"150\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"185\" y=\"170\" text-anchor=\"middle\" style=\"font-size:15px\">kommer att</text><rect class=\"v-osa v2\" x=\"270\" y=\"144\" width=\"100\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"320\" y=\"170\" text-anchor=\"middle\" style=\"font-size:15px\">bli</text><rect class=\"v-osa\" x=\"380\" y=\"144\" width=\"230\" height=\"40\" rx=\"6\"/><text class=\"v-t\" x=\"495\" y=\"170\" text-anchor=\"middle\" style=\"font-size:15px\">svårt.</text><text class=\"v-t pieni\" x=\"310\" y=\"200\" text-anchor=\"middle\" style=\"font-size:12px\">Rakenteen perään tulee perusmuoto: åka, ei åker. Att-sana tulee vain kommer-sanan perään.</text><text class=\"v-t pieni\" x=\"310\" y=\"218\" text-anchor=\"middle\" style=\"font-size:12px\">Kun lause alkaa ajanilmauksella, rakenne on toisena: I juni ska jag åka …</text></svg>","teksti":"Rakenne ja perusmuoto kulkevat parina. Tarkista jokaisesta lauseesta molemmat."},{"tyyppi":"kappale","otsikko":"Milloin? Ajanilmauksia tulevasta","sisalto":"i sommar (tänä kesänä), på sommarlovet (kesälomalla), i juni, i juli, i augusti (kesäkuussa, heinäkuussa, elokuussa), nästa vecka (ensi viikolla), i höst (tänä syksynä), nästa år (ensi vuonna) ja i nian (yhdeksännellä luokalla). Huomaa ero: i sommar on tuleva tai tämä kesä, i somras viime kesä. Kun kirjoitat suunnitelmista, valitse aina tulevaa ilmaiseva ajanilmaus."},{"tyyppi":"taulukko","otsikko":"Miksi? Kolme tapaa perustella","otsikkorivi":["Sana","Esimerkki","Suomeksi"],"rivit":[["för + lause","Vi ska bo i tält, för vi gillar att vara ute.","…, sillä / koska tykkäämme olla ulkona."],["eftersom + lause","Jag tänker lära mig spela gitarr, eftersom jag vill spela i ett band.","…, koska haluan soittaa bändissä."],["därför att + lause","Jag tänker plugga mer, därför att matte är svårt för mig.","…, koska matikka on minulle vaikeaa."]]},{"tyyppi":"kappale","otsikko":"Perustelun sanajärjestys","sisalto":"Perustelu on koko lause, jossa on oma tekijä ja verbi: för vi gillar, eftersom jag vill, därför att matte är. Kirjoita tekijä ennen verbiä, kuten tavallisessa lauseessa. Eftersom- ja därför att -lauseissa kiellon paikka on erilainen kuin päälauseessa, mutta sitä harjoitellaan myöhemmin; tässä riittää, että perustelu on ymmärrettävä. Pelkkä därför ilman att-sanaa tarkoittaa siksi, ja sen jälkeen verbi tulee ennen tekijää: Matte är svårt. Därför ska jag plugga mer."},{"tyyppi":"kappale","otsikko":"Kysy kirjeystävältä","sisalto":"Kysymys tekee viestistä keskustelun. Kysymyssanalla alkavassa kysymyksessä verbi tulee heti kysymyssanan perään: Vad ska du göra i sommar? Vart ska du åka? Kyllä tai ei -kysymys alkaa verbillä: Ska du jobba i sommar? Tänker du börja med en ny hobby? Har du några planer för hösten? Muista kysymysmerkki."},{"tyyppi":"saanto","otsikko":"Näin kirjoitat viestin","askeleet":["Tervehdi ja kiitä: Hej Maja! Tack för ditt brev.","Kerro vähintään kaksi kesäsuunnitelmaa ajanilmauksen kanssa: I juni ska jag … I juli tänker jag …","Kerro, mitä aiot tehdä 9. luokalla: I nian tänker jag … / I augusti ska jag börja i nian.","Käytä vähintään kahta eri rakennetta. Kommer att sopii arvioon: Det kommer att bli kul.","Perustele kaksi suunnitelmaa sanoilla för, eftersom tai därför att.","Kysy Majalta yksi kysymys hänen suunnitelmistaan.","Lopeta: Hälsningar tai Ha det bra! ja nimi.","Lue lopuksi jokainen tulevaisuuden lause läpi: onko rakenteen perässä perusmuoto, ja onko att vain kommer-sanan perässä?"]},{"tyyppi":"ansa","otsikko":"Ansa 1: r-pääte jää rakenteen perään","sisalto":"Jag ska åker till Åland ja Det kommer att blir kul ovat väärin. Rakenteen perään tulee perusmuoto: Jag ska åka, Det kommer att bli kul. Jos lauseessa on rakenne ja sen perässä r-loppuinen verbi, korjaa jälkimmäinen."},{"tyyppi":"ansa","otsikko":"Ansa 2: att väärässä paikassa","sisalto":"Jag ska att åka ja Jag tänker att resa ovat väärin: ska- ja tänker-sanan perään ei tule att-sanaa. Jag tänker att … tarkoittaa ajattelen, että, joten merkitys muuttuu. Kommer-sanan perään taas kirjoitetaan att: Det kommer att bli kul. Puheessa att jää joskus pois, mutta kirjoita se tässä taidossa aina."},{"tyyppi":"ansa","otsikko":"Ansa 3: i sommar vai i somras","sisalto":"I somras on viime kesä, joten I somras ska jag jobba on ristiriitainen. Suunnitelmista kirjoitettaessa ajanilmauksen pitää kertoa tulevasta: i sommar, nästa år, i nian."},{"tyyppi":"ansa","otsikko":"Ansa 4: kysymys suomen järjestyksessä","sisalto":"Vad du ska göra i sommar? ja Du ska jobba i sommar? näyttävät kysymyksiltä vain kysymysmerkin takia. Ruotsin kysymyksessä verbi tulee ennen tekijää: Vad ska du göra i sommar? Ska du jobba i sommar?"},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["ska = suunnitelma, tänker = oma aikomus, kommer att = ennuste.","Rakenne + perusmuoto: Jag ska åka. Det kommer att bli kul.","Att vain kommer-sanan perään.","Ajanilmaus alussa → rakenne toisena: I juli tänker jag …","Perustele: för / eftersom / därför att + lause.","Kysymys: Vad ska du göra? Ska du jobba?","i sommar = tuleva, i somras = mennyt. Suunnitelmat saa keksiä."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Rakenteen perässä on taivutettu verbi: Jag ska åker, Det kommer att blir kul, Jag tänker börjar.","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Oppilas tuntee rakenteet mutta ei vielä hallitse niiden jälkeistä perusmuotoa. Kartan mukaan vähintään kolmen tulevaisuuden rakenteen pitää olla oikein; rakenne, jonka perässä on r-loppuinen verbi, ei ole oikein.","mita_tehda":"Pyydä alleviivaamaan jokainen ska, tänker ja kommer att sekä ympyröimään sen perässä olevan verbin viimeinen kirjain. Jos se on r, oppilas korjaa sen samassa tilanteessa. Kertaa perusmuodon säännöt taidosta RUB7-SAN-04."},{"virhe":"Att väärässä paikassa tai puuttuu: Jag ska att åka, Jag tänker att resa, Det kommer bli kul.","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Englannin to-rakenne tai puhekieli ohjaa. Jag tänker att resa ei ole tulevaisuuden rakenne vaan väärin muodostettu lause. Kommer ilman att-sanaa on puheessa yleinen, mutta tässä taidossa sitä ei lasketa oikeaksi rakenteeksi, koska kirjoitettu yleiskieli ja opetus käyttävät muotoa kommer att.","mita_tehda":"Kirjoita taululle kolme riviä: ska + åka, tänker + åka, kommer att + åka. Kysy, missä rivissä on att. Pyydä oppilasta tarkistamaan omat lauseensa riveihin vertaamalla."},{"virhe":"Kaikki tulevaisuuden lauseet on kirjoitettu samalla rakenteella (esim. pelkkä ska), tai rakenteita on alle kolme.","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Oppilas osaa yhden rakenteen varmasti, mutta kartta vaatii vähintään kolme oikeaa rakennetta, joista vähintään kaksi on eri rakenteita. Pelkkä preesens ajanilmauksen kanssa (I augusti börjar jag i nian) on oikeaa ruotsia mutta ei kartan rakenne.","mita_tehda":"Kysy, miltä jokin suunnitelma tuntuu tai miten se luultavasti menee, ja ohjaa lauseeseen Det kommer att bli … Tai kysy, mitä hän itse on päättänyt tehdä, ja ohjaa rakenteeseen Jag tänker … Oppilas lisää lauseen samassa tilanteessa."},{"virhe":"Perusteluja on alle kaksi, tai perustelu ei ole ymmärrettävä: syy-sana puuttuu, perustelu on yksittäinen sana (för sol) tai lause on sekava.","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Oppilas luettelee suunnitelmia mutta ei vielä kerro syitä. Kartan mukaan molempien perustelujen pitää olla ymmärrettäviä; sivulauseen sanajärjestystä ei vaadita (se on haasteessa RUB8-SAN-06), joten esimerkiksi eftersom jag vill inte … ei kaada perustelua.","mita_tehda":"Kysy kahdesta suunnitelmasta suomeksi: miksi? Pyydä kirjoittamaan vastaus ruotsiksi suunnitelman perään sanalla för, eftersom tai därför att ja kokonaisella lauseella, jossa on tekijä ja verbi."},{"virhe":"Kysymys on väärin muodostettu: Vad du ska göra i sommar? Du ska jobba? Kysymys puuttuu tai ei koske kirjeystävän suunnitelmia.","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Suomen sanajärjestys ohjaa, tai oppilas on unohtanut, että viesti on keskustelu. Kartta vaatii yhden oikein muodostetun kysymyksen kirjeystävän suunnitelmista: kysymyssana alussa ja verbi heti sen perässä, tai kyllä–ei-kysymys verbillä alkaen.","mita_tehda":"Näytä pari Vad du ska göra? / Vad ska du göra? ja kysy, kumpi on ruotsia. Pyydä kirjoittamaan kysymys uudelleen ja tarkistamaan, että verbi on ennen tekijää."},{"virhe":"Viestistä puuttuu osa: lauseita on alle seitsemän, 9. luokan suunnitelma tai kesäsuunnitelmat puuttuvat, tai suunnitelmat kerrotaan menneessä ajassa (I somras ska jag …).","tehtava":"Näyttötehtävä: viesti kirjeystävälle","mita_kertoo":"Oppilas ei vielä hahmota kokonaisuutta tai sekoittaa ajanilmaukset. Kartan näyttö vaatii vähintään seitsemän lausetta ja molemmat aiheet (kesä ja 9. luokka). I somras on viime kesä, joten se ei sovi suunnitelmaan.","mita_tehda":"Anna tehtävälappu tarkistuslistaksi ja pyydä numeroimaan lauseet ja merkitsemään K (kesä) ja 9 (yhdeksäs luokka). Puuttuva osa kirjoitetaan samassa tilanteessa. Kertaa pari i sommar / i somras."}],"opettajalle":{"kesto":"2 · 45 min","huomiot":["Muoto: havainnointitaito. Kartan näyttö alkaa sanalla Paperikoe, mutta tuotos on oppilaan oma viesti, jota ei voi rinnakkaistaa viideksi koeversioksi. Näyttö kirjoitetaan paperilla koulussa valvotusti ja arvioidaan näiden kriteerien mukaan (sama ratkaisu kuin RUB7-KIR-01–03:ssa ja englannin kirjoitustaidoissa). Näyttö tehdään yksin; läpäisy ei riipu toisesta oppilaasta. Kaksi oppituntia on opetusta ja harjoitusviestiä varten; näyttö on erillinen kirjoitustehtävä jaksolla J5.","Näyttötehtävä: oppilas saa suomenkielisen tehtävälapun: Keksitty kirjeystäväsi Maja Västeråsista kysyy, mitä suunnitelmia sinulla on. Kirjoita hänelle ruotsiksi vähintään seitsemän lauseen viesti kesäsuunnitelmistasi ja siitä, mitä aiot tehdä 9. luokalla. Suunnitelmat saavat olla oikeita tai keksittyjä. Käytä rakenteita ska, kommer att ja tänker + perusmuoto, perustele kaksi suunnitelmaa (för, eftersom tai därför att) ja kysy Majalta yksi kysymys hänen suunnitelmistaan. Mallikirjettä, taulukoita tai sanakirjaa ei ole näkyvillä. Tervehdystä ja lopputervehdystä ei lasketa seitsemään lauseeseen.","Raja kartan mukaan, kaikki ehdot: 1) Vähintään seitsemän lausetta, joissa ovat kesäsuunnitelmat ja 9. luokan suunnitelmat. 2) Vähintään kolme tulevaisuuden rakennetta on oikein (rakenne + perusmuoto, att vain kommer-sanan perässä), ja niistä vähintään kaksi on eri rakenteita (esim. ska ja kommer att). 3) Kaksi perustelua, jotka ovat ymmärrettäviä. 4) Yksi oikein muodostettu kysymys kirjeystävän suunnitelmista. Jos osa puuttuu, pyydä täydentämään samassa tilanteessa.","Mikä kelpaa: kielteinen rakenne (Jag ska inte jobba) ja kysymyksen rakenne (Ska du …?) lasketaan rakenteiksi, kun perusmuoto on oikein. Kysymyksen ska-rakenne voi olla yksi kolmesta. Kommer att voi olla myös henkilöstä (Jag kommer att börja i nian). Kommer ilman att-sanaa ei lasketa oikeaksi rakenteeksi. Pieni kirjoitusvirhe perusmuodon vartalossa kelpaa, jos verbi on tunnistettava ja pääte oikein (esim. borja). Perusteluissa sivulauseen sanajärjestystä ei vaadita (eftersom jag vill inte … kelpaa). För att + perusmuoto (Jag ska jobba för att tjäna pengar) hyväksytään ymmärrettäväksi perusteluksi, koska se kertoo syyn tarkoituksen kautta (tulkinta, kirjattu avoimeksi asiaksi). Kysymykseksi kelpaa kysymyssanalla tai verbillä alkava kysymys, jossa verbi on ennen tekijää; kysymyksen ei tarvitse sisältää tulevaisuuden rakennetta (Har du några planer för hösten? kelpaa).","Tulkinta: kartan mukaan työelämän sanastoa ei vaadita; se kuuluu Espoossa 9. luokalle. Jos oppilas haluaa kirjoittaa kesätyöstä, lyhyt maininta (Jag ska jobba på ett kafé) riittää, eikä ammattisanastoa opeteta tässä.","Ero edeltäviin ja seuraaviin: RUB7-SAN-04 opetti apuverbit ja perusmuodon (ska + perusmuoto on tuttu), RUB8-KIR-02 kohteliaan viestin rakenteen. Uutta ovat tänker ja kommer att, ajanilmaukset tulevasta ja perustelu sidesanalla. 9. luokan ydintaito RUB9-SAN-06 (Nästa år ska jag) harjoittelee tulevaisuuden rakenteet järjestelmällisesti täydennystehtävin; tämä vahvistava taito käyttää niitä kirjoittamisessa eikä opeta niitä etukäteen täydennystehtävinä. Sivulauseen sanajärjestys on taidossa RUB8-SAN-06.","Ääntämisohjeet ovat suomen kirjaimin kirjoitettuja likiarvoja (ska ≈ skaa, tänker ≈ tenker, kommer att ≈ kommer at). Ääntämistä ei arvioida tässä taidossa.","Tarkistettavat ilmaukset (ruotsi): Vad har du för planer?; snart är det sommarlov; på sommarlovet; bo i tält; vara ute i naturen; lära mig spela gitarr; spela i ett band; det kommer att gå bra; börja i nian; i nian; plugga (arkikieltä, = opiskella); matte är svårt för mig; Har du några planer för hösten?; Vart ska du åka?; Ha det bra!; i sommar / i somras; nästa år; i höst. Västerås ja Åland (Ahvenanmaa) ovat varmoja paikannimiä. Tänka + perusmuoto ilman att-sanaa merkityksessä aikoa on yleiskieltä.","Viestin pituutta tai kirjoittamiseen kulunutta aikaa ei mitata, eikä viestejä aseteta järjestykseen. Oppilaalta ei kysytä todellisia suunnitelmia, perhettä, matkoja tai kotia; kaikki saa keksiä. Matkaa ei oleteta: kesäsuunnitelmaksi käy mikä tahansa tekeminen kotipaikkakunnalla."]},"tuntirunko":{"kesto":"2 · 45 min","sanottava_aaneen":"Tulevasta kerrot kolmella rakenteella: ska on suunnitelma, tänker oma aikomus ja kommer att ennuste. Rakenteen perään tulee perusmuoto, ja att vain kommer-sanan perään. Perustele sanoilla för, eftersom tai därför att. Suunnitelmat saa keksiä.","vaiheet":[{"aika":"8 min","otsikko":"Tunti 1: aloitus","sisalto":"Lue Eetun viesti ääneen kahdesti. Oppilaat etsivät viestistä kaikki ska-, tänker- ja kommer att -lauseet ja kertovat suomeksi, mitä Eetu aikoo tehdä ja mitä hän luulee tapahtuvan."},{"aika":"15 min","otsikko":"Tunti 1: kolme rakennetta","sisalto":"Taulukko Kolme tapaa kertoa tulevasta ja kuva. Ero suunnitelman, aikomuksen ja ennusteen välillä: opettaja sanoo suomeksi tilanteen, oppilaat valitsevat rakenteen. Ansat 1 ja 2 taululle korjattaviksi."},{"aika":"10 min","otsikko":"Tunti 1: ajanilmaukset","sisalto":"Ajanilmaukset tulevasta ja pari i sommar / i somras. Oppilaat kirjoittavat kolme lausetta keksitystä tai oikeasta kesästä niin, että ajanilmaus on alussa ja rakenne toisena."},{"aika":"12 min","otsikko":"Tunti 1: perustelut","sisalto":"Taulukko Miksi? Oppilaat lisäävät kahteen omaan lauseeseensa perustelun sanoilla för, eftersom tai därför att. Lauseita ei verrata."},{"aika":"7 min","otsikko":"Tunti 2: kysymykset","sisalto":"Kysy kirjeystävältä -kappale ja ansa 4. Jokainen kirjoittaa kaksi kysymystä Majalle ja tarkistaa, että verbi on ennen tekijää."},{"aika":"30 min","otsikko":"Tunti 2: harjoitusviesti","sisalto":"Jokainen kirjoittaa harjoitusviestin Majalle ohjeen Näin kirjoitat viestin mukaan. Taulukot saavat olla esillä. Kierrä ja katso ensin rakenne ja perusmuoto, sitten perustelut ja kysymys, vasta sitten muu. Kiire ei kuulu tähän taitoon."},{"aika":"8 min","otsikko":"Tunti 2: oma tarkistus","sisalto":"Oppilaat alleviivaavat viestistään jokaisen tulevaisuuden rakenteen ja ympyröivät sen perässä olevan perusmuodon. Lisäksi he merkitsevät P kahteen perusteluun ja K kysymykseen."}],"tarvikkeet":"Eetun viesti, taulukot ja kuva heijastettuna, vihot. Näyttö tehdään myöhemmin jaksolla J5 pelkän tehtävälapun kanssa."},"huoltajalle":{"mista_on_kyse":"Nuori opettelee kirjoittamaan ruotsiksi suunnitelmistaan kirjeystävälle: mitä hän aikoo tehdä kesällä ja 9. luokalla, miksi, ja mitä kirjeystävä aikoo tehdä. Tulevasta kerrotaan rakenteilla ska, tänker ja kommer att (esim. Jag ska åka … Det kommer att bli kul.). Suunnitelmat saavat olla keksittyjä, eikä perheestä tai todellisista suunnitelmista kysytä. Taito on vahvistava taito, eikä sitä vaadita seuraavalle luokalle siirtymiseen.","kotona":["Pyytäkää nuorta lukemaan viestinsä ääneen ja kertomaan suomeksi, mitä siinä suunnitellaan. Ruotsia ei tarvitse osata itse.","Kysykää suomeksi, mitä hän aikoo tehdä ensi viikolla tai lomalla (tai keksii aikovansa), ja pyytäkää sanomaan yksi asia ruotsiksi ska-sanalla.","Nuori voi selittää teille, mikä ero on sanoilla ska, tänker ja kommer att.","Kysykää: miksi? Nuori vastaa ruotsiksi sanalla eftersom tai för."],"milloin_huolestua":"Vahvistava taito ei ole siirtymisen ehto, joten vaikeudet tässä eivät yksin ole huolen aihe. Jos ruotsin kirjoittaminen herättää voimakasta ahdistusta tai nuori ei saa tuotettua lyhyitäkään lauseita, kertokaa opettajalle."},"ulkoiset":{},"valmis_teksti":"Osaat kertoa ruotsiksi suunnitelmistasi, perustella ne ja kysyä toisen suunnitelmista. Ha en skön sommar!"};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

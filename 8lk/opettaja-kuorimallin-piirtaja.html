@@ -1,0 +1,619 @@
+<title>Kuorimallin piirtäjä · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"KE8-RAK-01","oppiaine":"KE","vuosiluokka":8,"taitoalue":"RAK","jakso":"J1","taso":"ydin","otsikko":"Kuorimallin piirtäjä","kuvaus":"Osaan kuvata atomin rakenteen, päätellä jaksollisesta järjestelmästä alkuaineen protonien, neutronien ja elektronien määrän, piirtää elektronikuoret ja kertoa, miten atomimalli on kehittynyt.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T11","T14","T13","T10"],"S":["S5","S4"]},"eyebrow":"Kemia · 8. luokka","ikoni":"ajattelu","naytto":"Paperikokeessa täydennän taulukon kuudesta alkuaineesta (esimerkiksi He, C, O, Na, Al, Ca), kun järjestysluku tai massaluku on annettu: järjestysluku, massaluku (annetaan tehtävässä kokonaislukuna), protonien, neutronien ja elektronien määrä ja elektronirakenne (esimerkiksi Na 2, 8, 1). Piirrän kuorimallin kolmesta alkuaineesta ja merkitsen ytimen, kuoret ja uloimman kuoren elektronit. Kerron, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on. Saan kuvasarjan neljästä atomimallista (Dalton, Thomson, Rutherford, Bohr) ja kuvailen, mitä kukin malli selitti ja mikä koe tai havainto johti mallin muuttamiseen. Lopuksi kerron yhden asian, jonka kuorimalli kuvaa hyvin, ja yhden, jossa se poikkeaa todellisuudesta.","osaa_kun":"Täydennän taulukon niin, että vähintään viisi riviä kuudesta on kokonaan oikein: protonien määrä on järjestysluku, neutronien määrä on massaluku miinus järjestysluku ja neutraalissa atomissa elektroneja on yhtä monta kuin protoneja. Elektronirakenne noudattaa sääntöä 2, 8, 8 alkuaineilla 1-20 (kalium 2, 8, 8, 1). Tiedän, että ytimessä ovat protonit (+) ja neutronit (ei varausta) ja kuorilla elektronit (-), ja että lähes koko atomin massa on ytimessä. Kuvailen esimerkiksi, että Rutherfordin kultakalvokoe osoitti atomissa olevan pienen, positiivisen ytimen, jota rusinapullamalli ei selittänyt, ja että malli muuttuu, kun uudet havainnot eivät sovi vanhaan malliin. Mallin rajoituksena mainitsen esimerkiksi, että elektronit eivät oikeasti kierrä ratoja eikä mittakaava ole oikea. 7. luokalla atomin rakenne oli haaste; nyt päättelen hiukkasten määrät ja elektronirakenteen mistä tahansa alkuaineesta 1-20.","teksti":[{"tyyppi":"johdanto","sisalto":"Jaksollisen järjestelmän jokaisessa ruudussa on alkuaineen merkki ja lukuja. Magnesiumin ruudussa lukee esimerkiksi Mg, 12 ja 24,31. Mitä nämä luvut kertovat atomin sisältä, ja miksi toinen niistä ei ole kokonaisluku? Tässä taidossa opit päättelemään jaksollisesta järjestelmästä, montako protonia, neutronia ja elektronia atomissa on, kirjoittamaan elektronirakenteen ja piirtämään kuorimallin alkuaineille 1–20. Lisäksi selvität, miten käsitys atomista muuttui neljän mallin kautta ja missä kuorimalli poikkeaa todellisuudesta. Osa teistä tutustui atomin hiukkasiin jo 7. luokan haastetaidossa; nyt asia käydään kaikille alusta ja viedään pidemmälle."},{"tyyppi":"kappale","otsikko":"Atomin hiukkaset","sisalto":"Atomin keskellä on ydin, jossa on protoneja ja neutroneja. Ytimen ympärillä, elektronikuorilla, ovat elektronit. Protonin varaus on +1 ja elektronin −1; neutronilla ei ole varausta. Protoni ja neutroni ovat lähes yhtä raskaita, mutta elektronin massa on vain noin 1/1840 protonin massasta. Siksi lähes koko atomin massa on ytimessä, vaikka ydin on hyvin pieni: sen halkaisija on noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta. Neutraalissa eli varauksettomassa atomissa protoneja ja elektroneja on yhtä monta, jolloin varaukset kumoavat toisensa."},{"tyyppi":"taulukko","otsikko":"Kolme hiukkasta","otsikkorivi":["Hiukkanen","Missä","Varaus","Massa protonin massaan verrattuna"],"rivit":[["protoni p⁺","ytimessä","+1","1"],["neutroni n","ytimessä","0","noin 1"],["elektroni e⁻","elektronikuorilla","−1","noin 1/1840"]]},{"tyyppi":"kappale","otsikko":"Järjestysluku ja massaluku","sisalto":"Järjestysluku on atomin protonien määrä. Se ratkaisee, mikä alkuaine on kyseessä, ja alkuaineet ovat jaksollisessa järjestelmässä järjestysluvun mukaisessa järjestyksessä. Massaluku on ytimen protonien ja neutronien yhteismäärä. Siitä saadaan neutronien määrä: neutronit = massaluku − järjestysluku. Neutraalissa atomissa elektroneja on yhtä monta kuin protoneja eli järjestysluvun verran. Atomi merkitään usein alkuaineen nimellä ja massaluvulla, esimerkiksi magnesium-24 tai ²⁴Mg."},{"tyyppi":"saanto","otsikko":"Näin päättelet hiukkasten määrät","askeleet":["Etsi alkuaine jaksollisesta järjestelmästä ja lue sen järjestysluku. Esimerkki: magnesium-24, järjestysluku 12.","Protonien määrä = järjestysluku: 12 protonia.","Elektronien määrä neutraalissa atomissa = protonien määrä: 12 elektronia.","Neutronien määrä = massaluku − järjestysluku: 24 − 12 = 12 neutronia.","Tarkista: protonit + neutronit = massaluku (12 + 12 = 24)."]},{"tyyppi":"kappale","otsikko":"Atomimassa ei ole massaluku","sisalto":"Saman alkuaineen atomeissa protoneja on aina yhtä monta, mutta neutroneja voi olla eri määrä. Tällaisia saman alkuaineen eri atomeja kutsutaan isotoopeiksi. Kloorilla on kaksi pysyvää isotooppia: kloori-35 (17 protonia ja 18 neutronia) ja kloori-37 (17 protonia ja 20 neutronia). Jaksollisessa järjestelmässä näkyvä atomimassa, kloorilla 35,45, on alkuaineen atomien keskimääräinen massa luonnossa. Se on lähempänä 35:tä, koska kloori-35:tä on luonnossa noin kolme kertaa enemmän kuin kloori-37:ää. Atomimassa ei siis ole minkään yksittäisen atomin massaluku. Tämän taidon tehtävissä massaluku annetaan aina kokonaislukuna."},{"tyyppi":"ansa","otsikko":"Ansa 1: massaluku ei ole neutronien määrä","sisalto":"Massaluku kertoo protonien ja neutronien yhteismäärän. Neutronien määrä saadaan vasta, kun massaluvusta vähennetään järjestysluku. Toinen tavallinen virhe on käyttää jaksollisen järjestelmän desimaalilukua (esimerkiksi 24,31) massalukuna. Kirjoita lasku auki: neutronit = massaluku − järjestysluku."},{"tyyppi":"taulukko","otsikko":"Alkuaineet 1–20","otsikkorivi":["Järjestysluku","Alkuaine","Merkki","Yleisimmän atomin massaluku"],"rivit":[["1","vety","H","1"],["2","helium","He","4"],["3","litium","Li","7"],["4","beryllium","Be","9"],["5","boori","B","11"],["6","hiili","C","12"],["7","typpi","N","14"],["8","happi","O","16"],["9","fluori","F","19"],["10","neon","Ne","20"],["11","natrium","Na","23"],["12","magnesium","Mg","24"],["13","alumiini","Al","27"],["14","pii","Si","28"],["15","fosfori","P","31"],["16","rikki","S","32"],["17","kloori","Cl","35"],["18","argon","Ar","40"],["19","kalium","K","39"],["20","kalsium","Ca","40"]]},{"tyyppi":"kappale","otsikko":"Elektronirakenne","sisalto":"Elektronit sijoitetaan kuorille sisimmästä alkaen. Ensimmäiselle kuorelle mahtuu enintään 2 elektronia ja toiselle enintään 8. Alkuaineilla 1–20 kolmannelle kuorelle tulee enintään 8 elektronia, ja sen jälkeen aloitetaan neljäs kuori. Elektronirakenne kirjoitetaan kuorten elektronimäärinä sisimmästä kuoresta alkaen: magnesium 2, 8, 2, kalium 2, 8, 8, 1 ja kalsium 2, 8, 8, 2. Lukujen summa on järjestysluku. Uloimmaksi kuoreksi kutsutaan kuorta, jolla on elektroneja ja joka on kauimpana ytimestä. Suuremmilla alkuaineilla kolmannelle kuorelle mahtuu enemmänkin, mutta sitä ei tarvita alkuaineissa 1–20."},{"tyyppi":"saanto","otsikko":"Näin piirrät kuorimallin","askeleet":["Päättele protonien, neutronien ja elektronien määrä.","Kirjoita elektronirakenne: täytä ensimmäinen kuori (2), sitten toinen (8), sitten kolmas (8) ja loput neljännelle.","Piirrä ydin ympyränä ja kirjoita sen sisään protonien ja neutronien määrä, esimerkiksi 12 p⁺ ja 12 n.","Piirrä ytimen ympärille yhtä monta kehää kuin kuoria on, ja merkitse elektronit pisteinä kuorille.","Kirjoita kuvaan nimet ydin ja elektronikuori ja merkitse uloimman kuoren elektronit. Laske lopuksi kaikki elektronit: summa on järjestysluku."]},{"tyyppi":"kuva","otsikko":"Kaksi kuorimallia","svg":"<svg viewBox=\"0 0 620 330\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Magnesiumin ja kaliumin kuorimallit\"><circle cx=\"150\" cy=\"150\" r=\"52\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"150.0\" cy=\"98.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"150.0\" cy=\"202.0\" r=\"5\"/><circle cx=\"150\" cy=\"150\" r=\"78\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"173.1\" cy=\"75.5\" r=\"5\"/><circle class=\"v-merkki\" cx=\"219.0\" cy=\"113.6\" r=\"5\"/><circle class=\"v-merkki\" cx=\"224.5\" cy=\"173.1\" r=\"5\"/><circle class=\"v-merkki\" cx=\"186.4\" cy=\"219.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"126.9\" cy=\"224.5\" r=\"5\"/><circle class=\"v-merkki\" cx=\"81.0\" cy=\"186.4\" r=\"5\"/><circle class=\"v-merkki\" cx=\"75.5\" cy=\"126.9\" r=\"5\"/><circle class=\"v-merkki\" cx=\"113.6\" cy=\"81.0\" r=\"5\"/><circle cx=\"150\" cy=\"150\" r=\"104\" class=\"v-akseli\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"150.0\" cy=\"46.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"150.0\" cy=\"254.0\" r=\"5\"/><circle class=\"v-ruutu v3\" cx=\"150\" cy=\"150\" r=\"26\"/><text class=\"v-t\" x=\"150\" y=\"148\" text-anchor=\"middle\" style=\"font-size:11px\">12 p⁺</text><text class=\"v-t\" x=\"150\" y=\"162\" text-anchor=\"middle\" style=\"font-size:11px\">12 n</text><text class=\"v-t vahva\" x=\"150\" y=\"280\" text-anchor=\"middle\" style=\"font-size:13px\">Magnesium-24: 2, 8, 2</text><circle cx=\"450\" cy=\"140\" r=\"46\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"450.0\" cy=\"94.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"450.0\" cy=\"186.0\" r=\"5\"/><circle cx=\"450\" cy=\"140\" r=\"68\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"470.1\" cy=\"75.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"510.1\" cy=\"108.3\" r=\"5\"/><circle class=\"v-merkki\" cx=\"515.0\" cy=\"160.1\" r=\"5\"/><circle class=\"v-merkki\" cx=\"481.7\" cy=\"200.1\" r=\"5\"/><circle class=\"v-merkki\" cx=\"429.9\" cy=\"205.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"389.9\" cy=\"171.7\" r=\"5\"/><circle class=\"v-merkki\" cx=\"385.0\" cy=\"119.9\" r=\"5\"/><circle class=\"v-merkki\" cx=\"418.3\" cy=\"79.9\" r=\"5\"/><circle cx=\"450\" cy=\"140\" r=\"90\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"450.0\" cy=\"50.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"513.6\" cy=\"76.4\" r=\"5\"/><circle class=\"v-merkki\" cx=\"540.0\" cy=\"140.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"513.6\" cy=\"203.6\" r=\"5\"/><circle class=\"v-merkki\" cx=\"450.0\" cy=\"230.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"386.4\" cy=\"203.6\" r=\"5\"/><circle class=\"v-merkki\" cx=\"360.0\" cy=\"140.0\" r=\"5\"/><circle class=\"v-merkki\" cx=\"386.4\" cy=\"76.4\" r=\"5\"/><circle cx=\"450\" cy=\"140\" r=\"112\" class=\"v-akseli\" style=\"fill:none;stroke-width:1.4\"/><circle class=\"v-merkki\" cx=\"483.1\" cy=\"33.0\" r=\"5\"/><circle class=\"v-ruutu v3\" cx=\"450\" cy=\"140\" r=\"24\"/><text class=\"v-t\" x=\"450\" y=\"138\" text-anchor=\"middle\" style=\"font-size:11px\">19 p⁺</text><text class=\"v-t\" x=\"450\" y=\"152\" text-anchor=\"middle\" style=\"font-size:11px\">20 n</text><text class=\"v-t vahva\" x=\"450\" y=\"278\" text-anchor=\"middle\" style=\"font-size:13px\">Kalium-39: 2, 8, 8, 1</text><line x1=\"168\" y1=\"168\" x2=\"268\" y2=\"268\" class=\"v-apu\"/><text class=\"v-t\" x=\"272\" y=\"272\" style=\"font-size:12px\">ydin</text><text class=\"v-t pieni\" x=\"22\" y=\"40\" style=\"font-size:12px\">uloin kuori</text><line x1=\"62\" y1=\"44\" x2=\"84\" y2=\"78\" class=\"v-apu\"/></svg>","teksti":"Magnesium-24: ytimessä 12 protonia ja 12 neutronia, elektronit 2, 8, 2. Kalium-39: ytimessä 19 protonia ja 20 neutronia, elektronit 2, 8, 8, 1. Uloin kuori on piirretty tummemmalla viivalla."},{"tyyppi":"ansa","otsikko":"Ansa 2: liikaa elektroneja samalle kuorelle","sisalto":"Toiselle kuorelle ei mahdu yli 8 elektronia, joten rakenne 2, 10 on väärin (oikein 2, 8, 2). Alkuaineilla 1–20 myös kolmas kuori saa enintään 8 elektronia ennen kuin neljäs aloitetaan: kaliumin rakenne on 2, 8, 8, 1 eikä 2, 8, 9. Tarkista jokaisen kuoren enimmäismäärä ja laske lopuksi summa."},{"tyyppi":"kappale","otsikko":"Miten atomimalli on kehittynyt","sisalto":"Atomia ei voi nähdä, joten tutkijat ovat rakentaneet malleja, jotka selittävät havaintoja. Kun uusi koe antaa tuloksen, jota vanha malli ei selitä, malli muutetaan. 1800-luvun alussa John Dalton kuvasi atomit jakamattomina palloina; malli selitti, miksi aineet yhdistyvät aina tietyissä massasuhteissa ja miksi massa säilyy reaktiossa. Vuonna 1897 J. J. Thomson havaitsi, että atomeista irtoaa pieniä negatiivisia hiukkasia, elektroneja, joten atomilla oli osia. Thomsonin rusinapullamallissa (1904) elektronit ovat positiivisesti varautuneen pallon sisällä. Ernest Rutherfordin johdolla tehdyssä kultakalvokokeessa (1909) suurin osa alfahiukkasista meni ohuen kultakalvon läpi, mutta harvat kääntyivät jyrkästi tai kimposivat takaisin. Rutherford päätteli vuonna 1911, että atomin positiivinen varaus ja lähes koko massa ovat pienessä ytimessä. Ydinmalli ei kuitenkaan selittänyt, miksi esimerkiksi kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä (viivaspektri). Niels Bohr esitti vuonna 1913, että elektronit voivat olla vain tietyillä energiatasoilla eli kuorilla, ja malli selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat 1920-luvulla nykyiseen kvanttimekaaniseen malliin, jossa elektronin paikkaa kuvataan todennäköisyyksinä eli elektronipilvenä."},{"tyyppi":"taulukko","otsikko":"Neljä mallia: mitä ne selittivät ja mikä ne muutti","otsikkorivi":["Malli","Atomi mallissa","Mitä malli selitti","Mikä havainto johti muutokseen"],"rivit":[["Dalton, 1800-luvun alku","jakamaton pallo","aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen","elektronin löytyminen (1897): atomilla on osia"],["Thomson, rusinapullamalli 1904","positiivinen pallo, jonka sisällä elektronit","elektronit atomin osina ja atomin varauksettomuuden","kultakalvokoe (1909): osa hiukkasista kimposi jyrkästi"],["Rutherford, ydinmalli 1911","pieni positiivinen ydin, jossa lähes koko massa; elektronit ympärillä; enimmäkseen tyhjää","kultakalvokokeen tuloksen","viivaspektri: atomit lähettävät valoa vain tietyillä väreillä"],["Bohr, kuorimalli 1913","elektronit tietyillä kuorilla eli energiatasoilla","vedyn viivaspektrin ja elektronien järjestäytymisen kuorille","tarkemmat mittaukset monen elektronin atomeista; nykyinen malli 1920-luvulta"]]},{"tyyppi":"kuva","otsikko":"Atomimallien kuvasarja","svg":"<svg viewBox=\"0 0 620 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Neljä atomimallia\"><circle cx=\"78\" cy=\"90\" r=\"44\" class=\"v-osa v1\"/><text class=\"v-t vahva\" x=\"78\" y=\"162\" text-anchor=\"middle\" style=\"font-size:13px\">Dalton</text><text class=\"v-t pieni\" x=\"78\" y=\"180\" text-anchor=\"middle\" style=\"font-size:11px\">1800-luvun alku</text><text class=\"v-t pieni\" x=\"78\" y=\"196\" text-anchor=\"middle\" style=\"font-size:11px\">jakamaton pallo</text><circle cx=\"232\" cy=\"90\" r=\"46\" class=\"v-osa\"/><text class=\"v-t pieni\" x=\"232\" y=\"66\" text-anchor=\"middle\" style=\"font-size:12px\">+</text><text class=\"v-t pieni\" x=\"206\" y=\"116\" text-anchor=\"middle\" style=\"font-size:12px\">+</text><text class=\"v-t pieni\" x=\"262\" y=\"104\" text-anchor=\"middle\" style=\"font-size:12px\">+</text><circle cx=\"212\" cy=\"72\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"212\" y=\"76\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><circle cx=\"252\" cy=\"78\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"252\" y=\"82\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><circle cx=\"222\" cy=\"98\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"222\" y=\"102\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><circle cx=\"250\" cy=\"118\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"250\" y=\"122\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><circle cx=\"232\" cy=\"130\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"232\" y=\"134\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><circle cx=\"204\" cy=\"90\" r=\"7\" class=\"v-ruutu v1\"/><text class=\"v-t\" x=\"204\" y=\"94\" text-anchor=\"middle\" style=\"font-size:12px\">−</text><text class=\"v-t vahva\" x=\"232\" y=\"162\" text-anchor=\"middle\" style=\"font-size:13px\">Thomson</text><text class=\"v-t pieni\" x=\"232\" y=\"180\" text-anchor=\"middle\" style=\"font-size:11px\">1904</text><text class=\"v-t pieni\" x=\"232\" y=\"196\" text-anchor=\"middle\" style=\"font-size:11px\">rusinapullamalli</text><circle cx=\"388\" cy=\"90\" r=\"48\" class=\"v-apu\" style=\"fill:none;stroke-dasharray:4 3\"/><circle cx=\"388\" cy=\"90\" r=\"4\" class=\"v-merkki\"/><circle cx=\"360\" cy=\"62\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"420\" cy=\"70\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"372\" cy=\"124\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"414\" cy=\"112\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"350\" cy=\"96\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"400\" cy=\"52\" r=\"3.5\" class=\"v-ruutu v1\"/><text class=\"v-t vahva\" x=\"388\" y=\"162\" text-anchor=\"middle\" style=\"font-size:13px\">Rutherford</text><text class=\"v-t pieni\" x=\"388\" y=\"180\" text-anchor=\"middle\" style=\"font-size:11px\">1911</text><text class=\"v-t pieni\" x=\"388\" y=\"196\" text-anchor=\"middle\" style=\"font-size:11px\">ydinmalli</text><circle cx=\"542\" cy=\"90\" r=\"24\" class=\"v-apu\" style=\"fill:none;stroke-width:1.4\"/><circle cx=\"542\" cy=\"90\" r=\"46\" class=\"v-akseli\" style=\"fill:none;stroke-width:1.4\"/><circle cx=\"542\" cy=\"90\" r=\"6\" class=\"v-merkki\"/><circle cx=\"542\" cy=\"66\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"542\" cy=\"114\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"542\" cy=\"44\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"588\" cy=\"90\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"542\" cy=\"136\" r=\"3.5\" class=\"v-ruutu v1\"/><circle cx=\"496\" cy=\"90\" r=\"3.5\" class=\"v-ruutu v1\"/><text class=\"v-t vahva\" x=\"542\" y=\"162\" text-anchor=\"middle\" style=\"font-size:13px\">Bohr</text><text class=\"v-t pieni\" x=\"542\" y=\"180\" text-anchor=\"middle\" style=\"font-size:11px\">1913</text><text class=\"v-t pieni\" x=\"542\" y=\"196\" text-anchor=\"middle\" style=\"font-size:11px\">kuorimalli</text></svg>","teksti":"Vasemmalta oikealle: Daltonin jakamaton pallo, Thomsonin rusinapullamalli (elektronit positiivisen pallon sisällä), Rutherfordin ydinmalli (pieni ydin ja enimmäkseen tyhjää) ja Bohrin kuorimalli. Kuvat eivät ole mittakaavassa."},{"tyyppi":"ansa","otsikko":"Ansa 3: ”Vanha malli oli väärä”","sisalto":"Vanhaa mallia ei hylätty mielipiteen takia, ja moni vanha malli on yhä käyttökelpoinen siihen, minkä se selittää. Kuorimalli on Bohrin mallin yksinkertaistus, ja sitä käytetään koulussa, koska se kertoo hyvin elektronien määrän kuorilla. Kun kerrot mallin muutoksesta, nimeä havainto, joka ei sopinut vanhaan malliin, ja kerro, miten uusi malli selitti sen."},{"tyyppi":"kappale","otsikko":"Mitä kuorimalli kuvaa hyvin ja missä se poikkeaa todellisuudesta","sisalto":"Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on, montako elektronia atomissa on ja miten ne jakautuvat kuorille. Erityisesti se näyttää uloimman kuoren elektronit, joita tarvitaan myöhemmin, kun selitetään alkuaineiden reaktioita ja sidoksia. Todellisuudesta malli poikkeaa monella tavalla. Elektronit eivät liiku ytimen ympäri tarkoilla ympyräradoilla kuten planeetat, vaan niiden paikkaa voidaan kuvata vain todennäköisyyksinä. Mittakaava on väärä: jos ydin piirrettäisiin oikeassa suhteessa, se olisi piirroksessa näkymätön piste. Kuoret eivät ole litteitä renkaita, vaan atomi on kolmiulotteinen, eivätkä hiukkaset ole värillisiä palloja."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Ytimessä protonit (+1) ja neutronit (0), kuorilla elektronit (−1). Lähes koko massa on ytimessä.","Järjestysluku = protonien määrä = elektronien määrä neutraalissa atomissa.","Massaluku = protonit + neutronit, joten neutronit = massaluku − järjestysluku.","Jaksollisen järjestelmän atomimassa (esimerkiksi 35,45) on keskiarvo, ei massaluku. Isotoopit: sama protonimäärä, eri neutronimäärä.","Elektronirakenne alkuaineille 1–20: kuoret 2, 8, 8, loput neljännelle. Kalium 2, 8, 8, 1.","Dalton (jakamaton pallo) → elektronin löytö → Thomson (rusinapulla) → kultakalvokoe → Rutherford (ydin) → viivaspektri → Bohr (kuoret) → nykyinen malli (elektronipilvi).","Kuorimalli kuvaa hyvin hiukkasten määrät ja kuoret; poikkeaa todellisuudesta ratojen, mittakaavan ja kolmiulotteisuuden osalta."]}],"harjoitusryhmat":[{"id":"hiukkaset","nimi":"Järjestysluku, massaluku ja hiukkaset","info":"Päättele protonit, neutronit ja elektronit järjestysluvusta ja massaluvusta."},{"id":"kuoret","nimi":"Elektronirakenne ja kuorimalli","info":"Kuoret 2, 8, 8 ja loput neljännelle alkuaineilla 1–20."},{"id":"mallit","nimi":"Atomimallin kehitys","info":"Mitä mallit selittivät, mikä havainto muutti ne ja missä kuorimalli poikkeaa todellisuudesta."}],"ryhmanimet":{"hiukkaset":"Järjestysluku, massaluku ja hiukkaset","kuoret":"Elektronirakenne ja kuorimalli","mallit":"Atomimallin kehitys"},"harjoitukset":[{"id":"H01","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Piin järjestysluku on 14, ja atomin massaluku on 28.\n\nMontako neutronia atomissa on?","vastaus":14,"vinkki":"Neutronit = massaluku − järjestysluku.","selitys":"28 − 14 = 14 neutronia."},{"id":"H02","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Atomin ytimessä on 15 protonia ja 16 neutronia.\n\nMikä on atomin massaluku?","vastaus":31,"vinkki":"Massaluku on ytimen hiukkasten yhteismäärä.","selitys":"15 + 16 = 31. Atomi on fosfori-31."},{"id":"H03","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Atomin massaluku on 19, ja ytimessä on 10 neutronia.\n\nMontako elektronia on neutraalissa atomissa?","vastaus":9,"vinkki":"Laske ensin protonit.","selitys":"Protoneja on 19 − 10 = 9, joten neutraalissa atomissa on 9 elektronia. Alkuaine on fluori."},{"id":"H04","ryhma":"hiukkaset","tyyppi":"monivalinta","kysymys":"Jaksollisessa järjestelmässä kloorin ruudussa on luku 35,45. Mikä se on?","vastaus":0,"vinkki":"Kertaa kappale Atomimassa ei ole massaluku.","selitys":"Atomimassa on kloorin atomien keskimääräinen massa. Yksittäisen klooriatomin massaluku on 35 tai 37.","vaihtoehdot":["Atomimassa: kloorin atomien keskimääräinen massa","Kloorin massaluku","Kloorin neutronien määrä"]},{"id":"H05","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Kloorin järjestysluku on 17. Tarkastellaan atomia kloori-37.\n\nMontako neutronia siinä on?","vastaus":20,"vinkki":"Luku 37 on massaluku.","selitys":"37 − 17 = 20 neutronia."},{"id":"H06","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Protonin varaus on +1.\n2. Neutroni on paljon kevyempi kuin protoni.\n3. Massaluku on protonien ja neutronien yhteismäärä.\n4. Neutraalissa atomissa on yhtä monta elektronia kuin protonia.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kertaa taulukko Kolme hiukkasta.","selitys":"Väitteet 1, 3 ja 4 ovat totta. Neutroni ja protoni ovat lähes yhtä raskaita."},{"id":"H07","ryhma":"hiukkaset","tyyppi":"luku","kysymys":"Magnesiumin järjestysluku on 12. Tarkastellaan atomeja magnesium-24 ja magnesium-26.\n\nMontako neutronia enemmän on magnesium-26:ssa?","vastaus":2,"vinkki":"Laske kummankin neutronit tai vertaa suoraan massalukuja.","selitys":"Neutroneja on 12 ja 14. Ero on 2, koska protoneja on molemmissa yhtä monta."},{"id":"H08","ryhma":"kuoret","tyyppi":"luku","kysymys":"Piin järjestysluku on 14.\n\nMontako elektronia neutraalin piiatomin uloimmalla kuorella on?","vastaus":4,"vinkki":"Täytä kuoret 2, 8, …","selitys":"Rakenne on 2, 8, 4, joten uloimmalla kuorella on 4 elektronia."},{"id":"H09","ryhma":"kuoret","tyyppi":"luku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 7.\n\nMikä on alkuaineen järjestysluku?","vastaus":17,"vinkki":"Laske elektronit yhteen.","selitys":"2 + 8 + 7 = 17. Alkuaine on kloori."},{"id":"H10","ryhma":"kuoret","tyyppi":"luku","kysymys":"Argonin järjestysluku on 18.\n\nMontako elektronikuorta neutraalin argonatomin kuorimallissa on?","vastaus":3,"vinkki":"Kirjoita ensin elektronirakenne.","selitys":"Rakenne on 2, 8, 8: kolme kuorta."},{"id":"H11","ryhma":"kuoret","tyyppi":"luku","kysymys":"Fosforin järjestysluku on 15.\n\nMontako elektronia neutraalin fosforiatomin kolmannella kuorella on?","vastaus":5,"vinkki":"Ensimmäinen kuori 2, toinen 8.","selitys":"15 − 2 − 8 = 5. Rakenne on 2, 8, 5."},{"id":"H12","ryhma":"kuoret","tyyppi":"monivalinta","kysymys":"Rikin järjestysluku on 16. Mikä on neutraalin rikkiatomin elektronirakenne?","vastaus":0,"vinkki":"Toiselle kuorelle mahtuu enintään 8.","selitys":"Rakenne on 2, 8, 6. Toiselle kuorelle ei mahdu 14 elektronia, ja ensimmäinen täytetään ensin.","vaihtoehdot":["2, 8, 6","2, 6, 8","2, 14"]},{"id":"H13","ryhma":"kuoret","tyyppi":"luku","kysymys":"Lue elektronirakenteet.\n1. 2, 8, 4\n2. 2, 10\n3. 2, 8, 9\n4. 3, 8\n5. 2, 8, 8, 2\n\nMontako niistä on kirjoitettu oikein jonkin alkuaineista 1–20 neutraalille atomille?","vastaus":2,"vinkki":"Tarkista kunkin kuoren enimmäismäärä: 2, 8, 8.","selitys":"Rakenteet 1 (pii) ja 5 (kalsium) ovat oikein. Rakenteissa 2 ja 3 kuorella on liikaa elektroneja, ja rakenteessa 4 ensimmäisellä kuorella on liikaa."},{"id":"H14","ryhma":"kuoret","tyyppi":"luku","kysymys":"Neutraalin atomin kuorimallissa on kolme kuorta, ja uloimmalla kuorella on 2 elektronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":12,"vinkki":"Kaksi sisintä kuorta ovat täynnä.","selitys":"2 + 8 + 2 = 12. Alkuaine on magnesium."},{"id":"H15","ryhma":"mallit","tyyppi":"luku","kysymys":"Lue mallit.\n1. Rutherfordin ydinmalli\n2. Daltonin pallomalli\n3. Bohrin kuorimalli\n\nMonesko malli selitti ensimmäisenä, miksi kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä?","vastaus":3,"vinkki":"Mitä ydinmalli ei selittänyt?","selitys":"Bohrin kuorimalli selitti vedyn viivaspektrin: elektronit voivat olla vain tietyillä energiatasoilla."},{"id":"H16","ryhma":"mallit","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Thomsonin rusinapullamallissa elektronit ovat positiivisen aineen sisällä.\n2. Bohrin malli esitettiin kultakalvokokeen jälkeen.\n3. Daltonin atomissa oli pieni ydin.\n4. Nykyisen käsityksen mukaan elektronin paikkaa ei voi kuvata tarkkana ratana.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kertaa taulukko Neljä mallia.","selitys":"Väitteet 1, 2 ja 4 ovat totta. Daltonin atomi oli jakamaton pallo ilman osia."},{"id":"H17","ryhma":"mallit","tyyppi":"monivalinta","kysymys":"Mikä havainto osoitti, ettei Daltonin jakamaton atomi pidä paikkaansa?","vastaus":0,"vinkki":"Mitä Thomson havaitsi vuonna 1897?","selitys":"Elektronien löytyminen osoitti, että atomilla on pienempiä osia.","vaihtoehdot":["Atomeista irtoaa pieniä negatiivisia hiukkasia, elektroneja.","Osa alfahiukkasista kimposi kultakalvosta takaisin.","Vetykaasu lähettää valoa vain tietyillä väreillä."]},{"id":"H18","ryhma":"mallit","tyyppi":"luku","kysymys":"Thomson havaitsi elektronin vuonna 1897, ja Bohr esitti mallinsa vuonna 1913.\n\nMontako vuotta havaintojen välillä on?","vastaus":16,"vinkki":"Vähennä vuosiluvut.","selitys":"1913 − 1897 = 16 vuotta."},{"id":"H19","ryhma":"mallit","tyyppi":"luku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 6 cm ja ytimen halkaisija 3 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":50000,"vinkki":"Laske ensin, kuinka suuri ytimen pitäisi olla: 6 cm : 100 000.","selitys":"Oikeassa mittakaavassa ydin olisi 6 cm : 100 000 = 0,00006 cm. Piirroksessa se on 3 cm, eli 3 : 0,00006 = 50 000 kertaa liian suuri."},{"id":"H20","ryhma":"mallit","tyyppi":"luku","kysymys":"Lue väitteet kuorimallista.\n1. Kuorimalli kertoo, montako elektronia kullakin kuorella on.\n2. Elektronit kiertävät ydintä tarkkoja ympyräratoja kuten kuvassa.\n3. Kuorimallissa ydin on piirretty aivan liian suureksi.\n4. Kuorimalli on hyödyllinen, vaikka se on yksinkertaistus.\n\nMontako väitteistä on totta?","vastaus":3,"vinkki":"Kertaa kappale Mitä kuorimalli kuvaa hyvin ja missä se poikkeaa todellisuudesta.","selitys":"Väitteet 1, 3 ja 4 ovat totta. Elektronit eivät liiku tarkoilla radoilla."}],"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää jaksollista järjestelmää. Laskinta ei tarvita. Kun kysytään montako tai mikä luku, kirjoita vastaukseksi luku. Kirjoita elektronirakenne sisimmästä kuoresta alkaen pilkuin erotettuna, esimerkiksi 2, 8, 1. Kaikki atomit ovat neutraaleja. Piirrä kuorimallit selvästi: ydin ympyränä, protonien ja neutronien määrä ytimeen, elektronit pisteinä kuorille. Vastaa sanallisiin tehtäviin kokonaisin virkkein. Atomimallien kuvasarja on koepaperissa kuvattu sanoin.","tehtavat":[{"nro":1,"ryhma":"hiukkaset","tyyppi":"sanallinen","kysymys":"Täydennä taulukko kuudesta atomista. Kirjoita jokaiselle riville alkuaineen merkki, järjestysluku, massaluku, protonien, neutronien ja elektronien määrä neutraalissa atomissa sekä elektronirakenne (esimerkiksi 2, 8, 1).\n1. He, massaluku 4\n2. C, massaluku 12\n3. järjestysluku 8, massaluku 16\n4. Na, massaluku 23\n5. järjestysluku 13, massaluku 27\n6. Ca, massaluku 40","vastaus":"Avain (merkki: järjestysluku, massaluku, protonit, neutronit, elektronit, elektronirakenne) 1. He: 2, 4, p 2, n 2, e 2, 2; 2. C: 6, 12, p 6, n 6, e 6, 2, 4; 3. O: 8, 16, p 8, n 8, e 8, 2, 6; 4. Na: 11, 23, p 11, n 12, e 11, 2, 8, 1; 5. Al: 13, 27, p 13, n 14, e 13, 2, 8, 3; 6. Ca: 20, 40, p 20, n 20, e 20, 2, 8, 8, 2."},{"nro":2,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 16, ja atomin massaluku on 36.\n\nMontako neutronia atomissa on?","vastaus":20},{"nro":3,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin ytimessä on 26 protonia ja 30 neutronia.\n\nMikä on atomin massaluku?","vastaus":56},{"nro":4,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin massaluku on 41, ja ytimessä on 22 neutronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":19},{"nro":5,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Neutraalin atomin ytimessä on yhteensä 26 hiukkasta, ja atomissa on 12 elektronia.\n\nMontako neutronia ytimessä on?","vastaus":14},{"nro":6,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Protonin varaus on positiivinen.\n2. Massaluku on protonien ja neutronien yhteismäärä.\n3. Neutraalissa atomissa on yhtä monta elektronia kuin neutronia.\n4. Lähes koko atomin massa on elektronikuorilla.\n5. Saman alkuaineen atomeissa voi olla eri määrä neutroneja.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Kahden atomin järjestysluku on 1. Toisen atomin massaluku on 1 ja toisen 2.\n\nMontako neutronia on atomissa, jonka massaluku on suurempi?","vastaus":1},{"nro":8,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Jaksollisessa järjestelmässä argonin ruudussa on luvut 18 ja 39,95. Sen yleisimmän atomin massaluku on 40.\n\nMontako neutronia yleisimmässä atomissa on?","vastaus":22},{"nro":9,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 17.\n\nMontako elektronia neutraalin atomin uloimmalla kuorella on?","vastaus":7},{"nro":10,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 5.\n\nMikä on alkuaineen järjestysluku?","vastaus":15},{"nro":11,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 16.\n\nMontako elektronikuorta neutraalin atomin kuorimallissa on?","vastaus":3},{"nro":12,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 18.\n\nMontako elektronia neutraalin atomin kolmannella kuorella on?","vastaus":8},{"nro":13,"ryhma":"kuoret","tyyppi":"sanallinen","kysymys":"Piirrä kuorimalli kolmesta atomista: beryllium-9 (järjestysluku 4, massaluku 9), pii-29 (järjestysluku 14, massaluku 29) ja neon-20 (järjestysluku 10, massaluku 20). Merkitse ytimeen protonien ja neutronien määrä, piirrä kuoret ja elektronit, kirjoita kuvaan nimet ydin ja elektronikuori ja ympyröi uloimman kuoren elektronit. Kerro piirrosten alla, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on.","vastaus":"Malliesimerkki: beryllium-9: ytimessä 4 p⁺ ja 5 n, elektronit 2, 2, uloimmalla kuorella 2; pii-29: ytimessä 14 p⁺ ja 15 n, elektronit 2, 8, 4, uloimmalla kuorella 4; neon-20: ytimessä 10 p⁺ ja 10 n, elektronit 2, 8, uloimmalla kuorella 8. Ytimessä ovat protonit (varaus +1) ja neutronit (ei varausta), elektronikuorilla elektronit (varaus −1)."},{"nro":14,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Lue alkuaineiden järjestysluvut ja niille kirjoitetut elektronirakenteet.\n1. järjestysluku 9: 2, 7\n2. järjestysluku 17: 2, 10, 5\n3. järjestysluku 19: 2, 8, 9\n4. järjestysluku 12: 2, 8, 2\n5. järjestysluku 5: 2, 3\n\nMontako rakenteista on oikein neutraalille atomille?","vastaus":3},{"nro":15,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 5, ja ytimessä on 8 neutronia.\n\nMikä on atomin massaluku?","vastaus":15},{"nro":16,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue havainnot.\n1. Atomeista saatiin irti pieniä negatiivisia hiukkasia.\n2. Ohueen kultakalvoon ammutuista alfahiukkasista harvat kääntyivät jyrkästi tai kimposivat takaisin.\n3. Kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä.\n\nMonesko havainto osoitti, että atomissa on pieni positiivinen ydin?","vastaus":2},{"nro":17,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuvasarjassa on neljä atomimallia, jotka on tässä kuvattu sanoin.\n1. Kuva: kiinteä, jakamaton pallo, jossa ei ole osia.\n2. Kuva: positiivisesti varautunut pallo, jonka sisällä on pieniä negatiivisia hiukkasia kuin rusinat pullassa.\n3. Kuva: hyvin pieni positiivinen keskusta, jossa lähes koko massa on, ja sen ympärillä negatiivisia hiukkasia; muuten lähes tyhjää.\n4. Kuva: pieni positiivinen keskusta ja sen ympärillä negatiiviset hiukkaset sisäkkäisillä kehillä.\n\nNimeä jokaisen kuvan malli (kenen malli se on) ja järjestä mallit esittämisajan mukaan. Kerro jokaisesta mallista, mitä se selitti, ja mikä koe tai havainto johti mallin muuttamiseen.","vastaus":"Malliesimerkki: kuva 1 = Dalton, kuva 2 = Thomson, kuva 3 = Rutherford, kuva 4 = Bohr. Järjestys: Dalton, Thomson, Rutherford, Bohr. Daltonin malli (1800-luvun alku): jakamaton pallo. Selitti aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen. Muuttui, kun atomeista löydettiin elektroneja (1897): atomilla on osia. Thomsonin rusinapullamalli (1904): positiivinen pallo, jonka sisällä elektronit. Selitti elektronit atomin osina ja atomin varauksettomuuden. Muuttui kultakalvokokeen (1909) takia: harvat alfahiukkaset kimposivat jyrkästi, mitä tasaisesti levittäytynyt positiivinen varaus ei selittänyt. Rutherfordin ydinmalli (1911): pieni positiivinen ydin, jossa lähes koko massa, ja elektronit ympärillä; atomi on enimmäkseen tyhjää. Selitti kultakalvokokeen. Ei selittänyt viivaspektriä eli sitä, että atomit lähettävät valoa vain tietyillä väreillä, eikä elektronien järjestystä. Bohrin kuorimalli (1913): elektronit tietyillä kuorilla eli energiatasoilla. Selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat nykyiseen kvanttimekaaniseen malliin (elektronipilvi). Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin."},{"nro":18,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Keksitty Aleksi sanoo: ”Elektronit kiertävät ydintä tarkkoja ratoja kuin planeetat Aurinkoa, niin kuin kuorimallin kuvassa.” Kerro, missä Aleksi on oikeassa ja missä väärässä: nimeä yksi asia, jonka kuorimalli kuvaa hyvin, ja yksi, jossa se poikkeaa todellisuudesta.","vastaus":"Malliesimerkki: Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on ja montako elektronia kullakin kuorella on, erityisesti uloimman kuoren elektronit. Todellisuudesta se poikkeaa esimerkiksi siinä, että elektronit eivät kierrä tarkkoja ympyräratoja, vaan niiden paikkaa kuvataan todennäköisyyksinä (elektronipilvi), ja siinä, että mittakaava on väärä: ydin on oikeasti noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta."},{"nro":19,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue väitteet atomimalleista.\n1. Daltonin mallissa atomi oli jakamaton.\n2. Thomsonin malli selitti kultakalvokokeen tuloksen.\n3. Rutherfordin mallissa lähes koko massa on pienessä ytimessä.\n4. Bohrin malli selitti vedyn viivaspektrin.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":20,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 10 cm ja ytimen halkaisija 2 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":20000}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää jaksollista järjestelmää. Laskinta ei tarvita. Kun kysytään montako tai mikä luku, kirjoita vastaukseksi luku. Kirjoita elektronirakenne sisimmästä kuoresta alkaen pilkuin erotettuna, esimerkiksi 2, 8, 1. Kaikki atomit ovat neutraaleja. Piirrä kuorimallit selvästi: ydin ympyränä, protonien ja neutronien määrä ytimeen, elektronit pisteinä kuorille. Vastaa sanallisiin tehtäviin kokonaisin virkkein. Atomimallien kuvasarja on koepaperissa kuvattu sanoin.","tehtavat":[{"nro":1,"ryhma":"hiukkaset","tyyppi":"sanallinen","kysymys":"Täydennä taulukko kuudesta atomista. Kirjoita jokaiselle riville alkuaineen merkki, järjestysluku, massaluku, protonien, neutronien ja elektronien määrä neutraalissa atomissa sekä elektronirakenne (esimerkiksi 2, 8, 1).\n1. Li, massaluku 7\n2. järjestysluku 7, massaluku 14\n3. Ne, massaluku 20\n4. Mg, massaluku 25\n5. järjestysluku 16, massaluku 32\n6. Ca, massaluku 44","vastaus":"Avain (merkki: järjestysluku, massaluku, protonit, neutronit, elektronit, elektronirakenne) 1. Li: 3, 7, p 3, n 4, e 3, 2, 1; 2. N: 7, 14, p 7, n 7, e 7, 2, 5; 3. Ne: 10, 20, p 10, n 10, e 10, 2, 8; 4. Mg: 12, 25, p 12, n 13, e 12, 2, 8, 2; 5. S: 16, 32, p 16, n 16, e 16, 2, 8, 6; 6. Ca: 20, 44, p 20, n 24, e 20, 2, 8, 8, 2."},{"nro":2,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 14, ja atomin massaluku on 29.\n\nMontako neutronia atomissa on?","vastaus":15},{"nro":3,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin ytimessä on 29 protonia ja 34 neutronia.\n\nMikä on atomin massaluku?","vastaus":63},{"nro":4,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin massaluku on 27, ja ytimessä on 14 neutronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":13},{"nro":5,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Neutraalin atomin ytimessä on yhteensä 41 hiukkasta, ja atomissa on 19 elektronia.\n\nMontako neutronia ytimessä on?","vastaus":22},{"nro":6,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Neutronilla ei ole sähkövarausta.\n2. Järjestysluku kertoo neutronien määrän.\n3. Elektronit ovat ytimen ulkopuolella.\n4. Jaksollisen järjestelmän atomimassa on aina kokonaisluku.\n5. Ytimen varaus on positiivinen.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Kahden atomin järjestysluku on 2. Toisen atomin massaluku on 3 ja toisen 4.\n\nMontako neutronia on atomissa, jonka massaluku on suurempi?","vastaus":2},{"nro":8,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Jaksollisessa järjestelmässä fluorin ruudussa on luvut 9 ja 19,00. Sen yleisimmän atomin massaluku on 19.\n\nMontako neutronia yleisimmässä atomissa on?","vastaus":10},{"nro":9,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 17.\n\nMontako elektronia neutraalin atomin uloimmalla kuorella on?","vastaus":7},{"nro":10,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 4.\n\nMikä on alkuaineen järjestysluku?","vastaus":14},{"nro":11,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 19.\n\nMontako elektronikuorta neutraalin atomin kuorimallissa on?","vastaus":4},{"nro":12,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 13.\n\nMontako elektronia neutraalin atomin kolmannella kuorella on?","vastaus":3},{"nro":13,"ryhma":"kuoret","tyyppi":"sanallinen","kysymys":"Piirrä kuorimalli kolmesta atomista: happi-18 (järjestysluku 8, massaluku 18), natrium-23 (järjestysluku 11, massaluku 23) ja argon-40 (järjestysluku 18, massaluku 40). Merkitse ytimeen protonien ja neutronien määrä, piirrä kuoret ja elektronit, kirjoita kuvaan nimet ydin ja elektronikuori ja ympyröi uloimman kuoren elektronit. Kerro piirrosten alla, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on.","vastaus":"Malliesimerkki: happi-18: ytimessä 8 p⁺ ja 10 n, elektronit 2, 6, uloimmalla kuorella 6; natrium-23: ytimessä 11 p⁺ ja 12 n, elektronit 2, 8, 1, uloimmalla kuorella 1; argon-40: ytimessä 18 p⁺ ja 22 n, elektronit 2, 8, 8, uloimmalla kuorella 8. Ytimessä ovat protonit (varaus +1) ja neutronit (ei varausta), elektronikuorilla elektronit (varaus −1)."},{"nro":14,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Lue alkuaineiden järjestysluvut ja niille kirjoitetut elektronirakenteet.\n1. järjestysluku 12: 2, 8, 2\n2. järjestysluku 20: 2, 8, 10\n3. järjestysluku 9: 2, 7\n4. järjestysluku 11: 2, 9\n5. järjestysluku 10: 2, 8\n\nMontako rakenteista on oikein neutraalille atomille?","vastaus":3},{"nro":15,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 4, ja ytimessä on 7 neutronia.\n\nMikä on atomin massaluku?","vastaus":13},{"nro":16,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue havainnot.\n1. Kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä.\n2. Atomeista saatiin irti pieniä negatiivisia hiukkasia.\n3. Ohueen kultakalvoon ammutuista alfahiukkasista harvat kääntyivät jyrkästi tai kimposivat takaisin.\n\nMonesko havainto selittyi Bohrin mallilla, jossa elektronit ovat tietyillä kuorilla?","vastaus":1},{"nro":17,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuvasarjassa on neljä atomimallia, jotka on tässä kuvattu sanoin.\n1. Kuva: positiivisesti varautunut pallo, jonka sisällä on pieniä negatiivisia hiukkasia kuin rusinat pullassa.\n2. Kuva: pieni positiivinen keskusta ja sen ympärillä negatiiviset hiukkaset sisäkkäisillä kehillä.\n3. Kuva: kiinteä, jakamaton pallo, jossa ei ole osia.\n4. Kuva: hyvin pieni positiivinen keskusta, jossa lähes koko massa on, ja sen ympärillä negatiivisia hiukkasia; muuten lähes tyhjää.\n\nNimeä jokaisen kuvan malli (kenen malli se on) ja järjestä mallit esittämisajan mukaan. Kerro jokaisesta mallista, mitä se selitti, ja mikä koe tai havainto johti mallin muuttamiseen.","vastaus":"Malliesimerkki: kuva 3 = Dalton, kuva 1 = Thomson, kuva 4 = Rutherford, kuva 2 = Bohr. Järjestys: Dalton, Thomson, Rutherford, Bohr. Daltonin malli (1800-luvun alku): jakamaton pallo. Selitti aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen. Muuttui, kun atomeista löydettiin elektroneja (1897): atomilla on osia. Thomsonin rusinapullamalli (1904): positiivinen pallo, jonka sisällä elektronit. Selitti elektronit atomin osina ja atomin varauksettomuuden. Muuttui kultakalvokokeen (1909) takia: harvat alfahiukkaset kimposivat jyrkästi, mitä tasaisesti levittäytynyt positiivinen varaus ei selittänyt. Rutherfordin ydinmalli (1911): pieni positiivinen ydin, jossa lähes koko massa, ja elektronit ympärillä; atomi on enimmäkseen tyhjää. Selitti kultakalvokokeen. Ei selittänyt viivaspektriä eli sitä, että atomit lähettävät valoa vain tietyillä väreillä, eikä elektronien järjestystä. Bohrin kuorimalli (1913): elektronit tietyillä kuorilla eli energiatasoilla. Selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat nykyiseen kvanttimekaaniseen malliin (elektronipilvi). Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin."},{"nro":18,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuorimallin piirroksessa ydin on iso pallo ja elektronit pisteitä renkailla. Kerro yksi asia, jonka kuorimalli kuvaa hyvin, ja yksi asia, jossa piirros poikkeaa todellisesta atomista.","vastaus":"Malliesimerkki: Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on ja montako elektronia kullakin kuorella on, erityisesti uloimman kuoren elektronit. Todellisuudesta se poikkeaa esimerkiksi siinä, että elektronit eivät kierrä tarkkoja ympyräratoja, vaan niiden paikkaa kuvataan todennäköisyyksinä (elektronipilvi), ja siinä, että mittakaava on väärä: ydin on oikeasti noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta."},{"nro":19,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue väitteet atomimalleista.\n1. Elektronin löytyminen osoitti, että atomilla on osia.\n2. Rutherfordin mallissa elektronit ovat positiivisen pallon sisällä.\n3. Bohrin mallissa elektronit ovat tietyillä energiatasoilla eli kuorilla.\n4. Uusi malli otetaan käyttöön, kun tutkijat äänestävät siitä.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":20,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 10 cm ja ytimen halkaisija 1 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":10000}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää jaksollista järjestelmää. Laskinta ei tarvita. Kun kysytään montako tai mikä luku, kirjoita vastaukseksi luku. Kirjoita elektronirakenne sisimmästä kuoresta alkaen pilkuin erotettuna, esimerkiksi 2, 8, 1. Kaikki atomit ovat neutraaleja. Piirrä kuorimallit selvästi: ydin ympyränä, protonien ja neutronien määrä ytimeen, elektronit pisteinä kuorille. Vastaa sanallisiin tehtäviin kokonaisin virkkein. Atomimallien kuvasarja on koepaperissa kuvattu sanoin.","tehtavat":[{"nro":1,"ryhma":"hiukkaset","tyyppi":"sanallinen","kysymys":"Täydennä taulukko kuudesta atomista. Kirjoita jokaiselle riville alkuaineen merkki, järjestysluku, massaluku, protonien, neutronien ja elektronien määrä neutraalissa atomissa sekä elektronirakenne (esimerkiksi 2, 8, 1).\n1. Be, massaluku 9\n2. järjestysluku 5, massaluku 11\n3. O, massaluku 17\n4. järjestysluku 14, massaluku 30\n5. Ar, massaluku 38\n6. K, massaluku 41","vastaus":"Avain (merkki: järjestysluku, massaluku, protonit, neutronit, elektronit, elektronirakenne) 1. Be: 4, 9, p 4, n 5, e 4, 2, 2; 2. B: 5, 11, p 5, n 6, e 5, 2, 3; 3. O: 8, 17, p 8, n 9, e 8, 2, 6; 4. Si: 14, 30, p 14, n 16, e 14, 2, 8, 4; 5. Ar: 18, 38, p 18, n 20, e 18, 2, 8, 8; 6. K: 19, 41, p 19, n 22, e 19, 2, 8, 8, 1."},{"nro":2,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 12, ja atomin massaluku on 25.\n\nMontako neutronia atomissa on?","vastaus":13},{"nro":3,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin ytimessä on 30 protonia ja 34 neutronia.\n\nMikä on atomin massaluku?","vastaus":64},{"nro":4,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin massaluku on 34, ja ytimessä on 18 neutronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":16},{"nro":5,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Neutraalin atomin ytimessä on yhteensä 27 hiukkasta, ja atomissa on 13 elektronia.\n\nMontako neutronia ytimessä on?","vastaus":14},{"nro":6,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Elektronin varaus on negatiivinen.\n2. Massaluku on aina kaksi kertaa järjestysluku.\n3. Protonit ja neutronit ovat ytimessä.\n4. Elektroni on suunnilleen yhtä raskas kuin protoni.\n5. Saman alkuaineen isotoopeilla on sama järjestysluku.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Kahden atomin järjestysluku on 10. Toisen atomin massaluku on 21 ja toisen 22.\n\nMontako neutronia on atomissa, jonka massaluku on suurempi?","vastaus":12},{"nro":8,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Jaksollisessa järjestelmässä fluorin ruudussa on luvut 9 ja 19,00. Sen yleisimmän atomin massaluku on 19.\n\nMontako neutronia yleisimmässä atomissa on?","vastaus":10},{"nro":9,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 13.\n\nMontako elektronia neutraalin atomin uloimmalla kuorella on?","vastaus":3},{"nro":10,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 5.\n\nMikä on alkuaineen järjestysluku?","vastaus":15},{"nro":11,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 17.\n\nMontako elektronikuorta neutraalin atomin kuorimallissa on?","vastaus":3},{"nro":12,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 16.\n\nMontako elektronia neutraalin atomin kolmannella kuorella on?","vastaus":6},{"nro":13,"ryhma":"kuoret","tyyppi":"sanallinen","kysymys":"Piirrä kuorimalli kolmesta atomista: typpi-15 (järjestysluku 7, massaluku 15), natrium-23 (järjestysluku 11, massaluku 23) ja neon-20 (järjestysluku 10, massaluku 20). Merkitse ytimeen protonien ja neutronien määrä, piirrä kuoret ja elektronit, kirjoita kuvaan nimet ydin ja elektronikuori ja ympyröi uloimman kuoren elektronit. Kerro piirrosten alla, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on.","vastaus":"Malliesimerkki: typpi-15: ytimessä 7 p⁺ ja 8 n, elektronit 2, 5, uloimmalla kuorella 5; natrium-23: ytimessä 11 p⁺ ja 12 n, elektronit 2, 8, 1, uloimmalla kuorella 1; neon-20: ytimessä 10 p⁺ ja 10 n, elektronit 2, 8, uloimmalla kuorella 8. Ytimessä ovat protonit (varaus +1) ja neutronit (ei varausta), elektronikuorilla elektronit (varaus −1)."},{"nro":14,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Lue alkuaineiden järjestysluvut ja niille kirjoitetut elektronirakenteet.\n1. järjestysluku 12: 2, 8, 2\n2. järjestysluku 10: 2, 8\n3. järjestysluku 19: 2, 8, 9\n4. järjestysluku 13: 2, 11\n5. järjestysluku 3: 2, 1\n\nMontako rakenteista on oikein neutraalille atomille?","vastaus":3},{"nro":15,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 4, ja ytimessä on 7 neutronia.\n\nMikä on atomin massaluku?","vastaus":13},{"nro":16,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue havainnot.\n1. Ohueen kultakalvoon ammutuista alfahiukkasista harvat kääntyivät jyrkästi tai kimposivat takaisin.\n2. Kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä.\n3. Atomeista saatiin irti pieniä negatiivisia hiukkasia.\n\nMonesko havainto osoitti, ettei atomi ole jakamaton?","vastaus":3},{"nro":17,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuvasarjassa on neljä atomimallia, jotka on tässä kuvattu sanoin.\n1. Kuva: hyvin pieni positiivinen keskusta, jossa lähes koko massa on, ja sen ympärillä negatiivisia hiukkasia; muuten lähes tyhjää.\n2. Kuva: kiinteä, jakamaton pallo, jossa ei ole osia.\n3. Kuva: pieni positiivinen keskusta ja sen ympärillä negatiiviset hiukkaset sisäkkäisillä kehillä.\n4. Kuva: positiivisesti varautunut pallo, jonka sisällä on pieniä negatiivisia hiukkasia kuin rusinat pullassa.\n\nNimeä jokaisen kuvan malli (kenen malli se on) ja järjestä mallit esittämisajan mukaan. Kerro jokaisesta mallista, mitä se selitti, ja mikä koe tai havainto johti mallin muuttamiseen.","vastaus":"Malliesimerkki: kuva 2 = Dalton, kuva 4 = Thomson, kuva 1 = Rutherford, kuva 3 = Bohr. Järjestys: Dalton, Thomson, Rutherford, Bohr. Daltonin malli (1800-luvun alku): jakamaton pallo. Selitti aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen. Muuttui, kun atomeista löydettiin elektroneja (1897): atomilla on osia. Thomsonin rusinapullamalli (1904): positiivinen pallo, jonka sisällä elektronit. Selitti elektronit atomin osina ja atomin varauksettomuuden. Muuttui kultakalvokokeen (1909) takia: harvat alfahiukkaset kimposivat jyrkästi, mitä tasaisesti levittäytynyt positiivinen varaus ei selittänyt. Rutherfordin ydinmalli (1911): pieni positiivinen ydin, jossa lähes koko massa, ja elektronit ympärillä; atomi on enimmäkseen tyhjää. Selitti kultakalvokokeen. Ei selittänyt viivaspektriä eli sitä, että atomit lähettävät valoa vain tietyillä väreillä, eikä elektronien järjestystä. Bohrin kuorimalli (1913): elektronit tietyillä kuorilla eli energiatasoilla. Selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat nykyiseen kvanttimekaaniseen malliin (elektronipilvi). Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin."},{"nro":18,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Keksitty Pinja piirsi typpiatomin kuorimallin vihkoonsa. Kerro, mitä hänen piirroksensa kuvaa oikein, ja mainitse yksi asia, jossa piirros ja todellinen atomi eroavat.","vastaus":"Malliesimerkki: Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on ja montako elektronia kullakin kuorella on, erityisesti uloimman kuoren elektronit. Todellisuudesta se poikkeaa esimerkiksi siinä, että elektronit eivät kierrä tarkkoja ympyräratoja, vaan niiden paikkaa kuvataan todennäköisyyksinä (elektronipilvi), ja siinä, että mittakaava on väärä: ydin on oikeasti noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta."},{"nro":19,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue väitteet atomimalleista.\n1. Thomsonin mallissa positiivinen varaus on levittäytynyt koko atomiin.\n2. Kultakalvokokeessa suurin osa alfahiukkasista kimposi takaisin.\n3. Daltonin malli selitti, miksi aineet yhdistyvät tietyissä massasuhteissa.\n4. Nykyisessä mallissa elektronit kiertävät tarkkoja ympyräratoja.\n\nMontako väitteistä on totta?","vastaus":2},{"nro":20,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 5 cm ja ytimen halkaisija 2 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":40000}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää jaksollista järjestelmää. Laskinta ei tarvita. Kun kysytään montako tai mikä luku, kirjoita vastaukseksi luku. Kirjoita elektronirakenne sisimmästä kuoresta alkaen pilkuin erotettuna, esimerkiksi 2, 8, 1. Kaikki atomit ovat neutraaleja. Piirrä kuorimallit selvästi: ydin ympyränä, protonien ja neutronien määrä ytimeen, elektronit pisteinä kuorille. Vastaa sanallisiin tehtäviin kokonaisin virkkein. Atomimallien kuvasarja on koepaperissa kuvattu sanoin.","tehtavat":[{"nro":1,"ryhma":"hiukkaset","tyyppi":"sanallinen","kysymys":"Täydennä taulukko kuudesta atomista. Kirjoita jokaiselle riville alkuaineen merkki, järjestysluku, massaluku, protonien, neutronien ja elektronien määrä neutraalissa atomissa sekä elektronirakenne (esimerkiksi 2, 8, 1).\n1. Li, massaluku 6\n2. järjestysluku 6, massaluku 13\n3. O, massaluku 18\n4. Na, massaluku 23\n5. järjestysluku 16, massaluku 34\n6. Ca, massaluku 42","vastaus":"Avain (merkki: järjestysluku, massaluku, protonit, neutronit, elektronit, elektronirakenne) 1. Li: 3, 6, p 3, n 3, e 3, 2, 1; 2. C: 6, 13, p 6, n 7, e 6, 2, 4; 3. O: 8, 18, p 8, n 10, e 8, 2, 6; 4. Na: 11, 23, p 11, n 12, e 11, 2, 8, 1; 5. S: 16, 34, p 16, n 18, e 16, 2, 8, 6; 6. Ca: 20, 42, p 20, n 22, e 20, 2, 8, 8, 2."},{"nro":2,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 14, ja atomin massaluku on 30.\n\nMontako neutronia atomissa on?","vastaus":16},{"nro":3,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin ytimessä on 47 protonia ja 60 neutronia.\n\nMikä on atomin massaluku?","vastaus":107},{"nro":4,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin massaluku on 27, ja ytimessä on 14 neutronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":13},{"nro":5,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Neutraalin atomin ytimessä on yhteensä 40 hiukkasta, ja atomissa on 18 elektronia.\n\nMontako neutronia ytimessä on?","vastaus":22},{"nro":6,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Ytimessä on protoneja ja neutroneja.\n2. Neutraalin atomin elektronien määrä on sama kuin järjestysluku.\n3. Neutronilla on negatiivinen varaus.\n4. Kun massaluvusta vähennetään järjestysluku, saadaan neutronien määrä.\n5. Elektronikuorilla on suurin osa atomin massasta.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Kahden atomin järjestysluku on 10. Toisen atomin massaluku on 20 ja toisen 21.\n\nMontako neutronia on atomissa, jonka massaluku on suurempi?","vastaus":11},{"nro":8,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Jaksollisessa järjestelmässä fluorin ruudussa on luvut 9 ja 19,00. Sen yleisimmän atomin massaluku on 19.\n\nMontako neutronia yleisimmässä atomissa on?","vastaus":10},{"nro":9,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 13.\n\nMontako elektronia neutraalin atomin uloimmalla kuorella on?","vastaus":3},{"nro":10,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 8.\n\nMikä on alkuaineen järjestysluku?","vastaus":18},{"nro":11,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 20.\n\nMontako elektronikuorta neutraalin atomin kuorimallissa on?","vastaus":4},{"nro":12,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 17.\n\nMontako elektronia neutraalin atomin kolmannella kuorella on?","vastaus":7},{"nro":13,"ryhma":"kuoret","tyyppi":"sanallinen","kysymys":"Piirrä kuorimalli kolmesta atomista: typpi-15 (järjestysluku 7, massaluku 15), pii-29 (järjestysluku 14, massaluku 29) ja beryllium-9 (järjestysluku 4, massaluku 9). Merkitse ytimeen protonien ja neutronien määrä, piirrä kuoret ja elektronit, kirjoita kuvaan nimet ydin ja elektronikuori ja ympyröi uloimman kuoren elektronit. Kerro piirrosten alla, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on.","vastaus":"Malliesimerkki: typpi-15: ytimessä 7 p⁺ ja 8 n, elektronit 2, 5, uloimmalla kuorella 5; pii-29: ytimessä 14 p⁺ ja 15 n, elektronit 2, 8, 4, uloimmalla kuorella 4; beryllium-9: ytimessä 4 p⁺ ja 5 n, elektronit 2, 2, uloimmalla kuorella 2. Ytimessä ovat protonit (varaus +1) ja neutronit (ei varausta), elektronikuorilla elektronit (varaus −1)."},{"nro":14,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Lue alkuaineiden järjestysluvut ja niille kirjoitetut elektronirakenteet.\n1. järjestysluku 10: 2, 8\n2. järjestysluku 19: 2, 8, 9\n3. järjestysluku 9: 2, 7\n4. järjestysluku 14: 2, 10, 2\n5. järjestysluku 12: 2, 8, 2\n\nMontako rakenteista on oikein neutraalille atomille?","vastaus":3},{"nro":15,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 3, ja ytimessä on 6 neutronia.\n\nMikä on atomin massaluku?","vastaus":11},{"nro":16,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue havainnot.\n1. Atomeista saatiin irti pieniä negatiivisia hiukkasia.\n2. Kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä.\n3. Ohueen kultakalvoon ammutuista alfahiukkasista harvat kääntyivät jyrkästi tai kimposivat takaisin.\n\nMonesko havainto osoitti, että atomissa on pieni positiivinen ydin?","vastaus":3},{"nro":17,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuvasarjassa on neljä atomimallia, jotka on tässä kuvattu sanoin.\n1. Kuva: pieni positiivinen keskusta ja sen ympärillä negatiiviset hiukkaset sisäkkäisillä kehillä.\n2. Kuva: hyvin pieni positiivinen keskusta, jossa lähes koko massa on, ja sen ympärillä negatiivisia hiukkasia; muuten lähes tyhjää.\n3. Kuva: positiivisesti varautunut pallo, jonka sisällä on pieniä negatiivisia hiukkasia kuin rusinat pullassa.\n4. Kuva: kiinteä, jakamaton pallo, jossa ei ole osia.\n\nNimeä jokaisen kuvan malli (kenen malli se on) ja järjestä mallit esittämisajan mukaan. Kerro jokaisesta mallista, mitä se selitti, ja mikä koe tai havainto johti mallin muuttamiseen.","vastaus":"Malliesimerkki: kuva 4 = Dalton, kuva 3 = Thomson, kuva 2 = Rutherford, kuva 1 = Bohr. Järjestys: Dalton, Thomson, Rutherford, Bohr. Daltonin malli (1800-luvun alku): jakamaton pallo. Selitti aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen. Muuttui, kun atomeista löydettiin elektroneja (1897): atomilla on osia. Thomsonin rusinapullamalli (1904): positiivinen pallo, jonka sisällä elektronit. Selitti elektronit atomin osina ja atomin varauksettomuuden. Muuttui kultakalvokokeen (1909) takia: harvat alfahiukkaset kimposivat jyrkästi, mitä tasaisesti levittäytynyt positiivinen varaus ei selittänyt. Rutherfordin ydinmalli (1911): pieni positiivinen ydin, jossa lähes koko massa, ja elektronit ympärillä; atomi on enimmäkseen tyhjää. Selitti kultakalvokokeen. Ei selittänyt viivaspektriä eli sitä, että atomit lähettävät valoa vain tietyillä väreillä, eikä elektronien järjestystä. Bohrin kuorimalli (1913): elektronit tietyillä kuorilla eli energiatasoilla. Selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat nykyiseen kvanttimekaaniseen malliin (elektronipilvi). Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin."},{"nro":18,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Oppikirjan kuvassa atomi näyttää maalitaululta: keskellä iso ydin ja ympärillä renkaat, joilla on pisteitä. Kerro yksi asia, jonka tällainen kuorimalli kuvaa hyvin, ja yksi asia, jossa se poikkeaa todellisuudesta.","vastaus":"Malliesimerkki: Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on ja montako elektronia kullakin kuorella on, erityisesti uloimman kuoren elektronit. Todellisuudesta se poikkeaa esimerkiksi siinä, että elektronit eivät kierrä tarkkoja ympyräratoja, vaan niiden paikkaa kuvataan todennäköisyyksinä (elektronipilvi), ja siinä, että mittakaava on väärä: ydin on oikeasti noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta."},{"nro":19,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue väitteet atomimalleista.\n1. Rutherfordin malli selitti, miksi osa alfahiukkasista kimposi jyrkästi.\n2. Daltonin mallissa atomissa oli elektroneja.\n3. Bohrin malli lisäsi ydinmalliin elektronikuoret.\n4. Malli voi olla hyödyllinen, vaikka se ei kuvaa kaikkea oikein.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":20,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 20 cm ja ytimen halkaisija 1 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":5000}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää jaksollista järjestelmää. Laskinta ei tarvita. Kun kysytään montako tai mikä luku, kirjoita vastaukseksi luku. Kirjoita elektronirakenne sisimmästä kuoresta alkaen pilkuin erotettuna, esimerkiksi 2, 8, 1. Kaikki atomit ovat neutraaleja. Piirrä kuorimallit selvästi: ydin ympyränä, protonien ja neutronien määrä ytimeen, elektronit pisteinä kuorille. Vastaa sanallisiin tehtäviin kokonaisin virkkein. Atomimallien kuvasarja on koepaperissa kuvattu sanoin.","tehtavat":[{"nro":1,"ryhma":"hiukkaset","tyyppi":"sanallinen","kysymys":"Täydennä taulukko kuudesta atomista. Kirjoita jokaiselle riville alkuaineen merkki, järjestysluku, massaluku, protonien, neutronien ja elektronien määrä neutraalissa atomissa sekä elektronirakenne (esimerkiksi 2, 8, 1).\n1. He, massaluku 3\n2. B, massaluku 10\n3. järjestysluku 7, massaluku 15\n4. Ne, massaluku 22\n5. järjestysluku 13, massaluku 27\n6. Ca, massaluku 43","vastaus":"Avain (merkki: järjestysluku, massaluku, protonit, neutronit, elektronit, elektronirakenne) 1. He: 2, 3, p 2, n 1, e 2, 2; 2. B: 5, 10, p 5, n 5, e 5, 2, 3; 3. N: 7, 15, p 7, n 8, e 7, 2, 5; 4. Ne: 10, 22, p 10, n 12, e 10, 2, 8; 5. Al: 13, 27, p 13, n 14, e 13, 2, 8, 3; 6. Ca: 20, 43, p 20, n 23, e 20, 2, 8, 8, 2."},{"nro":2,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 11, ja atomin massaluku on 23.\n\nMontako neutronia atomissa on?","vastaus":12},{"nro":3,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin ytimessä on 28 protonia ja 30 neutronia.\n\nMikä on atomin massaluku?","vastaus":58},{"nro":4,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Atomin massaluku on 36, ja ytimessä on 20 neutronia.\n\nMikä on alkuaineen järjestysluku?","vastaus":16},{"nro":5,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Neutraalin atomin ytimessä on yhteensä 26 hiukkasta, ja atomissa on 12 elektronia.\n\nMontako neutronia ytimessä on?","vastaus":14},{"nro":6,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Protonin ja elektronin varaukset ovat vastakkaismerkkiset.\n2. Saman alkuaineen kaikissa atomeissa on sama määrä neutroneja.\n3. Atomimassa on alkuaineen atomien keskimääräinen massa.\n4. Ydin on atomin kokoon verrattuna hyvin pieni.\n5. Elektroni on atomin raskain hiukkanen.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":7,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Kahden atomin järjestysluku on 14. Toisen atomin massaluku on 29 ja toisen 30.\n\nMontako neutronia on atomissa, jonka massaluku on suurempi?","vastaus":16},{"nro":8,"ryhma":"hiukkaset","tyyppi":"lasku","kysymys":"Jaksollisessa järjestelmässä hapen ruudussa on luvut 8 ja 16,00. Sen yleisimmän atomin massaluku on 16.\n\nMontako neutronia yleisimmässä atomissa on?","vastaus":8},{"nro":9,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 11.\n\nMontako elektronia neutraalin atomin uloimmalla kuorella on?","vastaus":1},{"nro":10,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 8, 4.\n\nMikä on alkuaineen järjestysluku?","vastaus":14},{"nro":11,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 17.\n\nMontako elektronikuorta neutraalin atomin kuorimallissa on?","vastaus":3},{"nro":12,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Alkuaineen järjestysluku on 16.\n\nMontako elektronia neutraalin atomin kolmannella kuorella on?","vastaus":6},{"nro":13,"ryhma":"kuoret","tyyppi":"sanallinen","kysymys":"Piirrä kuorimalli kolmesta atomista: litium-6 (järjestysluku 3, massaluku 6), argon-40 (järjestysluku 18, massaluku 40) ja hiili-12 (järjestysluku 6, massaluku 12). Merkitse ytimeen protonien ja neutronien määrä, piirrä kuoret ja elektronit, kirjoita kuvaan nimet ydin ja elektronikuori ja ympyröi uloimman kuoren elektronit. Kerro piirrosten alla, mitkä hiukkaset ovat ytimessä ja mitkä kuorilla ja mikä niiden varaus on.","vastaus":"Malliesimerkki: litium-6: ytimessä 3 p⁺ ja 3 n, elektronit 2, 1, uloimmalla kuorella 1; argon-40: ytimessä 18 p⁺ ja 22 n, elektronit 2, 8, 8, uloimmalla kuorella 8; hiili-12: ytimessä 6 p⁺ ja 6 n, elektronit 2, 4, uloimmalla kuorella 4. Ytimessä ovat protonit (varaus +1) ja neutronit (ei varausta), elektronikuorilla elektronit (varaus −1)."},{"nro":14,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Lue alkuaineiden järjestysluvut ja niille kirjoitetut elektronirakenteet.\n1. järjestysluku 15: 2, 8, 5\n2. järjestysluku 11: 2, 9\n3. järjestysluku 9: 2, 7\n4. järjestysluku 19: 2, 8, 9\n5. järjestysluku 12: 2, 8, 2\n\nMontako rakenteista on oikein neutraalille atomille?","vastaus":3},{"nro":15,"ryhma":"kuoret","tyyppi":"lasku","kysymys":"Neutraalin atomin elektronirakenne on 2, 2, ja ytimessä on 5 neutronia.\n\nMikä on atomin massaluku?","vastaus":9},{"nro":16,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue havainnot.\n1. Ohueen kultakalvoon ammutuista alfahiukkasista harvat kääntyivät jyrkästi tai kimposivat takaisin.\n2. Atomeista saatiin irti pieniä negatiivisia hiukkasia.\n3. Kuumennettu vetykaasu lähettää valoa vain tietyillä väreillä.\n\nMonesko havainto selittyi Bohrin mallilla, jossa elektronit ovat tietyillä kuorilla?","vastaus":3},{"nro":17,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Kuvasarjassa on neljä atomimallia, jotka on tässä kuvattu sanoin.\n1. Kuva: positiivisesti varautunut pallo, jonka sisällä on pieniä negatiivisia hiukkasia kuin rusinat pullassa.\n2. Kuva: kiinteä, jakamaton pallo, jossa ei ole osia.\n3. Kuva: hyvin pieni positiivinen keskusta, jossa lähes koko massa on, ja sen ympärillä negatiivisia hiukkasia; muuten lähes tyhjää.\n4. Kuva: pieni positiivinen keskusta ja sen ympärillä negatiiviset hiukkaset sisäkkäisillä kehillä.\n\nNimeä jokaisen kuvan malli (kenen malli se on) ja järjestä mallit esittämisajan mukaan. Kerro jokaisesta mallista, mitä se selitti, ja mikä koe tai havainto johti mallin muuttamiseen.","vastaus":"Malliesimerkki: kuva 2 = Dalton, kuva 1 = Thomson, kuva 3 = Rutherford, kuva 4 = Bohr. Järjestys: Dalton, Thomson, Rutherford, Bohr. Daltonin malli (1800-luvun alku): jakamaton pallo. Selitti aineiden yhdistymisen tietyissä massasuhteissa ja massan säilymisen. Muuttui, kun atomeista löydettiin elektroneja (1897): atomilla on osia. Thomsonin rusinapullamalli (1904): positiivinen pallo, jonka sisällä elektronit. Selitti elektronit atomin osina ja atomin varauksettomuuden. Muuttui kultakalvokokeen (1909) takia: harvat alfahiukkaset kimposivat jyrkästi, mitä tasaisesti levittäytynyt positiivinen varaus ei selittänyt. Rutherfordin ydinmalli (1911): pieni positiivinen ydin, jossa lähes koko massa, ja elektronit ympärillä; atomi on enimmäkseen tyhjää. Selitti kultakalvokokeen. Ei selittänyt viivaspektriä eli sitä, että atomit lähettävät valoa vain tietyillä väreillä, eikä elektronien järjestystä. Bohrin kuorimalli (1913): elektronit tietyillä kuorilla eli energiatasoilla. Selitti vedyn viivaspektrin. Myöhemmin tarkemmat mittaukset johtivat nykyiseen kvanttimekaaniseen malliin (elektronipilvi). Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin."},{"nro":18,"ryhma":"mallit","tyyppi":"sanallinen","kysymys":"Keksitty Eemil kysyy, miksi koulussa käytetään kuorimallia, jos se ei ole täsmälleen totta. Vastaa hänelle: kerro yksi asia, jonka kuorimalli kuvaa hyvin, ja yksi asia, jossa se poikkeaa todellisuudesta.","vastaus":"Malliesimerkki: Kuorimalli kuvaa hyvin, montako protonia ja neutronia ytimessä on ja montako elektronia kullakin kuorella on, erityisesti uloimman kuoren elektronit. Todellisuudesta se poikkeaa esimerkiksi siinä, että elektronit eivät kierrä tarkkoja ympyräratoja, vaan niiden paikkaa kuvataan todennäköisyyksinä (elektronipilvi), ja siinä, että mittakaava on väärä: ydin on oikeasti noin kymmenestuhannesosasta sadastuhannesosaan atomin halkaisijasta."},{"nro":19,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Lue väitteet atomimalleista.\n1. Thomson havaitsi elektronin.\n2. Bohrin malli syntyi ennen Thomsonin mallia.\n3. Rutherfordin mallissa atomi on enimmäkseen tyhjää.\n4. Malli muuttuu, kun uusi havainto ei sovi vanhaan malliin.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":20,"ryhma":"mallit","tyyppi":"lasku","kysymys":"Ytimen halkaisija on noin sadastuhannesosa (1/100 000) atomin halkaisijasta. Kuorimallin piirroksessa atomin halkaisija on 4 cm ja ytimen halkaisija 1 cm.\n\nKuinka monta kertaa liian suureksi ydin on piirretty verrattuna oikeaan mittakaavaan?","vastaus":25000}]}],"tulostus":{"sivuja":6,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen. Kartan näyttö alkaa sanalla ”Paperikokeessa”. Taulukon täydentäminen, hiukkasten määrät ja elektronirakenteet tarkistetaan yksikäsitteisesti; kuorimallien piirtäminen, mallien kehitys ja kuorimallin rajoitukset ovat sanallisia tehtäviä. Jokaisessa kokeessa on 20 tehtävää, joista 16 on numeerisia (tehtävät 2–12, 14–16, 19 ja 20).","Mittaritehtävät ovat 1, 13, 17 ja 18. Niiden pitää olla oikein. Tehtävä 1 on oikein, kun vähintään viisi riviä kuudesta on kokonaan oikein (kartan raja; koko taulukko lasketaan yhdeksi tehtäväksi 20:stä). Rivi on oikein, kun merkki, järjestysluku, massaluku, protonit, neutronit, elektronit ja elektronirakenne ovat kaikki oikein. Tehtävä 13: kaikki kolme kuorimallia oikein (protonit ja neutronit ytimessä, oikea määrä kuoria ja elektroneja kullakin kuorella, uloimman kuoren elektronit merkitty, nimet ydin ja elektronikuori) ja kirjoitettu selitys hiukkasten paikasta ja varauksesta; elektronien sijoittelu kehällä ja piirroksen siisteys eivät ratkaise. Tehtävä 17: neljä mallia tunnistettu ja järjestetty oikein, jokaisesta yksi asia, jonka se selitti, ja vähintään kahden muutoksen syy, joista toinen on kultakalvokoe (rusinapullamalli → ydinmalli), sekä periaate: malli muuttuu, kun havainto ei sovi vanhaan malliin. Tehtävä 18: yksi oikea asia, jonka kuorimalli kuvaa hyvin, ja yksi oikea poikkeama (radat, mittakaava, kolmiulotteisuus tai elektronipilvi). Hyväksytään mikä tahansa oikea muotoilu.","Jaksollinen järjestelmä on käytössä kokeessa (kartta: ”päätellä jaksollisesta järjestelmästä”). Jos koululla ei ole tulostettavia jaksollisia järjestelmiä, käytä alla olevaa liitettä; siinä ei ole massalukuja eikä atomimassoja, joten se ei paljasta neutronien määriä. <table style=\"border-collapse:collapse;font-size:12px\"><caption style=\"text-align:left;font-weight:600\">Tulostettava liite kokeeseen: alkuaineet 1–20 (järjestysluku, merkki, nimi)</caption><tr><td style=\"border:1px solid #999;padding:3px 6px\">1 H<br>vety</td><td style=\"border:1px solid #999;padding:3px 6px\">2 He<br>helium</td><td style=\"border:1px solid #999;padding:3px 6px\">3 Li<br>litium</td><td style=\"border:1px solid #999;padding:3px 6px\">4 Be<br>beryllium</td><td style=\"border:1px solid #999;padding:3px 6px\">5 B<br>boori</td></tr><tr><td style=\"border:1px solid #999;padding:3px 6px\">6 C<br>hiili</td><td style=\"border:1px solid #999;padding:3px 6px\">7 N<br>typpi</td><td style=\"border:1px solid #999;padding:3px 6px\">8 O<br>happi</td><td style=\"border:1px solid #999;padding:3px 6px\">9 F<br>fluori</td><td style=\"border:1px solid #999;padding:3px 6px\">10 Ne<br>neon</td></tr><tr><td style=\"border:1px solid #999;padding:3px 6px\">11 Na<br>natrium</td><td style=\"border:1px solid #999;padding:3px 6px\">12 Mg<br>magnesium</td><td style=\"border:1px solid #999;padding:3px 6px\">13 Al<br>alumiini</td><td style=\"border:1px solid #999;padding:3px 6px\">14 Si<br>pii</td><td style=\"border:1px solid #999;padding:3px 6px\">15 P<br>fosfori</td></tr><tr><td style=\"border:1px solid #999;padding:3px 6px\">16 S<br>rikki</td><td style=\"border:1px solid #999;padding:3px 6px\">17 Cl<br>kloori</td><td style=\"border:1px solid #999;padding:3px 6px\">18 Ar<br>argon</td><td style=\"border:1px solid #999;padding:3px 6px\">19 K<br>kalium</td><td style=\"border:1px solid #999;padding:3px 6px\">20 Ca<br>kalsium</td></tr></table>","Mikä kelpaa: tehtävissä 2–5, 7, 8 ja 15 pelkkä luku riittää. Tehtävässä 8 atomimassan (esimerkiksi 39,95) käyttäminen massalukuna on väärin; tehtävä mittaa ansaa 1. Tehtävä 14 mittaa ansaa 2 (liikaa elektroneja kuorella); jokaisessa versiossa on kolme oikeaa ja kaksi väärää rakennetta. Tehtävässä 20 vastaus on suhdeluku ilman yksikköä (esimerkiksi 20 000). Kokeen atomit ovat todellisia isotooppeja, mutta osa niistä on harvinaisia (esimerkiksi rikki-36, kalsium-43); tämä on tarkoituksellista, jotta oppilas laskee neutronit massaluvusta eikä muista niitä.","Taso ja rajaus: ydintaito. Alkuaineet 1–20 ja kuorisääntö 2, 8, 8. Ionit kuuluvat taitoon Ionien vetovoima (KE8-RAK-04), ja ryhmän ja jakson yhteys uloimpaan kuoreen ja kuorten määrään taitoon Ryhmä ja jakso (KE8-RAK-02); niitä ei käsitellä tässä. Isotooppi mainitaan vain selityksenä sille, miksi atomimassa ei ole massaluku. 7. luokalla atomin hiukkaset, järjestysluku, kahden kuoren kuorimalli ja rusinapullamallin vaihtuminen ydinmalliin olivat haastetaito (KE7-RAK-02, Atomin sisällä); tässä ne kerrataan lyhyesti kaikille ja laajennetaan massalukuun, neutronien laskemiseen, alkuaineisiin 1–20, neljän mallin vertailuun ja mallin rajoituksiin. Ydintaidon pohja on KE7-RAK-01 (alkuaineiden merkit, atomi ja molekyyli).","Tarkistettavat asiatiedot: (1) elektronin massa noin 1/1836 protonin massasta (teksti: noin 1/1840); (2) ytimen ja atomin halkaisijoiden suhde suuruusluokaltaan 1 : 10 000 – 1 : 100 000; tehtävät 20 ja H19 käyttävät annettua arvoa 1/100 000; (3) vuosiluvut: Daltonin atomiteoria 1803–1808, Thomsonin elektroni 1897 ja rusinapullamalli 1904, Geigerin ja Marsdenin kultakalvokoe Rutherfordin johdolla 1909, ydinmalli 1911, Bohrin malli 1913, kvanttimekaaninen malli 1920-luvulla; (4) kloorin isotooppien osuudet noin 76 % ja 24 % sekä atomimassat (IUPAC: Cl 35,45, Ar 39,95, F 19,00, O 16,00, Mg 24,31); (5) kokeen ja harjoitusten isotoopit ovat pysyviä (esimerkiksi He-3, Li-6, Be-9, B-10, C-13, N-15, O-17, O-18, Ne-21, Ne-22, Mg-25, Mg-26, Si-29, Si-30, S-34, S-36, Ar-36, Ar-38, K-41, Ca-42, Ca-43, Ca-44). Lähteitä: IUPAC https://iupac.qmul.ac.uk/AtWt/ ja https://www.ciaaw.org.","Turvallisuus: taidossa ei tehdä kokeita kemikaaleilla. Kultakalvokokeen ja viivaspektrin voi näyttää simulaationa tai videona; spektriputkia käytettäessä noudatetaan koulun sähköturvallisuusohjeita (suurjännite, vain opettaja käsittelee).","Tulostus: sivumäärä on arvio, ja se mitataan rakennuksen jälkeen. Suoritusaikaa ei mitata, eikä oppilaita aseteta paremmuusjärjestykseen."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Järjestysluku on protonien määrä ja neutraalissa atomissa myös elektronien määrä. Massaluku on protonit ja neutronit yhteensä, joten neutronit saadaan vähentämällä massaluvusta järjestysluku. Elektronit kuorille 2, 8, 8 ja loput neljännelle. Atomimalli on muuttunut aina, kun uusi havainto ei ole sopinut vanhaan malliin, ja kuorimallikin on yksinkertaistus.","vaiheet":[{"aika":"10 min","otsikko":"1. tunti: Aloitus","sisalto":"Näytä jaksollisen järjestelmän magnesiumin ruutu ja kysy, mitä luvut 12 ja 24,31 tarkoittavat. Lukekaa johdanto, kappale Atomin hiukkaset ja taulukko Kolme hiukkasta."},{"aika":"20 min","otsikko":"Järjestysluku, massaluku ja atomimassa","sisalto":"Kappale Järjestysluku ja massaluku, saanto Näin päättelet hiukkasten määrät, kappale Atomimassa ei ole massaluku ja ansa 1. Harjoitukset H01–H07."},{"aika":"15 min","otsikko":"Elektronirakenne","sisalto":"Kappale Elektronirakenne ja taulukko Alkuaineet 1–20. Oppilaat kirjoittavat elektronirakenteet järjestysluvuille 11–20."},{"aika":"20 min","otsikko":"2. tunti: Kuorimalli","sisalto":"Saanto Näin piirrät kuorimallin, kuva Kaksi kuorimallia ja ansa 2. Jokainen piirtää kaksi kuorimallia omista alkuaineistaan (ei kokeen alkuaineita). Harjoitukset H08–H14."},{"aika":"25 min","otsikko":"Atomimallin kehitys ja mallin rajat","sisalto":"Kappale ja taulukko mallien kehityksestä, kuvasarja ja ansa 3. Kultakalvokokeen ja viivaspektrin voi näyttää simulaationa tai videona. Kappale Mitä kuorimalli kuvaa hyvin. Harjoitukset H15–H20."},{"aika":"45 min","otsikko":"3. tunti: Näyttö","sisalto":"Valvottu paperikoe, versiot A–E, jaksollinen järjestelmä käytössä. Tarkista ensin mittaritehtävät 1, 13, 17 ja 18."}],"tarvikkeet":"Jaksollinen järjestelmä jokaiselle (tai opettajan huomioiden tulostettava liite), harppi tai ympyräsapluuna kuorimalleihin, koepaperit A–E. Vapaaehtoisesti kultakalvokokeen simulaatio tai video ja viivaspektrin video."},"virhesanakirja":[{"virhe":"Pitää massalukua neutronien määränä tai laskee neutronit järjestysluvusta","tehtava":"1, 2, 4, 5","mita_kertoo":"Massaluvun merkitys protonien ja neutronien summana ei ole vielä selvä.","mita_tehda":"Kertaa ansa 1. Pyydä oppilasta kirjoittamaan joka kerta auki: massaluku = protonit + neutronit, ja ratkaisemaan siitä puuttuva luku."},{"virhe":"Käyttää jaksollisen järjestelmän atomimassaa (desimaaliluku) massalukuna","tehtava":"1, 8","mita_kertoo":"Oppilas ei erota alkuaineen keskimääräistä atomimassaa yksittäisen atomin massaluvusta.","mita_tehda":"Kertaa kappale Atomimassa ei ole massaluku kloorin esimerkillä. Kysy: voiko atomissa olla 35,45 hiukkasta?"},{"virhe":"Sijoittaa toiselle tai kolmannelle kuorelle yli 8 elektronia (esimerkiksi 2, 10 tai 2, 8, 9)","tehtava":"1, 9, 11, 12, 13, 14","mita_kertoo":"Kuorten enimmäismäärät alkuaineilla 1–20 eivät ole varmoja.","mita_tehda":"Kertaa ansa 2 ja kuva Kaksi kuorimallia. Anna oppilaan täyttää kuoria pisteillä järjestysluvuille 9–20 ja tarkistaa jokaisen summa."},{"virhe":"Elektronien summa ei vastaa järjestyslukua tai elektronit piirretään ytimeen","tehtava":"1, 10, 13, 15","mita_kertoo":"Neutraalin atomin perusperiaate (protoneja ja elektroneja yhtä monta) tai ytimen ja kuorten ero ei ole vakiintunut.","mita_tehda":"Pyydä oppilasta laskemaan lopuksi kaikki elektronit ja vertaamaan järjestyslukuun. Kertaa taulukko Kolme hiukkasta."},{"virhe":"Sekoittaa mallien järjestyksen tai muutoksen syyt (esimerkiksi kultakalvokoe johti Bohrin malliin)","tehtava":"16, 17, 19","mita_kertoo":"Mallit ovat irrallisia nimiä ilman yhteyttä havaintoon, joka ne muutti.","mita_tehda":"Käy taulukko Neljä mallia läpi riveittäin: malli → mitä se selitti → mikä ei sopinut. Pyydä oppilasta piirtämään oma aikajana, jossa nuolten kohdalla on havainto."},{"virhe":"Pitää kuorimallia täsmällisenä kuvana atomista tai ei osaa nimetä sen rajoituksia","tehtava":"18, 20","mita_kertoo":"Mallin ja todellisuuden ero ei ole vielä hahmottunut.","mita_tehda":"Kertaa kappale Mitä kuorimalli kuvaa hyvin ja harjoitus H19. Kysy: jos ydin olisi herne, kuinka suuri atomi olisi?"}],"huoltajalle":{"mista_on_kyse":"Nuori opettelee kuvaamaan atomin rakenteen: päättelemään jaksollisesta järjestelmästä, montako protonia, neutronia ja elektronia atomissa on, kirjoittamaan elektronirakenteen (esimerkiksi 2, 8, 1) ja piirtämään kuorimallin alkuaineille 1–20. Hän osaa myös kertoa, miten käsitys atomista on muuttunut ja missä kuorimalli poikkeaa todellisuudesta. Taito näytetään paperikokeella.","kotona":["Pyytäkää nuorta selittämään, mitä järjestysluku ja massaluku kertovat ja miten niistä saadaan neutronien määrä.","Pyytäkää piirtämään jonkin alkuaineen kuorimalli ja kertomaan, miksi toiselle kuorelle ei piirretä kymmentä elektronia.","Kysykää, miksi atomimalli on vaihtunut historian aikana. Hyvä vastaus nimeää kokeen tai havainnon, joka ei sopinut vanhaan malliin.","Kysykää, missä kuorimalli poikkeaa todellisesta atomista. Hyvä vastaus mainitsee esimerkiksi, ettei elektroni kierrä tarkkaa rataa."],"milloin_huolestua":"Jos nuori ei saa neutronien määrää selville massaluvusta tai sijoittaa elektronit kuorille sattumanvaraisesti vielä harjoitusten jälkeen, kertokaa opettajalle. Taito on pohja seuraaville kemian taidoille (jaksollinen järjestelmä, ionit ja sidokset), ja se on ydintaito, joka vaaditaan 9. luokalle siirtymiseen."},"ulkoiset":{},"valmis_teksti":"Hienoa! Päättelet jaksollisesta järjestelmästä atomin protonit, neutronit ja elektronit, kirjoitat elektronirakenteen ja piirrät kuorimallin alkuaineille 1–20. Osaat myös kertoa, miten atomimalli on kehittynyt ja missä kuorimalli poikkeaa todellisuudesta."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

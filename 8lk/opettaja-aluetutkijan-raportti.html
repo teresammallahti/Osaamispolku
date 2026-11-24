@@ -1,0 +1,619 @@
+<title>Aluetutkijan raportti · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"GE8-TUT-02","oppiaine":"GE","vuosiluokka":8,"taitoalue":"TUT","jakso":"J5","taso":"ydin","otsikko":"Aluetutkijan raportti","kuvaus":"Osaan tehdä aluetutkimuksen valitsemastani alueesta: asettaa kysymykset, koota tiedot geomediasta, havainnollistaa tulokset kartalla ja diagrammilla ja esittää ne perustellen.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T8","T10","T5","T7","T9"],"S":["S1","S4","S2"]},"eyebrow":"Maantieto · 8. luokka","ikoni":"tutkimus","naytto":"Valitsen opettajan listasta alueen (Suomen maisema-alue tai maakunta tai maailman suuralue, esimerkiksi jokilaakso, vuoristo tai rannikkoalanko). Asetan kaksi tai kolme maantieteellistä tutkimuskysymystä luonnon ja ihmisen vuorovaikutuksesta alueella. Kokoan tietoa oppitunneilla vähintään kolmesta geomedian lähteestä (kartasto, teemakartta, tilasto, satelliitti- tai ilmakuva, karttapalvelu, yksi ajankohtainen uutinen alueelta). Laadin itse vähintään yhden kartan ja yhden diagrammin. Kokoan raportin tai julisteen (alue ja sen sijainti, kysymykset, aineistot ja menetelmät sekä arvio yhden lähteen luotettavuudesta, tulokset, johtopäätökset, lähteet) ja esitän sen luokalle tai tallenteena ja vastaan yhteen kysymykseen perustellen. Voimme jakaa aineistoa parin tai ryhmän kanssa, mutta raportti, kartta, diagrammi ja esitys ovat omiani.","osaa_kun":"Kysymykset ovat maantieteellisiä (missä, miksi juuri siellä, mitä siitä seuraa) ja raportti vastaa niihin. Laatimassani kartassa on otsikko, selite, mittakaava tai sijaintikartta ja lähde, ja diagrammissa akselit, yksiköt ja lähde. Johtopäätökset perustuvat aineistoon, ja niissä selitän vähintään yhden luonnon ja ihmisen välisen yhteyden alueella. Lähteet on merkitty, ja arvioin yhden lähteen luotettavuutta. Esityksessä käytän maantieteen käsitteitä ja perustelen näkemykseni tiedolla. 7. luokalla selitin yhden uutisen taustan; nyt toteutan kokonaisen tutkimuksen ja havainnollistan sen itse.","teksti":[{"tyyppi":"johdanto","sisalto":"Kaksi oppilasta esittelee saman jokilaakson. Ensimmäinen kertoo pinta-alan, asukasluvun, kolme nähtävyyttä ja paikallisen ruokalajin. Se on matkaesite. Toinen kysyy, miksi kylät ovat laakson reunoilla eivätkä joen rannalla, ja vastaa kartalla, tulvakartalla ja diagrammilla. Se on aluetutkimus. Tässä taidossa teet aluetutkimuksen itse valitsemastasi alueesta. Käytät kaikkea, mitä olet oppinut: 7. luokalla selitit uutisen taustan maantieteen käsitteillä, syksyllä teit kenttätutkimuksen koulun pihalla, ja olet tutkinut teemakarttoja, asutuksen sijoittumista ja Suomen maisema-alueita. Nyt asetat kysymykset itse, kokoat aineiston geomediasta, laadit oman kartan ja diagrammin ja esität tuloksesi. Tämän materiaalin esimerkkialue Haapajoen laakso ja sen luvut ovat keksittyjä."},{"tyyppi":"kuva","otsikko":"Aluetutkimuksen kulku","svg":"<svg viewBox=\"0 0 680 125\" xmlns=\"http://www.w3.org/2000/svg\"><rect class=\"v-osa\" x=\"10\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"58.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">1 Alue ja</text><text class=\"v-t\" x=\"58.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">kysymykset</text><text class=\"v-t pieni\" x=\"58\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">1. tunti</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"106\" y1=\"61\" x2=\"111.0\" y2=\"61.0\"/><polygon class=\"v-nuoli\" points=\"120,61 111.0,66.0 111.0,56.0\"/><rect class=\"v-osa\" x=\"122\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"170.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">2 Aineistot</text><text class=\"v-t\" x=\"170.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">geomediasta</text><text class=\"v-t pieni\" x=\"170\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">1.–2. tunti</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"218\" y1=\"61\" x2=\"223.0\" y2=\"61.0\"/><polygon class=\"v-nuoli\" points=\"232,61 223.0,66.0 223.0,56.0\"/><rect class=\"v-osa v1\" x=\"234\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"282.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">3 Oma kartta</text><text class=\"v-t\" x=\"282.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">ja diagrammi</text><text class=\"v-t pieni\" x=\"282\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">2. tunti</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"330\" y1=\"61\" x2=\"335.0\" y2=\"61.0\"/><polygon class=\"v-nuoli\" points=\"344,61 335.0,66.0 335.0,56.0\"/><rect class=\"v-osa\" x=\"346\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"394.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">4 Tulokset ja</text><text class=\"v-t\" x=\"394.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">johtopäätökset</text><text class=\"v-t pieni\" x=\"394\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">3. tunti</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"442\" y1=\"61\" x2=\"447.0\" y2=\"61.0\"/><polygon class=\"v-nuoli\" points=\"456,61 447.0,66.0 447.0,56.0\"/><rect class=\"v-osa\" x=\"458\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"506.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">5 Raportti</text><text class=\"v-t\" x=\"506.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">tai juliste</text><text class=\"v-t pieni\" x=\"506\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">3. tunti</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"554\" y1=\"61\" x2=\"559.0\" y2=\"61.0\"/><polygon class=\"v-nuoli\" points=\"568,61 559.0,66.0 559.0,56.0\"/><rect class=\"v-osa v1\" x=\"570\" y=\"30\" width=\"96\" height=\"62\" rx=\"8\"/><text class=\"v-t vahva\" x=\"618.0\" y=\"57.0\" text-anchor=\"middle\" style=\"font-size:12px\">6 Esitys ja</text><text class=\"v-t\" x=\"618.0\" y=\"73.0\" text-anchor=\"middle\" style=\"font-size:12px\">kysymys</text><text class=\"v-t pieni\" x=\"618\" y=\"112\" text-anchor=\"middle\" style=\"font-size:11px\">4. tunti</text><text class=\"v-t pieni\" x=\"340\" y=\"18\" text-anchor=\"middle\" style=\"font-size:11px\">Kysymykset ohjaavat kaikkea: jokainen aineisto, kartta ja diagrammi vastaa johonkin niistä.</text></svg>","teksti":"Tutkimus tehdään oppitunneilla neljässä osassa. Korostetut vaiheet (oma kartta ja diagrammi, esitys) tuotat itse, vaikka aineistoa voi jakaa parin tai ryhmän kanssa."},{"tyyppi":"kappale","otsikko":"Mikä tekee kysymyksestä maantieteellisen","sisalto":"Maantieteellinen kysymys koskee sijaintia, syitä ja seurauksia alueella: missä jokin on, miksi se on juuri siellä ja mitä siitä seuraa. Aluetutkimuksessa kysymykset koskevat luonnon ja ihmisen vuorovaikutusta: miten luonto, kuten pinnanmuodot, maaperä, vesistöt tai ilmasto, vaikuttaa ihmisen toimintaan alueella, ja miten ihminen muuttaa alueen luontoa. Hyvään kysymykseen voi vastata aineistolla. Kysymys \"Montako asukasta alueella on?\" on taustatieto, ei tutkimuskysymys, koska vastaus on yksi luku eikä se selitä mitään. Kysymys \"Onko alue kaunis?\" on mielipide. Valitse kaksi tai kolme kysymystä, jotka liittyvät toisiinsa, niin tutkimuksesta tulee kokonaisuus."},{"tyyppi":"taulukko","otsikko":"Kysymyksiä Haapajoen laaksosta","otsikkorivi":["Kysymys","Kelpaako tutkimuskysymykseksi?","Miksi"],"rivit":[["Miksi kylät sijaitsevat laakson reunoilla eivätkä joen rannalla?","kyllä","sijainti ja syy, luonnon ja ihmisen yhteys; vastaus kartasta ja tulvakartasta"],["Mitä kevättulvat aiheuttavat laakson pelloille ja teille?","kyllä","seuraus alueella; vastaus tulvakartasta ja uutisesta"],["Miten peltojen ja metsien sijainti liittyy maaperään?","kyllä","syy ja sijainti; vastaus maaperäkartasta ja ilmakuvasta"],["Kuinka monta asukasta Haapalassa on?","ei sellaisenaan","taustatieto, ei selitä mitään; voi olla osa tuloksia"],["Mikä on laakson paras uimapaikka?","ei","mielipide, ei maantieteellinen selitys"],["Kuka perusti Kivikylän?","ei","historian kysymys; maantieteelliseksi se muuttuu, kun kysyt, miksi kylä perustettiin juuri siihen"]]},{"tyyppi":"kappale","otsikko":"Geomedia: mistä tieto tulee","sisalto":"Geomedia tarkoittaa kaikkea mediaa, jossa on paikkaan sidottua tietoa: kartastot, maasto- ja teemakartat, tilastot, ilmakuvat, satelliittikuvat, karttapalvelut ja uutiset, joissa kerrotaan tapahtumapaikka. Tarvitset vähintään kolme erilaista lähdettä. Hyvä yhdistelmä on yksi karttalähde, joka näyttää sijainnin ja luonnon (maastokartta, maaperäkartta tai ilmakuva), yksi tilasto, joka antaa luvut (esimerkiksi väestö, elinkeinot tai sademäärä), ja yksi ajankohtainen uutinen alueelta, joka näyttää, mitä alueella nyt tapahtuu. Kirjaa jokaisesta lähteestä heti: julkaisija, nimi, vuosi tai päivämäärä ja verkko-osoite. Lähteiden kirjaaminen lopuksi muistinvaraisesti on vaikeaa."},{"tyyppi":"taulukko","otsikko":"Aineistotyypit","otsikkorivi":["Aineisto","Mitä siitä saa","Mihin kannattaa kiinnittää huomiota"],"rivit":[["Maastokartta, karttapalvelu","sijainnit, pinnanmuodot (korkeuskäyrät), vesistöt, tiet, rakennukset","mittakaava ja kartan päivitysvuosi"],["Teemakartta (esim. maaperä, väestö, tulva-alueet)","yhden ilmiön alueellinen vaihtelu","selite ja väriskaalan luokat; mitä alueyksikköä kartta käyttää"],["Tilasto","luvut ja muutos ajassa","vuosi, yksikkö, alue, jota luku koskee (kunta, maakunta, valtio)"],["Ilma- tai satelliittikuva","maankäyttö ja muutos (pellot, metsä, rakennettu alue, tulva)","kuvauspäivä ja vuodenaika"],["Uutinen","ajankohtainen tapahtuma ja ihmisten näkökulmat","julkaisija, päivämäärä, kenen ääni kuuluu"]]},{"tyyppi":"kappale","otsikko":"Oma kartta","sisalto":"Laadi kartta itse: piirrä käsin pohjakartan päälle tai karttapalvelussa, jossa voit lisätä omia merkintöjä. Kuvakaappaus valmiista kartasta ei ole oma kartta, mutta sitä saa käyttää pohjana, jos lisäät siihen omat merkintäsi ja kerrot pohjakartan lähteen. Kartan pitää vastata johonkin kysymykseesi: jos kysyt, miksi kylät ovat laakson reunoilla, karttaan merkitään kylät, joki ja tulva-alue. Jokaisessa kartassa on otsikko, joka kertoo, mitä ja missä, selite kaikille merkeille ja väreille, mittakaava tai sijaintikartta, joka näyttää, missä alue on suuremmassa kokonaisuudessa, ja lähde. Pohjoisnuoli tarvitaan, jos pohjoinen ei ole kartan yläreunassa. Jos teet väreillä teemakartan, muista Maakuntien väriskaalasta: vaaleasta tummaan kasvava väri kertoo suuremmasta arvosta."},{"tyyppi":"kuva","otsikko":"Mallikartta: keksitty Haapajoen laakso","svg":"<svg viewBox=\"0 0 580 368\" xmlns=\"http://www.w3.org/2000/svg\"><text class=\"v-t vahva\" x=\"215\" y=\"22\" text-anchor=\"middle\" style=\"font-size:13px\">① Haapajoen laakso: asutus, pellot ja tulva-alue</text><rect class=\"v-maa\" x=\"20\" y=\"35\" width=\"390\" height=\"300\"/><path class=\"v-osa v1\" d=\"M20,95 C90,105 140,150 190,175 C250,205 310,230 410,255 L410,300 C300,280 240,255 180,228 C130,205 80,165 20,150 Z\"/><path class=\"v-kayra v1\" d=\"M20,122 C90,130 140,175 185,200 C245,232 305,255 410,278\"/><text class=\"v-t meri\" x=\"300\" y=\"268\" text-anchor=\"middle\" style=\"font-size:11px\" transform=\"rotate(14 300 268)\">Haapajoki</text><path class=\"v-jana\" fill=\"none\" d=\"M20,80 C100,88 160,130 215,150 C280,175 340,200 410,215\"/><path class=\"v-jana\" fill=\"none\" d=\"M240,335 C225,280 205,235 185,200\"/><circle class=\"v-merkki\" cx=\"95\" cy=\"92\" r=\"5\"/><text class=\"v-t\" x=\"103\" y=\"86\" text-anchor=\"start\" style=\"font-size:11px\">Kivikylä</text><circle class=\"v-merkki\" cx=\"230\" cy=\"160\" r=\"5\"/><text class=\"v-t\" x=\"238\" y=\"154\" text-anchor=\"start\" style=\"font-size:11px\">Haapala</text><circle class=\"v-merkki\" cx=\"330\" cy=\"196\" r=\"5\"/><text class=\"v-t\" x=\"338\" y=\"190\" text-anchor=\"start\" style=\"font-size:11px\">Rantala</text><circle class=\"v-merkki\" cx=\"120\" cy=\"205\" r=\"5\"/><text class=\"v-t\" x=\"112\" y=\"199\" text-anchor=\"end\" style=\"font-size:11px\">Ojala</text><line class=\"v-akseli\" stroke-width=\"2\" x1=\"380\" y1=\"95\" x2=\"380.0\" y2=\"64.0\"/><polygon class=\"v-nuoli\" points=\"380,55 385.0,64.0 375.0,64.0\"/><text class=\"v-t vahva\" x=\"380\" y=\"108\" text-anchor=\"middle\" style=\"font-size:12px\">P</text><text class=\"v-t vahva\" x=\"395\" y=\"80\" text-anchor=\"start\" style=\"font-size:12px\">④</text><line class=\"v-akseli\" x1=\"30\" y1=\"320\" x2=\"130\" y2=\"320\"/><line class=\"v-akseli\" x1=\"30\" y1=\"314\" x2=\"30\" y2=\"326\"/><line class=\"v-akseli\" x1=\"80\" y1=\"316\" x2=\"80\" y2=\"324\"/><line class=\"v-akseli\" x1=\"130\" y1=\"314\" x2=\"130\" y2=\"326\"/><text class=\"v-t pieni\" x=\"30\" y=\"312\" text-anchor=\"middle\" style=\"font-size:10px\">0</text><text class=\"v-t pieni\" x=\"80\" y=\"312\" text-anchor=\"middle\" style=\"font-size:10px\">1</text><text class=\"v-t pieni\" x=\"130\" y=\"312\" text-anchor=\"middle\" style=\"font-size:10px\">2 km</text><text class=\"v-t vahva\" x=\"140\" y=\"324\" text-anchor=\"start\" style=\"font-size:12px\">③</text><text class=\"v-t vahva\" x=\"430\" y=\"50\" text-anchor=\"start\" style=\"font-size:12px\">② Selite</text><circle class=\"v-merkki\" cx=\"440\" cy=\"70\" r=\"5\"/><text class=\"v-t\" x=\"455\" y=\"74\" text-anchor=\"start\" style=\"font-size:11px\">kylä</text><line class=\"v-kayra v1\" x1=\"430\" y1=\"92\" x2=\"450\" y2=\"92\"/><text class=\"v-t\" x=\"455\" y=\"96\" text-anchor=\"start\" style=\"font-size:11px\">joki</text><line class=\"v-jana\" x1=\"430\" y1=\"114\" x2=\"450\" y2=\"114\"/><text class=\"v-t\" x=\"455\" y=\"118\" text-anchor=\"start\" style=\"font-size:11px\">tie</text><rect class=\"v-osa v1\" x=\"430\" y=\"128\" width=\"20\" height=\"14\"/><text class=\"v-t\" x=\"455\" y=\"135\" text-anchor=\"start\" style=\"font-size:11px\">laakson pohja:</text><text class=\"v-t\" x=\"455\" y=\"149\" text-anchor=\"start\" style=\"font-size:11px\">pellot, tulva-alue</text><rect class=\"v-maa\" x=\"430\" y=\"160\" width=\"20\" height=\"14\"/><text class=\"v-t\" x=\"455\" y=\"171\" text-anchor=\"start\" style=\"font-size:11px\">rinteet ja ylänkö:</text><text class=\"v-t\" x=\"455\" y=\"185\" text-anchor=\"start\" style=\"font-size:11px\">metsää</text><text class=\"v-t vahva\" x=\"430\" y=\"212\" text-anchor=\"start\" style=\"font-size:12px\">⑤ Sijaintikartta</text><path class=\"v-maa\" d=\"M445,225 L520,222 L545,250 L538,300 L490,318 L450,300 L440,260 Z\"/><rect class=\"v-osa v1\" x=\"478\" y=\"255\" width=\"22\" height=\"18\"/><text class=\"v-t pieni\" x=\"492\" y=\"334\" text-anchor=\"middle\" style=\"font-size:10px\">Länsimaan maakunta</text><text class=\"v-t pieni\" x=\"20\" y=\"355\" text-anchor=\"start\" style=\"font-size:11px\">⑥ Lähde: keksitty aineisto. Maastokartan ja tulvakartan pohjalta laatinut oppilas, 2026.</text></svg>","teksti":"Numerot näyttävät kartan osat: ① otsikko, ② selite, ③ mittakaava, ④ pohjoisnuoli, ⑤ sijaintikartta ja ⑥ lähde. Alue, kylät ja maakunta ovat keksittyjä. Kartta vastaa kysymykseen, miksi kylät sijaitsevat laakson reunoilla: tulva-alue on pelloilla, kylät sen ulkopuolella."},{"tyyppi":"kappale","otsikko":"Oma diagrammi","sisalto":"Valitse diagrammi sen mukaan, mitä haluat näyttää. Pylväsdiagrammi vertailee määriä luokkien tai alueiden välillä. Viivadiagrammi näyttää muutoksen ajassa, esimerkiksi väkiluvun vuosina 1990–2025. Ympyrädiagrammi näyttää osuudet kokonaisuudesta, ja sitä voi käyttää vain, kun osat ovat yhteensä 100 %. Diagrammissa on otsikko, akselien nimet ja yksiköt (esimerkiksi kpl, %, mm, °C) ja lähde. Laske luvut itse aineistosta tai kirjaa ne tilastosta, ja kerro lähteessä kumpi. Akselin asteikko alkaa pylväsdiagrammissa nollasta, koska muuten pienet erot näyttävät suurilta. Jos luokittelet lukuja, esimerkiksi etäisyyksiä, tee luokista yhtä leveitä."},{"tyyppi":"kuva","otsikko":"Mallidiagrammi: keksitty aineisto","svg":"<svg viewBox=\"0 0 580 300\" xmlns=\"http://www.w3.org/2000/svg\"><text class=\"v-t vahva\" x=\"300\" y=\"22\" text-anchor=\"middle\" style=\"font-size:13px\">① Rakennukset etäisyyden mukaan joesta, Haapajoen laakso</text><line class=\"v-apu\" x1=\"80\" y1=\"230.0\" x2=\"540\" y2=\"230.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"234.0\" text-anchor=\"end\" style=\"font-size:11px\">0</text><line class=\"v-apu\" x1=\"80\" y1=\"196.0\" x2=\"540\" y2=\"196.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"200.0\" text-anchor=\"end\" style=\"font-size:11px\">20</text><line class=\"v-apu\" x1=\"80\" y1=\"162.0\" x2=\"540\" y2=\"162.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"166.0\" text-anchor=\"end\" style=\"font-size:11px\">40</text><line class=\"v-apu\" x1=\"80\" y1=\"128.0\" x2=\"540\" y2=\"128.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"132.0\" text-anchor=\"end\" style=\"font-size:11px\">60</text><line class=\"v-apu\" x1=\"80\" y1=\"94.0\" x2=\"540\" y2=\"94.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"98.0\" text-anchor=\"end\" style=\"font-size:11px\">80</text><line class=\"v-apu\" x1=\"80\" y1=\"60.0\" x2=\"540\" y2=\"60.0\"/><text class=\"v-t pieni\" x=\"72\" y=\"64.0\" text-anchor=\"end\" style=\"font-size:11px\">100</text><line class=\"v-akseli\" x1=\"80\" y1=\"230\" x2=\"540\" y2=\"230\"/><line class=\"v-akseli\" x1=\"80\" y1=\"60.0\" x2=\"80\" y2=\"230\"/><rect class=\"v-pylvas\" x=\"110\" y=\"209.6\" width=\"60\" height=\"20.4\"/><text class=\"v-t pieni\" x=\"140\" y=\"204.6\" text-anchor=\"middle\" style=\"font-size:11px\">12</text><text class=\"v-t pieni\" x=\"140\" y=\"246\" text-anchor=\"middle\" style=\"font-size:11px\">0–500</text><rect class=\"v-pylvas\" x=\"225\" y=\"85.5\" width=\"60\" height=\"144.5\"/><text class=\"v-t pieni\" x=\"255\" y=\"80.5\" text-anchor=\"middle\" style=\"font-size:11px\">85</text><text class=\"v-t pieni\" x=\"255\" y=\"246\" text-anchor=\"middle\" style=\"font-size:11px\">500–1 000</text><rect class=\"v-pylvas\" x=\"340\" y=\"162.0\" width=\"60\" height=\"68.0\"/><text class=\"v-t pieni\" x=\"370\" y=\"157.0\" text-anchor=\"middle\" style=\"font-size:11px\">40</text><text class=\"v-t pieni\" x=\"370\" y=\"246\" text-anchor=\"middle\" style=\"font-size:11px\">1 000–1 500</text><rect class=\"v-pylvas\" x=\"455\" y=\"199.4\" width=\"60\" height=\"30.6\"/><text class=\"v-t pieni\" x=\"485\" y=\"194.4\" text-anchor=\"middle\" style=\"font-size:11px\">18</text><text class=\"v-t pieni\" x=\"485\" y=\"246\" text-anchor=\"middle\" style=\"font-size:11px\">1 500–2 000</text><text class=\"v-t\" x=\"310\" y=\"266\" text-anchor=\"middle\" style=\"font-size:12px\">② Etäisyys joesta (m)</text><text class=\"v-t\" x=\"24\" y=\"150\" text-anchor=\"middle\" style=\"font-size:12px\" transform=\"rotate(-90 24 150)\">② Rakennuksia (kpl)</text><text class=\"v-t pieni\" x=\"310\" y=\"288\" text-anchor=\"middle\" style=\"font-size:11px\">③ Lähde: keksitty aineisto, laskettu maastokartalta, 2026</text></svg>","teksti":"Numerot näyttävät diagrammin osat: ① otsikko (mitä ja missä), ② akselien nimet ja yksiköt, ③ lähde. Luvut on keksitty. Diagrammi tukee karttaa: suurin osa rakennuksista on 500–1 000 metrin päässä joesta, eli laakson reunalla tulva-alueen ulkopuolella, kuten mallikartan kylät."},{"tyyppi":"kappale","otsikko":"Lähteen luotettavuus","sisalto":"Arvioi yhden lähteen luotettavuus samoilla tekijöillä kuin aiemmin: kuka sen on julkaissut ja millä asiantuntemuksella, milloin, mihin tarkoitukseen ja mihin tieto perustuu. Tilastossa ja kartassa kysy lisäksi, mitä vuotta ja mitä aluetta luku koskee: kunnan väkiluku ei kerro, miten väki on jakautunut kunnan sisällä. Esimerkki: \"Tulvakartta on luotettava, koska sen on julkaissut viranomainen, joka seuraa vesistöjä, ja kartta perustuu mittauksiin. Kartta näyttää kuitenkin tulvan, joka toistuu keskimäärin kerran sadassa vuodessa, joten siitä ei näe, mihin tavallinen kevättulva yltää.\" Huomaa: luotettavakin lähde voi olla rajallinen, ja rajoituksen tunnistaminen on osa arviota."},{"tyyppi":"kappale","otsikko":"Tuloksista johtopäätöksiin","sisalto":"Tulokset kertovat, mitä aineisto näyttää: \"Laakson 155 rakennuksesta 12 on alle 500 metrin päässä joesta ja 85 on 500–1 000 metrin päässä.\" Johtopäätös kertoo, mitä tulos tarkoittaa ja vastaa kysymykseen: \"Kylät on rakennettu laakson reunoille, koska laakson pohja tulvii keväisin. Laakson pohjan tasaiset ja ravinteikkaat maat on raivattu pelloiksi. Luonto, eli tulvat ja maaperä, on siis ohjannut sitä, mihin ihmiset ovat rakentaneet.\" Viimeinen virke on luonnon ja ihmisen välinen yhteys, jota osaa kun -kriteeri vaatii. Kirjoita jokaisen johtopäätöksen perään, mihin aineistoon se perustuu."},{"tyyppi":"saanto","otsikko":"Raportin tai julisteen rakenne","askeleet":["Alue ja sen sijainti: nimi, missä alue on (sijaintikartta) ja mikä aluetyyppi se on (esimerkiksi jokilaakso, vuoristo, rannikkoalanko tai maakunta).","Tutkimuskysymykset: kaksi tai kolme maantieteellistä kysymystä.","Aineistot ja menetelmät: mitä lähteitä käytit ja mitä teit (esimerkiksi laskin rakennukset kartalta). Lisäksi yhden lähteen luotettavuuden arvio.","Tulokset: oma kartta ja oma diagrammi selitteineen, ja mitä niistä näkyy.","Johtopäätökset: vastaus jokaiseen kysymykseen, vähintään yksi luonnon ja ihmisen välinen yhteys ja viittaus aineistoon.","Lähteet: kaikki lähteet, myös pohjakartat ja kuvat, julkaisijan, nimen, vuoden ja osoitteen kanssa."]},{"tyyppi":"ansa","otsikko":"Ansa 1: matkaesite eikä tutkimus","sisalto":"Jos raportti luettelee tietoja (pinta-ala, asukasluku, nähtävyydet), mutta ei vastaa kysymyksiin, se on esite. Tarkista valmiista raportista: onko jokaisella tiedolla tehtävä jonkin kysymyksen vastauksessa? Jos ei ole, poista se tai kirjoita kysymys, johon se vastaa."},{"tyyppi":"ansa","otsikko":"Ansa 2: lainattu kartta omana karttana","sisalto":"Valmiin kartan tai diagrammin liittäminen raporttiin on lainaus, ei oma tuotos. Oma kartta syntyy, kun valitset, mitä karttaan merkitään, ja merkitset sen itse. Merkitse lähde myös omaan karttaan: lähde kertoo, mistä aineisto ja pohjakartta ovat peräisin, vaikka piirros on sinun."},{"tyyppi":"ansa","otsikko":"Ansa 3: samaan aikaan ei tarkoita samasta syystä","sisalto":"Kaksi asiaa voi esiintyä samalla alueella ilman, että toinen aiheuttaa toisen. Jos laakson pelloilla on paljon tulvia ja laakson väkiluku on laskenut, et voi päätellä, että tulvat ajoivat ihmiset pois, ellei aineisto kerro syystä. Kirjoita silloin: \"Aineiston perusteella en voi päätellä syytä. Tarvitsisin tietoa…\" Se on hyvä havainto tutkimuksen rajoituksesta."},{"tyyppi":"kappale","otsikko":"Esitys ja kysymykseen vastaaminen","sisalto":"Esitä tutkimuksesi luokalle tai tallenteena opettajalle. Hyvä esitys kertoo ensin alueen ja kysymykset, näyttää kartan ja diagrammin ja päättyy johtopäätöksiin. Käytä maantieteen käsitteitä, kuten jokilaakso, tulva-alue, maaperä, asutuksen sijoittuminen tai elinkeino. Esityksen jälkeen sinulta kysytään yksi kysymys. Perustele vastauksesi tiedolla: osoita kartalta, diagrammista tai lähteestä, mihin vastaus perustuu. Jos et tiedä vastausta, kerro, millä aineistolla sen voisi selvittää."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Kysymykset: missä, miksi juuri siellä, mitä siitä seuraa. Luonnon ja ihmisen vuorovaikutus.","Vähintään kolme geomedian lähdettä; lähde kirjataan heti.","Oma kartta: otsikko, selite, mittakaava tai sijaintikartta, lähde.","Oma diagrammi: otsikko, akselit ja yksiköt, lähde.","Tulos kertoo, mitä aineisto näyttää; johtopäätös vastaa kysymykseen.","Yhden lähteen luotettavuus ja yksi rajoitus.","Aineistoa saa jakaa, mutta raportti, kartta, diagrammi ja esitys ovat omiasi."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Kysymykset eivät ole maantieteellisiä (taustatietoa, mielipiteitä tai historiaa), tai raportti ei vastaa niihin.","tehtava":"Tutkimuskysymykset","mita_kertoo":"Oppilas ei vielä erota tutkimuskysymystä taustatiedosta (ansa 1). Osaa kun -kriteeri vaatii kysymyksiä sijainnista, syistä ja seurauksista sekä raportin, joka vastaa niihin.","mita_tehda":"Käytä taulukkoa Kysymyksiä Haapajoen laaksosta. Pyydä muuttamaan kysymys muotoon miksi juuri siellä tai mitä siitä seuraa ja tarkistamaan, että jokainen kysymys saa vastauksen johtopäätöksissä."},{"virhe":"Lähteitä on alle kolme tai ne ovat samaa tyyppiä, lähdemerkinnät puuttuvat tai luotettavuuden arviosta puuttuu perustelu.","tehtava":"Aineistot, lähteet ja luotettavuus","mita_kertoo":"Oppilas ei vielä käytä geomediaa monipuolisesti tai sovella lähdekritiikkiä tutkimukseen.","mita_tehda":"Pyydä täydentämään lähdeluettelo (julkaisija, nimi, vuosi, osoite) ja kirjoittamaan arvio muotoon \"Lähde on luotettava, koska…, mutta sen rajoitus on…\"."},{"virhe":"Kartta puuttuu, on kopioitu sellaisenaan tai siitä puuttuu otsikko, selite, mittakaava tai sijaintikartta tai lähde.","tehtava":"Oma kartta","mita_kertoo":"Ansa 2: oppilas lainaa karttaa tai ei tunne kartan välttämättömiä osia.","mita_tehda":"Näytä mallikartan numerot ①–⑥ ja pyydä tarkistamaan oma kartta niiden mukaan. Kysy, mihin tutkimuskysymykseen kartta vastaa, ja pyydä lisäämään merkinnät sen mukaan."},{"virhe":"Diagrammi puuttuu, on väärää tyyppiä (esimerkiksi ympyrä, vaikka osat eivät ole kokonaisuus) tai siitä puuttuu akselien nimet, yksiköt tai lähde.","tehtava":"Oma diagrammi","mita_kertoo":"Oppilas ei vielä valitse diagrammia sisällön mukaan tai ei merkitse sitä luettavaksi.","mita_tehda":"Kysy: vertailetko, näytätkö muutosta vai osuuksia? Pyydä tarkistamaan mallidiagrammin numerot ①–③."},{"virhe":"Johtopäätökset toistavat tuloksia tai perustuvat oletuksiin; luonnon ja ihmisen välinen yhteys puuttuu.","tehtava":"Johtopäätökset","mita_kertoo":"Oppilas ei vielä erota tulosta (mitä aineisto näyttää) johtopäätöksestä (mitä se tarkoittaa) tai päättelee syyn pelkästä samanaikaisuudesta (ansa 3).","mita_tehda":"Pyydä kirjoittamaan johtopäätös muotoon \"…, koska…\" ja merkitsemään perään aineisto. Kysy: miten luonto vaikuttaa tässä ihmisen toimintaan tai ihminen luontoon?"},{"virhe":"Esityksessä ei käytetä maantieteen käsitteitä, tai kysymykseen vastataan ilman perustelua tai vastaus ei nojaa omaan aineistoon.","tehtava":"Esitys ja kysymykseen vastaaminen","mita_kertoo":"Raportti voi olla koottu ymmärtämättä. Arvioidaan oppilaan oma raportti, kartta, diagrammi ja esitys, vaikka aineistoa olisi jaettu ryhmässä.","mita_tehda":"Kysy yksi miksi-kysymys, johon vastaus löytyy oppilaan omasta kartasta tai diagrammista, ja pyydä osoittamaan se. Anna tarvittaessa mahdollisuus täydentää tallenteena."}],"tuntirunko":{"kesto":"4 · 45 min","sanottava_aaneen":"Missä, miksi juuri siellä, mitä siitä seuraa. Kolme lähdettä, oma kartta, oma diagrammi. Tulos kertoo, mitä aineisto näyttää; johtopäätös vastaa kysymykseen.","vaiheet":[{"aika":"15 min","otsikko":"Aloitus (1. tunti)","sisalto":"Näytä esimerkkinä Haapajoen laakso: kuva Aluetutkimuksen kulku ja taulukko Kysymyksiä Haapajoen laaksosta. Oppilaat valitsevat alueen listastasi."},{"aika":"30 min","otsikko":"Kysymykset ja aineistonhaku","sisalto":"Oppilaat kirjoittavat 2–3 kysymystä. Hyväksy kysymykset ennen kuin aineistonhaku alkaa (kriteeri 1). Aineistonhaku karttapalveluista, tilastoista ja uutisista; lähteet kirjataan heti."},{"aika":"45 min","otsikko":"Oma kartta ja diagrammi (2. tunti)","sisalto":"Käy läpi mallikartta ja mallidiagrammi numeroineen. Oppilaat laativat kartan ja diagrammin. Kierrä ja käytä kriteerejä 3 ja 4 ohjaukseen."},{"aika":"45 min","otsikko":"Johtopäätökset ja raportti (3. tunti)","sisalto":"Käy läpi kappale Tuloksista johtopäätöksiin ja ansa 3. Oppilaat kokoavat raportin tai julisteen rakenteen mukaan ja arvioivat yhden lähteen luotettavuuden."},{"aika":"45 min","otsikko":"Näyttö: esitykset (4. tunti)","sisalto":"Esitykset luokalle tai tallenteena. Kysy jokaiselta yksi kysymys. Arvioi oppilaan oma raportti, kartta, diagrammi ja esitys. Jos esityksiä on paljon, osa esittää pienryhmissä tai tallenteena."}],"tarvikkeet":"Opettajan aluelista, kartastot, laitteet karttapalveluja ja tilastoja varten (tai tulostettu aineistopaketti), ruutupaperi tai pohjakartat, värikynät, esitysväline (paperi, juliste, diaesitys tai tallenne)."},"opettajalle":{"kesto":"4 · 45 min","huomiot":["Muoto: havainnointitaito. Tuotos on oppilaan oma tutkimus (kysymykset, kartta, diagrammi, raportti ja esitys). Sitä ei voi rinnakkaistaa viideksi koeversioksi, joten näyttö arvioidaan kuudella havainnointikriteerillä.","Mikä kelpaa: 2–3 kysymystä, jotka koskevat sijaintia, syitä tai seurauksia ja luonnon ja ihmisen vuorovaikutusta, ja raportti vastaa niihin. Vähintään kolme eri geomedian lähdettä, joista yksi on ajankohtainen uutinen alueelta. Oman kartan otsikko, selite, mittakaava tai sijaintikartta ja lähde. Oman diagrammin akselit, yksiköt ja lähde. Johtopäätökset perustuvat aineistoon, ja niissä on vähintään yksi luonnon ja ihmisen välinen yhteys. Yhden lähteen luotettavuuden arvio. Esityksessä maantieteen käsitteitä ja yksi perusteltu vastaus.","Aluelista: valitse 8–12 aluetta, joista aineistoa löytyy helposti, esimerkiksi Suomen maisema-alueita tai maakuntia (yhteys taitoihin Lakeudelta tuntureille ja Maakuntien väriskaala) ja maailman suuralueita (jokilaakso, vuoristo, rannikkoalanko). Sama alue voi olla usealla oppilaalla, kunhan kysymykset ja tuotokset ovat omia.","Lähteitä (tarkista osoitteet ennen jakoa): Maanmittauslaitoksen karttapalvelut (https://www.maanmittauslaitos.fi), Paikkatietoikkuna (https://kartta.paikkatietoikkuna.fi), Tilastokeskus (https://stat.fi), Geologian tutkimuskeskuksen maaperäaineistot (https://www.gtk.fi), Ilmatieteen laitos (https://www.ilmatieteenlaitos.fi), Suomen ympäristökeskus (https://www.syke.fi) ja tulvakartat (https://www.vesi.fi). Maailman alueista kartasto ja kansainväliset tilastopalvelut opettajan valinnan mukaan.","Varamuodot: jos laitteita ei ole, anna tulostettu aineistopaketti (pohjakartta, teemakartta, tilastotaulukko ja uutinen) jokaisesta alueesta. Kartan voi piirtää käsin pohjakartan päälle ja diagrammin ruutupaperille. Esityksen voi antaa tallenteena tai pitää pienryhmässä. Keskeneräisen tutkimuksen voi täydentää uusintanäytössä.","Ryhmätyö: aineistoa saa jakaa parin tai ryhmän kanssa, mutta jokainen tekee oman raportin, kartan, diagrammin ja esityksen, ja läpäisy riippuu vain niistä. Esitysjärjestys ja kysymys eivät saa riippua toisesta oppilaasta.","Rajaus: kenttätyö koulun pihalla oli taidossa Pihapiirin maastotutkija; tässä aineisto kootaan geomediasta. Kahden uutisen vertailu on taidossa Kaksi uutista, yksi paikka, ja lähiympäristön kehittämissuunnitelma 9. luokan taidossa Korttelin kehittäjä.","Tarkistettavat asiatiedot: mallitekstin esimerkkitulvakartta (\"kerran sadassa vuodessa toistuva tulva\") kuvaa yleistä tulvakarttojen tapaa esittää toistuvuus; tarkista ajantasainen esitystapa tulvakarttapalvelusta. Haapajoen laakso, sen kylät, Länsimaan maakunta ja kaikki luvut ovat keksittyjä."]},"huoltajalle":{"mista_on_kyse":"Nuori tekee itsenäisen aluetutkimuksen opettajan listasta valitsemastaan alueesta. Hän asettaa maantieteellisiä kysymyksiä, kokoaa tietoa kartoista, tilastoista, ilma- tai satelliittikuvista ja uutisista, laatii itse kartan ja diagrammin, kirjoittaa johtopäätökset ja esittää tutkimuksen. Työ tehdään oppitunneilla.","kotona":["Kysykää, minkä alueen nuori valitsi ja mitä hän siitä tutkii. Pyytäkää näyttämään alue kartalla.","Kysykää jostakin tuloksesta: mistä tiedät tämän? Hyvä vastaus osoittaa kartan, diagrammin tai lähteen.","Jos nuori harjoittelee esitystä, kuunnelkaa ja kysykää yksi miksi-kysymys.","Kotona ei tarvitse tehdä tutkimusta eikä hankkia välineitä; kaikki tehdään koulussa."],"milloin_huolestua":"Tämä on ydintaito, joka vaaditaan siirtymiseen. Jos nuori kertoo, ettei saa kysymyksiä tai karttaa valmiiksi, tai esitys jännittää kovasti, kertokaa opettajalle. Esityksen voi antaa myös tallenteena, ja keskeneräistä työtä voi täydentää uusintanäytössä."},"ulkoiset":{},"valmis_teksti":"Osaat tehdä aluetutkimuksen: asettaa maantieteellisiä kysymyksiä, koota tietoa geomediasta, laatia oman kartan ja diagrammin ja esittää perustellut johtopäätökset. Taito on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

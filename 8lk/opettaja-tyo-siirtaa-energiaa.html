@@ -1,0 +1,619 @@
+<title>Työ siirtää energiaa · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"FY8-ENE-02","oppiaine":"FY","vuosiluokka":8,"taitoalue":"ENE","jakso":"J3","taso":"ydin","otsikko":"Työ siirtää energiaa","kuvaus":"Osaan selittää, että mekaaninen työ siirtää energiaa ja teho kertoo työn määrän aikayksikössä, ja laskea työn kaavalla W = F · s ja tehon kaavalla P = W/t.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T14","T10","T11"],"S":["S5","S4"]},"eyebrow":"Fysiikka · 8. luokka","ikoni":"tyokalu","naytto":"Mittaan voimamittarilla voiman, jolla nostan kappaleen tasaisesti 0,5 m:n korkeuteen, ja voiman, jolla vedän saman kappaleen kaltevaa tasoa pitkin samalle korkeudelle. Mittaan matkat, lasken kummankin työn ja vertaan niitä. Jos kaltevaa tasoa tai voimamittaria ei ole, saan valmiin mittaustaulukon. Paperikokeessa päättelen kahdesta keksitystä henkilöstä, jotka kantavat yhtä painavan laatikon samoja portaita ylös eri kestoissa, kumpi tekee enemmän työtä ja kumpi suuremmalla teholla, ja lasken tehot. Kerron, mihin energiamuotoon nostotyö varastoituu.","osaa_kun":"Lasken työn voiman ja voiman suuntaisen matkan tulona ja tehon työn ja siihen kuluneen ajan osamääränä, ja yksiköt ovat oikein (J ja W). Selitän, että kaltevalla tasolla tarvitaan pienempi voima mutta pidempi matka, joten työ ei pienene, ja että mittauksessa kaltevan tason työ on hieman suurempi, koska osa energiasta muuttuu kitkan vuoksi lämmöksi. Erotan työn ja tehon: sama työ lyhyemmässä ajassa tehtynä vaatii suuremman tehon. Nostotyö varastoituu potentiaalienergiaksi.","teksti":[{"tyyppi":"johdanto","sisalto":"Arkikielessä työ on mitä tahansa ponnistelua: läksyjen tekeminen, raskaan kassin pitäminen tai seinän työntäminen. Fysiikassa mekaaninen työ on täsmällinen suure: voima tekee työtä, kun se liikuttaa kappaletta voiman suuntaan. Työ siirtää energiaa. Kun nostat repun pöydälle, siirrät siihen energiaa, ja se varastoituu repun potentiaalienergiaksi. Edellisessä taidossa teit energian kirjanpitoa; nyt opit laskemaan, kuinka paljon energiaa voima siirtää ja kuinka nopeasti se tapahtuu."},{"tyyppi":"kappale","otsikko":"Mekaaninen työ W = F · s","sisalto":"Työ lasketaan kertomalla voima ja voiman suuntainen matka: W = F · s. Voima F ilmoitetaan newtoneina (N), matka s metreinä (m) ja työ W jouleina (J). Siis 1 J = 1 N · m: yksi joule on työ, jonka yhden newtonin voima tekee siirtäessään kappaletta metrin verran voiman suuntaan. Esimerkki: työnnät painavaa laatikkoa lattiaa pitkin 40 N:n vaakasuoralla voimalla 3 m. Työ W = 40 N · 3 m = 120 J. Työn yksikkö on sama kuin energian, koska työ on siirtynyttä energiaa: laatikkoon ja lattiaan siirtyi 120 J, joka muuttui kitkan vuoksi lämmöksi."},{"tyyppi":"kuva","otsikko":"Milloin voima tekee työtä?","svg":"<svg viewBox=\"0 0 600 240\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kolme tilannetta: nosto ylös, jolloin voima tekee työtä; paikallaan pitäminen, jolloin työ on nolla; ja kantaminen vaakasuoraan, jolloin ylöspäin kannatteleva voima ei tee työtä.\"><rect class=\"v-ruutu v1\" x=\"70\" y=\"90\" width=\"50\" height=\"34\"/><line class=\"v-jana\" x1=\"95\" y1=\"88\" x2=\"95\" y2=\"44\"/><polygon class=\"v-nuoli\" points=\"89,46 101,46 95,34\"/><text class=\"v-t vahva\" x=\"103\" y=\"56\" style=\"font-size:12px\">F</text><line class=\"v-akseli\" x1=\"150\" y1=\"130\" x2=\"150\" y2=\"62\" stroke-dasharray=\"5 4\"/><polygon class=\"v-nuoli\" points=\"144,64 156,64 150,52\"/><text class=\"v-t pieni\" x=\"160\" y=\"100\" style=\"font-size:11.5px\">liike</text><text class=\"v-t\" x=\"95\" y=\"200\" text-anchor=\"middle\" style=\"font-size:12px\">Nosto ylös</text><text class=\"v-t vahva\" x=\"95\" y=\"220\" text-anchor=\"middle\" style=\"font-size:12px\">W = F · s > 0</text><line class=\"v-apu\" x1=\"200\" y1=\"20\" x2=\"200\" y2=\"225\"/><rect class=\"v-ruutu v1\" x=\"270\" y=\"90\" width=\"50\" height=\"34\"/><line class=\"v-jana\" x1=\"295\" y1=\"88\" x2=\"295\" y2=\"44\"/><polygon class=\"v-nuoli\" points=\"289,46 301,46 295,34\"/><text class=\"v-t vahva\" x=\"303\" y=\"56\" style=\"font-size:12px\">F</text><text class=\"v-t pieni\" x=\"295\" y=\"150\" text-anchor=\"middle\" style=\"font-size:11.5px\">ei liikettä</text><text class=\"v-t\" x=\"295\" y=\"200\" text-anchor=\"middle\" style=\"font-size:12px\">Paikallaan pitäminen</text><text class=\"v-t vahva\" x=\"295\" y=\"220\" text-anchor=\"middle\" style=\"font-size:12px\">s = 0, joten W = 0</text><line class=\"v-apu\" x1=\"400\" y1=\"20\" x2=\"400\" y2=\"225\"/><rect class=\"v-ruutu v1\" x=\"470\" y=\"90\" width=\"50\" height=\"34\"/><line class=\"v-jana\" x1=\"495\" y1=\"88\" x2=\"495\" y2=\"44\"/><polygon class=\"v-nuoli\" points=\"489,46 501,46 495,34\"/><text class=\"v-t vahva\" x=\"503\" y=\"56\" style=\"font-size:12px\">F</text><line class=\"v-akseli\" x1=\"440\" y1=\"146\" x2=\"540\" y2=\"146\" stroke-dasharray=\"5 4\"/><polygon class=\"v-nuoli\" points=\"538,140 538,152 550,146\"/><text class=\"v-t pieni\" x=\"495\" y=\"166\" text-anchor=\"middle\" style=\"font-size:11.5px\">liike</text><text class=\"v-t\" x=\"495\" y=\"200\" text-anchor=\"middle\" style=\"font-size:12px\">Kantaminen vaakasuoraan</text><text class=\"v-t vahva\" x=\"495\" y=\"220\" text-anchor=\"middle\" style=\"font-size:12px\">liike kohtisuoraan: W = 0</text></svg>","teksti":"Voima tekee työtä vain, kun kappale liikkuu voiman suuntaan. Yhtenäinen nuoli on voima, katkoviiva liike."},{"tyyppi":"kappale","otsikko":"Kun voima ei tee työtä","sisalto":"Kun pidät täyttä vesikannua paikallaan, kätesi väsyy, mutta kannu ei liiku. Matka on nolla, joten käsi ei tee kannuun mekaanista työtä eikä siirrä siihen energiaa. Väsymys johtuu siitä, että lihaksissa kemiallista energiaa muuttuu lämmöksi. Toinen tapaus: tarjoilija kantaa tarjotinta tasaisesti vaakasuoraan. Tarjotinta kannatteleva voima osoittaa ylöspäin, mutta liike on vaakasuoraa eli kohtisuorassa voimaan nähden. Kannatteleva voima ei silloin tee työtä, eikä tarjottimen potentiaalienergia muutu."},{"tyyppi":"kappale","otsikko":"Nostotyö varastoituu potentiaalienergiaksi","sisalto":"Kun kappale nostetaan tasaisella nopeudella, nostovoima on yhtä suuri kuin kappaleen paino G = m · g, jossa g = 9,8 N/kg. Matka on nostokorkeus h, joten nostotyö W = G · h. Esimerkki: 10 kg:n laatikko nostetaan 1,2 m korkealle hyllylle. Paino G = 10 kg · 9,8 N/kg = 98 N, ja nostotyö W = 98 N · 1,2 m ≈ 118 J. Tämä energia ei katoa: se varastoituu laatikon potentiaalienergiaksi. Jos laatikko putoaa hyllyltä, potentiaalienergia muuttuu liike-energiaksi."},{"tyyppi":"kappale","otsikko":"Kalteva taso säästää voimaa, ei työtä","sisalto":"Laatikon, jonka paino on 20 N, voi nostaa suoraan 0,5 m:n korkeuteen. Silloin voima on 20 N ja työ W = 20 N · 0,5 m = 10 J. Saman laatikon voi vetää samalle korkeudelle 1,25 m pitkää kaltevaa tasoa pitkin. Ilman kitkaa vetoon tarvitaan vain 8 N, mutta matka on pidempi: W = 8 N · 1,25 m = 10 J. Voima pienenee samassa suhteessa kuin matka pitenee, joten työ ei pienene. Kalteva taso helpottaa, koska pientä voimaa on helpompi tuottaa. Todellisessa mittauksessa kitka vastustaa liikettä, ja voima on hieman suurempi, esimerkiksi 10 N. Silloin työ on 10 N · 1,25 m = 12,5 J, ja ylimääräiset 2,5 J muuttuvat kitkan vuoksi lämmöksi. Kaltevaa tasoa pitkin vetämiseen kuluu siis hieman enemmän työtä kuin suoraan nostamiseen."},{"tyyppi":"kuva","otsikko":"Suora nosto ja kalteva taso","svg":"<svg viewBox=\"0 0 600 270\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Vasemmalla laatikko nostetaan suoraan 0,5 m:n korkeuteen 20 N:n voimalla. Oikealla sama laatikko vedetään 1,25 m pitkää kaltevaa tasoa pitkin samalle korkeudelle 8 N:n voimalla. Kummassakin työ on 10 J.\"><line class=\"v-akseli\" x1=\"20\" y1=\"220\" x2=\"580\" y2=\"220\"/><line class=\"v-akseli\" x1=\"60\" y1=\"120\" x2=\"150\" y2=\"120\"/><line class=\"v-akseli\" x1=\"150\" y1=\"120\" x2=\"150\" y2=\"220\"/><rect class=\"v-ruutu v1\" x=\"70\" y=\"96\" width=\"36\" height=\"24\"/><rect class=\"v-ruutu\" x=\"70\" y=\"196\" width=\"36\" height=\"24\" stroke-dasharray=\"4 3\"/><line class=\"v-jana\" x1=\"88\" y1=\"190\" x2=\"88\" y2=\"134\"/><polygon class=\"v-nuoli\" points=\"82,136 94,136 88,124\"/><text class=\"v-t vahva\" x=\"96\" y=\"170\" style=\"font-size:12px\">F = 20 N</text><line class=\"v-apu\" x1=\"40\" y1=\"120\" x2=\"40\" y2=\"220\"/><text class=\"v-t pieni\" x=\"36\" y=\"175\" text-anchor=\"end\" style=\"font-size:11.5px\">0,5 m</text><text class=\"v-t\" x=\"100\" y=\"248\" text-anchor=\"middle\" style=\"font-size:12px\">Suora nosto</text><text class=\"v-t pieni\" x=\"100\" y=\"264\" text-anchor=\"middle\" style=\"font-size:11.5px\">W = 20 N · 0,5 m = 10 J</text><polygon class=\"v-osa\" points=\"270,220 499,220 499,120\"/><g transform=\"translate(384.5,170) rotate(-23.58)\"><rect class=\"v-ruutu v1\" x=\"-18\" y=\"-24\" width=\"36\" height=\"24\"/><line class=\"v-jana\" x1=\"22\" y1=\"-12\" x2=\"66\" y2=\"-12\"/><polygon class=\"v-nuoli\" points=\"64,-18 64,-6 76,-12\"/></g><text class=\"v-t vahva\" x=\"380\" y=\"115\" style=\"font-size:12px\">F = 8 N</text><text class=\"v-t pieni\" x=\"370\" y=\"196\" text-anchor=\"middle\" style=\"font-size:11.5px\" transform=\"rotate(-23.58 370 196)\">s = 1,25 m</text><text class=\"v-t pieni\" x=\"506\" y=\"175\" style=\"font-size:11.5px\">h = 0,5 m</text><text class=\"v-t\" x=\"400\" y=\"248\" text-anchor=\"middle\" style=\"font-size:12px\">Kalteva taso (ilman kitkaa)</text><text class=\"v-t pieni\" x=\"400\" y=\"264\" text-anchor=\"middle\" style=\"font-size:11.5px\">W = 8 N · 1,25 m = 10 J</text></svg>","teksti":"Kalteva taso pienentää tarvittavaa voimaa, mutta matka pitenee. Ilman kitkaa työ on molemmissa sama, 10 J."},{"tyyppi":"kappale","otsikko":"Teho P = W / t","sisalto":"Teho kertoo, kuinka paljon työtä tehdään aikayksikössä eli kuinka nopeasti energiaa siirtyy. Teho lasketaan jakamalla työ siihen kuluneella ajalla: P = W / t. Aika ilmoitetaan sekunteina (s) ja teho watteina (W); 1 W = 1 J/s ja 1 kW = 1000 W. Esimerkki (keksityt luvut): nosturi nostaa 2 000 N:n kuorman 6 m:n korkeuteen 4 s:n aikana. Työ W = 2 000 N · 6 m = 12 000 J, ja teho P = 12 000 J / 4 s = 3 000 W = 3 kW. Toinen nosturi nostaa saman kuorman samaan korkeuteen 8 s:n aikana. Se tekee saman työn 12 000 J, mutta sen teho on vain 1 500 W. Sama työ lyhyemmässä ajassa tehtynä vaatii suuremman tehon."},{"tyyppi":"saanto","otsikko":"Näin mittaat työn voimamittarilla","askeleet":["Valitse voimamittari, jonka asteikko riittää: kappaleen paino on pienempi kuin asteikon suurin lukema. Ylivenytetty jousi ei enää mittaa oikein.","Jos venytät jousia tai kuminauhoja, käytä suojalaseja: irtoava jousi tai koukku voi singota.","Nollaa voimamittari siinä asennossa, jossa mittaat (pystyssä nostoon, tason suuntaisena vetoon).","Nosta kappale tasaisesti 0,5 m:n korkeuteen ja lue voima liikkeen aikana, ei nykäisyn hetkellä. Mittaa korkeus pystysuoraan.","Vedä kappale kaltevaa tasoa pitkin samalle korkeudelle tasaisesti ja tason suuntaisesti. Mittaa matka tason pintaa pitkin.","Pidä kalteva taso tukevasti paikallaan, älä seiso sen alapäässä, ja varo, ettei kappale putoa lattialle tai jalalle.","Kirjaa voimat ja matkat taulukkoon yksiköineen ja laske kummankin työ W = F · s."]},{"tyyppi":"ansa","otsikko":"Ansa 1: väärä matka","sisalto":"Työssä käytetään voiman suuntaista matkaa. Suorassa nostossa se on nostokorkeus. Kaltevalla tasolla vetovoima on tason suuntainen, joten matka on tason pituus eikä korkeus. Jos kerrot kaltevan tason vetovoiman korkeudella, saat liian pienen työn ja päädyt väittämään, että kalteva taso säästää työtä."},{"tyyppi":"ansa","otsikko":"Ansa 2: pienempi voima ei tarkoita pienempää työtä","sisalto":"Kalteva taso, ramppi ja mutkitteleva vuoristotie keventävät voimaa, mutta matka pitenee samassa suhteessa. Työtä ei säästy. Kitkan vuoksi työtä kuluu käytännössä hieman enemmän kuin suoraan nostettaessa."},{"tyyppi":"ansa","otsikko":"Ansa 3: työ ja teho sekaisin","sisalto":"Kun kaksi henkilöä kantaa yhtä painavan laatikon samaa reittiä samalle korkeudelle, he tekevät laatikon nostamiseen saman työn. Se, joka ehtii perille lyhyemmässä ajassa, tekee työn suuremmalla teholla. Kysy siis aina erikseen: kuinka paljon energiaa siirtyi (työ, J) ja kuinka nopeasti (teho, W)?"},{"tyyppi":"ansa","otsikko":"Ansa 4: W ja W, minuutit ja sekunnit","sisalto":"Kirjain W tarkoittaa kahta eri asiaa: kaavoissa se on työn tunnus (W = F · s), yksikkönä se on watti (P = 300 W). Lue siis, onko W suure vai yksikkö. Tehoa laskiessa aika on muutettava sekunneiksi: 2 min = 120 s. Jos jaat minuuteilla, tulos ei ole watteja."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Työ W = F · s: voima kertaa voiman suuntainen matka. Yksikkö joule, 1 J = 1 N · m.","Ei liikettä tai liike kohtisuorassa voimaan nähden: voima ei tee työtä.","Nostotyö W = G · h, jossa G = m · g ja g = 9,8 N/kg. Nostotyö varastoituu potentiaalienergiaksi.","Kalteva taso: pienempi voima, pidempi matka, työ ei pienene. Kitka muuttaa osan työstä lämmöksi.","Teho P = W / t, yksikkö watti, 1 W = 1 J/s. Aika sekunteina.","Sama työ lyhyemmässä ajassa = suurempi teho."]}],"harjoitusryhmat":[{"id":"tyo","nimi":"Työ = voima · matka","info":"W = F · s. Vastaa lukuarvolla; yksikkö on annettu kysymyksessä. Kaikki tilanteet ovat keksittyjä."},{"id":"nosto","nimi":"Nostotyö ja kalteva taso","info":"Nostotyö W = G · h, G = m · g, g = 9,8 N/kg. Kaltevalla tasolla matka on tason pituus."},{"id":"teho","nimi":"Teho","info":"P = W / t. Muuta aika sekunneiksi ja työ jouleiksi ennen jakamista."}],"ryhmanimet":{"tyo":"Työ = voima · matka","nosto":"Nostotyö ja kalteva taso","teho":"Teho"},"harjoitukset":[{"id":"H01","ryhma":"tyo","tyyppi":"luku","kysymys":"Työnnät ostoskärryä 50 N:n voimalla 8 m matkan. Montako joulea työtä teet?","vastaus":400,"vinkki":"W = F · s.","selitys":"W = 50 N · 8 m = 400 J."},{"id":"H02","ryhma":"tyo","tyyppi":"luku","kysymys":"Vedät pulkkaa vaakasuoraan 30 N:n voimalla 150 m matkan. Montako kilojoulea työtä teet?","vastaus":4.5,"vinkki":"1 kJ = 1 000 J.","selitys":"W = 30 N · 150 m = 4 500 J = 4,5 kJ."},{"id":"H03","ryhma":"tyo","tyyppi":"luku","kysymys":"Laatikkoa siirrettäessä tehtiin 600 J työtä 4 m:n matkalla. Montako newtonia oli voima?","vastaus":150,"vinkki":"Ratkaise F kaavasta W = F · s.","selitys":"F = W / s = 600 J / 4 m = 150 N."},{"id":"H04","ryhma":"tyo","tyyppi":"monivalinta","kysymys":"Missä tilanteessa voima tekee mekaanista työtä?","vastaus":0,"vinkki":"Liikkuuko kappale voiman suuntaan?","selitys":"Nostaessa reppu liikkuu ylöspäin eli voiman suuntaan. Paikallaan pidettävä pino ja seinä eivät liiku, joten matka on nolla.","vaihtoehdot":["Nostat repun lattialta pöydälle.","Pidät pinoa lautasia paikallaan.","Työnnät seinää, joka ei liiku."]},{"id":"H05","ryhma":"tyo","tyyppi":"luku","kysymys":"Lue tilanteet.\n1. Nosturi nostaa kuormaa ylöspäin.\n2. Kannat pizzalaatikkoa tasaisesti vaakasuoraa käytävää pitkin (laatikkoa kannatteleva voima).\n3. Työnnät lumikolaa eteenpäin.\n4. Pidät kirjaa paikallaan kädessäsi.\n5. Vedät kelkkaa mäkeä ylös.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3,"vinkki":"Voima tekee työtä vain, jos kappale liikkuu voiman suuntaan.","selitys":"Tilanteet 1, 3 ja 5. Tilanteessa 2 liike on kohtisuorassa kannattelevaan voimaan nähden, ja tilanteessa 4 kirja ei liiku."},{"id":"H06","ryhma":"tyo","tyyppi":"luku","kysymys":"Lumikolaa työnnetään 45 N:n voimalla 12 m matkan. Montako joulea työtä tehdään?","vastaus":540,"vinkki":"Kerro voima ja matka.","selitys":"W = 45 N · 12 m = 540 J."},{"id":"H07","ryhma":"nosto","tyyppi":"luku","kysymys":"Kappaleen paino on 30 N. Se nostetaan tasaisesti 2 m:n korkeuteen. Montako joulea on nostotyö?","vastaus":60,"vinkki":"Nostovoima on yhtä suuri kuin paino.","selitys":"W = G · h = 30 N · 2 m = 60 J."},{"id":"H08","ryhma":"nosto","tyyppi":"luku","kysymys":"Kappaleen massa on 5 kg. Montako newtonia on sen paino, kun g = 9,8 N/kg?","vastaus":49,"vinkki":"G = m · g.","selitys":"G = 5 kg · 9,8 N/kg = 49 N."},{"id":"H09","ryhma":"nosto","tyyppi":"luku","kysymys":"Harjoituksen 8 kappale (massa 5 kg) nostetaan 2 m:n korkeuteen. Montako joulea on nostotyö?","vastaus":98,"vinkki":"Laske ensin paino.","selitys":"G = 49 N, W = 49 N · 2 m = 98 J."},{"id":"H10","ryhma":"nosto","tyyppi":"luku","kysymys":"Kirja, jonka paino on 40 N, nostetaan 1,5 m korkeammalle hyllylle. Montako joulea kirjan potentiaalienergia kasvaa?","vastaus":60,"vinkki":"Nostotyö varastoituu potentiaalienergiaksi.","selitys":"Nostotyö W = 40 N · 1,5 m = 60 J, ja potentiaalienergia kasvaa saman verran, 60 J."},{"id":"H11","ryhma":"nosto","tyyppi":"monivalinta","kysymys":"Mitä kalteva taso säästää verrattuna suoraan nostamiseen?","vastaus":0,"vinkki":"Vertaa voimaa ja matkaa.","selitys":"Kaltevalla tasolla voima on pienempi mutta matka pidempi. Työ ei pienene, kitkan vuoksi se jopa kasvaa hieman.","vaihtoehdot":["Voimaa: tarvittava voima on pienempi, mutta matka on pidempi.","Työtä: työ on pienempi kuin suoraan nostettaessa.","Sekä voimaa että työtä."]},{"id":"H12","ryhma":"nosto","tyyppi":"luku","kysymys":"Kappale, jonka paino on 60 N, vedetään 1,2 m pitkää kaltevaa tasoa pitkin 0,4 m:n korkeuteen. Montako newtonia on vetovoima, jos kitkaa ei ole?","vastaus":20,"vinkki":"Ilman kitkaa työ on sama kuin suorassa nostossa.","selitys":"Nostotyö W = 60 N · 0,4 m = 24 J. Vetovoima F = 24 J / 1,2 m = 20 N."},{"id":"H13","ryhma":"nosto","tyyppi":"luku","kysymys":"Harjoituksen 12 kappaleen vetämiseen tarvittiin mittauksessa 25 N:n voima, koska tasossa on kitkaa. Montako joulea energiaa muuttui kitkan vuoksi lämmöksi?","vastaus":6,"vinkki":"Laske vetotyö ja vertaa sitä nostotyöhön 24 J.","selitys":"Vetotyö W = 25 N · 1,2 m = 30 J. Ero 30 J − 24 J = 6 J muuttui lämmöksi."},{"id":"H14","ryhma":"teho","tyyppi":"luku","kysymys":"Moottori tekee 1 200 J työtä 4 s:n aikana. Montako wattia on sen teho?","vastaus":300,"vinkki":"P = W / t.","selitys":"P = 1 200 J / 4 s = 300 W."},{"id":"H15","ryhma":"teho","tyyppi":"luku","kysymys":"Vinssi tekee 30 kJ työtä 1 minuutin aikana. Montako wattia on sen teho?","vastaus":500,"vinkki":"Muuta kJ jouleiksi ja minuutti sekunneiksi.","selitys":"P = 30 000 J / 60 s = 500 W."},{"id":"H16","ryhma":"teho","tyyppi":"luku","kysymys":"Moottorin teho on 200 W. Montako joulea työtä se tekee 5 s:n aikana?","vastaus":1000,"vinkki":"Ratkaise W kaavasta P = W / t.","selitys":"W = P · t = 200 W · 5 s = 1 000 J."},{"id":"H17","ryhma":"teho","tyyppi":"luku","kysymys":"Mira ja Oskari kantavat kumpikin 100 N:n laatikon portaita 3 m korkeammalle. Mira kulkee portaat 10 s:ssa ja Oskari 15 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ. Montako wattia on Miran teho?","vastaus":30,"vinkki":"Laske ensin työ, sitten jaa ajalla.","selitys":"W = 100 N · 3 m = 300 J. Mira: P = 300 J / 10 s = 30 W. (Oskari: 300 J / 15 s = 20 W.)"},{"id":"H18","ryhma":"teho","tyyppi":"monivalinta","kysymys":"Kumpi harjoituksen 17 henkilöistä tekee laatikon nostamiseen enemmän työtä?","vastaus":2,"vinkki":"Ovatko voima ja matka erilaiset?","selitys":"Laatikko on yhtä painava ja nousee yhtä korkealle, joten molemmat tekevät 300 J työtä. Vain teho on erilainen.","vaihtoehdot":["Mira","Oskari","Molemmat yhtä paljon"]},{"id":"H19","ryhma":"teho","tyyppi":"luku","kysymys":"Sama työ tehdään puolessa siitä ajasta, joka siihen aiemmin kului. Montako kertaa suurempi teho tarvitaan?","vastaus":2,"vinkki":"P = W / t: mitä tapahtuu, kun t puolittuu?","selitys":"Kun aika puolittuu ja työ pysyy samana, teho kaksinkertaistuu."},{"id":"H20","ryhma":"teho","tyyppi":"luku","kysymys":"Hissin moottori nostaa 4 000 N:n kuorman 15 m:n korkeuteen 20 s:n aikana. Montako kilowattia on moottorin teho?","vastaus":3,"vinkki":"Laske työ, jaa ajalla ja muuta kilowateiksi.","selitys":"W = 4 000 N · 15 m = 60 000 J. P = 60 000 J / 20 s = 3 000 W = 3 kW."}],"tulostus":{"sivuja":4,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":4,"sivunvaihto_ennen":null},"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen, jossa mittaus havainnoidaan erikseen. Kartan näyttö alkaa sanalla Mittaan, joten muoto ratkaistiin osaa_kun-kohdan mukaan: työn ja tehon laskut, yksiköt, kaltevan tason vertailu ja työn ja tehon ero ovat yksikäsitteisesti tarkistettavia, ja näytön paperikoeosa on kokeessa tehtävinä 16–18 (kaksi keksittyä henkilöä kantaa laatikon portaita) ja 9 (nostotyö potentiaalienergiaksi). Mittauksen tulosten käsittely on kokeessa tehtävänä 11. Mittaus tehdään tunnilla (tuntirungon 2. tunti) ja havainnoidaan alla olevilla kohdilla. Taito on suoritettu, kun koe on hyväksytty ja mittaus (tai varamuoto) on havainnoitu hyväksytyksi.","Mittauksen havainnointi (kaikkien kohtien pitää täyttyä): 1) voimamittari on nollattu ja sen asteikko riittää; 2) nostovoima ja vetovoima on luettu tasaisen liikkeen aikana; 3) matkat on mitattu oikein: nostossa korkeus 0,5 m pystysuoraan, kaltevalla tasolla tason pituus; 4) molemmat työt on laskettu W = F · s yksikköineen; 5) vertailussa todetaan, että kaltevalla tasolla voima on pienempi ja matka pidempi, työ ei pienene ja on kitkan vuoksi hieman suurempi, ja ero muuttuu lämmöksi; 6) turvallisuus: taso tukevasti, kappale ei putoa, asteikkoa ei ylitetä. Mittaus voidaan tehdä parin kanssa, mutta jokainen kirjaa omat lukemansa ja laskee itse. Jos mittaus näyttää, että kalteva työ on pienempi kuin nostotyö, pyydä tarkistamaan, onko matka mitattu tason pintaa pitkin ja voima luettu tasaisen vedon aikana.","Varamuoto (jos kaltevaa tasoa tai voimamittaria ei ole tai mittaus epäonnistuu): valmis mittaustaulukko. Kappaleen paino 6,0 N. Suora nosto: korkeus 0,50 m, voima 6,0 N. Kalteva taso: tason pituus 1,20 m, korkeus 0,50 m, vetovoima 2,9 N. Oppilas laskee nostotyön 6,0 N · 0,50 m = 3,0 J ja vetotyön 2,9 N · 1,20 m ≈ 3,5 J (3,48 J), vertaa niitä ja selittää eron 0,5 J kitkalla. Ilman kitkaa vetovoima olisi 3,0 J / 1,20 m = 2,5 N.","Mittaritehtävät ovat 9, 11, 17 ja 18. Niiden pitää olla oikein. Tehtävä 9 on oikein, kun energiamuoto on potentiaalienergia ja määrä on laskettu nostotyönä yksikön kanssa. Tehtävä 11 on oikein, kun molemmat työt on laskettu (nostossa matka on korkeus, tasolla tason pituus), todetaan kaltevan tason työn olevan suurempi ja ero selitetään kitkalla ja lämmöllä. Tehtävä 17 on oikein, kun molemmat tehot on laskettu yksikön kanssa ja suuremmalla teholla kantava on nimetty. Tehtävä 18 on oikein, kun vastauksessa sanotaan, että työ on sama (sama voima ja sama korkeus) ja teho on suurempi sillä, joka käyttää lyhyemmän ajan.","Mikä kelpaa: vastaus ilman yksikköä tai väärässä yksikössä on väärin (tehtävässä 2 kJ, tehtävässä 15 W, tehtävässä 20 kW; esimerkiksi tehtävän 15 tulos minuuteilla jaettuna on väärin). Tehtävässä 8 tarvitaan sekä paino että työ. Tehtävässä 10 hyväksytään pelkkä vetovoima, kun lasku näkyy. Tehtävässä 16 pelkkä \"yhtä paljon\" ilman laskua on väärin. Tehtävät 5 ja 13 vastataan luvulla. Kokeen johdanto antaa g = 9,8 N/kg, ja sitä käytetään tehtävässä 8. Sanallisissa tehtävissä hyväksytään mikä tahansa oikea muotoilu.","Turvallisuus: kappaleen massa korkeintaan noin 1 kg ja voimamittarin asteikko valitaan sen mukaan (esim. 10 N tai 20 N). Kalteva taso (lauta, ramppi) tuetaan niin, ettei se liu'u, eikä kukaan seiso sen alapäässä. Jos käytetään jousia tai kuminauhoja, suojalasit päähän. Työssä ei käytetä sähköä eikä lämmitetä mitään. Oppilaiden omia suorituksia ei mitata: tunnilla ei juosta portaita eikä mitata oppilaiden aikoja tai tehoja; teho lasketaan aina keksityistä tiedoista.","Rajaus: potentiaalienergian ja liike-energian kaavat (Ep = m · g · h, Ek = ½ · m · v²) ovat haastetaidossa FY8-ENE-07; tässä nostotyön todetaan varastoituvan potentiaalienergiaksi ja sen määrä on nostotyö. Sähköteho P = U · I ja sähköenergia kilowattitunteina ovat 9. luokan asioita (FY9-SAH-05), eikä niitä käytetä. Kaavan ratkaiseminen (t = W / P, F = W / s) nojaa matematiikan taitoon MAT8-YHT-03; tehtävät 3, 10 ja 19 vaativat sitä. Työ lasketaan vain tilanteissa, joissa voima on liikkeen suuntainen tai kohtisuorassa sitä vastaan (ei vinoja voimia).","Tarkistettavat asiatiedot: g = 9,8 N/kg (kartan meta). Väite \"vaakasuoraan kannettaessa kannatteleva voima ei tee työtä\" pätee tasaiseen vaakasuoraan liikkeeseen; todellisessa kävelyssä kappale nousee ja laskee hieman, mikä on rajattu pois. Esimerkkien nosturin, hissin ja pumpun luvut ovat keksittyjä."]},"virhesanakirja":[{"virhe":"Käyttää kaltevalla tasolla matkana korkeutta (työ näyttää pienemmältä kuin nostotyö)","tehtava":"nosto (10, 11), mittaus, harjoitukset H12–H13","mita_kertoo":"Voiman suuntaisen matkan käsite ei ole hallussa: matka valitaan luvun eikä voiman suunnan perusteella.","mita_tehda":"Piirrä voimanuoli ja matka samaan kuvaan. Kysy: mihin suuntaan voima vetää ja kuinka pitkän matkan kappale kulkee siihen suuntaan? Kertaa ansa 1."},{"virhe":"Väittää, että kalteva taso pienentää työtä","tehtava":"nosto (11, 12, 13), harjoitus H11","mita_kertoo":"Voima ja työ sekoittuvat: pienempi voima tulkitaan pienemmäksi energiaksi.","mita_tehda":"Laske yhdessä opetustekstin esimerkki (20 N · 0,5 m ja 8 N · 1,25 m). Kertaa ansa 2 ja mittauksen tulos: kitkan vuoksi työ oli jopa suurempi."},{"virhe":"Sekoittaa työn ja tehon: sanoo nopeamman tekevän enemmän työtä","tehtava":"teho (16–18), harjoitukset H17–H19","mita_kertoo":"Oppilas ei vielä erota siirtyneen energian määrää ja siirtymisen nopeutta.","mita_tehda":"Kysy kaksi erillistä kysymystä: paljonko energiaa (W = F · s, aika ei vaikuta) ja kuinka nopeasti (P = W / t). Kertaa ansa 3."},{"virhe":"Jakaa minuuteilla tai kilojouleilla ilman muunnosta (teho tuhat- tai kuusikymmenkertaisesti väärin)","tehtava":"teho (15, 20), työ (2, 6)","mita_kertoo":"Yksiköitä ei kirjoiteta sijoitukseen, eikä tulosta verrata järkevään suuruusluokkaan.","mita_tehda":"Vaadi yksiköt sijoitukseen (36 000 J / 120 s). Kertaa ansa 4 ja muunnokset 1 kJ = 1 000 J, 1 min = 60 s, 1 kW = 1 000 W."},{"virhe":"Laskee työn, vaikka kappale ei liiku tai liikkuu kohtisuoraan voimaa vastaan (pitäminen, vaakasuora kantaminen)","tehtava":"työ (4, 5), harjoitukset H04–H05","mita_kertoo":"Arkikielen \"työ = rasitus\" ohjaa ajattelua; mekaanisen työn määritelmää ei käytetä.","mita_tehda":"Käytä kuvaa \"Milloin voima tekee työtä?\". Kysy jokaisesta tilanteesta: liikkuuko kappale voiman suuntaan? Jos ei, W = 0."},{"virhe":"Käyttää nostotyössä massaa painon sijaan (kg · m) tai ei tiedä, mihin nostotyö varastoituu","tehtava":"nosto (7, 8, 9), harjoitukset H08–H10","mita_kertoo":"Massan ja painon ero (FY8-LII-05) tai työn ja energian yhteys ei ole vielä hallussa.","mita_tehda":"Kertaa G = m · g ja muista, että työssä kerrotaan voima (N). Kysy: mitä tapahtuu, jos hyllylle nostettu laatikko putoaa? Energia vapautuu, joten se oli varastoituneena potentiaalienergiana."}],"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Työ on voima kertaa voiman suuntainen matka, ja se siirtää energiaa. Kalteva taso säästää voimaa, ei työtä. Teho kertoo, kuinka nopeasti työ tehdään.","vaiheet":[{"aika":"10 min","otsikko":"Aloitus: mikä on työtä? (1. tunti)","sisalto":"Näytä kolme tilannetta: nosta laukku pöydälle, pidä sitä paikallaan, kanna sitä vaakasuoraan. Kysy, missä tehdään työtä fysiikan mielessä. Palaa vastauksiin kuvan \"Milloin voima tekee työtä?\" kohdalla."},{"aika":"20 min","otsikko":"Työ ja nostotyö","sisalto":"W = F · s, yksikkö J = N · m, laatikkoesimerkki. Nostotyö G · h ja potentiaalienergia. Harjoitusryhmä Työ = voima · matka."},{"aika":"15 min","otsikko":"Kalteva taso ja mittausohje","sisalto":"Käy läpi kaltevan tason esimerkki, kuva ja ansat 1–2. Pyydä ennustamaan, onko mittauksessa kaltevan tason työ pienempi, sama vai suurempi kuin nostotyö. Käy läpi mittausohje ja turvallisuus."},{"aika":"35 min","otsikko":"Mittaus (2. tunti)","sisalto":"Jokainen mittaa nostovoiman (korkeus 0,5 m) ja vetovoiman kaltevaa tasoa pitkin, mittaa matkat, kirjaa omat lukemansa ja laskee työt. Havainnoi kuusi kohtaa (opettajan huomiot). Varamuoto: valmis mittaustaulukko."},{"aika":"10 min","otsikko":"Tulosten vertailu","sisalto":"Kootkaa tulokset. Miksi kaltevan tason työ on hieman suurempi? Mihin ylimääräinen energia meni? Harjoitusryhmä Nostotyö ja kalteva taso alkaa."},{"aika":"15 min","otsikko":"Teho (3. tunti)","sisalto":"P = W / t, nosturiesimerkki ja ansat 3–4. Harjoitusryhmä Teho. Tehot lasketaan keksityistä tiedoista; oppilaiden omia aikoja ei mitata."},{"aika":"30 min","otsikko":"Koe","sisalto":"Koe A–E, laskin sallittu. Tehtävät 9, 11, 17 ja 18 ovat mittaritehtäviä."}],"tarvikkeet":"Voimamittarit (asteikko esim. 10 N ja 20 N), kappaleita koukulla tai punnuksia (enintään noin 1 kg), kalteva taso (lauta ja tuki tai valmis ramppi, pituus noin 1–1,5 m), mittanauha tai viivain, suojalasit, jos käytetään jousia tai kuminauhoja, laskimet, valmis mittaustaulukko varamuodoksi."},"huoltajalle":{"mista_on_kyse":"Nuori opettelee, mitä fysiikassa tarkoittaa mekaaninen työ: voima tekee työtä, kun se liikuttaa kappaletta voiman suuntaan, ja työ siirtää energiaa (W = F · s, yksikkö joule). Teho kertoo, kuinka nopeasti työ tehdään (P = W / t, yksikkö watti). Hän mittaa koulussa voimamittarilla, että kalteva taso pienentää tarvittavaa voimaa mutta ei työtä.","kotona":["Kysykää, tekeekö ihminen fysiikan mielessä työtä, kun hän pitää raskasta kassia paikallaan, ja miksi ei.","Pyytäkää selittämään, miksi ramppia tai luiskaa pitkin on helpompi siirtää raskas kärry ylös, vaikka työ ei pienene.","Kysykää, mitä eroa on sillä, että kaksi ihmistä kantaa saman laatikon portaita ylös eri ajassa: kumpi tekee enemmän työtä ja kummalla on suurempi teho?","Jos jossakin laitteessa näkyy teho watteina, kysykää, mitä luku kertoo."],"milloin_huolestua":"Jos nuori ei osaa laskea työtä voiman ja matkan tulona tai sekoittaa edelleen työn ja tehon (\"nopeampi tekee enemmän työtä\"), kertokaa siitä opettajalle. Taito on ydintaito, ja tehon käsitettä tarvitaan 9. luokalla sähkötehon ja sähkön hinnan laskemisessa."},"ulkoiset":{},"valmis_teksti":"Osaat laskea mekaanisen työn ja tehon, tiedät, milloin voima tekee työtä, ja osaat selittää, miksi kalteva taso säästää voimaa mutta ei työtä. Erotat työn ja tehon toisistaan. Tämä taito on nyt näytetty.","kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin kaava, sijoitus yksiköineen ja vastaus lukuarvona ja yksikkönä. Muuta aika sekunneiksi ja matka metreiksi ennen laskemista. Vastaus ilman yksikköä on väärin.\nKäytä arvoa g = 9,8 N/kg. Kun kysytään montako, vastaa luvulla.\nTehtävissä 4, 12 ja 18 vastaa kokonaisin virkkein. Henkilöt, laitteet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Siirrät kaappia lattiaa pitkin työntämällä sitä 60 N:n vaakasuoralla voimalla 5 m matkan. Laske tekemäsi työ.","vastaus":"300 J"},{"nro":2,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Hevonen vetää rekeä 400 N:n voimalla 2,5 km matkan. Laske tehty työ ja ilmoita se kilojouleina.","vastaus":"1 000 kJ"},{"nro":3,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Laatikkoa siirrettäessä tehtiin 450 J työtä 3 m:n matkalla. Laske, kuinka suuri voima laatikkoon kohdistui liikkeen suuntaan.","vastaus":"150 N"},{"nro":4,"ryhma":"tyo","tyyppi":"sanallinen","kysymys":"Aino pitää täyttä kauppakassia paikallaan käsi ojennettuna, ja hänen kätensä väsyy. Tekeekö Aino kassiin mekaanista työtä? Perustele työn määritelmän avulla.","vastaus":"Malliesimerkki: Ei tee. Työ W = F · s, ja kassi ei liiku, joten voiman suuntainen matka on nolla ja työ on nolla. Kassiin ei siirry energiaa. Väsymys johtuu siitä, että lihaksissa kemiallista energiaa muuttuu lämmöksi."},{"nro":5,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Lue tilanteet.\n1. Nostat kassin lattialta pöydälle.\n2. Pidät sateenvarjoa paikallaan.\n3. Vedät pulkkaa tasaisella pihalla.\n4. Nojaat käsilläsi pöytään.\n5. Nosturi nostaa betonielementin.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3},{"nro":6,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Muunna 3,6 kJ jouleiksi.","vastaus":"3 600 J"},{"nro":7,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappaleen paino on 120 N. Se nostetaan tasaisesti 1,5 m:n korkeuteen. Laske nostotyö.","vastaus":"180 J"},{"nro":8,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikon massa on 20 kg. Laske sen paino, kun g = 9,8 N/kg, ja laske työ, joka tarvitaan laatikon nostamiseen tasaisesti 1,5 m:n korkeuteen.","vastaus":"G = 196 N; W = 294 J"},{"nro":9,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kirja, jonka paino on 15 N, nostetaan lattialta 2,0 m:n korkeuteen. Mihin energiamuotoon nostotyö varastoituu, ja kuinka paljon energiaa varastoituu?","vastaus":"potentiaalienergiaksi, 30 J"},{"nro":10,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappale, jonka paino on 90 N, vedetään 1,5 m pitkää kaltevaa tasoa pitkin 0,5 m:n korkeuteen. Laske, kuinka suuri vetovoima tarvitaan, jos kitkaa ei ole.","vastaus":"30 N (työ 45 J)"},{"nro":11,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Mittauksessa kappale nostettiin suoraan 0,5 m:n korkeuteen 40 N:n voimalla. Sitten se vedettiin samalle korkeudelle 1,6 m pitkää kaltevaa tasoa pitkin, ja voimamittari näytti 15 N. Laske molemmat työt. Kumpi työ on suurempi, kuinka paljon, ja mihin ero menee?","vastaus":"20 J ja 24 J; tasolla 4 J enemmän, kitka muuttaa sen lämmöksi"},{"nro":12,"ryhma":"nosto","tyyppi":"sanallinen","kysymys":"Rakennuksissa ja tiellä käytetään kaltevia ratkaisuja, esimerkiksi pyörätuoliluiska rakennuksen ulko-ovelle. Selitä työn käsitteen avulla, miksi kalteva ratkaisu helpottaa, vaikka työ ei pienene.","vastaus":"Malliesimerkki: Työ on voima kertaa matka. Kaltevaa reittiä pitkin matka samalle korkeudelle on pidempi, joten tarvittava voima on pienempi. Työ eli siirrettävä energia on sama (kitkan vuoksi jopa hieman suurempi), mutta pientä voimaa on helpompi tuottaa."},{"nro":13,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Kaltevalla tasolla tarvitaan pienempi voima kuin suoraan nostettaessa.\n2. Kalteva taso pienentää tarvittavaa työtä.\n3. Kun kappale nostetaan, nostotyö varastoituu potentiaalienergiaksi.\n4. Työn yksikkö on newton.\n5. Kitka muuttaa osan työstä lämmöksi.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":14,"ryhma":"teho","tyyppi":"lasku","kysymys":"Pumppu tekee 900 J työtä 3 s:n aikana. Laske pumpun teho.","vastaus":"300 W"},{"nro":15,"ryhma":"teho","tyyppi":"lasku","kysymys":"Nosturi tekee 36 kJ työtä 2 minuutin aikana. Laske nosturin teho watteina.","vastaus":"300 W"},{"nro":16,"ryhma":"teho","tyyppi":"lasku","kysymys":"Sanni ja Eetu kantavat kumpikin 60 N:n laatikon portaita 4,0 m korkeammalle. Sanni kulkee portaat 8 s:ssa ja Eetu 12 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ (oman kehon nostamista ei lasketa). Kumpi tekee laatikon nostamiseen enemmän työtä? Laske.","vastaus":"yhtä paljon, 240 J kumpikin"},{"nro":17,"ryhma":"teho","tyyppi":"lasku","kysymys":"Laske tehtävän 16 henkilöiden tehot. Kumpi kantaa laatikon suuremmalla teholla?","vastaus":"Sanni 30 W, Eetu 20 W; Sanni suuremmalla"},{"nro":18,"ryhma":"teho","tyyppi":"sanallinen","kysymys":"Selitä tehtävän 16 tilanteen avulla, mitä eroa on työllä ja teholla.","vastaus":"Malliesimerkki: Työ kertoo, kuinka paljon energiaa siirtyy: kumpikin nostaa yhtä painavan laatikon yhtä korkealle, joten työ on sama. Teho kertoo, kuinka nopeasti työ tehdään (P = W / t). Se, joka käyttää lyhyemmän ajan, tekee saman työn suuremmalla teholla."},{"nro":19,"ryhma":"teho","tyyppi":"lasku","kysymys":"Moottorin teho on 250 W. Laske, kuinka kauan moottorilta kestää tehdä 2 000 J työ.","vastaus":"8 s"},{"nro":20,"ryhma":"teho","tyyppi":"lasku","kysymys":"Hissin moottori nostaa 5 000 N:n kuorman 12 m:n korkeuteen 20 s:n aikana. Laske moottorin teho kilowatteina.","vastaus":"3 kW"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin kaava, sijoitus yksiköineen ja vastaus lukuarvona ja yksikkönä. Muuta aika sekunneiksi ja matka metreiksi ennen laskemista. Vastaus ilman yksikköä on väärin.\nKäytä arvoa g = 9,8 N/kg. Kun kysytään montako, vastaa luvulla.\nTehtävissä 4, 12 ja 18 vastaa kokonaisin virkkein. Henkilöt, laitteet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Siirrät kaappia lattiaa pitkin työntämällä sitä 80 N:n vaakasuoralla voimalla 4 m matkan. Laske tekemäsi työ.","vastaus":"320 J"},{"nro":2,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Traktori vetää peräkärryä 300 N:n voimalla 1,5 km matkan. Laske tehty työ ja ilmoita se kilojouleina.","vastaus":"450 kJ"},{"nro":3,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Laatikkoa siirrettäessä tehtiin 360 J työtä 4 m:n matkalla. Laske, kuinka suuri voima laatikkoon kohdistui liikkeen suuntaan.","vastaus":"90 N"},{"nro":4,"ryhma":"tyo","tyyppi":"sanallinen","kysymys":"Leo kantaa reppua tasaisesti vaakasuoraa käytävää pitkin. Tekeekö reppua ylöspäin kannatteleva voima mekaanista työtä? Perustele työn määritelmän avulla.","vastaus":"Malliesimerkki: Ei tee. Kannatteleva voima osoittaa ylöspäin, mutta reppu liikkuu vaakasuoraan eli kohtisuorassa voimaan nähden. Voiman suuntainen matka on nolla, joten W = F · s = 0, eikä repun potentiaalienergia muutu."},{"nro":5,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Lue tilanteet.\n1. Työnnät lastenrattaita eteenpäin.\n2. Kannat vesisankoa tasaisesti vaakasuoraan (sankoa kannatteleva voima).\n3. Nostat kirjan hyllylle.\n4. Pidät reppua selässä seisoessasi pysäkillä.\n5. Kiskot ämpäriä köydellä ylös parvekkeelle.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3},{"nro":6,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Muunna 0,75 kJ jouleiksi.","vastaus":"750 J"},{"nro":7,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappaleen paino on 80 N. Se nostetaan tasaisesti 2,5 m:n korkeuteen. Laske nostotyö.","vastaus":"200 J"},{"nro":8,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikon massa on 15 kg. Laske sen paino, kun g = 9,8 N/kg, ja laske työ, joka tarvitaan laatikon nostamiseen tasaisesti 2,0 m:n korkeuteen.","vastaus":"G = 147 N; W = 294 J"},{"nro":9,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kukkaruukku, jonka paino on 12 N, nostetaan lattialta 1,5 m:n korkeuteen. Mihin energiamuotoon nostotyö varastoituu, ja kuinka paljon energiaa varastoituu?","vastaus":"potentiaalienergiaksi, 18 J"},{"nro":10,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappale, jonka paino on 120 N, vedetään 1,8 m pitkää kaltevaa tasoa pitkin 0,6 m:n korkeuteen. Laske, kuinka suuri vetovoima tarvitaan, jos kitkaa ei ole.","vastaus":"40 N (työ 72 J)"},{"nro":11,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Mittauksessa kappale nostettiin suoraan 0,5 m:n korkeuteen 30 N:n voimalla. Sitten se vedettiin samalle korkeudelle 1,0 m pitkää kaltevaa tasoa pitkin, ja voimamittari näytti 17 N. Laske molemmat työt. Kumpi työ on suurempi, kuinka paljon, ja mihin ero menee?","vastaus":"15 J ja 17 J; tasolla 2 J enemmän, kitka muuttaa sen lämmöksi"},{"nro":12,"ryhma":"nosto","tyyppi":"sanallinen","kysymys":"Rakennuksissa ja tiellä käytetään kaltevia ratkaisuja, esimerkiksi lastaussilta, jota pitkin raskas kärry työnnetään pakettiautoon. Selitä työn käsitteen avulla, miksi kalteva ratkaisu helpottaa, vaikka työ ei pienene.","vastaus":"Malliesimerkki: Työ on voima kertaa matka. Kaltevaa reittiä pitkin matka samalle korkeudelle on pidempi, joten tarvittava voima on pienempi. Työ eli siirrettävä energia on sama (kitkan vuoksi jopa hieman suurempi), mutta pientä voimaa on helpompi tuottaa."},{"nro":13,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Työ on voiman ja voiman suuntaisen matkan tulo.\n2. Kun pidät kassia paikallaan, teet siihen mekaanista työtä.\n3. 1 J = 1 N · m.\n4. Kaltevaa tasoa pitkin vedettäessä matka on pidempi kuin suoraan nostettaessa.\n5. Kitka pienentää kaltevalla tasolla tehtävää työtä.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":14,"ryhma":"teho","tyyppi":"lasku","kysymys":"Pumppu tekee 2 400 J työtä 6 s:n aikana. Laske pumpun teho.","vastaus":"400 W"},{"nro":15,"ryhma":"teho","tyyppi":"lasku","kysymys":"Nosturi tekee 54 kJ työtä 3 minuutin aikana. Laske nosturin teho watteina.","vastaus":"300 W"},{"nro":16,"ryhma":"teho","tyyppi":"lasku","kysymys":"Iida ja Onni kantavat kumpikin 80 N:n laatikon portaita 3,0 m korkeammalle. Iida kulkee portaat 6 s:ssa ja Onni 10 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ (oman kehon nostamista ei lasketa). Kumpi tekee laatikon nostamiseen enemmän työtä? Laske.","vastaus":"yhtä paljon, 240 J kumpikin"},{"nro":17,"ryhma":"teho","tyyppi":"lasku","kysymys":"Laske tehtävän 16 henkilöiden tehot. Kumpi kantaa laatikon suuremmalla teholla?","vastaus":"Iida 40 W, Onni 24 W; Iida suuremmalla"},{"nro":18,"ryhma":"teho","tyyppi":"sanallinen","kysymys":"Selitä tehtävän 16 tilanteen avulla, mitä eroa on työllä ja teholla.","vastaus":"Malliesimerkki: Työ kertoo, kuinka paljon energiaa siirtyy: kumpikin nostaa yhtä painavan laatikon yhtä korkealle, joten työ on sama. Teho kertoo, kuinka nopeasti työ tehdään (P = W / t). Se, joka käyttää lyhyemmän ajan, tekee saman työn suuremmalla teholla."},{"nro":19,"ryhma":"teho","tyyppi":"lasku","kysymys":"Moottorin teho on 400 W. Laske, kuinka kauan moottorilta kestää tehdä 6 000 J työ.","vastaus":"15 s"},{"nro":20,"ryhma":"teho","tyyppi":"lasku","kysymys":"Hissin moottori nostaa 6 000 N:n kuorman 10 m:n korkeuteen 15 s:n aikana. Laske moottorin teho kilowatteina.","vastaus":"4 kW"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin kaava, sijoitus yksiköineen ja vastaus lukuarvona ja yksikkönä. Muuta aika sekunneiksi ja matka metreiksi ennen laskemista. Vastaus ilman yksikköä on väärin.\nKäytä arvoa g = 9,8 N/kg. Kun kysytään montako, vastaa luvulla.\nTehtävissä 4, 12 ja 18 vastaa kokonaisin virkkein. Henkilöt, laitteet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Siirrät kaappia lattiaa pitkin työntämällä sitä 45 N:n vaakasuoralla voimalla 6 m matkan. Laske tekemäsi työ.","vastaus":"270 J"},{"nro":2,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Hinausauto vetää rikkinäistä autoa 250 N:n voimalla 2 km matkan. Laske tehty työ ja ilmoita se kilojouleina.","vastaus":"500 kJ"},{"nro":3,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Laatikkoa siirrettäessä tehtiin 500 J työtä 2 m:n matkalla. Laske, kuinka suuri voima laatikkoon kohdistui liikkeen suuntaan.","vastaus":"250 N"},{"nro":4,"ryhma":"tyo","tyyppi":"sanallinen","kysymys":"Mika työntää kaikin voimin isoa kiveä, mutta kivi ei liikahda. Tekeekö Mika kiveen mekaanista työtä? Perustele työn määritelmän avulla.","vastaus":"Malliesimerkki: Ei tee. Kivi ei liiku, joten voiman suuntainen matka on nolla ja W = F · s = 0. Kiveen ei siirry energiaa. Mikan lihaksissa kemiallista energiaa muuttuu lämmöksi, ja siksi hän väsyy."},{"nro":5,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Lue tilanteet.\n1. Hissi nostaa matkustajia.\n2. Pidät kahvikuppia kädessäsi paikallaan.\n3. Vedät lipun salkoon.\n4. Nojaat seinään.\n5. Kiskot köydellä purjeen ylös mastoon.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3},{"nro":6,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Muunna 12,5 kJ jouleiksi.","vastaus":"12 500 J"},{"nro":7,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappaleen paino on 150 N. Se nostetaan tasaisesti 1,2 m:n korkeuteen. Laske nostotyö.","vastaus":"180 J"},{"nro":8,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikon massa on 30 kg. Laske sen paino, kun g = 9,8 N/kg, ja laske työ, joka tarvitaan laatikon nostamiseen tasaisesti 0,5 m:n korkeuteen.","vastaus":"G = 294 N; W = 147 J"},{"nro":9,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikko, jonka paino on 25 N, nostetaan lattialta 1,6 m:n korkeuteen. Mihin energiamuotoon nostotyö varastoituu, ja kuinka paljon energiaa varastoituu?","vastaus":"potentiaalienergiaksi, 40 J"},{"nro":10,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappale, jonka paino on 80 N, vedetään 2,0 m pitkää kaltevaa tasoa pitkin 0,5 m:n korkeuteen. Laske, kuinka suuri vetovoima tarvitaan, jos kitkaa ei ole.","vastaus":"20 N (työ 40 J)"},{"nro":11,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Mittauksessa kappale nostettiin suoraan 0,5 m:n korkeuteen 50 N:n voimalla. Sitten se vedettiin samalle korkeudelle 2,0 m pitkää kaltevaa tasoa pitkin, ja voimamittari näytti 14 N. Laske molemmat työt. Kumpi työ on suurempi, kuinka paljon, ja mihin ero menee?","vastaus":"25 J ja 28 J; tasolla 3 J enemmän, kitka muuttaa sen lämmöksi"},{"nro":12,"ryhma":"nosto","tyyppi":"sanallinen","kysymys":"Rakennuksissa ja tiellä käytetään kaltevia ratkaisuja, esimerkiksi serpentiinitie, joka kiemurtelee jyrkän vuoren rinnettä ylös. Selitä työn käsitteen avulla, miksi kalteva ratkaisu helpottaa, vaikka työ ei pienene.","vastaus":"Malliesimerkki: Työ on voima kertaa matka. Kaltevaa reittiä pitkin matka samalle korkeudelle on pidempi, joten tarvittava voima on pienempi. Työ eli siirrettävä energia on sama (kitkan vuoksi jopa hieman suurempi), mutta pientä voimaa on helpompi tuottaa."},{"nro":13,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Kun kappale nostetaan tasaisesti, nostovoima on yhtä suuri kuin kappaleen paino.\n2. Kalteva taso säästää työtä.\n3. Teho kertoo, kuinka paljon työtä tehdään aikayksikössä.\n4. Työn yksikkö on joule.\n5. Mitä pidempi kalteva taso, sitä suurempi työ, vaikka kitkaa ei olisi.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":14,"ryhma":"teho","tyyppi":"lasku","kysymys":"Pumppu tekee 1 000 J työtä 4 s:n aikana. Laske pumpun teho.","vastaus":"250 W"},{"nro":15,"ryhma":"teho","tyyppi":"lasku","kysymys":"Nosturi tekee 24 kJ työtä 1 minuutin aikana. Laske nosturin teho watteina.","vastaus":"400 W"},{"nro":16,"ryhma":"teho","tyyppi":"lasku","kysymys":"Venla ja Aatu kantavat kumpikin 120 N:n laatikon portaita 2,5 m korkeammalle. Venla kulkee portaat 12 s:ssa ja Aatu 20 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ (oman kehon nostamista ei lasketa). Kumpi tekee laatikon nostamiseen enemmän työtä? Laske.","vastaus":"yhtä paljon, 300 J kumpikin"},{"nro":17,"ryhma":"teho","tyyppi":"lasku","kysymys":"Laske tehtävän 16 henkilöiden tehot. Kumpi kantaa laatikon suuremmalla teholla?","vastaus":"Venla 25 W, Aatu 15 W; Venla suuremmalla"},{"nro":18,"ryhma":"teho","tyyppi":"sanallinen","kysymys":"Selitä tehtävän 16 tilanteen avulla, mitä eroa on työllä ja teholla.","vastaus":"Malliesimerkki: Työ kertoo, kuinka paljon energiaa siirtyy: kumpikin nostaa yhtä painavan laatikon yhtä korkealle, joten työ on sama. Teho kertoo, kuinka nopeasti työ tehdään (P = W / t). Se, joka käyttää lyhyemmän ajan, tekee saman työn suuremmalla teholla."},{"nro":19,"ryhma":"teho","tyyppi":"lasku","kysymys":"Moottorin teho on 150 W. Laske, kuinka kauan moottorilta kestää tehdä 900 J työ.","vastaus":"6 s"},{"nro":20,"ryhma":"teho","tyyppi":"lasku","kysymys":"Hissin moottori nostaa 4 000 N:n kuorman 9 m:n korkeuteen 12 s:n aikana. Laske moottorin teho kilowatteina.","vastaus":"3 kW"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin kaava, sijoitus yksiköineen ja vastaus lukuarvona ja yksikkönä. Muuta aika sekunneiksi ja matka metreiksi ennen laskemista. Vastaus ilman yksikköä on väärin.\nKäytä arvoa g = 9,8 N/kg. Kun kysytään montako, vastaa luvulla.\nTehtävissä 4, 12 ja 18 vastaa kokonaisin virkkein. Henkilöt, laitteet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Siirrät kaappia lattiaa pitkin työntämällä sitä 70 N:n vaakasuoralla voimalla 3 m matkan. Laske tekemäsi työ.","vastaus":"210 J"},{"nro":2,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Moottorikelkka vetää rekeä 500 N:n voimalla 1,2 km matkan. Laske tehty työ ja ilmoita se kilojouleina.","vastaus":"600 kJ"},{"nro":3,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Laatikkoa siirrettäessä tehtiin 480 J työtä 6 m:n matkalla. Laske, kuinka suuri voima laatikkoon kohdistui liikkeen suuntaan.","vastaus":"80 N"},{"nro":4,"ryhma":"tyo","tyyppi":"sanallinen","kysymys":"Painonnostaja pitää tankoa paikallaan pään yläpuolella. Tekeekö hän tankoon mekaanista työtä sinä aikana, kun tanko on paikallaan? Perustele työn määritelmän avulla.","vastaus":"Malliesimerkki: Ei tee. Tanko ei liiku, joten voiman suuntainen matka on nolla ja W = F · s = 0. Tankoon ei siirry energiaa sinä aikana. (Nostaessaan tankoa ylös hän teki työtä, ja se varastoitui tangon potentiaalienergiaksi.)"},{"nro":5,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Lue tilanteet.\n1. Työnnät polkupyörää eteenpäin.\n2. Pidät käsipainoa paikallaan.\n3. Nostat vesikannun pöydälle.\n4. Kannat kitarakoteloa tasaisesti vaakasuoraan (koteloa kannatteleva voima).\n5. Vedät veneen rantaan.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3},{"nro":6,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Muunna 4,2 kJ jouleiksi.","vastaus":"4 200 J"},{"nro":7,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappaleen paino on 60 N. Se nostetaan tasaisesti 3,5 m:n korkeuteen. Laske nostotyö.","vastaus":"210 J"},{"nro":8,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikon massa on 25 kg. Laske sen paino, kun g = 9,8 N/kg, ja laske työ, joka tarvitaan laatikon nostamiseen tasaisesti 2,0 m:n korkeuteen.","vastaus":"G = 245 N; W = 490 J"},{"nro":9,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Maalipurkki, jonka paino on 9 N, nostetaan lattialta 2,4 m:n korkeuteen. Mihin energiamuotoon nostotyö varastoituu, ja kuinka paljon energiaa varastoituu?","vastaus":"potentiaalienergiaksi, 21,6 J"},{"nro":10,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappale, jonka paino on 150 N, vedetään 1,2 m pitkää kaltevaa tasoa pitkin 0,4 m:n korkeuteen. Laske, kuinka suuri vetovoima tarvitaan, jos kitkaa ei ole.","vastaus":"50 N (työ 60 J)"},{"nro":11,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Mittauksessa kappale nostettiin suoraan 0,5 m:n korkeuteen 24 N:n voimalla. Sitten se vedettiin samalle korkeudelle 1,5 m pitkää kaltevaa tasoa pitkin, ja voimamittari näytti 9 N. Laske molemmat työt. Kumpi työ on suurempi, kuinka paljon, ja mihin ero menee?","vastaus":"12 J ja 13,5 J; tasolla 1,5 J enemmän, kitka muuttaa sen lämmöksi"},{"nro":12,"ryhma":"nosto","tyyppi":"sanallinen","kysymys":"Rakennuksissa ja tiellä käytetään kaltevia ratkaisuja, esimerkiksi luiska, jota pitkin kottikärryt työnnetään kuorma-auton lavalle. Selitä työn käsitteen avulla, miksi kalteva ratkaisu helpottaa, vaikka työ ei pienene.","vastaus":"Malliesimerkki: Työ on voima kertaa matka. Kaltevaa reittiä pitkin matka samalle korkeudelle on pidempi, joten tarvittava voima on pienempi. Työ eli siirrettävä energia on sama (kitkan vuoksi jopa hieman suurempi), mutta pientä voimaa on helpompi tuottaa."},{"nro":13,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Kalteva taso säästää voimaa mutta ei työtä.\n2. Hyllylle nostetun kappaleen nostotyö on muuttunut sen liike-energiaksi, vaikka kappale on paikallaan.\n3. Kun kannat reppua tasaisesti vaakasuoraan, reppua kannatteleva voima ei tee työtä.\n4. Työ lasketaan kertomalla voima ja voiman suuntainen matka.\n5. Watti on työn yksikkö.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":14,"ryhma":"teho","tyyppi":"lasku","kysymys":"Pumppu tekee 1 800 J työtä 3 s:n aikana. Laske pumpun teho.","vastaus":"600 W"},{"nro":15,"ryhma":"teho","tyyppi":"lasku","kysymys":"Nosturi tekee 90 kJ työtä 5 minuutin aikana. Laske nosturin teho watteina.","vastaus":"300 W"},{"nro":16,"ryhma":"teho","tyyppi":"lasku","kysymys":"Ella ja Niilo kantavat kumpikin 90 N:n laatikon portaita 4,0 m korkeammalle. Ella kulkee portaat 12 s:ssa ja Niilo 9 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ (oman kehon nostamista ei lasketa). Kumpi tekee laatikon nostamiseen enemmän työtä? Laske.","vastaus":"yhtä paljon, 360 J kumpikin"},{"nro":17,"ryhma":"teho","tyyppi":"lasku","kysymys":"Laske tehtävän 16 henkilöiden tehot. Kumpi kantaa laatikon suuremmalla teholla?","vastaus":"Ella 30 W, Niilo 40 W; Niilo suuremmalla"},{"nro":18,"ryhma":"teho","tyyppi":"sanallinen","kysymys":"Selitä tehtävän 16 tilanteen avulla, mitä eroa on työllä ja teholla.","vastaus":"Malliesimerkki: Työ kertoo, kuinka paljon energiaa siirtyy: kumpikin nostaa yhtä painavan laatikon yhtä korkealle, joten työ on sama. Teho kertoo, kuinka nopeasti työ tehdään (P = W / t). Se, joka käyttää lyhyemmän ajan, tekee saman työn suuremmalla teholla."},{"nro":19,"ryhma":"teho","tyyppi":"lasku","kysymys":"Moottorin teho on 500 W. Laske, kuinka kauan moottorilta kestää tehdä 4 000 J työ.","vastaus":"8 s"},{"nro":20,"ryhma":"teho","tyyppi":"lasku","kysymys":"Hissin moottori nostaa 8 000 N:n kuorman 6 m:n korkeuteen 16 s:n aikana. Laske moottorin teho kilowatteina.","vastaus":"3 kW"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Saat käyttää laskinta. Kirjoita laskutehtäviin näkyviin kaava, sijoitus yksiköineen ja vastaus lukuarvona ja yksikkönä. Muuta aika sekunneiksi ja matka metreiksi ennen laskemista. Vastaus ilman yksikköä on väärin.\nKäytä arvoa g = 9,8 N/kg. Kun kysytään montako, vastaa luvulla.\nTehtävissä 4, 12 ja 18 vastaa kokonaisin virkkein. Henkilöt, laitteet ja luvut ovat keksittyjä.","tehtavat":[{"nro":1,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Siirrät kaappia lattiaa pitkin työntämällä sitä 35 N:n vaakasuoralla voimalla 8 m matkan. Laske tekemäsi työ.","vastaus":"280 J"},{"nro":2,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Hevonen vetää kärryä 200 N:n voimalla 3 km matkan. Laske tehty työ ja ilmoita se kilojouleina.","vastaus":"600 kJ"},{"nro":3,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Laatikkoa siirrettäessä tehtiin 630 J työtä 7 m:n matkalla. Laske, kuinka suuri voima laatikkoon kohdistui liikkeen suuntaan.","vastaus":"90 N"},{"nro":4,"ryhma":"tyo","tyyppi":"sanallinen","kysymys":"Saara kantaa kirjapinoa tasaisesti vaakasuoraa käytävää pitkin. Tekeekö pinoa ylöspäin kannatteleva voima mekaanista työtä? Perustele työn määritelmän avulla.","vastaus":"Malliesimerkki: Ei tee. Kannatteleva voima osoittaa ylöspäin, mutta pino liikkuu vaakasuoraan eli kohtisuorassa voimaan nähden. Voiman suuntainen matka on nolla, joten W = F · s = 0, eikä pinon potentiaalienergia muutu."},{"nro":5,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Lue tilanteet.\n1. Nostat vesisangon kaivosta.\n2. Tuet hyllyä paikallaan, ettei se kaadu.\n3. Työnnät polkupyörää mäkeä ylös.\n4. Kannat kirjekuorta tasaisesti vaakasuoraan (kuorta kannatteleva voima).\n5. Vinssi vetää veneen trailerille.\n\nMonessako tilanteessa mainittu voima tekee mekaanista työtä?","vastaus":3},{"nro":6,"ryhma":"tyo","tyyppi":"lasku","kysymys":"Muunna 0,25 kJ jouleiksi.","vastaus":"250 J"},{"nro":7,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappaleen paino on 90 N. Se nostetaan tasaisesti 2,0 m:n korkeuteen. Laske nostotyö.","vastaus":"180 J"},{"nro":8,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Laatikon massa on 40 kg. Laske sen paino, kun g = 9,8 N/kg, ja laske työ, joka tarvitaan laatikon nostamiseen tasaisesti 1,2 m:n korkeuteen.","vastaus":"G = 392 N; W = 470,4 J"},{"nro":9,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Pallo, jonka paino on 20 N, nostetaan lattialta 1,8 m:n korkeuteen. Mihin energiamuotoon nostotyö varastoituu, ja kuinka paljon energiaa varastoituu?","vastaus":"potentiaalienergiaksi, 36 J"},{"nro":10,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Kappale, jonka paino on 60 N, vedetään 2,7 m pitkää kaltevaa tasoa pitkin 0,9 m:n korkeuteen. Laske, kuinka suuri vetovoima tarvitaan, jos kitkaa ei ole.","vastaus":"20 N (työ 54 J)"},{"nro":11,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Mittauksessa kappale nostettiin suoraan 0,5 m:n korkeuteen 36 N:n voimalla. Sitten se vedettiin samalle korkeudelle 1,2 m pitkää kaltevaa tasoa pitkin, ja voimamittari näytti 17 N. Laske molemmat työt. Kumpi työ on suurempi, kuinka paljon, ja mihin ero menee?","vastaus":"18 J ja 20,4 J; tasolla 2,4 J enemmän, kitka muuttaa sen lämmöksi"},{"nro":12,"ryhma":"nosto","tyyppi":"sanallinen","kysymys":"Rakennuksissa ja tiellä käytetään kaltevia ratkaisuja, esimerkiksi ramppi, jota pitkin pyöräilijä taluttaa pyöränsä sillalle. Selitä työn käsitteen avulla, miksi kalteva ratkaisu helpottaa, vaikka työ ei pienene.","vastaus":"Malliesimerkki: Työ on voima kertaa matka. Kaltevaa reittiä pitkin matka samalle korkeudelle on pidempi, joten tarvittava voima on pienempi. Työ eli siirrettävä energia on sama (kitkan vuoksi jopa hieman suurempi), mutta pientä voimaa on helpompi tuottaa."},{"nro":13,"ryhma":"nosto","tyyppi":"lasku","kysymys":"Lue väitteet.\n1. Kun kappale nostetaan korkeammalle, sen potentiaalienergia kasvaa.\n2. Kaltevan tason ansiosta työ on pienempi kuin suoraan nostettaessa.\n3. Kitkan vuoksi kaltevaa tasoa pitkin vetäminen vaatii hieman enemmän työtä kuin ilman kitkaa.\n4. Kaltevalla tasolla matka mitataan tason pintaa pitkin.\n5. Työtä tehdään aina, kun lihakset väsyvät.\n\nMontako väitteistä on totta?","vastaus":3},{"nro":14,"ryhma":"teho","tyyppi":"lasku","kysymys":"Pumppu tekee 3 500 J työtä 7 s:n aikana. Laske pumpun teho.","vastaus":"500 W"},{"nro":15,"ryhma":"teho","tyyppi":"lasku","kysymys":"Nosturi tekee 48 kJ työtä 2 minuutin aikana. Laske nosturin teho watteina.","vastaus":"400 W"},{"nro":16,"ryhma":"teho","tyyppi":"lasku","kysymys":"Helmi ja Leevi kantavat kumpikin 70 N:n laatikon portaita 6,0 m korkeammalle. Helmi kulkee portaat 14 s:ssa ja Leevi 21 s:ssa. Lasketaan vain laatikon nostamiseen tehty työ (oman kehon nostamista ei lasketa). Kumpi tekee laatikon nostamiseen enemmän työtä? Laske.","vastaus":"yhtä paljon, 420 J kumpikin"},{"nro":17,"ryhma":"teho","tyyppi":"lasku","kysymys":"Laske tehtävän 16 henkilöiden tehot. Kumpi kantaa laatikon suuremmalla teholla?","vastaus":"Helmi 30 W, Leevi 20 W; Helmi suuremmalla"},{"nro":18,"ryhma":"teho","tyyppi":"sanallinen","kysymys":"Selitä tehtävän 16 tilanteen avulla, mitä eroa on työllä ja teholla.","vastaus":"Malliesimerkki: Työ kertoo, kuinka paljon energiaa siirtyy: kumpikin nostaa yhtä painavan laatikon yhtä korkealle, joten työ on sama. Teho kertoo, kuinka nopeasti työ tehdään (P = W / t). Se, joka käyttää lyhyemmän ajan, tekee saman työn suuremmalla teholla."},{"nro":19,"ryhma":"teho","tyyppi":"lasku","kysymys":"Moottorin teho on 200 W. Laske, kuinka kauan moottorilta kestää tehdä 3 000 J työ.","vastaus":"15 s"},{"nro":20,"ryhma":"teho","tyyppi":"lasku","kysymys":"Hissin moottori nostaa 3 000 N:n kuorman 20 m:n korkeuteen 24 s:n aikana. Laske moottorin teho kilowatteina.","vastaus":"2,5 kW"}]}]};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

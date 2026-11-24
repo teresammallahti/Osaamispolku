@@ -1,0 +1,619 @@
+<title>Näytelmän kirjoittaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI8-KIR-06","oppiaine":"AI","vuosiluokka":8,"taitoalue":"KIR","jakso":"J5","taso":"haaste","otsikko":"Näytelmän kirjoittaja","kuvaus":"Osaan kirjoittaa näytelmän kohtauksen, jossa ristiriita etenee repliikkien ja näyttämöohjeiden avulla.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T11","T9"],"S":["S3","S2"]},"eyebrow":"Äidinkieli ja kirjallisuus · 8. luokka","ikoni":"kyna","naytto":"Kirjoitustehtävä: Kirjoitan noin kahden sivun kohtauksen kahdelle tai kolmelle henkilölle annetusta tilanteesta tai luetun kertomuksen pohjalta. Käytän näytelmän muotoa: henkilöluettelo, repliikit ja näyttämöohjeet.","osaa_kun":"Kohtauksessa on ristiriita, joka kärjistyy tai ratkeaa. Henkilöt erottuvat toisistaan puhetavan perusteella, ja tärkeä asia näkyy teoista tai alatekstistä eikä vain kerrottuna. Näytelmän muoto on johdonmukainen.","teksti":[{"tyyppi":"johdanto","sisalto":"Novellissa kertoja voi kertoa, mitä henkilö ajattelee. Näytelmässä kertojaa ei ole. Katsoja näkee vain sen, mitä henkilöt sanovat ja tekevät, ja päättelee siitä kaiken muun: mitä he haluavat, mitä he pelkäävät ja mitä he jättävät sanomatta. Siksi näytelmän kirjoittaja rakentaa kohtauksen kahdesta aineksesta, repliikeistä ja näyttämöohjeista. Teatterin taikalaatikossa erittelit näytelmätekstiä käsitteillä kohtaus, repliikki, näyttämöohje ja ristiriita, ja roolityössä kokeilit, miten hahmon tavoite näkyy näyttämöllä. Novellia kirjoittaessasi opit näyttämään etkä kertomaan. Nyt kirjoitat itse kohtauksen, jossa ristiriita etenee pelkästään sen avulla, mitä henkilöt sanovat ja tekevät."},{"tyyppi":"taulukko","otsikko":"Näytelmätekstin osat","otsikkorivi":["Osa","Mitä siinä on","Esimerkki"],"rivit":[["Henkilöluettelo","Kohtauksen alussa: henkilöt ja lyhyt kuvaus (ikä, rooli, suhde muihin).","ELLI, 14, salibandyjoukkueen kapteeni"],["Aloitusohje","Missä ja milloin ollaan, mitä näyttämöllä on ja kuka on paikalla, kun kohtaus alkaa.","(Urheiluhallin varasto torstai-iltana.)"],["Repliikki","Puhujan nimi isoin kirjaimin, kaksoispiste ja puhe. Jokainen repliikki alkaa omalta riviltään.","ELLI: Huomenna on finaali."],["Näyttämöohje","Sulkeissa ja preesensissä. Kertoo vain sen, minkä katsoja näkee tai kuulee: teot, liikkeet, äänet, tauot ja äänensävyn.","(Elli laskee kassin lattialle.)"],["Tauko","Merkitään näyttämöohjeena. Hiljaisuus voi olla kohtauksen tärkein kohta.","(Tauko.)"]]},{"tyyppi":"kappale","otsikko":"Muoto pysyy samana","sisalto":"Näytelmätekstin merkintätavat vaihtelevat kirjoittajittain ja kustantamoittain. Joskus nimen perässä ei ole kaksoispistettä, ja joskus näyttämöohjeet on kursiivilla ilman sulkeita. Valitse yksi tapa ja pidä se koko kohtauksen ajan, jotta näyttelijä ja ohjaaja näkevät heti, mikä on puhetta ja mikä ohjetta. Lyhyen ohjeen voi kirjoittaa repliikin sisään (ELLI: (Hiljaa.) Mä olisin kysynyt.), pitkä ohje kirjoitetaan omalle rivilleen. Repliikeissä henkilö saa puhua niin kuin hän puhuisi, myös puhekieltä. Näyttämöohjeet kirjoitetaan yleiskielellä."},{"tyyppi":"kuva","otsikko":"Näytelmän sivu","svg":"<svg viewBox=\"0 0 640 330\" role=\"img\" aria-label=\"Kaavio näytelmätekstin sivusta: kohtauksen nimi, henkilöluettelo, aloitusohje paikasta ja ajasta, repliikit henkilön nimen ja kaksoispisteen jälkeen sekä näyttämöohjeet sulkeissa.\"><rect class=\"v-osa\" x=\"20\" y=\"10\" width=\"380\" height=\"310\" rx=\"4\"/><text class=\"v-t vahva\" x=\"210\" y=\"36\" text-anchor=\"middle\" style=\"font-size:14px\">VARASTO</text><text class=\"v-t\" x=\"36\" y=\"62\" style=\"font-size:12px\">ELLI, 14, salibandyjoukkueen kapteeni</text><text class=\"v-t\" x=\"36\" y=\"80\" style=\"font-size:12px\">ROOPE, 14, joukkueen välinevastaava</text><text class=\"v-t pieni\" x=\"36\" y=\"108\" style=\"font-size:12px;font-style:italic\">(Urheiluhallin varasto torstai-iltana.</text><text class=\"v-t pieni\" x=\"36\" y=\"124\" style=\"font-size:12px;font-style:italic\">Roope istuu pahvilaatikon päällä.)</text><text class=\"v-t\" x=\"36\" y=\"152\" style=\"font-size:12px\"><tspan class=\"v-t vahva\">ELLI:</tspan> Paidat.</text><text class=\"v-t\" x=\"36\" y=\"176\" style=\"font-size:12px\"><tspan class=\"v-t vahva\">ROOPE:</tspan> Hei. Tota, ajattelin justiin, että…</text><text class=\"v-t pieni\" x=\"36\" y=\"204\" style=\"font-size:12px;font-style:italic\">(Elli laskee kassin lattialle.)</text><text class=\"v-t\" x=\"36\" y=\"232\" style=\"font-size:12px\"><tspan class=\"v-t vahva\">ELLI:</tspan> Siirry.</text><text class=\"v-t pieni\" x=\"36\" y=\"260\" style=\"font-size:12px;font-style:italic\">(Tauko.)</text><text class=\"v-t\" x=\"36\" y=\"288\" style=\"font-size:12px\"><tspan class=\"v-t vahva\">ROOPE:</tspan> Ne on pesty.</text><line class=\"v-apu\" x1=\"400\" y1=\"32\" x2=\"440\" y2=\"32\"/><text class=\"v-t\" x=\"446\" y=\"36\" style=\"font-size:12px\">kohtauksen nimi</text><line class=\"v-apu\" x1=\"400\" y1=\"72\" x2=\"440\" y2=\"72\"/><text class=\"v-t\" x=\"446\" y=\"68\" style=\"font-size:12px\">henkilöluettelo:</text><text class=\"v-t pieni\" x=\"446\" y=\"84\" style=\"font-size:11px\">nimi, ikä, rooli</text><line class=\"v-apu\" x1=\"400\" y1=\"116\" x2=\"440\" y2=\"116\"/><text class=\"v-t\" x=\"446\" y=\"112\" style=\"font-size:12px\">aloitusohje:</text><text class=\"v-t pieni\" x=\"446\" y=\"128\" style=\"font-size:11px\">paikka, aika, näyttämökuva</text><line class=\"v-apu\" x1=\"400\" y1=\"164\" x2=\"440\" y2=\"164\"/><text class=\"v-t\" x=\"446\" y=\"160\" style=\"font-size:12px\">repliikki:</text><text class=\"v-t pieni\" x=\"446\" y=\"176\" style=\"font-size:11px\">NIMI ja kaksoispiste</text><line class=\"v-apu\" x1=\"400\" y1=\"204\" x2=\"440\" y2=\"204\"/><text class=\"v-t\" x=\"446\" y=\"200\" style=\"font-size:12px\">näyttämöohje:</text><text class=\"v-t pieni\" x=\"446\" y=\"216\" style=\"font-size:11px\">sulkeissa, preesens,</text><text class=\"v-t pieni\" x=\"446\" y=\"230\" style=\"font-size:11px\">vain näkyvä ja kuuluva</text><line class=\"v-apu\" x1=\"400\" y1=\"258\" x2=\"440\" y2=\"258\"/><text class=\"v-t\" x=\"446\" y=\"262\" style=\"font-size:12px\">tauko on myös ohje</text></svg>","teksti":"Kohtauksen alku: henkilöluettelo, aloitusohje, repliikit ja näyttämöohjeet."},{"tyyppi":"kappale","otsikko":"Esimerkkikohtaus: Varasto","sisalto":"VARASTO\nHenkilöt:\nELLI, 14, salibandyjoukkueen kapteeni\nROOPE, 14, joukkueen välinevastaava, pelasi joukkueessa viime kauteen asti\n\n(Urheiluhallin varasto torstai-iltana. Hyllyillä on palloja, mailoja ja pahvilaatikoita. Ovi on raollaan, ja käytävästä kuuluu siivouskoneen hurina. Roope istuu pahvilaatikon päällä. Elli tulee sisään treenikassi olallaan.)\nELLI: Paidat.\nROOPE: Hei. Tota, ajattelin justiin, että sä tulet varmaan kysymään niistä. Siis tavallaan.\nELLI: Huomenna on finaali. Missä ne on?\nROOPE: (Nousee seisomaan laatikon eteen.) Ne on… Ne tulee kyllä. Tai siis, ne on varmaan jossain matkalla. Postissa voi olla ruuhkaa tähän aikaan vuodesta.\nELLI: Sä sanoit maanantaina, että ne on täällä.\nROOPE: Sanoinko? No, sanoin ehkä, että ne on melkein täällä.\n(Elli laskee kassin lattialle. Hän katsoo Roopea eikä laatikkoa.)\nELLI: Siirry.\nROOPE: Mitä?\nELLI: Sä seisot laatikon edessä. Siirry.\n(Roope siirtyy sivuun hitaasti. Elli avaa laatikon ja nostaa esiin harmaan, nukkaantuneen paidan. Selässä on numero 7.)\nELLI: Nää on vanhoja.\nROOPE: Ne on pesty.\nELLI: Sä et tilannut uusia.\n(Tauko. Siivouskone hurisee lähempänä.)\nROOPE: Seitsemän oli mun numero. Muistatko? Kaks kautta. Sitten tuli uusi valmentaja, ja yhtäkkiä mä olin se, joka täyttää vesipullot. Kukaan ei kysynyt, haluanko mä.\nELLI: (Hiljaa.) Mä olisin kysynyt.\nROOPE: Et sä kysynyt.\n(Elli taittelee paidan huolellisesti ja laskee sen Roopen käsiin.)\nELLI: Huomenna pelataan näillä.\nROOPE: Näillä? Kaikki nauraa.\nELLI: Anna niiden nauraa. (Ottaa kassista teippirullan ja repäisee siitä palan.) Ja sä istut vaihtopenkillä. Et katsomossa.\n(Roope katsoo paitaa. Hän ei sano mitään. Hän ottaa teipin Elliltä ja alkaa korjata numeron irronnutta kulmaa.)"},{"tyyppi":"kappale","otsikko":"Ristiriita etenee","sisalto":"Ristiriita syntyy, kun henkilö haluaa jotain ja jokin tai joku on esteenä. Varastossa Elli haluaa uudet pelipaidat finaaliin, ja Roope väistelee. Ristiriita ei pysy paikallaan, vaan se kärjistyy askel kerrallaan: Elli kysyy, sitten vaatii Roopea siirtymään ja lopulta avaa laatikon itse. Jokainen askel tuo jotain uutta: uuden tiedon, uuden teon tai uuden vaatimuksen. Käänteessä ristiriita muuttuu: kyse ei olekaan paidoista, vaan siitä, että Roope on pudotettu joukkueesta eikä kukaan kysynyt häneltä mitään. Kohtaus ratkeaa teolla, ei selityksellä. Ristiriidan ei tarvitse ratketa. Kohtaus voi päättyä myös huippukohtaan, jossa ristiriita on kärjistynyt niin, ettei paluuta entiseen ole."},{"tyyppi":"kuva","otsikko":"Ristiriidan askeleet kohtauksessa Varasto","svg":"<svg viewBox=\"0 0 640 300\" role=\"img\" aria-label=\"Ristiriidan eteneminen kohtauksessa Varasto: tavoite ja este, kolme kärjistymisen askelta, käänne ja ratkeaminen.\"><line class=\"v-akseli\" x1=\"30\" y1=\"252\" x2=\"620\" y2=\"252\"/><text class=\"v-t pieni\" x=\"325\" y=\"268\" text-anchor=\"middle\" style=\"font-size:12px\">kohtauksen kulku →</text><path class=\"v-jana\" d=\"M 50 220 L 160 190 L 270 150 L 380 105 L 470 60 L 580 140\" fill=\"none\"/><circle class=\"v-merkki\" cx=\"50\" cy=\"220\" r=\"6\"/><circle class=\"v-merkki\" cx=\"160\" cy=\"190\" r=\"6\"/><circle class=\"v-merkki\" cx=\"270\" cy=\"150\" r=\"6\"/><circle class=\"v-merkki\" cx=\"380\" cy=\"105\" r=\"6\"/><circle class=\"v-merkki\" cx=\"470\" cy=\"60\" r=\"6\"/><circle class=\"v-merkki\" cx=\"580\" cy=\"140\" r=\"6\"/><text class=\"v-t vahva\" x=\"62\" y=\"240\" style=\"font-size:12px\">Tavoite ja este</text><text class=\"v-t pieni\" x=\"40\" y=\"282\" style=\"font-size:11px\">Elli haluaa paidat,</text><text class=\"v-t pieni\" x=\"40\" y=\"296\" style=\"font-size:11px\">Roope väistelee.</text><text class=\"v-t vahva\" x=\"160\" y=\"176\" text-anchor=\"middle\" style=\"font-size:12px\">1. kysyy</text><text class=\"v-t vahva\" x=\"270\" y=\"136\" text-anchor=\"middle\" style=\"font-size:12px\">2. vaatii</text><text class=\"v-t pieni\" x=\"215\" y=\"282\" text-anchor=\"middle\" style=\"font-size:11px\">”Missä ne on?”</text><text class=\"v-t pieni\" x=\"215\" y=\"296\" text-anchor=\"middle\" style=\"font-size:11px\">”Siirry.”</text><text class=\"v-t vahva\" x=\"380\" y=\"91\" text-anchor=\"end\" style=\"font-size:12px\">3. avaa laatikon</text><text class=\"v-t pieni\" x=\"380\" y=\"282\" text-anchor=\"middle\" style=\"font-size:11px\">vanhat paidat</text><text class=\"v-t vahva\" x=\"470\" y=\"44\" text-anchor=\"middle\" style=\"font-size:12px\">Käänne</text><text class=\"v-t pieni\" x=\"482\" y=\"282\" text-anchor=\"middle\" style=\"font-size:11px\">”Seitsemän oli</text><text class=\"v-t pieni\" x=\"482\" y=\"296\" text-anchor=\"middle\" style=\"font-size:11px\">mun numero.”</text><text class=\"v-t vahva\" x=\"610\" y=\"164\" text-anchor=\"end\" style=\"font-size:12px\">Ratkeaa teolla</text><text class=\"v-t pieni\" x=\"600\" y=\"282\" text-anchor=\"end\" style=\"font-size:11px\">teippi ja</text><text class=\"v-t pieni\" x=\"600\" y=\"296\" text-anchor=\"end\" style=\"font-size:11px\">vaihtopenkki</text></svg>","teksti":"Jokainen askel nostaa jännitettä. Käänteessä selviää, mistä ristiriidassa oikeasti on kyse."},{"tyyppi":"kappale","otsikko":"Henkilö puhuu omalla tavallaan","sisalto":"Näytelmässä henkilö on se, miten hän puhuu ja toimii. Elli puhuu lyhyesti ja käskymuodoissa (Siirry. Nää on vanhoja.) eikä selitä mitään. Roope puhuu pitkästi, käyttää täytesanoja (tota, siis, tavallaan) ja varauksia (varmaan, ehkä, melkein), ja hän selittää, vaikka kukaan ei kysy. Jo puhetavasta katsoja päättelee, että Elli on tottunut johtamaan ja että Roope välttelee jotakin. Puhetapaan vaikuttavat virkkeiden pituus, sanasto, kysymykset ja käskyt, kohteliaisuus, toistot, keskeyttäminen ja vaikeneminen. Testaa kohtauksesi peittämällä nimet: jos et tiedä, kuka puhuu, henkilöt puhuvat liian samalla tavalla."},{"tyyppi":"taulukko","otsikko":"Sama tilanne, kolme puhetapaa","otsikkorivi":["Henkilö","Repliikki, kun hän tulee harjoituksiin myöhässä","Mitä puhetapa paljastaa"],"rivit":[["varovainen","Anteeksi, mä tiedän, että sovittiin kuudelta, mutta bussi… no, ei se ole mikään selitys.","pitkä, selittelevä, pyytää anteeksi ennen kuin kukaan moittii"],["itsevarma","Aloitetaan. Mä olen täällä nyt.","lyhyt, ei selitä, ottaa tilan haltuun"],["ironinen","Kas, kello on jo kuusi. Kuka olisi uskonut.","sanoo toista kuin tarkoittaa, kääntää huomion pois itsestään"]]},{"tyyppi":"kappale","otsikko":"Alateksti: mitä jätetään sanomatta","sisalto":"Alateksti on repliikin pinnan alla oleva merkitys. Ihmiset sanovat harvoin suoraan, mitä tuntevat, varsinkaan riidan keskellä. Varastossa Roope ei sano olevansa loukkaantunut, eikä Elli sano olevansa pahoillaan. Roope istuu laatikon päällä ja nousee sen eteen, jolloin katsoja ymmärtää, että hän piilottaa jotain. Ellin ”Mä olisin kysynyt” kuulostaa puolustukselta, mutta paidan huolellinen taittelu ja lause ”Et katsomossa” kertovat, että hän haluaa Roopen takaisin joukkueeseen. Alatekstiä syntyy, kun henkilö vaihtaa puheenaihetta, vastaa kysymykseen kysymyksellä, sanoo ”ihan sama”, tekee jotain käsillään tai vaikenee. Tärkein asia näkyy teoista ja alatekstistä, ei selittävästä repliikistä."},{"tyyppi":"taulukko","otsikko":"Kerrottu ja näytetty näytelmässä","otsikkorivi":["Kerrottu","Näytetty"],"rivit":[["SAARA: Olen mustasukkainen, koska sinä vietät aikaa Jennin kanssa.","SAARA: (Selaa puhelinta.) Kiva kuva. Ootte näköjään taas jossain yhdessä."],["(Matias on hermostunut.)","(Matias avaa repun vetoketjun ja sulkee sen. Avaa uudelleen.)"],["VEERA: Pelkään, että epäonnistun huomenna esityksessä.","VEERA: Entä jos huomenna sataa? Sitten koko juttu varmaan perutaan. Toivottavasti."],["(Joni ajattelee, että Ella valehtelee.)","(Joni katsoo Ellan kenkiä, jotka ovat mudassa.) JONI: Ai koko illan kirjastossa."]]},{"tyyppi":"saanto","otsikko":"Näin kirjoitat kohtauksen","askeleet":["Rajaa tilanne: yksi paikka, yksi aika ja kaksi tai kolme henkilöä.","Suunnittele ristiriita: mitä kukin haluaa, ja miksi he eivät voi saada sitä yhtä aikaa? Mikä on käänne, ja kärjistyykö ristiriita vai ratkeaako se?","Anna jokaiselle henkilölle oma puhetapa. Kirjoita kullekin yksi tyypillinen repliikki ennen kuin aloitat.","Kirjoita kohtauksen nimi, henkilöluettelo ja aloitusohje (paikka, aika, mitä näyttämöllä on).","Aloita keskeltä tilannetta. Anna ristiriidan edetä vähintään kolmessa askeleessa, ja tuo jokaisessa askeleessa jotain uutta.","Kirjoita tärkein asia tekona, taukona tai alatekstinä, älä selittävänä repliikkinä.","Tarkista lopuksi: peitä nimet ja kokeile, tunnistatko puhujan. Kerrotko näyttämöohjeissa vain sen, minkä katsoja näkee ja kuulee? Pysyykö merkintätapa samana?"]},{"tyyppi":"kappale","otsikko":"Kun kirjoitat luetun kertomuksen pohjalta","sisalto":"Voit tehdä kohtauksen myös luetusta kertomuksesta. Valitse kohta, jossa kaksi tai kolme henkilöä on vastakkain ja jossa jokin on pelissä. Kertomuksessa kertoja kertoo, mitä henkilöt ajattelevat ja tuntevat. Näytelmässä sinun pitää muuttaa se teoiksi, repliikeiksi ja tauoiksi. Jos kertomuksessa lukee ”hän tunsi itsensä nöyryytetyksi”, mieti, mitä henkilö tekisi tai jättäisi sanomatta. Älä kopioi kertomuksen repliikkejä sellaisinaan. Kirjoita ne niin, että jokaisella henkilöllä on oma puhetapansa."},{"tyyppi":"ansa","otsikko":"Ansa 1: kertoja livahtaa näyttämöohjeeseen","sisalto":"”(Roope tuntee itsensä petetyksi ja muistelee aikaa, jolloin hän vielä pelasi.)” Tällainen ohje ei näy näyttämöllä, eikä näyttelijä voi esittää muistelua. Näyttämöohje kertoo vain sen, minkä katsoja näkee tai kuulee. Kysy jokaisesta ohjeesta: miten tämä näkyisi lavalla? Jos et keksi vastausta, muuta ohje teoksi tai repliikiksi."},{"tyyppi":"ansa","otsikko":"Ansa 2: kaikki puhuvat samalla äänellä","sisalto":"Jos jokainen henkilö puhuu kirjoittajan omalla äänellä, kohtaus kuulostaa siltä, että yksi ihminen keskustelee itsensä kanssa. Peitä nimet ja lue repliikit. Jos et erota puhujia, muuta yhden henkilön virkkeiden pituutta, sanastoa tai tapaa vastata."},{"tyyppi":"ansa","otsikko":"Ansa 3: riita, joka ei liiku","sisalto":"”On!” ”Ei ole!” ”On!” Kun sama vastakkainasettelu toistuu, jännite ei nouse. Toinen ääripää on ratkaisu, joka tulee ulkopuolelta: opettaja astuu sisään ja selvittää kaiken. Jokaisen askeleen pitää muuttaa jotain, ja ratkaisun tai huippukohdan pitää syntyä henkilöiden omista teoista."},{"tyyppi":"ansa","otsikko":"Ansa 4: tunne selitetään repliikissä","sisalto":"”Olen tosi vihainen, koska sinä et koskaan kuuntele minua.” Ihmiset puhuvat harvoin näin. Kun henkilö selittää tunteensa ja sen syyn, katsojalle ei jää mitään pääteltävää. Anna henkilön tehdä jotain, vaihtaa puheenaihetta tai vaieta, ja luota siihen, että katsoja ymmärtää."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Yksi paikka, yksi aika, kaksi tai kolme henkilöä.","Henkilöluettelo, aloitusohje, repliikit ja näyttämöohjeet. Merkintätapa pysyy samana.","Ristiriita: tavoite ja este. Se etenee askel kerrallaan ja kärjistyy tai ratkeaa.","Jokaisella henkilöllä on oma puhetapa. Peitä nimet ja testaa.","Tärkein asia näkyy teoista, tauoista ja alatekstistä.","Näyttämöohje kertoo vain sen, minkä katsoja näkee tai kuulee."]}],"kokeet":[],"havainnointikriteerit":[{"virhe":"Kohtauksessa ei ole ristiriitaa: henkilöt keskustelevat, sopivat asioista tai kertovat kuulumisia, eikä kenenkään tavoite törmää toisen tavoitteeseen.","tehtava":"Koko kohtaus ja suunnitelman ristiriitakohta","mita_kertoo":"Oppilas on kirjoittanut tilanteen mutta ei draamaa. Hän ajattelee kohtausta vuoropuheluna, ei toimintana, jossa joku haluaa jotain. Tämä on taidon ensimmäinen ydin.","mita_tehda":"Kysy jokaiselta henkilöltä: mitä hän haluaa tässä kohtauksessa, ja kuka tai mikä estää häntä? Pyydä kirjoittamaan tavoitteet ja este yhdellä virkkeellä ja muokkaamaan kohtauksen alkua niin, että este näkyy jo kolmannessa repliikissä."},{"virhe":"Ristiriita ei etene: sama vastakkainasettelu toistuu (”On!” – ”Ei ole!”), tai ratkaisu tulee ulkopuolelta (uusi henkilö, sattuma, puhelu), eikä se synny henkilöiden teoista.","tehtava":"Kohtauksen kulku alusta loppuun, käänne ja loppu","mita_kertoo":"Oppilas osaa luoda ristiriidan mutta ei vielä rakentaa sitä askeleiksi. Ulkopuolinen ratkaisu kertoo, että loppu keksittiin vasta kirjoittaessa. Ristiriita saa jäädä ratkaisematta, jos se kärjistyy selvästi (kartta: kärjistyy tai ratkeaa).","mita_tehda":"Pyydä merkitsemään kohtaukseen kolme kohtaa, joissa jokin muuttuu (uusi tieto, teko tai vaatimus). Jos kohtia ei löydy, pyydä lisäämään yksi teko, joka nostaa panoksia. Jos ratkaisu tulee ulkopuolelta, kysy: mitä henkilö itse voisi tehdä tai paljastaa?"},{"virhe":"Henkilöt puhuvat samalla tavalla: kun nimet peittää, repliikkejä ei erota toisistaan virkkeiden pituuden, sanaston tai puhetavan perusteella.","tehtava":"Repliikit nimet peitettyinä","mita_kertoo":"Oppilas kirjoittaa kaikille henkilöille oman äänensä. Hän tietää, keitä henkilöt ovat, mutta ei vielä näytä sitä puheessa. Pienikin ero (yksi henkilö kysyy, toinen käskee) riittää, kun se on johdonmukainen.","mita_tehda":"Peittäkää nimet yhdessä ja arvatkaa puhujat. Pyydä valitsemaan kullekin henkilölle kaksi puhetavan piirrettä taulukon Sama tilanne, kolme puhetapaa mallista ja kirjoittamaan viisi repliikkiä uudelleen niiden mukaan."},{"virhe":"Tärkeä asia kerrotaan suoraan: tunne ja sen syy sanotaan repliikissä (”Olen loukkaantunut, koska…”) tai näyttämöohjeessa, eikä kohtauksessa ole tekoa, taukoa tai alatekstiä, josta katsoja päättelisi sen itse.","tehtava":"Kohtauksen tärkein kohta (käänne tai huippukohta)","mita_kertoo":"Tämä on taidon toinen ydin ja jatkaa novellin ”näytä, älä kerro” -periaatetta (AI7-KIR-01). Oppilas pelkää, ettei katsoja ymmärrä, ja selittää varmuuden vuoksi. Suoraa puhetta saa olla, kunhan vähintään yksi tärkeä asia näkyy teosta tai alatekstistä.","mita_tehda":"Osoita selittävä repliikki ja kysy: mitä henkilö tekisi, jos hän ei suostuisi sanomaan tätä ääneen? Käyttäkää taulukkoa Kerrottu ja näytetty näytelmässä mallina. Pyydä poistamaan selitys ja kirjoittamaan tilalle teko, tauko tai repliikki, joka sanoo toista kuin tarkoittaa."},{"virhe":"Näyttämöohjeet kertovat sen, mikä ei näy eikä kuulu näyttämöllä (ajatukset, muistot, tunteiden nimet, taustatarina), tai ohjeet ovat kertovaa proosaa menneessä aikamuodossa.","tehtava":"Kaikki näyttämöohjeet","mita_kertoo":"Oppilas siirtää novellin kertojan näytelmään. Hän ei vielä ajattele tekstiä näyttelijän ja ohjaajan ohjeena. Yksittäinen tunnetta kuvaava sana (hiljaa, kiukkuisesti) on tavallinen ja sallittu, koska se kertoo äänensävyn.","mita_tehda":"Pyydä lukemaan jokainen ohje ja kysymään: miten tämä näkyisi lavalla? Ohjeet, joihin ei löydy vastausta, muutetaan teoiksi tai poistetaan. Pyydä muuttamaan menneen ajan ohjeet preesensiin."},{"virhe":"Näytelmän muoto ei ole johdonmukainen: henkilöluettelo tai aloitusohje puuttuu, repliikkien merkintätapa vaihtelee, näyttämöohjeet sekoittuvat repliikkeihin, tai teksti vaihtuu kesken kertovaksi proosaksi.","tehtava":"Henkilöluettelo, aloitusohje ja merkintätapa koko kohtauksessa","mita_kertoo":"Oppilas tuntee näytelmän osat (AI8-KLL-03) mutta ei vielä käytä niitä järjestelmällisesti kirjoittajana. Yksittäinen merkintävirhe ei estä näyttöä; toistuva vaihtelu estää, koska kohtausta ei voisi lukea harjoituksissa.","mita_tehda":"Näytä taulukko Näytelmätekstin osat ja kuva Näytelmän sivu. Pyydä valitsemaan yksi merkintätapa ja yhtenäistämään yksi sivu sen mukaan. Jos henkilöluettelo puuttuu, pyydä kirjoittamaan se ja lisäämään jokaiselle henkilölle rooli ja suhde muihin."}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: havainnointitaito, koska näyttö on kirjoitustehtävä ja tuotos on oppilaan oma näytelmäkohtaus, jota ei voi rinnastaa viideksi koeversioksi. Taito havainnoidaan valmiista kohtauksesta ja suunnitelmasta.","Havainnoinnin kohteet tulevat kartan kriteeristä: kohtauksessa on ristiriita, joka kärjistyy tai ratkeaa; henkilöt erottuvat toisistaan puhetavan perusteella; tärkeä asia näkyy teoista tai alatekstistä eikä vain kerrottuna; näytelmän muoto on johdonmukainen. Näytön vaatimuksina lisäksi henkilöluettelo, repliikit ja näyttämöohjeet sekä kaksi tai kolme henkilöä.","Mikä kelpaa: kartan ”noin kahden sivun” pituus on suuntaa antava. Lyhyempi kohtaus hyväksytään, jos kaikki kriteerit näkyvät siinä. Ristiriidan ei tarvitse ratketa: avoin loppu kelpaa, kun ristiriita on kärjistynyt selvästi. Merkintätavan saa valita itse (esimerkiksi nimi ja kaksoispiste tai nimi omalla rivillään, ohjeet sulkeissa tai kursiivilla), kunhan se pysyy samana. Repliikeissä puhekieli on sallittua. Yksittäinen tunnesana äänensävyä kuvaavassa ohjeessa (hiljaa, kiukkuisesti) on sallittu. Oikeinkirjoitusta ei arvioida tässä taidossa.","Taito on haastetaso. Kohtausta ei tarvitse esittää, eikä esitystä arvioida. Valmiita kohtauksia voi käyttää taidon AI8-VUO-05 (Ohjaajan tuoli) ohjausharjoituksissa, jos kirjoittaja antaa luvan. Kohtauksen saa kirjoittaa käsin tai koulun laitteella. Kirjoitusnopeutta ei arvioida, ja kohtaus valmistuu jakson J5 aikana. Arvioi palautteessa ensin vahvuus, sitten yksi kehittämiskohde (Espoon painotus: kannustava palaute ja kirjoittamisen ilo).","Näytön tilanteet, versio A (oppilas valitsee yhden): (1) Kaksi ystävää on tehnyt yhteistä esitelmää, joka pidetään seuraavana aamuna. Toinen huomaa, että toinen on kopioinut esitelmän tärkeimmän osan verkosta. (2) Kolme nuorta siivoaa nuorisotalon salia konsertin jälkeen. Yksi heistä on rikkonut lainatun vahvistimen, eikä kukaan ole vielä sanonut sitä ääneen. (3) Kaksi teatterikerhon jäsentä odottaa käytävällä tietoa siitä, kumpi saa pääroolin. Toinen on kuullut tuloksen jo, mutta ei kerro sitä.","Näytön tilanteet, versio B uusintaan (oppilas valitsee yhden): (1) Kahden hengen pelijoukkueen toinen jäsen haluaa lopettaa juuri ennen turnausta. (2) Kolme leiriohjaajaa huomaa illalla, että varaston avain on kadonnut, ja jokainen on pitänyt sitä viimeksi. (3) Lukupiirin vetäjä huomaa, että piirin jäsen puhuu kirjasta, jota ei ole lukenut. Älä käytä näytössä esimerkkikohtauksen Varasto tilannetta.","Luetun kertomuksen pohjalta: oppilas voi tehdä kohtauksen koulussa luetusta kertomuksesta. Käytä luokan oppikirjan tai lukuvuoden teoksen novellia tai tekijänoikeuksista vapaata kertomusta, esimerkiksi Juhani Ahon novellia Siihen aikaan kun isä lampun osti (1883). Materiaalissa ei ole otteita julkaistuista teoksista. Kohtauksen pitää muuttaa kertojan kertoma teoiksi, repliikeiksi ja näyttämöohjeiksi. Kertomuksen repliikkien kopioiminen ei täytä kriteeriä ”henkilöt erottuvat puhetavan perusteella”, ellei oppilas ole muokannut niitä.","Kaikki esimerkit ovat tämän materiaalin tekijän itse kirjoittamia: esimerkkikohtaus Varasto, puhetapojen ja kerrotun ja näytetyn taulukot sekä näytön tilanteet. Henkilöt ja paikat ovat keksittyjä. Kohtauksen aihetta ei rajata oppilaan omaan elämään, eikä oppilaan tarvitse kirjoittaa omista kokemuksistaan, perheestään tai kodistaan. Jos kohtauksessa käsitellään oppilaalle raskasta aihetta, ota asia puheeksi kahden kesken, ei luokan edessä.","Taito jatkaa taitoja AI8-KLL-03 (Teatterin taikalaatikko: näytelmätekstin käsitteet), AI8-VUO-03 (Näyttämön valokeilassa: hahmon tavoite ja teatteri-ilmaisun keinot) ja AI7-KIR-01 (Näytä, älä kerro: epäsuora henkilökuvaus ja käänne novellissa). Uutta on kohtauksen kirjoittaminen ilman kertojaa: ristiriita, puhetapa ja alateksti. Ohjaaminen kuuluu taitoon AI8-VUO-05, eikä sitä opeteta tässä.","Tarkistettavat asiatiedot: näytelmätekstin merkintätavat vaihtelevat, joten materiaali esittää yhden tavan (NIMI: repliikki, ohjeet sulkeissa preesensissä) ja hyväksyy muut johdonmukaiset tavat. Juhani Ahon novellin nimi ja julkaisuvuosi 1883 sekä saatavuus vapaasti verkossa (esimerkiksi Project Gutenberg, https://www.gutenberg.org, tai Wikiaineisto, https://fi.wikisource.org) tarkistetaan ennen käyttöä."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Näytelmässä ei ole kertojaa. Kaikki, mitä katsoja tietää, syntyy siitä, mitä henkilöt sanovat, tekevät ja jättävät sanomatta.","vaiheet":[{"aika":"10 min","otsikko":"1. tunti · Aloitus","sisalto":"Lue ääneen taulukon Kerrottu ja näytetty näytelmässä ensimmäinen rivi molemmilla tavoilla. Kysy: kumpi kertoo katsojalle enemmän, ja miksi? Kertaa näytelmän osat taulukosta ja kuvasta (taito AI8-KLL-03)."},{"aika":"20 min","otsikko":"1. tunti · Esimerkkikohtaus","sisalto":"Kaksi vapaaehtoista lukee Varaston ääneen roolein (tai opettaja lukee molemmat roolit). Kysy ennen käännettä: mitä Roope piilottaa? Käykää läpi ristiriidan askeleet kuvan avulla ja kappaleet puhetavasta ja alatekstistä."},{"aika":"15 min","otsikko":"1. tunti · Puhetapa","sisalto":"Jokainen kirjoittaa saman repliikin (esimerkiksi kieltäytyminen kutsusta) kolmelle eri henkilölle. Pari peittää nimet ja arvaa puhujat."},{"aika":"20 min","otsikko":"2. tunti · Alateksti ja ansat","sisalto":"Käy läpi ansat 1–4. Oppilaat muuttavat pareittain kaksi kerrottua repliikkiä tai ohjetta (opettajan antamat) näytetyiksi: teko, tauko tai repliikki, joka sanoo toista kuin tarkoittaa."},{"aika":"25 min","otsikko":"2. tunti · Tilanne ja suunnitelma","sisalto":"Jaa näytön tilanteet (versio A huomioista) tai sovi luetusta kertomuksesta. Oppilas kirjoittaa suunnitelman: henkilöt ja heidän tavoitteensa, este, ristiriidan kolme askelta, käänne ja loppu sekä kunkin henkilön puhetapa. Tarkista suunnitelmista, että ristiriita on olemassa ja etenee."},{"aika":"45 min","otsikko":"3. tunti · Kirjoittaminen","sisalto":"Oppilas kirjoittaa kohtauksen. Lopuksi hän tarkistaa sen saannon viimeisen askeleen mukaan: peittää nimet, lukee näyttämöohjeet ja tarkistaa merkintätavan. Jos kohtaus ei valmistu, se viimeistellään jakson J5 aikana. Näyttö havainnoidaan valmiista tekstistä."}],"tarvikkeet":"Esimerkkikohtaus Varasto näkyvissä tai tulosteena. Taulukot Näytelmätekstin osat ja Kerrottu ja näytetty näytelmässä. Suunnitelmapohja (henkilöt ja tavoitteet, este, kolme askelta, käänne, loppu, puhetavat). Näytön tilanteet tulosteena. Kirjoitusvihkot tai koulun laitteet."},"huoltajalle":{"mista_on_kyse":"Nuori kirjoittaa noin kahden sivun näytelmän kohtauksen kahdelle tai kolmelle henkilölle annetusta tilanteesta tai luetun kertomuksen pohjalta. Näytelmässä ei ole kertojaa, joten kaikki näkyy repliikeistä ja näyttämöohjeista. Kohtauksessa on ristiriita, joka kärjistyy tai ratkeaa, henkilöt puhuvat kukin omalla tavallaan, ja tärkein asia näkyy teoista tai siitä, mitä jätetään sanomatta. Taito on haastetaso, ja se näytetään valmiilla kohtauksella.","kotona":["Kun katsotte elokuvaa tai sarjaa, voitte pysähtyä kohtaan, jossa henkilö sanoo yhtä mutta tarkoittaa toista. Mistä sen huomasi?","Voitte kokeilla, miten sama lause (esimerkiksi ”Ihan sama”) kuulostaa eri henkilöiden sanomana ja eri tilanteissa.","Jos nuori haluaa, hän voi lukea kohtauksensa ääneen, ja voitte lukea sen yhdessä roolein. Kertokaa ensin, mikä kohta jäi mieleen.","Kohtauksen aihe on keksitty. Nuoren ei tarvitse kirjoittaa omasta elämästään."],"milloin_huolestua":"Jos nuori ei saa aloitettua kirjoittamista lainkaan tai kirjoittaminen aiheuttaa toistuvasti suurta pahaa mieltä, kertokaa siitä opettajalle. Koulussa on keinoja, kuten suunnitelmapohja, valmis tilanne tai kirjoittaminen laitteella."},"ulkoiset":{},"valmis_teksti":"Osaat kirjoittaa näytelmän kohtauksen, jossa ristiriita etenee repliikkien ja näyttämöohjeiden avulla. Henkilösi puhuvat kukin omalla äänellään, ja tärkein asia näkyy siitä, mitä he tekevät ja jättävät sanomatta. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

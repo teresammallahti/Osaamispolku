@@ -1,0 +1,619 @@
+<title>Huumeharhojen purkaja · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"TT8-PAI-02","oppiaine":"TT","vuosiluokka":8,"taitoalue":"PAI","jakso":"J4","taso":"ydin","otsikko":"Huumeharhojen purkaja","kuvaus":"Osaan kuvata yleisimpien huumeiden ja lääkkeiden väärinkäytön vaikutuksia ja riskejä, oikaista tavallisia harhaluuloja ja kertoa, mitä laki sanoo huumeista.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T5","T8"],"S":["S2"]},"eyebrow":"Terveystieto · 8. luokka","ikoni":"ajattelu","naytto":"Valvottu paperikoe. Täydennän taulukon kannabiksesta, piristeistä, opioideista ja lääkkeiden väärinkäytöstä: miten aine vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava) ja kaksi terveysriskiä. Luen keksityn keskusteluketjun, jossa nuoret esittävät väitteitä: 'kannabis on luonnontuote, joten se on vaaraton', 'lääkkeet ovat turvallisia, koska ne ovat apteekista', 'kerran kokeileminen ei voi aiheuttaa mitään' ja 'sekakäyttö on turvallista, kun annokset ovat pieniä'. Oikaisen jokaisen väitteen terveystiedolla. Selitän, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerron, mitä laki sanoo huumausaineiden käytöstä, hallussapidosta ja välittämisestä ja mistä nuori saa apua, jos hän tai kaveri on huolissaan päihteistä.","osaa_kun":"Taulukossa jokainen aineryhmä on luokiteltu oikein (kannabis lamaava ja aistitoimintoja muuttava, piristeet piristäviä, opioidit sekä rauhoittavat ja unilääkkeet lamaavia), ja riskit ovat oikeita (esimerkiksi kannabis: riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla; opioidit: hengityslama ja yliannostus; piristeet: sydämen rytmihäiriöt, ahdistus). Oikaisut perustuvat tietoon eivätkä pelotteluun: luonnollisuus ei kerro turvallisuudesta, reseptilääke on turvallinen vain sille, jolle se on määrätty ohjeen mukaan, jo ensimmäinen kerta voi johtaa myrkytykseen tai tapaturmaan, ja lamaavien aineiden yhdistäminen (esimerkiksi alkoholi ja rauhoittavat lääkkeet) lisää hengityslaman vaaraa. Tiedän, että huumausaineen käyttö, hallussapito ja välittäminen ovat Suomessa rangaistavia, ja nimeän avun tahon (esimerkiksi kouluterveydenhoitaja, kuraattori, nuorten päihdepalvelu). 7. luokalla selitin nikotiiniriippuvuuden synnyn; nyt kuvaan huumeiden vaikutuksia ja riskejä ja oikaisen harhaluuloja. Omaa tai läheisten käyttöä ei kysytä.","teksti":[{"tyyppi":"johdanto","sisalto":"Ryhmächatissa joku kirjoittaa: \"Kaikki meidän ikäset kokeilee joskus.\" Väite kuulostaa varmalta, mutta se ei pidä paikkaansa: suurin osa nuorista ei ole koskaan kokeillut huumeita. Huumeista liikkuu paljon harhaluuloja, koska ne kuulostavat järkeviltä ja niitä toistetaan somessa. 7. luokalla selitit, miten nikotiiniriippuvuus syntyy, ja taidossa Promillen polku opit, miten alkoholi lamaa keskushermostoa. Nyt opit kuvaamaan yleisimpien huumeiden ja lääkkeiden väärinkäytön vaikutuksia ja riskejä, oikaisemaan harhaluuloja tiedolla eikä pelottelulla, selittämään, miksi laittomien aineiden sisältö on arvaamaton, ja kertomaan, mitä laki sanoo huumeista ja mistä apua saa. Sinulta ei kysytä omia eikä läheistesi kokemuksia. (Kaikki materiaalin henkilöt ja viestit on keksitty.)"},{"tyyppi":"kappale","otsikko":"Huumeet ja lääkkeiden väärinkäyttö","sisalto":"Huumausaineet eli huumeet ovat keskushermostoon vaikuttavia aineita, joiden valmistus, kauppa, hallussapito ja käyttö on laissa kielletty. Lääkkeet ovat aineita, joilla hoidetaan sairauksia. Osa niistä vaikuttaa keskushermostoon, esimerkiksi vahvat kipulääkkeet, rauhoittavat lääkkeet ja unilääkkeet, ja niihin voi syntyä riippuvuus. Lääkkeiden väärinkäyttöä on se, että lääkettä käytetään ilman omaa reseptiä, suurempina annoksina kuin on määrätty tai muuhun tarkoitukseen kuin hoitoon, esimerkiksi päihtymiseen. Osa keskushermostoon vaikuttavista lääkkeistä on Suomessa luokiteltu myös huumausaineiksi. Useimmat päihteet vaikuttavat aivojen mielihyväjärjestelmään samaan tapaan kuin nikotiini, ja siksi niihin voi jäädä koukkuun."},{"tyyppi":"kappale","otsikko":"Kolme tapaa vaikuttaa keskushermostoon","sisalto":"Päihteet jaetaan sen mukaan, miten ne vaikuttavat keskushermostoon. Lamaavat aineet hidastavat hermosolujen viestintää: ne rauhoittavat, väsyttävät ja suurina määrinä heikentävät tajuntaa ja hengitystä. Lamaavia ovat esimerkiksi alkoholi, opioidit (kuten heroiini ja väärinkäytetyt vahvat kipulääkkeet) sekä rauhoittavat ja unilääkkeet. Piristävät aineet kiihdyttävät keskushermostoa: syke ja verenpaine nousevat, uni ei tule, ja käyttäjä voi tuntea olonsa energiseksi tai levottomaksi. Piristeitä ovat esimerkiksi amfetamiini, metamfetamiini ja kokaiini. Aistiharhoja aiheuttavat aineet eli hallusinogeenit, kuten LSD ja psilosybiinisienet, muuttavat aistimuksia, ajantajua ja ajattelua. Kannabis, jonka tärkein vaikuttava aine on THC, kuuluu kahteen ryhmään: se lamaa keskushermostoa ja muuttaa aistitoimintoja."},{"tyyppi":"kuva","otsikko":"Kolme vaikutustapaa","svg":"<svg viewBox=\"0 0 620 316\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kolme tapaa vaikuttaa keskushermostoon: lamaavat, piristävät ja aistiharhoja aiheuttavat aineet. Kannabis on sekä lamaava että aistitoimintoja muuttava.\"><rect class=\"v-osa v1\" x=\"10\" y=\"10\" width=\"180\" height=\"48\" rx=\"8\"/><text class=\"v-t vahva\" x=\"100.0\" y=\"31\" text-anchor=\"middle\" style=\"font-size:12px\">LAMAAVAT</text><text class=\"v-t\" x=\"100.0\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">hidastavat keskushermostoa</text><rect class=\"v-osa\" x=\"10\" y=\"66\" width=\"180\" height=\"104\" rx=\"8\"/><text class=\"v-t pieni\" x=\"100\" y=\"84\" text-anchor=\"middle\" style=\"font-size:11px\">esimerkkejä</text><text class=\"v-t\" x=\"100\" y=\"102\" text-anchor=\"middle\" style=\"font-size:12px\">alkoholi</text><text class=\"v-t\" x=\"100\" y=\"118\" text-anchor=\"middle\" style=\"font-size:12px\">opioidit</text><text class=\"v-t\" x=\"100\" y=\"134\" text-anchor=\"middle\" style=\"font-size:12px\">rauhoittavat ja</text><text class=\"v-t\" x=\"100\" y=\"150\" text-anchor=\"middle\" style=\"font-size:12px\">unilääkkeet</text><rect class=\"v-osa\" x=\"10\" y=\"178\" width=\"180\" height=\"62\" rx=\"8\"/><text class=\"v-t\" x=\"100\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">hengitys hidastuu</text><text class=\"v-t\" x=\"100\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">uneliaisuus</text><text class=\"v-t\" x=\"100\" y=\"230\" text-anchor=\"middle\" style=\"font-size:11px\">tajunta heikkenee</text><rect class=\"v-osa v1\" x=\"220\" y=\"10\" width=\"180\" height=\"48\" rx=\"8\"/><text class=\"v-t vahva\" x=\"310.0\" y=\"31\" text-anchor=\"middle\" style=\"font-size:12px\">PIRISTÄVÄT</text><text class=\"v-t\" x=\"310.0\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">kiihdyttävät keskushermostoa</text><rect class=\"v-osa\" x=\"220\" y=\"66\" width=\"180\" height=\"104\" rx=\"8\"/><text class=\"v-t pieni\" x=\"310\" y=\"84\" text-anchor=\"middle\" style=\"font-size:11px\">esimerkkejä</text><text class=\"v-t\" x=\"310\" y=\"102\" text-anchor=\"middle\" style=\"font-size:12px\">amfetamiini</text><text class=\"v-t\" x=\"310\" y=\"118\" text-anchor=\"middle\" style=\"font-size:12px\">metamfetamiini</text><text class=\"v-t\" x=\"310\" y=\"134\" text-anchor=\"middle\" style=\"font-size:12px\">kokaiini</text><rect class=\"v-osa\" x=\"220\" y=\"178\" width=\"180\" height=\"62\" rx=\"8\"/><text class=\"v-t\" x=\"310\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">syke ja verenpaine</text><text class=\"v-t\" x=\"310\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">nousevat</text><text class=\"v-t\" x=\"310\" y=\"230\" text-anchor=\"middle\" style=\"font-size:11px\">valvominen, levottomuus</text><rect class=\"v-osa v1\" x=\"430\" y=\"10\" width=\"180\" height=\"48\" rx=\"8\"/><text class=\"v-t vahva\" x=\"520.0\" y=\"31\" text-anchor=\"middle\" style=\"font-size:12px\">AISTIHARHOJA AIHEUTTAVAT</text><text class=\"v-t\" x=\"520.0\" y=\"46\" text-anchor=\"middle\" style=\"font-size:12px\">muuttavat aistimuksia</text><rect class=\"v-osa\" x=\"430\" y=\"66\" width=\"180\" height=\"104\" rx=\"8\"/><text class=\"v-t pieni\" x=\"520\" y=\"84\" text-anchor=\"middle\" style=\"font-size:11px\">esimerkkejä</text><text class=\"v-t\" x=\"520\" y=\"102\" text-anchor=\"middle\" style=\"font-size:12px\">LSD</text><text class=\"v-t\" x=\"520\" y=\"118\" text-anchor=\"middle\" style=\"font-size:12px\">psilosybiinisienet</text><rect class=\"v-osa\" x=\"430\" y=\"178\" width=\"180\" height=\"62\" rx=\"8\"/><text class=\"v-t\" x=\"520\" y=\"198\" text-anchor=\"middle\" style=\"font-size:11px\">harhat, ajantaju</text><text class=\"v-t\" x=\"520\" y=\"214\" text-anchor=\"middle\" style=\"font-size:11px\">ja ajattelu muuttuvat</text><rect class=\"v-osa\" x=\"110\" y=\"266\" width=\"400\" height=\"42\" rx=\"8\"/><text class=\"v-t vahva\" x=\"310.0\" y=\"284\" text-anchor=\"middle\" style=\"font-size:12px\">KANNABIS: lamaava ja aistitoimintoja muuttava</text><text class=\"v-t\" x=\"310.0\" y=\"299\" text-anchor=\"middle\" style=\"font-size:12px\">kuuluu kahteen ryhmään</text><line class=\"v-akseli\" x1=\"170\" y1=\"266\" x2=\"116.5\" y2=\"245.5\"/><polygon class=\"v-nuoli\" points=\"110.0,243.0 118.3,240.8 114.7,250.2\"/><line class=\"v-akseli\" x1=\"450\" y1=\"266\" x2=\"503.5\" y2=\"245.5\"/><polygon class=\"v-nuoli\" points=\"510.0,243.0 505.3,250.2 501.7,240.8\"/></svg>","teksti":"Aineen ryhmä kertoo, mihin suuntaan se muuttaa keskushermoston toimintaa. Kannabis kuuluu sekä lamaaviin että aistitoimintoja muuttaviin."},{"tyyppi":"taulukko","otsikko":"Aineryhmien vaikutukset ja riskit","otsikkorivi":["Aine tai aineryhmä","Vaikutus keskushermostoon","Esimerkkejä terveysriskeistä"],"rivit":[["Kannabis (marihuana, hasis)","Lamaava ja aistitoimintoja muuttava","Riippuvuus. Muistin, keskittymisen ja oppimisen heikkeneminen. Psykoosiriski erityisesti nuorilla ja vahvoilla valmisteilla. Ahdistus ja paniikki. Poltettuna hengitysteiden ärsytys."],["Piristeet (amfetamiini, metamfetamiini, kokaiini)","Piristävä","Sydämen rytmihäiriöt ja verenpaineen nousu. Ahdistus, unettomuus ja vainoharhaisuus, myös psykoosi. Elimistön ylikuumeneminen. Voimakas riippuvuus. Vaikutuksen jälkeen uupumus ja alakulo."],["Opioidit (esimerkiksi heroiini, väärinkäytetyt vahvat kipulääkkeet, fentanyyli)","Lamaava","Hengityslama ja yliannostus, joka voi johtaa kuolemaan. Erittäin voimakas riippuvuus ja vieroitusoireet. Pistämällä käytettynä tartuntataudit."],["Rauhoittavat ja unilääkkeet väärinkäytettyinä","Lamaava","Riippuvuus. Muistikatkokset, sekavuus ja tapaturmat. Hengityslama, kun niitä yhdistetään alkoholiin tai opioideihin."],["Aistiharhoja aiheuttavat aineet (LSD, psilosybiinisienet)","Aistiharhoja aiheuttava","Pelottavat harhat ja paniikki. Harkitsemattomat teot ja tapaturmat. Psykoosin laukeaminen alttiilla ihmisellä."]]},{"tyyppi":"kappale","otsikko":"Miksi sisältö ja vahvuus ovat arvaamattomia","sisalto":"Laittomia aineita valmistetaan ja kaupataan ilman minkäänlaista valvontaa. Siksi käyttäjä ei voi tietää, mitä hän saa. Ensinnäkin vahvuus vaihtelee: saman näköisessä annoksessa voi olla vaikuttavaa ainetta moninkertaisesti edelliseen kertaan verrattuna. Toiseksi aineeseen on voitu sekoittaa muita aineita tai se voi olla kokonaan toista ainetta kuin luvataan. Kannabiksena myydyssä tuotteessa voi olla vahvoja synteettisiä kannabinoideja, ja muihin aineisiin on sekoitettu erittäin vahvoja synteettisiä opioideja, joista pienikin määrä voi lamaannuttaa hengityksen. Kolmanneksi verkosta tilatut lääkkeet voivat olla väärennöksiä, joissa on väärää ainetta tai väärä annos. Ulkonäkö, väri, haju tai myyjän lupaus eivät kerro sisällöstä, eikä myyjäkään yleensä tiedä sitä."},{"tyyppi":"kappale","otsikko":"Sekakäyttö: lamaavat aineet yhdessä","sisalto":"Sekakäytöllä tarkoitetaan useamman päihteen käyttöä samaan aikaan, esimerkiksi alkoholin ja rauhoittavan lääkkeen. Lamaavien aineiden vaikutukset eivät vain laskeudu yhteen, vaan ne voivat voimistaa toisiaan. Siksi annokset, jotka yksinään eivät lamaannuttaisi hengitystä, voivat yhdessä lamaannuttaa sen. Pienet annokset eivät tee yhdistelmästä turvallista, koska vaikutukset voimistuvat ja koska annosten todellista vahvuutta ei tiedä. Kun piristeeseen yhdistetään lamaava aine, piriste voi peittää humalan tunteen, jolloin käyttäjä ottaa lisää, ja kun piristeen vaikutus loppuu, lamaava vaikutus jää jäljelle."},{"tyyppi":"kuva","otsikko":"Lamaavat aineet yhdessä","svg":"<svg viewBox=\"0 0 560 260\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kaaviokuva: kaksi lamaavaa ainetta yksinään jäävät hengityslaman rajan alle, mutta yhdessä niiden vaikutukset voimistavat toisiaan ja ylittävät rajan.\"><line class=\"v-akseli\" x1=\"40\" y1=\"220\" x2=\"540\" y2=\"220\"/><line class=\"v-akseli\" x1=\"40\" y1=\"220\" x2=\"40\" y2=\"20\"/><text class=\"v-t pieni\" x=\"46\" y=\"24\" text-anchor=\"start\" style=\"font-size:11px\">lamaava vaikutus</text><line class=\"v-apu\" x1=\"40\" y1=\"70\" x2=\"540\" y2=\"70\" stroke-dasharray=\"6 4\"/><text class=\"v-t vahva\" x=\"48\" y=\"62\" text-anchor=\"start\" style=\"font-size:12px\">hengityslaman vaara</text><rect class=\"v-osa\" x=\"80\" y=\"130\" width=\"90\" height=\"90\"/><text class=\"v-t pieni\" x=\"125\" y=\"238\" text-anchor=\"middle\" style=\"font-size:12px\">aine 1 yksin</text><rect class=\"v-osa\" x=\"230\" y=\"140\" width=\"90\" height=\"80\"/><text class=\"v-t pieni\" x=\"275\" y=\"238\" text-anchor=\"middle\" style=\"font-size:12px\">aine 2 yksin</text><rect class=\"v-osa\" x=\"400\" y=\"130\" width=\"90\" height=\"90\"/><rect class=\"v-osa\" x=\"400\" y=\"50\" width=\"90\" height=\"80\"/><rect class=\"v-osa v1\" x=\"400\" y=\"20\" width=\"90\" height=\"30\"/><text class=\"v-t\" x=\"445\" y=\"175\" text-anchor=\"middle\" style=\"font-size:11px\">aine 1</text><text class=\"v-t\" x=\"445\" y=\"95\" text-anchor=\"middle\" style=\"font-size:11px\">aine 2</text><text class=\"v-t\" x=\"445\" y=\"39\" text-anchor=\"middle\" style=\"font-size:10px\">voimistuminen</text><text class=\"v-t vahva\" x=\"445\" y=\"238\" text-anchor=\"middle\" style=\"font-size:12px\">yhdessä</text><text class=\"v-t pieni\" x=\"290\" y=\"256\" text-anchor=\"middle\" style=\"font-size:11px\">esimerkiksi alkoholi ja rauhoittava lääke (kaaviokuva, ei mittakaavassa)</text></svg>","teksti":"Kaksi lamaavaa ainetta voi yhdessä ylittää hengityslaman vaaran rajan, vaikka kumpikaan ei yksinään ylittäisi sitä."},{"tyyppi":"taulukko","otsikko":"Harhaluuloja ja mitä tieto sanoo","otsikkorivi":["Harhaluulo","Mitä tieto sanoo"],"rivit":[["\"Kaikki nuoret kokeilevat.\"","Suurin osa nuorista ei ole koskaan kokeillut huumeita. Käsitys siitä, että kaikki tekevät jotain, lisää painetta kokeilla."],["\"Kasvista tehty aine on turvallisempi kuin tehtaassa tehty.\"","Luonnollisuus ei kerro turvallisuudesta. Tupakka on kasvi, osa sienistä on tappavan myrkyllisiä, ja opioideja on alun perin saatu unikosta. Ratkaisevaa on, mitä aine tekee elimistössä."],["\"Jos aine on lääke, se ei voi olla päihde.\"","Lääke on tehty tietylle ihmiselle, tiettyyn sairauteen ja tiettyyn annokseen. Toisen lääke, liian suuri annos tai lääke päihtymistarkoitukseen voi aiheuttaa riippuvuuden, myrkytyksen tai hengityslaman."],["\"Vain säännöllinen käyttö on vaarallista.\"","Myrkytys, tapaturma tai psykoosi voi tulla jo ensimmäisellä kerralla, koska aineen vahvuutta ja omaa reaktiota ei voi tietää etukäteen."],["\"Kun ottaa monta ainetta vähän kerrallaan, mikään ei ehdi vaikuttaa.\"","Lamaavien aineiden vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen."],["\"Kannabis ei koukuta.\"","Kannabikseen voi syntyä riippuvuus, ja nuorena aloitettuna riski on suurempi."]]},{"tyyppi":"saanto","otsikko":"Näin oikaiset harhaluulon","askeleet":["Nimeä, mikä väitteessä on väärin: esimerkiksi \"luonnollinen ei tarkoita turvallista\".","Kerro, mitä tieto sanoo: aineen vaikutus keskushermostoon, riski tai syy, miksi väite ei pidä.","Perustele syyllä: miksi riski syntyy (esimerkiksi vahvuutta ei voi tietää, lamaavat aineet voimistavat toisiaan).","Älä liioittele. \"Kaikki kuolevat\" ei pidä paikkaansa ja vie uskottavuuden. \"Voi aiheuttaa\" ja \"riski kasvaa\" ovat tarkkoja ilmauksia.","Älä leimaa käyttäjiä. Oikaisu koskee väitettä, ei ihmistä."]},{"tyyppi":"kappale","otsikko":"Mitä laki sanoo","sisalto":"Suomessa huumausaineen käyttö, hallussapito, valmistus, kasvattaminen, maahantuonti, myyminen ja välittäminen ovat rangaistavia. Välittämistä on myös aineen antaminen kaverille ilmaiseksi. Pienen määrän käytöstä tai hallussapidosta omaan käyttöön voi seurata rangaistus huumausaineen käyttörikoksesta, tavallisesti sakko. Välittämisestä, myymisestä ja suuremmista määristä seuraa ankarampi rangaistus. Kannabis on Suomessa huumausaine, vaikka sen käyttö on joissakin maissa sallittu. Toisen ihmisen reseptilääkkeen antaminen tai myyminen on kiellettyä. Rikosoikeudellinen vastuu alkaa 15-vuotiaana, mutta nuoremmankin kohdalla poliisi ja lastensuojelu puuttuvat asiaan. Laki ei kuitenkaan estä hakemasta apua: kun joku on vaarassa, hätänumeroon soitetaan aina."},{"tyyppi":"kappale","otsikko":"Mistä apua","sisalto":"Jos olet huolissasi omasta tai kaverin päihteiden käytöstä, voit puhua kouluterveydenhoitajan, kuraattorin, koulupsykologin tai muun luotettavan aikuisen kanssa. He suhtautuvat asiaan luottamuksellisesti, ja heidän tehtävänsä on auttaa, ei rangaista. Kunnissa on nuorille tarkoitettuja päihdepalveluja, ja verkossa on luotettavaa päihdetietoa ja nimetöntä neuvontaa. Avun hakeminen kaverille ei ole kaverin pettämistä. Jos joku on aineiden jälkeen sekava, ei herää kunnolla tai hengittää heikosti, soita 112. Myrkytystietokeskus neuvoo lääkkeiden ja muiden aineiden myrkytyksissä. Toimimista päihdetilanteessa harjoittelet taidossa Juhlaillan turvasuunnitelma."},{"tyyppi":"ansa","otsikko":"Ansa 1: pelottelu ei ole oikaisu","sisalto":"\"Kerrasta jää koukkuun ja kuolee\" kuulostaa vahvalta, mutta se ei pidä paikkaansa, ja kun kuulija huomaa liioittelun, hän alkaa epäillä kaikkea muutakin. Oikaise tiedolla: kerro, mitä voi tapahtua ja miksi. \"Jo ensimmäinen kerta voi johtaa myrkytykseen, koska aineen vahvuutta ei voi tietää\" on tarkka ja totta."},{"tyyppi":"ansa","otsikko":"Ansa 2: kannabis yhteen ryhmään","sisalto":"Kannabis on sekä lamaava että aistitoimintoja muuttava. Jos merkitset sen pelkästään lamaavaksi tai pelkästään aistiharhoja aiheuttavaksi, luokittelu on puutteellinen. Muista myös, että kaikki lääkkeet eivät ole lamaavia: rauhoittavat ja unilääkkeet ovat lamaavia, mutta esimerkiksi monet ADHD-lääkkeet ovat piristäviä."},{"tyyppi":"ansa","otsikko":"Ansa 3: \"Pieni annos on turvallinen\"","sisalto":"Annoksen koko ei kerro, paljonko vaikuttavaa ainetta siinä on, koska laittoman aineen vahvuus vaihtelee. Lisäksi lamaavien aineiden vaikutukset voimistavat toisiaan. Kun oikaiset väitettä sekakäytöstä, kerro molemmat syyt: voimistuminen ja arvaamaton vahvuus."},{"tyyppi":"ansa","otsikko":"Ansa 4: \"Vain myyjä tekee rikoksen\"","sisalto":"Suomessa rangaistavaa on myös huumeen käyttö ja hallussapito, ei vain myyminen. Myös aineen antaminen kaverille ilmaiseksi on välittämistä. Kun kerrot laista, mainitse käyttö, hallussapito ja välittäminen, ja muista, että avun hälyttäminen on aina oikein."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Lamaavat: alkoholi, opioidit, rauhoittavat ja unilääkkeet. Piristävät: amfetamiini, metamfetamiini, kokaiini. Aistiharhoja: LSD, psilosybiinisienet. Kannabis: lamaava ja aistitoimintoja muuttava.","Kannabis: riippuvuus, muisti ja oppiminen, psykoosiriski nuorilla. Piristeet: rytmihäiriöt, ahdistus. Opioidit: hengityslama, yliannostus. Rauhoittavat: riippuvuus, hengityslama alkoholin kanssa.","Luonnollinen ei tarkoita turvallista. Lääke on turvallinen vain sille, jolle se on määrätty, ohjeen mukaan.","Jo ensimmäinen kerta voi johtaa myrkytykseen tai tapaturmaan. Lamaavat aineet yhdessä voivat lamaannuttaa hengityksen pienilläkin annoksilla.","Laittoman aineen vahvuus ja sisältö ovat arvaamattomia: ei valvontaa, sekoitteet, väärennökset.","Huumeen käyttö, hallussapito ja välittäminen ovat Suomessa rangaistavia.","Apua: kouluterveydenhoitaja, kuraattori, koulupsykologi, nuorten päihdepalvelut. Hätätilanteessa 112."]}],"harjoitusryhmat":[{"id":"aineet","nimi":"Aineet ja vaikutukset","info":"Luokittele aine lamaavaksi, piristäväksi tai aistiharhoja aiheuttavaksi ja tunnista sen terveysriskit."},{"id":"harhat","nimi":"Harhaluulojen oikaiseminen","info":"Oikaise väite tiedolla: luonnollisuus, lääkkeet, ensimmäinen kerta ja sekakäyttö."},{"id":"laki","nimi":"Arvaamattomuus, laki ja apu","info":"Selitä, miksi aineen sisältöä ei voi tietää, mitä laki sanoo ja mistä apua saa."}],"harjoitukset":[{"id":"H01","ryhma":"aineet","tyyppi":"monivalinta","kysymys":"Miten amfetamiini vaikuttaa keskushermostoon?","vaihtoehdot":["lamaavasti","piristävästi","aistiharhoja aiheuttaen"],"vastaus":1,"vinkki":"Mitä syke ja uni tekevät amfetamiinin vaikutuksesta?","selitys":"Amfetamiini on piriste: se kiihdyttää keskushermostoa, nostaa sykettä ja verenpainetta ja vie unen."},{"id":"H02","ryhma":"aineet","tyyppi":"luku","kysymys":"Aineet:\n1. heroiini\n2. kokaiini\n3. unilääke väärinkäytettynä\n4. metamfetamiini\n5. alkoholi\n\nMontako aineista on lamaavia?","vastaus":3,"vinkki":"Opioidit, rauhoittavat ja unilääkkeet ja alkoholi ovat lamaavia.","selitys":"Lamaavia ovat heroiini (opioidi), unilääke ja alkoholi. Kokaiini ja metamfetamiini ovat piristeitä."},{"id":"H03","ryhma":"aineet","tyyppi":"luku","kysymys":"Riskit:\n1. sydämen rytmihäiriöt\n2. hengityslama\n3. ahdistus\n4. verenpaineen voimakas nousu\n5. voimakas uneliaisuus\n\nMontako riskeistä on tyypillisiä piristeille?","vastaus":3,"vinkki":"Piristeet kiihdyttävät. Mitkä riskit johtuvat kiihtymisestä?","selitys":"Rytmihäiriöt, ahdistus ja verenpaineen nousu (1, 3, 4) ovat piristeiden riskejä. Hengityslama ja uneliaisuus kuuluvat lamaaviin aineisiin."},{"id":"H04","ryhma":"aineet","tyyppi":"luku","kysymys":"Lue väitteet kannabiksesta.\n1. Kannabikseen voi syntyä riippuvuus.\n2. Kannabis voi heikentää muistia ja oppimista.\n3. Kannabis kuuluu piristeisiin.\n4. Nuorella kannabis voi lisätä psykoosin riskiä.\n\nMonennessako väitteessä on virhe?","vastaus":3,"vinkki":"Mihin ryhmiin kannabis kuuluu?","selitys":"Väite 3 on väärin: kannabis on lamaava ja aistitoimintoja muuttava, ei piriste."},{"id":"H05","ryhma":"aineet","tyyppi":"luku","kysymys":"Lue väitteet opioideista.\n1. Opioidit lamaavat hengityksen säätelyä.\n2. Opioideihin syntyy nopeasti voimakas riippuvuus.\n3. Opioidit kiihdyttävät sykettä ja piristävät.\n4. Fentanyyli on hyvin vahva opioidi, josta pienikin määrä voi olla hengenvaarallinen.\n\nMontako väitteistä on oikein?","vastaus":3,"vinkki":"Opioidit ovat lamaavia.","selitys":"Väitteet 1, 2 ja 4 ovat oikein. Opioidit lamaavat eivätkä piristä."},{"id":"H06","ryhma":"aineet","tyyppi":"monivalinta","kysymys":"Miten psilosybiinisienet vaikuttavat keskushermostoon?","vaihtoehdot":["lamaavasti","piristävästi","aistiharhoja aiheuttaen"],"vastaus":2,"vinkki":"Mitä tapahtuu aistimuksille?","selitys":"Psilosybiinisienet ovat aistiharhoja aiheuttavia aineita eli hallusinogeeneja."},{"id":"H07","ryhma":"aineet","tyyppi":"luku","kysymys":"Lue tilanteet.\n1. Iida ottaa lääkärin määräämää astmalääkettä ohjeen mukaan.\n2. Tomi ottaa kaverinsa rauhoittavaa lääkettä rentoutuakseen.\n3. Mira ottaa omaa kipulääkettään kaksinkertaisen annoksen päihtyäkseen.\n4. Joel ostaa verkosta unilääkkeitä ilman reseptiä.\n\nMontako tilanteista on lääkkeiden väärinkäyttöä?","vastaus":3,"vinkki":"Väärinkäyttöä on lääke ilman omaa reseptiä, liian suuri annos tai muu tarkoitus kuin hoito.","selitys":"Tilanteet 2, 3 ja 4 ovat väärinkäyttöä. Iida käyttää omaa lääkettään ohjeen mukaan."},{"id":"H08","ryhma":"harhat","tyyppi":"luku","kysymys":"Väite: \"Se on luonnontuote, joten se on vaaraton.\" Lue vastaukset.\n1. \"Monet luonnon aineet ovat myrkyllisiä, esimerkiksi osa sienistä.\"\n2. \"Totta, kasvit ovat aina terveellisiä.\"\n3. \"Vaikutus riippuu aineesta ja määrästä, ei siitä, onko se luonnosta.\"\n4. \"Tupakkakin on kasvi, ja se aiheuttaa syöpää.\"\n\nMontako vastauksista oikaisee väitteen tiedolla?","vastaus":3,"vinkki":"Yksi vastaus on samaa mieltä väitteen kanssa.","selitys":"Vastaukset 1, 3 ja 4 oikaisevat: luonnollisuus ei kerro turvallisuudesta."},{"id":"H09","ryhma":"harhat","tyyppi":"monivalinta","kysymys":"Väite: \"Kokeilu on harmitonta, koska se ei oo vielä käyttöä.\"\n\nMikä vastaus oikaisee väitteen tiedolla ja pelottelematta?","vaihtoehdot":["\"Jokainen kokeilija jää heti koukkuun ja kuolee.\"","\"Jo ensimmäisellä kerralla voi saada myrkytyksen tai joutua tapaturmaan, koska aineen vahvuutta ja omaa reaktiota ei voi tietää.\"","\"Kokeileminen on turvallista, jos kaverit ovat lähellä.\""],"vastaus":1,"vinkki":"Pelottelu liioittelee, tieto kertoo mitä voi tapahtua ja miksi.","selitys":"Ensimmäinen kerta voi johtaa myrkytykseen tai tapaturmaan, koska vahvuutta ja omaa reaktiota ei voi tietää. Väite \"jokainen jää heti koukkuun\" on liioittelua."},{"id":"H10","ryhma":"harhat","tyyppi":"luku","kysymys":"Lue väitteet lääkkeistä.\n1. Reseptilääke on turvallinen sille, jolle se on määrätty, kun sitä käytetään ohjeen mukaan.\n2. Kaverin lääke sopii minulle, jos meillä on samat oireet.\n3. Lääkkeiden väärinkäyttö voi aiheuttaa riippuvuutta.\n4. Apteekista saatu lääke ei voi olla vaarallinen.\n\nMontako väitteistä on oikein?","vastaus":2,"vinkki":"Kenelle lääke on tehty?","selitys":"Väitteet 1 ja 3 ovat oikein. Lääke on tehty tietylle ihmiselle ja annokselle, ja väärin käytettynä apteekin lääkekin voi olla vaarallinen."},{"id":"H11","ryhma":"harhat","tyyppi":"luku","kysymys":"Yhdistelmät:\n1. alkoholi ja unilääke\n2. opioidi ja rauhoittava lääke\n3. alkoholi ja opioidi\n4. kahvi ja vesi\n\nMontako yhdistelmistä lisää hengityslaman vaaraa?","vastaus":3,"vinkki":"Hengityslaman vaara kasvaa, kun yhdistetään lamaavia aineita.","selitys":"Yhdistelmissä 1–3 on kaksi lamaavaa ainetta, joiden vaikutukset voimistavat toisiaan."},{"id":"H12","ryhma":"harhat","tyyppi":"luku","kysymys":"Väite: \"Sekakäyttö on ok, kun annokset on pieniä.\" Lue perustelut sille, miksi väite on väärä.\n1. Lamaavien aineiden vaikutukset voimistavat toisiaan.\n2. Annoksen todellista vahvuutta ei voi tietää.\n3. Pienet annokset poistuvat elimistöstä heti.\n4. Yksi aine voi peittää toisen vaikutuksen, jolloin ottaa lisää.\n\nMontako perusteluista on oikeita?","vastaus":3,"vinkki":"Yksi perustelu ei pidä paikkaansa.","selitys":"Perustelut 1, 2 ja 4 ovat oikeita. Pienetkään annokset eivät poistu heti."},{"id":"H13","ryhma":"harhat","tyyppi":"luku","kysymys":"Keksitty kyselytulos: Sadasta kahdeksasluokkalaisesta 93 kertoo, ettei ole koskaan kokeillut kannabista.\n\nMontako sadasta on kokeillut?","vastaus":7,"vinkki":"Vähennä sadasta ne, jotka eivät ole kokeilleet.","selitys":"100 − 93 = 7. Väite \"kaikki kokeilevat\" ei pidä paikkaansa. Tulos on keksitty, mutta todellisissakin kyselyissä suurin osa ei ole kokeillut."},{"id":"H14","ryhma":"harhat","tyyppi":"luku","kysymys":"Lue oikaisut.\n1. \"Kannabis voi heikentää muistia ja keskittymistä, mikä haittaa koulussa.\"\n2. \"Jos kokeilet kerrankin, elämäsi on pilalla ja päädyt kadulle.\"\n3. \"Opioidit voivat lamaannuttaa hengityksen.\"\n\nMonennessako oikaisussa käytetään pelottelua tiedon sijaan?","vastaus":2,"vinkki":"Etsi oikaisu, joka liioittelee ja lupaa varman seurauksen.","selitys":"Oikaisu 2 liioittelee. Oikaisut 1 ja 3 kertovat, mitä voi tapahtua."},{"id":"H15","ryhma":"laki","tyyppi":"luku","kysymys":"Lue väitteet.\n1. Laittoman aineen vahvuus on aina sama.\n2. Aineessa voi olla muuta kuin luvataan.\n3. Myyjän lupaus takaa sisällön.\n4. Sama määrä voi sisältää eri kerroilla hyvin eri määrän vaikuttavaa ainetta.\n\nMontako väitteistä on oikein?","vastaus":2,"vinkki":"Laittomia aineita ei valvo kukaan.","selitys":"Väitteet 2 ja 4 ovat oikein. Vahvuus vaihtelee, eikä myyjän lupaus takaa mitään."},{"id":"H16","ryhma":"laki","tyyppi":"luku","kysymys":"Keksitty esimerkki: Kahdesta samannäköisestä erästä mitattiin vaikuttavan aineen osuus. Erässä A sitä oli 10 % ja erässä B 60 %.\n\nMontako kertaa enemmän vaikuttavaa ainetta on samassa määrässä B:tä kuin A:ta?","vastaus":6,"vinkki":"Jaa suurempi osuus pienemmällä.","selitys":"60 : 10 = 6. Samannäköisessä annoksessa voi olla moninkertainen määrä ainetta."},{"id":"H17","ryhma":"laki","tyyppi":"luku","kysymys":"Lue teot.\n1. kannabiksen polttaminen\n2. pienen huumemäärän pitäminen taskussa omaa käyttöä varten\n3. huumeen antaminen kaverille ilmaiseksi\n4. kieltäytyminen, kun ainetta tarjotaan\n5. huumeen myyminen\n\nMontako teoista on Suomessa rangaistavia?","vastaus":4,"vinkki":"Rangaistavaa on muukin kuin myyminen.","selitys":"Teot 1, 2, 3 ja 5 ovat rangaistavia: käyttö, hallussapito, välittäminen ja myyminen. Kieltäytyminen ei ole."},{"id":"H18","ryhma":"laki","tyyppi":"luku","kysymys":"Lue väitteet laista.\n1. Huumausaineen käyttörikoksesta voi seurata sakko.\n2. Huumeen hallussapito on sallittua, jos sitä on vain vähän.\n3. Kannabis on Suomessa huumausaine.\n4. Vain täysi-ikäinen voi joutua vastuuseen huumerikoksesta.\n\nMontako väitteistä on oikein?","vastaus":2,"vinkki":"Rikosoikeudellinen vastuu alkaa 15-vuotiaana.","selitys":"Väitteet 1 ja 3 ovat oikein. Pienenkin määrän hallussapito on rangaistavaa, ja vastuu alkaa 15-vuotiaana."},{"id":"H19","ryhma":"laki","tyyppi":"luku","kysymys":"Lue tahot.\n1. koulupsykologi\n2. somevaikuttaja, joka kertoo omista kokeiluistaan\n3. terveyskeskuksen lääkäri\n4. kaveri, joka myy aineita\n\nMontako tahoista on asianmukaisia avun lähteitä, jos nuori on huolissaan päihteistä?","vastaus":2,"vinkki":"Asianmukainen taho on ammattilainen, jonka tehtävä on auttaa.","selitys":"Koulupsykologi ja terveyskeskuksen lääkäri ovat asianmukaisia. Myyjä ja somevaikuttaja eivät ole."},{"id":"H20","ryhma":"laki","tyyppi":"luku","kysymys":"Kaveri kertoo olevansa huolissaan siitä, että hänen päihteiden käyttönsä on lisääntynyt. Lue vastaukset.\n1. \"Älä välitä, kyllä se menee ohi.\"\n2. \"Mennäänkö yhdessä puhumaan kouluterveydenhoitajalle?\"\n3. \"Kysy siltä, jolta ostat, mitä kannattaa tehdä.\"\n\nMonennessako vastauksessa kaveri ohjataan oikean avun luo?","vastaus":2,"vinkki":"Kenen tehtävä on auttaa?","selitys":"Vastaus 2 ohjaa ammattilaisen luo ja tarjoaa tukea. Vähättely ja myyjältä kysyminen eivät auta."}],"ryhmanimet":{"aineet":"Aineet ja vaikutukset","harhat":"Harhaluulojen oikaiseminen","laki":"Arvaamattomuus, laki ja apu"},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Monet tehtävät viittaavat niihin. Kaikki henkilöt ja viestit on keksitty.\nVastaa lukutehtäviin yhdellä luvulla tai sanalla. Kun kysytään numeroita, kirjoita ne pilkuilla erotettuina.\nSanallisissa tehtävissä (1, 12, 13 ja 17) kirjoita kokonaisia lauseita. Oikaise väitteet tiedolla, älä pelottelulla.\nKokeessa ei kysytä omia eikä läheistesi kokemuksia. Jos jokin aihe herättää huolta, voit puhua opettajan, kouluterveydenhoitajan tai kuraattorin kanssa.\n\nKeskusteluketju\n(1) Aino: \"Kuulin, että meidän koulun lähellä on joku myyny kannabista.\"\n(2) Leevi: \"Kannabis on luonnontuote, joten se on ihan vaaraton.\"\n(3) Aino: \"Mä luin, että riippuvuus voi kehittyä ihan huomaamatta.\"\n(4) Patrik: \"Lääkkeet on turvallisia, koska ne on apteekista. Esim. rauhottavat.\"\n(5) Leevi: \"Ja kerran kokeileminen ei voi aiheuttaa mitään.\"\n(6) Ronja: \"Mut eiks ne oo laittomia?\"\n(7) Patrik: \"Sekakäyttö on turvallista, kun annokset on pieniä. Vähän kaljaa ja vähän rauhottavaa.\"\n(8) Ronja: \"Mä en ainakaan aio kokeilla.\"","tehtavat":[{"nro":1,"ryhma":"aineet","tyyppi":"sanallinen","kysymys":"Täydennä taulukko. Kirjoita jokaisesta aineryhmästä, miten se vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava), ja kaksi terveysriskiä.\nAineryhmät: Kannabis, piristeet, opioidit, rauhoittavat ja unilääkkeet väärinkäytettyinä.","vastaus":"Malliesimerkki: Kannabis: lamaava ja aistitoimintoja muuttava; riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla. Piristeet: piristävä; sydämen rytmihäiriöt, ahdistus ja unettomuus. Opioidit: lamaava; hengityslama ja yliannostus, erittäin voimakas riippuvuus. Rauhoittavat ja unilääkkeet väärinkäytettyinä: lamaava; riippuvuus, muistikatkokset, hengityslama yhdessä alkoholin kanssa."},{"nro":2,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: kokaiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"piristävästi"},{"nro":3,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: oksikodoni (vahva kipulääke) väärinkäytettynä.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"lamaavasti"},{"nro":4,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: LSD.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"aistiharhoja aiheuttaen"},{"nro":5,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Riskit:\n1. hengityslama\n2. sydämen rytmihäiriöt\n3. erittäin voimakas riippuvuus\n4. pelottavat aistiharhat\n5. yliannostuskuolema\n6. elimistön ylikuumeneminen\n\nKirjoita niiden riskien numerot, jotka ovat tyypillisiä opioideille.","vastaus":"1, 3, 5"},{"nro":6,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet kannabiksesta.\n1. THC on kannabiksen tärkein vaikuttava aine.\n2. Kannabis parantaa keskittymistä.\n3. Säännöllinen kannabiksen käyttö voi vaikeuttaa koulussa keskittymistä.\n4. Vahvat kannabisvalmisteet lisäävät nuorten psykoosiriskiä.\n5. Kannabis ei vaikuta aivoihin.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":7,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet piristeistä.\n1. Piristeet kiihdyttävät sykettä ja nostavat verenpainetta.\n2. Piristeet hidastavat hengitystä ja sykettä.\n3. Piristeiden käyttö voi aiheuttaa ahdistusta ja unettomuutta.\n4. Piristeiden käyttö parantaa unta.\n5. Piristeet voivat nostaa ruumiinlämpöä vaarallisesti.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":8,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet lääkkeiden väärinkäytöstä.\n1. Väärinkäyttöä on myös se, että lääkettä käyttää ilman omaa reseptiä.\n2. Rauhoittavat lääkkeet piristävät keskushermostoa.\n3. Väärinkäytetyt lääkkeet voivat aiheuttaa myrkytyksen.\n4. Rauhoittaviin lääkkeisiin voi syntyä riippuvuus.\n5. Kaverin reseptilääkkeen saa ottaa, jos oireet ovat samat.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":9,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Kirjoita niiden ketjun viestien numerot, joissa esitetään terveyteen liittyvä harhaluulo.","vastaus":"2, 4, 5, 7"},{"nro":10,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että aineen luonnollisuus tekee siitä turvallisen?","vastaus":"2"},{"nro":11,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että useamman aineen yhdistäminen on turvallista pienillä annoksilla?","vastaus":"7"},{"nro":12,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 2 ja 4 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja mitä tieto sanoo.","vastaus":"Malliesimerkki: Viesti 2: Luonnollisuus ei kerro aineen turvallisuudesta; esimerkiksi tupakka on kasvi ja osa sienistä on myrkyllisiä. Kannabiksen THC vaikuttaa aivoihin: se voi aiheuttaa riippuvuuden, heikentää muistia ja oppimista ja lisätä nuorilla psykoosin riskiä. Viesti 4: Lääke on turvallinen vain sille, jolle se on määrätty, ja vain ohjeen mukaan käytettynä. Toisen ihmisen lääkkeenä, suurina annoksina tai päihtymiseen käytettynä esimerkiksi rauhoittavat lääkkeet voivat aiheuttaa riippuvuuden, muistikatkoksia ja hengityslaman."},{"nro":13,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 5 ja 7 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja miksi.","vastaus":"Malliesimerkki: Viesti 5: Jo ensimmäinen kerta voi johtaa myrkytykseen, tapaturmaan tai psykoosiin, koska aineen vahvuutta ja sisältöä ei voi tietää eikä omaa reaktiota voi ennustaa. Viesti 7: Lamaavien aineiden, kuten alkoholin ja rauhoittavien lääkkeiden, vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen. Lisäksi annosten todellista vahvuutta ei tiedä."},{"nro":14,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Lue oikaisuja muihin huumeisiin liittyviin väitteisiin.\n1. \"Suurin osa nuorista ei ole koskaan kokeillut huumeita.\"\n2. \"Jokainen, joka kokeilee kerran, kuolee.\"\n3. \"Kannabiksen käyttäjä voi jäädä koukkuun, varsinkin jos aloittaa nuorena.\"\n4. \"Huumeita käyttävät ovat huonoja ihmisiä.\"\n5. \"Yksikin kokeilu tekee sinusta varmasti narkomaanin.\"\n\nMontako oikaisuista perustuu tietoon eikä pelotteluun?","vastaus":"2"},{"nro":15,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Yhdistelmät:\n1. amfetamiini ja kahvi\n2. alkoholi ja rauhoittava lääke\n3. kokaiini ja amfetamiini\n4. heroiini ja unilääke\n5. LSD ja energiajuoma\n\nKirjoita niiden yhdistelmien numerot, joissa molemmat aineet ovat lamaavia.","vastaus":"2, 4"},{"nro":16,"ryhma":"laki","tyyppi":"lasku","kysymys":"Keksitty esimerkki: Laboratorio tutki kaksi samalta myyjältä ostettua, samannäköistä annosta. Ensimmäisessä vaikuttavaa ainetta oli 8 % ja toisessa 40 %.\n\nMontako kertaa vahvempi toinen annos on?","vastaus":"5"},{"nro":17,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Selitä, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerro vähintään kaksi syytä ja mitä siitä voi seurata.","vastaus":"Malliesimerkki: Laittomia aineita valmistetaan ilman valvontaa, joten vahvuus vaihtelee erästä toiseen ja samannäköisessä annoksessa voi olla moninkertainen määrä ainetta. Aineeseen on voitu sekoittaa muita aineita, tai se voi olla kokonaan toista ainetta, esimerkiksi erittäin vahvaa synteettistä opioidia. Verkosta tilatut lääkkeet voivat olla väärennöksiä. Myyjäkään ei tiedä sisältöä, eikä sitä voi päätellä ulkonäöstä. Siksi jo yksi annos voi aiheuttaa myrkytyksen tai hengityslaman."},{"nro":18,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue teot.\n1. huumausaineen kokeileminen kerran\n2. tarjotusta aineesta kieltäytyminen\n3. kannabiskasvien kasvattaminen\n4. kuraattorille puhuminen kaverista heränneestä huolesta\n5. huumeen tilaaminen verkosta postitse\n6. oman lääkkeen ottaminen lääkärin ohjeen mukaan\n\nKirjoita niiden tekojen numerot, jotka ovat Suomessa rangaistavia.","vastaus":"1, 3, 5"},{"nro":19,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue väitteet Suomen huumausainelainsäädännöstä.\n1. Huumausaineen käyttö on Suomessa rangaistavaa.\n2. Kannabiksen käyttö on Suomessa sallittua, jos sen on ostanut maasta, jossa se on laillista.\n3. Huumeen välittäminen on rangaistavaa, vaikka siitä ei saisi maksua.\n4. Huumeen antaminen ilmaiseksi ei ole rikos.\n5. Rikosoikeudellinen vastuu alkaa 15-vuotiaana.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":20,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tahot:\n1. kouluterveydenhoitaja\n2. verkkokauppa, josta aineita tilataan\n3. kuraattori\n4. kaveriporukan ryhmächat\n5. nuorten päihdepalvelu\n6. somevaikuttaja, joka kehuu ainetta\n\nKirjoita niiden tahojen numerot, joilta nuori saa asianmukaista apua, jos hän tai kaveri on huolissaan päihteistä.","vastaus":"1, 3, 5"}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Monet tehtävät viittaavat niihin. Kaikki henkilöt ja viestit on keksitty.\nVastaa lukutehtäviin yhdellä luvulla tai sanalla. Kun kysytään numeroita, kirjoita ne pilkuilla erotettuina.\nSanallisissa tehtävissä (1, 12, 13 ja 17) kirjoita kokonaisia lauseita. Oikaise väitteet tiedolla, älä pelottelulla.\nKokeessa ei kysytä omia eikä läheistesi kokemuksia. Jos jokin aihe herättää huolta, voit puhua opettajan, kouluterveydenhoitajan tai kuraattorin kanssa.\n\nKeskusteluketju\n(1) Kalle: \"Ootteks nähny sen videon, jossa joku poltti kannabista?\"\n(2) Sara: \"Joo, ja siinä sanottiin, että kerran kokeilemalla ei voi sattua mitään.\"\n(3) Eemil: \"Kannabis kasvaa maassa niinku mikä tahansa kasvi, ei se voi olla myrkkyä.\"\n(4) Nelli: \"Moni ei oo ikinä kokeillu mitään.\"\n(5) Kalle: \"Rauhottavat lääkkeet on lääkärin määräämiä, eli ne on turvallisia kenelle vaan.\"\n(6) Sara: \"Ja jos ottaa vähän alkoholia ja vähän lääkettä, ei voi käydä mitään, kun määrät on pienet.\"\n(7) Eemil: \"Mihin aikaan huomenna on treenit?\"\n(8) Nelli: \"Kuudelta.\"","tehtavat":[{"nro":1,"ryhma":"aineet","tyyppi":"sanallinen","kysymys":"Täydennä taulukko. Kirjoita jokaisesta aineryhmästä, miten se vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava), ja kaksi terveysriskiä.\nAineryhmät: Opioidit, kannabis, rauhoittavat ja unilääkkeet väärinkäytettyinä, piristeet.","vastaus":"Malliesimerkki: Opioidit: lamaava; hengityslama ja yliannostus, erittäin voimakas riippuvuus. Kannabis: lamaava ja aistitoimintoja muuttava; riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla. Rauhoittavat ja unilääkkeet väärinkäytettyinä: lamaava; riippuvuus, muistikatkokset, hengityslama yhdessä alkoholin kanssa. Piristeet: piristävä; sydämen rytmihäiriöt, ahdistus ja unettomuus."},{"nro":2,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: heroiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"lamaavasti"},{"nro":3,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: LSD.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"aistiharhoja aiheuttaen"},{"nro":4,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: metamfetamiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"piristävästi"},{"nro":5,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Riskit:\n1. verenpaineen voimakas nousu\n2. yliannostuskuolema\n3. sydämen rytmihäiriöt\n4. voimakkaat vieroitusoireet\n5. hengityslama\n6. psykoosiriski nuorilla\n\nKirjoita niiden riskien numerot, jotka ovat tyypillisiä opioideille.","vastaus":"2, 4, 5"},{"nro":6,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet kannabiksesta.\n1. Kannabis on Suomessa laillista omaan käyttöön.\n2. Kannabiksen käytön lopettaminen voi olla vaikeaa riippuvuuden vuoksi.\n3. Kannabis muuttaa aistimuksia, esimerkiksi äänten ja ajan kokemista.\n4. Kannabis parantaa nuoren muistia.\n5. Poltettuna kannabis rasittaa hengitysteitä.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":7,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet piristeistä.\n1. Piristeet ovat turvallisia, koska ne auttavat jaksamaan.\n2. Piristeiden vaikutuksen loputtua tulee usein uupumus ja alakulo.\n3. Piristeet voivat nostaa ruumiinlämpöä vaarallisesti.\n4. Piristeet hidastavat hengitystä ja sykettä.\n5. Piristeet voivat aiheuttaa vainoharhaisuutta.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":8,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet lääkkeiden väärinkäytöstä.\n1. Lääkkeisiin ei voi jäädä riippuvaiseksi.\n2. Lääkkeen ottaminen suurina annoksina päihtymistarkoituksessa on väärinkäyttöä.\n3. Suomessa myös eräät lääkeaineet kuuluvat huumausaineisiin.\n4. Väärinkäyttö tarkoittaa vain laittomien huumeiden käyttöä.\n5. Väärinkäytettyinä rauhoittavat lääkkeet voivat aiheuttaa muistikatkoksia.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":9,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Kirjoita niiden ketjun viestien numerot, joissa esitetään terveyteen liittyvä harhaluulo.","vastaus":"2, 3, 5, 6"},{"nro":10,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että aineen luonnollisuus tekee siitä turvallisen?","vastaus":"3"},{"nro":11,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että useamman aineen yhdistäminen on turvallista pienillä annoksilla?","vastaus":"6"},{"nro":12,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 3 ja 5 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja mitä tieto sanoo.","vastaus":"Malliesimerkki: Viesti 3: Luonnollisuus ei kerro aineen turvallisuudesta; esimerkiksi tupakka on kasvi ja osa sienistä on myrkyllisiä. Kannabiksen THC vaikuttaa aivoihin: se voi aiheuttaa riippuvuuden, heikentää muistia ja oppimista ja lisätä nuorilla psykoosin riskiä. Viesti 5: Lääke on turvallinen vain sille, jolle se on määrätty, ja vain ohjeen mukaan käytettynä. Toisen ihmisen lääkkeenä, suurina annoksina tai päihtymiseen käytettynä esimerkiksi rauhoittavat lääkkeet voivat aiheuttaa riippuvuuden, muistikatkoksia ja hengityslaman."},{"nro":13,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 2 ja 6 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja miksi.","vastaus":"Malliesimerkki: Viesti 2: Jo ensimmäinen kerta voi johtaa myrkytykseen, tapaturmaan tai psykoosiin, koska aineen vahvuutta ja sisältöä ei voi tietää eikä omaa reaktiota voi ennustaa. Viesti 6: Lamaavien aineiden, kuten alkoholin ja rauhoittavien lääkkeiden, vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen. Lisäksi annosten todellista vahvuutta ei tiedä."},{"nro":14,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Lue oikaisuja muihin huumeisiin liittyviin väitteisiin.\n1. \"Kannabis tekee jokaisesta hullun.\"\n2. \"Myös nielemällä tai polttamalla otettu aine voi aiheuttaa yliannostuksen.\"\n3. \"Jos kokeilet, joudut vankilaan loppuiäksesi.\"\n4. \"Piristeet voivat aiheuttaa sydämen rytmihäiriöitä ja unettomuutta, mikä haittaa myös koulunkäyntiä.\"\n5. \"Jokainen, joka kokeilee kerran, kuolee.\"\n\nMontako oikaisuista perustuu tietoon eikä pelotteluun?","vastaus":"2"},{"nro":15,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Yhdistelmät:\n1. kokaiini ja kahvi\n2. oksikodoni ja alkoholi\n3. amfetamiini ja energiajuoma\n4. LSD ja kokaiini\n5. rauhoittava lääke ja heroiini\n\nKirjoita niiden yhdistelmien numerot, joissa molemmat aineet ovat lamaavia.","vastaus":"2, 5"},{"nro":16,"ryhma":"laki","tyyppi":"lasku","kysymys":"Keksitty esimerkki: Laboratorio tutki kaksi samalta myyjältä ostettua, samannäköistä annosta. Ensimmäisessä vaikuttavaa ainetta oli 12 % ja toisessa 48 %.\n\nMontako kertaa vahvempi toinen annos on?","vastaus":"4"},{"nro":17,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Selitä, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerro vähintään kaksi syytä ja mitä siitä voi seurata.","vastaus":"Malliesimerkki: Laittomia aineita valmistetaan ilman valvontaa, joten vahvuus vaihtelee erästä toiseen ja samannäköisessä annoksessa voi olla moninkertainen määrä ainetta. Aineeseen on voitu sekoittaa muita aineita, tai se voi olla kokonaan toista ainetta, esimerkiksi erittäin vahvaa synteettistä opioidia. Verkosta tilatut lääkkeet voivat olla väärennöksiä. Myyjäkään ei tiedä sisältöä, eikä sitä voi päätellä ulkonäöstä. Siksi jo yksi annos voi aiheuttaa myrkytyksen tai hengityslaman."},{"nro":18,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue teot.\n1. hätänumeroon soittaminen, kun kaveri on ottanut ainetta\n2. huumeen välittäminen tutulle rahaa vastaan\n3. huumeen säilyttäminen kaverin puolesta\n4. päihdetiedon lukeminen terveysviranomaisen sivulta\n5. reseptilääkkeen myyminen kaverille\n6. tarjotusta aineesta kieltäytyminen\n\nKirjoita niiden tekojen numerot, jotka ovat Suomessa rangaistavia.","vastaus":"2, 3, 5"},{"nro":19,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue väitteet Suomen huumausainelainsäädännöstä.\n1. Alle 18-vuotiasta ei voida koskaan rangaista mistään.\n2. Myös kannabiksen kasvattaminen on Suomessa rangaistavaa.\n3. Kaverille ei saa myydä reseptilääkkeitä.\n4. Vain huumeiden myyminen on rangaistavaa, käyttö ei.\n5. Huumeen välittäminen on rangaistavaa, vaikka siitä ei saisi maksua.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":20,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tahot:\n1. nimetön keskustelupalsta, jolla jaetaan annosohjeita\n2. terveyskeskus\n3. luotettava aikuinen, esimerkiksi opettaja\n4. somevaikuttaja, joka kehuu ainetta\n5. kuraattori\n6. kaveriporukan ryhmächat\n\nKirjoita niiden tahojen numerot, joilta nuori saa asianmukaista apua, jos hän tai kaveri on huolissaan päihteistä.","vastaus":"2, 3, 5"}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Monet tehtävät viittaavat niihin. Kaikki henkilöt ja viestit on keksitty.\nVastaa lukutehtäviin yhdellä luvulla tai sanalla. Kun kysytään numeroita, kirjoita ne pilkuilla erotettuina.\nSanallisissa tehtävissä (1, 12, 13 ja 17) kirjoita kokonaisia lauseita. Oikaise väitteet tiedolla, älä pelottelulla.\nKokeessa ei kysytä omia eikä läheistesi kokemuksia. Jos jokin aihe herättää huolta, voit puhua opettajan, kouluterveydenhoitajan tai kuraattorin kanssa.\n\nKeskusteluketju\n(1) Miro: \"Tänään terveystiedossa puhuttiin huumeista.\"\n(2) Oona: \"Apteekkilääkkeet on aina turvallisia, kuka tahansa niitä ottaa.\"\n(3) Helmi: \"Kaikki ei kokeile, suurin osa ei oo koskaan kokeillu.\"\n(4) Juuso: \"Sekottaminen on ok, jos annokset on tosi pienet.\"\n(5) Miro: \"Kannabis on puhdas luonnon juttu, siks se on harmiton.\"\n(6) Oona: \"Yks kokeilu ei voi tehä mitään pahaa.\"\n(7) Helmi: \"Mä en jatka tätä keskustelua enempää.\"\n(8) Juuso: \"Okei, nähään huomenna.\"","tehtavat":[{"nro":1,"ryhma":"aineet","tyyppi":"sanallinen","kysymys":"Täydennä taulukko. Kirjoita jokaisesta aineryhmästä, miten se vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava), ja kaksi terveysriskiä.\nAineryhmät: Piristeet, rauhoittavat ja unilääkkeet väärinkäytettyinä, kannabis, opioidit.","vastaus":"Malliesimerkki: Piristeet: piristävä; sydämen rytmihäiriöt, ahdistus ja unettomuus. Rauhoittavat ja unilääkkeet väärinkäytettyinä: lamaava; riippuvuus, muistikatkokset, hengityslama yhdessä alkoholin kanssa. Kannabis: lamaava ja aistitoimintoja muuttava; riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla. Opioidit: lamaava; hengityslama ja yliannostus, erittäin voimakas riippuvuus."},{"nro":2,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: LSD.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"aistiharhoja aiheuttaen"},{"nro":3,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: fentanyyli.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"lamaavasti"},{"nro":4,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: kokaiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"piristävästi"},{"nro":5,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Riskit:\n1. erittäin voimakas riippuvuus\n2. elimistön ylikuumeneminen\n3. pelottavat aistiharhat\n4. hengityslama\n5. verenpaineen voimakas nousu\n6. voimakkaat vieroitusoireet\n\nKirjoita niiden riskien numerot, jotka ovat tyypillisiä opioideille.","vastaus":"1, 4, 6"},{"nro":6,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet kannabiksesta.\n1. Säännöllinen kannabiksen käyttö voi vaikeuttaa koulussa keskittymistä.\n2. Kannabis ei vaikuta aivoihin.\n3. Poltettuna kannabis rasittaa hengitysteitä.\n4. Kannabiksen käytön lopettaminen voi olla vaikeaa riippuvuuden vuoksi.\n5. Vahvat kannabisvalmisteet lisäävät nuorten psykoosiriskiä.\n\nMontako väitteistä on oikein?","vastaus":"4"},{"nro":7,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet piristeistä.\n1. Piristeet voivat aiheuttaa vainoharhaisuutta.\n2. Piristeisiin ei voi syntyä riippuvuutta.\n3. Piristeet kiihdyttävät sykettä ja nostavat verenpainetta.\n4. Piristeet ovat turvallisia, koska ne auttavat jaksamaan.\n5. Piristeiden käyttö voi aiheuttaa ahdistusta ja unettomuutta.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":8,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet lääkkeiden väärinkäytöstä.\n1. Väärinkäytettyinä rauhoittavat lääkkeet voivat aiheuttaa muistikatkoksia.\n2. Kaverin reseptilääkkeen saa ottaa, jos oireet ovat samat.\n3. Rauhoittavat lääkkeet piristävät keskushermostoa.\n4. Väärinkäyttöä on myös se, että lääkettä käyttää ilman omaa reseptiä.\n5. Lääkkeen ottaminen suurina annoksina päihtymistarkoituksessa on väärinkäyttöä.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":9,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Kirjoita niiden ketjun viestien numerot, joissa esitetään terveyteen liittyvä harhaluulo.","vastaus":"2, 4, 5, 6"},{"nro":10,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että aineen luonnollisuus tekee siitä turvallisen?","vastaus":"5"},{"nro":11,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että useamman aineen yhdistäminen on turvallista pienillä annoksilla?","vastaus":"4"},{"nro":12,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 5 ja 2 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja mitä tieto sanoo.","vastaus":"Malliesimerkki: Viesti 5: Luonnollisuus ei kerro aineen turvallisuudesta; esimerkiksi tupakka on kasvi ja osa sienistä on myrkyllisiä. Kannabiksen THC vaikuttaa aivoihin: se voi aiheuttaa riippuvuuden, heikentää muistia ja oppimista ja lisätä nuorilla psykoosin riskiä. Viesti 2: Lääke on turvallinen vain sille, jolle se on määrätty, ja vain ohjeen mukaan käytettynä. Toisen ihmisen lääkkeenä, suurina annoksina tai päihtymiseen käytettynä esimerkiksi rauhoittavat lääkkeet voivat aiheuttaa riippuvuuden, muistikatkoksia ja hengityslaman."},{"nro":13,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 6 ja 4 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja miksi.","vastaus":"Malliesimerkki: Viesti 6: Jo ensimmäinen kerta voi johtaa myrkytykseen, tapaturmaan tai psykoosiin, koska aineen vahvuutta ja sisältöä ei voi tietää eikä omaa reaktiota voi ennustaa. Viesti 4: Lamaavien aineiden, kuten alkoholin ja rauhoittavien lääkkeiden, vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen. Lisäksi annosten todellista vahvuutta ei tiedä."},{"nro":14,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Lue oikaisuja muihin huumeisiin liittyviin väitteisiin.\n1. \"Riippuvuus kehittyy usein vähitellen, eikä käyttäjä itse huomaa sitä.\"\n2. \"Yksikin kokeilu tekee sinusta varmasti narkomaanin.\"\n3. \"Piristeet voivat aiheuttaa sydämen rytmihäiriöitä ja unettomuutta, mikä haittaa myös koulunkäyntiä.\"\n4. \"Kannabis tekee jokaisesta hullun.\"\n5. \"Myös nielemällä tai polttamalla otettu aine voi aiheuttaa yliannostuksen.\"\n\nMontako oikaisuista perustuu tietoon eikä pelotteluun?","vastaus":"3"},{"nro":15,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Yhdistelmät:\n1. heroiini ja alkoholi\n2. kahvi ja energiajuoma\n3. unilääke ja oksikodoni\n4. amfetamiini ja LSD\n5. kokaiini ja kahvi\n\nKirjoita niiden yhdistelmien numerot, joissa molemmat aineet ovat lamaavia.","vastaus":"1, 3"},{"nro":16,"ryhma":"laki","tyyppi":"lasku","kysymys":"Keksitty esimerkki: Laboratorio tutki kaksi samalta myyjältä ostettua, samannäköistä annosta. Ensimmäisessä vaikuttavaa ainetta oli 5 % ja toisessa 35 %.\n\nMontako kertaa vahvempi toinen annos on?","vastaus":"7"},{"nro":17,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Selitä, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerro vähintään kaksi syytä ja mitä siitä voi seurata.","vastaus":"Malliesimerkki: Laittomia aineita valmistetaan ilman valvontaa, joten vahvuus vaihtelee erästä toiseen ja samannäköisessä annoksessa voi olla moninkertainen määrä ainetta. Aineeseen on voitu sekoittaa muita aineita, tai se voi olla kokonaan toista ainetta, esimerkiksi erittäin vahvaa synteettistä opioidia. Verkosta tilatut lääkkeet voivat olla väärennöksiä. Myyjäkään ei tiedä sisältöä, eikä sitä voi päätellä ulkonäöstä. Siksi jo yksi annos voi aiheuttaa myrkytyksen tai hengityslaman."},{"nro":18,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue teot.\n1. reseptilääkkeen myyminen kaverille\n2. oman lääkkeen ottaminen lääkärin ohjeen mukaan\n3. huumausaineen kokeileminen kerran\n4. huumeen välittäminen tutulle rahaa vastaan\n5. kuraattorille puhuminen kaverista heränneestä huolesta\n6. päihdetiedon lukeminen terveysviranomaisen sivulta\n\nKirjoita niiden tekojen numerot, jotka ovat Suomessa rangaistavia.","vastaus":"1, 3, 4"},{"nro":19,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue väitteet Suomen huumausainelainsäädännöstä.\n1. Rikosoikeudellinen vastuu alkaa 15-vuotiaana.\n2. Omalla nimellä määrätyn reseptilääkkeen saa myydä eteenpäin.\n3. Huumausaineen käyttö on Suomessa rangaistavaa.\n4. Myös kannabiksen kasvattaminen on Suomessa rangaistavaa.\n5. Huumeen antaminen ilmaiseksi ei ole rikos.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":20,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tahot:\n1. kaveriporukan ryhmächat\n2. kouluterveydenhoitaja\n3. terveyskeskus\n4. verkkokauppa, josta aineita tilataan\n5. nimetön keskustelupalsta, jolla jaetaan annosohjeita\n6. nuorten päihdepalvelu\n\nKirjoita niiden tahojen numerot, joilta nuori saa asianmukaista apua, jos hän tai kaveri on huolissaan päihteistä.","vastaus":"2, 3, 6"}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Monet tehtävät viittaavat niihin. Kaikki henkilöt ja viestit on keksitty.\nVastaa lukutehtäviin yhdellä luvulla tai sanalla. Kun kysytään numeroita, kirjoita ne pilkuilla erotettuina.\nSanallisissa tehtävissä (1, 12, 13 ja 17) kirjoita kokonaisia lauseita. Oikaise väitteet tiedolla, älä pelottelulla.\nKokeessa ei kysytä omia eikä läheistesi kokemuksia. Jos jokin aihe herättää huolta, voit puhua opettajan, kouluterveydenhoitajan tai kuraattorin kanssa.\n\nKeskusteluketju\n(1) Pihla: \"Joku jakoi ryhmään postauksen kannabiksesta.\"\n(2) Aatu: \"Ei siinä oo mitään vaarallista, se on vaan kasvi luonnosta.\"\n(3) Vilma: \"Kerran kokeileminen on ihan riskitöntä, ei siitä mitään seuraa.\"\n(4) Aaro: \"Unilääkkeet on apteekista, joten niitä voi ottaa ihan huoletta.\"\n(5) Pihla: \"Kaikki ei todellakaan kokeile.\"\n(6) Aatu: \"Lääkkeen ja alkoholin yhdistäminen on ok, kunhan kumpaakin on vähän.\"\n(7) Vilma: \"Pitäiskö tästä kysyä terveydenhoitajalta?\"\n(8) Aaro: \"Voidaan kysyä.\"","tehtavat":[{"nro":1,"ryhma":"aineet","tyyppi":"sanallinen","kysymys":"Täydennä taulukko. Kirjoita jokaisesta aineryhmästä, miten se vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava), ja kaksi terveysriskiä.\nAineryhmät: Rauhoittavat ja unilääkkeet väärinkäytettyinä, opioidit, piristeet, kannabis.","vastaus":"Malliesimerkki: Rauhoittavat ja unilääkkeet väärinkäytettyinä: lamaava; riippuvuus, muistikatkokset, hengityslama yhdessä alkoholin kanssa. Opioidit: lamaava; hengityslama ja yliannostus, erittäin voimakas riippuvuus. Piristeet: piristävä; sydämen rytmihäiriöt, ahdistus ja unettomuus. Kannabis: lamaava ja aistitoimintoja muuttava; riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla."},{"nro":2,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: metamfetamiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"piristävästi"},{"nro":3,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: rauhoittava lääke (bentsodiatsepiini) väärinkäytettynä.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"lamaavasti"},{"nro":4,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: LSD.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"aistiharhoja aiheuttaen"},{"nro":5,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Riskit:\n1. psykoosiriski nuorilla\n2. hengityslama\n3. voimakkaat vieroitusoireet\n4. verenpaineen voimakas nousu\n5. sydämen rytmihäiriöt\n6. yliannostuskuolema\n\nKirjoita niiden riskien numerot, jotka ovat tyypillisiä opioideille.","vastaus":"2, 3, 6"},{"nro":6,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet kannabiksesta.\n1. Kannabis parantaa keskittymistä.\n2. Kannabis muuttaa aistimuksia, esimerkiksi äänten ja ajan kokemista.\n3. Kannabis on Suomessa laillista omaan käyttöön.\n4. THC on kannabiksen tärkein vaikuttava aine.\n5. Kannabiksen käytön lopettaminen voi olla vaikeaa riippuvuuden vuoksi.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":7,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet piristeistä.\n1. Piristeet voivat nostaa ruumiinlämpöä vaarallisesti.\n2. Piristeiden käyttö parantaa unta.\n3. Piristeiden vaikutuksen loputtua tulee usein uupumus ja alakulo.\n4. Piristeet kiihdyttävät sykettä ja nostavat verenpainetta.\n5. Piristeisiin ei voi syntyä riippuvuutta.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":8,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet lääkkeiden väärinkäytöstä.\n1. Väärinkäyttö tarkoittaa vain laittomien huumeiden käyttöä.\n2. Rauhoittaviin lääkkeisiin voi syntyä riippuvuus.\n3. Väärinkäytetyt lääkkeet voivat aiheuttaa myrkytyksen.\n4. Lääkkeisiin ei voi jäädä riippuvaiseksi.\n5. Suomessa myös eräät lääkeaineet kuuluvat huumausaineisiin.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":9,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Kirjoita niiden ketjun viestien numerot, joissa esitetään terveyteen liittyvä harhaluulo.","vastaus":"2, 3, 4, 6"},{"nro":10,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että aineen luonnollisuus tekee siitä turvallisen?","vastaus":"2"},{"nro":11,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että useamman aineen yhdistäminen on turvallista pienillä annoksilla?","vastaus":"6"},{"nro":12,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 2 ja 4 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja mitä tieto sanoo.","vastaus":"Malliesimerkki: Viesti 2: Luonnollisuus ei kerro aineen turvallisuudesta; esimerkiksi tupakka on kasvi ja osa sienistä on myrkyllisiä. Kannabiksen THC vaikuttaa aivoihin: se voi aiheuttaa riippuvuuden, heikentää muistia ja oppimista ja lisätä nuorilla psykoosin riskiä. Viesti 4: Lääke on turvallinen vain sille, jolle se on määrätty, ja vain ohjeen mukaan käytettynä. Toisen ihmisen lääkkeenä, suurina annoksina tai päihtymiseen käytettynä esimerkiksi rauhoittavat lääkkeet voivat aiheuttaa riippuvuuden, muistikatkoksia ja hengityslaman."},{"nro":13,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 3 ja 6 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja miksi.","vastaus":"Malliesimerkki: Viesti 3: Jo ensimmäinen kerta voi johtaa myrkytykseen, tapaturmaan tai psykoosiin, koska aineen vahvuutta ja sisältöä ei voi tietää eikä omaa reaktiota voi ennustaa. Viesti 6: Lamaavien aineiden, kuten alkoholin ja rauhoittavien lääkkeiden, vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen. Lisäksi annosten todellista vahvuutta ei tiedä."},{"nro":14,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Lue oikaisuja muihin huumeisiin liittyviin väitteisiin.\n1. \"Huumeita käyttävät ovat huonoja ihmisiä.\"\n2. \"Piristeet voivat aiheuttaa sydämen rytmihäiriöitä ja unettomuutta, mikä haittaa myös koulunkäyntiä.\"\n3. \"Kannabiksen käyttäjä voi jäädä koukkuun, varsinkin jos aloittaa nuorena.\"\n4. \"Jos kokeilet, joudut vankilaan loppuiäksesi.\"\n5. \"Kannabis tekee jokaisesta hullun.\"\n\nMontako oikaisuista perustuu tietoon eikä pelotteluun?","vastaus":"2"},{"nro":15,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Yhdistelmät:\n1. alkoholi ja unilääke\n2. kokaiini ja energiajuoma\n3. fentanyyli ja rauhoittava lääke\n4. kahvi ja amfetamiini\n5. LSD ja kahvi\n\nKirjoita niiden yhdistelmien numerot, joissa molemmat aineet ovat lamaavia.","vastaus":"1, 3"},{"nro":16,"ryhma":"laki","tyyppi":"lasku","kysymys":"Keksitty esimerkki: Laboratorio tutki kaksi samalta myyjältä ostettua, samannäköistä annosta. Ensimmäisessä vaikuttavaa ainetta oli 15 % ja toisessa 45 %.\n\nMontako kertaa vahvempi toinen annos on?","vastaus":"3"},{"nro":17,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Selitä, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerro vähintään kaksi syytä ja mitä siitä voi seurata.","vastaus":"Malliesimerkki: Laittomia aineita valmistetaan ilman valvontaa, joten vahvuus vaihtelee erästä toiseen ja samannäköisessä annoksessa voi olla moninkertainen määrä ainetta. Aineeseen on voitu sekoittaa muita aineita, tai se voi olla kokonaan toista ainetta, esimerkiksi erittäin vahvaa synteettistä opioidia. Verkosta tilatut lääkkeet voivat olla väärennöksiä. Myyjäkään ei tiedä sisältöä, eikä sitä voi päätellä ulkonäöstä. Siksi jo yksi annos voi aiheuttaa myrkytyksen tai hengityslaman."},{"nro":18,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue teot.\n1. tarjotusta aineesta kieltäytyminen\n2. kannabiskasvien kasvattaminen\n3. hätänumeroon soittaminen, kun kaveri on ottanut ainetta\n4. huumeen säilyttäminen kaverin puolesta\n5. huumeen tilaaminen verkosta postitse\n6. oman lääkkeen ottaminen lääkärin ohjeen mukaan\n\nKirjoita niiden tekojen numerot, jotka ovat Suomessa rangaistavia.","vastaus":"2, 4, 5"},{"nro":19,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue väitteet Suomen huumausainelainsäädännöstä.\n1. Vain huumeiden myyminen on rangaistavaa, käyttö ei.\n2. Huumeen välittäminen on rangaistavaa, vaikka siitä ei saisi maksua.\n3. Kannabiksen käyttö on Suomessa sallittua, jos sen on ostanut maasta, jossa se on laillista.\n4. Kaverille ei saa myydä reseptilääkkeitä.\n5. Rikosoikeudellinen vastuu alkaa 15-vuotiaana.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":20,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tahot:\n1. luotettava aikuinen, esimerkiksi opettaja\n2. somevaikuttaja, joka kehuu ainetta\n3. verkkokauppa, josta aineita tilataan\n4. kuraattori\n5. kouluterveydenhoitaja\n6. nimetön keskustelupalsta, jolla jaetaan annosohjeita\n\nKirjoita niiden tahojen numerot, joilta nuori saa asianmukaista apua, jos hän tai kaveri on huolissaan päihteistä.","vastaus":"1, 4, 5"}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Monet tehtävät viittaavat niihin. Kaikki henkilöt ja viestit on keksitty.\nVastaa lukutehtäviin yhdellä luvulla tai sanalla. Kun kysytään numeroita, kirjoita ne pilkuilla erotettuina.\nSanallisissa tehtävissä (1, 12, 13 ja 17) kirjoita kokonaisia lauseita. Oikaise väitteet tiedolla, älä pelottelulla.\nKokeessa ei kysytä omia eikä läheistesi kokemuksia. Jos jokin aihe herättää huolta, voit puhua opettajan, kouluterveydenhoitajan tai kuraattorin kanssa.\n\nKeskusteluketju\n(1) Veikko: \"Kuulin, että joku oli ostanu jotain pillereitä netistä.\"\n(2) Lotta: \"Ei ne oo vaarallisia, lääkkeet on testattuja ja niitä myydään apteekissa.\"\n(3) Niklas: \"Ja kannabis on luomua, ei se voi olla haitallista.\"\n(4) Iiris: \"Kaikki ei kyllä kokeile, suurin osa ei koskaan.\"\n(5) Veikko: \"Sekottaminen on turvallista, kun ottaa vaan pienet määrät kumpaakin.\"\n(6) Lotta: \"Ei yhestä kerrasta voi mitään tulla.\"\n(7) Niklas: \"Mennäänkö pelaamaan?\"\n(8) Iiris: \"Joo, mennään.\"","tehtavat":[{"nro":1,"ryhma":"aineet","tyyppi":"sanallinen","kysymys":"Täydennä taulukko. Kirjoita jokaisesta aineryhmästä, miten se vaikuttaa keskushermostoon (lamaava, piristävä tai aistiharhoja aiheuttava), ja kaksi terveysriskiä.\nAineryhmät: Kannabis, rauhoittavat ja unilääkkeet väärinkäytettyinä, piristeet, opioidit.","vastaus":"Malliesimerkki: Kannabis: lamaava ja aistitoimintoja muuttava; riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla. Rauhoittavat ja unilääkkeet väärinkäytettyinä: lamaava; riippuvuus, muistikatkokset, hengityslama yhdessä alkoholin kanssa. Piristeet: piristävä; sydämen rytmihäiriöt, ahdistus ja unettomuus. Opioidit: lamaava; hengityslama ja yliannostus, erittäin voimakas riippuvuus."},{"nro":2,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: heroiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"lamaavasti"},{"nro":3,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: kokaiini.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"piristävästi"},{"nro":4,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Aine: LSD.\n\nMiten aine vaikuttaa keskushermostoon: lamaavasti, piristävästi vai aistiharhoja aiheuttaen?","vastaus":"aistiharhoja aiheuttaen"},{"nro":5,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Riskit:\n1. voimakkaat vieroitusoireet\n2. pelottavat aistiharhat\n3. yliannostuskuolema\n4. elimistön ylikuumeneminen\n5. erittäin voimakas riippuvuus\n6. psykoosiriski nuorilla\n\nKirjoita niiden riskien numerot, jotka ovat tyypillisiä opioideille.","vastaus":"1, 3, 5"},{"nro":6,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet kannabiksesta.\n1. Vahvat kannabisvalmisteet lisäävät nuorten psykoosiriskiä.\n2. Kannabis parantaa nuoren muistia.\n3. THC on kannabiksen tärkein vaikuttava aine.\n4. Kannabis ei vaikuta aivoihin.\n5. Poltettuna kannabis rasittaa hengitysteitä.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":7,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet piristeistä.\n1. Piristeet hidastavat hengitystä ja sykettä.\n2. Piristeiden käyttö voi aiheuttaa ahdistusta ja unettomuutta.\n3. Piristeet ovat turvallisia, koska ne auttavat jaksamaan.\n4. Piristeiden vaikutuksen loputtua tulee usein uupumus ja alakulo.\n5. Piristeet voivat aiheuttaa vainoharhaisuutta.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":8,"ryhma":"aineet","tyyppi":"lasku","kysymys":"Lue väitteet lääkkeiden väärinkäytöstä.\n1. Väärinkäytetyt lääkkeet voivat aiheuttaa myrkytyksen.\n2. Lääkkeisiin ei voi jäädä riippuvaiseksi.\n3. Väärinkäytettyinä rauhoittavat lääkkeet voivat aiheuttaa muistikatkoksia.\n4. Suomessa myös eräät lääkeaineet kuuluvat huumausaineisiin.\n5. Rauhoittavat lääkkeet piristävät keskushermostoa.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":9,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Kirjoita niiden ketjun viestien numerot, joissa esitetään terveyteen liittyvä harhaluulo.","vastaus":"2, 3, 5, 6"},{"nro":10,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että aineen luonnollisuus tekee siitä turvallisen?","vastaus":"3"},{"nro":11,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Monennessako viestissä väitetään, että useamman aineen yhdistäminen on turvallista pienillä annoksilla?","vastaus":"5"},{"nro":12,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 3 ja 2 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja mitä tieto sanoo.","vastaus":"Malliesimerkki: Viesti 3: Luonnollisuus ei kerro aineen turvallisuudesta; esimerkiksi tupakka on kasvi ja osa sienistä on myrkyllisiä. Kannabiksen THC vaikuttaa aivoihin: se voi aiheuttaa riippuvuuden, heikentää muistia ja oppimista ja lisätä nuorilla psykoosin riskiä. Viesti 2: Lääke on turvallinen vain sille, jolle se on määrätty, ja vain ohjeen mukaan käytettynä. Toisen ihmisen lääkkeenä, suurina annoksina tai päihtymiseen käytettynä esimerkiksi rauhoittavat lääkkeet voivat aiheuttaa riippuvuuden, muistikatkoksia ja hengityslaman."},{"nro":13,"ryhma":"harhat","tyyppi":"sanallinen","kysymys":"Oikaise viestien 6 ja 5 väitteet terveystiedolla. Kerro kummastakin, mikä väitteessä on väärin ja miksi.","vastaus":"Malliesimerkki: Viesti 6: Jo ensimmäinen kerta voi johtaa myrkytykseen, tapaturmaan tai psykoosiin, koska aineen vahvuutta ja sisältöä ei voi tietää eikä omaa reaktiota voi ennustaa. Viesti 5: Lamaavien aineiden, kuten alkoholin ja rauhoittavien lääkkeiden, vaikutukset voimistavat toisiaan, joten pienetkin annokset voivat yhdessä lamaannuttaa hengityksen. Lisäksi annosten todellista vahvuutta ei tiedä."},{"nro":14,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Lue oikaisuja muihin huumeisiin liittyviin väitteisiin.\n1. \"Jos kokeilet, joudut vankilaan loppuiäksesi.\"\n2. \"Kannabiksen käyttäjä voi jäädä koukkuun, varsinkin jos aloittaa nuorena.\"\n3. \"Jokainen, joka kokeilee kerran, kuolee.\"\n4. \"Riippuvuus kehittyy usein vähitellen, eikä käyttäjä itse huomaa sitä.\"\n5. \"Piristeet voivat aiheuttaa sydämen rytmihäiriöitä ja unettomuutta, mikä haittaa myös koulunkäyntiä.\"\n\nMontako oikaisuista perustuu tietoon eikä pelotteluun?","vastaus":"3"},{"nro":15,"ryhma":"harhat","tyyppi":"lasku","kysymys":"Yhdistelmät:\n1. energiajuoma ja kahvi\n2. rauhoittava lääke ja alkoholi\n3. amfetamiini ja kokaiini\n4. fentanyyli ja alkoholi\n5. LSD ja amfetamiini\n\nKirjoita niiden yhdistelmien numerot, joissa molemmat aineet ovat lamaavia.","vastaus":"2, 4"},{"nro":16,"ryhma":"laki","tyyppi":"lasku","kysymys":"Keksitty esimerkki: Laboratorio tutki kaksi samalta myyjältä ostettua, samannäköistä annosta. Ensimmäisessä vaikuttavaa ainetta oli 9 % ja toisessa 54 %.\n\nMontako kertaa vahvempi toinen annos on?","vastaus":"6"},{"nro":17,"ryhma":"laki","tyyppi":"sanallinen","kysymys":"Selitä, miksi kadulta tai verkosta ostetun aineen sisältö ja vahvuus ovat arvaamattomia. Kerro vähintään kaksi syytä ja mitä siitä voi seurata.","vastaus":"Malliesimerkki: Laittomia aineita valmistetaan ilman valvontaa, joten vahvuus vaihtelee erästä toiseen ja samannäköisessä annoksessa voi olla moninkertainen määrä ainetta. Aineeseen on voitu sekoittaa muita aineita, tai se voi olla kokonaan toista ainetta, esimerkiksi erittäin vahvaa synteettistä opioidia. Verkosta tilatut lääkkeet voivat olla väärennöksiä. Myyjäkään ei tiedä sisältöä, eikä sitä voi päätellä ulkonäöstä. Siksi jo yksi annos voi aiheuttaa myrkytyksen tai hengityslaman."},{"nro":18,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue teot.\n1. huumeen tilaaminen verkosta postitse\n2. päihdetiedon lukeminen terveysviranomaisen sivulta\n3. kuraattorille puhuminen kaverista heränneestä huolesta\n4. huumeen säilyttäminen kaverin puolesta\n5. kannabiskasvien kasvattaminen\n6. hätänumeroon soittaminen, kun kaveri on ottanut ainetta\n\nKirjoita niiden tekojen numerot, jotka ovat Suomessa rangaistavia.","vastaus":"1, 4, 5"},{"nro":19,"ryhma":"laki","tyyppi":"lasku","kysymys":"Lue väitteet Suomen huumausainelainsäädännöstä.\n1. Huumeen antaminen ilmaiseksi ei ole rikos.\n2. Kaverille ei saa myydä reseptilääkkeitä.\n3. Huumausaineen käyttö on Suomessa rangaistavaa.\n4. Alle 18-vuotiasta ei voida koskaan rangaista mistään.\n5. Myös kannabiksen kasvattaminen on Suomessa rangaistavaa.\n\nMontako väitteistä on oikein?","vastaus":"3"},{"nro":20,"ryhma":"laki","tyyppi":"lasku","kysymys":"Tahot:\n1. terveyskeskus\n2. kaveriporukan ryhmächat\n3. nuorten päihdepalvelu\n4. kuraattori\n5. somevaikuttaja, joka kehuu ainetta\n6. verkkokauppa, josta aineita tilataan\n\nKirjoita niiden tahojen numerot, joilta nuori saa asianmukaista apua, jos hän tai kaveri on huolissaan päihteistä.","vastaus":"1, 3, 4"}]}],"tulostus":{"sivuja":7,"sarakkeita":2,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":null},"virhesanakirja":[{"virhe":"Luokittelee aineen väärin: kannabis pelkästään lamaavaksi tai piristeeksi, kokaiini lamaavaksi, opioidi tai rauhoittava lääke piristäväksi.","tehtava":"1, 2, 3, 4","mita_kertoo":"Oppilas ei vielä hallitse kolmea vaikutustapaa tai sekoittaa aineen vaikutuksen siihen, miltä käyttäjä näyttää.","mita_tehda":"Käy kuva Kolme vaikutustapaa ja ansa 2 läpi. Pyydä kertomaan jokaisesta ryhmästä, mitä syke ja hengitys tekevät."},{"virhe":"Taulukon riskit ovat yleisiä (\"vaarallinen\", \"huono terveydelle\") tai väärälle ryhmälle (esimerkiksi hengityslama piristeille, rytmihäiriöt opioideille).","tehtava":"1, 5, 6, 7, 8","mita_kertoo":"Oppilas tietää aineiden olevan haitallisia, mutta ei vielä yhdistä riskiä vaikutustapaan.","mita_tehda":"Pyydä perustelemaan jokainen riski vaikutustavalla: lamaava hidastaa, joten vaarana on hengityslama; piriste kiihdyttää, joten vaarana on sydän. Palaa taulukkoon Aineryhmien vaikutukset ja riskit."},{"virhe":"Oikaisu on pelottelua tai liioittelua (\"kerrasta kuolee\", \"kaikki käyttäjät ovat narkkareita\") tai pelkkä vastaväite ilman perustelua (\"ei pidä paikkaansa\").","tehtava":"12, 13, 14","mita_kertoo":"Oppilas tietää väitteen vääräksi, mutta ei vielä erota tietoa ja pelottelua. Tämä on taidon ydin.","mita_tehda":"Käy sääntö Näin oikaiset harhaluulon ja ansa 1. Pyydä kirjoittamaan oikaisu uudelleen muodossa \"väite on väärin, koska ... ja siksi voi ...\"."},{"virhe":"Sekakäytön oikaisussa puuttuu voimistuminen (\"pieni plus pieni on pieni\") tai lääkeväitteen oikaisussa puuttuu se, kenelle ja miten lääke on määrätty.","tehtava":"11, 12, 13, 15","mita_kertoo":"Oppilas ajattelee vaikutuksia yksittäisinä eikä vielä ymmärrä lamaavien aineiden yhteisvaikutusta tai lääkkeen turvallisuuden ehtoja.","mita_tehda":"Näytä kuva Lamaavat aineet yhdessä ja ansa 3. Pyydä selittämään kuva omin sanoin ja liittämään se viestin väitteeseen."},{"virhe":"Selittää arvaamattomuuden yhdellä syyllä tai sanoo, että aineen voi tunnistaa ulkonäöstä, myyjän lupauksesta tai edellisestä kerrasta.","tehtava":"16, 17","mita_kertoo":"Oppilas tietää, että aineissa on riskejä, mutta ei vielä ymmärrä valvonnan puuttumisen merkitystä.","mita_tehda":"Palaa kappaleeseen Miksi sisältö ja vahvuus ovat arvaamattomia. Pyydä listaamaan kolme syytä (vahvuus vaihtelee, sekoitteet, väärennökset) ja yksi seuraus."},{"virhe":"Ajattelee, että vain myyminen on rangaistavaa, että ilmaiseksi antaminen ei ole välittämistä tai että kannabis on laillinen; tai nimeää avun lähteeksi myyjän, keskustelupalstan tai kaveriporukan.","tehtava":"18, 19, 20","mita_kertoo":"Oppilaan tieto laista on peräisin somesta tai muiden maiden käytännöistä, tai hän ei vielä tunne koulun ja kunnan palveluja.","mita_tehda":"Käy kappaleet Mitä laki sanoo ja Mistä apua sekä ansa 4. Pyydä kirjoittamaan oman koulun kouluterveydenhoitajan ja kuraattorin tavoittamistapa muistiin."}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen. Kartan näyttö alkaa \"Valvottu paperikoe\". Jokaisessa kokeessa on 16 tehtävää, joiden vastaus on luku, numerosarja tai lyhyt sana, ja 4 sanallista tehtävää (1, 12, 13 ja 17). Kokeen alussa on keksitty keskusteluketju, jonka viestit on numeroitu. Koe A käyttää kartan näytön neljää väitettä (kannabis luonnontuotteena, lääkkeet apteekista, kerran kokeileminen, sekakäyttö pienillä annoksilla), versiot B–E samoja neljää harhaluulotyyppiä eri sanoin ja eri järjestyksessä. Ketjussa on lisäksi neutraaleja viestejä ja yksi paikkansapitävä väite.","Mittaritehtävät ovat 1, 12, 13 ja 17. Niiden pitää olla oikein. Tehtävä 1 on oikein, kun jokainen neljästä aineryhmästä on luokiteltu oikein (kannabis lamaava ja aistitoimintoja muuttava, piristeet piristäviä, opioidit sekä rauhoittavat ja unilääkkeet lamaavia; kannabis pelkästään lamaavaksi on väärin) ja jokaisella rivillä on kaksi oikeaa riskiä (esimerkiksi kannabis: riippuvuus, muistin ja oppimisen heikkeneminen, psykoosiriski nuorilla; piristeet: rytmihäiriöt, ahdistus, unettomuus; opioidit: hengityslama, yliannostus, voimakas riippuvuus; rauhoittavat ja unilääkkeet: riippuvuus, muistikatkokset, hengityslama alkoholin kanssa). Tehtävät 12 ja 13 ovat oikein, kun kumpikin väite on oikaistu tiedolla eikä pelottelulla: luonnollisuus ei kerro turvallisuudesta (perusteluna esimerkiksi myrkylliset kasvit tai kannabiksen riskit), reseptilääke on turvallinen vain sille, jolle se on määrätty, ohjeen mukaan, jo ensimmäinen kerta voi johtaa myrkytykseen tai tapaturmaan (syy: vahvuus tai oma reaktio arvaamaton), ja lamaavien aineiden yhdistäminen lisää hengityslaman vaaraa pienilläkin annoksilla. Liioittelu (\"kerrasta kuolee\") tekee oikaisusta väärän. Tehtävän 1 riskit saavat olla samoja kuin kokeen muissa tehtävissä mainitut; mittari on luokittelun ja riskien oikea yhdistäminen aineryhmään. Tehtävä 17 on oikein, kun vastauksessa on vähintään kaksi syytä (valvonnan puute ja vaihteleva vahvuus, sekoitteet tai toinen aine, väärennetyt verkkolääkkeet, ulkonäöstä ei voi päätellä) ja yksi seuraus (myrkytys, yliannostus, hengityslama).","Tehtävissä 2–4 hyväksytään muodot lamaava, piristävä ja aistiharhoja aiheuttava (myös hallusinogeeni). Numerosarjavastaukset (5, 9, 15, 18 ja 20) ovat oikein vain, kun numerot ovat täsmälleen oikeat; järjestyksellä ei ole väliä. Tehtävän 9 paikkansapitävä väite ja neutraalit viestit eivät ole harhaluuloja. Sanallisissa tehtävissä sanamuoto on vapaa; mallivastaukset ovat esimerkkejä.","Laki ja apu arvioidaan lukutehtävillä 18–20 (rangaistavat teot, lain väitteet ja avun tahot). Kartan vaatimus \"nimeän avun tahon\" täyttyy tehtävässä 20. Jos haluat, voit pyytää lisäksi suullisesti yhden oman koulun avun tahon nimen.","Herkkä aihe: päihteet ja huumeet. Kerro tunnin alussa, ettei kenenkään tarvitse kertoa omista tai läheistensä kokemuksista, eikä niitä kysytä tehtävissä tai keskusteluissa. Joillakin oppilailla voi olla lähipiirissä päihteiden käyttöä; vältä leimaavaa sävyä (\"narkkari\") ja korosta, että oikaisu koskee väitettä, ei ihmistä. Materiaali ei kerro annoksia, käyttötapoja eikä hankintakanavia. Jos oppilaan vastauksesta tai käytöksestä herää huoli, toimi koulun oppilashuollon ohjeiden mukaan.","Avun lähteet oppilaan sivulla ovat yleisiä (kouluterveydenhoitaja, kuraattori, koulupsykologi, nuorten päihdepalvelut, 112, Myrkytystietokeskus). Jos haluat antaa tarkat yhteystiedot, tarkista ne ennen tuntia, esimerkiksi oman kunnan nuorten päihdepalvelut, Päihdelinkki https://paihdelinkki.fi ja Myrkytystietokeskus https://www.myrkytystietokeskus.fi.","Oppilaan sivun esimerkit (taulukon harhaluulot, harjoitusten aineet, Iida, Tomi, Mira, Joel, keksityt kysely- ja pitoisuusluvut 93/100 ja 10 % / 60 %) eivät esiinny kokeissa, eivätkä kokeiden viestit, väitteet ja luvut toista opetustekstiä tai harjoituksia.","Tarkistettavat asiatiedot: (1) aineiden luokittelu (lamaava, piristävä, aistiharhoja aiheuttava; kannabis lamaava ja aistitoimintoja muuttava kartan mukaan) ja riskit, esimerkiksi https://paihdelinkki.fi ja https://thl.fi; (2) synteettisten kannabinoidien ja vahvojen synteettisten opioidien esiintyminen katuaineissa (https://thl.fi, https://poliisi.fi); (3) huumausainelaki 373/2008 ja rikoslaki 50 luku: käyttö, hallussapito, valmistus, kasvattaminen ja välittäminen rangaistavia, huumausaineen käyttörikoksesta sakko tai enintään 6 kuukautta vankeutta (https://www.finlex.fi/fi/laki/ajantasa/1889/18890039001); (4) osa keskushermostoon vaikuttavista lääkkeistä on luokiteltu huumausaineiksi (Fimea, https://www.fimea.fi); (5) rikosoikeudellinen vastuu 15 vuodesta; (6) Kouluterveyskyselyn mukaan selvä enemmistö 8.–9.-luokkalaisista ei ole kokeillut huumeita (https://thl.fi/kouluterveyskysely); materiaalin kyselyluku on keksitty.","Jatkumo: 7. luokalla nikotiiniriippuvuus ja mielihyväjärjestelmä (TT7-PAI-01), 8. luokalla alkoholin vaikutukset, nuoren alttius ja laki (TT8-PAI-01). Tässä taidossa uutta ovat huumeiden ja lääkkeiden väärinkäytön vaikutukset ja riskit, harhaluulojen oikaiseminen, arvaamaton sisältö ja huumausainelaki. Myrkytyksen ensiapu ja toiminta päihdetilanteessa opetetaan taidossa TT8-PAI-03, lähteiden luotettavuuden arviointi taidossa TT8-TIE-02 ja riippuvuuksien yhteiset piirteet sekä toiminnalliset riippuvuudet 9. luokalla (TT9-PAI-01); niitä ei arvioida tässä."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Päihteet joko lamaavat, piristävät tai aiheuttavat aistiharhoja, ja kannabis on sekä lamaava että aistitoimintoja muuttava. Harhaluulo oikaistaan tiedolla, ei pelottelulla. Laittoman aineen sisältöä ei voi tietää. Huumeen käyttö, hallussapito ja välittäminen ovat rangaistavia. Kenenkään ei tarvitse kertoa omista tai läheistensä kokemuksista, ja huolesta voi aina puhua minun, terveydenhoitajan tai kuraattorin kanssa.","tarvikkeet":"Tulostetut kokeet (kolmannelle tunnille). Kouluterveydenhoitajan, kuraattorin ja kunnan nuorten päihdepalvelujen yhteystiedot taululle.","vaiheet":[{"aika":"5 min","otsikko":"1. tunti: Aloitus","sisalto":"Kerro, ettei omia kokemuksia kysytä. Lukekaa johdanto. Kysy: mistä harhaluulot leviävät?"},{"aika":"20 min","otsikko":"Vaikutukset ja riskit","sisalto":"Kappaleet Huumeet ja lääkkeiden väärinkäyttö ja Kolme tapaa vaikuttaa keskushermostoon, kuva Kolme vaikutustapaa ja taulukko Aineryhmien vaikutukset ja riskit. Ansa 2. Oppilaat täydentävät tyhjän taulukon parin kanssa ja tarkistavat sen materiaalista."},{"aika":"15 min","otsikko":"Harjoitukset H01–H07","sisalto":"Käykää H04 ja H07 yhdessä."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kertaa kolme vaikutustapaa."},{"aika":"20 min","otsikko":"2. tunti: Harhaluulot","sisalto":"Kappaleet Miksi sisältö ja vahvuus ovat arvaamattomia ja Sekakäyttö, kuva Lamaavat aineet yhdessä, taulukko Harhaluuloja ja sääntö Näin oikaiset harhaluulon. Ansat 1 ja 3. Parit kirjoittavat oikaisun yhteen taulukon harhaluuloon ja vaihtavat paria arvioimaan: tietoa vai pelottelua? Harjoitukset H08–H14."},{"aika":"20 min","otsikko":"Laki ja apu","sisalto":"Kappaleet Mitä laki sanoo ja Mistä apua, ansa 4. Näytä oman koulun ja kunnan avun tahot. Harjoitukset H15–H20."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Muistilappu. Kerro, että seuraavalla tunnilla on koe."},{"aika":"40 min","otsikko":"3. tunti: Näyttö: valvottu paperikoe","sisalto":"Oppilaat tekevät kokeen (A–E). Mittaritehtävät 1, 12, 13 ja 17."},{"aika":"5 min","otsikko":"Lopetus","sisalto":"Kerää kokeet. Muistuta avun tahoista."}]},"huoltajalle":{"mista_on_kyse":"Nuori opettelee kuvaamaan, miten kannabis, piristeet, opioidit ja väärinkäytetyt rauhoittavat ja unilääkkeet vaikuttavat keskushermostoon ja mitä terveysriskejä niihin liittyy. Hän harjoittelee oikaisemaan tavallisia harhaluuloja, kuten \"luonnontuote on vaaraton\" tai \"pienet annokset ovat turvallisia\", tiedolla eikä pelottelulla. Lisäksi hän oppii, miksi laittomien aineiden sisältö on arvaamaton, mitä laki sanoo huumeista ja mistä nuori saa apua. Nuoren omia tai perheen kokemuksia ei kysytä.","kotona":["Kysykää, mitä harhaluuloja nuori on kuullut huumeista, ja antakaa hänen kertoa, miten hän oikaisisi ne.","Keskustelkaa siitä, miksi kenenkään toisen lääkettä ei oteta, vaikka oireet olisivat samat.","Kertokaa, että nuori voi aina kertoa teille tai koulun aikuiselle, jos hän tai kaveri on huolissaan päihteistä.","Jos aihe herättää kysymyksiä, etsikää vastaus yhdessä luotettavasta lähteestä, esimerkiksi terveysviranomaisen sivulta."],"milloin_huolestua":"Jos nuori puhuu huumeista vähättelevästi, hänen kaveripiirinsä, rahankäyttönsä, unensa tai koulunkäyntinsä muuttuu selvästi tai löydätte tuntemattomia aineita tai lääkkeitä, ottakaa yhteyttä kouluterveydenhoitajaan, kuraattoriin tai kunnan nuorten päihdepalveluihin. Jos joku on sekava, ei herää kunnolla tai hengittää heikosti, soittakaa 112."},"ulkoiset":{},"valmis_teksti":"Kuvaat huumeiden ja lääkkeiden väärinkäytön vaikutuksia ja riskejä, oikaiset harhaluulot tiedolla ja tiedät, mitä laki sanoo ja mistä apua saa. Huumeharhojen purkaja on näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>

@@ -1,0 +1,619 @@
+<title>Rekisterin vaihde · opettajan sivu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF2F5; --surface:#FFFFFF; --surface-2:#F7F9FB;
+  --grid:#DCE3EA; --line:#C9D3DC;
+  --ink:#15222C; --ink-2:#4E626F; --ink-3:#7E8F9B;
+  --core:#1B5A9E; --core-soft:#E4EDF6;
+  --strong:#1F6E5C; --strong-soft:#E1F0EB;
+  --chal:#9A6A16; --chal-soft:#F6EDDC;
+  --alert:#A33A2B; --alert-soft:#F8E7E3;
+  --shadow:0 1px 2px rgba(21,34,44,.06), 0 8px 24px -12px rgba(21,34,44,.18);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+    --grid:#22303A; --line:#2E3E4A;
+    --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+    --core:#7FB2E4; --core-soft:#16303F;
+    --strong:#77CDB4; --strong-soft:#123028;
+    --chal:#E0B267; --chal-soft:#33270F;
+    --alert:#E8907F; --alert-soft:#3A1E19;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F161B; --surface:#18222A; --surface-2:#1D2830;
+  --grid:#22303A; --line:#2E3E4A;
+  --ink:#E8EFF4; --ink-2:#A3B4C0; --ink-3:#7A8B97;
+  --core:#7FB2E4; --core-soft:#16303F;
+  --strong:#77CDB4; --strong-soft:#123028;
+  --chal:#E0B267; --chal-soft:#33270F;
+  --alert:#E8907F; --alert-soft:#3A1E19;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.6;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),
+                   linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
+.wrap{max-width:880px; margin:0 auto; padding:28px 20px 90px}
+h1,h2,h3{font-family:"Familjen Grotesk","IBM Plex Sans",system-ui,sans-serif; text-wrap:balance}
+
+header.top{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:22px 24px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+header.top h1{margin:0; font-size:29px; font-weight:700; letter-spacing:-.015em}
+header.top p{margin:6px 0 0; color:var(--ink-2); font-size:14.5px; max-width:68ch}
+.oppilaslinkki{display:inline-block; margin-top:13px; font-size:13.5px; padding:7px 14px; border-radius:7px;
+  border:1px solid var(--core); color:var(--core); text-decoration:none}
+.oppilaslinkki:hover{background:var(--core-soft)}
+
+section.blk{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:20px 24px; margin-top:16px; box-shadow:var(--shadow)}
+section.blk > h2{margin:0 0 4px; font-size:19px; font-weight:600}
+section.blk > .ali{margin:0 0 16px; color:var(--ink-2); font-size:13.5px}
+
+/* tuntirunko */
+.saatava{background:var(--core-soft); border-left:3px solid var(--core); border-radius:7px;
+  padding:13px 17px; margin-bottom:18px}
+.saatava .lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--core); display:block; margin-bottom:3px}
+.saatava p{margin:0; font-size:15.5px; font-weight:500}
+.vaiheet{display:grid; gap:14px}
+.vaihe{display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:start}
+.vaihe .aika{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:4px 0; text-align:center}
+.vaihe h4{margin:0 0 2px; font-family:"Familjen Grotesk",sans-serif; font-size:15px; font-weight:600}
+.vaihe p{margin:0; font-size:14px; color:var(--ink-2)}
+.tarvikkeet{margin:16px 0 0; font-size:13.5px; color:var(--ink-2)}
+
+/* kriteerit */
+.krit{display:grid; grid-template-columns:auto 1fr; gap:8px 18px; margin:0; font-size:14.5px}
+.krit dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.krit dd{margin:0}
+
+/* opettajan huomiot harjoituksista */
+.huomiot{margin:0; padding-left:19px; font-size:14.5px; color:var(--ink-2)}
+.huomiot li{margin-bottom:9px}
+.huomiot li:last-child{margin-bottom:0}
+
+/* virhesanakirja */
+.virhe{border:1px solid var(--line); border-left:3px solid var(--alert); border-radius:8px;
+  padding:14px 17px; margin-bottom:10px; background:var(--surface-2)}
+.virhe:last-child{margin-bottom:0}
+.virhe .otsa{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:8px}
+.virhe .koodi{font-family:"IBM Plex Mono",monospace; font-size:15px; font-weight:500; color:var(--alert)}
+.virhe .missa{font-size:12px; color:var(--ink-3)}
+.virhe dl{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; margin:0; font-size:14px}
+.virhe dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); padding-top:3px; white-space:nowrap}
+.virhe dd{margin:0; color:var(--ink-2)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:26px 0 4px}
+.toolbar h2{margin:0 auto 0 0; font-size:19px; font-weight:600}
+.btn{font:inherit; font-size:13.5px; padding:8px 16px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--core); background:var(--core); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink-2); border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--core); outline-offset:2px}
+
+/* koe */
+.koe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.koe-head{display:flex; flex-wrap:wrap; gap:12px; align-items:baseline;
+  border-bottom:2px solid var(--ink); padding-bottom:10px}
+.koe-head h3{margin:0; font-size:20px; font-weight:700}
+.koe-head .taito{font-size:13.5px; color:var(--ink-2)}
+.koe-head .tulosta{margin-left:auto}
+.kasik{display:inline-block; font-size:13px; color:var(--ink-2); margin:2px 0 3px}
+.kasik i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink)}
+.kentat{display:flex; flex-wrap:wrap; gap:22px; margin:14px 0 16px; font-size:13.5px; color:var(--ink-2)}
+.kentat span{border-bottom:1px solid var(--line); min-width:145px; padding-bottom:3px}
+.koejohdanto{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:12px 16px; margin:0 0 16px; background:var(--surface-2)}
+.koejohdanto h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.koejohdanto p{margin:0 0 8px; font-size:14.5px; line-height:1.6}
+.koejohdanto p:last-child{margin-bottom:0}
+/* lukukokeet: ääneen lukemisen sujuvuuden seuranta */
+.lukukoe{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 26px; margin-top:14px; box-shadow:var(--shadow)}
+.lukukoe .koe-head{border-bottom:2px solid var(--ink)}
+.kappale-otsikko{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:18px 0 8px;
+  border-bottom:1px solid var(--line); padding-bottom:4px}
+.lukuteksti{font-size:16px; line-height:2.0; max-width:62ch; hyphens:none}
+.lukuteksti.ope{font-size:14.5px; line-height:2.2; max-width:66ch}
+.sanamerkki{font-family:"IBM Plex Mono",monospace; font-size:9.5px; color:var(--ink-3);
+  vertical-align:super; margin:0 2px 0 1px; user-select:none}
+.kirjaus{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px}
+.kirjaus th{text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--line); padding:6px 8px}
+.kirjaus td{border-bottom:1px solid var(--line); padding:14px 8px; color:var(--ink-3)}
+.viiteasteikko{border:1px solid var(--line); border-left:3px solid var(--core); border-radius:8px;
+  padding:14px 18px; margin-top:14px; background:var(--surface-2)}
+.viiteasteikko h4{margin:0 0 6px; font-size:14.5px; font-weight:600}
+.viiteasteikko p{margin:0 0 8px; font-size:13.5px; line-height:1.6; color:var(--ink-2); max-width:72ch}
+.viiteasteikko .lahde{font-size:12px; color:var(--ink-3)}
+.osio{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin:16px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px}
+.tehtavat{display:grid; grid-template-columns:repeat(var(--sar,2),1fr); gap:10px 24px}
+.tehtavat.sanalliset{grid-template-columns:repeat(var(--sar-san,2),1fr)}
+.teht{break-inside:avoid}
+.teht .rivi{display:flex; gap:8px; align-items:baseline; font-size:14.5px}
+/* Koetehtävään voi kuulua luettavaa aineistoa (esim. pieni taulukko), jonka
+   rivit on erotettu rivinvaihdoilla. Tulostettavassa kokeessa niiden on
+   säilyttävä riveinä, muuten taulukko valuu yhdeksi rivipötköksi. */
+.teht .kys{white-space:pre-line}
+.teht .nro{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); min-width:1.8em; text-align:right}
+.teht .tila{display:block; margin-left:26px; margin-top:4px}
+.teht .tila i{display:block; border-bottom:1px solid var(--line); height:15px}
+.teht .tila i + i{display:none}   /* ruudulla vain yksi viiva, tulosteessa kaikki */
+
+.avain{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px 24px;
+  margin-top:12px; box-shadow:var(--shadow)}
+.avain h3{margin:0 0 12px; font-size:17px; font-weight:600}
+.avain ol{margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:5px 18px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px; font-variant-numeric:tabular-nums}
+.avain li{display:flex; gap:8px}
+.avain li b{color:var(--ink-3); font-weight:400; min-width:2em; text-align:right}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 70px}
+  .tehtavat, .tehtavat.sanalliset{grid-template-columns:1fr}
+  .avain ol{grid-template-columns:repeat(2,1fr)}
+  .vaihe{grid-template-columns:1fr; gap:5px}
+  .vaihe .aika{justify-self:start; padding:3px 12px}
+}
+
+/* ---------------- TULOSTUS ---------------- */
+@media print{
+  @page{size:A4; margin:10mm}
+  body{background:#fff !important; background-image:none !important; color:#000;
+       font-size:11pt; line-height:1.35}
+  .wrap{max-width:none; padding:0}
+  .noprint, header.top{display:none !important}
+  section.blk, .koe, .avain{border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+
+  /* oletus: tulostetaan kokeet ja avaimet */
+  body:not(.tulosta-ohje) #ohjeet{display:none !important}
+  body.tulosta-ohje #kokeet, body.tulosta-ohje #avaimet{display:none !important}
+  body.vain-yksi .koe:not(.valittu){display:none !important}
+  body.vain-yksi #avaimet, body.vain-yksi #ohjeet{display:none !important}
+
+  /* Sivunvaihto tehdään ENNEN lohkoa, ei sen jälkeen: break-after jättää
+     viimeisen tekstin perään tyhjän sivun, ja yhtä koetta tulostettaessa
+     tyhjiä tuli yhtä monta kuin sivuja. Selain ohittaa break-before:n
+     ensimmäisen tulostuvan laatikon edellä, joten tyhjiä ei synny. */
+  .lukukoe{break-before:page; border:0; box-shadow:none; padding:0; margin:0; background:#fff}
+  .lukukoe:first-of-type{break-before:auto}
+  .lukukoe .lukusivu + .lukusivu{break-before:page}
+  /* Oppilaan kappale mahtuu yhdelle A4:lle: kesken lukemista tuleva sivunvaihto
+     katkaisee mittauksen. Riviväli on silti väljä, koska rivilläpysyminen on osa
+     luettavuutta. Opettajan kappale on tiiviimpi, koska siihen vain merkitään. */
+  .lukuteksti{font-size:12.5pt; line-height:1.72; max-width:none}
+  .lukuteksti.ope{font-size:10.5pt; line-height:1.62; max-width:none}
+  .sanamerkki{font-size:8pt; color:#555}
+  body.vain-yksi .lukukoe:not(.valittu){display:none !important}
+  body.vain-yksi #kirjauslomake, body.vain-yksi #lukuohjeet{display:none !important}
+  /* vain-luku: pelkät lukutekstit ja kirjauslomake, ei tuntirunkoa */
+  body.vain-luku #ohjeet, body.vain-luku #kokeet, body.vain-luku #avaimet{display:none !important}
+  body.vain-luku section.blk:not(#lukuohjeet section.blk):not(#kirjauslomake section.blk){display:none !important}
+  .koe{break-after:page}
+  .koe:last-of-type{break-after:auto}
+  .avain{break-before:page}
+
+  .koe-head{border-bottom:1.2pt solid #000; padding-bottom:4pt}
+  .koe-head h3{font-size:15pt}
+  .koe-head .taito{font-size:9.5pt}
+  .kentat{margin:6pt 0 7pt; gap:16pt; font-size:9.5pt}
+  .kentat span{border-bottom:.5pt solid #000; color:#000; min-width:98pt; padding-bottom:2pt}
+  .koejohdanto{border:.5pt solid #666; border-left:1.5pt solid #000; border-radius:0; background:none;
+    padding:4mm 5mm; margin:0 0 4mm; break-inside:avoid}
+  .koejohdanto h4{font-size:10.5pt; margin:0 0 2mm}
+  .koejohdanto p{font-size:10.5pt; line-height:1.5; margin:0 0 2mm; color:#000}
+  .osio{color:#000; border-bottom:.5pt solid #aaa; margin:4pt 0 2pt; font-size:8pt; padding-bottom:1.5pt;
+        break-after:avoid}
+  .osio.sivunvaihto{break-before:page; margin-top:0}
+  .tehtavat{gap:0 6mm}
+  .teht{padding-bottom:4mm}
+  .teht .rivi{font-size:11pt}
+  .teht .nro{color:#000; font-size:9.5pt}
+  .teht .tila{margin-left:18pt; margin-top:1.5mm}
+  .teht .tila i, .teht .tila i + i{display:block; border-bottom:.4pt solid #c4c4c4; height:7.3mm}
+  .tehtavat.sanalliset .teht .tila i{height:11mm}
+
+  .avain h3{font-size:12.5pt; margin-bottom:8pt}
+  .avain ol{font-size:10.5pt; gap:4pt 16pt}
+
+  /* tuntirunko + virhesanakirja tulostettuna */
+  section.blk{break-inside:avoid; margin-bottom:10pt}
+  section.blk > h2{font-size:14pt; margin-bottom:6pt}
+  .saatava{background:#f2f2f2; border-left:2pt solid #000; padding:7pt 10pt; margin-bottom:10pt}
+  .saatava .lbl{color:#000}
+  .vaihe .aika{border:.5pt solid #999; color:#000}
+  .virhe{background:#fff; border:.5pt solid #999; border-left:2pt solid #000; margin-bottom:7pt; padding:8pt 11pt}
+  .virhe .koodi{color:#000}
+}
+/*VIS{*/
+:root{--rl:14px}
+/* visualisoinnit (vis.css) */
+figure.vis{margin:22px 0}
+.vis .ohje{margin:0 0 12px; font-size:14.5px; color:var(--ink-2)}
+.vis-kuva{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.vis-svg{display:block; max-width:100%; height:auto; margin:4px 0}
+.vis-teksti{margin:10px 0 0; font-size:14px; color:var(--ink-2); white-space:pre-line}
+.vis-svg .v-t{font:500 13px "IBM Plex Sans",system-ui,sans-serif; fill:var(--ink)}
+.vis-svg .v-t.pieni{font-size:11.5px; fill:var(--ink-2)}
+.vis-svg .v-t.vahva{font-weight:600; fill:var(--core)}
+.vis-svg .v-t.kello{font-size:11px; fill:var(--ink-2)}
+.vis-svg .v-t.hyppy{font-size:12.5px; fill:var(--strong); font-weight:600}
+.vis-svg .v-t.akseli{font-style:italic; fill:var(--ink-2)}
+.vis-svg .v-t.kayra.v1{fill:var(--core)} .vis-svg .v-t.kayra.v2{fill:var(--strong)} .vis-svg .v-t.kayra.v3{fill:var(--chal)}
+.vis-svg .v-akseli{stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-nuoli{fill:var(--ink-2)}
+.vis-svg .v-tikki{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-tikki.pieni{stroke:var(--ink-3); stroke-width:1}
+.vis-svg .v-apu{stroke:var(--grid); stroke-width:1}
+.vis-svg .v-merkki{fill:var(--core); stroke:var(--surface); stroke-width:2}
+.vis-svg .v-hyppy{fill:none; stroke:var(--strong); stroke-width:2}
+.vis-svg .v-hyppy-k{fill:var(--strong)}
+.vis-svg .v-sata rect,.vis-svg .v-kymppi rect,.vis-svg .v-ykkonen{fill:var(--core-soft); stroke:var(--core); stroke-width:1}
+.vis-svg .v-kymppi rect{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ykkonen{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-kehys{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.6}
+.vis-svg .v-piste{fill:var(--core)}
+.vis-svg .v-piste.pois{fill:var(--core-soft); stroke:var(--core); stroke-dasharray:2 2}
+.vis-svg .v-rasti{stroke:var(--alert); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tyhja{fill:none; stroke:var(--line); stroke-width:1.2}
+.vis-svg .v-ruutu{fill:var(--surface); stroke:var(--line); stroke-width:1}
+.vis-svg .v-ruutu.v1,.vis-svg .v-osa.v1{fill:var(--core-soft); stroke:var(--core)}
+.vis-svg .v-ruutu.v2{fill:var(--strong-soft); stroke:var(--strong)}
+.vis-svg .v-ruutu.v3{fill:var(--chal-soft); stroke:var(--chal)}
+.vis-svg .v-osa{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-osa.v1{fill:var(--core); fill-opacity:.35}
+.vis-svg .v-osa-jana{stroke:var(--core); stroke-width:6; stroke-linecap:round}
+.vis-svg .v-kello{fill:var(--surface); stroke:var(--ink); stroke-width:2.2}
+.vis-svg .v-viisari{stroke:var(--core); stroke-width:3; stroke-linecap:round}
+.vis-svg .v-viisari.tunti{stroke:var(--ink); stroke-width:5}
+.vis-svg .v-napa{fill:var(--ink)}
+.vis-svg .v-kayra{fill:none; stroke-width:2.4} .vis-svg .v-kayra.v1{stroke:var(--core)} .vis-svg .v-kayra.v2{stroke:var(--strong)} .vis-svg .v-kayra.v3{stroke:var(--chal)}
+.vis-svg .v-jana{stroke:var(--ink); stroke-width:2}
+.vis-svg .v-monikulmio{fill:var(--core); fill-opacity:.15; stroke:var(--core); stroke-width:2}
+.vis-svg .v-pylvas{fill:var(--core); fill-opacity:.75} .vis-svg .v-pylvas.v2{fill:var(--chal)}
+/* ruutulasku: ruutupaperi */
+.rl{--rl:32px}
+.rl-paperi{overflow-x:auto; padding:6px 2px 4px}
+.rl-ruudut{display:grid; width:max-content; background:var(--surface);
+  border-top:1px solid var(--grid); border-left:1px solid var(--grid)}
+.rl-r{width:var(--rl); height:var(--rl); border-right:1px solid var(--grid); border-bottom:1px solid var(--grid);
+  display:grid; place-items:center; position:relative;
+  font:500 19px/1 "IBM Plex Mono",ui-monospace,monospace; color:var(--ink); font-variant-numeric:tabular-nums}
+.rl-r.pv0{background:color-mix(in srgb, var(--core-soft) 55%, transparent)}
+.rl-r.pv1{background:color-mix(in srgb, var(--strong-soft) 55%, transparent)}
+.rl-r.pv2{background:color-mix(in srgb, var(--chal-soft) 55%, transparent)}
+.rl-r.ots{font:600 11px/1 "IBM Plex Mono",monospace; color:var(--ink-3)}
+.rl-r.merkki{font-weight:600; color:var(--ink-2)}
+.rl-r.viiva{border-bottom:2.5px solid var(--ink)}
+.rl-r.muisti,.rl-r.laina{font-size:12.5px; color:var(--alert); place-items:end center; padding-bottom:3px}
+.rl-r.laina{color:var(--chal); font-weight:600}
+.rl-r.vanha{color:var(--ink-3); text-decoration:line-through}
+.rl-r.yli{color:var(--ink-3); text-decoration:line-through; text-decoration-thickness:2px}
+.rl-r.nolla{color:var(--chal); font-weight:600}
+.rl-r.taytto{color:var(--ink-3)}
+.rl-r.osam{color:var(--core); font-weight:600}
+.rl-r.pudotus{color:var(--strong); font-weight:600}
+.rl-r.jakaja{font-weight:600}
+.rl-r.kulma-y{border-top:2.5px solid var(--ink)}
+.rl-r.kulma-v{border-right:2.5px solid var(--ink)}
+.rl-r.pilkku::after{content:","; position:absolute; right:-4px; bottom:2px; font-size:19px; color:var(--ink)}
+.rl-r.nyt{outline:2.5px solid var(--core); outline-offset:-3px; border-radius:3px; background:var(--core-soft)}
+.rl-selite{min-height:3.2em; margin:10px 0 8px; font-size:15px}
+.rl-ohjaus{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.rl-laskuri{font:500 12.5px "IBM Plex Mono",monospace; color:var(--ink-3); padding:0 6px}
+@media (max-width:520px){ .rl{--rl:27px} .rl-r{font-size:16px} }
+@media print{ .rl-ohjaus{display:none} .rl-r.nyt{outline:none; background:none} }
+/* kartat (tee_kartta.js) */
+.vis-svg .v-meri{fill:color-mix(in srgb, var(--core-soft) 70%, var(--surface))}
+.vis-svg .v-maa{fill:var(--surface-2); stroke:var(--ink-3); stroke-width:.6}
+.vis-svg .v-maa.v1{fill:var(--core); fill-opacity:.45; stroke:var(--core)}
+.vis-svg .v-maa.v2{fill:var(--strong); fill-opacity:.45; stroke:var(--strong)}
+.vis-svg .v-maa.v3{fill:var(--chal); fill-opacity:.5; stroke:var(--chal)}
+.vis-svg .v-t.meri{fill:var(--core); font-style:italic}
+/* nuotit */
+.vis-svg .v-viivasto{stroke:var(--ink-2); stroke-width:1.2}
+.vis-svg .v-nuotti{fill:var(--ink); stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-nuotti.tyhja{fill:var(--surface)}
+.vis-svg .v-varsi{stroke:var(--ink); stroke-width:1.6}
+.vis-svg .v-palkki{fill:var(--ink)}
+.vis-svg .v-tahtiviiva{stroke:var(--ink-2); stroke-width:1.4}
+.vis-svg .v-avain{fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round}
+.vis-svg .v-tauko{fill:var(--ink); stroke:var(--ink); stroke-width:1.5}
+/*}VIS*/
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="otsikko"></h1>
+    <p id="johdanto"></p>
+    <a class="oppilaslinkki" id="oppilaslinkki" target="_blank" rel="noopener">Katso oppilaan sivu →</a>
+  </header>
+
+  <div id="ohjeet">
+    <section class="blk">
+      <h2>Tuntirunko</h2>
+      <p class="ali" id="kesto"></p>
+      <div class="saatava">
+        <span class="lbl">Yksi asia, joka pitää sanoa ääneen</span>
+        <p id="sanottava"></p>
+      </div>
+      <div class="vaiheet" id="vaiheet"></div>
+      <p class="tarvikkeet" id="tarvikkeet"></p>
+    </section>
+
+    <section class="blk" id="huomiotlohko">
+      <h2>Mitä kannattaa katsoa harjoituksista</h2>
+      <p class="ali">Nämä kohdat erottavat ymmärtämisen ulkoa osaamisesta. Kierrä ja katso juuri ne.</p>
+      <ul class="huomiot" id="opeHuomiot"></ul>
+    </section>
+
+    <section class="blk">
+      <h2>Milloin taito on osattu</h2>
+      <p class="ali">Nämä ovat osaamistavoitteen omat kriteerit. Koe on niiden todentamista varten, ei niiden korvike.</p>
+      <dl class="krit">
+        <dt>Näyttö</dt><dd id="naytto"></dd>
+        <dt>Osaa kun</dt><dd id="osaakun"></dd>
+        <dt>OPS</dt><dd id="ops"></dd>
+      </dl>
+    </section>
+
+    <section class="blk">
+      <h2 id="virheotsikko">Virheiden sanakirja</h2>
+      <p class="ali" id="virheohje">Yleisimmät väärät vastaukset ja se, mitä kukin niistä kertoo. Väärä vastaus on diagnoosi, ei pelkkä virhe.</p>
+      <div id="virheet"></div>
+    </section>
+  </div>
+
+  <div class="toolbar noprint" id="koetoolbar">
+    <h2>Kokeet</h2>
+    <button type="button" class="btn ghost" id="tulostaOhje">Tulosta tuntirunko ja virheet</button>
+    <button type="button" class="btn" id="tulostaKaikki">Tulosta kaikki kokeet + vastaukset</button>
+  </div>
+  <p class="ali noprint" id="koeohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:70ch"></p>
+
+  <div class="toolbar noprint" id="lukutoolbar" style="display:none">
+    <h2>Lukukokeet</h2>
+    <button type="button" class="btn" id="tulostaLuku">Tulosta kaikki lukukokeet</button>
+  </div>
+  <p class="ali noprint" id="lukuohje" style="margin:0 0 4px; color:var(--ink-2); font-size:13.5px; max-width:74ch"></p>
+  <div id="lukuohjeet"></div>
+  <div id="lukukokeet"></div>
+  <div id="kirjauslomake"></div>
+
+  <div id="kokeet"></div>
+
+  <div id="avaimet">
+    <div class="toolbar noprint"><h2>Vastausavaimet</h2></div>
+    <div id="avainlista"></div>
+  </div>
+
+</div>
+
+<script>
+const D = {"tavoite_id":"AI8-KIE-05","oppiaine":"AI","vuosiluokka":8,"taitoalue":"KIE","jakso":"J2","taso":"ydin","otsikko":"Rekisterin vaihde","kuvaus":"Osaan eritellä eri rekisterien ja tyylien piirteitä ja pohtia, miten kielelliset valinnat vaikuttavat tekstin sävyyn ja siihen, miten vastaanottaja sen ottaa vastaan.","versio":"0.1","paivitetty":"2026-11-22","ops":{"T":["T15","T11"],"S":["S4","S3"]},"eyebrow":"Äidinkieli ja kirjallisuus · 8. luokka","ikoni":"keskustelu","naytto":"Paperikoe: Saan kuusi keksittyä katkelmaa samasta aihepiiristä (esimerkiksi virallinen päätös, asiallinen tiedote, arkinen viesti kaverille, slangia sisältävä somekommentti, ammattikielinen ohje ja mainos). Nimeän kunkin rekisterin ja osoitan sen piirteet sanastosta, lauserakenteista ja puhuttelusta. Kirjoitan yhden katkelman sisällön toisella rekisterillä. Pohdin kahden keksityn tilanteen avulla, mitä seuraa, kun rekisteri ei sovi tilanteeseen (esimerkiksi arkinen viesti rehtorille tai virkakielinen tiedote alakoululaisille).","osaa_kun":"Tunnistan rekisterit ja osoitan kustakin vähintään kolme piirrettä, jotka ovat eri tasoilta (sanasto, rakenne, puhuttelu). Muuttamani teksti on johdonmukaisesti uutta rekisteriä, ja sisältö säilyy. Pohdintani seurauksista on konkreettinen (esimerkiksi vastaanottaja ei ymmärrä tai kokee viestin loukkaavana tai epäkohteliaana). Perustelen rekisterin sopivuuden tilanteella ja vastaanottajalla (esimerkiksi slangi sopii kaverille mutta ei rehtorille osoitettuun viestiin), en sillä, että jokin rekisteri olisi sinänsä huonoa kieltä.","teksti":[{"tyyppi":"johdanto","sisalto":"Sama uutinen voi kuulostaa kolmelta eri asialta. ”Kaupungin kulttuurilautakunta on päättänyt puistokonsertin siirtämisestä sääolosuhteiden johdosta.” ”Puistokonsertti siirtyy sateen vuoksi lauantaille.” ”Hei, konsa on siirretty lauantaille, ku sataa ihan kaatamalla.” Asia on sama, mutta sanat, virkkeiden rakenne ja tapa puhutella lukijaa vaihtuvat. Näitä kielimuotoja kutsutaan rekistereiksi. Tässä taidossa opit erittelemään rekisterien piirteitä, kirjoittamaan saman sisällön toisella rekisterillä ja pohtimaan, mitä tapahtuu, kun rekisteri ei sovi tilanteeseen."},{"tyyppi":"kappale","otsikko":"Rekisteri ja tyyli","sisalto":"Rekisteri on kielimuoto, jonka kirjoittaja tai puhuja valitsee tilanteen, vastaanottajan ja tarkoituksen mukaan. Sama ihminen käyttää päivän aikana montaa rekisteriä: hän kirjoittaa kaverille arkikielellä, vastaa opettajan viestiin asiallisella yleiskielellä ja ymmärtää kaupan mainoksen kieltä. Tyyli on se, millaisen vaikutelman tekstin kieli antaa: muodollinen tai tuttavallinen, neutraali tai innostunut, kohtelias tai tyly. Rekisteri ei ole sinänsä oikeaa tai väärää kieltä. Se joko sopii tilanteeseen tai ei sovi."},{"tyyppi":"taulukko","otsikko":"Kuusi rekisteriä ja niiden piirteet","otsikkorivi":["Rekisteri","Sanasto","Rakenne","Puhuttelu"],"rivit":[["virkakieli (virallinen päätös)","hallinnon termit (asianosainen, voimaantulo, pöytäkirja), paljon -minen- ja -us-sanoja","pitkät virkkeet, passiivi, substantiivityyli (suorittaa ilmoittautuminen = ilmoittautua)","ei puhuttelua tai yleinen viittaus (hakija, asianosainen)"],["asiallinen yleiskieli (tiedote)","yleiskielen sanat, täsmälliset ajat ja paikat","selkeät, täydet virkkeet, tärkein asia ensin","usein te-muoto (voitte, teillä) tai ei puhuttelua"],["arkikieli (viesti tutulle)","puhekielen muodot (mä, sä, et, ootko)","lyhyet virkkeet, kysymykset, huudahdukset","sinuttelu, tervehdys ja etunimi"],["slangi","ryhmän omat sanat (lafka, stadi, bamlata) ja lainasanat","puhekielen rakenteet, lyhentyneet sanat, kesken jäävät virkkeet","usein ei suoraa puhuttelua, puhutaan oman porukan kesken"],["ammattikieli","alan termit (raudoitus, valu, muotti), lyhenteet, yksiköt ja tunnukset","lyhyet ohjevirkkeet, käskymuodot, numerot","yksikön käskymuoto tai passiivi"],["mainoskieli","myönteiset ja liioittelevat sanat (ainutlaatuinen, vain tänään)","kysymykset, huudahdukset, käskyt","sinä-puhuttelu ja käskyt (Kokeile! Tule!)"]]},{"tyyppi":"kappale","otsikko":"Piirteet kolmella tasolla","sisalto":"Rekisteri tunnistetaan piirteistä, jotka kuuluvat eri tasoille. Sanasto tarkoittaa sanavalintoja: termejä, puhekielen muotoja, slangisanoja ja tunnesanoja. Rakenne tarkoittaa sitä, miten virkkeet on rakennettu: niiden pituutta, passiivia, käskymuotoja, kysymyksiä ja substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (suorittaa ilmoittautuminen) eikä pelkällä verbillä (ilmoittautua). Puhuttelu tarkoittaa sitä, miten teksti kohtelee lukijaa: sinutteleeko se (sinä, tule), käyttääkö se te-muotoa (te, tulkaa) vai jättääkö se lukijan puhuttelematta. Kun perustelet, mikä rekisteri tekstissä on, nimeä vähintään yksi piirre jokaiselta tasolta ja lainaa kohta tekstistä."},{"tyyppi":"kuva","otsikko":"Rekisterit kahdella akselilla","svg":"<svg viewBox=\"0 0 640 340\" role=\"img\" aria-label=\"Kaavio: kuusi rekisteriä kahdella akselilla. Vaakasuunnassa muodollinen ja tuttavallinen, pystysuunnassa kaikille suunnattu ja rajatulle ryhmälle suunnattu teksti. Virkakieli ja asiallinen yleiskieli ovat muodollisia ja kaikille. Mainoskieli on tuttavallinen ja kaikille. Ammattikieli on muodollinen ja alan ihmisille. Arkikieli ja slangi ovat tuttavallisia ja tutuille tai omalle ryhmälle.\"><line class=\"v-akseli\" x1=\"70\" y1=\"300\" x2=\"620\" y2=\"300\"/><polygon class=\"v-merkki\" points=\"620,295 630,300 620,305\"/><line class=\"v-akseli\" x1=\"70\" y1=\"300\" x2=\"70\" y2=\"20\"/><polygon class=\"v-merkki\" points=\"65,20 70,10 75,20\"/><text class=\"v-t\" x=\"80\" y=\"322\" style=\"font-size:12px\">muodollinen</text><text class=\"v-t\" x=\"620\" y=\"322\" text-anchor=\"end\" style=\"font-size:12px\">tuttavallinen</text><text class=\"v-t\" x=\"12\" y=\"40\" style=\"font-size:12px\">kaikille</text><text class=\"v-t\" x=\"12\" y=\"270\" style=\"font-size:12px\">rajattu</text><text class=\"v-t\" x=\"12\" y=\"285\" style=\"font-size:12px\">ryhmä</text><rect class=\"v-osa v1\" x=\"90\" y=\"40\" width=\"130\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"155\" y=\"57\" text-anchor=\"middle\" style=\"font-size:13px\">virkakieli</text><text class=\"v-t pieni\" x=\"155\" y=\"73\" text-anchor=\"middle\" style=\"font-size:11px\">päätös, säädös</text><rect class=\"v-osa v1\" x=\"240\" y=\"70\" width=\"150\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"315\" y=\"87\" text-anchor=\"middle\" style=\"font-size:13px\">asiallinen yleiskieli</text><text class=\"v-t pieni\" x=\"315\" y=\"103\" text-anchor=\"middle\" style=\"font-size:11px\">tiedote, uutinen</text><rect class=\"v-osa v1\" x=\"440\" y=\"40\" width=\"150\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"515\" y=\"57\" text-anchor=\"middle\" style=\"font-size:13px\">mainoskieli</text><text class=\"v-t pieni\" x=\"515\" y=\"73\" text-anchor=\"middle\" style=\"font-size:11px\">mainos</text><rect class=\"v-osa v1\" x=\"120\" y=\"220\" width=\"140\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"190\" y=\"237\" text-anchor=\"middle\" style=\"font-size:13px\">ammattikieli</text><text class=\"v-t pieni\" x=\"190\" y=\"253\" text-anchor=\"middle\" style=\"font-size:11px\">alan ohje</text><rect class=\"v-osa v1\" x=\"380\" y=\"160\" width=\"140\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"450\" y=\"177\" text-anchor=\"middle\" style=\"font-size:13px\">arkikieli</text><text class=\"v-t pieni\" x=\"450\" y=\"193\" text-anchor=\"middle\" style=\"font-size:11px\">viesti tutulle</text><rect class=\"v-osa v1\" x=\"470\" y=\"240\" width=\"120\" height=\"40\" rx=\"6\"/><text class=\"v-t vahva\" x=\"530\" y=\"257\" text-anchor=\"middle\" style=\"font-size:13px\">slangi</text><text class=\"v-t pieni\" x=\"530\" y=\"273\" text-anchor=\"middle\" style=\"font-size:11px\">oma porukka</text></svg>","teksti":"Kaavio on suuntaa antava. Vaakasuunta kertoo, kuinka muodollista kieli on, ja pystysuunta, kenelle teksti on tarkoitettu. Yksittäinen teksti voi sijoittua laatikkonsa ulkopuolelle: kohtelias viesti tutulle aikuiselle on lähempänä yleiskieltä kuin viesti kaverille."},{"tyyppi":"saanto","otsikko":"Näin erittelet rekisterin","askeleet":["Kysy ensin: kuka kirjoittaa, kenelle ja mitä varten?","Sanasto: alleviivaa kaksi tai kolme tyypillistä sanaa (termi, puhekielen muoto, slangisana, liioitteleva sana).","Rakenne: katso virkkeiden pituutta, passiivia, käskyjä, kysymyksiä ja substantiivityyliä.","Puhuttelu: sinutteleeko teksti, käyttääkö se te-muotoa vai jättääkö se lukijan puhuttelematta?","Nimeä rekisteri ja perustele se kolmella piirteellä, yksi kultakin tasolta. Lainaa jokaiseen piirteeseen kohta tekstistä."]},{"tyyppi":"kappale","otsikko":"Kun rekisteri ei sovi","sisalto":"Sopimaton rekisteri ei ole kielivirhe, mutta sillä on seurauksia. Jos nuori kirjoittaa valmentajalle ”Hei äijä, mä en jaksa tulla treeneihin”, valmentaja voi pitää viestiä epäkohteliaana tai ajatella, ettei kirjoittaja suhtaudu asiaan vakavasti. Jos terveydenhoitaja antaa kymmenvuotiaalle ohjeen ”Lääkevalmisteen annostelussa tulee noudattaa pakkausselosteen mukaisia ohjeita”, lapsi ei ymmärrä, mitä hänen pitäisi tehdä. Jos kaveri saa syntymäpäivänään viestin ”Esitän onnitteluni merkkipäivänne johdosta”, hän voi pitää sitä vitsinä tai ihmetellä, onko kirjoittaja loukkaantunut. Kun pohdit seurausta, kerro konkreettisesti, mitä vastaanottaja ajattelee tai tekee ja mikä kielessä siihen johtaa."},{"tyyppi":"kappale","otsikko":"Saman sisällön toisella rekisterillä","sisalto":"Kun vaihdat rekisteriä, sisältö pysyy ja kieli vaihtuu. Listaa ensin tekstin kaikki tiedot: kuka, mitä, milloin, missä ja miksi. Vaihda sitten kaikki kolme tasoa johdonmukaisesti: sanat, rakenteet ja puhuttelu. Esimerkki: virkakielinen virke ”Kerhotilan käyttövuorojen jakamisesta päätetään syyskuun kokouksessa” on asiallisena tiedotteena nuorille ”Kerhotilan vuoroista päätetään syyskuun kokouksessa” ja viestinä kaverille ”Kerhovuorot jaetaan vasta syyskuussa, sit tiedetään”. Tarkista lopuksi, että jokainen tieto on mukana eikä mitään ole lisätty."},{"tyyppi":"ansa","otsikko":"Ansa 1: yksi sana ei tee rekisteriä","sisalto":"Asiallisessa tiedotteessa voi olla yksi rento sana, eikä teksti silti ole arkikieltä. Mainoksessa voi olla yksi termi, eikä se silti ole ammattikieltä. Jos perustelet rekisterin yhdellä sanalla, perustelu jää heikoksi. Etsi piirteitä kaikilta kolmelta tasolta: sanastosta, rakenteesta ja puhuttelusta."},{"tyyppi":"ansa","otsikko":"Ansa 2: ”huonoa kieltä” ei ole perustelu","sisalto":"On houkuttelevaa sanoa, että slangi on huonoa kieltä tai virkakieli turhan vaikeaa. Rekisteri ei kuitenkaan ole hyvä tai huono sinänsä. Slangi toimii kaverien kesken, koska se kertoo yhteenkuuluvuudesta, ja virkakieli toimii päätöksessä, koska siitä pitää näkyä täsmällisesti, mitä on päätetty ja kuka on päättänyt. Perustele sopivuus aina tilanteella ja vastaanottajalla."},{"tyyppi":"ansa","otsikko":"Ansa 3: sisältö muuttuu vaihdossa","sisalto":"Kun kirjoitat tekstiä uudelleen, on helppo jättää pois päivämäärä tai lisätä oma mielipide. Silloin rekisteri vaihtui, mutta sisältö ei säilynyt. Vertaa lopuksi tekstejä tieto kerrallaan. Huomaa myös, että rekisterin pitää vaihtua kokonaan: jos asiallisen palautteen keskellä on yksi slangisana tai tiedotteen lopussa kaverille sopiva tervehdys, teksti ei ole johdonmukainen."},{"tyyppi":"ansa","otsikko":"Ansa 4: nollapersoona ei ole passiivi","sisalto":"”Varatut kirjat noudetaan lauantaina” on passiivi: verbi päättyy -taan tai -tään, ja tekijä jää kertomatta. ”Varatut kirjat voi noutaa lauantaina” on nollapersoona: verbi on yksikön 3. persoonassa ilman subjektia, ja se tarkoittaa, että kuka tahansa voi tehdä niin. Molemmat ovat tyypillisiä asiateksteille, mutta kun lasket passiivimuotoja, nollapersoona ei kuulu niihin."},{"tyyppi":"muistilappu","otsikko":"Muista nämä","kohdat":["Rekisteri valitaan tilanteen, vastaanottajan ja tarkoituksen mukaan.","Kuusi rekisteriä: virkakieli, asiallinen yleiskieli, arkikieli, slangi, ammattikieli ja mainoskieli.","Piirteet kolmelta tasolta: sanasto, rakenne ja puhuttelu. Lainaa kohta tekstistä.","Puhuttelu: sinuttelu, te-muoto tai ei puhuttelua.","Rekisterin vaihdossa kaikki tiedot säilyvät ja kaikki kolme tasoa vaihtuvat.","Sopimaton rekisteri: vastaanottaja ei ymmärrä, loukkaantuu, pitää viestiä epäkohteliaana tai ei ota sitä vakavasti.","Perustele sopivuus tilanteella ja vastaanottajalla, älä sanomalla, että kieli on huonoa."]}],"harjoitusryhmat":[{"id":"rekisterit","nimi":"Tunnista rekisteri","info":"Kysy: kuka kirjoittaa, kenelle ja mitä varten? Katso sanastoa, rakennetta ja puhuttelua."},{"id":"piirteet","nimi":"Piirteet kolmella tasolla","info":"Laske tarkasti: -minen-sanat, passiivimuodot, käskyt ja sinä-muodot. Nollapersoona (voi noutaa) ei ole passiivi."},{"id":"tilanne","nimi":"Sopiiko rekisteri tilanteeseen?","info":"Perustele vastaanottajalla ja tilanteella. Rekisterin vaihdossa sisällön pitää säilyä."}],"ryhmanimet":{"rekisterit":"Tunnista rekisteri","piirteet":"Piirteet kolmella tasolla","tilanne":"Sopiiko rekisteri tilanteeseen?"},"harjoitukset":[{"id":"H01","ryhma":"rekisterit","kysymys":"Hei kaikki! Kevätjuhla on torstaina kello 18 koulun salissa. Ovet avataan puoli tuntia ennen. Olette lämpimästi tervetulleita.\n\nMikä rekisteri katkelmassa on?","vastaus":0,"vinkki":"Onko teksti suunnattu kaikille? Onko siinä termejä tai slangia?","selitys":"Katkelma on asiallista yleiskieltä: täsmälliset tiedot (torstaina kello 18, koulun salissa), täydet virkkeet ja te-muoto (olette).","tyyppi":"monivalinta","vaihtoehdot":["asiallinen yleiskieli (tiedote)","virkakieli (virallinen päätös)","slangi"]},{"id":"H02","ryhma":"piirteet","kysymys":"Koulun johtokunta on päättänyt pyörävaraston rakentamisesta. Hankkeen kustannusten kattaminen toteutetaan kunnan investointimäärärahoista.\n\nMontako -minen-johdosta katkelmassa on? Laske myös taivutetut muodot.","vastaus":2,"vinkki":"Etsi sanat, joissa on -minen, -misen, -mista tai -misesta.","selitys":"Rakentamisesta ja kattaminen ovat -minen-johdoksia. Investointimäärärahoista ei ole."},{"id":"H03","ryhma":"piirteet","kysymys":"Kato tää! Uus pyöräkatos on ihan sairaan siisti, sinne mahtuu koko porukan pyörät.\n\nSanat: kato, sairaan, tää, pyöräkatos, mahtuu, pyörät\n\nMontako luetelluista sanoista on slangia tai arkista puhekieltä?","vastaus":3,"vinkki":"Mikä sana olisi tiedotteessa toisin?","selitys":"Kato (katso), tää (tämä) ja sairaan (todella) ovat puhekieltä tai slangia. Pyöräkatos, mahtuu ja pyörät ovat yleiskieltä."},{"id":"H04","ryhma":"rekisterit","kysymys":"1. Kytke jännite pois ryhmäkeskuksesta ennen pistorasian vaihtoa.\n2. Moi, ootko kotona?\n3. Hakemus on toimitettava kirjallisesti viimeistään 15.3.\n4. Osta nyt, saat toisen ilmaiseksi!\n\nMonesko katkelma on ammattikieltä?","vastaus":1,"vinkki":"Missä on alan termejä?","selitys":"Ryhmäkeskus ja jännite ovat sähköalan termejä, ja ohje on käskymuodossa saman alan ihmiselle."},{"id":"H05","ryhma":"rekisterit","kysymys":"1. Ilmoittautuminen kerhoon suoritetaan sähköisesti määräaikaan mennessä.\n2. Ilmoittaudu kerhoon netissä maanantaihin mennessä.\n3. Ilmot kerhoon netis maanantaihi mennes.\n\nMonesko virke on virkakieltä?","vastaus":1,"vinkki":"Missä virkkeessä on substantiivityyliä ja passiivi?","selitys":"Virkkeessä 1 teko on ilmaistu substantiivilla ja yleisverbillä (ilmoittautuminen suoritetaan), ja tekijä jää passiivin taakse."},{"id":"H06","ryhma":"rekisterit","kysymys":"Huikee tarjous!! Uudet nappikset nyt –30 %. Tuu hakee omat!\n\nMitkä kaksi rekisteriä katkelmassa sekoittuvat?","vastaus":0,"vinkki":"Tarjous ja käsky kuuluvat yhteen rekisteriin, nappikset ja tuu hakee toiseen.","selitys":"Tarjous, prosentit ja käsky ovat mainoskieltä. Huikee, nappikset ja tuu hakee ovat slangia tai puhekieltä.","tyyppi":"monivalinta","vaihtoehdot":["mainoskieli ja slangi","virkakieli ja ammattikieli","ammattikieli ja slangi"]},{"id":"H07","ryhma":"piirteet","kysymys":"1. Tule ajoissa, niin ehdit lämmitellä.\n2. Harjoitukset alkavat kello 17.\n3. Voitteko tuoda omat juomapullot?\n4. Muistathan ottaa sisäkengät.\n\nMonessako virkkeessä lukijaa sinutellaan?","vastaus":2,"vinkki":"Etsi yksikön 2. persoonan muodot ja yksikön käskyt.","selitys":"Virkkeissä 1 (tule, ehdit) ja 4 (muistathan) sinutellaan. Virke 3 käyttää te-muotoa, ja virkkeessä 2 ei puhutella."},{"id":"H08","ryhma":"piirteet","kysymys":"Kirjaston asiakaspalvelu on suljettuna perjantaina. Varatut aineistot voi noutaa lauantaina, kun ovet avataan kello 10. Palautukset otetaan vastaan automaatilla.\n\nMontako passiivimuotoista predikaattia katkelmassa on?","vastaus":2,"vinkki":"Voi noutaa on nollapersoona, ei passiivi.","selitys":"Avataan ja otetaan (vastaan) ovat passiivimuotoja. On suljettuna ja voi noutaa ovat aktiivimuotoja."},{"id":"H09","ryhma":"piirteet","kysymys":"Kytke laite pois päältä. Irrota suodatin ja huuhtele se. Kuivaa suodatin pyyhkeellä. Asenna suodatin takaisin.\n\nMontako käskymuotoista verbiä katkelmassa on?","vastaus":5,"vinkki":"Käy läpi jokainen verbi.","selitys":"Kytke, irrota, huuhtele, kuivaa ja asenna ovat käskymuotoja. Ohjeen rakenne on tyypillistä ammattikielelle ja ohjeille."},{"id":"H10","ryhma":"piirteet","kysymys":"Piirre: virkkeet ovat pitkiä, ja niissä on monta sivulausetta ja passiivimuotoja.\n\nMille tasolle piirre kuuluu?","vastaus":1,"vinkki":"Kertooko piirre sanoista, virkkeistä vai lukijan kohtelusta?","selitys":"Virkkeiden pituus, sivulauseet ja passiivi ovat rakenteen piirteitä.","tyyppi":"monivalinta","vaihtoehdot":["sanasto","rakenne","puhuttelu"]},{"id":"H11","ryhma":"piirteet","kysymys":"suorittaa tilaus, tilata, tehdä valitus, valittaa, antaa suostumus, suostua\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa)?","vastaus":3,"vinkki":"Missä ilmauksissa on kaksi sanaa?","selitys":"Suorittaa tilaus, tehdä valitus ja antaa suostumus ovat substantiivityyliä. Samat asiat sanotaan verbillä: tilata, valittaa, suostua."},{"id":"H12","ryhma":"piirteet","kysymys":"Muistathan, että huomenna on retki. Ota mukaan eväät ja sadetakki. Nähdään!\n\nMontako yksikön 2. persoonan muotoa tai yksikön käskyä katkelmassa on?","vastaus":2,"vinkki":"Nähdään ei ole sinä-muoto.","selitys":"Muistathan ja ota ovat sinä-muotoja. Nähdään on passiivimuoto, jota puhekielessä käytetään me-muodon tilalla."},{"id":"H13","ryhma":"piirteet","kysymys":"hakemus, hommat, palkka, liksa, työpaikka, tsiigata\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":3,"vinkki":"Mitkä sanat sopisivat työhakemukseen?","selitys":"Hommat, liksa ja tsiigata ovat arkikieltä tai slangia. Hakemus, palkka ja työpaikka ovat yleiskieltä."},{"id":"H14","ryhma":"piirteet","kysymys":"Etsitkö kesätyötä? Me etsimme sinua! Hae nyt ja aloita jo kesäkuussa.\n\nMontako kertaa mainos puhuttelee lukijaa yksikön 2. persoonalla tai yksikön käskyllä?","vastaus":4,"vinkki":"Etsi sinä-muodot ja käskyt.","selitys":"Etsitkö, sinua, hae ja aloita puhuttelevat lukijaa. Sinä-puhuttelu ja käskyt ovat mainoskielen tunnusmerkkejä."},{"id":"H15","ryhma":"tilanne","kysymys":"Oppilas kirjoittaa rehtorille: ”Moi! Mä en pääse huomenna kouluun, ku on hammaslääkäri.”\n\n1. Rehtori voi pitää viestiä liian tuttavallisena eikä ehkä ota sitä yhtä vakavasti kuin asiallista viestiä.\n2. Rehtori ei ymmärrä viestistä yhtään sanaa.\n3. Rehtori ilahtuu viestin muodollisuudesta.\n\nMonesko seuraus on todennäköisin?","vastaus":1,"vinkki":"Asia on selvä, mutta miltä sävy tuntuu vastaanottajasta?","selitys":"Viestin sisällön ymmärtää, mutta tervehdys moi ja puhekielen muodot (mä, ku) ovat tuttavallisia. Rehtori voi pitää viestiä epäkohteliaana tai huolimattomana."},{"id":"H16","ryhma":"tilanne","kysymys":"1. Kaverille: Tuutko pelaa illalla?\n2. Työhakemukseen: Moro, mä haluun sen kesäduunin.\n3. Koulun tiedote: Kerho alkaa tiistaina kello 15.\n4. Ohje 6-vuotiaille: Askartelutarvikkeiden käyttö edellyttää aikuisen valvontaa.\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle?","vastaus":2,"vinkki":"Mieti jokaisesta, kuka lukee.","selitys":"Arkikieli sopii kaverille (1) ja asiallinen yleiskieli tiedotteeseen (3). Hakemukseen slangi ei sovi, ja virkakielistä ohjetta 6-vuotias ei ymmärrä."},{"id":"H17","ryhma":"tilanne","kysymys":"Viesti kaverille: ”Osallistumisestasi huomisen jalkapallotapahtuman järjestelyihin pyydetään ilmoittamaan.”\n\n1. Virkakieli. Ei sovi: kaveri voi pitää viestiä jäykkänä tai vitsinä.\n2. Slangi. Sopii hyvin kaverille.\n3. Arkikieli. Sopii hyvin kaverille.\n\nMonesko kuvaus pitää paikkansa?","vastaus":1,"vinkki":"Etsi substantiivityyli ja passiivi.","selitys":"Viestissä on substantiivityyliä (osallistumisestasi, järjestelyihin) ja passiivi (pyydetään). Se on virkakieltä, joka kuulostaa kaverin viestissä etäiseltä."},{"id":"H18","ryhma":"tilanne","kysymys":"Somekommentti: ”Ihan surkee juttu et kerho lopetetaan, se oli mun lempipaikka.”\n\n1. Kerhon lopettaminen on minusta ikävä asia, koska kerho oli minulle tärkein vapaa-ajan paikka.\n2. Kerhoa ei lopeteta, vaan se jatkuu.\n3. Surkee juttu, kerho lopetetaan.\n\nMonesko vaihtoehto kertoo saman asian asiallisena palautteena?","vastaus":1,"vinkki":"Säilyykö sisältö? Vaihtuuko rekisteri?","selitys":"Vaihtoehdossa 1 sisältö säilyy (lopettaminen, mielipide, lempipaikka) ja kieli on yleiskieltä. Vaihtoehto 2 muuttaa sisällön, ja vaihtoehto 3 on yhä puhekieltä."},{"id":"H19","ryhma":"tilanne","kysymys":"Kaupungin tiedote 7-vuotiaille: ”Leikkipuiston käyttö on kielletty kunnostustöiden ajan.”\n\n1. Leikkipuistoa korjataan. Siellä ei saa nyt leikkiä.\n2. Leikkipuiston käyttämisen kieltäminen on voimassa.\n3. Puistos ei saa hengaa.\n\nMonesko versio sopii 7-vuotiaille parhaiten?","vastaus":1,"vinkki":"Lyhyet virkkeet ja tutut sanat.","selitys":"Versio 1 kertoo saman asian lyhyin virkkein ja tutuin sanoin. Versio 2 on yhä virkakieltä, ja versio 3 on slangia ja jättää korjaamisen pois."},{"id":"H20","ryhma":"tilanne","kysymys":"Väite: Slangi on aina huonoa kieltä.\n\n1. Slangi on huonoa, koska se ei ole yleiskieltä.\n2. Slangi sopii kaverien kesken mutta ei viralliseen viestiin, koska tilanne ja vastaanottaja ratkaisevat.\n3. Slangia ei kannata koskaan käyttää.\n\nMonesko vastaus arvioi väitettä rekisterin avulla?","vastaus":2,"vinkki":"Mikä vastaus puhuu tilanteesta ja vastaanottajasta?","selitys":"Vastaus 2 perustelee sopivuuden tilanteella ja vastaanottajalla. Vastaukset 1 ja 3 arvioivat slangia sinänsä."}],"tulostus":{"sivuja":7,"sarakkeita":1,"sanalliset_sarakkeita":1,"apuviivoja":6,"sivunvaihto_ennen":16},"kokeet":[{"id":"A","nimi":"Koe A","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on kuusi keksittyä katkelmaa samasta aiheesta. Katkelmat, henkilöt, paikat, päivämäärät ja yritykset on keksitty tätä koetta varten.\nTehtävissä 1–15 vastaat yhdellä luvulla (katkelman tai vaihtoehdon numero tai lukumäärä).\nRekisterit: virkakieli (virallinen päätös), asiallinen yleiskieli (tiedote), arkikieli (viesti kaverille), slangi, ammattikieli ja mainoskieli. Piirteiden tasot: sanasto, rakenne ja puhuttelu.\nSinuttelu tarkoittaa yksikön 2. persoonan muotoja (sinä, sinulle, pääset, kausikorttisi) ja yksikön käskymuotoja (tule, avaa). -minen-johdokseksi lasketaan myös sen taivutetut muodot (lukemisen, lukemista).\nTehtävissä 16–20 vastaat kokonaisin virkkein. Lainaa piirteisiin kohta katkelmasta. Laitetta tai sanakirjaa ei käytetä.\n\nKuusi katkelmaa aiheesta Kivikosken uimahallin sulkeminen\n\nKatkelma 1.\nKivikosken uimahalli on suljettuna 1.6.–31.8., koska hallin ilmanvaihto uusitaan. Kausikorttien voimassaoloa jatketaan sulun ajalla automaattisesti. Kesällä voi uida Pikkujärven uimarannalla, jossa on uinninvalvonta arkipäivisin. Lisätietoja saa liikuntapalvelujen asiakaspalvelusta.\n\nKatkelma 2.\nTaas meni kesä pilalle. Halli on kiinni just silloin ku ois aikaa käydä. Me käytiin jengin kaa siellä joka päivä. Nyt sit varmaan hengaillaan vaan himassa. Ois ees kertonu aiemmin.\n\nKatkelma 3.\nKivikosken kaupungin liikuntalautakunta on kokouksessaan 12.3. päättänyt uimahallin sulkemisesta peruskorjauksen ajaksi 1.6.–31.8. Päätöksen perusteena on ilmanvaihtojärjestelmän uusimisen välttämättömyys. Kausikorttien voimassaoloa jatketaan sulkemista vastaavalla ajalla. Asiakkaille tiedotetaan muutoksista kaupungin verkkosivuilla. Päätökseen tyytymätön voi tehdä oikaisuvaatimuksen 14 päivän kuluessa päätöksen tiedoksisaannista.\n\nKatkelma 4.\nKesä ilman uimahallia? Ei hätää! Pikkujärven SUP-keskus vuokraa laudat koko kesän. Tule kokeilemaan – ensimmäinen tunti on puoleen hintaan, kun näytät uimahallin kausikorttisi! Sinäkin pysyt vedessä.\n\nKatkelma 5.\nMoi Eetu! Kuulitko et halli menee kiinni koko kesäks? Lähetäänkö sit Pikkujärvelle uimaan vaikka tiistaina? Mä voin ottaa eväät. Laita viestiä!\n\nKatkelma 6.\nAltaiden tyhjennys 1.6.: Sulje kiertovesipumput P1 ja P2 ohjauspaneelista. Avaa pohjaventtiilit vasta, kun vapaan kloorin pitoisuus on alle 0,1 mg/l. Kirjaa tyhjennyksen aloitus käyttöpäiväkirjaan. Varmista, että tasausaltaan pinnankorkeus ei laske alle hälytysrajan.","tehtavat":[{"nro":1,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on virallinen päätös?","vastaus":3},{"nro":2,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on asiallinen tiedote?","vastaus":1},{"nro":3,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on ammattikielinen ohje?","vastaus":6},{"nro":4,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on mainos?","vastaus":4},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako -minen-johdosta on siinä katkelmassa, joka on virallinen päätös? Laske myös taivutetut muodot.","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako passiivimuotoista predikaattia on siinä katkelmassa, joka on virallinen päätös?","vastaus":2},{"nro":7,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako käskymuotoista verbiä on siinä katkelmassa, joka on ammattikielinen ohje?","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa sinutellaan?","vastaus":3},{"nro":9,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa ei puhutella lainkaan (ei sinä- eikä te-muotoja eikä käskyjä)?","vastaus":3},{"nro":10,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"himaan, kotiin, jengi, ystävät, faija, isä, skidi, lapsi\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":4},{"nro":11,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"suorittaa maksu, maksaa, tehdä päätös, päättää, suorittaa tarkastus, tarkastaa\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa) eikä pelkällä verbillä?","vastaus":3},{"nro":12,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Haluat pyytää rehtorilta lupaa käyttää koulun liikuntasalia kesällä.\n\n1. Anna meille avaimet saliin kesäks.\n2. Voisimmeko saada luvan käyttää liikuntasalia kesällä?\n3. Me otetaan sali kesällä, okei?\n\nMonesko pyyntö sopii rehtorille parhaiten?","vastaus":2},{"nro":13,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Virke: Asiakkaan tulee suorittaa kausikortin uusiminen ennen sen voimassaolon päättymistä.\n\n1. Uusi kausikorttisi ennen kuin se vanhenee.\n2. Kausikortin voi uusia, kun se on jo vanhentunut.\n3. Uusi se kortti ajoissa, muuten menee rahat.\n\nMonesko vaihtoehto kertoo saman asian selkeällä yleiskielellä niin, että sisältö säilyy?","vastaus":1},{"nro":14,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"1. Viesti kaverille: Moi, lähetäänkö illalla pelaamaan?\n2. Kesätyöhakemus: Jou! Oon tosi hyvä tyyppi, ottakaa mut.\n3. Koulun tiedote oppilaille: Liikuntapäivä siirtyy sateen vuoksi perjantaille.\n4. Ohje 7-vuotiaalle: Suorita kypärän kiinnitys ennen pyöräilyn aloittamista.\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle ja tilanteeseen?","vastaus":2},{"nro":15,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Uimakoulun ilmoitus on tarkoitettu 8-vuotiaille.\n\n1. Uimakouluun ilmoittautuminen tapahtuu sähköisen järjestelmän kautta ilmoittautumisajan puitteissa.\n2. Uimakouluun ilmoittaudutaan netissä. Pyydä aikuista avuksi.\n3. Uimakouluilmot netis, ilmoo ittes sinne.\n\nMonesko versio sopii 8-vuotiaille parhaiten?","vastaus":2},{"nro":16,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 1, 2 ja 3 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 1 on asiallista yleiskieltä (tiedote). Sanasto: yleiskielen sanat ja täsmälliset tiedot (1.6.–31.8., uinninvalvonta arkipäivisin). Rakenne: täydet, selkeät virkkeet, ja tärkein asia on ensin (uimahalli on suljettuna). Puhuttelu: lukijaa ei puhutella suoraan, vaan käytetään nollapersoonaa (voi uida, saa). Katkelma 2 on slangia. Sanasto: slangisanat ja puhekielen muodot (jengin kaa, hengaillaan, himassa, ku, ois). Rakenne: lyhyitä virkkeitä, joista osa jää vajaiksi (Ois ees kertonu aiemmin), ja passiivia me-muodon tilalla (käytiin). Puhuttelu: lukijaa ei puhutella, kirjoittaja puhuu omasta porukastaan. Katkelma 3 on virkakieltä (virallinen päätös). Sanasto: hallinnon termit (liikuntalautakunta, oikaisuvaatimus, tiedoksisaanti) ja -minen-sanat (sulkemisesta). Rakenne: pitkät virkkeet, substantiivityyli (uusimisen välttämättömyys) ja passiivi (jatketaan, tiedotetaan). Puhuttelu: ei puhuttelua, vaan yleinen viittaus (päätökseen tyytymätön)."},{"nro":17,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 4, 5 ja 6 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 4 on mainoskieltä. Sanasto: myönteiset ja houkuttelevat ilmaukset (Ei hätää!, puoleen hintaan). Rakenne: kysymys ja huudahdukset (Kesä ilman uimahallia?) sekä käsky (Tule kokeilemaan). Puhuttelu: sinuttelu (näytät, kausikorttisi, sinäkin). Katkelma 5 on arkikieltä (viesti kaverille). Sanasto: puhekielen muodot (mä, et, kesäks, sit). Rakenne: lyhyitä kysymyksiä ja huudahdus (Laita viestiä!). Puhuttelu: tervehdys ja etunimi (Moi Eetu!) sekä sinuttelu (kuulitko). Katkelma 6 on ammattikieltä. Sanasto: alan termit ja tunnukset (kiertovesipumput P1 ja P2, vapaa kloori, tasausallas, mg/l). Rakenne: lyhyet ohjevirkkeet käskymuodossa (Sulje, Avaa, Kirjaa, Varmista). Puhuttelu: yksikön käskymuoto työntekijälle ilman tervehdystä."},{"nro":18,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Kirjoita slangia sisältävän somekommentin sisältö asialliseksi palautteeksi kaupungin liikuntapalveluille. Kaikki kommentin asiat säilyvät, mutta rekisteri vaihtuu kokonaan.","vastaus":"Malliesimerkki: Uimahallin sulkeminen koko kesäksi on minusta harmillista, koska kesällä minulla olisi eniten aikaa käydä uimassa. Kävimme ystävieni kanssa hallissa joka päivä. Nyt joudumme luultavasti olemaan kotona. Olisin toivonut, että sulkemisesta olisi kerrottu aiemmin."},{"nro":19,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Pohdi kahta tilannetta, joissa rekisteri ei sovi. Kerro kummastakin, mitä vastaanottaja todennäköisesti ajattelee tai tekee, ja nimeä kaksi kielen piirrettä, jotka johtavat siihen.\n\na) Oppilas lähettää uimahallin johtajalle viestin: ”Moro! Miks halli on kiinni koko kesän? Hoitakaa se remppa nopeemmin.”\nb) Kaupunki lähettää 1.-luokkalaisille tiedotteen: ”Uimaopetukseen osallistuminen edellyttää uimavarusteiden mukanaoloa sekä peseytymissääntöjen noudattamista.”","vastaus":"Malliesimerkki: a) Johtaja voi pitää viestiä epäkohteliaana ja käskevänä, eikä hän ehkä vastaa siihen tai ota palautetta vakavasti. Syynä ovat tuttavallinen tervehdys (Moro) ja puhekielen muodot (miks, remppa, nopeemmin) sekä tyly käsky (Hoitakaa), joka ei sovi vieraalle aikuiselle. b) Ekaluokkalainen ei ymmärrä tiedotetta eikä tiedä, mitä hänen pitää ottaa mukaan. Syynä ovat substantiivityyli (osallistuminen edellyttää, mukanaolo) ja vaikeat sanat (peseytymissäännöt)."},{"nro":20,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Väite: Kirjoitetussa tekstissä pitäisi aina käyttää yleiskieltä.\n\nArvioi väitettä. Perustele arviosi tilanteella ja vastaanottajalla, ja anna yksi esimerkki tilanteesta, johon kyseinen kieli sopii, ja yksi tilanteesta, johon se ei sovi.","vastaus":"Malliesimerkki: Väite ei pidä aina paikkaansa. Yleiskieli sopii teksteihin, jotka on tarkoitettu kaikille tai tuntemattomalle vastaanottajalle, esimerkiksi tiedotteeseen tai sähköpostiin rehtorille. Kaverille kirjoitettu viesti voi olla arkikieltä, koska vastaanottaja on tuttu ja arkikieli kertoo läheisyydestä. Yleiskielinen viesti kaverille voisi tuntua jäykältä."}]},{"id":"B","nimi":"Koe B","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on kuusi keksittyä katkelmaa samasta aiheesta. Katkelmat, henkilöt, paikat, päivämäärät ja yritykset on keksitty tätä koetta varten.\nTehtävissä 1–15 vastaat yhdellä luvulla (katkelman tai vaihtoehdon numero tai lukumäärä).\nRekisterit: virkakieli (virallinen päätös), asiallinen yleiskieli (tiedote), arkikieli (viesti kaverille), slangi, ammattikieli ja mainoskieli. Piirteiden tasot: sanasto, rakenne ja puhuttelu.\nSinuttelu tarkoittaa yksikön 2. persoonan muotoja (sinä, sinulle, pääset, kausikorttisi) ja yksikön käskymuotoja (tule, avaa). -minen-johdokseksi lasketaan myös sen taivutetut muodot (lukemisen, lukemista).\nTehtävissä 16–20 vastaat kokonaisin virkkein. Lainaa piirteisiin kohta katkelmasta. Laitetta tai sanakirjaa ei käytetä.\n\nKuusi katkelmaa aiheesta ruokailuvuorojen muutos Mäntyrinteen koulussa\n\nKatkelma 1.\nHei Aino! Ootko kuullu et meidän ruokavuoro muuttuu? Syödään lokakuusta lähtien vasta puol kakstoista. Mä kuolen nälkään ennen sitä. Otatko eväsleivän mukaan?\n\nKatkelma 2.\nMäntyrinteen koulun johtokunta on kokouksessaan 4.9. hyväksynyt ruokailuvuorojen muuttamisen 1.10. alkaen. Muutoksen tarkoituksena on ruokasalin ruuhkautumisen vähentäminen. Yläluokkien ruokailu siirretään alkamaan kello 11.30. Erityisruokavalioiden toteuttamisesta vastaa keittiön esihenkilö. Päätöksestä tiedotetaan oppilaille ja henkilökunnalle koulun viestintäjärjestelmän kautta.\n\nKatkelma 3.\nRuokailuvuorojen muutos 1.10.: Siirrä yläluokkien linjaston täyttö alkamaan klo 11.15. Pidä lämpimät ruoat hauteessa vähintään +60 °C:ssa. Merkitse erityisruokavalioannokset nimilapuin. Kirjaa lämpötilat omavalvontalomakkeelle.\n\nKatkelma 4.\nLokakuun alusta yläluokkien ruokailu alkaa kello 11.30. Muutoksella vähennetään ruokasalin ruuhkaa. Erityisruokavalion annokset ovat edelleen omalla pöydällään. Jos teillä on kysyttävää, ottakaa yhteyttä koulusihteeriin.\n\nKatkelma 5.\nNälkä ennen ruokatuntia? Koulun kahvion uusi marjasmoothie pitää sinut virkeänä koko aamupäivän! Hae omasi välitunnilla – tällä viikolla kaksi yhden hinnalla!\n\nKatkelma 6.\nSafkaa saa vasta puol kakstoist, ihan älytön meininki. Kuka keksi tän? Kaikilla on nälkä jo kymmeneltä, ja ruokalas on muutenki aina iha tupaten täyttä.","tehtavat":[{"nro":1,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on virallinen päätös?","vastaus":2},{"nro":2,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on asiallinen tiedote?","vastaus":4},{"nro":3,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on ammattikielinen ohje?","vastaus":3},{"nro":4,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on mainos?","vastaus":5},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako -minen-johdosta on siinä katkelmassa, joka on virallinen päätös? Laske myös taivutetut muodot.","vastaus":4},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako passiivimuotoista predikaattia on siinä katkelmassa, joka on virallinen päätös?","vastaus":2},{"nro":7,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako käskymuotoista verbiä on siinä katkelmassa, joka on ammattikielinen ohje?","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa sinutellaan?","vastaus":3},{"nro":9,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa ei puhutella lainkaan (ei sinä- eikä te-muotoja eikä käskyjä)?","vastaus":2},{"nro":10,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"työ, duuni, mesta, paikka, kundi, jätkä, fillari, polkupyörä\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":5},{"nro":11,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"suorittaa siivous, siivota, antaa vastaus, vastata, tehdä ilmoitus, ilmoittaa\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa) eikä pelkällä verbillä?","vastaus":3},{"nro":12,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Haluat pyytää koulusihteeriltä uutta kopiota lukujärjestyksestä.\n\n1. Saisinko uuden kopion lukujärjestyksestä? Kiitos!\n2. Anna uus lukkari.\n3. Lukujärjestyksen kopion toimittaminen allekirjoittaneelle on suoritettava välittömästi.\n\nMonesko pyyntö sopii koulusihteerille parhaiten?","vastaus":1},{"nro":13,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Virke: Erityisruokavalion tarpeesta on ilmoitettava keittiöön ennen lukukauden alkamista.\n\n1. Kerro keittiöön ennen lukukauden alkua, jos tarvitset erityisruokavalion.\n2. Erityisruokavaliosta voi ilmoittaa keittiöön myös lukukauden aikana.\n3. Muista kertoo keittiölle jos et voi syödä jotain.\n\nMonesko vaihtoehto kertoo saman asian selkeällä yleiskielellä niin, että sisältö säilyy?","vastaus":1},{"nro":14,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"1. Sähköposti rehtorille: Moro, mä en tuu huomenna.\n2. Viesti kaverille: Ootko jo syöny?\n3. Tiedote huoltajille: Yläluokkien ruokailu alkaa lokakuun alusta kello 11.30.\n4. Ohje keittiön työntekijöille: Pidä keitto hauteessa vähintään +60 °C:ssa.\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle ja tilanteeseen?","vastaus":3},{"nro":15,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Ruokalan ohje on tarkoitettu ekaluokkalaisille.\n\n1. Ruokailutapahtuman päätyttyä astioiden palauttaminen suoritetaan palautushihnalle.\n2. Kun olet syönyt, vie lautanen ja lasi hihnalle.\n3. Röhnät boksiin heti ku oot vetäny safkat.\n\nMonesko versio sopii ekaluokkalaisille parhaiten?","vastaus":2},{"nro":16,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 1, 2 ja 3 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 1 on arkikieltä (viesti kaverille). Sanasto: puhekielen muodot (ootko, kuullu, et, mä, puol). Rakenne: lyhyitä kysymyksiä ja liioitteleva huudahdus (Mä kuolen nälkään). Puhuttelu: tervehdys ja etunimi (Hei Aino!) sekä sinuttelu (ootko, otatko). Katkelma 2 on virkakieltä (virallinen päätös). Sanasto: hallinnon sanat (johtokunta, esihenkilö) ja -minen-sanat (muuttamisen, vähentäminen). Rakenne: substantiivityyli (ruuhkautumisen vähentäminen) ja passiivi (siirretään, tiedotetaan). Puhuttelu: lukijaa ei puhutella. Katkelma 3 on ammattikieltä. Sanasto: alan termit (linjasto, haude, omavalvontalomake) ja lyhenne klo. Rakenne: lyhyet käskyvirkkeet ja numerot (+60 °C). Puhuttelu: yksikön käskymuoto työntekijälle (Siirrä, Pidä)."},{"nro":17,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 4, 5 ja 6 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 4 on asiallista yleiskieltä (tiedote). Sanasto: yleiskielen sanat ja täsmällinen aika (kello 11.30). Rakenne: täydet virkkeet, tärkein asia ensin. Puhuttelu: te-muoto (teillä, ottakaa yhteyttä). Katkelma 5 on mainoskieltä. Sanasto: houkuttelevat sanat (uusi, kaksi yhden hinnalla). Rakenne: kysymys ja huudahdukset (Nälkä ennen ruokatuntia?) sekä käsky (Hae omasi). Puhuttelu: sinuttelu (pitää sinut, omasi). Katkelma 6 on slangia. Sanasto: slangisanat ja puhekielen muodot (safkaa, meininki, tän, ruokalas, muutenki). Rakenne: puhekielen rakenteet ja retorinen kysymys (Kuka keksi tän?). Puhuttelu: ei suoraa puhuttelua, kirjoittaja kommentoi yleisesti."},{"nro":18,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Kirjoita slangia sisältävän somekommentin sisältö asialliseksi palautteeksi koulun keittiölle. Kaikki kommentin asiat säilyvät, mutta rekisteri vaihtuu kokonaan.","vastaus":"Malliesimerkki: Ruokailu alkaa nyt vasta kello 11.30, mikä on mielestäni liian myöhään. Monella on nälkä jo kymmeneltä. Lisäksi ruokasali on muutenkin aina hyvin täynnä. Kuka muutoksesta päätti?"},{"nro":19,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Pohdi kahta tilannetta, joissa rekisteri ei sovi. Kerro kummastakin, mitä vastaanottaja todennäköisesti ajattelee tai tekee, ja nimeä kaksi kielen piirrettä, jotka johtavat siihen.\n\na) Oppilas kirjoittaa koulun keittiölle: ”Hei te siellä, safka oli taas ihan kuraa, tehkää jotain.”\nb) Koulu lähettää 2.-luokkalaisille tiedotteen: ”Ruokailutapahtuman sujuvoittamiseksi oppilaiden tulee huolehtia jonotusjärjestyksen noudattamisesta.”","vastaus":"Malliesimerkki: a) Keittiön työntekijät voivat loukkaantua ja pitää viestiä epäkohteliaana, eivätkä he välttämättä ota palautetta huomioon. Syynä ovat slangi ja halventava ilmaus (safka, ihan kuraa) sekä tyly käsky (tehkää jotain). b) Toisluokkalaiset eivät ymmärrä, mitä heidän pitää tehdä. Syynä ovat substantiivityyli (sujuvoittamiseksi, noudattamisesta) ja pitkä virke, jossa ei sanota suoraan ”jonota omalla vuorollasi”."},{"nro":20,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Väite: Virkakieli on huonoa kieltä.\n\nArvioi väitettä. Perustele arviosi tilanteella ja vastaanottajalla, ja anna yksi esimerkki tilanteesta, johon kyseinen kieli sopii, ja yksi tilanteesta, johon se ei sovi.","vastaus":"Malliesimerkki: Väite ei pidä paikkaansa. Virkakieli sopii viralliseen päätökseen, koska siitä pitää näkyä täsmällisesti, kuka päätti, mitä päätettiin ja miten päätökseen voi hakea muutosta. Se ei sovi lapsille tai nuorille suunnattuun tiedotteeseen, koska pitkät virkkeet ja substantiivityyli tekevät tekstistä vaikean ymmärtää."}]},{"id":"C","nimi":"Koe C","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on kuusi keksittyä katkelmaa samasta aiheesta. Katkelmat, henkilöt, paikat, päivämäärät ja yritykset on keksitty tätä koetta varten.\nTehtävissä 1–15 vastaat yhdellä luvulla (katkelman tai vaihtoehdon numero tai lukumäärä).\nRekisterit: virkakieli (virallinen päätös), asiallinen yleiskieli (tiedote), arkikieli (viesti kaverille), slangi, ammattikieli ja mainoskieli. Piirteiden tasot: sanasto, rakenne ja puhuttelu.\nSinuttelu tarkoittaa yksikön 2. persoonan muotoja (sinä, sinulle, pääset, kausikorttisi) ja yksikön käskymuotoja (tule, avaa). -minen-johdokseksi lasketaan myös sen taivutetut muodot (lukemisen, lukemista).\nTehtävissä 16–20 vastaat kokonaisin virkkein. Lainaa piirteisiin kohta katkelmasta. Laitetta tai sanakirjaa ei käytetä.\n\nKuusi katkelmaa aiheesta Lehtolan kirjaston muutto\n\nKatkelma 1.\nKirjasto kiinni? Lukuhetki jatkuu! Kirjakauppa Sivupino tarjoaa sinulle kaikki nuortenkirjat 20 prosentin alennuksella koko huhtikuun. Tule ja löydä uusi lempikirjasi!\n\nKatkelma 2.\nKokoelman pakkaus 25.3. alkaen: Poista poistoon merkityt niteet kirjastojärjestelmästä ennen pakkausta. Pakkaa niteet laatikoihin luokituksen mukaan. Merkitse jokaiseen laatikkoon hyllyluokka ja juokseva numero.\n\nKatkelma 3.\nMoi Leo! Tiesitsä et kirjasto menee kiinni koko huhtikuuks? Mun pitää palauttaa ne sarjikset ennen sitä. Tuutko mukaan huomenna koulun jälkeen?\n\nKatkelma 4.\nLehtolan kaupungin sivistyslautakunta on kokouksessaan 20.1. päättänyt kirjaston siirtämisestä Lehtolan monitoimitaloon. Muuton ajaksi kirjasto suljetaan 1.–28.4. Lainojen eräpäiviä siirretään toukokuun alkuun. Aineiston palauttaminen on mahdollista kauppakeskuksen palautusautomaattiin. Varausten noutamisesta ilmoitetaan erikseen.\n\nKatkelma 5.\nSiis mitä, kirjasto kiinni kuukauden? Mis mä nyt hengaan koulun jälkeen. Se oli ainoo mesta, mis sai olla rauhas. Ihan surkee juttu.\n\nKatkelma 6.\nLehtolan kirjasto muuttaa monitoimitaloon, ja se on suljettuna 1.–28.4. Lainojenne eräpäivät siirtyvät automaattisesti toukokuun alkuun. Voitte palauttaa aineistoa kauppakeskuksen palautusautomaattiin. Uusi kirjasto avataan 29.4.","tehtavat":[{"nro":1,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on virallinen päätös?","vastaus":4},{"nro":2,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on asiallinen tiedote?","vastaus":6},{"nro":3,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on ammattikielinen ohje?","vastaus":2},{"nro":4,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on mainos?","vastaus":1},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako -minen-johdosta on siinä katkelmassa, joka on virallinen päätös? Laske myös taivutetut muodot.","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako passiivimuotoista predikaattia on siinä katkelmassa, joka on virallinen päätös?","vastaus":3},{"nro":7,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako käskymuotoista verbiä on siinä katkelmassa, joka on ammattikielinen ohje?","vastaus":3},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa sinutellaan?","vastaus":3},{"nro":9,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa ei puhutella lainkaan (ei sinä- eikä te-muotoja eikä käskyjä)?","vastaus":2},{"nro":10,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"skole, koulu, raha, massi, broidi, veli, kotona, himassa\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":4},{"nro":11,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"lainata, suorittaa lainaus, antaa lupa, tehdä varaus, palauttaa, suorittaa palautus\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa) eikä pelkällä verbillä?","vastaus":4},{"nro":12,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Haluat pyytää kirjastonhoitajalta apua kirjan löytämiseen.\n\n1. Etsi mulle se kirja.\n2. Voisitteko auttaa minua löytämään yhden kirjan?\n3. Kirjan etsimiseen on ryhdyttävä viipymättä.\n\nMonesko pyyntö sopii kirjastonhoitajalle parhaiten?","vastaus":2},{"nro":13,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Virke: Myöhästyneistä palautuksista peritään myöhästymismaksu kirjaston hinnaston mukaisesti.\n\n1. Kirjasto ei peri maksua myöhässä palautetuista kirjoista.\n2. Jos palautat lainan myöhässä, maksat siitä kirjaston hinnaston mukaisen maksun.\n3. Myöhäs palautuksest joutuu pulittaa.\n\nMonesko vaihtoehto kertoo saman asian selkeällä yleiskielellä niin, että sisältö säilyy?","vastaus":2},{"nro":14,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"1. Onnitteluviesti kaverille: Syntymäpäivänne johdosta esitetään onnittelut.\n2. Kirjaston tiedote asiakkaille: Kirjasto on suljettuna pääsiäisenä.\n3. Työhakemus: Mä oon ihan huippu jätkä tähän duuniin.\n4. Somekommentti kaverin kuvaan: Tosi hieno kuva!\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle ja tilanteeseen?","vastaus":2},{"nro":15,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Kirjaston ilmoitus on tarkoitettu 7-vuotiaille.\n\n1. Muista palauttaa kirjat ajoissa. Voit palauttaa ne kauppakeskuksen laatikkoon.\n2. Lainausajan ylittyessä aineiston palauttaminen tulee suorittaa viipymättä.\n3. Kirjat takas kaupan boksiin, muuten tulee sakot.\n\nMonesko versio sopii 7-vuotiaille parhaiten?","vastaus":1},{"nro":16,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 1, 2 ja 3 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 1 on mainoskieltä. Sanasto: houkuttelevat sanat (Lukuhetki jatkuu!, alennuksella, lempikirjasi). Rakenne: kysymys ja huudahdukset (Kirjasto kiinni?) sekä käskyt (Tule ja löydä). Puhuttelu: sinuttelu (tarjoaa sinulle, lempikirjasi). Katkelma 2 on ammattikieltä. Sanasto: alan termit (kokoelma, nide, luokitus, hyllyluokka, kirjastojärjestelmä). Rakenne: lyhyet käskyvirkkeet ja päivämäärä. Puhuttelu: yksikön käskymuoto työntekijälle (Poista, Pakkaa, Merkitse). Katkelma 3 on arkikieltä (viesti kaverille). Sanasto: puhekielen muodot (tiesitsä, et, huhtikuuks, mun, sarjikset). Rakenne: lyhyitä kysymyksiä. Puhuttelu: tervehdys ja etunimi (Moi Leo!) sekä sinuttelu (tiesitsä, tuutko)."},{"nro":17,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 4, 5 ja 6 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 4 on virkakieltä (virallinen päätös). Sanasto: hallinnon sanat (sivistyslautakunta, aineisto) ja -minen-sanat (siirtämisestä, palauttaminen, noutamisesta). Rakenne: passiivi (suljetaan, siirretään, ilmoitetaan) ja substantiivityyli (palauttaminen on mahdollista). Puhuttelu: lukijaa ei puhutella. Katkelma 5 on slangia. Sanasto: slangisanat ja puhekielen muodot (hengaan, mesta, ainoo, surkee, mis). Rakenne: lyhyitä virkkeitä ja huudahdus (Siis mitä). Puhuttelu: lukijaa ei puhutella, kirjoittaja puhuu omista tunteistaan. Katkelma 6 on asiallista yleiskieltä (tiedote). Sanasto: yleiskielen sanat ja täsmälliset päivämäärät. Rakenne: täydet virkkeet, tärkein asia ensin. Puhuttelu: te-muoto (lainojenne, voitte)."},{"nro":18,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Kirjoita slangia sisältävän somekommentin sisältö asialliseksi palautteeksi kirjastolle. Kaikki kommentin asiat säilyvät, mutta rekisteri vaihtuu kokonaan.","vastaus":"Malliesimerkki: Olen pahoillani siitä, että kirjasto on suljettuna kokonaisen kuukauden. En tiedä, missä voisin nyt viettää aikaa koulun jälkeen. Kirjasto oli ainoa paikka, jossa sai olla rauhassa. Sulkeminen on minusta harmillinen asia."},{"nro":19,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Pohdi kahta tilannetta, joissa rekisteri ei sovi. Kerro kummastakin, mitä vastaanottaja todennäköisesti ajattelee tai tekee, ja nimeä kaksi kielen piirrettä, jotka johtavat siihen.\n\na) Oppilas kirjoittaa kirjastonjohtajalle: ”Moi! Ois tosi siistii jos kirjasto ois auki sunnuntaisinki, laita se ny auki.”\nb) Kirjasto lähettää 7-vuotiaille satutuokioon tuleville viestin: ”Satutuokioon osallistuminen edellyttää ennakkoilmoittautumista asiakaspalvelupisteessä.”","vastaus":"Malliesimerkki: a) Kirjastonjohtaja voi pitää viestiä epäkohteliaana ja jättää ehdotuksen huomiotta, vaikka ajatus on hyvä. Syynä ovat puhekielen muodot (ois, siistii, sunnuntaisinki) ja käsky (laita se ny auki). b) Seitsemänvuotias ei ymmärrä viestiä eikä tiedä, että hänen pitää ilmoittautua etukäteen. Syynä ovat substantiivityyli (osallistuminen edellyttää) ja vaikeat sanat (ennakkoilmoittautuminen, asiakaspalvelupiste)."},{"nro":20,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Väite: Somekommentissa pitää aina kirjoittaa huoliteltua yleiskieltä.\n\nArvioi väitettä. Perustele arviosi tilanteella ja vastaanottajalla, ja anna yksi esimerkki tilanteesta, johon kyseinen kieli sopii, ja yksi tilanteesta, johon se ei sovi.","vastaus":"Malliesimerkki: Väite ei pidä paikkaansa. Kaverin kuvan alla tai oman porukan keskustelussa arkikieli ja slangi sopivat, koska vastaanottajat ovat tuttuja ja tuttavallinen kieli luo yhteishenkeä. Jos kommentoi esimerkiksi kaupungin tai koulun julkaisua tai antaa palautetta yritykselle, asiallinen yleiskieli on parempi, koska vastaanottaja on vieras ja viestin halutaan menevän perille."}]},{"id":"D","nimi":"Koe D","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on kuusi keksittyä katkelmaa samasta aiheesta. Katkelmat, henkilöt, paikat, päivämäärät ja yritykset on keksitty tätä koetta varten.\nTehtävissä 1–15 vastaat yhdellä luvulla (katkelman tai vaihtoehdon numero tai lukumäärä).\nRekisterit: virkakieli (virallinen päätös), asiallinen yleiskieli (tiedote), arkikieli (viesti kaverille), slangi, ammattikieli ja mainoskieli. Piirteiden tasot: sanasto, rakenne ja puhuttelu.\nSinuttelu tarkoittaa yksikön 2. persoonan muotoja (sinä, sinulle, pääset, kausikorttisi) ja yksikön käskymuotoja (tule, avaa). -minen-johdokseksi lasketaan myös sen taivutetut muodot (lukemisen, lukemista).\nTehtävissä 16–20 vastaat kokonaisin virkkein. Lainaa piirteisiin kohta katkelmasta. Laitetta tai sanakirjaa ei käytetä.\n\nKuusi katkelmaa aiheesta bussilinjan 23 reitin muutos\n\nKatkelma 1.\nMahtavaa, dösä ei enää pysähdy koulun vieres. Nyt pitää kävellä Rantatielle asti joka aamu. Kuka tän keksi, ihan päätön homma.\n\nKatkelma 2.\nLinjan 23 reitti muuttuu 1.6. alkaen Koivukylän koulun kohdalla katutöiden vuoksi. Koivukyläntien pysäkit eivät ole käytössä. Voitte nousta bussiin Rantatien tilapäisiltä pysäkeiltä. Ajantasaiset aikataulut löydätte reittioppaasta.\n\nKatkelma 3.\nKyllästyttääkö odottaa bussia? Kaupunkifillarilla pääsette kouluun omaan tahtiinne! Ladatkaa sovellus ja ajakaa ensimmäinen kuukausi ilmaiseksi.\n\nKatkelma 4.\nLinja 23, poikkeusreitti 1.6. alkaen: Käänny Koivukyläntieltä oikealle Rantatielle. Pysähdy tilapäisillä pysäkeillä R1 ja R2. Kuuluta pysäkkimuutos koulun kohdalla. Ilmoita viivästyksistä liikennevalvontaan radiopuhelimella.\n\nKatkelma 5.\nSeudun joukkoliikennelautakunta on kokouksessaan 8.5. hyväksynyt linjan 23 reitin muuttamisen Koivukylän koulun kohdalla. Muutoksen perusteena on katutöistä johtuva ajoradan kaventuminen. Koivukyläntien pysäkit poistetaan käytöstä 1.6. alkaen. Korvaavat pysäkit sijoitetaan Rantatielle. Muutoksen voimassaolon jatkamisesta päätetään syksyllä.\n\nKatkelma 6.\nMoi Sanni! Huomasitko, et 23 ei pysähdy enää koulun kohdalla? Mennäänkö huomenna yhessä Rantatien pysäkille? Mä oon siellä vähän ennen seittemää.","tehtavat":[{"nro":1,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on virallinen päätös?","vastaus":5},{"nro":2,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on asiallinen tiedote?","vastaus":2},{"nro":3,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on ammattikielinen ohje?","vastaus":4},{"nro":4,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on mainos?","vastaus":3},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako -minen-johdosta on siinä katkelmassa, joka on virallinen päätös? Laske myös taivutetut muodot.","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako passiivimuotoista predikaattia on siinä katkelmassa, joka on virallinen päätös?","vastaus":3},{"nro":7,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako käskymuotoista verbiä on siinä katkelmassa, joka on ammattikielinen ohje?","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa sinutellaan?","vastaus":2},{"nro":9,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa ei puhutella lainkaan (ei sinä- eikä te-muotoja eikä käskyjä)?","vastaus":2},{"nro":10,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"dösä, bussi, kämppä, asunto, elokuva, leffa, jalkapallo, pesäpallo\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":3},{"nro":11,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"tehdä muutos, muuttaa, antaa ohjeistus, ohjeistaa, suorittaa pysähdys, pysähtyä\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa) eikä pelkällä verbillä?","vastaus":3},{"nro":12,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Haluat kysyä bussinkuljettajalta, pysähtyykö bussi koulun kohdalla.\n\n1. Anteeksi, pysähtyykö tämä bussi koulun kohdalla?\n2. Stoppaaks tää dösä koulul vai?\n3. Ilmoittakaa, tapahtuuko pysähtyminen koulun kohdalla.\n\nMonesko kysymys sopii kuljettajalle parhaiten?","vastaus":1},{"nro":13,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Virke: Matkustajien tulee huomioida pysäkkien sijainnin muuttuminen 1.6. alkaen.\n\n1. Huomaa, että pysäkit ovat 1.6. alkaen eri paikassa.\n2. Pysäkit muuttuvat ehkä joskus kesällä.\n3. Pysäkit on muualla kesäkuust, tsekkaa.\n\nMonesko vaihtoehto kertoo saman asian selkeällä yleiskielellä niin, että sisältö säilyy?","vastaus":1},{"nro":14,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"1. Kuulutus matkustajille: Dösä ei stoppaa koulul, hypätkää pois Rantatiel.\n2. Ohje bussinkuljettajille: Kuuluta pysäkkimuutos ennen koulua.\n3. Viesti kaverille: Teitä pyydetään saapumaan pysäkille täsmällisesti kello 7.40.\n4. Hakemus nuorisovaltuustoon: Moi! Haluun mukaan, ois siistii.\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle ja tilanteeseen?","vastaus":1},{"nro":15,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Bussiyhtiön ohje on tarkoitettu 8-vuotiaille koululaisille.\n\n1. Matkustajan tulee ilmoittaa poistumisaikeestaan painamalla pysähtymispainiketta hyvissä ajoin.\n2. Paina punaista nappia ennen kuin bussi tulee sinun pysäkillesi.\n3. Nappii pitää painaa ennen ku dösä tulee sun stopille.\n\nMonesko versio sopii 8-vuotiaille parhaiten?","vastaus":2},{"nro":16,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 1, 2 ja 3 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 1 on slangia. Sanasto: slangisanat ja puhekielen muodot (dösä, vieres, tän, päätön homma). Rakenne: ironinen huudahdus (Mahtavaa) ja retorinen kysymys (Kuka tän keksi). Puhuttelu: lukijaa ei puhutella, kirjoittaja kommentoi yleisesti. Katkelma 2 on asiallista yleiskieltä (tiedote). Sanasto: yleiskielen sanat ja täsmälliset tiedot (1.6. alkaen, Rantatien tilapäiset pysäkit). Rakenne: täydet virkkeet, tärkein asia ensin. Puhuttelu: te-muoto (voitte, löydätte). Katkelma 3 on mainoskieltä. Sanasto: houkuttelevat sanat (omaan tahtiinne, ilmaiseksi). Rakenne: kysymys, huudahdus ja käskyt (Ladatkaa, ajakaa). Puhuttelu: te-muoto (pääsette, tahtiinne) ja monikon käskyt."},{"nro":17,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 4, 5 ja 6 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 4 on ammattikieltä. Sanasto: alan termit ja tunnukset (poikkeusreitti, liikennevalvonta, R1, R2). Rakenne: lyhyet käskyvirkkeet. Puhuttelu: yksikön käskymuoto kuljettajalle (Käänny, Pysähdy, Kuuluta, Ilmoita). Katkelma 5 on virkakieltä (virallinen päätös). Sanasto: hallinnon sanat (joukkoliikennelautakunta, voimassaolo) ja -minen-sanat (muuttamisen, kaventuminen, jatkamisesta). Rakenne: passiivi (poistetaan, sijoitetaan, päätetään) ja substantiivityyli. Puhuttelu: lukijaa ei puhutella. Katkelma 6 on arkikieltä (viesti kaverille). Sanasto: puhekielen muodot (et, yhessä, mä oon, seittemää). Rakenne: lyhyitä kysymyksiä. Puhuttelu: tervehdys ja etunimi (Moi Sanni!) sekä sinuttelu (huomasitko)."},{"nro":18,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Kirjoita slangia sisältävän somekommentin sisältö asialliseksi palautteeksi seudun joukkoliikenteelle. Kaikki kommentin asiat säilyvät, mutta rekisteri vaihtuu kokonaan.","vastaus":"Malliesimerkki: Bussi ei enää pysähdy koulun vieressä, mikä on minusta huono ratkaisu. Nyt joudun kävelemään joka aamu Rantatielle asti. Kuka tästä muutoksesta päätti? Pidän sitä huonosti harkittuna."},{"nro":19,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Pohdi kahta tilannetta, joissa rekisteri ei sovi. Kerro kummastakin, mitä vastaanottaja todennäköisesti ajattelee tai tekee, ja nimeä kaksi kielen piirrettä, jotka johtavat siihen.\n\na) Oppilas kirjoittaa joukkoliikennelautakunnalle: ”Moro, toi teiän uus reitti on ihan syvältä, vaihtakaa takas.”\nb) Liikennelaitos laittaa bussiin tiedotteen esikoululaisille: ”Pysähtymistarpeesta on ilmoitettava kuljettajalle hyvissä ajoin painiketta käyttämällä.”","vastaus":"Malliesimerkki: a) Lautakunnan jäsenet voivat pitää palautetta epäasiallisena ja jättää sen huomiotta, koska siinä ei ole perusteluja. Syynä ovat slangi (ihan syvältä), puhekielen muodot (toi, teiän, uus) ja tyly käsky (vaihtakaa takas). b) Esikoululainen ei ymmärrä tiedotetta eikä osaa painaa nappia ajoissa. Syynä ovat substantiivityyli (pysähtymistarpeesta on ilmoitettava) ja passiivinen rakenne, jossa ei sanota suoraan, mitä lapsen pitää tehdä."},{"nro":20,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Väite: Ammattikieli on turhaa erikoiskieltä, jota kenenkään ei pitäisi käyttää.\n\nArvioi väitettä. Perustele arviosi tilanteella ja vastaanottajalla, ja anna yksi esimerkki tilanteesta, johon kyseinen kieli sopii, ja yksi tilanteesta, johon se ei sovi.","vastaus":"Malliesimerkki: Väite ei pidä paikkaansa. Ammattikieli sopii saman alan ihmisten väliseen viestintään, esimerkiksi kuljettajan ohjeeseen, koska termit ovat lyhyitä ja täsmällisiä ja kaikki ymmärtävät ne samalla tavalla. Se ei sovi matkustajille suunnattuun tiedotteeseen, koska matkustaja ei tunne termejä kuten liikennevalvonta tai poikkeusreitti R1."}]},{"id":"E","nimi":"Koe E","johdanto_otsikko":"Näin vastaat","johdanto":"Kokeen alussa on kuusi keksittyä katkelmaa samasta aiheesta. Katkelmat, henkilöt, paikat, päivämäärät ja yritykset on keksitty tätä koetta varten.\nTehtävissä 1–15 vastaat yhdellä luvulla (katkelman tai vaihtoehdon numero tai lukumäärä).\nRekisterit: virkakieli (virallinen päätös), asiallinen yleiskieli (tiedote), arkikieli (viesti kaverille), slangi, ammattikieli ja mainoskieli. Piirteiden tasot: sanasto, rakenne ja puhuttelu.\nSinuttelu tarkoittaa yksikön 2. persoonan muotoja (sinä, sinulle, pääset, kausikorttisi) ja yksikön käskymuotoja (tule, avaa). -minen-johdokseksi lasketaan myös sen taivutetut muodot (lukemisen, lukemista).\nTehtävissä 16–20 vastaat kokonaisin virkkein. Lainaa piirteisiin kohta katkelmasta. Laitetta tai sanakirjaa ei käytetä.\n\nKuusi katkelmaa aiheesta Ruskolan jäähallin yleisöluistelun siirto\n\nKatkelma 1.\nSunnuntain yleisöluistelu: Höylää jää jäänhoitokoneella ennen kello 13. Tarkista, että kaukalon laitaovet ovat kiinni. Siirrä maalit varastoon. Avaa yleisön pukuhuoneet kello 12.45.\n\nKatkelma 2.\nSunnuntaina jäälle? Luistinpaja Terä teroittaa luistimesi sillä aikaa, kun odotat! Tuo luistimet ja saat kaakaon kaupan päälle.\n\nKatkelma 3.\nEi vitsi, yleisöluistelu siirtyy sunnuntaille. Lauantai oli ainoo päivä, ku koko porukka pääs. Nyt pitää taas säätää jotain muuta. Tajuutsä, ihan surkee meininki.\n\nKatkelma 4.\nMoi Venla! Tiesitkö et luistelu on nykyään sunnuntaisin? Lähdetkö mukaan ens sunnuntaina? Mä voin lainata sulle mun vanhat luistimet.\n\nKatkelma 5.\nRuskolan jäähallin yleisöluistelu siirtyy marraskuun alusta sunnuntaihin kello 13–15. Lauantaisin hallissa pelataan junioriotteluita. Voitte lainata kypärän jäähallin kassalta. Tervetuloa luistelemaan!\n\nKatkelma 6.\nRuskolan kaupungin liikuntapalvelujen johtaja on 2.11. tekemällään viranhaltijapäätöksellä päättänyt yleisöluistelun siirtämisestä sunnuntaipäiviin. Muutoksen perusteena on junioriottelujen lisääntyminen lauantaisin. Yleisöluisteluvuorot järjestetään sunnuntaisin kello 13–15. Muutoksesta tiedotetaan kaupungin verkkosivuilla. Päätöksen toimeenpanemisesta vastaa jäähallin vastaava hoitaja.","tehtavat":[{"nro":1,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on virallinen päätös?","vastaus":6},{"nro":2,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on asiallinen tiedote?","vastaus":5},{"nro":3,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on ammattikielinen ohje?","vastaus":1},{"nro":4,"ryhma":"rekisterit","tyyppi":"lasku","kysymys":"Monesko katkelma on mainos?","vastaus":2},{"nro":5,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako -minen-johdosta on siinä katkelmassa, joka on virallinen päätös? Laske myös taivutetut muodot.","vastaus":3},{"nro":6,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako passiivimuotoista predikaattia on siinä katkelmassa, joka on virallinen päätös?","vastaus":2},{"nro":7,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Montako käskymuotoista verbiä on siinä katkelmassa, joka on ammattikielinen ohje?","vastaus":4},{"nro":8,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa sinutellaan?","vastaus":4},{"nro":9,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"Monessako katkelmassa lukijaa ei puhutella lainkaan (ei sinä- eikä te-muotoja eikä käskyjä)?","vastaus":1},{"nro":10,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"ymmärtää, hiffata, safka, ruoka, hauska, kliffa, iskä, isä\n\nMontako sanoista on slangia tai arkista puhekieltä?","vastaus":4},{"nro":11,"ryhma":"piirteet","tyyppi":"lasku","kysymys":"jäädyttää, suorittaa jäädytys, perua, tehdä peruutus, ilmoittaa, tiedottaa\n\nMontako ilmauksista on substantiivityyliä, jossa teko ilmaistaan substantiivilla ja yleisverbillä (esimerkiksi suorittaa, tehdä, antaa) eikä pelkällä verbillä?","vastaus":2},{"nro":12,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Haluat pyytää jäähallin kassalta kypärää lainaksi.\n\n1. Kypärän luovuttaminen minulle on suoritettava.\n2. Anna kypärä.\n3. Saisinko lainata kypärää? Kiitos.\n\nMonesko pyyntö sopii kassalle parhaiten?","vastaus":3},{"nro":13,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Virke: Luistelijoiden on käytettävä kypärää yleisöluisteluvuorojen aikana.\n\n1. Kypärää suositellaan luistellessa.\n2. Pidä kypärää aina, kun luistelet yleisövuorolla.\n3. Kypärä päähän ku meet jäälle.\n\nMonesko vaihtoehto kertoo saman asian selkeällä yleiskielellä niin, että sisältö säilyy?","vastaus":2},{"nro":14,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"1. Jäähallin tiedote yleisölle: Yleisöluistelu on sunnuntaisin kello 13–15.\n2. Viesti 6-vuotiaille luistelukoululaisille: Harjoitusvuoron alkamisajankohdasta poikkeaminen edellyttää ennakkoilmoitusta.\n3. Viesti kaverille: Lähetkö luistelee?\n4. Sähköposti rehtorille: Moikka! Ei jaksettu tulla kouluun.\n\nMonessako tilanteessa rekisteri sopii vastaanottajalle ja tilanteeseen?","vastaus":2},{"nro":15,"ryhma":"tilanne","tyyppi":"lasku","kysymys":"Jäähallin ilmoitus on tarkoitettu 6-vuotiaille luistelukoululaisille.\n\n1. Kypärän käyttö on luistelutoiminnan aikana ehdottoman pakollista.\n2. Kypärä pääs koko ajan, ok?\n3. Pidä kypärä päässä koko ajan, kun olet jäällä.\n\nMonesko versio sopii 6-vuotiaille parhaiten?","vastaus":3},{"nro":16,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 1, 2 ja 3 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 1 on ammattikieltä. Sanasto: alan termit (jäänhoitokone, höylätä, laitaovet, kaukalo). Rakenne: lyhyet käskyvirkkeet ja kellonajat. Puhuttelu: yksikön käskymuoto työntekijälle (Höylää, Tarkista, Siirrä, Avaa). Katkelma 2 on mainoskieltä. Sanasto: houkuttelevat ilmaukset (kaupan päälle). Rakenne: kysymys, huudahdus ja käsky (Tuo luistimet). Puhuttelu: sinuttelu (luistimesi, odotat, saat). Katkelma 3 on slangia. Sanasto: slangi ja puhekielen muodot (ei vitsi, ainoo, ku, säätää, surkee meininki). Rakenne: lyhyitä virkkeitä ja huudahdus. Puhuttelu: tuttavallinen sinuttelu puhekielen muodolla (tajuutsä), kirjoittaja puhuu oman porukan jäsenelle."},{"nro":17,"ryhma":"rekisterit","tyyppi":"sanallinen","kysymys":"Nimeä katkelmien 4, 5 ja 6 rekisteri. Osoita kustakin kolme piirrettä, yksi kultakin tasolta (sanasto, rakenne, puhuttelu), ja lainaa jokaiseen piirteeseen kohta katkelmasta.","vastaus":"Malliesimerkki: Katkelma 4 on arkikieltä (viesti kaverille). Sanasto: puhekielen muodot (et, ens, mä, sulle, mun). Rakenne: lyhyitä kysymyksiä. Puhuttelu: tervehdys ja etunimi (Moi Venla!) sekä sinuttelu (tiesitkö, lähdetkö). Katkelma 5 on asiallista yleiskieltä (tiedote). Sanasto: yleiskielen sanat ja täsmälliset ajat (kello 13–15). Rakenne: täydet virkkeet, tärkein asia ensin. Puhuttelu: te-muoto (voitte lainata) ja kohtelias toivotus. Katkelma 6 on virkakieltä (virallinen päätös). Sanasto: hallinnon sanat (viranhaltijapäätös, toimeenpaneminen) ja -minen-sanat (siirtämisestä, lisääntyminen). Rakenne: pitkät virkkeet, passiivi (järjestetään, tiedotetaan) ja substantiivityyli. Puhuttelu: lukijaa ei puhutella."},{"nro":18,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Kirjoita slangia sisältävän somekommentin sisältö asialliseksi palautteeksi kaupungin liikuntapalveluille. Kaikki kommentin asiat säilyvät, mutta rekisteri vaihtuu kokonaan.","vastaus":"Malliesimerkki: Olen pettynyt siihen, että yleisöluistelu siirtyy sunnuntaille. Lauantai oli ainoa päivä, jolloin koko ystäväporukkamme pääsi luistelemaan. Nyt meidän täytyy taas järjestää jotain muuta tekemistä. Muutos on minusta ikävä."},{"nro":19,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Pohdi kahta tilannetta, joissa rekisteri ei sovi. Kerro kummastakin, mitä vastaanottaja todennäköisesti ajattelee tai tekee, ja nimeä kaksi kielen piirrettä, jotka johtavat siihen.\n\na) Oppilas kirjoittaa liikuntapalvelujen johtajalle: ”Heippa! Miks te siirsitte luistelun, ihan tyhmä juttu. Laittakaa takas lauantaille.”\nb) Jäähalli tiedottaa 6-vuotiaiden luistelukoululle: ”Luistelukoulutoimintaan osallistuminen edellyttää kypärän ja kaulasuojuksen käyttämistä koko harjoitusajan.”","vastaus":"Malliesimerkki: a) Johtaja voi pitää viestiä epäkohteliaana ja jättää sen vaille vastausta, eikä toivomus luultavasti toteudu. Syynä ovat arkinen tervehdys ja puhekielen muodot (Heippa, miks, takas) sekä tyly arvio ja käsky (ihan tyhmä juttu, laittakaa). b) Kuusivuotias ei ymmärrä tiedotetta eikä tiedä, mitä hänen pitää pukea päälle. Syynä ovat pitkä substantiiviketju (luistelukoulutoimintaan osallistuminen edellyttää) ja vaikeat sanat."},{"nro":20,"ryhma":"tilanne","tyyppi":"sanallinen","kysymys":"Väite: Arkikieli on aina epäkohteliasta.\n\nArvioi väitettä. Perustele arviosi tilanteella ja vastaanottajalla, ja anna yksi esimerkki tilanteesta, johon kyseinen kieli sopii, ja yksi tilanteesta, johon se ei sovi.","vastaus":"Malliesimerkki: Väite ei pidä paikkaansa. Arkikieli on kaverille kirjoitetussa viestissä luontevaa ja ystävällistä, koska vastaanottaja on tuttu ja tuttavallinen kieli kertoo läheisyydestä. Sähköpostissa rehtorille tai palautteessa kaupungille arkikieli voi tuntua epäkohteliaalta, koska vastaanottaja on aikuinen ja tilanne on virallinen."}]}],"opettajalle":{"kesto":"3 · 45 min","huomiot":["Muoto: koeperustainen, koska kartan näyttö alkaa sanalla ”Paperikoe”. Kokeen alussa on kartan mukaiset kuusi keksittyä katkelmaa samasta aiheesta (virallinen päätös, asiallinen tiedote, arkinen viesti kaverille, slangia sisältävä somekommentti, ammattikielinen ohje ja mainos), eri järjestyksessä eri versioissa. Näytön osat: rekisterien nimeäminen ja piirteiden osoittaminen (16 ja 17 sekä yksikäsitteisinä 1–9), katkelman kirjoittaminen toisella rekisterillä (18) ja kahden sopimattoman tilanteen pohdinta (19). Sopivuuden perusteleminen tilanteella on tehtävissä 12–15 ja 20. Kokeessa on 15 numeerista ja 5 sanallista tehtävää.","Mittaritehtävät ovat 16, 17, 18 ja 19. Tehtävät 16 ja 17 ovat oikein, kun kaikki kolme rekisteriä on nimetty oikein ja jokaisesta on osoitettu kolme piirrettä eri tasoilta (sanasto, rakenne, puhuttelu) niin, että jokaiseen on liitetty kohta katkelmasta. Puhuttelun puuttuminen (”lukijaa ei puhutella”) kelpaa puhuttelun tason piirteeksi. Nimityksistä hyväksytään vastineet: virkakieli = virallinen kieli tai hallinnon kieli, arkikieli = puhekieli tai arkinen viesti, mainoskieli = mainos.","Tehtävä 18 on oikein, kun teksti on johdonmukaisesti asiallista yleiskieltä (ei slangia eikä puhekielen muotoja) ja kaikki kommentin asiat ovat mukana: mitä tapahtui, kirjoittajan harmistus ja kommentin muut tiedot. Uusia tietoja ei saa lisätä. Kohteliaisuuden lisääminen tai kysymyksen muuttaminen toteamukseksi on sallittua. Tehtävä 19 on oikein, kun kummastakin tilanteesta on konkreettinen seuraus vastaanottajalle (esimerkiksi ei ymmärrä, loukkaantuu, pitää epäkohteliaana, ei ota vakavasti) ja kaksi kielen piirrettä, jotka johtavat siihen. Pelkkä ”se on huonoa kieltä” ei kelpaa.","Tehtävä 20 tarkistetaan käsin: perustelun pitää nojata tilanteeseen ja vastaanottajaan, ja mukana on yksi sopiva ja yksi sopimaton tilanne. Oppilaan omaa kielenkäyttöä tai kantaa ei arvioida. Kaikissa sanallisissa tehtävissä hyväksytään mikä tahansa oikea muotoilu, ei vain mallivastauksen sanamuoto.","Tehtävien 1–15 tulkinnat: -minen-johdokseksi lasketaan sanat, joissa on johdin -minen taivutettuna (sulkemisesta, uusimisen); -us- ja -ys-sanat eivät kuulu niihin. Passiivimuotoiseksi predikaatiksi lasketaan persoonamuotoiset passiivit (jatketaan, tiedotetaan); nollapersoona (voi tehdä) ja aktiivi eivät kuulu niihin. Käskymuodoiksi lasketaan yksikön 2. persoonan imperatiivit (Sulje, Tarkista). Tehtävässä 8 sinutellaan yleensä viestissä, mainoksessa ja ohjeessa ja tehtävässä 9 lukijaa ei puhutella päätöksessä eikä somekommentissa, mutta versiot eroavat tarkoituksella: A-version tiedote ei puhuttele lukijaa (nollapersoona voi uida, saa), D-version mainos käyttää te-muotoa ja E-version somekommentti sinuttelee (tajuutsä). Muissa versioissa tiedote käyttää te-muotoa. Tehtävän 10 slangi- ja puhekielisanat ovat selviä tapauksia (esimerkiksi himaan, faija, dösä, safka). Tehtävässä 14 sopivia tilanteita on versiosta riippuen yhdestä kolmeen. Tehtävien 5–11 ja 14 lukuvastaukset vaihtelevat versioittain, jotta avainta ei voi oppia ulkoa.","Tehtävät 5–7 kysyvät päätöksestä ja ohjeesta nimeämättä katkelman numeroa. Jos oppilas on tunnistanut päätöksen väärin tehtävässä 1, tehtävät 5 ja 6 menevät yleensä myös väärin. Tämä on tarkoituksellista, koska tunnistaminen on taidon ydin.","Herkkyys: katkelmat ja henkilöt ovat keksittyjä. Oppilaan omaa puhetapaa, kotikieltä tai murretta ei kysytä eikä arvioida. Rekisterejä ei arvoteta: slangi ja arkikieli ovat oikeaa kieltä omassa tilanteessaan.","Rajaus: sanojen sävyerot, kiertoilmaukset ja sanakirjan tyylimerkinnät ovat taidossa AI8-KIE-06, ja murteet ja kielen ohjailu 9. luokan taidossa AI9-KIE-04. Tässä taidossa slangi ja ammattikieli käsitellään rekistereinä, ei kielen alueellisena tai sosiaalisena vaihteluna.","Tarkistettavat asiatiedot: rekisterin ja tyylin määritelmät vaihtelevat oppikirjoittain. Materiaali noudattaa Ison suomen kieliopin linjaa (rekisteri tilanteen mukaan valittuna kielimuotona, https://kaino.kotus.fi/visk/), ja nollapersoonan ja passiivin ero on kuvattu samassa lähteessä. Ammattikielen esimerkkien termit (kiertovesipumppu, vapaa kloori, tasausallas, haude, omavalvontalomake, nide, hyllyluokka, poikkeusreitti, liikennevalvonta, jäänhoitokone) ovat yleisiä alan sanoja, mutta lämpötilat ja pitoisuudet (+60 °C, 0,1 mg/l) ovat keksittyjä esimerkkejä eivätkä ohjeita. Slangisanojen luokittelun voi tarkistaa Kielitoimiston sanakirjasta (https://www.kielitoimistonsanakirja.fi/), jossa ne on merkitty ark. tai sl."]},"tuntirunko":{"kesto":"3 · 45 min","sanottava_aaneen":"Kysy aina ensin: kuka kirjoittaa, kenelle ja mitä varten? Etsi sitten piirteitä kolmelta tasolta: sanasto, rakenne ja puhuttelu. Rekisteri ei ole hyvää tai huonoa kieltä, vaan se sopii tilanteeseen tai ei sovi.","vaiheet":[{"aika":"10 min","otsikko":"Tunti 1. Aloitus: sama uutinen kolmella tavalla","sisalto":"Näytä johdannon kolme versiota puistokonsertista. Parit kirjoittavat, mikä kussakin muuttuu: sanat, virkkeet ja lukijan puhuttelu."},{"aika":"20 min","otsikko":"Kuusi rekisteriä ja kolme tasoa","sisalto":"Käy läpi taulukko, kappale piirteiden tasoista ja kuva. Pysähdy nollapersoonaan ja passiiviin (ansa 4) ja substantiivityyliin."},{"aika":"15 min","otsikko":"Harjoittelu: tunnistus ja piirteet","sisalto":"Oppilaat tekevät ensimmäisen harjoitusryhmän ja aloittavat toisen. Kokoa yhteen, mitkä piirteet kuuluvat millekin tasolle."},{"aika":"15 min","otsikko":"Tunti 2. Kun rekisteri ei sovi","sisalto":"Käy läpi kappale seurauksista ja ansat 1 ja 2. Parit keksivät kaksi tilannetta, joissa rekisteri ei sovi, ja kirjoittavat kummastakin konkreettisen seurauksen."},{"aika":"15 min","otsikko":"Saman sisällön toisella rekisterillä","sisalto":"Käy läpi kappale ja ansa 3. Jokainen kirjoittaa yhden harjoitusten katkelmista toisella rekisterillä, ja pari tarkistaa, säilyikö jokainen tieto."},{"aika":"15 min","otsikko":"Harjoittelu: tilanne","sisalto":"Oppilaat tekevät loput harjoitukset. Käy läpi harjoitus 20: miten väitettä arvioidaan rekisterin avulla."},{"aika":"45 min","otsikko":"Tunti 3. Näyttö","sisalto":"Paperikoe (koe A–E). Tarkista mittaritehtävät 16–19 erikseen. Pura koe seuraavalla tunnilla."}],"tarvikkeet":"Oppitunnin sivu laitteelta tai heijastettuna, kolme väriä piirteiden alleviivaukseen (sanasto, rakenne, puhuttelu). Kokeeseen tulostettu koe ja kynä."},"virhesanakirja":[{"virhe":"Sekoittaa virallisen päätöksen ja asiallisen tiedotteen","tehtava":"rekisterit, tehtävät 1, 2, 16 ja 17","mita_kertoo":"Oppilas tunnistaa, että molemmat ovat asiallisia, mutta ei erota virkakielen piirteitä (substantiivityyli, passiivi, hallinnon termit, ei puhuttelua) tiedotteen piirteistä (selkeät virkkeet, te-muoto).","mita_tehda":"Asettakaa päätös ja tiedote rinnakkain ja alleviivatkaa kolmella värillä sanasto, rakenne ja puhuttelu. Laskekaa kummastakin -minen-sanat ja te-muodot."},{"virhe":"Laskee nollapersoonan tai aktiivin passiiviksi (voi tehdä, on päättänyt)","tehtava":"piirteet, tehtävä 6","mita_kertoo":"Oppilas ajattelee, että kaikki tekijättömältä näyttävät muodot ovat passiivia.","mita_tehda":"Kerratkaa ansa 4. Tehkää lista: passiivi päättyy -taan, -tään, -daan tai -dään (jatketaan, tiedotetaan), nollapersoona on yksikön 3. persoona (voi tehdä)."},{"virhe":"Laskee -us-, -ys- tai muita -nen-sanoja -minen-johdoksiksi","tehtava":"piirteet, tehtävä 5","mita_kertoo":"Oppilas tunnistaa substantiivityylin, mutta ei erota johtimia.","mita_tehda":"Kirjoittakaa kolme -minen-sanaa perusmuodossa ja taivutettuina (sulkeminen, sulkemisen, sulkemista) ja verratkaa -us-sanoihin (korjaus, päätös)."},{"virhe":"Ei erota sinuttelua, te-muotoa ja puhuttelun puuttumista","tehtava":"piirteet, tehtävät 7, 8 ja 9","mita_kertoo":"Oppilas huomaa, että teksti puhuu lukijalle, mutta ei katso persoonamuotoja tai laskee käskyn ja te-muodon samaksi.","mita_tehda":"Ympyröikää jokaisesta katkelmasta 2. persoonan muodot ja käskyt ja kirjoittakaa viereen sinä, te tai ei puhuttelua."},{"virhe":"Perustelee rekisterin yhdellä sanalla tai vain sanaston tasolla","tehtava":"rekisterit, tehtävät 16 ja 17","mita_kertoo":"Oppilas tunnistaa rekisterin vaikutelmasta, mutta ei vielä osaa eritellä rakennetta ja puhuttelua.","mita_tehda":"Antakaa kolmisarakkeinen taulukko (sanasto, rakenne, puhuttelu), johon oppilas lainaa yhden kohdan kuhunkin sarakkeeseen. Kerratkaa ansa 1."},{"virhe":"Rekisterin vaihdossa sisältö muuttuu tai rekisteri jää sekavaksi","tehtava":"tilanne, tehtävät 13 ja 18","mita_kertoo":"Oppilas keskittyy kieleen ja unohtaa tiedot, tai hän vaihtaa sanat mutta jättää puhekielen rakenteet.","mita_tehda":"Listatkaa ennen kirjoittamista kaikki tiedot ja tarkistakaa ne lopuksi yksi kerrallaan. Lukekaa valmis teksti ääneen ja etsikää jokainen puhekielen muoto."},{"virhe":"Kutsuu rekisteriä huonoksi kieleksi eikä kerro konkreettista seurausta","tehtava":"tilanne, tehtävät 19 ja 20","mita_kertoo":"Oppilas arvottaa kieltä sinänsä eikä vielä ajattele vastaanottajaa.","mita_tehda":"Kysykää: kuka lukee tämän, mitä hän ajattelee ja mitä hän tekee sen jälkeen? Kerratkaa ansa 2 ja kappale sopimattomasta rekisteristä."}],"huoltajalle":{"mista_on_kyse":"Nuori oppii erittelemään rekisterejä eli kielimuotoja, jotka valitaan tilanteen ja vastaanottajan mukaan: virkakieli, asiallinen yleiskieli, arkikieli, slangi, ammattikieli ja mainoskieli. Hän osoittaa niiden piirteitä sanastosta, virkkeiden rakenteesta ja lukijan puhuttelusta, kirjoittaa saman sisällön toisella rekisterillä ja pohtii, mitä tapahtuu, kun rekisteri ei sovi tilanteeseen.","kotona":["Kun näette mainoksen, tiedotteen tai virallisen kirjeen, kysykää: kenelle tämä on kirjoitettu, ja mistä sen huomaa?","Kokeilkaa sanoa sama asia kahdella tavalla, esimerkiksi viestinä kaverille ja viestinä opettajalle. Mikä muuttuu?","Jos nuori kirjoittaa viestiä opettajalle, valmentajalle tai työnantajalle, kysykää, miltä viesti tuntuu vastaanottajasta.","Puhukaa siitä, että slangi ja arkikieli ovat hyviä kielimuotoja omassa tilanteessaan, eivät virheitä."],"milloin_huolestua":"Jos nuori ei harjoittelun jälkeenkään erota virallista tekstiä kaverille kirjoitetusta viestistä tai ei osaa muuttaa lyhyttä viestiä asialliseksi, kertokaa siitä opettajalle. Silloin harjoitellaan ensin yleiskielen ja puhekielen eroja."},"ulkoiset":{},"valmis_teksti":"Erittelet nyt rekisterien piirteitä sanastosta, rakenteesta ja puhuttelusta, kirjoitat saman sisällön toisella rekisterillä ja perustelet, milloin rekisteri sopii tilanteeseen. Tämä taito on nyt näytetty."};
+/* Kokeen osio-otsikot: ryhmanimet on kirjoitettu nimenomaan koetta varten
+   (esim. "Laske ilman sulkeita"), harjoitusryhmien nimet ovat oppilaan sivun
+   otsikoita ja toimivat varalla. Näyttötaidoilla kumpaakaan ei ole. */
+const RN = Object.assign(
+  Object.fromEntries((D.harjoitusryhmat||[]).map(r=>[r.id, r.nimi])),
+  D.ryhmanimet || {});
+
+document.getElementById("eyebrow").textContent = D.eyebrow + " · " + D.tavoite_id + " · opettajan sivu";
+document.getElementById("otsikko").textContent = D.otsikko;
+document.getElementById("johdanto").textContent =
+  D.kuvaus + " Tällä sivulla on tuntirunko, arviointikriteerit ja virheiden sanakirja" +
+  (D.kokeet && D.kokeet.length ? ", sekä " + D.kokeet.length + " tulostettavaa koetta vastausavaimineen."
+   : D.lukukokeet ? ", sekä " + D.lukukokeet.tekstit.length + " tulostettavaa lukutekstiä ja kirjauslomake."
+   : ". Tämä taito arvioidaan tekemällä, ei paperikokeella — koe-osiota ei siksi ole.") +
+  " Oppilas ei näe tätä sivua.";
+const ol=document.getElementById("oppilaslinkki");
+if(D.oppilas_url) ol.href=D.oppilas_url; else ol.remove();
+
+/* tuntirunko */
+(function(){ const k = String(D.tuntirunko.kesto); const m = k.match(/^(\d+)\s*·/);
+  const sanat = {2:"Kaksi",3:"Kolme",4:"Neljä",5:"Viisi"};
+  document.getElementById("kesto").textContent = m ? (sanat[m[1]] || m[1]) + " oppituntia, " + k + "." : "Yksi oppitunti, " + k + "."; })();
+
+const huomiot = (D.opettajalle && D.opettajalle.huomiot) || [];
+if(huomiot.length){
+  document.getElementById("opeHuomiot").innerHTML = huomiot.map(h=>`<li>${h}</li>`).join("");
+} else {
+  document.getElementById("huomiotlohko").style.display = "none";
+}
+document.getElementById("sanottava").textContent = D.tuntirunko.sanottava_aaneen;
+document.getElementById("vaiheet").innerHTML = D.tuntirunko.vaiheet.map(v=>
+  `<div class="vaihe"><span class="aika">${v.aika}</span>
+   <div><h4>${v.otsikko}</h4><p>${v.sisalto}</p></div></div>`).join("");
+document.getElementById("tarvikkeet").textContent = "Tarvikkeet: " + D.tuntirunko.tarvikkeet;
+
+/* kriteerit */
+document.getElementById("naytto").textContent = D.naytto;
+document.getElementById("osaakun").textContent = D.osaa_kun;
+document.getElementById("ops").textContent =
+  `Perusteiden tavoitteet ${D.ops.T.join(", ")} · sisältöalueet ${D.ops.S.join(", ")}`;
+
+/* virhesanakirja (kirjallisissa taidoissa) tai havainnointikriteerit (näyttötaidoissa) */
+if(D.havainnointikriteerit && D.havainnointikriteerit.length){
+  document.getElementById("virheotsikko").textContent = "Havainnointikriteerit";
+  document.getElementById("virheohje").textContent =
+    "Tätä taitoa ei arvioida paperikokeella vaan tekemällä. Nämä ovat kohdat, joita opettaja tarkkailee suorituksen aikana.";
+  document.getElementById("virheet").innerHTML = D.havainnointikriteerit.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+} else {
+  document.getElementById("virheet").innerHTML = D.virhesanakirja.map(v=>
+    `<div class="virhe"><div class="otsa"><span class="koodi">${v.virhe}</span>
+     <span class="missa">${v.tehtava}</span></div>
+     <dl><dt>Kertoo</dt><dd>${v.mita_kertoo}</dd><dt>Tee näin</dt><dd>${v.mita_tehda}</dd></dl></div>`).join("");
+}
+
+/* kokeet */
+const TUL = Object.assign(
+  {sarakkeita:2, sanalliset_sarakkeita:2, apuviivoja:1, sivuja:1, sivunvaihto_ennen:null}, D.tulostus||{});
+const VIIVAT = "<i></i>".repeat(Math.max(1, TUL.apuviivoja));
+
+function tehtava(t){
+  return `<div class="teht"><div class="rivi"><span class="nro">${t.nro}.</span><span class="kys">${t.kysymys}</span></div>
+    <span class="tila">${VIIVAT}</span></div>`;
+}
+/* Sanalliset tehtävät tarvitsevat leveämmän palstan kuin pelkät laskut, joten
+   ryhmän sisällä peräkkäiset samantyyppiset tehtävät kootaan omaksi ruudukokseen. */
+function ruudukot(tehtavat){
+  if(TUL.sanalliset_sarakkeita === TUL.sarakkeita)
+    return `<div class="tehtavat">${tehtavat.map(tehtava).join("")}</div>`;
+  const jonot=[];
+  tehtavat.forEach(t=>{
+    const san = t.tyyppi === "sanallinen";
+    const viim = jonot[jonot.length-1];
+    if(viim && viim.san === san) viim.lista.push(t);
+    else jonot.push({san, lista:[t]});
+  });
+  return jonot.map(j=>
+    `<div class="tehtavat${j.san?" sanalliset":""}">${j.lista.map(tehtava).join("")}</div>`).join("");
+}
+
+/* ---------- lukukokeet ----------
+   Ääneen lukemisen sujuvuuden seuranta. Jokaisesta tekstistä tulostuu kaksi
+   sivua: oppilaan kappale ilman merkintöjä ja opettajan kappale, jossa joka
+   kymmenennen sanan kohdalla on juokseva sanaluku. Näin opettaja voi merkitä
+   pysäytyskohdan eikä joudu laskemaan sanoja jälkikäteen.
+   Tämä osio EI päädy oppilaan sivulle: lukukokeet ei ole OPPILAAN_KENTAT-listalla. */
+const LK = D.lukukokeet;
+if(LK){
+  const sanoiksi = s => s.split(/\s+/).filter(Boolean);
+
+  function oppilaanKappale(teksti){
+    return `<div class="lukuteksti">${teksti}</div>`;
+  }
+  function opettajanKappale(teksti){
+    const sanat = sanoiksi(teksti);
+    return `<div class="lukuteksti ope">${sanat.map((s,i)=>
+      (i+1) % 10 === 0 ? `${s}<span class="sanamerkki">${i+1}</span>` : s).join(" ")}</div>`;
+  }
+
+  document.getElementById("lukukokeet").innerHTML = LK.tekstit.map(x=>{
+    const n = sanoiksi(x.teksti).length;
+    return `<section class="lukukoe" id="luku-${x.id}">
+      <div class="koe-head"><h3>${x.nimi}</h3>
+        <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${n} sanaa</span>
+        <button type="button" class="btn ghost tulosta-luku noprint" data-luku="${x.id}">Tulosta tämä</button></div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Oppilaan kappale · luettavaksi ääneen</div>
+        <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span></div>
+        ${oppilaanKappale(x.teksti)}
+      </div>
+      <div class="lukusivu">
+        <div class="kappale-otsikko">Opettajan kappale · sanaluku joka kymmenennen sanan kohdalla</div>
+        <div class="kentat"><span>Nimi</span><span>Päivämäärä</span><span>Oikein luetut sanat ___ / ${n}</span></div>
+        ${opettajanKappale(x.teksti)}
+      </div>
+    </section>`;
+  }).join("");
+
+  document.getElementById("lukuohjeet").innerHTML =
+    `<section class="blk"><h2>Näin mittaus tehdään</h2><ol>${
+      LK.ohje.map(o=>`<li>${o}</li>`).join("")}</ol></section>`;
+
+  const va = LK.viiteasteikko;
+  document.getElementById("kirjauslomake").innerHTML =
+    `<section class="blk"><h2>Kirjauslomake</h2>
+      <p class="ali">${LK.kirjaus_ohje}</p>
+      <table class="kirjaus"><thead><tr>
+        <th>Ajankohta</th><th>Päivämäärä</th><th>Teksti</th>
+        <th>Oikein luetut sanat</th><th>Sanaa minuutissa</th><th>Huomiot</th>
+      </tr></thead><tbody>${
+        ["Syksy","Talvi","Kevät"].map(a=>
+          `<tr><td>${a}</td><td></td><td></td><td></td><td></td><td></td></tr>`).join("")}
+      </tbody></table></section>` +
+    (va ? `<div class="viiteasteikko"><h4>${va.otsikko}</h4>${
+        va.selite.map(s=>`<p>${s}</p>`).join("")}
+      ${va.rivit && va.rivit.length ? `<table class="kirjaus"><thead><tr>${
+        va.sarakkeet.map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${
+        va.rivit.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      <p class="lahde">${va.lahde}</p></div>` : "");
+
+  document.getElementById("lukutoolbar").style.display = "";
+  document.getElementById("lukuohje").textContent =
+    `${LK.tekstit.length} lukutekstiä: kolme lukuvuoden mittauspisteisiin ja kaksi varalle. ` +
+    `Jokaisesta tulostuu oppilaan kappale ja opettajan kappale sanalukuineen. Lukuaika on ` +
+    `${LK.kesto_sekuntia} sekuntia, ja tulos on oikein luettujen sanojen määrä.`;
+
+  document.getElementById("tulostaLuku").addEventListener("click", ()=> tulosta(["vain-luku"]));
+  document.querySelectorAll(".tulosta-luku").forEach(b=> b.addEventListener("click", ()=>{
+    const el = document.getElementById("luku-" + b.dataset.luku);
+    el.classList.add("valittu");
+    tulosta(["vain-yksi"], ()=> el.classList.remove("valittu"));
+  }));
+}
+
+document.getElementById("kokeet").innerHTML = (D.kokeet||[]).map(k=>{
+  const ryhmat=[...new Set(k.tehtavat.map(t=>t.ryhma))];
+  return `<section class="koe" id="koe-${k.id}"
+      style="--sar:${TUL.sarakkeita}; --sar-san:${TUL.sanalliset_sarakkeita}">
+    <div class="koe-head"><h3>${k.nimi}</h3>
+      <span class="taito">${D.otsikko} · ${D.tavoite_id} · ${k.tehtavat.length} tehtävää</span>
+      <button type="button" class="btn ghost tulosta noprint" data-koe="${k.id}">Tulosta tämä</button></div>
+    <div class="kentat"><span>Nimi</span><span>Luokka</span><span>Päivämäärä</span><span>Pisteet ___ / ${k.tehtavat.length}</span></div>
+    ${k.johdanto ? `<div class="koejohdanto">${k.johdanto_otsikko ? `<h4>${k.johdanto_otsikko}</h4>` : ""}${
+        k.johdanto.split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("")}</div>` : ""}
+    ${ryhmat.map(r=>`<div class="osio${r===TUL.sivunvaihto_ennen?" sivunvaihto":""}">${RN[r]||r}</div>
+      ${ruudukot(k.tehtavat.filter(t=>t.ryhma===r))}`).join("")}
+  </section>`;
+}).join("");
+
+if(!D.kokeet || !D.kokeet.length){
+  document.getElementById("koetoolbar").style.display="none";
+  document.getElementById("koeohje").style.display="none";
+  document.getElementById("avaimet").style.display="none";
+} else {
+  document.getElementById("koeohje").textContent =
+    `Viisi keskenään samantasoista koetta, kussakin ${D.kokeet[0].tehtavat.length} tehtävää. Sama osiojakauma ja samat ` +
+    `sudenkuopat, eri luvut. Yksikään tehtävä ei toistu harjoituksista eikä toisesta kokeesta. ` +
+    (TUL.sivuja === 1
+      ? "Koe tulostuu yhdelle A4:lle niin, että tehtävän alle jää tilaa laskea kynällä."
+      : `Koe tulostuu ${TUL.sivuja} A4-sivulle, ja jokaisen tehtävän alla on ${TUL.apuviivoja} apuviivaa laskemista varten.`) +
+    ` Oletusraja: taito merkitään osatuksi, kun vähintään ${Math.ceil(0.8*D.kokeet[0].tehtavat.length)}/${D.kokeet[0].tehtavat.length} tehtävää on oikein ja opettajan huomioissa taidon mittariksi nimetyt tehtävät ovat oikein. Koulu voi muuttaa rajaa.`;
+}
+
+document.getElementById("avainlista").innerHTML = (D.kokeet||[]).map(k=>
+  `<div class="avain"><h3>Vastaukset · ${k.nimi}</h3><ol>${
+    k.tehtavat.map(t=>`<li><b>${t.nro}.</b> ${t.kasikirjoitus ? `<span class="kasik">Lue ääneen kahdesti: <i>${t.kasikirjoitus}</i></span><br>` : ""}${
+      /* Murtolukutaidoissa vastausavain on merkkijono ("5/7"): se tulostetaan
+         sellaisenaan, vain luvut muotoillaan suomalaisittain. */
+      typeof t.vastaus === "number" ? t.vastaus.toLocaleString("fi-FI",{maximumFractionDigits:10}) : t.vastaus
+    }</li>`).join("")}</ol></div>`).join("");
+
+/* tulostus */
+function tulosta(luokat, jalkeen){
+  luokat.forEach(l=>document.body.classList.add(l));
+  window.print();
+  setTimeout(()=>{luokat.forEach(l=>document.body.classList.remove(l)); if(jalkeen) jalkeen();},400);
+}
+document.querySelectorAll(".tulosta").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById("koe-"+b.dataset.koe);
+  el.classList.add("valittu");
+  tulosta(["vain-yksi"], ()=>el.classList.remove("valittu"));
+}));
+document.getElementById("tulostaKaikki").addEventListener("click",()=>window.print());
+document.getElementById("tulostaOhje").addEventListener("click",()=>tulosta(["tulosta-ohje"]));
+</script>
